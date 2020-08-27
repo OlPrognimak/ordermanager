@@ -11,12 +11,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 @Builder
-public class InvoiceItemModel {
-
-    private Long id;
-    private String description;
-    private Double numberItems;
-    private Double itemPrice;
-    private Integer vat;
-
+public class CreatedResponse {
+    private Long createdId;
 }

@@ -1,78 +1,146 @@
 package com.pr.ordermanager.repository;
 
+import com.pr.ordermanager.controller.model.BankAccountFormModel;
 import com.pr.ordermanager.controller.model.InvoiceFormModel;
 import com.pr.ordermanager.controller.model.InvoiceItemModel;
-import com.pr.ordermanager.jpa.entity.InvoiceData;
+import com.pr.ordermanager.controller.model.PersonAddressFormModel;
+import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.jpa.entity.BankAccount;
+import com.pr.ordermanager.jpa.entity.Invoice;
 import com.pr.ordermanager.jpa.entity.InvoiceItem;
-import com.pr.ordermanager.jpa.entity.PersonInvoice;
+import com.pr.ordermanager.jpa.entity.Person;
+import com.pr.ordermanager.jpa.entity.PersonAddress;
 import com.pr.ordermanager.jpa.entity.PersonType;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import lombok.var;
 
 import static com.pr.ordermanager.jpa.entity.RateType.DAILY;
 
 public class RepositoryTestHelper {
-    private RepositoryTestHelper(){
+    private RepositoryTestHelper() {
 
     }
 
-    public static PersonInvoice createPersonInvoices(InvoiceData invoiceData){
-        var invoicePersonData = PersonInvoice.builder()
-                .personFirstName("Oleksandr")
-                .personSurname("Prognimak")
-                .personType(PersonType.PRIVATE)
-                .invoices(new ArrayList<>()).build();
-        invoicePersonData.getInvoices().add(invoiceData);
-        return invoicePersonData;
+    public static Person createPerson(PersonType personType, PersonAddress personAddress, BankAccount bankAccount) {
+        var person = Person.builder ()
+            .personFirstName ("Oleksandr")
+            .personLastName ("Prognimak")
+            .personType ( personType )
+            .personAddress ( Arrays.asList ( personAddress ) )
+            .bankAccount ( Arrays.asList ( bankAccount ) )
+            .taxNumber ( "" + System.currentTimeMillis () )
+            .build ();
+        personAddress.setPersons ( Arrays.asList ( person ) );
+        personAddress.setPersons ( Arrays.asList ( person ) );
+        return person;
 
     }
 
-    public static InvoiceData createInvoiceData(InvoiceItem item){
-        var invoiceData = new InvoiceData();
-        invoiceData.setInvoiceItems(new ArrayList<>());
-        invoiceData.getInvoiceItems().add(item);
-        invoiceData.setInvoiceDate(OffsetDateTime.now());
-        invoiceData.setInvoiceNumber("POST-2020-0006");
-        invoiceData.setCreationDate(OffsetDateTime.now());
-        invoiceData.setRateType(DAILY);
+    public static Invoice createInvoice(InvoiceItem item, Person personSupplier, Person personRecipient) {
+        var invoice = new Invoice();
+        invoice.setInvoiceItems(new ArrayList<>());
+        invoice.getInvoiceItems().add (item);
+        invoice.setInvoiceDate(OffsetDateTime.now());
+        invoice.setCreationDate ( OffsetDateTime.now () );
+        invoice.setInvoiceSupplierPerson ( personSupplier );
+        invoice.setInvoiceRecipientPerson ( personRecipient );
+        invoice.setRateType ( DAILY );
 
-        return invoiceData;
+        personSupplier.setInvoiceSuppliers ( Arrays.asList ( invoice ) );
+        personRecipient.setInvoiceRecipient ( Arrays.asList ( invoice ) );
+
+        return invoice;
     }
 
-    public static InvoiceItem createItem(){
-        var item=new InvoiceItem();
-        item.setDescription("Geleistete Tagen  im Juni 2020 gemäß \n" +
-                "beigefügten abgezeichneten\n" +
-                "Leistungsnachweisen\n");
-        item.setNumberItems(22d);
-        item.setItemPrice(600d);
-        item.setVat(16);
+
+    public static PersonAddress createPersonAddress(String city, String street, String zipCode, String postBox) {
+        return PersonAddress.builder ()
+            .city ( city )
+            .street ( street )
+            .zipCode ( zipCode )
+            .postBoxCode ( postBox ).build ();
+    }
+
+    public static BankAccount createBankAccount(String iban, String bankName) {
+        return BankAccount.builder ()
+            .iban ( iban )
+            .bankName ( bankName ).build ();
+    }
+
+    public static InvoiceItem createItem() {
+        var item = new InvoiceItem ();
+        item.setDescription ( "Geleistete Tagen  im Juni 2020 gemäß \n" +
+            "beigefügten abgezeichneten\n" +
+            "Leistungsnachweisen\n" );
+        item.setNumberItems ( 22d );
+        item.setItemPrice ( 600d );
+        item.setVat ( 16 );
         return item;
     }
 
-    public static InvoiceFormModel createInvoiceFormModel(){
-        InvoiceItemModel invoiceItemModel = InvoiceItemModel.builder()
-            .itemPrice(75d)
-            .description("Description")
-            .numberItems(165d)
-            .vat(19).build();
+    public static InvoiceItemModel createInvoiceItemModel() {
+        return InvoiceItemModel.builder ()
+            .description ( "Geleistete Tagen  im Juni 2020 gemäß \n" +
+                "beigefügten abgezeichneten\n" +
+                "Leistungsnachweisen\n" )
+            .numberItems ( 22d )
+            .itemPrice ( 600d )
+            .vat ( 16 ).build ();
+
+    }
+
+    public static InvoiceFormModel createInvoiceFormModel(Long personSupplierId, Long personRecipientId) {
+        return InvoiceFormModel.builder ()
+            .invoiceNumber ( "InvNr_" + System.currentTimeMillis () )
+            .personSupplierId ( personSupplierId )
+            .personRecipientId ( personRecipientId )
+            .creationDate ( OffsetDateTime.now () )
+            .invoiceDate ( OffsetDateTime.now () )
+            .rateType ( "HOURLY" )
+            .invoiceItems ( Arrays.asList ( createInvoiceItemModel () ) ).build ();
+
+    }
 
 
-        InvoiceFormModel invoiceFormModel = InvoiceFormModel.builder()
-            .creationDate(OffsetDateTime.now())
-            .invoiceDate(OffsetDateTime.now())
-            .invoiceNumber("POST-2020-0006")
-            .personFirstName("Oleksandr")
-            .personSurname("Prognimak")
-            .personType("PRIVATE")
-            .rateType("HOURLY")
-            .invoiceItems(Arrays.asList(invoiceItemModel))
-            .build();
+    public static PersonAddressFormModel createPersonAddressSupplierFormModel() {
+        return PersonAddressFormModel.builder ()
+            .zipCode ( "12345" )
+            .street ( "Bonner Strasse, 177" )
+            .city ( "Bonn" ).build ();
+
+    }
+
+    public static PersonAddressFormModel createPersonAddressReceiverFormModel() {
+        return PersonAddressFormModel.builder ()
+            .zipCode ( "55555" )
+            .street ( "Kölner Strasse, 25" )
+            .city ( "Köln" ).build ();
+
+    }
 
 
-        return invoiceFormModel;
+    public static PersonFormModel createTestPersonFormModel(){
+        PersonAddressFormModel personAddressFormModel = PersonAddressFormModel.builder ()
+            .city ( "Bonn" )
+            .street ( "Bonner Str.333" )
+            .zipCode ( "55555" )
+            .postBoxCode ( null ).build ();
 
+        BankAccountFormModel bankAccountFormModel = BankAccountFormModel.builder()
+            .accountNumber ("1234567890")
+            .bankName ( "Test Bank Name" )
+            .bicSwift ( "CCCXXX" )
+            .iban ("DE11 1234 5678 3333 4444 90").build();
+
+        PersonFormModel personFormModel = PersonFormModel.builder ()
+            .personFirstName ( "Oleksandr" )
+            .personLastName ( "Prognimak" )
+            .personType ( PersonType.PRIVATE.name () )
+            .personAddressFormModel ( personAddressFormModel )
+            .bankAccountFormModel ( bankAccountFormModel )
+            .taxNumber ( "" + System.currentTimeMillis () )
+            .build ();
+        return personFormModel;
     }
 }

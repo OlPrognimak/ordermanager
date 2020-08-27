@@ -1,14 +1,32 @@
-<h1> H A L O MODUL INVOICE</h1>
-
 <div class="p-fluid">
-  <div class="p-field">
-    <label for="firstname1">Firstname</label>
-    <input id="firstname1" type="text"  [(ngModel)] = "invoiceFormData.personFirstName" pInputText>
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label  for="id-invoice-number">Invoice Number</label>
+      <input id="id-invoice-number" type="text" [(ngModel)]="invoiceFormData.invoiceNumber" pInputText />
+    </div>
   </div>
-  <div class="p-field">
-    <label for="lastname1">Lastname</label>
-    <input id="lastname1" type="text" [(ngModel)] = "invoiceFormData.personSurname" pInputText>
+  <div class="p-grid">
+      <div class="p-col-3">
+        <label style="margin: 5px" for="rateType">Rate Type</label>
+        <p-dropdown id="rateType" [options]="personInvoiceRecipient" [(ngModel)]="invoiceFormData.rateType"></p-dropdown>
+      </div>
+  </div>
+  <div class="p-grid">
+      <div class="p-col-3">
+        <label style="margin: 5px" for="id-creationDate">Creation Date</label>
+        <p-calendar  dateFormat="dd.mm.yy"  id="id-creationDate" [(ngModel)]="invoiceFormData.creationDate"></p-calendar>
+      </div>
+
+      <div class="p-col-3">
+        <label style="margin: 5px" for="id-invoiceDate">Invoice Date</label>
+        <p-calendar dateFormat="dd.mm.yy" id="id-invoiceDate" [(ngModel)]="invoiceFormData.invoiceDate"></p-calendar>
+      </div>
+  </div>
+  <div class="p-grid">
+      <div class="p-col-1">
+        <p-button label="Submit" (onClick)="handleClick($event)"></p-button>
+      </div>
   </div>
 </div>
 
-<router-outlet></router-outlet>
+

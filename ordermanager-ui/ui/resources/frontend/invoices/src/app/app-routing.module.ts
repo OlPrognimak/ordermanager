@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
+import {PersonFormComponent} from './personform/personform.component';
 
 
 const routes: Routes = [
-  {path: 'ng-data-table',  component: InvoiceFormComponent},
- // {path: 'prime-data-table', component: InvoiceFormComponent}
+  {path: 'create-invoice-page',  component: InvoiceFormComponent},
+  {path: 'create-person_page', component: PersonFormComponent}
 ];
 
 @NgModule({
@@ -14,4 +15,4 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule{}
-export  const routingComponent = [InvoiceFormComponent];
+export  const routingComponent = [InvoiceFormComponent, PersonFormComponent];

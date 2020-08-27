@@ -2,11 +2,15 @@ package com.pr.ordermanager.controller;
 
 
 import com.pr.ordermanager.controller.model.GridDataModel;
+import com.pr.ordermanager.controller.model.CreatedResponse;
 import com.pr.ordermanager.controller.model.InvoiceFormModel;
-import com.pr.ordermanager.jpa.entity.InvoiceData;
-import com.pr.ordermanager.jpa.entity.PersonInvoice;
-import com.pr.ordermanager.service.InvoicePersonService;
-import com.pr.ordermanager.service.ModelToEntityMapper;
+import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.jpa.entity.Invoice;
+import com.pr.ordermanager.jpa.entity.Person;
+import com.pr.ordermanager.service.EntityToModelMapperHelper;
+import com.pr.ordermanager.service.InvoiceMappingService;
+import com.pr.ordermanager.service.InvoiceService;
+import com.pr.ordermanager.service.ModelToEntityMapperHelper;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -24,25 +28,40 @@ import static org.springframework.http.HttpStatus.CREATED;
 @CrossOrigin
 public class InvoiceController {
 
-    private static final String PATH = "/invoicebackend";
+    private static final String PATH = "";
+    private static final String PATH_INVOICE = PATH+"/invoice";
+    private static final String PATH_PERSON = PATH+"/person";
+    private static final String PATH_ADDRESS = PATH+"/address";
+    private static final String PATH_BANK_ACC = PATH+"/account";
     private static final String APPLICATION_JSON = "application/json";
     @Autowired
     private Environment env;
     @Autowired
-    InvoicePersonService invoicePersonService;
+    InvoiceService invoicePersonService;
+    @Autowired
+    InvoiceMappingService invoiceMappingService;
 
-    @RequestMapping(value = PATH, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public ResponseEntity<String> putNewInvoice(@RequestBody InvoiceFormModel invoiceFormModel ){
-        PersonInvoice personInvoice = ModelToEntityMapper.mapModelToEntityPersonInvoice(invoiceFormModel);
-        invoicePersonService.savePersonInvoice(personInvoice);
 
-        return ResponseEntity.status(CREATED).body("[successful]");
+    @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> putNewInvoice(@RequestBody InvoiceFormModel invoiceFormModel ){
+
+        Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
+        invoicePersonService.saveInvoice(invoice);
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(invoice.getId()));
+    }
+
+    @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> putNewPerson(@RequestBody PersonFormModel personFormModel ){
+
+        Person person = ModelToEntityMapperHelper.mapPersonFormModelToEntity(personFormModel);
+        invoicePersonService.savePerson(person);
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));
     }
 
 
     public ResponseEntity<InvoiceFormModel> getInvoice(String invoiceNumber){
-        InvoiceData invoice = invoicePersonService.getInvoice(invoiceNumber);
-        InvoiceFormModel invoiceFormModel = ModelToEntityMapper.mapEntityToFormModel(invoice.getPersonInvoice());
+        Invoice invoice = invoicePersonService.getInvoice(invoiceNumber);
+        InvoiceFormModel invoiceFormModel = EntityToModelMapperHelper.mapInvoiceEntityToFormModel(invoice);
 
         return ResponseEntity.ok(invoiceFormModel);
     }

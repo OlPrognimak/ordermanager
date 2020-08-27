@@ -11,12 +11,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 @Builder
-public class InvoiceItemModel {
-
+public class BankAccountFormModel {
     private Long id;
-    private String description;
-    private Double numberItems;
-    private Double itemPrice;
-    private Integer vat;
-
+    private String accountNumber;
+    private String iban;
+    private String bicSwift;
+    private String bankName;
 }

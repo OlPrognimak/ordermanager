@@ -1,0 +1,100 @@
+<h2>Create Person</h2>
+<div class="p-fluid">
+  <div class=" p-shadow-4">
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label style="margin: 5px" for="firstname1">Firstname</label>
+      <input  required minlength="2" id="firstname1" type="text" [(ngModel)]="personFormModel.personFirstName"/>
+    </div>
+
+    <div  class="p-col-2">
+      <label style="margin: 5px" for="lastname1">Lastname</label>
+      <input id="lastname1" type="text" [(ngModel)]="personFormModel.personLastName"/>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label  for="id-company-Name">Company name</label>
+      <input id="id-company-Name" type="text" [(ngModel)]="personFormModel.companyName"/>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-6">
+      <label style="margin: 5px" for="personType">Person Type</label>
+      <p-dropdown required minlength="4" id="personType" [options]="personType" [(ngModel)]="personFormModel.personType"></p-dropdown>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-taxNumber">Tax number</label>
+      <input id="id-taxNumber" type="text" [(ngModel)]="personFormModel.taxNumber"/>
+    </div>
+  </div>
+  </div>
+  <div class="p-grid p-col-6">
+      <H2>Perosn address</H2>
+  </div>
+  <div class=" p-shadow-4">
+
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-add-zip">Zip</label>
+      <input id="id-add-zip" type="text" [(ngModel)]="personFormModel.personAddressFormModel.zipCode"/>
+    </div>
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-add-city">City</label>
+      <input id="id-add-city" type="text" [(ngModel)]="personFormModel.personAddressFormModel.city"/>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-add-street">Street</label>
+      <input id="id-add-street" type="text" [(ngModel)]="personFormModel.personAddressFormModel.street"/>
+    </div>
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-add-postBoxCode">Post Box</label>
+      <input id="id-add-postBoxCode" type="text" [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
+    </div>
+  </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6">
+      <H2>Perosn bank account</H2>
+    </div>
+  </div>
+  <div class=" p-shadow-4">
+  <div class="p-grid">
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-acc-bankName">Bank name</label>
+      <input id="id-acc-bankName" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bankName"/>
+    </div>
+
+    <div class="p-col-2">
+      <label style="margin: 5px" for="id-acc-accountNumber">Account number</label>
+      <input id="id-acc-accountNumber"  type="text" [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
+    </div>
+  </div>
+
+    <div class="p-grid">
+      <div class="p-col-2">
+        <label style="margin: 5px" for="id-acc-iban">IBAN</label>
+        <input id="id-acc-iban" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.iban"/>
+      </div>
+
+
+      <div class="p-col-2">
+        <label style="margin: 5px" for="id-acc-bicSwift">BIC/Swift</label>
+        <input id="id-acc-bicSwift" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"/>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:5px;" class="p-grid">
+    <div class="p-col-1">
+      <p-button label="Submit" (onClick)="savePerson($event)"></p-button>
+    </div>
+  </div>
+</div>
+  <router-outlet></router-outlet>
+

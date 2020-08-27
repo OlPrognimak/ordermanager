@@ -12,21 +12,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class InvoiceFormModel {
 
-
-    private String personSurname;
-
-    private String personFirstName;
-
-    private String personType;
-
     private String invoiceNumber;
+    private Long personSupplierId;
+    private Long personRecipientId;
 
     @JsonFormat(
         shape = JsonFormat.Shape.STRING,
@@ -46,8 +43,6 @@ public class InvoiceFormModel {
     @JsonSerialize(using = OffsetDateTimeSerializer.class)
     @JsonDeserialize(keyUsing = OffsetDateTimeKeyDeserializer.class)
     private OffsetDateTime invoiceDate;
-
     private String rateType;
-
     private List<InvoiceItemModel>   invoiceItems;
 }

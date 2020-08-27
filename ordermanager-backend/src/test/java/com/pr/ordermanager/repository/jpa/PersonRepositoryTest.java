@@ -14,28 +14,31 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-class InvoiceItemRepositoryTest {
+class PersonRepositoryTest {
     @Autowired
-    InvoiceItemRepository invoiceItemRepository;
-
+    PersonRepository personRepository;
 
 
     @BeforeEach
     void setUp() {
-        invoiceItemRepository.deleteAll();
+        personRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
-        invoiceItemRepository.deleteAll();
+        personRepository.deleteAll();
     }
-    @Test
-    public void testGetAll() throws Exception{
-//        InvoiceItem item = RepositoryTestHelper.createItem();
-//        Invoice data =RepositoryTestHelper.createInvoice(item);
-//        invoiceItemRepository.save(item);
-//        List<InvoiceItem> invoiceItems = invoiceItemRepository.findAll();
-//        Assertions.assertEquals(1, invoiceItems.size());
 
+    @Test
+    public void testGetAll() throws Exception {
+//        InvoiceItem item = RepositoryTestHelper.createItem();
+//        Invoice data = RepositoryTestHelper.createInvoice(item);
+//        Person person = RepositoryTestHelper.createPerson(data);
+//        personRepository.save(person);
+//        List<Person> personList = personRepository.findAll();
+//        Assertions.assertEquals(1, personList.size());
+//        Assertions.assertEquals(1, personList.get(0).getInvoiceSuppliers().size());
+//        Assertions.assertEquals(1, personList.get(0).getInvoiceSuppliers().get(0).getInvoiceItems().size());
     }
+
 }

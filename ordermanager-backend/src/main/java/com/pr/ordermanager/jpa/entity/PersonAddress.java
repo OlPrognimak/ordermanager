@@ -1,11 +1,12 @@
 package com.pr.ordermanager.jpa.entity;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,14 +19,15 @@ import lombok.ToString;
 @Data
 @Builder
 @Entity
-public class InvoiceItem {
+public class PersonAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String description;
-    private Double numberItems;
-    private Double itemPrice;
-    private Integer vat;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Invoice invoice;
+    private String city;
+    private String street;
+    private String zipCode;
+    private String postBoxCode;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},mappedBy = "personAddress")
+    private List<Person> persons;
+
 }

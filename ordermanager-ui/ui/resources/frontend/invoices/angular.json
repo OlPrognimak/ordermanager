@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "css"
         }
       },
       "root": "",
@@ -28,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -128,5 +128,10 @@
   "defaultProject": "frontend",
   "cli": {
     "analytics": "130a5980-48d7-42d7-a3cf-7ca2cb5f626e"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "css"
+    }
   }
 }
