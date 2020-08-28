@@ -1,4 +1,4 @@
-package com.pr.ordermanager.controller.exception;
+package com.pr.ordermanager.exception;
 
 public class OrderManagerException extends RuntimeException {
    public OrderManagerException(String message){

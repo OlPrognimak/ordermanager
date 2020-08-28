@@ -1,7 +1,7 @@
 package com.pr.ordermanager.service;
 
 
-import com.pr.ordermanager.controller.exception.OrderManagerException;
+import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.controller.model.GridDataModel;
 import com.pr.ordermanager.jpa.entity.BankAccount;
 import com.pr.ordermanager.jpa.entity.Invoice;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -128,6 +129,11 @@ public class InvoiceService {
 //        return dataModelList;
         return null;
 
+    }
+
+    public List<Person> getAllPersons(){
+       return personRepository.findAll(
+               Sort.by(Sort.Direction.ASC, "personLastName","companyName"));
     }
 
 }

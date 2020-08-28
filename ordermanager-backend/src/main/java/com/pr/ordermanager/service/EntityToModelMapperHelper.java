@@ -1,15 +1,14 @@
 package com.pr.ordermanager.service;
 
-import com.pr.ordermanager.controller.model.InvoiceFormModel;
-import com.pr.ordermanager.controller.model.InvoiceItemModel;
-import com.pr.ordermanager.controller.model.PersonAddressFormModel;
-import com.pr.ordermanager.controller.model.BankAccountFormModel;
-import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.controller.model.*;
 import com.pr.ordermanager.jpa.entity.BankAccount;
 import com.pr.ordermanager.jpa.entity.Invoice;
 import com.pr.ordermanager.jpa.entity.InvoiceItem;
 import com.pr.ordermanager.jpa.entity.Person;
 import com.pr.ordermanager.jpa.entity.PersonAddress;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class EntityToModelMapperHelper {
@@ -72,5 +71,10 @@ public class EntityToModelMapperHelper {
                 .vat(invoice.getVat()).build();
     }
 
+    public static List<DropdownDataType> mapPersonToDropdownType(List<Person> persons){
+        return persons.stream().map(p->new DropdownDataType(
+                p.getPersonLastName()+ " "+p.getPersonLastName()+ " " ,
+                ""+p.getId())).collect(Collectors.toList());
+    }
 
 }

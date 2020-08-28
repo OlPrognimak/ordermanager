@@ -1,10 +1,7 @@
 package com.pr.ordermanager.controller;
 
 
-import com.pr.ordermanager.controller.model.GridDataModel;
-import com.pr.ordermanager.controller.model.CreatedResponse;
-import com.pr.ordermanager.controller.model.InvoiceFormModel;
-import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.controller.model.*;
 import com.pr.ordermanager.jpa.entity.Invoice;
 import com.pr.ordermanager.jpa.entity.Person;
 import com.pr.ordermanager.service.EntityToModelMapperHelper;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 
 @RestController
@@ -33,6 +31,7 @@ public class InvoiceController {
     private static final String PATH_PERSON = PATH+"/person";
     private static final String PATH_ADDRESS = PATH+"/address";
     private static final String PATH_BANK_ACC = PATH+"/account";
+    private static final String PATH_PERSONS_DROPDOWN = PATH+"/personsdropdown";
     private static final String APPLICATION_JSON = "application/json";
     @Autowired
     private Environment env;
@@ -65,8 +64,16 @@ public class InvoiceController {
 
         return ResponseEntity.ok(invoiceFormModel);
     }
+    @RequestMapping(value = PATH_PERSONS_DROPDOWN, method = RequestMethod.GET, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<List<DropdownDataType>> getPersonsDropdown(){
+        List<Person> allPersons = invoicePersonService.getAllPersons();
+        List<DropdownDataType> dropdownDataTypes =
+                EntityToModelMapperHelper.mapPersonToDropdownType(allPersons);
+        return ResponseEntity.status(OK).body(dropdownDataTypes);
+    }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = APPLICATION_JSON)
+
+   // @RequestMapping(value = PATH, method = RequestMethod.GET, produces = APPLICATION_JSON)
     public ResponseEntity<List<GridDataModel>> getGridDataModel(){
 //        List<GridDataModel> gridDataModels = dataGridService.getAllData();
 //        ResponseEntity<List<GridDataModel>> responseEntity = ResponseEntity.ok().body(gridDataModels);

@@ -8,7 +8,7 @@
   <div class="p-grid">
       <div class="p-col-3">
         <label style="margin: 5px" for="rateType">Rate Type</label>
-        <p-dropdown id="rateType" [options]="personInvoiceRecipient" [(ngModel)]="invoiceFormData.rateType"></p-dropdown>
+        <p-dropdown id="rateType" [options]="invoiceRate" [(ngModel)]="invoiceFormData.rateType"></p-dropdown>
       </div>
   </div>
   <div class="p-grid">
@@ -21,6 +21,18 @@
         <label style="margin: 5px" for="id-invoiceDate">Invoice Date</label>
         <p-calendar dateFormat="dd.mm.yy" id="id-invoiceDate" [(ngModel)]="invoiceFormData.invoiceDate"></p-calendar>
       </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6">
+      <label style="margin: 5px" for="id-personSupplierId">Invoice creator</label>
+      <p-dropdown id="id-personSupplierId" placeholder="[Select person]" [options]="personInvoiceSupplier" [(ngModel)]="invoiceFormData.personSupplierId"></p-dropdown>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6">
+      <label style="margin: 5px" for="id-personRecipientId">Invoice recipient</label>
+      <p-dropdown id="id-personRecipientId"placeholder="[Select person]" [options]="personInvoiceRecipient" [(ngModel)]="invoiceFormData.personRecipientId"></p-dropdown>
+    </div>
   </div>
   <div class="p-grid">
       <div class="p-col-1">

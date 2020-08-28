@@ -8,8 +8,9 @@ import {
   InvoiceFormModelInterface, InvoiceItemModel,
   InvoiceItemModelInterface
 } from '../domain/domain.invoiceformmodel';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from "rxjs/operators";
 
 
 function handleResult(result: string): void {
@@ -31,7 +32,7 @@ function handleError(err: any): void {
 export class InvoiceFormComponent implements OnInit{
 
   backendUrl: string;
-  responseResult: string;
+  invoiceRate: DropdownDataType[];
   invoiceFormData: InvoiceFormModelInterface;
   invoiceItem: InvoiceItemModelInterface ;
   /** Model invoice supplier for dropdown component */
@@ -42,7 +43,7 @@ export class InvoiceFormComponent implements OnInit{
   constructor( private dataGridService: PrInvoiceFormDirective, private httpClient: HttpClient) {
      this.backendUrl =
        document.getElementById('appConfigId')
-         .getAttribute('data-backendUrl') + 'invoice';
+         .getAttribute('data-backendUrl') ;
      this.invoiceFormData = new InvoiceFormModel();
      this.invoiceItem = new InvoiceItemModel();
      this.invoiceFormData.invoiceItems.push(this.invoiceItem) ;
@@ -51,18 +52,25 @@ export class InvoiceFormComponent implements OnInit{
    }
 
   ngOnInit(): void {
-    this.personInvoiceSupplier = [
-      {label: '[Select person type]', value: null},
-      {label: 'Private person', value: 'PRIVATE'},
-      {label: 'Organisation', value: 'ORGANISATION'}
-    ];
-
-    this.personInvoiceRecipient = [
+    this.invoiceRate = [
       {label: '[Select rate type]', value: null},
-      {label: 'Tagessatz', value: 'DAILY'},
-      {label: 'Stundensatz', value: 'HOURLY'}
+      {label: 'Hourly rate', value: 'HOURLY'},
+      {label: 'Daily rate', value: 'DAILY'}
     ];
 
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'personsdropdown', {headers})
+      .subscribe(
+        data => {
+          this.personInvoiceSupplier = data;
+          this.personInvoiceRecipient = this.personInvoiceSupplier;
+        },
+         error => {
+             alert('Error :' + JSON.stringify(error));
+         }
+      );
   }
 
   handleClick(event: any): void{
@@ -82,7 +90,7 @@ export class InvoiceFormComponent implements OnInit{
 
   handleClickHttp(): Observable<string>{
     const params = new HttpParams();
-    return this.httpClient.put<string>(this.backendUrl, this.invoiceFormData, { params } );
+    return this.httpClient.put<string>(this.backendUrl+ 'invoice', this.invoiceFormData, { params } );
   }
 
 
