@@ -46,8 +46,8 @@ export class InvoiceItemModel implements InvoiceItemModelInterface{
   description = 'Geleistete Tagen  im Juni 2020 gemäß ' +
     'beigefügten abgezeichneten ' +
     'Leistungsnachweisen';
-  itemPrice: number;
-  numberItems: number;
-  vat: number;
+  itemPrice: number = 0;
+  numberItems: number = 0;
+  vat: number = 0;
 }
 

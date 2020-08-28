@@ -39,19 +39,20 @@ export class InvoiceFormComponent implements OnInit{
   personInvoiceSupplier: DropdownDataType[];
   /** Model invoice recipient for dropdown component */
   personInvoiceRecipient: DropdownDataType[];
+  expandedRows: any;
+
 
   constructor( private dataGridService: PrInvoiceFormDirective, private httpClient: HttpClient) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
-     this.invoiceFormData = new InvoiceFormModel();
-     this.invoiceItem = new InvoiceItemModel();
-     this.invoiceFormData.invoiceItems.push(this.invoiceItem) ;
-
-
-   }
+  }
 
   ngOnInit(): void {
+
+    this.invoiceFormData = new InvoiceFormModel();
+    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
+
     this.invoiceRate = [
       {label: '[Select rate type]', value: null},
       {label: 'Hourly rate', value: 'HOURLY'},

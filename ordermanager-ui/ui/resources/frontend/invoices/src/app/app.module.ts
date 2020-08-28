@@ -7,9 +7,12 @@ import {PrInvoiceFormDirective} from './invoiceform/invoiceform.service';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {ButtonModule, CalendarModule, DropdownModule} from 'primeng';
+import {ButtonModule, CalendarModule, DropdownModule, InputTextareaModule, TableModule} from 'primeng';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
+import {EditableCellComponent} from './components/components.cell';
+
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,8 @@ import {PersonFormComponent} from './personform/personform.component';
     PrInvoiceFormDirective,
     InvoiceFormComponent,
     PersonFormComponent,
-    routingComponent
+    routingComponent,
+    EditableCellComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,9 @@ import {PersonFormComponent} from './personform/personform.component';
     HttpClientModule,
     ButtonModule,
     DropdownModule,
-    CalendarModule
+    CalendarModule,
+    TableModule,
+    InputTextareaModule
 
   ],
   providers: [],
