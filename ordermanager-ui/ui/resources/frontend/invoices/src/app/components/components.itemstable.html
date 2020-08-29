@@ -1,0 +1,59 @@
+<p-table  [value]="invoiceItems"  [rows]="10"  editMode="row">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Item description</th>
+      <th>Amount</th>
+      <th>Price</th>
+      <th>Vat%</th>
+      <th>Delete</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-invoiceitem>
+    <tr>
+      <td  pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.description" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{invoiceitem.description}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td  pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.numberItems" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{invoiceitem.numberItems}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td  pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.itemPrice" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{invoiceitem.itemPrice}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td  pEditableColumn >
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.vat" required>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{invoiceitem.vat}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteItem(invoiceitem)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+

@@ -91,8 +91,19 @@ export class InvoiceFormComponent implements OnInit{
 
   handleClickHttp(): Observable<string>{
     const params = new HttpParams();
-    return this.httpClient.put<string>(this.backendUrl+ 'invoice', this.invoiceFormData, { params } );
+    return this.httpClient.put<string>(this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
+
+  itemsChanged(invoiceItems: InvoiceItemModel[]): any{
+    this.invoiceFormData.invoiceItems = invoiceItems;
+  }
+
+
+
+  printToJson(data: any): void {
+    alert(JSON.stringify(data));
+  }
+
 
 
 }

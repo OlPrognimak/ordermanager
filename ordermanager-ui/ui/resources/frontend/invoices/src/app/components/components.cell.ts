@@ -12,7 +12,7 @@ import {Component, Input} from '@angular/core';
             width: 100% !important;
         }
     `],
-  selector: '[toEditableCell]',
+  selector: 'toEditableCell',
   template:
       `<p-cellEditor>
           <ng-template pTemplate="input">

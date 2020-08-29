@@ -11,6 +11,7 @@ import {ButtonModule, CalendarModule, DropdownModule, InputTextareaModule, Table
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
 import {EditableCellComponent} from './components/components.cell';
+import {ItemsTableComponent} from "./components/components.itemstable";
 
 
 
@@ -21,7 +22,8 @@ import {EditableCellComponent} from './components/components.cell';
     InvoiceFormComponent,
     PersonFormComponent,
     routingComponent,
-    EditableCellComponent
+    EditableCellComponent,
+    ItemsTableComponent
   ],
   imports: [
     BrowserModule,
