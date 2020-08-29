@@ -11,6 +11,7 @@ export interface InvoiceFormModelInterface {
 }
 
 export interface InvoiceItemModelInterface {
+  catalogItemId: number;
   description: string;
   numberItems: number;
   itemPrice: number;
@@ -43,9 +44,8 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
 
 
 export class InvoiceItemModel implements InvoiceItemModelInterface{
-  description = 'Geleistete Tagen  im Juni 2020 gemäß ' +
-    'beigefügten abgezeichneten ' +
-    'Leistungsnachweisen';
+  catalogItemId: number;
+  description = '';
   itemPrice: number = 0;
   numberItems: number = 0;
   vat: number = 0;

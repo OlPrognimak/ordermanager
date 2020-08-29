@@ -1,9 +1,6 @@
 package com.pr.ordermanager;
 
-import com.pr.ordermanager.jpa.entity.BankAccount;
-import com.pr.ordermanager.jpa.entity.Person;
-import com.pr.ordermanager.jpa.entity.PersonAddress;
-import com.pr.ordermanager.jpa.entity.PersonType;
+import com.pr.ordermanager.jpa.entity.*;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
 import com.pr.ordermanager.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,12 @@ public class TestServiceHelper {
 
     @Autowired
     private InvoiceService invoiceService;
+
+    public ItemCatalog createItemCatalog(){
+        ItemCatalog itemCatalog = RepositoryTestHelper.createItemCatalog();
+        invoiceService.saveItemCatalog(itemCatalog);
+        return itemCatalog;
+    }
 
 
     public Person personRecipient(){

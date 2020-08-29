@@ -2,14 +2,10 @@ package com.pr.ordermanager.service;
 
 import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
-import com.pr.ordermanager.jpa.entity.BankAccount;
-import com.pr.ordermanager.jpa.entity.Invoice;
-import com.pr.ordermanager.jpa.entity.InvoiceItem;
-import com.pr.ordermanager.jpa.entity.Person;
-import com.pr.ordermanager.jpa.entity.PersonAddress;
-import com.pr.ordermanager.jpa.entity.PersonType;
+import com.pr.ordermanager.jpa.entity.*;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
 import com.pr.ordermanager.repository.jpa.InvoiceRepository;
+import com.pr.ordermanager.repository.jpa.ItemCatalogRepository;
 import com.pr.ordermanager.repository.jpa.PersonRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -38,6 +34,9 @@ public class InvoiceServiceTest {
     private PersonRepository personRepository;
     @Autowired
     private InvoiceRepository invoiceRepository;
+    @Autowired
+    private ItemCatalogRepository itemCatalogRepository;
+
 
     @Autowired
     TestServiceHelper testServiceHelper;
@@ -74,7 +73,9 @@ public class InvoiceServiceTest {
 
     @Test
     void saveInvoice() {
-        InvoiceItem item = RepositoryTestHelper.createItem();
+        ItemCatalog itemCatalog = RepositoryTestHelper.createItemCatalog();
+        itemCatalogRepository.save(itemCatalog);
+        InvoiceItem item = RepositoryTestHelper.createItem(itemCatalog);
         Person personSupplier = testServiceHelper.personSupplier();
         Person personRecipient = testServiceHelper.personRecipient();
         Invoice invoice = RepositoryTestHelper.createInvoice ( item, personSupplier, personRecipient );

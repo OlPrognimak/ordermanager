@@ -13,7 +13,7 @@ import lombok.ToString;
 @Builder
 public class InvoiceItemModel {
 
-    private Long id;
+    private Long catalogItemId;
     private String description;
     private Double numberItems;
     private Double itemPrice;

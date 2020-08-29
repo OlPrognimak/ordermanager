@@ -1,23 +1,18 @@
 package com.pr.ordermanager.service;
 
 
-import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.controller.model.GridDataModel;
-import com.pr.ordermanager.jpa.entity.BankAccount;
-import com.pr.ordermanager.jpa.entity.Invoice;
-import com.pr.ordermanager.jpa.entity.Person;
-import com.pr.ordermanager.jpa.entity.PersonAddress;
-import com.pr.ordermanager.repository.jpa.BankAccountRepository;
-import com.pr.ordermanager.repository.jpa.InvoiceRepository;
-import com.pr.ordermanager.repository.jpa.PersonAddressRepository;
-import com.pr.ordermanager.repository.jpa.PersonRepository;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import com.pr.ordermanager.exception.OrderManagerException;
+import com.pr.ordermanager.jpa.entity.*;
+import com.pr.ordermanager.repository.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,6 +27,8 @@ public class InvoiceService {
     BankAccountRepository bankAccountRepository;
     @Autowired
     private InvoiceMappingService invoiceMappingService;
+    @Autowired
+    private ItemCatalogRepository itemCatalogRepository;
 
 
     /**
@@ -134,6 +131,15 @@ public class InvoiceService {
     public List<Person> getAllPersons(){
        return personRepository.findAll(
                Sort.by(Sort.Direction.ASC, "personLastName","companyName"));
+    }
+
+    public List<ItemCatalog> getAllCatalogItems(){
+        return itemCatalogRepository.findAll(
+                Sort.by(Sort.Direction.ASC, "shortDescription"));
+    }
+
+    public void saveItemCatalog(ItemCatalog itemCatalog){
+       itemCatalogRepository.save(itemCatalog);
     }
 
 }

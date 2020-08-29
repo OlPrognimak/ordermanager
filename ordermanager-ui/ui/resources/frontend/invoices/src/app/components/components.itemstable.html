@@ -13,10 +13,10 @@
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.description" required>
-          </ng-template>
+            <p-dropdown [options]="catalogItems"  [(ngModel)]="invoiceitem.catalogItemId" [style]="{'width':'100%'}"></p-dropdown>
+           </ng-template>
           <ng-template pTemplate="output">
-            {{invoiceitem.description}}
+            {{getCatalogDescription(invoiceitem.catalogItemId)}}
           </ng-template>
         </p-cellEditor>
       </td>

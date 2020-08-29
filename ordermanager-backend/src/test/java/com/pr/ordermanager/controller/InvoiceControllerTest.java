@@ -6,11 +6,11 @@ import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.controller.model.CreatedResponse;
 import com.pr.ordermanager.controller.model.InvoiceFormModel;
 import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.jpa.entity.ItemCatalog;
 import com.pr.ordermanager.jpa.entity.Person;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
 import com.pr.ordermanager.repository.jpa.PersonRepository;
 import com.pr.ordermanager.service.ModelToEntityMapperHelper;
-import java.net.URI;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +28,9 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.net.URI;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @ExtendWith(SpringExtension.class)
@@ -71,8 +71,11 @@ class InvoiceControllerTest {
         assertNotNull(invoiceController);
         Person personSupplier = testServiceHelper.personSupplier();
         Person personRecipient = testServiceHelper.personRecipient();
+        ItemCatalog itemCatalog = testServiceHelper.createItemCatalog();
+
         InvoiceFormModel invoiceFormModel =
             RepositoryTestHelper.createInvoiceFormModel (personSupplier.getId (), personRecipient.getId ());
+        invoiceFormModel.getInvoiceItems().get(0).setCatalogItemId(itemCatalog.getId());
         final ResponseEntity<CreatedResponse> responseEntity =
             invoiceController.putNewInvoice ( invoiceFormModel );
 
@@ -86,8 +89,11 @@ class InvoiceControllerTest {
         assertNotNull(invoiceController);
         Person personSupplier = testServiceHelper.personSupplier();
         Person personRecipient = testServiceHelper.personRecipient();
+        ItemCatalog itemCatalog = testServiceHelper.createItemCatalog();
+
         InvoiceFormModel invoiceFormModel =
-            RepositoryTestHelper.createInvoiceFormModel (personSupplier.getId (), personRecipient.getId ());
+            RepositoryTestHelper.createInvoiceFormModel(personSupplier.getId (), personRecipient.getId());
+        invoiceFormModel.getInvoiceItems().get(0).setCatalogItemId(itemCatalog.getId());
         String json = mapper.writeValueAsString(invoiceFormModel);
         RequestEntity<InvoiceFormModel> request = RequestEntity
             .put(new URI ("http://localhost:"+port+"/backend/invoice"))

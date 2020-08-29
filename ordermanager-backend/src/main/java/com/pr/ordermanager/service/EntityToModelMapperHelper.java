@@ -1,13 +1,13 @@
 package com.pr.ordermanager.service;
 
-import com.pr.ordermanager.controller.model.*;
-import com.pr.ordermanager.jpa.entity.BankAccount;
-import com.pr.ordermanager.jpa.entity.Invoice;
-import com.pr.ordermanager.jpa.entity.InvoiceItem;
-import com.pr.ordermanager.jpa.entity.Person;
-import com.pr.ordermanager.jpa.entity.PersonAddress;
+import com.pr.ordermanager.controller.model.BankAccountFormModel;
+import com.pr.ordermanager.controller.model.DropdownDataType;
+import com.pr.ordermanager.controller.model.InvoiceFormModel;
+import com.pr.ordermanager.controller.model.InvoiceItemModel;
+import com.pr.ordermanager.controller.model.PersonAddressFormModel;
+import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.jpa.entity.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,19 +62,25 @@ public class EntityToModelMapperHelper {
 
 
 
-    public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem invoice){
+    public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem invoiceItem){
         return InvoiceItemModel.builder()
-                .id(invoice.getId())
-                .itemPrice(invoice.getItemPrice())
-                .description(invoice.getDescription())
-                .numberItems(invoice.getNumberItems())
-                .vat(invoice.getVat()).build();
+                .catalogItemId (invoiceItem.getItemCatalog().getId())
+                .itemPrice(invoiceItem.getItemPrice())
+                .description(invoiceItem.getItemCatalog().getDescription())
+                .numberItems(invoiceItem.getNumberItems())
+                .vat(invoiceItem.getVat()).build();
     }
 
     public static List<DropdownDataType> mapPersonToDropdownType(List<Person> persons){
         return persons.stream().map(p->new DropdownDataType(
                 p.getPersonLastName()+ " "+p.getPersonLastName()+ " " ,
                 ""+p.getId())).collect(Collectors.toList());
+    }
+
+    public static List<DropdownDataType> mapListCatalogItemsToDropdownType(List<ItemCatalog> itemCatalogs){
+        return itemCatalogs.stream().map(c->new DropdownDataType(
+                c.getShortDescription()+ " : Price :"+c.getItemPrice()+ " " ,
+                ""+c.getId())).collect(Collectors.toList());
     }
 
 }
