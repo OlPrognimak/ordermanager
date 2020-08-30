@@ -39,7 +39,6 @@ export class ItemsTableComponent implements OnInit{
       .subscribe(
         data => {
           this.catalogItems = data;
-          //alert("Items: "+JSON.stringify(this.catalogItems));
         },
         error => {
           alert('Error :' + JSON.stringify(error));
@@ -47,6 +46,9 @@ export class ItemsTableComponent implements OnInit{
       );
   }
 
+  /**
+   * Adds new Item to table of items
+   */
   addNewItem(): void{
     const newItem = new InvoiceItemModel();
     this.idxItem = ++this.idxItem;
@@ -56,12 +58,11 @@ export class ItemsTableComponent implements OnInit{
   }
 
   /**
-   * Deletes item from table of item
-   * @param invoiceitem
+   * Deletes item from list of items
+   * @param idxItem index of item in list items
    */
   deleteItem(idxItem: any): void{
     this.invoiceItems = this.invoiceItems.filter(val => val.idxItem !== idxItem);
-    //invoiceitem = {};
     this.changeItemEvent.emit(this.invoiceItems);
   }
 

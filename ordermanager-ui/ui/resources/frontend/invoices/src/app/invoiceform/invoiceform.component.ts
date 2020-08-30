@@ -22,6 +22,9 @@ function handleError(err: any): void {
    console.log('Error: ' + JSON.stringify(err));
 }
 
+function createNewModel(): void{
+
+}
 
 @Component({
   selector:    'app-invoice',
@@ -49,7 +52,7 @@ export class InvoiceFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
+    //createNewModel();
     this.invoiceFormData = new InvoiceFormModel();
     this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
 
@@ -74,26 +77,39 @@ export class InvoiceFormComponent implements OnInit{
       );
   }
 
+
+
   handleClick(event: any): void{
     this.handleClickHttp().subscribe(
 
       {
         next(response): void{
           handleResult(response);
+          this.invoiceFormData = new InvoiceFormModel();
+          this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
+          alert("New Data: "+JSON.stringify(new InvoiceFormModel()));
         },
         error(err): void {
           handleError(err);
-        }
+        },
+
       }
 
     );
   }
 
+  /**
+   * Creates new instance of data model for invoice
+   */
   handleClickHttp(): Observable<string>{
     const params = new HttpParams();
     return this.httpClient.put<string>(this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
 
+  /**
+   * In case if items in table was deleted or added to the model
+   * @param invoiceItems the new state of the items
+   */
   itemsChanged(invoiceItems: InvoiceItemModel[]): any{
     this.invoiceFormData.invoiceItems = invoiceItems;
   }

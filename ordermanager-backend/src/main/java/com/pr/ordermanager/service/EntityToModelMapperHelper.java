@@ -60,8 +60,6 @@ public class EntityToModelMapperHelper {
         return invoiceFormModel;
     }
 
-
-
     public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem invoiceItem){
         return InvoiceItemModel.builder()
                 .catalogItemId (invoiceItem.getItemCatalog().getId())
