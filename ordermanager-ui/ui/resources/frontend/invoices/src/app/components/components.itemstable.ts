@@ -22,11 +22,13 @@ export class ItemsTableComponent implements OnInit{
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   backendUrl: string;
   catalogItems: DropdownDataType[];
+  idxItem: number;
 
   constructor(private httpClient: HttpClient) {
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
+    this.idxItem = 0;
   }
 
   ngOnInit(): void {
@@ -45,12 +47,21 @@ export class ItemsTableComponent implements OnInit{
       );
   }
 
+  addNewItem(): void{
+    const newItem = new InvoiceItemModel();
+    this.idxItem = ++this.idxItem;
+    newItem.idxItem = this.idxItem;
+    this.invoiceItems.push(newItem);
+    this.changeItemEvent.emit(this.invoiceItems);
+  }
 
-
-
-  deleteItem(invoiceitem: any): void{
-    this.invoiceItems = this.invoiceItems.filter(val => val.description !== invoiceitem.description);
-    invoiceitem = {};
+  /**
+   * Deletes item from table of item
+   * @param invoiceitem
+   */
+  deleteItem(idxItem: any): void{
+    this.invoiceItems = this.invoiceItems.filter(val => val.idxItem !== idxItem);
+    //invoiceitem = {};
     this.changeItemEvent.emit(this.invoiceItems);
   }
 

@@ -11,6 +11,7 @@ export interface InvoiceFormModelInterface {
 }
 
 export interface InvoiceItemModelInterface {
+  idxItem: number;
   catalogItemId: number;
   description: string;
   numberItems: number;
@@ -44,6 +45,7 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
 
 
 export class InvoiceItemModel implements InvoiceItemModelInterface{
+  idxItem: number;
   catalogItemId: number;
   description = '';
   itemPrice: number = 0;
