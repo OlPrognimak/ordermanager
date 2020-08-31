@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PrInvoiceFormDirective} from './invoiceform.service';
+import {registerLocaleData} from "@angular/common";
+import localede from '@angular/common/locales/de';
 
 
 import {
@@ -12,6 +14,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 
+registerLocaleData(localede, 'de');
 
 function handleResult(result: string): void {
   console.log('Result: ' + JSON.stringify(result));
@@ -34,6 +37,7 @@ export class InvoiceFormComponent implements OnInit{
 
   backendUrl: string;
   invoiceRate: DropdownDataType[];
+  /** The invoice data model*/
   invoiceFormData: InvoiceFormModelInterface;
   invoiceItem: InvoiceItemModelInterface ;
   /** Model invoice supplier for dropdown component */

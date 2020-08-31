@@ -24,31 +24,33 @@
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text"
-                   [(ngModel)]="invoiceitem.numberItems" required>
-          </ng-template>
+            <input class="p-cell-editing" type="text" [ngModel] = "invoiceitem.numberItems"
+                   (ngModelChange)="invoiceitem.numberItems=$event" required/>
+           </ng-template>
           <ng-template pTemplate="output">
-            {{invoiceitem.numberItems}}
+            {{invoiceitem.numberItems | standardFloat}}
           </ng-template>
         </p-cellEditor>
       </td>
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.itemPrice" required>
+            <input name="price" class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.itemPrice"
+                   (ngModelChange)="invoiceitem.itemPrice=$event" required/>
           </ng-template>
           <ng-template pTemplate="output">
-            {{invoiceitem.itemPrice}}
+            {{invoiceitem.itemPrice | standardFloat}}
           </ng-template>
         </p-cellEditor>
       </td>
       <td  pEditableColumn >
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.vat" required>
+            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.vat"
+                   (ngModelChange)="invoiceitem.vat=$event" required/>
           </ng-template>
           <ng-template pTemplate="output">
-            {{invoiceitem.vat}}
+            {{invoiceitem.vat | standardFloat}}
           </ng-template>
         </p-cellEditor>
       </td>

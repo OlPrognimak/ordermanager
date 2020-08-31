@@ -12,6 +12,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
 import {EditableCellComponent} from './components/components.cell';
 import {ItemsTableComponent} from "./components/components.itemstable";
+import {ComponentsPipesNumberDouble} from "./components/components.pipes.number";
 
 
 
@@ -23,7 +24,8 @@ import {ItemsTableComponent} from "./components/components.itemstable";
     PersonFormComponent,
     routingComponent,
     EditableCellComponent,
-    ItemsTableComponent
+    ItemsTableComponent,
+    ComponentsPipesNumberDouble
   ],
   imports: [
     BrowserModule,

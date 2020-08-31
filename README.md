@@ -20,4 +20,53 @@ The next functionality will be planned:
 
 # Fronend features and useful tricks and kicks
  - use components in development. Example of the component is a table for invoice items.
- - @Output. Example of using @Output for updating model in parent component.   
+ - @Output. Example of using @Output for updating model in parent component. 
+   Definition of event emmiter for output of object to parent component. See file *components.itemstable.ts* .  
+ ```javascript
+  @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
+ ```
+  The binding  of output event emmiter is located in the html template file invoiceform.component.html. 
+  ```html
+      <app-items-table (changeItemEvent)="itemsChanged($event)" ...
+  ```
+  The method *itemsChanged* accepts the emitted event with model data from the table of items.
+  This method replaces the invoice model with data from child components.
+  See the component file *invoiceform.component.ts*
+  ```javascript
+    /** The invoice data model*/
+      invoiceFormData: InvoiceFormModelInterface;
+           .......
+      /**
+         * In case if items in table was deleted or added to the model
+         * @param invoiceItems the new state of the items
+         */
+        itemsChanged(invoiceItems: InvoiceItemModel[]): any{
+          this.invoiceFormData.invoiceItems = invoiceItems;
+        }
+       ......
+       
+  ```
+ - @Pipe . Example for formatting numbers in a table of items.
+  the definition is located in file components.pipes.number.ts
+ ```java
+      @Pipe({
+        name: 'standardFloat'
+      })
+      export class ComponentsPipesNumberDouble implements PipeTransform {
+          ....
+      }
+  ```
+  the usage of pipe in the html template components.itemstable.html
+  
+``` html
+ <ng-template pTemplate="output">
+             {{invoiceitem.numberItems | standardFloat}}
+ </ng-template>
+   
+```
+
+
+
+
+
+ 

@@ -1,6 +1,8 @@
-import {Component, Input, Output, EventEmitter, OnInit} from "@angular/core";
+import {Component, Input, Output, EventEmitter, OnInit, HostListener} from "@angular/core";
 import {DropdownDataType, InvoiceItemModel} from "../domain/domain.invoiceformmodel";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+
+
 
 @Component({
 
@@ -31,6 +33,24 @@ export class ItemsTableComponent implements OnInit{
     this.idxItem = 0;
   }
 
+
+
+  /**
+   *
+   * @param value element refernce
+   */
+  @HostListener('input', ['$event.target'])
+  inputElement(target): any {
+    if (target.value === ','){
+      target.value = '.';
+    };
+
+  }
+
+  changeNumberItems(ev: any): any{
+    console.log(ev);
+  }
+
   ngOnInit(): void {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -46,7 +66,9 @@ export class ItemsTableComponent implements OnInit{
       );
   }
 
-  transformAmount(event) :void {
+
+
+  transformAmount(event): void {
     console.log(event);
     // this.amount = parseFloat(event.replace('.', '').replace(',','.'));
     // console.log('amount=' + this.amount);
@@ -83,7 +105,7 @@ export class ItemsTableComponent implements OnInit{
   }
 
   printToJson(data: any): void {
-    alert(JSON.stringify(data));
+    console.log(JSON.stringify(data));
   }
 
 
