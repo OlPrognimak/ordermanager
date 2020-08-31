@@ -10,7 +10,7 @@ import {
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from "rxjs/operators";
+
 
 
 function handleResult(result: string): void {
@@ -22,16 +22,14 @@ function handleError(err: any): void {
    console.log('Error: ' + JSON.stringify(err));
 }
 
-function createNewModel(): void{
-
-}
-
+/**
+ * The component class for creation and management with invoice
+ */
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
   providers:  [ PrInvoiceFormDirective ]
 })
-
 export class InvoiceFormComponent implements OnInit{
 
   backendUrl: string;
@@ -45,18 +43,22 @@ export class InvoiceFormComponent implements OnInit{
   expandedRows: any;
   executionResult:any = false;
 
-
+  /**
+   * Constructor
+   * @param dataGridService inject service
+   * @param httpClient the http client
+   */
   constructor( private dataGridService: PrInvoiceFormDirective, private httpClient: HttpClient) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
   }
 
+  /**
+   * Initialisation of the class
+   */
   ngOnInit(): void {
-    //createNewModel();
-    this.invoiceFormData = new InvoiceFormModel();
-    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
-
+    this.resetModel();
     this.invoiceRate = [
       {label: '[Select rate type]', value: null},
       {label: 'Hourly rate', value: 'HOURLY'},
@@ -78,62 +80,17 @@ export class InvoiceFormComponent implements OnInit{
       );
   }
 
-
-  handleClick(event: any): void{
-    this.handleClickHttp().toPromise().then(data => {
+  /**
+   * save invoice to the server
+   * @param event possible event
+   */
+  public saveInvoice(event: any): void{
+    this.handleHttpRequest().toPromise().then(data => {
         this.resetModel();
       }
     ).then(error => {
       handleError(error);
     });
-  }
-
-  handleClick1(event: any): void{
-    // tslint:disable-next-line:prefer-const
-    this.executionResult = false;
-    this.handleClickHttp().subscribe(
-      {
-        next(response): void{
-
-          this.executionResult = true;
-         // document.onreadystatechange = function () {
-
-           // if (document.readyState === 'complete') {
-              //this.invoiceFormData = new InvoiceFormModel();
-              //this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
-              //alert("New Data: "+JSON.stringify( this.invoiceFormData));
-           // }
-          //}
-          handleResult(response);
-        },
-        error(err): void {
-          this.executionResult = false;
-          handleError(err);
-        }
-      }
-    );
-    while (this.executionResult === false){
-      alert("Exec result:="+this.executionResult);
-
-    }
-
-    if(this.executionResult === true) {
-      alert('Document State XXX:=' + document.readyState);
-    }
-  }
-
-  private resetModel(): void{
-    this.invoiceFormData = new InvoiceFormModel();
-    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
-  }
-
-
-  /**
-   * Creates new instance of data model for invoice
-   */
-  handleClickHttp(): Observable<string>{
-    const params = new HttpParams();
-    return this.httpClient.put<string>(this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
 
   /**
@@ -151,5 +108,19 @@ export class InvoiceFormComponent implements OnInit{
   }
 
 
+  private resetModel(): void{
+    this.invoiceFormData = new InvoiceFormModel();
+    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
+  }
+
+
+  /**
+   * Creates new instance of data model for invoice
+   */
+  private handleHttpRequest(): Observable<string>{
+    const params = new HttpParams();
+    return this.httpClient.put<string>(
+      this.backendUrl + 'invoice', this.invoiceFormData, { params } );
+  }
 
 }

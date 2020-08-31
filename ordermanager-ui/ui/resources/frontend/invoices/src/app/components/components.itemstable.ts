@@ -46,10 +46,10 @@ export class ItemsTableComponent implements OnInit{
       );
   }
 
-  transformAmount(event) {
+  transformAmount(event) :void {
     console.log(event);
-    this.amount = parseFloat(event.replace('.', '').replace(',','.'));
-    console.log('amount=' + this.amount);
+    // this.amount = parseFloat(event.replace('.', '').replace(',','.'));
+    // console.log('amount=' + this.amount);
   }
 
   /**
