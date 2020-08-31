@@ -1,6 +1,6 @@
 # Short description
-The project have created first of all  for the collecting of the useful features  on the frontend 
-and backend parts of the real application. 
+The project is created first of all  for the collecting of the useful features  on the frontend 
+and backend parts on base of the real application. 
 The next functionality will be planned:
  - creation of persons with addresses and bank accounts
  - create invoices with multiple items, goods and services
