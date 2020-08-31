@@ -46,6 +46,12 @@ export class ItemsTableComponent implements OnInit{
       );
   }
 
+  transformAmount(event) {
+    console.log(event);
+    this.amount = parseFloat(event.replace('.', '').replace(',','.'));
+    console.log('amount=' + this.amount);
+  }
+
   /**
    * Adds new Item to table of items
    */

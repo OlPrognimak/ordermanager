@@ -43,6 +43,7 @@ export class InvoiceFormComponent implements OnInit{
   /** Model invoice recipient for dropdown component */
   personInvoiceRecipient: DropdownDataType[];
   expandedRows: any;
+  executionResult:any = false;
 
 
   constructor( private dataGridService: PrInvoiceFormDirective, private httpClient: HttpClient) {
@@ -78,25 +79,54 @@ export class InvoiceFormComponent implements OnInit{
   }
 
 
-
   handleClick(event: any): void{
-    this.handleClickHttp().subscribe(
+    this.handleClickHttp().toPromise().then(data => {
+        this.resetModel();
+      }
+    ).then(error => {
+      handleError(error);
+    });
+  }
 
+  handleClick1(event: any): void{
+    // tslint:disable-next-line:prefer-const
+    this.executionResult = false;
+    this.handleClickHttp().subscribe(
       {
         next(response): void{
+
+          this.executionResult = true;
+         // document.onreadystatechange = function () {
+
+           // if (document.readyState === 'complete') {
+              //this.invoiceFormData = new InvoiceFormModel();
+              //this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
+              //alert("New Data: "+JSON.stringify( this.invoiceFormData));
+           // }
+          //}
           handleResult(response);
-          this.invoiceFormData = new InvoiceFormModel();
-          this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
-          alert("New Data: "+JSON.stringify(new InvoiceFormModel()));
         },
         error(err): void {
+          this.executionResult = false;
           handleError(err);
-        },
-
+        }
       }
-
     );
+    while (this.executionResult === false){
+      alert("Exec result:="+this.executionResult);
+
+    }
+
+    if(this.executionResult === true) {
+      alert('Document State XXX:=' + document.readyState);
+    }
   }
+
+  private resetModel(): void{
+    this.invoiceFormData = new InvoiceFormModel();
+    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
+  }
+
 
   /**
    * Creates new instance of data model for invoice

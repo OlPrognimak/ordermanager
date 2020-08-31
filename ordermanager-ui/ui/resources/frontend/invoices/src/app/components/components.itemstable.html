@@ -24,7 +24,8 @@
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.numberItems" required>
+            <input class="p-cell-editing" type="text"
+                   [(ngModel)]="invoiceitem.numberItems" required>
           </ng-template>
           <ng-template pTemplate="output">
             {{invoiceitem.numberItems}}
