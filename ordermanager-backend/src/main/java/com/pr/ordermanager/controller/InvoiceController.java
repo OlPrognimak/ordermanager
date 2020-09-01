@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -27,7 +28,7 @@ public class InvoiceController {
     private static final String PATH = "";
     private static final String PATH_INVOICE = PATH + "/invoice";
     private static final String PATH_PERSON = PATH + "/person";
-    private static final String PATH_ADDRESS = PATH + "/address";
+    private static final String PATH_ITEM_CATALOG = PATH + "/itemcatalog";
     private static final String PATH_BANK_ACC = PATH + "/account";
     private static final String PATH_PERSONS_DROPDOWN = PATH + "/personsdropdown";
     private static final String PATH_ITEMSCATALOG_DROPDOWN = PATH + "/itemscatalogdropdown";
@@ -55,6 +56,20 @@ public class InvoiceController {
         return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));
     }
 
+    /**
+     *
+     * @param idItemCatalog
+     * @return
+     */
+//    @RequestMapping(path = PATH_ITEM_CATALOG+"/{idItemCatalog}",  method = RequestMethod.GET,
+//            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @GetMapping(value = PATH_ITEM_CATALOG+"/{idItemCatalog}", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<ItemCatalogModel> getItemCatalog(
+            @PathVariable() Long idItemCatalog){
+        ItemCatalog itemCatalog = invoicePersonService.getItemCatalog(idItemCatalog);
+        ItemCatalogModel itemCatalogModel = EntityToModelMapperHelper.mapEntityToItemCatalogModel(itemCatalog);
+        return ResponseEntity.ok(itemCatalogModel);
+    }
 
     public ResponseEntity<InvoiceFormModel> getInvoice(String invoiceNumber) {
         Invoice invoice = invoicePersonService.getInvoice(invoiceNumber);

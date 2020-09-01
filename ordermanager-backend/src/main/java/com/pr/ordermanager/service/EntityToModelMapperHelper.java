@@ -1,11 +1,6 @@
 package com.pr.ordermanager.service;
 
-import com.pr.ordermanager.controller.model.BankAccountFormModel;
-import com.pr.ordermanager.controller.model.DropdownDataType;
-import com.pr.ordermanager.controller.model.InvoiceFormModel;
-import com.pr.ordermanager.controller.model.InvoiceItemModel;
-import com.pr.ordermanager.controller.model.PersonAddressFormModel;
-import com.pr.ordermanager.controller.model.PersonFormModel;
+import com.pr.ordermanager.controller.model.*;
 import com.pr.ordermanager.jpa.entity.*;
 
 import java.util.List;
@@ -79,6 +74,17 @@ public class EntityToModelMapperHelper {
         return itemCatalogs.stream().map(c->new DropdownDataType(
                 c.getShortDescription()+ " : Price :"+c.getItemPrice()+ " " ,
                 ""+c.getId())).collect(Collectors.toList());
+    }
+
+
+    public static ItemCatalogModel mapEntityToItemCatalogModel(ItemCatalog itemCatalog){
+        return ItemCatalogModel.builder()
+                .id(itemCatalog.getId())
+                .description(itemCatalog.getDescription())
+                .shortDescription(itemCatalog.getShortDescription())
+                .itemPrice(itemCatalog.getItemPrice())
+                .vat(itemCatalog.getVat())
+                .build();
     }
 
 }

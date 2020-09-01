@@ -20,6 +20,15 @@ export interface InvoiceItemModelInterface {
 }
 
 
+export class ItemCatalogModel {
+    id: number;
+    description:string;
+    shortDescription: string;
+    itemPrice: number ;
+    vat: number;
+}
+
+
 export interface DropdownDataType{
   label: string;
   value: string;

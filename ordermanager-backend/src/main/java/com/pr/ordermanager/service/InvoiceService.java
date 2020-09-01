@@ -30,6 +30,15 @@ public class InvoiceService {
     @Autowired
     private ItemCatalogRepository itemCatalogRepository;
 
+    /**
+     *
+     * @param idItemCatalog the id of item from catalog
+     * @return foud item
+     */
+    public ItemCatalog getItemCatalog(Long idItemCatalog){
+       return itemCatalogRepository.findById(idItemCatalog).get();
+    }
+
 
     /**
      *

@@ -14,7 +14,13 @@
         <p-cellEditor>
           <ng-template pTemplate="input">
             <p-dropdown [options]="catalogItems" placeholder="[Select item from catalog]"
+                        [ngModel]="invoiceitem.catalogItemId"
+                        (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
+                        [style]="{'width':'100%'}"></p-dropdown>
+            <!--
+            <p-dropdown [options]="catalogItems" placeholder="[Select item from catalog]"
                         [(ngModel)]="invoiceitem.catalogItemId" [style]="{'width':'100%'}"></p-dropdown>
+           -->
            </ng-template>
           <ng-template pTemplate="output">
             {{getCatalogDescription(invoiceitem.catalogItemId)}}

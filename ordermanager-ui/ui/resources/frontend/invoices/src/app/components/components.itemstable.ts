@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit, HostListener} from "@angular/core";
-import {DropdownDataType, InvoiceItemModel} from "../domain/domain.invoiceformmodel";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from "../domain/domain.invoiceformmodel";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 
 
@@ -39,7 +39,7 @@ export class ItemsTableComponent implements OnInit{
    *
    * @param value element refernce
    */
-  @HostListener('input', ['$event.target'])
+  //@HostListener('input', ['$event.target'])
   inputElement(target): any {
     if (target.value === ','){
       target.value = '.';
@@ -66,12 +66,27 @@ export class ItemsTableComponent implements OnInit{
       );
   }
 
-
-
-  transformAmount(event): void {
-    console.log(event);
-    // this.amount = parseFloat(event.replace('.', '').replace(',','.'));
-    // console.log('amount=' + this.amount);
+  /**
+   *
+   * @param invoiceitem the item which belong to table row
+   * @param event id catalog item
+   */
+  catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void{
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+    invoiceitem.catalogItemId = Number(event);
+    this.httpClient.get<ItemCatalogModel>((this.backendUrl + 'itemcatalog/' + invoiceitem.catalogItemId),
+      {headers})
+      .toPromise()
+          .then(data => {
+            invoiceitem.itemPrice = data.itemPrice;
+            invoiceitem.vat = data.vat;
+            }
+          ).then(error => {
+              this.printToJson(error);
+            }
+          );
   }
 
   /**
@@ -95,12 +110,14 @@ export class ItemsTableComponent implements OnInit{
   }
 
 
-  getCatalogDescription(idItemCatalog: any): any{
+  getCatalogDescription(idItemCatalog: string): any{
     if (idItemCatalog !== undefined) {
-       const rez = this.catalogItems.filter(val => val.value === idItemCatalog)[0].label;
-       return rez;
+      // tslint:disable-next-line:triple-equals
+       const rez = this.catalogItems.filter(
+         val => Number(val.value) === Number(idItemCatalog));
+       return rez[0].label;
     }else{
-      return '';
+      return '[Please select item]';
     }
   }
 
