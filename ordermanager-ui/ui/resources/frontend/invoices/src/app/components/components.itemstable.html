@@ -1,3 +1,5 @@
+<div class="p-grid">
+  <div class="p-col-12">
 <p-table  [value]="invoiceItems"  [rows]="10"  editMode="row">
   <ng-template pTemplate="header">
     <tr>
@@ -5,6 +7,8 @@
       <th>Amount</th>
       <th>Price</th>
       <th>Vat%</th>
+      <th>Summe netto</th>
+      <th>Summe brutto</th>
       <th>Delete</th>
     </tr>
   </ng-template>
@@ -13,14 +17,10 @@
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <p-dropdown [options]="catalogItems" placeholder="[Select item from catalog]"
+            <p-dropdown [options]="itemtableService.getDropdownCatalogItems()" placeholder="[Select item from catalog]"
                         [ngModel]="invoiceitem.catalogItemId"
                         (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
                         [style]="{'width':'100%'}"></p-dropdown>
-            <!--
-            <p-dropdown [options]="catalogItems" placeholder="[Select item from catalog]"
-                        [(ngModel)]="invoiceitem.catalogItemId" [style]="{'width':'100%'}"></p-dropdown>
-           -->
            </ng-template>
           <ng-template pTemplate="output">
             {{getCatalogDescription(invoiceitem.catalogItemId)}}
@@ -61,12 +61,37 @@
         </p-cellEditor>
       </td>
       <td>
+        {{calculateNettoSum(invoiceitem)|standardFloat}}
+      </td>
+      <td>
+        {{calculateBruttoSum(invoiceitem)|standardFloat}}
+      </td>
+      <td>
       <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
               (click)="deleteItem(invoiceitem.idxItem)"></button>
       </td>
+
     </tr>
   </ng-template>
 </p-table>
+</div>
+
+</div>
+
+<div class="p-grid">
+  <div class="p-col-10"></div>
+  <div class="p-col-2">
+    <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
+    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text" [ngModel]="totalNettoSum"
+           (ngModelChange)="totalNettoSum=$event" required/>
+
+    <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
+    <input id = "id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text" [ngModel]="toltalBruttoSum"
+           (ngModelChange)="toltalBruttoSum=$event" required/>
+    -
+  </div>
+</div>
+
 <div class="p-grid">
   <div class="p-col-2">
     <p-button label="AddItem" (onClick)="addNewItem()"></p-button>

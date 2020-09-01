@@ -8,6 +8,8 @@ export interface InvoiceFormModelInterface {
   invoiceDate: Date;
   rateType: string;
   invoiceItems: InvoiceItemModelInterface[];
+  tottalSumNetto: number;
+  tottalSumBrutto: number;
 }
 
 export interface InvoiceItemModelInterface {
@@ -17,15 +19,18 @@ export interface InvoiceItemModelInterface {
   numberItems: number;
   itemPrice: number;
   vat: number;
+  sumNetto: number;
+  sumBrutto: number;
 }
 
 
 export class ItemCatalogModel {
     id: number;
-    description:string;
+    description: string;
     shortDescription: string;
     itemPrice: number ;
     vat: number;
+
 }
 
 
@@ -42,6 +47,8 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   personRecipientId: number;
   personSupplierId: number;
   rateType: string;
+  tottalSumNetto: number;
+  tottalSumBrutto: number;
 
   public toJSON(): InvoiceFormModelInterface {
     return Object.assign({}, this, {
@@ -60,5 +67,7 @@ export class InvoiceItemModel implements InvoiceItemModelInterface{
   itemPrice: number = 0;
   numberItems: number = 0;
   vat: number = 0;
+  sumNetto: number;
+  sumBrutto: number;
 }
 

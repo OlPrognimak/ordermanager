@@ -1,6 +1,7 @@
-import {Component, Input, Output, EventEmitter, OnInit, HostListener} from "@angular/core";
-import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from "../domain/domain.invoiceformmodel";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Component, Input, Output, EventEmitter, OnInit, HostListener} from '@angular/core';
+import { InvoiceItemModel} from '../domain/domain.invoiceformmodel';
+import {HttpClient} from '@angular/common/http';
+import {ComponentsItemtableService} from './components.itemtable.service';
 
 
 
@@ -12,7 +13,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
       padding-bottom: 0 !important;
       margin-top: 0 !important;
       margin-bottom: 0 !important;
-      height: 50pt !important;
+     /*height: 50pt !important;*/
       width: 100% !important;
     }
   `],
@@ -22,48 +23,22 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 export class ItemsTableComponent implements OnInit{
   @Input() invoiceItems: InvoiceItemModel[];
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
-  backendUrl: string;
-  catalogItems: DropdownDataType[];
-  idxItem: number;
+  totalNettoSum: number;
+  toltalBruttoSum: number;
 
-  constructor(private httpClient: HttpClient) {
+  backendUrl: string;
+   idxItem: number;
+
+  constructor(private itemtableService: ComponentsItemtableService) {
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
     this.idxItem = 0;
-  }
-
-
-
-  /**
-   *
-   * @param value element refernce
-   */
-  //@HostListener('input', ['$event.target'])
-  inputElement(target): any {
-    if (target.value === ','){
-      target.value = '.';
-    };
-
-  }
-
-  changeNumberItems(ev: any): any{
-    console.log(ev);
+    this.totalNettoSum = 0;
   }
 
   ngOnInit(): void {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
-    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'itemscatalogdropdown', {headers})
-      .subscribe(
-        data => {
-          this.catalogItems = data;
-        },
-        error => {
-          alert('Error :' + JSON.stringify(error));
-        }
-      );
+
   }
 
   /**
@@ -72,22 +47,8 @@ export class ItemsTableComponent implements OnInit{
    * @param event id catalog item
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void{
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
-    invoiceitem.catalogItemId = Number(event);
-    this.httpClient.get<ItemCatalogModel>((this.backendUrl + 'itemcatalog/' + invoiceitem.catalogItemId),
-      {headers})
-      .toPromise()
-          .then(data => {
-            invoiceitem.itemPrice = data.itemPrice;
-            invoiceitem.vat = data.vat;
-            }
-          ).then(error => {
-              this.printToJson(error);
-            }
-          );
-  }
+    return this.itemtableService.loadCatalogItemDetails(invoiceitem, event);
+   }
 
   /**
    * Adds new Item to table of items
@@ -113,12 +74,73 @@ export class ItemsTableComponent implements OnInit{
   getCatalogDescription(idItemCatalog: string): any{
     if (idItemCatalog !== undefined) {
       // tslint:disable-next-line:triple-equals
-       const rez = this.catalogItems.filter(
+       const rez = this.itemtableService.getDropdownCatalogItems().filter(
          val => Number(val.value) === Number(idItemCatalog));
        return rez[0].label;
     }else{
       return '[Please select item]';
     }
+  }
+
+  /**
+   *
+   * @param modelItem
+   */
+  public calculateNettoSum( modelItem: InvoiceItemModel): any{
+      modelItem.sumNetto = Number((
+      modelItem.numberItems * modelItem.itemPrice).toFixed(2));
+      setTimeout( () => {
+          this.calculateTottalNettoSum();
+        }, 1
+       );
+      return modelItem.sumNetto;
+  }
+
+  private calculateTottalNettoSum(): void{
+    this.totalNettoSum = 0;
+    this.invoiceItems.forEach(item => this.calculateNettoTottal(item));
+  }
+
+  private calculateTottalBruttoSum(): void{
+    this.toltalBruttoSum = 0;
+    this.invoiceItems.forEach(item => this.calculateBruttoTottal(item));
+  }
+
+  private calculateBruttoTottal( item: InvoiceItemModel): void{
+    this.toltalBruttoSum =
+      Number((this.toltalBruttoSum + item.sumBrutto).toFixed(2));
+  }
+
+  private calculateNettoTottal( item: InvoiceItemModel): void{
+    this.totalNettoSum =
+      Number((this.totalNettoSum + item.sumNetto).toFixed(2));
+  }
+
+  /**
+   *
+   * @param modelItem
+   */
+  public calculateBruttoSum( modelItem: InvoiceItemModel): any{
+    const nettoSum = this.calculateNettoSum(modelItem);
+    modelItem.sumBrutto = Number((
+      nettoSum + (nettoSum / 100) * modelItem.vat).toFixed(2));
+    setTimeout( () => {
+      this.calculateTottalBruttoSum();
+      }, 1
+    );
+    return modelItem.sumBrutto;
+  }
+
+  /**
+   *
+   * @param value element refernce
+   */
+  // @HostListener('input', ['$event.target'])
+  inputElement(target): any {
+    if (target.value === ','){
+      target.value = '.';
+    }
+
   }
 
   printToJson(data: any): void {
