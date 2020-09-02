@@ -82,11 +82,11 @@
   <div class="p-col-10"></div>
   <div class="p-col-2">
     <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
-    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text" [ngModel]="totalNettoSum"
+    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text" [ngModel]="totalNettoSum | standardFloat"
            (ngModelChange)="totalNettoSum=$event" required/>
 
     <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
-    <input id = "id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text" [ngModel]="toltalBruttoSum"
+    <input id = "id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text" [ngModel]="toltalBruttoSum | standardFloat"
            (ngModelChange)="toltalBruttoSum=$event" required/>
     -
   </div>

@@ -35,6 +35,7 @@ export class ItemsTableComponent implements OnInit{
         .getAttribute('data-backendUrl') ;
     this.idxItem = 0;
     this.totalNettoSum = 0;
+    this.toltalBruttoSum = 0;
   }
 
   ngOnInit(): void {
