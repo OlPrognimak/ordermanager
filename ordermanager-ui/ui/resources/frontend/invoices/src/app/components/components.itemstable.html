@@ -30,7 +30,7 @@
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" [ngModel] = "invoiceitem.numberItems"
+            <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" [ngModel] = "invoiceitem.numberItems"
                    (ngModelChange)="invoiceitem.numberItems=$event" required/>
            </ng-template>
           <ng-template pTemplate="output">
@@ -41,7 +41,7 @@
       <td  pEditableColumn>
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input name="price" class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.itemPrice"
+            <input name="price" class="p-cell-editing" type="text"  (change)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.itemPrice"
                    (ngModelChange)="invoiceitem.itemPrice=$event" required/>
           </ng-template>
           <ng-template pTemplate="output">
@@ -52,7 +52,11 @@
       <td  pEditableColumn >
         <p-cellEditor>
           <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" [(ngModel)]="invoiceitem.vat"
+            <!--
+            <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
+                   (ngModelChange)="invoiceitem.vat=$event" required/>
+            -->
+            <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"  [(ngModel)]="invoiceitem.vat"
                    (ngModelChange)="invoiceitem.vat=$event" required/>
           </ng-template>
           <ng-template pTemplate="output">
@@ -61,10 +65,16 @@
         </p-cellEditor>
       </td>
       <td>
+        <!--
         {{calculateNettoSum(invoiceitem)|standardFloat}}
+        -->
+        {{invoiceitem.sumNetto | standardFloat}}
       </td>
       <td>
+        <!--
         {{calculateBruttoSum(invoiceitem)|standardFloat}}
+        -->
+        {{invoiceitem.sumBrutto | standardFloat}}
       </td>
       <td>
       <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
@@ -82,12 +92,12 @@
   <div class="p-col-10"></div>
   <div class="p-col-2">
     <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
-    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text" [ngModel]="totalNettoSum | standardFloat"
-           (ngModelChange)="totalNettoSum=$event" required/>
+    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text" [ngModel]="getTotalNettoSum()  | standardFloat"
+           (ngModelChange)="totalNettoSum1=$event" required/>
 
     <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
-    <input id = "id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text" [ngModel]="toltalBruttoSum | standardFloat"
-           (ngModelChange)="toltalBruttoSum=$event" required/>
+    <input id = "id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text" [ngModel]="getToltalBruttoSum() | standardFloat"
+           (ngModelChange)="toltalBruttoSum1=$event" required/>
     -
   </div>
 </div>

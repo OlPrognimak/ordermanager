@@ -67,7 +67,14 @@ export class InvoiceItemModel implements InvoiceItemModelInterface{
   itemPrice: number = 0;
   numberItems: number = 0;
   vat: number = 0;
-  sumNetto: number;
-  sumBrutto: number;
+  sumNetto: number = 0;
+  sumBrutto: number = 0;
+}
+
+
+export class CalculatorParameters{
+  invoiceItemsTableModel: InvoiceItemModel[];
+  invoiceItemEvent: InvoiceItemModel;
+  nettoSum: number = 0;
 }
 
