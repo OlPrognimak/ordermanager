@@ -1,23 +1,9 @@
 package com.pr.ordermanager.jpa.entity;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @ToString
 @AllArgsConstructor
@@ -44,7 +30,7 @@ public class Person {
     @JoinTable(
         name = "person_to_address",
         joinColumns = @JoinColumn(name = "persons_id"),
-        inverseJoinColumns = @JoinColumn(name = "account_id"))
+        inverseJoinColumns = @JoinColumn(name = "address_id"))
     private List<PersonAddress> personAddress;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			  xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" columnWidth="555"
+			  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+			  uuid="d5d5e4af-a9f1-43a3-948c-61e1196e3fb4">
+
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TESTDB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="234"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="757"/>
+	<parameter name="invoiceNumber" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT invoice.id invoice_id,
+       person_supplier.person_first_name,
+       person_supplier.person_last_name,
+       person_supplier.company_name,
+       person_supplier.person_type,
+       invoice.creation_date,
+       invoice.invoice_date,
+       invoice.invoice_number,
+       invoice.rate_type,
+       person_supplier.person_first_name supplier_first_name,
+       person_supplier.person_last_name supplier_last_name,
+       person_supplier.company_name supplier_company_name,
+       person_supplier.tax_number supplier_tax_numder,
+       supplier_pas.city supplier_city,
+       supplier_pas.street supplier_street,
+       supplier_pas.zip_code  supplier_zip_code,
+       supplier_pas.post_box_code supplier_post_box_code,
+       supplier_bank.account_number supplier_account_number,
+       supplier_bank.bank_name supplier_bank_name,
+       supplier_bank.bic_swift supplier_bic_swift,
+       supplier_bank.iban supplier_iban,
+       person_recipient.person_first_name recipient_first_name,
+       person_recipient.person_last_name recipient_last_name,
+       person_recipient.company_name recipient_company_name,
+       person_recipient.tax_number recipient_tax_numderid,
+       recipient_pas.city recipient_city,
+       recipient_pas.street recipient_street,
+       recipient_pas.zip_code  recipient_zip_code,
+       recipient_pas.post_box_code recipient_post_box_code,
+       recipient_bank.account_number recipient_account_number,
+       recipient_bank.bank_name recipient_bank_name,
+       recipient_bank.bic_swift recipient_bic_swift,
+       recipient_bank.iban recipient_iban
+FROM invoice
+       INNER JOIN  person person_supplier ON
+                invoice.invoice_supplier = person_supplier.id
+            INNER JOIN person_to_address p_to_as on person_supplier.id = p_to_as.persons_id
+                INNER JOIN person_address supplier_pas on  supplier_pas.id = p_to_as.address_id
+         INNER JOIN person_to_account p_to_accsup on person_supplier.id = p_to_accsup.persons_id
+                INNER JOIN bank_account supplier_bank on  supplier_bank.id = p_to_accsup.bank_account_id
+
+         INNER JOIN  person person_recipient ON
+                invoice.invoice_recipient = person_recipient.id
+            INNER JOIN person_to_address p_to_as_recipient on person_recipient.id = p_to_as_recipient.persons_id
+              INNER JOIN person_address recipient_pas on  recipient_pas.id = p_to_as_recipient.address_id
+            INNER JOIN person_to_account p_to_accrecip on person_recipient.id = p_to_accrecip.persons_id
+               INNER JOIN bank_account recipient_bank on  recipient_bank.id = p_to_accrecip.bank_account_id
+WHERE
+        invoice.invoice_number =  $P{invoiceNumber}]]>
+	</queryString>
+	<field name="person_first_name" class="java.lang.String"/>
+	<field name="person_last_name" class="java.lang.String"/>
+	<field name="person_type" class="java.lang.String"/>
+	<field name="creation_date" class="java.util.Date"/>
+	<field name="invoice_date" class="java.util.Date"/>
+	<field name="invoice_number" class="java.lang.String"/>
+	<field name="invoice_id" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="127" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="4" width="160" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Honorarabrechnung ]]></text>
+			</staticText>
+			<textField>
+				<reportElement key="" x="0" y="41" width="180" height="14" uuid="1531119b-8e3b-4470-82c4-b28a5c502fbd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression>
+					<![CDATA[$F{person_first_name}.concat("  " ).concat($F{person_last_name})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="41" width="80" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Rechnung-Nr."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="60" width="90" height="14" uuid="e57825e5-7680-4abb-a02b-152ff9c1e230">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA["Rechnungsdatum:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="41" width="101" height="14" uuid="b2f2b0ad-0e83-4da2-85cd-d7161d830d23">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{invoice_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.YYYY">
+				<reportElement x="390" y="61" width="101" height="14" uuid="003c3efe-86e5-4077-9740-bdb71b7bd975">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{creation_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMM y">
+				<reportElement x="320" y="4" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

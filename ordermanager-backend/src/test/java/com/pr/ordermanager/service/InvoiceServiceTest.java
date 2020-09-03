@@ -43,21 +43,21 @@ public class InvoiceServiceTest {
 
     @BeforeEach
     void setUp() {
-        personRepository.deleteAll();
-        invoiceRepository.deleteAll();
+       // personRepository.deleteAll();
+       // invoiceRepository.deleteAll();
 
     }
 
     @AfterEach
     void tearDown() {
-        personRepository.deleteAll();
-        personRepository.deleteAll();
+        //personRepository.deleteAll();
+        //personRepository.deleteAll();
     }
 
     @Test
     void savePerson() {
              PersonAddress personAddress =
-             RepositoryTestHelper.createPersonAddress("Bonn", "Bonner str.", "12345",null);
+             RepositoryTestHelper.createPersonAddress("München", "Bonner str.", "12345",null);
              BankAccount bankAccount = RepositoryTestHelper.createBankAccount("DE11 1234 1234 1234 1234 0", "TestBank");
              Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, personAddress, bankAccount);
              invoiceService.savePerson(person);
@@ -65,7 +65,6 @@ public class InvoiceServiceTest {
             Assert.assertNotNull(person.getId());
             Assert.assertNotNull(person.getBankAccount());
             Assert.assertNotNull(person.getPersonAddress());
-
             Assert.assertEquals(1, person.getBankAccount().size());
             Assert.assertEquals(1, person.getPersonAddress().size());
 
