@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,24 +22,37 @@ import java.util.Map;
 @Service
 public class JasperReportService {
 
-
     @Autowired
     DataSource dataSource;
 
-    /**
-     *
-     * @param invoiceNumber
-     * @return
-     */
-    public byte[] printReport( String invoiceNumber)  {
+    JasperReport jasperReport;
 
+    @PostConstruct
+    public void initService(){
         ClassPathResource classPathResource = new ClassPathResource("/invoice.jrxml") ;
+        InputStream invoiceReportStream = null;
+        try {
+            invoiceReportStream = classPathResource.getInputStream();
+            jasperReport= JasperCompileManager.compileReport(invoiceReportStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(JRException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Creates pdf report for invoice with number {@code invoiceNumber}
+     * @param invoiceNumber tne number of invoice
+     * @return the pdf report as array of bytes
+     */
+    public byte[] createPdfReport(String invoiceNumber)  {
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            InputStream invoiceReportStream = classPathResource.getInputStream();
-            JasperReport jasperReport= JasperCompileManager.compileReport(invoiceReportStream);
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
             JRPdfExporter exporter = new JRPdfExporter();
 
@@ -66,9 +80,10 @@ public class JasperReportService {
             return byteArrayOutputStream.toByteArray();
         } catch (JRException | SQLException e) {
             e.printStackTrace();
-        }catch (IOException e){
-            e.printStackTrace();
         }
+//        catch (IOException e){
+//            e.printStackTrace();
+//        }
 
         return null;
     }

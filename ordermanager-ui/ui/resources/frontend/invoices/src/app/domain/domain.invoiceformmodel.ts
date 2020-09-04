@@ -4,12 +4,15 @@ export interface InvoiceFormModelInterface {
   personSupplierId: number;
   personRecipientId: number;
   invoiceNumber: string;
+  invoiceDescription: string;
+  supplierFullName: string;
+  recipientFullName: string ;
   creationDate: Date;
   invoiceDate: Date;
   rateType: string;
   invoiceItems: InvoiceItemModelInterface[];
-  tottalSumNetto: number;
-  tottalSumBrutto: number;
+  totalSumNetto: number;
+  totalSumBrutto: number;
 }
 
 export interface InvoiceItemModelInterface {
@@ -44,11 +47,14 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   invoiceDate: Date;
   invoiceItems: InvoiceItemModelInterface[] = [];
   invoiceNumber: string;
+  supplierFullName: string;
+  recipientFullName: string ;
+  invoiceDescription = 'N/A';
   personRecipientId: number;
   personSupplierId: number;
   rateType: string;
-  tottalSumNetto: number;
-  tottalSumBrutto: number;
+  totalSumNetto: number;
+  totalSumBrutto: number;
 
   public toJSON(): InvoiceFormModelInterface {
     return Object.assign({}, this, {
@@ -64,17 +70,17 @@ export class InvoiceItemModel implements InvoiceItemModelInterface{
   idxItem: number;
   catalogItemId: number;
   description = '';
-  itemPrice: number = 0;
-  numberItems: number = 0;
-  vat: number = 0;
-  sumNetto: number = 0;
-  sumBrutto: number = 0;
+  itemPrice = 0;
+  numberItems = 0;
+  vat = 0;
+  sumNetto = 0;
+  sumBrutto = 0;
 }
 
 
 export class CalculatorParameters{
   invoiceItemsTableModel: InvoiceItemModel[];
   invoiceItemEvent: InvoiceItemModel;
-  nettoSum: number = 0;
+  nettoSum = 0;
 }
 

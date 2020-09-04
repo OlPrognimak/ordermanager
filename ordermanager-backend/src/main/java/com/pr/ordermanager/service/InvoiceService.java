@@ -1,7 +1,6 @@
 package com.pr.ordermanager.service;
 
 
-import com.pr.ordermanager.controller.model.GridDataModel;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.jpa.entity.*;
 import com.pr.ordermanager.repository.jpa.*;
@@ -90,6 +89,11 @@ public class InvoiceService {
          }
     }
 
+    //TODO need to implement serch by parametes
+    public List<Invoice> getInvoices(){
+        //
+        return invoiceRepository.findAll();
+    }
 
 
     /**
@@ -128,14 +132,6 @@ public class InvoiceService {
         return true;
     }
 
-    public List<GridDataModel> getAllData() {
-//        List<GridDataModelEntity> entities = dataGridRepository.findAll();
-//        List<GridDataModel> dataModelList = entities.stream().parallel().map(m -> map(m)).collect(Collectors.toList());
-//
-//        return dataModelList;
-        return null;
-
-    }
 
     public List<Person> getAllPersons(){
        return personRepository.findAll(

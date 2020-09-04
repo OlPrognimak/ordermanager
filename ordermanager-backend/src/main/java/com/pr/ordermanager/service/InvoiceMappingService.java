@@ -51,10 +51,13 @@ public class InvoiceMappingService {
             Invoice invoice = Invoice.builder()
                 .invoiceDate(invoiceFormModel.getInvoiceDate())
                 .invoiceNumber(invoiceFormModel.getInvoiceNumber())
+                .invoiceDescription(invoiceFormModel.getInvoiceDescription())
                 .creationDate(invoiceFormModel.getCreationDate())
                 .rateType( RateType.valueOf(invoiceFormModel.getRateType()) )
                 .invoiceSupplierPerson(personInvoiceSupplier)
                 .invoiceRecipientPerson(personInvoiceRecipient)
+                    .totalSumBrutto(invoiceFormModel.getTotalSumBrutto())
+                    .totalSumNetto(invoiceFormModel.getTotalSumNetto())
                 .build();
             invoice.setInvoiceItems(
                 invoiceFormModel.getInvoiceItems()
@@ -69,6 +72,5 @@ public class InvoiceMappingService {
             return invoice;
 
     }
-
 
 }

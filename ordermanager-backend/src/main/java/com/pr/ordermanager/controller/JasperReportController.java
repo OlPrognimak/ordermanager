@@ -1,6 +1,8 @@
 package com.pr.ordermanager.controller;
 
-import org.springframework.core.io.Resource;
+import com.pr.ordermanager.service.JasperReportService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class JasperReportController {
 
+    @Autowired
+    JasperReportService jasperReportService;
 
 
 
@@ -21,16 +25,19 @@ public class JasperReportController {
      */
     @GetMapping("/invoice/report/{invoiceNumber}")
     @ResponseBody
-    public Resource printReport(@PathVariable String invoiceNumber)  {
+    public HttpEntity<byte[]> printReport(@PathVariable String invoiceNumber)  {
+
+        byte[] report = jasperReportService.createPdfReport(invoiceNumber);
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_PDF);
         header.set(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=" + "invoice_"+invoiceNumber+".pdf");
+        header.setContentLength(report.length);
 
-        //header.setContentLength(document.length());
-        return null;
-
+        return new HttpEntity<byte[]>(report, header);
 
     }
+
+
 }

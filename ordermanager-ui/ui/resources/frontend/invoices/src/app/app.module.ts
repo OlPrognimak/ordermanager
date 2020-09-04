@@ -14,6 +14,8 @@ import {EditableCellComponent} from './components/components.cell';
 import {ItemsTableComponent} from "./components/components.itemstable";
 import {ComponentsPipesNumberDouble} from "./components/components.pipes.number";
 import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
+import {AgGridModule} from "ag-grid-angular";
+
 
 
 
@@ -39,7 +41,8 @@ import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
     DropdownModule,
     CalendarModule,
     TableModule,
-    InputTextareaModule
+    InputTextareaModule,
+    AgGridModule
 
   ],
   providers: [],

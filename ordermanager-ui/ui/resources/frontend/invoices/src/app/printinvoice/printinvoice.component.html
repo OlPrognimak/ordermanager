@@ -1,1 +1,10 @@
-<p>printinvoice works!</p>
+<ag-grid-angular
+  #agGrid
+  style="width: 100%; height: 500px;"
+  class="ag-theme-balham"
+  pagination="true"
+  (rowValueChanged)="onRowValueChanged($event)"
+  (cellValueChanged)="cellChanged($event)"
+  [rowData] = "invoicesFormModel"
+  [columnDefs]="columnDefs"
+  rowSelection="multiple"></ag-grid-angular>

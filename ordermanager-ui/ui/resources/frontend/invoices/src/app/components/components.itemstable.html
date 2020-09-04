@@ -1,6 +1,6 @@
 <div class="p-grid">
   <div class="p-col-12">
-    <p-table [value]="invoiceItems" [rows]="10" editMode="row">
+    <p-table [value]="invoiceItems" [rows]="100" editMode="row">
       <ng-template pTemplate="header">
         <tr>
           <th>Item description</th>
@@ -91,12 +91,12 @@
     <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
     <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text"
            [ngModel]="getTotalNettoSum()  | standardFloat"
-           (ngModelChange)="totalNettoSum1=$event" required/>
+           (ngModelChange)="getTotalNettoSum()" required/>
 
     <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
     <input id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
            [ngModel]="getToltalBruttoSum() | standardFloat"
-           (ngModelChange)="toltalBruttoSum1=$event" required/>
+           (ngModelChange)="getToltalBruttoSum()" required/>
     -
   </div>
 </div>

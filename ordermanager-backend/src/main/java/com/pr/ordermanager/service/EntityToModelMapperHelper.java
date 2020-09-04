@@ -6,7 +6,14 @@ import com.pr.ordermanager.jpa.entity.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The mapping helper for mapping JPA Entity to Rest Model POJO object
+ */
 public class EntityToModelMapperHelper {
+
+    private EntityToModelMapperHelper(){
+
+    }
 
     public static PersonFormModel mapPersonEntityToFormModel(Person person){
         return PersonFormModel.builder()
@@ -38,16 +45,33 @@ public class EntityToModelMapperHelper {
             .iban(bankAccount.getIban()).build();
     }
 
-
+    /**
+     * Maps {@code invoice} {@link Invoice} to {@long InvoiceFormModel}
+     * @param invoice the invoice entity
+     * @return the invoice model
+     */
     public static InvoiceFormModel mapInvoiceEntityToFormModel(Invoice invoice){
         InvoiceFormModel invoiceFormModel = InvoiceFormModel.builder()
-            .personRecipientId(invoice.getId())
+            .personRecipientId(
+                    invoice.getInvoiceRecipientPerson().getId())
+             .recipientFullName(
+                     (invoice.getInvoiceRecipientPerson().getPersonFirstName()+" "+
+                             invoice.getInvoiceRecipientPerson().getPersonLastName()+ " "+
+                             invoice.getInvoiceRecipientPerson().getCompanyName()).trim()
+             )
             .invoiceNumber(invoice.getInvoiceNumber())
+            .invoiceDescription(invoice.getInvoiceDescription())
             .invoiceDate(invoice.getInvoiceDate())
             .creationDate(invoice.getCreationDate())
             .rateType(invoice.getRateType().name())
             .personSupplierId(invoice.getInvoiceSupplierPerson().getId())
-            .invoiceItems(
+                .supplierFullName(
+                        (invoice.getInvoiceSupplierPerson().getPersonFirstName()+" "+
+                                invoice.getInvoiceSupplierPerson().getPersonLastName()+ " "+
+                                invoice.getInvoiceSupplierPerson().getCompanyName()).trim())
+             .totalSumBrutto(invoice.getTotalSumBrutto())
+                .totalSumNetto(invoice.getTotalSumNetto())
+             .invoiceItems(
                 invoice.getInvoiceItems()
                     .stream()
                     .map(i->mapEntityToModelInvoiceItem(i)).collect(Collectors.toList())
@@ -61,7 +85,10 @@ public class EntityToModelMapperHelper {
                 .itemPrice(invoiceItem.getItemPrice())
                 .description(invoiceItem.getItemCatalog().getDescription())
                 .numberItems(invoiceItem.getNumberItems())
-                .vat(invoiceItem.getVat()).build();
+                .vat(invoiceItem.getVat())
+                .sumNetto(invoiceItem.getSumNetto())
+                .sumBrutto(invoiceItem.getSumBrutto())
+                .build();
     }
 
     public static List<DropdownDataType> mapPersonToDropdownType(List<Person> persons){

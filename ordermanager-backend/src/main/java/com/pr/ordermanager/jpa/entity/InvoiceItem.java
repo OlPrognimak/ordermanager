@@ -17,6 +17,8 @@ public class InvoiceItem {
     private Double numberItems;
     private Double itemPrice;
     private Integer vat;
+    private Double sumNetto;
+    private Double sumBrutto;
     @ManyToOne(fetch = FetchType.EAGER)
     private ItemCatalog itemCatalog;
     @ManyToOne(fetch = FetchType.LAZY)

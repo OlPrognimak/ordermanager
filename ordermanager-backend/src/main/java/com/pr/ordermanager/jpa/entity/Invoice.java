@@ -1,24 +1,10 @@
 package com.pr.ordermanager.jpa.entity;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 
 @ToString
@@ -39,7 +25,6 @@ public class Invoice {
             mappedBy = "invoice",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-
     List<InvoiceItem> invoiceItems;
     /**The person which in and made and supply an invoice */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,10 +41,16 @@ public class Invoice {
     /**The number of invoice*/
     @Column(length = 50, unique = true)
     private String invoiceNumber;
+    /**The description of invoice. For example project name.*/
+    private String invoiceDescription;
     /**
      * Define the rate type of Invoice. It can be hourly and daily rate
      */
     @Enumerated(EnumType.STRING)
     private RateType rateType;
+    /**The tottal netto summa */
+    private Double totalSumNetto;
+    /**The tottal brutto summa */
+    private Double totalSumBrutto;
 
 }

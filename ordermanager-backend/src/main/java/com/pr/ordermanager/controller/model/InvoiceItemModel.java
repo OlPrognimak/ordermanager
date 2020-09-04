@@ -18,5 +18,6 @@ public class InvoiceItemModel {
     private Double numberItems;
     private Double itemPrice;
     private Integer vat;
-
+    private Double sumNetto;
+    private Double sumBrutto;
 }

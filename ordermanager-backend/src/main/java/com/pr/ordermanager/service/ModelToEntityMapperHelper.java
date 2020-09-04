@@ -60,6 +60,8 @@ public class ModelToEntityMapperHelper {
             .numberItems(invoiceFormModel.getNumberItems())
             .itemCatalog(itemCatalog)
             .vat(invoiceFormModel.getVat())
+                .sumNetto(invoiceFormModel.getSumNetto())
+                .sumBrutto(invoiceFormModel.getSumBrutto())
             .invoice(invoice)
             .build();
         return invoiceItem;

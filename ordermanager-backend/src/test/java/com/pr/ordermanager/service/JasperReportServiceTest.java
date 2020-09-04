@@ -23,7 +23,7 @@ class JasperReportServiceTest {
 
     @Test
     void printReport() throws Exception{
-       byte[] report = jasperReportService.printReport("1111");
+       byte[] report = jasperReportService.createPdfReport("1111");
         Assertions.assertNotNull(report);
         Assertions.assertTrue(report.length>0);
         System.out.println("Array Size = "+report.length);

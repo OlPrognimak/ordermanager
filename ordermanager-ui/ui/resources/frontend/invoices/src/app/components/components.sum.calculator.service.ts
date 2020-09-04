@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
+import {Directive, EventEmitter, Injectable, Output} from '@angular/core';
 import {CalculatorParameters, InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {ItemsTableComponent} from "./components.itemstable";
 
 /**
  * The service class which calculate  netto and  brutto for one item  and summerized total
@@ -9,15 +10,16 @@ import {map} from 'rxjs/operators';
  *
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ComponentsSumCalculatorService{
-  totalNettoSum: number;
-  toltalBruttoSum: number;
+
+   totalNettoSum: number;
+   totalBruttoSum: number;
 
   constructor(){
     this.totalNettoSum = 0;
-    this.toltalBruttoSum = 0;
+    this.totalBruttoSum = 0;
   }
 
 
@@ -27,7 +29,7 @@ export class ComponentsSumCalculatorService{
    * @param invoiceItems the items of invoice
    * @param modelItem the item from currently selected row where was changed the item price, amount of items or vat.
    */
-  public calculateAllSum(invoiceItems: InvoiceItemModel[], modelItem: InvoiceItemModel): any {
+  public async calculateAllSum(invoiceItems: InvoiceItemModel[], modelItem: InvoiceItemModel): Promise<void> {
     const params = new CalculatorParameters();
 
     params.invoiceItemEvent = modelItem;
@@ -36,14 +38,18 @@ export class ComponentsSumCalculatorService{
     const nettoSumParamsObservable = of(params);
     const nettoSumOperator = map((itemsModel: CalculatorParameters) => this.calculateNettoSum(itemsModel));
     const observableNettoParams = nettoSumOperator(nettoSumParamsObservable);
-    observableNettoParams.toPromise()
+    const numberPromise = observableNettoParams.toPromise()
       .then((data) => {
-         return this.calculateBruttoSum(data);
+        return this.calculateBruttoSum(data);
       }).then((data) => {
-         return this.calculateTottalNettoSum(data);
+        return this.calculateTottalNettoSum(data);
       }).then((data) => {
-         return this.calculateTottalBruttoSum(data);
-    });
+        return this.calculateTottalBruttoSum(data);
+      }).then(() => {
+          return 0;
+        }
+      );
+    await numberPromise;
 
   }
   /*Calculate the total netto price for whole report*/
@@ -55,7 +61,7 @@ export class ComponentsSumCalculatorService{
 
   /*Calculate the total brutto price for whole report*/
   private calculateTottalBruttoSum(params: CalculatorParameters): CalculatorParameters{
-    this.toltalBruttoSum = 0;
+    this.totalBruttoSum = 0;
     params.invoiceItemsTableModel.forEach(item => this.calculateBruttoTottal(item));
     return params;
   }
@@ -94,9 +100,9 @@ export class ComponentsSumCalculatorService{
   /*Summarize the brutto price from one item to total brutto price of whole invoice */
   private calculateBruttoTottal( item: InvoiceItemModel): void{
     this.printToJson(item);
-    this.toltalBruttoSum =
-      Number((this.toltalBruttoSum + item.sumBrutto).toFixed(2));
-    console.log('Calculated Total Brutto sum: ' + this.toltalBruttoSum);
+    this.totalBruttoSum =
+      Number((this.totalBruttoSum + item.sumBrutto).toFixed(2));
+    console.log('Calculated Total Brutto sum: ' + this.totalBruttoSum);
   }
 
   printToJson(data: any): void {

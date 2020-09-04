@@ -6,12 +6,18 @@
 -->
 <div class="p-fluid">
   <div class="p-grid">
-    <div class="p-col-2">
-      <label for="id-invoice-number">Invoice Number</label>
-      <input id="id-invoice-number" required minlength="4" #invoiceNumber="ngModel"
+    <div class="p-col-4">
+      <label  style="padding: 5pt;" for="id-invoice-number">Invoice Number</label>
+      <input style="width:100%; margin-top: 5px;" id="id-invoice-number" required minlength="4"
              type="text" [(ngModel)]="invoiceFormData.invoiceNumber" pInputText/>
 
     </div>
+    <div class="p-col-4">
+       <label style="{margin-block: 5pt}" for="id-invoiceDescription">Invoice description</label>
+       <input style="width:100%; margin-top: 5px;" id="id-invoiceDescription" type="text" [(ngModel)]="invoiceFormData.invoiceDescription
+" pInputText/>
+    </div>
+    <div class = "p-col-4"></div>
   </div>
   <div class="p-grid">
     <div class="p-col-3">
@@ -48,6 +54,8 @@
   </div>
 
   <app-items-table (changeItemEvent)="itemsChanged($event)"
+                   (totalNettoSumEvent) = "itemsTotalNettoChanged($event)"
+                   (totalBruttoSumEvent)="itemsTotalBruttoChanged($event)"
                    [invoiceItems]="invoiceFormData.invoiceItems"></app-items-table>
 
   <div class="p-grid">

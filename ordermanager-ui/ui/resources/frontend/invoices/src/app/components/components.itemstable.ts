@@ -3,9 +3,7 @@ import {InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {ComponentsItemtableService} from './components.itemtable.service';
 import {ComponentsSumCalculatorService} from "./components.sum.calculator.service";
 
-
 @Component({
-
   styles: [`
     :host ::ng-deep .p-cell-editing {
       padding-top: 0 !important;
@@ -18,13 +16,14 @@ import {ComponentsSumCalculatorService} from "./components.sum.calculator.servic
     }
   `],
   selector: 'app-items-table',
-  templateUrl: './components.itemstable.html'
+  templateUrl: './components.itemstable.html',
+  providers:  [ComponentsSumCalculatorService]
 })
 export class ItemsTableComponent implements OnInit {
   @Input() invoiceItems: InvoiceItemModel[];
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
-  totalNettoSum1: number;
-  toltalBruttoSum1: number;
+  @Output() totalNettoSumEvent = new EventEmitter<number>();
+  @Output() totalBruttoSumEvent = new EventEmitter<number>();
 
   backendUrl: string;
   idxItem: number;
@@ -35,18 +34,14 @@ export class ItemsTableComponent implements OnInit {
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl');
     this.idxItem = 0;
-    this.totalNettoSum1 = 5;
-    this.toltalBruttoSum1 = 6;
   }
 
   public getTotalNettoSum(): any {
-    console.log('getTotalNettoSum: ' + this.calculatorService.totalNettoSum);
     return this.calculatorService.totalNettoSum;
   }
 
   public getToltalBruttoSum(): any {
-    console.log('getToltalBruttoSum: ' + this.calculatorService.toltalBruttoSum);
-    return this.calculatorService.toltalBruttoSum;
+    return this.calculatorService.totalBruttoSum;
   }
 
   ngOnInit(): void {
@@ -80,6 +75,7 @@ export class ItemsTableComponent implements OnInit {
   deleteItem(idxItem: any): void {
     this.invoiceItems = this.invoiceItems.filter(val => val.idxItem !== idxItem);
     this.changeItemEvent.emit(this.invoiceItems);
+    this.inputBoxChanged(new InvoiceItemModel(), 0);
   }
 
   /**
@@ -102,7 +98,16 @@ export class ItemsTableComponent implements OnInit {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    this.calculatorService.calculateAllSum(this.invoiceItems, model);
+    const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
+    promise.then(() => {
+        this.emitTotalChanged();
+      }
+    );
+  }
+
+  private emitTotalChanged(): void{
+    this.totalNettoSumEvent.emit(this.calculatorService.totalNettoSum);
+    this.totalBruttoSumEvent.emit(this.calculatorService.totalBruttoSum);
   }
 
   printToJson(data: any): void {

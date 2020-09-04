@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -26,6 +27,7 @@ public class InvoiceController {
 
     private static final String PATH = "";
     private static final String PATH_INVOICE = PATH + "/invoice";
+    private static final String PATH_INVOICES_LIST = PATH + "/invoicesList";
     private static final String PATH_PERSON = PATH + "/person";
     private static final String PATH_ITEM_CATALOG = PATH + "/itemcatalog";
     private static final String PATH_BANK_ACC = PATH + "/account";
@@ -60,8 +62,6 @@ public class InvoiceController {
      * @param idItemCatalog
      * @return
      */
-//    @RequestMapping(path = PATH_ITEM_CATALOG+"/{idItemCatalog}",  method = RequestMethod.GET,
-//            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     @GetMapping(value = PATH_ITEM_CATALOG+"/{idItemCatalog}", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<ItemCatalogModel> getItemCatalog(
             @PathVariable() Long idItemCatalog){
@@ -95,14 +95,14 @@ public class InvoiceController {
         return ResponseEntity.status(OK).body(dropdownDataTypes);
     }
 
-
-    // @RequestMapping(value = PATH, method = RequestMethod.GET, produces = APPLICATION_JSON)
-    public ResponseEntity<List<GridDataModel>> getGridDataModel() {
-//        List<GridDataModel> gridDataModels = dataGridService.getAllData();
-//        ResponseEntity<List<GridDataModel>> responseEntity = ResponseEntity.ok().body(gridDataModels);
-//        return responseEntity;
-        return null;
+    @RequestMapping(value = PATH_INVOICES_LIST, method = RequestMethod.GET,
+            produces = APPLICATION_JSON)
+    public ResponseEntity<List<InvoiceFormModel>> getInvoices(){
+        List<Invoice> invoices = invoicePersonService.getInvoices();
+        List<InvoiceFormModel> invoiceFormModels =
+                invoices.stream().map(i ->
+                        EntityToModelMapperHelper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());
+        return ResponseEntity.status(OK).body(invoiceFormModels);
     }
-
 
 }

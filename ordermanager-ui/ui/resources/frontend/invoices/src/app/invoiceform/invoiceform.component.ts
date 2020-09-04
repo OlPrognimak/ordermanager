@@ -9,9 +9,12 @@ import {
   InvoiceFormModel,
   InvoiceFormModelInterface, InvoiceItemModel,
   InvoiceItemModelInterface
+
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {ComponentsSumCalculatorService} from "../components/components.sum.calculator.service";
+
 
 
 registerLocaleData(localede, 'de');
@@ -31,7 +34,7 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [ PrInvoiceFormDirective ]
+  providers:  [ PrInvoiceFormDirective, ComponentsSumCalculatorService]
 })
 export class InvoiceFormComponent implements OnInit{
 
@@ -45,7 +48,7 @@ export class InvoiceFormComponent implements OnInit{
   /** Model invoice recipient for dropdown component */
   personInvoiceRecipient: DropdownDataType[];
   expandedRows: any;
-  executionResult:any = false;
+  executionResult = false;
 
   /**
    * Constructor
@@ -105,6 +108,13 @@ export class InvoiceFormComponent implements OnInit{
     this.invoiceFormData.invoiceItems = invoiceItems;
   }
 
+  itemsTotalBruttoChanged(totalBrutto: number): any{
+    this.invoiceFormData.totalSumBrutto = totalBrutto;
+  }
+
+  itemsTotalNettoChanged(totalNetto: number): any{
+    this.invoiceFormData.totalSumNetto = totalNetto;
+  }
 
 
   printToJson(data: any): void {
