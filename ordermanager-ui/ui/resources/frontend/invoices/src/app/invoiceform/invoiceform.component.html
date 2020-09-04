@@ -1,55 +1,72 @@
+<!--
+<form #inviceForm="ngForm" appIdentityRevealed>
+  <div [hidden]="inviceForm.submitted">
+    <div class="cross-validation" [class.cross-validation-error]=
+      "inviceForm.errors?.identityRevealed && (inviceForm.touched || inviceForm.dirty)">
+-->
 <div class="p-fluid">
   <div class="p-grid">
     <div class="p-col-2">
-      <label  for="id-invoice-number">Invoice Number</label>
-      <input id="id-invoice-number" type="text" [(ngModel)]="invoiceFormData.invoiceNumber" pInputText />
+      <label for="id-invoice-number">Invoice Number</label>
+      <input id="id-invoice-number" required minlength="4" #invoiceNumber="ngModel"
+             type="text" [(ngModel)]="invoiceFormData.invoiceNumber" pInputText/>
+
     </div>
   </div>
   <div class="p-grid">
-      <div class="p-col-3">
-        <label style="margin: 5px" for="rateType">Rate Type</label>
-        <p-dropdown id="rateType" [options]="invoiceRate" [(ngModel)]="invoiceFormData.rateType"></p-dropdown>
-      </div>
+    <div class="p-col-3">
+      <label style="margin: 5px" for="rateType">Rate Type</label>
+      <p-dropdown id="rateType" [options]="invoiceRate" [(ngModel)]="invoiceFormData.rateType"></p-dropdown>
+    </div>
   </div>
   <div class="p-grid">
-      <div class="p-col-3">
-        <label style="margin: 5px" for="id-creationDate">Creation Date</label>
-        <p-calendar  dateFormat="dd.mm.yy"  id="id-creationDate" [(ngModel)]="invoiceFormData.creationDate"></p-calendar>
-      </div>
+    <div class="p-col-3">
+      <label style="margin: 5px" for="id-creationDate">Creation Date</label>
+      <p-calendar dateFormat="dd.mm.yy" id="id-creationDate"
+                  [(ngModel)]="invoiceFormData.creationDate"></p-calendar>
+    </div>
 
-      <div class="p-col-3">
-        <label style="margin: 5px" for="id-invoiceDate">Invoice Date</label>
-        <p-calendar dateFormat="dd.mm.yy" id="id-invoiceDate" [(ngModel)]="invoiceFormData.invoiceDate"></p-calendar>
-      </div>
+    <div class="p-col-3">
+      <label style="margin: 5px" for="id-invoiceDate">Invoice Date</label>
+      <p-calendar dateFormat="dd.mm.yy" id="id-invoiceDate"
+                  [(ngModel)]="invoiceFormData.invoiceDate"></p-calendar>
+    </div>
   </div>
   <div class="p-grid">
     <div class="p-col-6">
       <label style="margin: 5px" for="id-personSupplierId">Invoice creator</label>
-      <p-dropdown id="id-personSupplierId" placeholder="[Select person]" [options]="personInvoiceSupplier" [(ngModel)]="invoiceFormData.personSupplierId"></p-dropdown>
+      <p-dropdown id="id-personSupplierId" placeholder="[Select person]" [options]="personInvoiceSupplier"
+                  [(ngModel)]="invoiceFormData.personSupplierId"></p-dropdown>
     </div>
   </div>
   <div class="p-grid">
     <div class="p-col-6">
       <label style="margin: 5px" for="id-personRecipientId">Invoice recipient</label>
-      <p-dropdown id="id-personRecipientId" placeholder="[Select person]" [options]="personInvoiceRecipient" [(ngModel)]="invoiceFormData.personRecipientId"></p-dropdown>
+      <p-dropdown id="id-personRecipientId" placeholder="[Select person]" [options]="personInvoiceRecipient"
+                  [(ngModel)]="invoiceFormData.personRecipientId"></p-dropdown>
     </div>
   </div>
 
-  <app-items-table (changeItemEvent)="itemsChanged($event)" [invoiceItems] = "invoiceFormData.invoiceItems"></app-items-table>
+  <app-items-table (changeItemEvent)="itemsChanged($event)"
+                   [invoiceItems]="invoiceFormData.invoiceItems"></app-items-table>
 
   <div class="p-grid">
-      <div class="p-col-1">
-        <p-button  label="Submit" (onClick)="saveInvoice($event)"></p-button>
-      </div>
-      <div class="p-col-1">
-        <p-button label = "Json" (onClick)="printToJson(invoiceFormData)"></p-button>
-        <!--
-        <p-button label="ResetModel" (onClick)="resetModel()"></p-button>
-        -->
-      </div>
+    <div class="p-col-1">
+      <p-button label="Submit" (onClick)="saveInvoice($event)"></p-button>
+    </div>
+    <div class="p-col-1">
+      <p-button label="Json" (onClick)="printToJson(invoiceFormData)"></p-button>
+      <!--
+      <p-button label="ResetModel" (onClick)="resetModel()"></p-button>
+      -->
+    </div>
   </div>
 </div>
-
+<!--
+    </div>
+  </div>
+</form>
+-->
 
 
 

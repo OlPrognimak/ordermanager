@@ -13,6 +13,7 @@ import {PersonFormComponent} from './personform/personform.component';
 import {EditableCellComponent} from './components/components.cell';
 import {ItemsTableComponent} from "./components/components.itemstable";
 import {ComponentsPipesNumberDouble} from "./components/components.pipes.number";
+import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
 
 
 
@@ -25,7 +26,8 @@ import {ComponentsPipesNumberDouble} from "./components/components.pipes.number"
     routingComponent,
     EditableCellComponent,
     ItemsTableComponent,
-    ComponentsPipesNumberDouble
+    ComponentsPipesNumberDouble,
+    PrintinvoiceComponent
   ],
   imports: [
     BrowserModule,

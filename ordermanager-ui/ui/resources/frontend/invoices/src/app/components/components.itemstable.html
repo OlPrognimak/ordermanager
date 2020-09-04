@@ -1,90 +1,87 @@
 <div class="p-grid">
   <div class="p-col-12">
-<p-table  [value]="invoiceItems"  [rows]="10"  editMode="row">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Item description</th>
-      <th>Amount</th>
-      <th>Price</th>
-      <th>Vat%</th>
-      <th>Summe netto</th>
-      <th>Summe brutto</th>
-      <th>Delete</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-invoiceitem>
-    <tr>
-      <td  pEditableColumn>
-        <p-cellEditor>
-          <ng-template pTemplate="input">
-            <p-dropdown [options]="itemtableService.getDropdownCatalogItems()" placeholder="[Select item from catalog]"
-                        [ngModel]="invoiceitem.catalogItemId"
-                        (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
-                        [style]="{'width':'100%'}"></p-dropdown>
-           </ng-template>
-          <ng-template pTemplate="output">
-            {{getCatalogDescription(invoiceitem.catalogItemId)}}
-          </ng-template>
-        </p-cellEditor>
-      </td>
-      <td  pEditableColumn>
-        <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" [ngModel] = "invoiceitem.numberItems"
-                   (ngModelChange)="invoiceitem.numberItems=$event" required/>
-           </ng-template>
-          <ng-template pTemplate="output">
-            {{invoiceitem.numberItems | standardFloat}}
-          </ng-template>
-        </p-cellEditor>
-      </td>
-      <td  pEditableColumn>
-        <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input name="price" class="p-cell-editing" type="text"  (change)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.itemPrice"
-                   (ngModelChange)="invoiceitem.itemPrice=$event" required/>
-          </ng-template>
-          <ng-template pTemplate="output">
-            {{invoiceitem.itemPrice | standardFloat}}
-          </ng-template>
-        </p-cellEditor>
-      </td>
-      <td  pEditableColumn >
-        <p-cellEditor>
-          <ng-template pTemplate="input">
-            <!--
-            <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
-                   (ngModelChange)="invoiceitem.vat=$event" required/>
-            -->
-            <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"  [(ngModel)]="invoiceitem.vat"
-                   (ngModelChange)="invoiceitem.vat=$event" required/>
-          </ng-template>
-          <ng-template pTemplate="output">
-            {{invoiceitem.vat | standardFloat}}
-          </ng-template>
-        </p-cellEditor>
-      </td>
-      <td>
-        <!--
-        {{calculateNettoSum(invoiceitem)|standardFloat}}
-        -->
-        {{invoiceitem.sumNetto | standardFloat}}
-      </td>
-      <td>
-        <!--
-        {{calculateBruttoSum(invoiceitem)|standardFloat}}
-        -->
-        {{invoiceitem.sumBrutto | standardFloat}}
-      </td>
-      <td>
-      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-              (click)="deleteItem(invoiceitem.idxItem)"></button>
-      </td>
-
-    </tr>
-  </ng-template>
-</p-table>
-</div>
+    <p-table [value]="invoiceItems" [rows]="10" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Item description</th>
+          <th>Amount</th>
+          <th>Price</th>
+          <th>Vat%</th>
+          <th>Summa netto</th>
+          <th>Summa brutto</th>
+          <th>Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoiceitem>
+        <tr>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-dropdown [options]="itemtableService.getDropdownCatalogItems()"
+                            placeholder="[Select item from catalog]"
+                            [ngModel]="invoiceitem.catalogItemId"
+                            (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
+                            [style]="{'width':'100%'}"></p-dropdown>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{getCatalogDescription(invoiceitem.catalogItemId)}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
+                       [ngModel]="invoiceitem.numberItems"
+                       (ngModelChange)="invoiceitem.numberItems=$event" required/>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{invoiceitem.numberItems | standardFloat}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input name="price" class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
+                       [(ngModel)]="invoiceitem.itemPrice"
+                       (ngModelChange)="invoiceitem.itemPrice=$event" required/>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{invoiceitem.itemPrice | standardFloat}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <!--
+                <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
+                       (ngModelChange)="invoiceitem.vat=$event" required/>
+                -->
+                <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
+                       [(ngModel)]="invoiceitem.vat"
+                       (ngModelChange)="invoiceitem.vat=$event" required/>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{invoiceitem.vat | standardFloat}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td>
+            {{invoiceitem.sumNetto | standardFloat}}
+          </td>
+          <td>
+            {{invoiceitem.sumBrutto | standardFloat}}
+          </td>
+          <td>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                    (click)="deleteItem(invoiceitem.idxItem)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 
 </div>
 
@@ -92,11 +89,13 @@
   <div class="p-col-10"></div>
   <div class="p-col-2">
     <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
-    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text" [ngModel]="getTotalNettoSum()  | standardFloat"
+    <input id="id-tottalNettoSun" name="tottalNetto" class="p-cell-editing" type="text"
+           [ngModel]="getTotalNettoSum()  | standardFloat"
            (ngModelChange)="totalNettoSum1=$event" required/>
 
     <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
-    <input id = "id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text" [ngModel]="getToltalBruttoSum() | standardFloat"
+    <input id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
+           [ngModel]="getToltalBruttoSum() | standardFloat"
            (ngModelChange)="toltalBruttoSum1=$event" required/>
     -
   </div>
