@@ -101,6 +101,16 @@
       <version>1.18.12</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Log4j -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>2.13.3</version>
+      <type>pom</type>
+    </dependency>
+
+
     <!-- Jaxon-->
 <!--    <dependency>-->
 <!--      <groupId>com.fasterxml.jackson.datatype</groupId>-->

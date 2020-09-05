@@ -11,10 +11,12 @@ import {ButtonModule, CalendarModule, DropdownModule, InputTextareaModule, Table
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
 import {EditableCellComponent} from './components/components.cell';
-import {ItemsTableComponent} from "./components/components.itemstable";
-import {ComponentsPipesNumberDouble} from "./components/components.pipes.number";
+import {ItemsTableComponent} from './components/components.itemstable';
+import {ComponentsPipesNumberDouble} from './components/components.pipes.number';
 import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
-import {AgGridModule} from "ag-grid-angular";
+import {AgGridModule} from 'ag-grid-angular';
+import { TableCellRendererComponent } from './table-cell-renderer/table-cell-renderer.component';
+import {MatButton} from '@angular/material/button';
 
 
 
@@ -29,7 +31,8 @@ import {AgGridModule} from "ag-grid-angular";
     EditableCellComponent,
     ItemsTableComponent,
     ComponentsPipesNumberDouble,
-    PrintinvoiceComponent
+    PrintinvoiceComponent,
+    TableCellRendererComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,7 @@ import {AgGridModule} from "ag-grid-angular";
     CalendarModule,
     TableModule,
     InputTextareaModule,
-    AgGridModule
+    AgGridModule.withComponents([MatButton, TableCellRendererComponent])
 
   ],
   providers: [],

@@ -9,6 +9,8 @@ import com.pr.ordermanager.service.EntityToModelMapperHelper;
 import com.pr.ordermanager.service.InvoiceMappingService;
 import com.pr.ordermanager.service.InvoiceService;
 import com.pr.ordermanager.service.ModelToEntityMapperHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @CrossOrigin
 public class InvoiceController {
+
+    Logger logger = LogManager.getLogger(InvoiceController.class);
 
     private static final String PATH = "";
     private static final String PATH_INVOICE = PATH + "/invoice";
