@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			  xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" columnWidth="555"
-			  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
-			  uuid="d5d5e4af-a9f1-43a3-948c-61e1196e3fb4">
-
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5d5e4af-a9f1-43a3-948c-61e1196e3fb4">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TESTDB"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="234"/>
@@ -13,13 +8,11 @@
 	<parameter name="invoiceNumber" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT invoice.id invoice_id,
-       person_supplier.person_first_name,
-       person_supplier.person_last_name,
-       person_supplier.company_name,
        person_supplier.person_type,
        invoice.creation_date,
        invoice.invoice_date,
        invoice.invoice_number,
+       invoice.invoice_description,
        invoice.rate_type,
        person_supplier.person_first_name supplier_first_name,
        person_supplier.person_last_name supplier_last_name,
@@ -62,34 +55,57 @@ FROM invoice
 WHERE
         invoice.invoice_number =  $P{invoiceNumber}]]>
 	</queryString>
-	<field name="person_first_name" class="java.lang.String"/>
-	<field name="person_last_name" class="java.lang.String"/>
+	<field name="supplier_first_name" class="java.lang.String"/>
+	<field name="supplier_last_name" class="java.lang.String"/>
+	<field name="supplier_company_name" class="java.lang.String"/>
+	<field name="supplier_tax_numder" class="java.lang.String"/>
+	<field name="supplier_city" class="java.lang.String"/>
+	<field name="supplier_street" class="java.lang.String"/>
+	<field name="supplier_zip_code" class="java.lang.String"/>
+	<field name="supplier_post_box_code" class="java.lang.String"/>
+	<field name="supplier_account_number" class="java.lang.String"/>
+	<field name="supplier_bank_name" class="java.lang.String"/>
+	<field name="supplier_bic_swift" class="java.lang.String"/>
+	<field name="supplier_iban" class="java.lang.String"/>
+	<field name="recipient_first_name" class="java.lang.String"/>
+	<field name="recipient_last_name" class="java.lang.String"/>
+	<field name="recipient_company_name" class="java.lang.String"/>
+	<field name="recipient_city" class="java.lang.String"/>
+	<field name="recipient_street" class="java.lang.String"/>
+	<field name="recipient_zip_code" class="java.lang.String"/>
+	<field name="recipient_post_box_code" class="java.lang.String"/>
 	<field name="person_type" class="java.lang.String"/>
 	<field name="creation_date" class="java.util.Date"/>
 	<field name="invoice_date" class="java.util.Date"/>
 	<field name="invoice_number" class="java.lang.String"/>
-	<field name="invoice_id" class="java.lang.String"/>
+	<field name="invoice_id" class="java.lang.Long"/>
+	<field name="invoice_description" class="java.lang.String"/>
+	<field name="rate_type" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="27" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="127" splitType="Stretch">
+		<band height="207" splitType="Stretch">
 			<staticText>
-				<reportElement x="160" y="4" width="160" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
+				<reportElement x="148" y="4" width="160" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Honorarabrechnung ]]></text>
 			</staticText>
 			<textField>
-				<reportElement key="" x="0" y="41" width="180" height="14" uuid="1531119b-8e3b-4470-82c4-b28a5c502fbd">
+				<reportElement key="" x="0" y="30" width="210" height="25" uuid="1531119b-8e3b-4470-82c4-b28a5c502fbd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression>
-					<![CDATA[$F{person_first_name}.concat("  " ).concat($F{person_last_name})]]></textFieldExpression>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{supplier_first_name} !=null? $F{supplier_first_name} :"").concat( " " )
+.concat( 	($F{supplier_last_name}!=null?$F{supplier_last_name}:"" ))
+	.concat( " " ).concat(    $F{recipient_company_name} !=null? $F{recipient_company_name} :""  )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="41" width="80" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
@@ -116,7 +132,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{creation_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMM y">
-				<reportElement x="320" y="4" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
+				<reportElement x="312" y="4" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -125,13 +141,93 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{invoice_date}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="0" y="60" width="210" height="14" uuid="a301c4c6-6f01-4adb-a791-2f4591b19a53">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier_street}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="81" width="81" height="14" uuid="3930aafc-6958-45e4-9c27-b300480f11fa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{supplier_zip_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="80" width="180" height="14" uuid="9aa3d063-288f-4dd7-9f0b-cbe0373c63ed">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{supplier_city}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="106" width="210" height="21" uuid="ea992cbb-febe-4a54-83a5-f72d07cb2cbc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{recipient_first_name} !=null? $F{recipient_first_name} :"").concat( " " )
+.concat( 	($F{recipient_last_name}!=null?$F{recipient_last_name}:"" ))
+	.concat( " " ).concat(    $F{recipient_company_name} !=null? $F{recipient_company_name} :""  )]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="131" width="210" height="14" uuid="db3bea15-979f-4d8b-82a9-316bd50b02a2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{recipient_street}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="150" width="81" height="14" uuid="f05eb2a7-8536-48cb-bf23-f3d729d8040b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{recipient_zip_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="150" width="180" height="14" uuid="640615b1-1769-49ef-ac3e-461a7a87b673">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{recipient_city}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="171" width="40" height="14" uuid="48b1c005-98ed-4b9d-8ad1-b09f85c962da">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Projekt:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="46" y="171" width="334" height="14" uuid="8b84e958-3fc6-4820-b9f0-3252ef723e24">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{invoice_description}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="103" width="519" height="1" uuid="8e62d3e5-771e-4ce1-bf3e-816f4a4789f0"/>
+			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="47" splitType="Stretch">
+			<subreport>
+				<reportElement key="" isPrintRepeatedValues="false" x="-20" y="10" width="595" height="30" uuid="d032e6e1-2fec-4598-80c2-ad4a300a7a00"/>
+				<subreportParameter name="invoiceNumber">
+					<subreportParameterExpression><![CDATA[$P{invoiceNumber}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="invoiceId">
+					<subreportParameterExpression><![CDATA[$F{invoice_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="rateType">
+					<subreportParameterExpression><![CDATA[$F{rate_type}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[net.sf.jasperreports.engine.util.JRLoader.loadObject(new File("D:/work/tmp/jasper/invoice-items.jasper"))]]></subreportExpression>
+			</subreport>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
