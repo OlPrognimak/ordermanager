@@ -53,7 +53,8 @@
     </div>
   </div>
 
-  <app-items-table (changeItemEvent)="itemsChanged($event)"
+  <app-items-table [modelChangedEvent] = "eventsModelIsReset.asObservable()"
+                   (changeItemEvent)="itemsChanged($event)"
                    (totalNettoSumEvent) = "itemsTotalNettoChanged($event)"
                    (totalBruttoSumEvent)="itemsTotalBruttoChanged($event)"
                    [invoiceItems]="invoiceFormData.invoiceItems"></app-items-table>

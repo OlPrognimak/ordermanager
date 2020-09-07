@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Injectable, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {ComponentsItemtableService} from './components.itemtable.service';
 import {ComponentsSumCalculatorService} from "./components.sum.calculator.service";
+import {Observable, Subscription} from "rxjs";
 
+@Injectable()
 @Component({
   styles: [`
     :host ::ng-deep .p-cell-editing {
@@ -19,12 +21,13 @@ import {ComponentsSumCalculatorService} from "./components.sum.calculator.servic
   templateUrl: './components.itemstable.html',
   providers:  [ComponentsSumCalculatorService]
 })
-export class ItemsTableComponent implements OnInit {
+export class ItemsTableComponent implements OnInit, OnDestroy {
   @Input() invoiceItems: InvoiceItemModel[];
+  @Input() modelChangedEvent: Observable<void>;
+  private modelChangedSubscription: Subscription;
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
-
   backendUrl: string;
   idxItem: number;
 
@@ -45,7 +48,18 @@ export class ItemsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.modelChangedSubscription = this.modelChangedEvent.subscribe(() => {
+      this.resetTotalValues();
+    });
+  }
 
+  ngOnDestroy(): void {
+    this.modelChangedSubscription.unsubscribe();
+  }
+
+  private resetTotalValues(): void{
+    this.calculatorService.totalNettoSum = 0;
+    this.calculatorService.totalBruttoSum = 0;
   }
 
   /**
@@ -102,7 +116,9 @@ export class ItemsTableComponent implements OnInit {
     promise.then(() => {
         this.emitTotalChanged();
       }
-    );
+    ).catch(error => {
+      this.printToJson(JSON.stringify(error));
+    });
   }
 
   private emitTotalChanged(): void{
@@ -113,6 +129,8 @@ export class ItemsTableComponent implements OnInit {
   printToJson(data: any): void {
     console.log(JSON.stringify(data));
   }
+
+
 
 
 }

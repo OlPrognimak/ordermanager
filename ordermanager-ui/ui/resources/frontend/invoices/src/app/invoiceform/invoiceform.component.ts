@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PrInvoiceFormDirective} from './invoiceform.service';
 import {registerLocaleData} from "@angular/common";
 import localede from '@angular/common/locales/de';
@@ -12,8 +12,7 @@ import {
 
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {ComponentsSumCalculatorService} from "../components/components.sum.calculator.service";
+import {Observable, Subject} from 'rxjs';
 
 
 
@@ -25,7 +24,8 @@ function handleResult(result: string): void {
 
 
 function handleError(err: any): void {
-   console.log('Error: ' + JSON.stringify(err));
+  console.log('Error-1: ' + err);
+  console.log('Error: ' + JSON.stringify(err));
 }
 
 /**
@@ -34,10 +34,12 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [ PrInvoiceFormDirective, ComponentsSumCalculatorService]
+  providers:  []
 })
 export class InvoiceFormComponent implements OnInit{
 
+
+  eventsModelIsReset: Subject<void> = new Subject<void>();
   backendUrl: string;
   invoiceRate: DropdownDataType[];
   /** The invoice data model*/
@@ -47,7 +49,6 @@ export class InvoiceFormComponent implements OnInit{
   personInvoiceSupplier: DropdownDataType[];
   /** Model invoice recipient for dropdown component */
   personInvoiceRecipient: DropdownDataType[];
-  expandedRows: any;
   executionResult = false;
 
   /**
@@ -55,11 +56,12 @@ export class InvoiceFormComponent implements OnInit{
    * @param dataGridService inject service
    * @param httpClient the http client
    */
-  constructor( private dataGridService: PrInvoiceFormDirective, private httpClient: HttpClient) {
+  constructor( private httpClient: HttpClient) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
   }
+
 
   /**
    * Initialisation of the class
@@ -87,16 +89,18 @@ export class InvoiceFormComponent implements OnInit{
       );
   }
 
+
   /**
    * save invoice to the server
    * @param event possible event
    */
   public saveInvoice(event: any): void{
-    this.handleHttpRequest().toPromise().then(data => {
-        this.resetModel();
+    this.handleHttpRequest(
+       ).toPromise().then(response => {
+           this.resetModel();
       }
-    ).then(error => {
-      handleError(error);
+    ).catch(error => {
+       handleError(error);
     });
   }
 
@@ -124,7 +128,8 @@ export class InvoiceFormComponent implements OnInit{
 
   private resetModel(): void{
     this.invoiceFormData = new InvoiceFormModel();
-    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel()) ;
+    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
+    this.eventsModelIsReset.next();
   }
 
 
@@ -136,5 +141,7 @@ export class InvoiceFormComponent implements OnInit{
     return this.httpClient.put<string>(
       this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
+
+
 
 }

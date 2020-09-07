@@ -2,6 +2,7 @@ package com.pr.ordermanager.service;
 
 import com.pr.ordermanager.controller.model.*;
 import com.pr.ordermanager.jpa.entity.*;
+import com.pr.ordermanager.utils.Utils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,9 +56,10 @@ public class EntityToModelMapperHelper {
             .personRecipientId(
                     invoice.getInvoiceRecipientPerson().getId())
              .recipientFullName(
-                     (invoice.getInvoiceRecipientPerson().getPersonFirstName()+" "+
-                             invoice.getInvoiceRecipientPerson().getPersonLastName()+ " "+
-                             invoice.getInvoiceRecipientPerson().getCompanyName()).trim()
+                     (Utils.emptyOrValue(invoice.getInvoiceRecipientPerson().getPersonFirstName())+" "+
+                             Utils.emptyOrValue(invoice.getInvoiceRecipientPerson().getPersonLastName())+ " "+
+                             Utils.emptyOrValue(invoice.getInvoiceRecipientPerson().getCompanyName())
+                     ).trim()
              )
             .invoiceNumber(invoice.getInvoiceNumber())
             .invoiceDescription(invoice.getInvoiceDescription())
@@ -66,9 +68,9 @@ public class EntityToModelMapperHelper {
             .rateType(invoice.getRateType().name())
             .personSupplierId(invoice.getInvoiceSupplierPerson().getId())
                 .supplierFullName(
-                        (invoice.getInvoiceSupplierPerson().getPersonFirstName()+" "+
-                                invoice.getInvoiceSupplierPerson().getPersonLastName()+ " "+
-                                invoice.getInvoiceSupplierPerson().getCompanyName()).trim())
+                        (Utils.emptyOrValue(invoice.getInvoiceSupplierPerson().getPersonFirstName())+" "+
+                                Utils.emptyOrValue(invoice.getInvoiceSupplierPerson().getPersonLastName())+ " "+
+                                Utils.emptyOrValue(invoice.getInvoiceSupplierPerson().getCompanyName())).trim())
              .totalSumBrutto(invoice.getTotalSumBrutto())
                 .totalSumNetto(invoice.getTotalSumNetto())
              .invoiceItems(
@@ -93,7 +95,9 @@ public class EntityToModelMapperHelper {
 
     public static List<DropdownDataType> mapPersonToDropdownType(List<Person> persons){
         return persons.stream().map(p->new DropdownDataType(
-                p.getPersonLastName()+ " "+p.getPersonLastName()+ " " ,
+                Utils.emptyOrValue(p.getPersonLastName())+ " "+
+                        Utils.emptyOrValue(p.getPersonLastName())+ " "+
+                        Utils.emptyOrValue(p.getCompanyName()).trim(),
                 ""+p.getId())).collect(Collectors.toList());
     }
 

@@ -34,7 +34,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   /**
    * Loads pdf report from server
    */
-  loadPdfReport(): any {
+  loadPdfReport(event: any): any {
     window.open(this.backendUrl + 'invoice/report/' + this.cellVale);
     // const headers = new HttpHeaders();
     // //headers.set("Accept","application/pdf");

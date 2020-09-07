@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.pr.ordermanager.exception.ErrorCode.*;
+
 @Service
 @Transactional
 public class InvoiceService {
@@ -50,10 +52,10 @@ public class InvoiceService {
             try {
                 personRepository.save(person);
             }catch(Exception ex) {
-                throw new OrderManagerException("Unexpected exception",ex);
+                throw new OrderManagerException(CODE_0000,"Unexpected exception",ex);
             }
         }else{
-            throw new OrderManagerException("The validation of Person is failed.");
+            throw new OrderManagerException(CODE_0001,"The validation of Person is failed.");
         }
 
     }
@@ -68,7 +70,7 @@ public class InvoiceService {
         if(optionalPerson.isPresent()){
           return  optionalPerson.get().getPersonAddress();
         }else{
-            throw new OrderManagerException("The person with id "+personId+ " is not found.");
+            throw new OrderManagerException(CODE_0005,"The person with id "+personId+ " is not found.");
         }
     }
 
@@ -83,9 +85,9 @@ public class InvoiceService {
          try {
              return optionalPerson.orElseThrow().getBankAccount();
          }catch(NoSuchElementException ex){
-             throw new OrderManagerException("The person with id "+personId+ " is not found.");
+             throw new OrderManagerException(CODE_0006,"The person with id "+personId+ " is not found.");
          }catch(Exception ex){
-            throw new OrderManagerException("Unexpected err with getting Person with id "+personId+ ".",ex);
+            throw new OrderManagerException(CODE_0000,"Unexpected err with getting Person with id "+personId+ ".",ex);
          }
     }
 
@@ -110,10 +112,10 @@ public class InvoiceService {
                 invoiceRepository.save(invoice);
                 invoiceNumder = invoice.getInvoiceNumber();
             }catch(Exception ex) {
-                throw new OrderManagerException("Unexpected exception",ex);
+                throw new OrderManagerException(CODE_0000,"Unexpected exception",ex);
             }
         }else{
-            throw new OrderManagerException("The validation of Person is failed.");
+            throw new OrderManagerException(CODE_0002,"The validation of Person is failed.");
         }
 
         return invoiceNumder;

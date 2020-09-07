@@ -17,7 +17,7 @@ export class PrintinvoiceComponent implements OnInit {
   backendUrl: string;
   private gridApi;
   private gridColumnApi;
-  private frameworkComponents;
+  frameworkComponents;
 
   @ViewChild('agGrid', { static: false, }) agGrid: AgGridAngular;
   columnDefs = [
