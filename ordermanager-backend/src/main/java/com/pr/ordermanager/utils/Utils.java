@@ -6,6 +6,7 @@ package com.pr.ordermanager.utils;
 public class Utils {
 
     private Utils() {
+
     }
 
     /**

@@ -7,6 +7,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimplePdfReportConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,8 @@ public class JasperReportService {
 
     @Autowired
     DataSource dataSource;
-
+    @Value("${jasper.reports.directory.path}")
+    private String jasperRepDirPath;
     JasperReport jasperReport;
 
     @PostConstruct
@@ -51,6 +53,8 @@ public class JasperReportService {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
+        parameters.put("reportsDirPath", jasperRepDirPath);
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
