@@ -55,7 +55,7 @@ public class JasperReportService {
      * @param invoiceNumber tne number of invoice
      * @return the pdf report as array of bytes
      */
-    public byte[] createPdfReport2(String invoiceNumber)  {
+    public byte[] createPdfReport(String invoiceNumber)  {
         System.out.println("Path to dir:"+jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
@@ -105,7 +105,7 @@ public class JasperReportService {
      * @param invoiceNumber tne number of invoice
      * @return the pdf report as array of bytes
      */
-    public byte[] createPdfReport(String invoiceNumber) {
+    public byte[] createPdfReport2(String invoiceNumber) {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);

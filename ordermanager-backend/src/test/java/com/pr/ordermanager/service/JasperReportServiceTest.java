@@ -31,8 +31,8 @@ class JasperReportServiceTest {
         Assertions.assertNotNull(report);
         Assertions.assertTrue(report.length > 0);
         logger.debug("Report Size: "+report.length);
-        File f = new File("D:\\tmp\\test.pdf");
-        //File f = new File("/Users/alexadmin/Desktop/work/test.pdf");
+        //File f = new File("D:\\tmp\\test.pdf");
+        File f = new File("/Users/alexadmin/Desktop/work/test.pdf");
 
         try (FileOutputStream out = new FileOutputStream(f)) {
             out.write(report);
@@ -44,7 +44,7 @@ class JasperReportServiceTest {
 
 
 
-    @Test
+    //@Test
     void testInputStream() throws Exception {
         //ObjectInputStream objectInputStream = new ObjectInputStream(getClass().getResourceAsStream("/invoice-items.jasper"));
         URL resource = JasperReportServiceTest.class.getResource("/invoice-items.jasper");
