@@ -10,8 +10,9 @@ public enum ErrorCode {
     CODE_0003(3, "Can not find person"),
     CODE_0004(4, "Can not find invoice"),
     CODE_0005(5, "Can not find address"),
-    CODE_0006(6, "Can not find bank account");
-
+    CODE_0006(6, "Can not find bank account"),
+    CODE_10001(10001, "Can not create jasper report"),
+    CODE_10002(10002, "Database exception");
     private String shotDescription;
     private int errorCode;
     ErrorCode(int errorCode, String shotDescription){
