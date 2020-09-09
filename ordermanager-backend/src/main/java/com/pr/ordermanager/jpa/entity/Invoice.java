@@ -26,7 +26,7 @@ public class Invoice {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     List<InvoiceItem> invoiceItems;
-    /**The person which in and made and supply an invoice */
+    /**The person which  made and supply an invoice */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="invoice_supplier")
     private Person invoiceSupplierPerson;
@@ -34,7 +34,7 @@ public class Invoice {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="invoice_recipient")
     private Person invoiceRecipientPerson;
-    /**The date of creation invoice*/
+    /**The date of creation of invoice*/
     private OffsetDateTime creationDate;
     /**For which period is the invoice. The month and year*/
     private OffsetDateTime invoiceDate;

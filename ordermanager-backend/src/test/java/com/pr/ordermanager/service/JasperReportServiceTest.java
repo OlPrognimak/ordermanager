@@ -26,31 +26,34 @@ class JasperReportServiceTest {
     JasperReportService jasperReportService;
 
     @Test
-    void printReport() throws Exception{
-       byte[] report = jasperReportService.createPdfReport("pos-55");
+    void printReport() throws Exception {
+        byte[] report = jasperReportService.createPdfReport("pos-1");
         Assertions.assertNotNull(report);
-        Assertions.assertTrue(report.length>0);
-        System.out.println("Array Size = "+report.length);
-        File f = new File("D:\\tmp\\test.pdf");
-        FileOutputStream out = new FileOutputStream(f);
-        out.write(report);
-        out.flush();
-        out.close();
+        Assertions.assertTrue(report.length > 0);
+        System.out.println("Array Size = " + report.length);
+        //File f = new File("D:\\tmp\\test.pdf");
+        File f = new File("/Users/alexadmin/Desktop/work/test.pdf");
+
+        try (FileOutputStream out = new FileOutputStream(f)) {
+            out.write(report);
+            out.flush();
+
+        }
 
     }
 
     @Test
-    void testInputStream() throws Exception{
+    void testInputStream() throws Exception {
         //ObjectInputStream objectInputStream = new ObjectInputStream(getClass().getResourceAsStream("/invoice-items.jasper"));
         URL resource = JasperReportServiceTest.class.getResource("/invoice-items.jasper");
 
         Assertions.assertNotNull(resource);
         //Assertions.assertNotNull(resource.openStream());
-       // ObjectInputStream objectInputStream = new ObjectInputStream(resource.openStream());
+        // ObjectInputStream objectInputStream = new ObjectInputStream(resource.openStream());
         //Assertions.assertNotNull(objectInputStream);
         String pathFile = resource.getFile();
-        logger.debug("++++++++++++++++++++++++PATH = "+pathFile);
-        System.out.println("++++++++++++++++++++++++PATH-2 = "+pathFile);
+        logger.debug("++++++++++++++++++++++++PATH = " + pathFile);
+        System.out.println("++++++++++++++++++++++++PATH-2 = " + pathFile);
         Object object = JRLoader.loadObject(new File(resource.getFile()));
         Assertions.assertNotNull(object);
 

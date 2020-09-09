@@ -50,7 +50,7 @@ public class JasperReportService {
      * @return the pdf report as array of bytes
      */
     public byte[] createPdfReport(String invoiceNumber)  {
-
+        System.out.println("Path to dir:"+jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);
