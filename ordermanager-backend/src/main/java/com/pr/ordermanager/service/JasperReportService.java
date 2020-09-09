@@ -51,7 +51,7 @@ public class JasperReportService {
     }
 
     /**
-     * Creates pdf report for invoice with number {@code invoiceNumber}
+     * Creates configurable pdf report for invoice with number {@code invoiceNumber}
      * @param invoiceNumber tne number of invoice
      * @return the pdf report as array of bytes
      */
@@ -100,7 +100,11 @@ public class JasperReportService {
 
     }
 
-
+    /**
+     * Creates non configurable pdf report for invoice with number {@code invoiceNumber}
+     * @param invoiceNumber tne number of invoice
+     * @return the pdf report as array of bytes
+     */
     public byte[] createPdfReport(String invoiceNumber) {
 
         Map<String, Object> parameters = new HashMap<>();

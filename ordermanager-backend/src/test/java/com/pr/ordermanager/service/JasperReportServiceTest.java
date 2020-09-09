@@ -30,7 +30,7 @@ class JasperReportServiceTest {
         byte[] report = jasperReportService.createPdfReport("test-1");
         Assertions.assertNotNull(report);
         Assertions.assertTrue(report.length > 0);
-        logger.debug("D:\\tmp\\test.pdf");
+        logger.debug("Report Size: "+report.length);
         File f = new File("D:\\tmp\\test.pdf");
         //File f = new File("/Users/alexadmin/Desktop/work/test.pdf");
 
