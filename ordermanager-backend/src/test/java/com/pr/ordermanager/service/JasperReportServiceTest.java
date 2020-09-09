@@ -30,6 +30,8 @@ class JasperReportServiceTest {
        byte[] report = jasperReportService.createPdfReport("pos-55");
         Assertions.assertNotNull(report);
         Assertions.assertTrue(report.length>0);
+        logger.debug("++++++++++++DEBUG: "+report.length);
+        logger.warn("+++++++++++++DEBUG: "+report.length);
         System.out.println("Array Size = "+report.length);
         File f = new File("D:\\tmp\\test.pdf");
         FileOutputStream out = new FileOutputStream(f);
