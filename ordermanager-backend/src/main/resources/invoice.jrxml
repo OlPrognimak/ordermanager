@@ -227,6 +227,9 @@ WHERE
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{reportsDirPath}+"/invoice-details.jasper"]]></subreportExpression>
+				<!--
+				<subreportExpression><![CDATA[net.sf.jasperreports.engine.util.JRLoader.loadObject(new File($P{reportsDirPath}+"/invoice-details.jasper"))]]></subreportExpression>
+			    -->
 			</subreport>
 		</band>
 	</detail>

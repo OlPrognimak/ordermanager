@@ -41,6 +41,4 @@ public class JasperReportController {
         return new HttpEntity<byte[]>(report, header);
 
     }
-
-
 }
