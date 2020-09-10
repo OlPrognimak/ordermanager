@@ -86,12 +86,12 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="27" splitType="Stretch"/>
+		<band height="33" splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="207" splitType="Stretch">
 			<staticText>
-				<reportElement x="148" y="4" width="160" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
+				<reportElement x="148" y="-30" width="160" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
@@ -133,7 +133,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{creation_date}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMM y">
-				<reportElement x="312" y="4" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
+				<reportElement x="312" y="-30" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -151,7 +151,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{supplier_street}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="81" width="81" height="14" uuid="3930aafc-6958-45e4-9c27-b300480f11fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -180,13 +180,13 @@ WHERE
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{recipient_street}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="150" width="81" height="14" uuid="f05eb2a7-8536-48cb-bf23-f3d729d8040b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{recipient_zip_code}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="90" y="150" width="180" height="14" uuid="640615b1-1769-49ef-ac3e-461a7a87b673">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -198,7 +198,7 @@ WHERE
 				</reportElement>
 				<text><![CDATA[Projekt:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="46" y="171" width="334" height="14" uuid="8b84e958-3fc6-4820-b9f0-3252ef723e24">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -215,7 +215,7 @@ WHERE
 	<detail>
 		<band height="47" splitType="Stretch">
 			<subreport>
-				<reportElement key="" isPrintRepeatedValues="false" x="-20" y="10" width="595" height="30" uuid="d032e6e1-2fec-4598-80c2-ad4a300a7a00"/>
+				<reportElement key="" isPrintRepeatedValues="false" x="-20" y="0" width="595" height="47" uuid="d032e6e1-2fec-4598-80c2-ad4a300a7a00"/>
 				<subreportParameter name="invoiceNumber">
 					<subreportParameterExpression><![CDATA[$P{invoiceNumber}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -226,20 +226,73 @@ WHERE
 					<subreportParameterExpression><![CDATA[$F{rate_type}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{reportsDirPath}+"/invoice-details.jasper"]]></subreportExpression>
-				<!--
-				<subreportExpression><![CDATA[net.sf.jasperreports.engine.util.JRLoader.loadObject(new File($P{reportsDirPath}+"/invoice-details.jasper"))]]></subreportExpression>
-			    -->
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{reportsDirPath}+"/invoice-data.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="188" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="74" width="139" height="30" uuid="1716e357-e044-4485-bf5b-3efaf7cc6aab"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bankverbindung:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="100" width="81" height="21" uuid="a7a5c622-62e8-4d47-8c2b-1558f032a6a6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[IBAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="120" width="81" height="21" uuid="63c123fe-ce41-4031-bd0e-2edae75ad676"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[BIC/SWIFT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="71" width="122" height="30" uuid="41d4f5bd-7868-4753-8011-3404ac8034b1"/>
+				<box>
+					<pen lineColor="#FCF7F7"/>
+				</box>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Steuernummer:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="142" width="220" height="21" uuid="36994d9b-ab9a-4232-965c-60d7ad9bc37f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier_bank_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="100" width="147" height="21" uuid="569c8a45-778e-4edb-8835-b867571f62a1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier_iban}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="120" width="158" height="21" uuid="b8e24e62-3e2b-493f-aba2-9b72494b293d"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier_bic_swift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="96" width="151" height="21" uuid="edd3d6bd-1f3f-4b38-93fb-5f4273163930">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier_tax_numder}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>
