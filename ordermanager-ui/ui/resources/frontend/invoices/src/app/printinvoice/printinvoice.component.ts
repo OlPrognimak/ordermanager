@@ -1,24 +1,27 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {InvoiceFormModel} from "../domain/domain.invoiceformmodel";
-import {AgGridAngular} from "ag-grid-angular";
-import {MatButton} from "@angular/material/button";
-import {TableCellRendererComponent} from "../table-cell-renderer/table-cell-renderer.component";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
+import {AgGridAngular} from 'ag-grid-angular';
+import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
 
+/**
+ * The component which contains table with invoices for printing in PDF format
+ */
 @Component({
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
   styleUrls: ['./printinvoice.component.css']
 })
 export class PrintinvoiceComponent implements OnInit {
-
-  //invoicesFormModel: InvoiceFormModel[];
   invoicesFormModel: any;
   backendUrl: string;
   private gridApi;
   private gridColumnApi;
   frameworkComponents;
 
+  /**
+   * the column definition for table
+   */
   @ViewChild('agGrid', { static: false, }) agGrid: AgGridAngular;
   columnDefs = [
     {headerName: 'print', field: 'invoiceNumber', cellRenderer: 'tableCellRenderer'},
@@ -49,7 +52,9 @@ export class PrintinvoiceComponent implements OnInit {
     };
   }
 
-
+  /**
+   * Load Invoice from server and set to table model for printing of invoices
+   */
   loadInvoices(): void {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -63,7 +68,10 @@ export class PrintinvoiceComponent implements OnInit {
       );
   }
 
-
+  /**
+   * sets to components the api objects from
+   * @param params the event from grid
+   */
   onGridReady(params): any{
     this.gridApi = params.api;
     this.gridColumnApi = params.gridColumnApi;

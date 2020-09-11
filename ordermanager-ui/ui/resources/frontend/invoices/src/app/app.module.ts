@@ -17,6 +17,7 @@ import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
 import {AgGridModule} from 'ag-grid-angular';
 import { TableCellRendererComponent } from './table-cell-renderer/table-cell-renderer.component';
 import {MatButton} from '@angular/material/button';
+import {ComponentsUtilService} from "./components/components.util.service";
 
 
 
@@ -47,7 +48,6 @@ import {MatButton} from '@angular/material/button';
         InputTextareaModule,
         AgGridModule.withComponents([MatButton, TableCellRendererComponent]),
         MessagesModule
-
     ],
   providers: [],
   bootstrap: [AppComponent]

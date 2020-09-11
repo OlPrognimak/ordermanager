@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PrInvoiceFormDirective} from './invoiceform.service';
-import {registerLocaleData} from "@angular/common";
+import {registerLocaleData} from '@angular/common';
 import localede from '@angular/common/locales/de';
 
 
@@ -13,7 +13,9 @@ import {
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {MessageService} from "primeng";
+import {MessageService} from 'primeng';
+import {ComponentsUtilService} from '../components/components.util.service';
+import {Message} from 'primeng/api/message';
 
 
 
@@ -25,7 +27,6 @@ function handleResult(result: string): void {
 
 
 function handleError(err: any): void {
-  //console.log('Error-1: ' + err);
   console.log('Error: ' + JSON.stringify(err));
 }
 
@@ -35,7 +36,7 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [MessageService]
+  providers:  [MessageService, ComponentsUtilService]
 })
 export class InvoiceFormComponent implements OnInit{
 
@@ -43,7 +44,7 @@ export class InvoiceFormComponent implements OnInit{
   eventsModelIsReset: Subject<void> = new Subject<void>();
   backendUrl: string;
   invoiceRate: DropdownDataType[];
-  /** The invoice data model*/
+  /** The invoice data model */
   invoiceFormData: InvoiceFormModelInterface;
   invoiceItem: InvoiceItemModelInterface ;
   /** Model invoice supplier for dropdown component */
@@ -57,7 +58,9 @@ export class InvoiceFormComponent implements OnInit{
    * @param dataGridService inject service
    * @param httpClient the http client
    */
-  constructor( private httpClient: HttpClient, private messageService: MessageService) {
+  constructor( private httpClient: HttpClient,
+               private messageService: MessageService,
+               private utilService: ComponentsUtilService) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
@@ -98,11 +101,18 @@ export class InvoiceFormComponent implements OnInit{
   public saveInvoice(event: any): void{
     this.handleHttpRequest(
        ).toPromise().then(response => {
-         this.messageService.add({severity: 'success', summary: 'Congradulation!', detail: 'The invoice is saved successfully.'});
-         this.resetModel();
+
+          const msg: Message = {severity: 'success', summary: 'Congradulation!',
+                        detail: 'The invoice is saved successfully.'};
+          this.messageService.add(msg);
+          this.utilService.hideMassage(msg, 2000);
+          this.resetModel();
       }
     ).catch(error => {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'The invoice is not saved.'});
+      const msg: Message = {severity: 'error', summary: 'Error',
+                              detail: 'The invoice is not saved.'};
+      this.messageService.add(msg);
+      this.utilService.hideMassage(msg, 2000);
       handleError(error);
     });
   }
@@ -144,7 +154,5 @@ export class InvoiceFormComponent implements OnInit{
     return this.httpClient.put<string>(
       this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
-
-
 
 }

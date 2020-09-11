@@ -17,7 +17,7 @@ export class ComponentsItemtableService {
     this.downloadCatalogItemsDropdownList();
   }
 
-  /* */
+  /* downloads items from catalog items */
   private downloadCatalogItemsDropdownList(): void{
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

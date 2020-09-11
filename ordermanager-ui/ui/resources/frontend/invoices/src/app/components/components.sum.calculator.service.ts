@@ -1,8 +1,7 @@
-import {Directive, EventEmitter, Injectable, Output} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CalculatorParameters, InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ItemsTableComponent} from "./components.itemstable";
 
 /**
  * The service class which calculate  netto and  brutto for one item  and summerized total
