@@ -7,7 +7,7 @@ import {PrInvoiceFormDirective} from './invoiceform/invoiceform.service';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {ButtonModule, CalendarModule, DropdownModule, InputTextareaModule, TableModule} from 'primeng';
+import {ButtonModule, CalendarModule, DropdownModule, InputTextareaModule, MessagesModule, TableModule} from 'primeng';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
 import {EditableCellComponent} from './components/components.cell';
@@ -34,20 +34,21 @@ import {MatButton} from '@angular/material/button';
     PrintinvoiceComponent,
     TableCellRendererComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ButtonModule,
-    DropdownModule,
-    CalendarModule,
-    TableModule,
-    InputTextareaModule,
-    AgGridModule.withComponents([MatButton, TableCellRendererComponent])
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        ButtonModule,
+        DropdownModule,
+        CalendarModule,
+        TableModule,
+        InputTextareaModule,
+        AgGridModule.withComponents([MatButton, TableCellRendererComponent]),
+        MessagesModule
 
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

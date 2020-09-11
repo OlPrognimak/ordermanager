@@ -13,6 +13,7 @@ import {
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
+import {MessageService} from "primeng";
 
 
 
@@ -24,7 +25,7 @@ function handleResult(result: string): void {
 
 
 function handleError(err: any): void {
-  console.log('Error-1: ' + err);
+  //console.log('Error-1: ' + err);
   console.log('Error: ' + JSON.stringify(err));
 }
 
@@ -34,7 +35,7 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  []
+  providers:  [MessageService]
 })
 export class InvoiceFormComponent implements OnInit{
 
@@ -56,7 +57,7 @@ export class InvoiceFormComponent implements OnInit{
    * @param dataGridService inject service
    * @param httpClient the http client
    */
-  constructor( private httpClient: HttpClient) {
+  constructor( private httpClient: HttpClient, private messageService: MessageService) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
@@ -97,10 +98,12 @@ export class InvoiceFormComponent implements OnInit{
   public saveInvoice(event: any): void{
     this.handleHttpRequest(
        ).toPromise().then(response => {
-           this.resetModel();
+         this.messageService.add({severity: 'success', summary: 'Congradulation!', detail: 'The invoice is saved successfully.'});
+         this.resetModel();
       }
     ).catch(error => {
-       handleError(error);
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'The invoice is not saved.'});
+      handleError(error);
     });
   }
 

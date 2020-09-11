@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from "../domain/domain.personformmodel";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
+import {Message, MessageService} from "primeng";
+import {delay, map} from "rxjs/operators";
 
 
 function handleResult(result: string): void {
@@ -17,7 +19,7 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-person',
   templateUrl: './personform.component.html',
-  providers:  []
+  providers:  [MessageService]
 })
 export class PersonFormComponent implements OnInit {
 
@@ -31,7 +33,7 @@ export class PersonFormComponent implements OnInit {
   /** Model for person type dropdown component */
   personType: DropdownDataType[];
 
-  constructor( private httpClient: HttpClient){
+  constructor( private httpClient: HttpClient, private messageService: MessageService){
   }
 
   ngOnInit(): void {
@@ -49,19 +51,37 @@ export class PersonFormComponent implements OnInit {
   }
 
   savePerson(event: any): void{
-    this.handleClickHttp().subscribe(
-
+    this.handleClickHttp().subscribe((response) =>
       {
-        next(response): void{
+          this.personFormModel = new PersonFormModel();
+          const msg: Message = {severity: 'success', summary: 'Congradulation!', detail: 'The person is saved successfully.'};
+          this.messageService.add(msg);
+          this.hideMassage(msg, 2000);
           handleResult(response);
-        },
-        error(err): void {
-          handleError(err);
+      }, (error) => {
+          const msg = {severity: 'error', summary: 'Error', detail: 'The person is not saved.'};
+          this.messageService.add(msg);
+          this.hideMassage(msg, 2000);
+          handleError(error);
         }
-      }
-
     );
   }
+
+  private hideMassage(messsage: Message, delayTimeMs: number): void{
+    const observable = of(messsage).pipe(delay(delayTimeMs));
+    const operatorFunction = map((msg: Message) => {
+         console.log('Message add');
+         this.messageService.clear();
+         return true;
+    } );
+    const messageFunction = operatorFunction(observable);
+    messageFunction.toPromise().then((data) => {
+      console.log('Message clear');
+      this.messageService.clear();
+      }
+    );
+  }
+
 
   handleClickHttp(): Observable<string>{
     const params = new HttpParams();
