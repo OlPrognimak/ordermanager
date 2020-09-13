@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {AgGridAngular} from 'ag-grid-angular';
 import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
+import * as _moment from 'moment';
 
 /**
  * The component which contains table with invoices for printing in PDF format
@@ -13,34 +14,28 @@ import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-rend
   styleUrls: ['./printinvoice.component.css']
 })
 export class PrintinvoiceComponent implements OnInit {
-  invoicesFormModel: any;
-  backendUrl: string;
-  private gridApi;
-  private gridColumnApi;
-  frameworkComponents;
-
-  /**
-   * the column definition for table
-   */
-  @ViewChild('agGrid', { static: false, }) agGrid: AgGridAngular;
-  columnDefs = [
-    {headerName: 'print', field: 'invoiceNumber', cellRenderer: 'tableCellRenderer'},
-    {headerName: 'Invoice Number', field: 'invoiceNumber', sortable: true, filter: true, checkboxSelection: true, editable: true},
-    {headerName: 'Description', field: 'invoiceDescription', sortable: true, filter: true, editable: true},
-    {headerName: 'Invoice creator', field: 'supplierFullName', sortable: true, filter: true, editable: true},
-    {headerName: 'Invoice recipient', field: 'recipientFullName', sortable: true, filter: true, editable: true},
-    {headerName: 'Rate type', field: 'rateType', sortable: true, filter: true, editable: true},
-    {headerName: 'Creation date', field: 'creationDate', sortable: true, filter: true, editable: true},
-    {headerName: 'Invoice date', field: 'invoiceDate', sortable: true, filter: true, editable: true},
-    {headerName: 'Netto price', field: 'totalSumNetto', sortable: true, filter: true, editable: true},
-    {headerName: 'Brutto price', field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
-
-  ];
 
 
 
   constructor(private httpClient: HttpClient) {
   }
+  invoicesFormModel: any;
+  backendUrl: string;
+  private gridApi;
+  private gridColumnApi;
+  private gridOprionsApi;
+  frameworkComponents;
+  @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
+  columnDefs = [];
+
+  /**
+   * the column definition for table
+   */
+
+  creationDateCell: any;
+
+  invoiceDateCell: any;
+
 
   ngOnInit(): void {
     this.backendUrl =
@@ -50,6 +45,32 @@ export class PrintinvoiceComponent implements OnInit {
     this.frameworkComponents = {
       tableCellRenderer: TableCellRendererComponent
     };
+
+    this.creationDateCell =  (data) => {
+      return _moment(data.creationDate).format('DD.MM.YYYY');
+    };
+
+    this.invoiceDateCell =  (data) => {
+      return _moment(data.creationDate).format('DD.MM.YYYY');
+    };
+
+    this.columnDefs = [
+      {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: 'tableCellRenderer'},
+      {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
+        sortable: true, filter: true, checkboxSelection: true, editable: true},
+      {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
+      {headerName: 'Invoice creator', resizable: true, field: 'supplierFullName', sortable: true, filter: true, editable: true},
+      {headerName: 'Invoice recipient', resizable: true, field: 'recipientFullName', sortable: true, filter: true, editable: true},
+      {headerName: 'Rate type',  field: 'rateType', sortable: true, filter: true, editable: true},
+      {headerName: 'Creation date', resizable: true, field: 'creationDate',
+        cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true},
+      {headerName: 'Invoice date',  resizable: true, field: 'invoiceDate',
+        cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true},
+      {headerName: 'Netto price',  resizable: true, field: 'totalSumNetto', sortable: true, filter: true, editable: true},
+      {headerName: 'Brutto price',  resizable: true, field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
+
+    ];
+
   }
 
   /**
@@ -75,6 +96,7 @@ export class PrintinvoiceComponent implements OnInit {
   onGridReady(params): any{
     this.gridApi = params.api;
     this.gridColumnApi = params.gridColumnApi;
+    params.api.sizeColumnsToFit();
     this.loadInvoices();
   }
 

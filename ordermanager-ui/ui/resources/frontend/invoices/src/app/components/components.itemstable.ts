@@ -22,9 +22,9 @@ import {Observable, Subscription} from "rxjs";
 })
 export class ItemsTableComponent implements OnInit, OnDestroy {
   @Input() invoiceItems: InvoiceItemModel[];
-  /**The observer for observation model changing event in parent component*/
+  /** The observer for observation model changing event in parent component */
   @Input() modelChangedEvent: Observable<void>;
-  /**The subscription for observer of model changing event in parent component*/
+  /** The subscription for observer of model changing event in parent component */
   private modelChangedSubscription: Subscription;
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() totalNettoSumEvent = new EventEmitter<number>();
@@ -57,7 +57,7 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.modelChangedSubscription.unsubscribe();
   }
-  /**sets to 0 the values of total netto and total bruto sum price of invoice*/
+  /** sets to 0 the values of total netto and total bruto sum price of invoice */
   private resetTotalValues(): void{
     this.calculatorService.totalNettoSum = 0;
     this.calculatorService.totalBruttoSum = 0;
@@ -95,7 +95,7 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieve the label of item in dropdown to set in editable set component
-   * @param idItemCatalog
+   * @param idItemCatalog the id of item in catalog of items
    */
   getCatalogDescription(idItemCatalog: string): any {
     if (idItemCatalog !== undefined) {
