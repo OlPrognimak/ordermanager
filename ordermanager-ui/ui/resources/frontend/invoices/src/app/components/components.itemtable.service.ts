@@ -2,14 +2,23 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../domain/domain.invoiceformmodel';
 
+
+/**
+ * The service for table which contains items of invoice
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ComponentsItemtableService {
-
+  /** the url to the server */
   backendUrl: string;
+  /** contains items schot description for dropdown list */
   catalogItems: DropdownDataType[];
 
+  /**
+   * The constructor of service
+   * @param httpClient htt client
+   */
   constructor(private httpClient: HttpClient) {
     this.backendUrl =
       document.getElementById('appConfigId')
@@ -50,9 +59,9 @@ export class ComponentsItemtableService {
           invoiceitem.itemPrice = data.itemPrice;
           invoiceitem.vat = data.vat;
         }
-      ).then(error => {
-        this.printToJson(error);
-      }
+      ).catch(error => {
+            this.printToJson(error);
+        }
     );
   }
 
