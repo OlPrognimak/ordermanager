@@ -21,6 +21,7 @@ function handleError(err: any): void {
  * The component which contains form component for creation of person
  */
 @Component({
+  styleUrls: ['./personform.component.css'],
   selector:    'app-person',
   templateUrl: './personform.component.html',
   providers:  [MessageService, ComponentsUtilService]
