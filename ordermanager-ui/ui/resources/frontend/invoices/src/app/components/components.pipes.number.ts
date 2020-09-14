@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {formatCurrency, formatNumber, getCurrencySymbol} from '@angular/common';
+
 @Pipe({
   name: 'standardFloat',
 })
