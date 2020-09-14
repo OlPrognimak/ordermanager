@@ -13,9 +13,9 @@ import {
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {MessageService} from 'primeng';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
+import {MessageService} from 'primeng/api';
 
 
 

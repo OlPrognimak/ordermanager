@@ -3,9 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {Observable, of} from 'rxjs';
-import {Message, MessageService} from 'primeng';
-import {delay, map} from 'rxjs/operators';
 import {ComponentsUtilService} from '../components/components.util.service';
+import {Message, MessageService} from "primeng/api";
 
 
 function handleResult(result: string): void {

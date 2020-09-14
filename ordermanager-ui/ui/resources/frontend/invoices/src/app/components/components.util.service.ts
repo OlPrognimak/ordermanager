@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Message, MessageService} from 'primeng';
 import {of} from 'rxjs';
 import {delay, map} from 'rxjs/operators';
+import {Message, MessageService} from 'primeng/api';
 
 /**
  * The useful utility service
