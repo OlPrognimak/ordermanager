@@ -1,41 +1,73 @@
 
 <div class="p-fluid">
+
   <p-messages></p-messages>
   <div class="p-grid p-col-6">
     <H2>Create Person</H2>
   </div>
   <div class=" p-shadow-4">
+
     <div class="p-grid">
+
       <div class="p-col-6">
-        <label style="margin: 5px" for="personType">Person Type</label>
-        <p-dropdown required minlength="4" id="personType" [options]="personType" [(ngModel)]="personFormModel.personType"></p-dropdown>
-      </div>
+        <div style="margin-bottom: 5pt">
+          <label  for="personType">Person Type</label>
+        </div>
+        <div style="margin-bottom: 15pt">
+         <p-dropdown required minlength="4" id="personType" [options]="personType"
+                     [(ngModel)]="personFormModel.personType">
+
+         </p-dropdown>
+        </div>
+        </div>
     </div>
 
-    <div *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
-      <div class="p-col-3">
-        <label style="" for="firstname1">Firstname</label>
-        <input required minlength="2" id="firstname1" type="text" [(ngModel)]="personFormModel.personFirstName"/>
-      </div>
 
-      <div  class="p-col-3">
-        <label for="lastname1">Lastname</label>
-        <input id="lastname1" type="text" [(ngModel)]="personFormModel.personLastName"/>
-      </div>
+    <div style = "margin-bottom: 10pt;" *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
+
+        <div class="p-col-3">
+          <div style ="display: table">
+            <div style ="display: table-row">
+              <div style ="display: table-cell">
+               <span class="p-float-label">
+                  <input class="ng-dirty ng-invalid p-mr-2"
+                       pInputText required minlength="2" id="firstname1" type="text"
+                           [(ngModel)]="personFormModel.personFirstName"/>
+                 <label for="firstname1">Firstname</label>
+
+               </span>
+              </div>
+              <div style ="display: table-cell">
+              <p-message severity="error"></p-message>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div  class="p-col-3">
+          <span class="p-float-label">
+            <input  pInputText id="lastname1" type="text" required minlength="2" [(ngModel)]="personFormModel.personLastName"/>
+            <label for="lastname1">Lastname</label>
+          </span>
+        </div>
+
     </div>
 
     <div *ngIf="personFormModel.personType==='ORGANISATION'" class="p-grid">
-      <div class="p-col-2">
-        <label  for="id-company-Name">Company name</label>
-        <input id="id-company-Name" type="text" [(ngModel)]="personFormModel.companyName"/>
+      <div class="p-col-3">
+        <span class="p-float-label">
+          <input  pInputText id="id-company-Name" type="text" required minlength="2" [(ngModel)]="personFormModel.companyName"/>
+          <label  for="id-company-Name">Company name</label>
+        </span>
       </div>
     </div>
 
 
     <div *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
       <div class="p-col-2">
-        <label style="margin: 5px" for="id-taxNumber">Tax number</label>
-        <input id="id-taxNumber" type="text" [(ngModel)]="personFormModel.taxNumber"/>
+         <span class="p-float-label">
+           <input pInputText id="id-taxNumber" required minlength="2" type="text" [(ngModel)]="personFormModel.taxNumber"/>
+           <label  for="id-taxNumber">Tax number</label>
+         </span>
       </div>
     </div>
   </div>
@@ -47,22 +79,22 @@
   <div class="p-grid">
     <div class="p-col-2">
       <label style="margin: 5px" for="id-add-zip">Zip</label>
-      <input id="id-add-zip" type="text" [(ngModel)]="personFormModel.personAddressFormModel.zipCode"/>
+      <input pInputText id="id-add-zip" type="text" [(ngModel)]="personFormModel.personAddressFormModel.zipCode"/>
     </div>
     <div class="p-col-2">
       <label style="margin: 5px" for="id-add-city">City</label>
-      <input id="id-add-city" type="text" [(ngModel)]="personFormModel.personAddressFormModel.city"/>
+      <input pInputText id="id-add-city" type="text" [(ngModel)]="personFormModel.personAddressFormModel.city"/>
     </div>
   </div>
 
   <div class="p-grid">
     <div class="p-col-2">
       <label style="margin: 5px" for="id-add-street">Street</label>
-      <input id="id-add-street" type="text" [(ngModel)]="personFormModel.personAddressFormModel.street"/>
+      <input  pInputText id="id-add-street" type="text" [(ngModel)]="personFormModel.personAddressFormModel.street"/>
     </div>
     <div class="p-col-2">
       <label style="margin: 5px" for="id-add-postBoxCode">Post Box</label>
-      <input id="id-add-postBoxCode" type="text" [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
+      <input pInputText id="id-add-postBoxCode" type="text" [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
     </div>
   </div>
   </div>
@@ -75,25 +107,25 @@
   <div class="p-grid">
     <div class="p-col-2">
       <label style="margin: 5px" for="id-acc-bankName">Bank name</label>
-      <input id="id-acc-bankName" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bankName"/>
+      <input pInputText id="id-acc-bankName" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bankName"/>
     </div>
 
     <div class="p-col-2">
       <label style="margin: 5px" for="id-acc-accountNumber">Account number</label>
-      <input id="id-acc-accountNumber"  type="text" [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
+      <input pInputText id="id-acc-accountNumber"  type="text" [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
     </div>
   </div>
 
     <div class="p-grid">
       <div class="p-col-2">
         <label style="margin: 5px" for="id-acc-iban">IBAN</label>
-        <input id="id-acc-iban" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.iban"/>
+        <input pInputText id="id-acc-iban" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.iban"/>
       </div>
 
 
       <div class="p-col-2">
         <label style="margin: 5px" for="id-acc-bicSwift">BIC/Swift</label>
-        <input id="id-acc-bicSwift" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"/>
+        <input pInputText id="id-acc-bicSwift" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"/>
       </div>
     </div>
   </div>

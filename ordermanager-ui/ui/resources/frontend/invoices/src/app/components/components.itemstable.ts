@@ -122,7 +122,7 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**emit events with changed total netto and brutto sums*/
+  /** emits events with changed total netto and brutto sums */
   private emitTotalChanged(): void{
     this.totalNettoSumEvent.emit(this.calculatorService.totalNettoSum);
     this.totalBruttoSumEvent.emit(this.calculatorService.totalBruttoSum);

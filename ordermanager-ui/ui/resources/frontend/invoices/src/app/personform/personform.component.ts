@@ -4,7 +4,10 @@ import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {Observable, of} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
-import {Message, MessageService} from "primeng/api";
+import {Message, MessageService} from 'primeng/api';
+import {InputTextModule} from 'primeng/inputtext';
+import {MessagesModule} from 'primeng/messages';
+import {UIMessage} from "primeng/message";
 
 
 function handleResult(result: string): void {
@@ -38,7 +41,6 @@ export class PersonFormComponent implements OnInit {
   personInvoiceSupplier: DropdownDataType[];
   /** Model for person type dropdown component */
   personType: DropdownDataType[];
-
   /**
    * The constructor
    * @param httpClient the http client
@@ -74,7 +76,7 @@ export class PersonFormComponent implements OnInit {
     this.handleClickHttp().subscribe((response) =>
       {
           this.personFormModel = new PersonFormModel();
-          const msg: Message = {severity: 'success', summary: 'Congradulation!', detail: 'The person is saved successfully.'};
+          const msg: Message = {severity: 'success', summary: 'Congratulation!', detail: 'The person is saved successfully.'};
           this.messageService.add(msg);
           this.utilService.hideMassage(msg, 2000);
           handleResult(response);

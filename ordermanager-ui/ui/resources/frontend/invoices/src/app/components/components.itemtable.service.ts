@@ -17,7 +17,7 @@ export class ComponentsItemtableService {
 
   /**
    * The constructor of service
-   * @param httpClient htt client
+   * @param httpClient http client
    */
   constructor(private httpClient: HttpClient) {
     this.backendUrl =

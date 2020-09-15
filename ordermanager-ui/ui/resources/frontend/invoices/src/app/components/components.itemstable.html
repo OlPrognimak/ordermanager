@@ -33,7 +33,7 @@
               <ng-template pTemplate="input">
                 <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
                        [ngModel]="invoiceitem.numberItems"
-                       (ngModelChange)="invoiceitem.numberItems=$event" required/>
+                       (ngModelChange)="invoiceitem.numberItems=$event" required />
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.numberItems | standardFloat}}

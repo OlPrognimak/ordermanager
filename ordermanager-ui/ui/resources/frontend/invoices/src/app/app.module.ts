@@ -20,8 +20,9 @@ import {ButtonModule} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
 import {TableModule} from 'primeng/table';
-import {InputTextareaModule} from 'primeng/inputtextarea';
 import {MessagesModule} from 'primeng/messages';
+import {InputTextModule} from 'primeng/inputtext';
+import {MessageModule} from "primeng/message";
 
 
 
@@ -38,21 +39,25 @@ import {MessagesModule} from 'primeng/messages';
     ComponentsPipesNumberDouble,
     PrintinvoiceComponent,
     TableCellRendererComponent
+
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        FormsModule,
-        HttpClientModule,
-        ButtonModule,
-        DropdownModule,
-        CalendarModule,
-        TableModule,
-        InputTextareaModule,
-        AgGridModule.withComponents([MatButton, TableCellRendererComponent]),
-        MessagesModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ButtonModule,
+    DropdownModule,
+    CalendarModule,
+    TableModule,
+    InputTextModule,
+    AgGridModule.withComponents([MatButton, TableCellRendererComponent]),
+    MessagesModule,
+    MessageModule
+
+
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
