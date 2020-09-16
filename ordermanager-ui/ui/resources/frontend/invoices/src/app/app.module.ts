@@ -23,6 +23,7 @@ import {TableModule} from 'primeng/table';
 import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
 import {MessageModule} from "primeng/message";
+import { ValidableInputTextComponent } from './validable-input-text/validable-input-text.component';
 
 
 
@@ -38,7 +39,8 @@ import {MessageModule} from "primeng/message";
     ItemsTableComponent,
     ComponentsPipesNumberDouble,
     PrintinvoiceComponent,
-    TableCellRendererComponent
+    TableCellRendererComponent,
+    ValidableInputTextComponent
 
   ],
   imports: [

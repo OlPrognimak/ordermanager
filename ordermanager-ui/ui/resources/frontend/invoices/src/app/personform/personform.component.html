@@ -6,9 +6,7 @@
     <H2>Create Person</H2>
   </div>
   <div class=" p-shadow-4">
-
     <div class="p-grid">
-
       <div class="p-col-6">
         <div style="margin-bottom: 5pt">
           <label  for="personType">Person Type</label>
@@ -16,59 +14,50 @@
         <div style="margin-bottom: 15pt">
          <p-dropdown required minlength="4" id="personType" [options]="personType"
                      [(ngModel)]="personFormModel.personType">
-
          </p-dropdown>
         </div>
         </div>
     </div>
 
-
     <div style = "margin-bottom: 10pt;" *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
-        <div class="p-col-3">
-          <div style ="display: table; width: 100%;">
-            <div style ="display: table-row; width: 100%;">
-              <div style ="display: table-cell; width: 100%;">
-               <span class="p-float-label">
-                  <input class="ng-dirty p-mr-2"
-                       pInputText required minlength="2" id="firstname1" type="text"
-                           [(ngModel)]="personFormModel.personFirstName" #personFirstName="ngModel"/>
-                  <label for="firstname1">Firstname</label>
-               </span>
-              </div>
-              <div *ngIf="personFirstName.errors?.minlength" style ="display: table-cell; width: 10%;">
-                <p-message severity="error"></p-message>
-              </div>
-              <div *ngIf="personFirstName.errors?.required" style ="display: table-cell; width: 10%;">
-                <p-message severity="error"></p-message>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div  class="p-col-3">
-          <span class="p-float-label">
-            <input  pInputText id="lastname1" type="text" required minlength="2" [(ngModel)]="personFormModel.personLastName"/>
-            <label for="lastname1">Lastname</label>
-          </span>
-        </div>
+      <div class="p-col-3">
+        <app-validable-input-text [labelText]="'First name'"
+                                  [idComponent]="'id_firstName'"
+                                  [txtMinLength]="2"
+                                  [ngModel]="personFormModel.personFirstName"
+                                  (ngModelChange) = "onChangeFirstName($event)">
+        </app-validable-input-text>
+      </div>
+      <div class="p-col-3">
+          <app-validable-input-text [labelText]="'Last name'"
+                                    [idComponent]="'id_lastName'"
+                                    [txtMinLength]="2"
+                                    [ngModel]="personFormModel.personLastName"
+                                    (ngModelChange) = "onChangeLastName($event)">
 
-    </div>
+          </app-validable-input-text>
+      </div>
+     </div>
 
     <div *ngIf="personFormModel.personType==='ORGANISATION'" class="p-grid">
       <div class="p-col-3">
-        <span class="p-float-label">
-          <input  pInputText id="id-company-Name" type="text" required minlength="2" [(ngModel)]="personFormModel.companyName"/>
-          <label  for="id-company-Name">Company name</label>
-        </span>
+         <app-validable-input-text [labelText]="'Company name'"
+                                  [idComponent]="'id_company_Name'"
+                                  [txtMinLength]="2"
+                                  [ngModel]="personFormModel.companyName"
+                                  (ngModelChange) = "onChangeCompanyName($event)">
+        </app-validable-input-text>
       </div>
     </div>
 
-
     <div *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
       <div class="p-col-2">
-         <span class="p-float-label">
-           <input pInputText id="id-taxNumber" required minlength="2" type="text" [(ngModel)]="personFormModel.taxNumber"/>
-           <label  for="id-taxNumber">Tax number</label>
-         </span>
+        <app-validable-input-text [labelText]="'Tax number'"
+                                  [idComponent]="'id_tax_Number'"
+                                  [txtMinLength]="5"
+                                  [ngModel]="personFormModel.taxNumber"
+                                  (ngModelChange) = "onChangeTaxNumber($event)">
+        </app-validable-input-text>
       </div>
     </div>
   </div>
@@ -133,6 +122,11 @@
   <div style="margin-top:5px;" class="p-grid">
     <div class="p-col-1">
       <p-button label="Submit" (onClick)="savePerson($event)"></p-button>
+    </div>
+  </div>
+  <div style="margin-top:5px;" class="p-grid">
+    <div class="p-col-1">
+      <p-button label="JSON" (onClick)="showJson($event)"></p-button>
     </div>
   </div>
 </div>
