@@ -89,9 +89,19 @@ export class PersonFormComponent implements OnInit {
     );
   }
 
+  isLengthInvalide(value: any, minLength: number): boolean {
+    if ( value === undefined || value === null || value < minLength){
+      return true;
+    } else {
+      return true;
+    }
+  }
+
+
   handleClickHttp(): Observable<string>{
     const params = new HttpParams();
     return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { params } );
   }
+
 
 }

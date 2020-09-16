@@ -24,21 +24,22 @@
 
 
     <div style = "margin-bottom: 10pt;" *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
-
         <div class="p-col-3">
-          <div style ="display: table">
-            <div style ="display: table-row">
-              <div style ="display: table-cell">
+          <div style ="display: table; width: 100%;">
+            <div style ="display: table-row; width: 100%;">
+              <div style ="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                  <input class="ng-dirty ng-invalid p-mr-2"
+                  <input class="ng-dirty p-mr-2"
                        pInputText required minlength="2" id="firstname1" type="text"
-                           [(ngModel)]="personFormModel.personFirstName"/>
-                 <label for="firstname1">Firstname</label>
-
+                           [(ngModel)]="personFormModel.personFirstName" #personFirstName="ngModel"/>
+                  <label for="firstname1">Firstname</label>
                </span>
               </div>
-              <div style ="display: table-cell">
-              <p-message severity="error"></p-message>
+              <div *ngIf="personFirstName.errors?.minlength" style ="display: table-cell; width: 10%;">
+                <p-message severity="error"></p-message>
+              </div>
+              <div *ngIf="personFirstName.errors?.required" style ="display: table-cell; width: 10%;">
+                <p-message severity="error"></p-message>
               </div>
             </div>
           </div>
