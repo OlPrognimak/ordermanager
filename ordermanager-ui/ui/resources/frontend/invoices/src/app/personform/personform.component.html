@@ -34,7 +34,6 @@
                                     [txtMinLength]="2"
                                     [ngModel]="personFormModel.personLastName"
                                     (ngModelChange) = "onChangeLastName($event)">
-
           </app-validable-input-text>
       </div>
      </div>
@@ -68,23 +67,40 @@
 
   <div class="p-grid">
     <div class="p-col-2">
-      <label style="margin: 5px" for="id-add-zip">Zip</label>
-      <input pInputText id="id-add-zip" type="text" [(ngModel)]="personFormModel.personAddressFormModel.zipCode"/>
+      <app-validable-input-text [labelText]="'Zip'"
+                                [idComponent]="'id_Zip'"
+                                [txtMinLength]="4"
+                                [ngModel]="personFormModel.personAddressFormModel.zipCode"
+                                (ngModelChange) = "onChangeZipCode($event)">
+      </app-validable-input-text>
     </div>
     <div class="p-col-2">
-      <label style="margin: 5px" for="id-add-city">City</label>
-      <input pInputText id="id-add-city" type="text" [(ngModel)]="personFormModel.personAddressFormModel.city"/>
+      <app-validable-input-text [labelText]="'City'"
+                                [idComponent]="'id_City'"
+                                [txtMinLength]="2"
+                                [ngModel]="personFormModel.personAddressFormModel.city"
+                                (ngModelChange) = "onChangeCity($event)">
+      </app-validable-input-text>
     </div>
   </div>
-
   <div class="p-grid">
     <div class="p-col-2">
-      <label style="margin: 5px" for="id-add-street">Street</label>
-      <input  pInputText id="id-add-street" type="text" [(ngModel)]="personFormModel.personAddressFormModel.street"/>
+      <div style="margin-top: 15pt">
+      <app-validable-input-text [labelText]="'Street'"
+                                [idComponent]="'id_Street'"
+                                [txtMinLength]="2"
+                                [ngModel]="personFormModel.personAddressFormModel.street"
+                                (ngModelChange) = "onChangeStreet($event)">
+      </app-validable-input-text>
+      </div>
     </div>
     <div class="p-col-2">
-      <label style="margin: 5px" for="id-add-postBoxCode">Post Box</label>
-      <input pInputText id="id-add-postBoxCode" type="text" [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
+
+      <span style="margin-top: 12pt" class="p-float-label">
+        <input pInputText id="id-add-postBoxCode" type="text"
+               [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
+        <label for="id-add-postBoxCode">Post Box</label>
+      </span>
     </div>
   </div>
   </div>

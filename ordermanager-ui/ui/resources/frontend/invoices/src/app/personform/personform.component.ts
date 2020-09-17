@@ -152,4 +152,17 @@ export class PersonFormComponent implements OnInit {
     this.personFormModel.taxNumber = value;
   }
 
+  onChangeZipCode(value: any): void{
+    this.personFormModel.personAddressFormModel.zipCode = value;
+  }
+
+  onChangeCity(value: any): void{
+    this.personFormModel.personAddressFormModel.city = value;
+  }
+
+  onChangeStreet(value: any): void{
+    this.personFormModel.personAddressFormModel.street = value;
+  }
+
+
 }

@@ -15,7 +15,9 @@
                </span>
     </div>
     <div *ngIf="personFirstName.errors?.minlength" style ="display: table-cell; width: 10%;">
-      <p-message severity="error"></p-message>
+      <div style="margin-top: 15pt !important;">
+        <p-message severity="error"></p-message>
+      </div>
     </div>
     <div *ngIf="personFirstName.errors?.required" style ="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
