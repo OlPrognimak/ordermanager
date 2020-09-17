@@ -37,7 +37,7 @@ import {ComponentsUtilService} from '../components/components.util.service';
 import {Message, MessageService} from 'primeng/api';
 import {InputTextModule} from 'primeng/inputtext';
 import {MessagesModule} from 'primeng/messages';
-import {UIMessage} from "primeng/message";
+import {UIMessage} from 'primeng/message';
 
 
 function handleResult(result: string): void {
@@ -135,7 +135,7 @@ export class PersonFormComponent implements OnInit {
     const params = new HttpParams();
     return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { params } );
   }
-
+  /* callback from component */
   onChangeFirstName(value: any): void{
     this.personFormModel.personFirstName = value;
   }
@@ -165,4 +165,19 @@ export class PersonFormComponent implements OnInit {
   }
 
 
+  onChangeBankName(value: any): void {
+    this.personFormModel.bankAccountFormModel.bankName = value;
+  }
+
+  onChangeAccountNumber(value: any): void {
+    this.personFormModel.bankAccountFormModel.accountNumber = value;
+  }
+
+  onChangeIban(value: any): void {
+    this.personFormModel.bankAccountFormModel.iban = value;
+  }
+
+  onChangeBicSwift(value: any): void {
+    this.personFormModel.bankAccountFormModel.bicSwift = value;
+  }
 }

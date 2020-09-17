@@ -66,7 +66,7 @@
   <div class=" p-shadow-4">
 
   <div class="p-grid">
-    <div class="p-col-2">
+    <div style="margin-left: 5pt" class="p-col-2">
       <app-validable-input-text [labelText]="'Zip'"
                                 [idComponent]="'id_Zip'"
                                 [txtMinLength]="4"
@@ -74,7 +74,7 @@
                                 (ngModelChange) = "onChangeZipCode($event)">
       </app-validable-input-text>
     </div>
-    <div class="p-col-2">
+    <div style="margin-left: 5pt" class="p-col-2">
       <app-validable-input-text [labelText]="'City'"
                                 [idComponent]="'id_City'"
                                 [txtMinLength]="2"
@@ -84,7 +84,7 @@
     </div>
   </div>
   <div class="p-grid">
-    <div class="p-col-2">
+    <div style="margin-left: 5pt" class="p-col-2">
       <div style="margin-top: 15pt">
       <app-validable-input-text [labelText]="'Street'"
                                 [idComponent]="'id_Street'"
@@ -111,27 +111,43 @@
   </div>
   <div class=" p-shadow-4">
   <div class="p-grid">
-    <div class="p-col-2">
-      <label style="margin: 5px" for="id-acc-bankName">Bank name</label>
-      <input pInputText id="id-acc-bankName" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bankName"/>
+    <div style="margin-top: 5pt; margin-left: 5pt" class="p-col-3">
+      <app-validable-input-text [labelText]="'Bank name'"
+                                [idComponent]="'id_BankName'"
+                                [txtMinLength]="2"
+                                [ngModel]="personFormModel.bankAccountFormModel.bankName"
+                                (ngModelChange) = "onChangeBankName($event)">
+      </app-validable-input-text>
     </div>
 
     <div class="p-col-2">
-      <label style="margin: 5px" for="id-acc-accountNumber">Account number</label>
-      <input pInputText id="id-acc-accountNumber"  type="text" [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
+      <span  class="p-float-label">
+        <input pInputText id="id_AccountNumber" type="text"
+               [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
+        <label for="id_AccountNumber">Account number</label>
+      </span>
+
     </div>
   </div>
 
     <div class="p-grid">
-      <div class="p-col-2">
-        <label style="margin: 5px" for="id-acc-iban">IBAN</label>
-        <input pInputText id="id-acc-iban" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.iban"/>
+      <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-3">
+        <app-validable-input-text [labelText]="'IBAN'"
+                                  [idComponent]="'id_AccountNumber'"
+                                  [txtMinLength]="2"
+                                  [ngModel]="personFormModel.bankAccountFormModel.iban"
+                                  (ngModelChange) = "onChangeIban($event)">
+        </app-validable-input-text>
       </div>
 
 
-      <div class="p-col-2">
-        <label style="margin: 5px" for="id-acc-bicSwift">BIC/Swift</label>
-        <input pInputText id="id-acc-bicSwift" type="text" [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"/>
+      <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-2">
+        <app-validable-input-text [labelText]="'BIC/SWIFT'"
+                                  [idComponent]="'id-acc-bicSwift'"
+                                  [txtMinLength]="0"
+                                  [ngModel]="personFormModel.bankAccountFormModel.bicSwift"
+                                  (ngModelChange) = "onChangeBicSwift($event)">
+        </app-validable-input-text>
       </div>
     </div>
   </div>
