@@ -13,7 +13,7 @@
  *     documentation and/or other materials provided with the distribution.
  *
  *   - The name of Oleksandr Prognimak
- *     may not be used to endorse or promote products derived
+ *     may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS

@@ -12,7 +12,7 @@
  *     notice, this list of conditions and the following disclaimer in the
  *     documentation and/or other materials provided with the distribution.
  *
- *   - Neither the name of Oleksandr Prognimak
+ *   - The name of Oleksandr Prognimak
  *     may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
  *
@@ -29,7 +29,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.pr.ordermanager.controller.model;
-
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
