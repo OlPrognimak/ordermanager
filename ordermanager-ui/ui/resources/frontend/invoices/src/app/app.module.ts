@@ -25,6 +25,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {MessageModule} from "primeng/message";
 import { ValidableInputTextComponent } from './validable-input-text/validable-input-text.component';
 import { ValidableDropdownlistComponent } from './validable-dropdownlist/validable-dropdownlist.component';
+import { ValidableCalendarComponent } from './validable-calendar/validable-calendar.component';
 
 
 
@@ -42,7 +43,8 @@ import { ValidableDropdownlistComponent } from './validable-dropdownlist/validab
     PrintinvoiceComponent,
     TableCellRendererComponent,
     ValidableInputTextComponent,
-    ValidableDropdownlistComponent
+    ValidableDropdownlistComponent,
+    ValidableCalendarComponent
 
   ],
   imports: [

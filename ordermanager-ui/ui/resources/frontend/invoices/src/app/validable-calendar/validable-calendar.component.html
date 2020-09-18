@@ -9,24 +9,23 @@
   <div style ="display: table-row; width: 100%;">
     <div style ="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                    <input class="ng-dirty p-mr-2"
-                           pInputText
-                           required
-                           minlength="{{txtMinLength}}"
-                           id="{{idComponent}}"
-                           type="text"
-                           [(ngModel)]="value"
-                           (ngModelChange)="onChange($event)"
-                           #modelRef="ngModel"/>
-                  <label for="{{idComponent}}">{{labelText}}</label>
+                    <p-calendar dateFormat="{{dateFormat}}"
+                                required
+                                minlength="txtMinLength"
+                                id="{{idComponent}}"
+                                [(ngModel)]="value"
+                                (ngModelChange)="onChange($event)"
+                                #modelCalenderRef="ngModel">
+                    </p-calendar>
+                    <label  for="{{idComponent}}">{{labelText}}</label>
                </span>
     </div>
-    <div *ngIf="modelRef.errors?.minlength" style ="display: table-cell; width: 10%;">
+    <div *ngIf="modelCalenderRef.errors?.minlength" style ="display: table-cell; width: 10%;">
       <div style="margin-top: 15pt !important;">
         <p-message severity="error"></p-message>
       </div>
     </div>
-    <div *ngIf="modelRef.errors?.required" style ="display: table-cell; width: 10%;">
+    <div *ngIf="modelCalenderRef.errors?.required" style ="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
     </div>
   </div>

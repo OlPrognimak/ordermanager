@@ -73,7 +73,7 @@
                                 (ngModelChange) = "onChangeZipCode($event)">
       </app-validable-input-text>
     </div>
-    <div style="margin-left: 5pt" class="p-col-2">
+    <div style="margin-left: 5pt" class="p-col-3">
       <app-validable-input-text [labelText]="'City'"
                                 [idComponent]="'id_City'"
                                 [txtMinLength]="2"
@@ -83,7 +83,14 @@
     </div>
   </div>
   <div class="p-grid">
-    <div style="margin-left: 5pt" class="p-col-2">
+    <div class="p-col-2">
+      <span style="margin-top: 12pt" class="p-float-label">
+        <input pInputText id="id-add-postBoxCode" type="text"
+               [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
+        <label for="id-add-postBoxCode">Post Box</label>
+      </span>
+    </div>
+    <div style="margin-left: 10pt" class="p-col-3">
       <div style="margin-top: 15pt">
       <app-validable-input-text [labelText]="'Street'"
                                 [idComponent]="'id_Street'"
@@ -93,14 +100,7 @@
       </app-validable-input-text>
       </div>
     </div>
-    <div class="p-col-2">
 
-      <span style="margin-top: 12pt" class="p-float-label">
-        <input pInputText id="id-add-postBoxCode" type="text"
-               [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
-        <label for="id-add-postBoxCode">Post Box</label>
-      </span>
-    </div>
   </div>
   </div>
   <div class="p-grid">

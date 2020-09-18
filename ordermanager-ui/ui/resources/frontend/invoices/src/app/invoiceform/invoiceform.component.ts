@@ -155,4 +155,7 @@ export class InvoiceFormComponent implements OnInit{
       this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
 
+  onChangeInvoiceNumber(value: any): void {
+    this.invoiceFormData.invoiceNumber = value;
+  }
 }

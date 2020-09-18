@@ -1,27 +1,33 @@
 import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {CalendarModule} from "primeng/calendar";
+
 
 @Component({
-  selector: 'app-validable-dropdownlist',
-  templateUrl: './validable-dropdownlist.component.html',
-  styleUrls: ['./validable-dropdownlist.component.css'],
+  selector: 'app-validable-calendar',
+  templateUrl: './validable-calendar.component.html',
+  styleUrls: ['./validable-calendar.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidableDropdownlistComponent),
+      useExisting: forwardRef(() => ValidableCalendarComponent),
       multi: true
     }
   ]
 })
-export class ValidableDropdownlistComponent implements OnInit, ControlValueAccessor {
-  @Input() optionList: any;
-  @Input() public txtMinLength = 0;
+export class ValidableCalendarComponent implements OnInit, ControlValueAccessor {
+
+  /** minimal length of text */
+  @Input()  public txtMinLength = 1;
   @Input() public idComponent = '';
   @Input() public labelText = '';
-  @Input() public placeholder = '';
-  value: any;
+  @Input() dateFormat = 'dd.mm.yy';
+
+  public value = '';
+  calModul: CalendarModule;
   onChange: (val) => void;
   onTouched: () => void;
+
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
@@ -48,4 +54,5 @@ export class ValidableDropdownlistComponent implements OnInit, ControlValueAcces
       this.value = value;
     }
   }
+
 }
