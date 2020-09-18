@@ -79,7 +79,7 @@ public class EntityToModelMapperHelper {
     }
 
     /**
-     * Maps {@code invoice} {@link Invoice} to {@long InvoiceFormModel}
+     * Maps {@code invoice} {@link Invoice} to {@link InvoiceFormModel}
      * @param invoice the invoice entity
      * @return the invoice model
      */

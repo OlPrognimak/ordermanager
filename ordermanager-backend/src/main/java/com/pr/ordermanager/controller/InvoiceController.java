@@ -52,7 +52,9 @@ import java.util.stream.Collectors;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
-
+/**
+ * This controler provide the rest services for UI and  for management with person and invoices on UI side
+ */
 @RestController
 @CrossOrigin
 public class InvoiceController {
@@ -129,7 +131,7 @@ public class InvoiceController {
 
     /**
      *
-     * @return
+     * @return the response with list of {@link DropdownDataType} with persons
      */
     @RequestMapping(value = PATH_PERSONS_DROPDOWN, method = RequestMethod.GET,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
@@ -142,7 +144,7 @@ public class InvoiceController {
 
     /**
      *
-     * @return
+     * @return the response with list of {@link DropdownDataType} with catalog items
      */
     @RequestMapping(value = PATH_ITEMSCATALOG_DROPDOWN, method = RequestMethod.GET,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
@@ -155,7 +157,7 @@ public class InvoiceController {
 
     /**
      *
-     * @return
+     * @return the response with lists of {@link InvoiceFormModel}
      */
     @RequestMapping(value = PATH_INVOICES_LIST, method = RequestMethod.GET,
             produces = APPLICATION_JSON)

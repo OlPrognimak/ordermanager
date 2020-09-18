@@ -77,7 +77,7 @@ public class InvoiceService {
     /**
      *
      * @param person the invoice to be saved
-     * @Exception OrderManagerException
+     * @exception OrderManagerException in case if person can not be saved
      */
     public void savePerson(Person person){
 
@@ -136,7 +136,7 @@ public class InvoiceService {
      * @param invoice the invoice to be saved
      * @return result of execution
      *
-     * @Exception  OrderManagerException
+     * @exception  OrderManagerException in case if invoice can not be saved
      */
     public String saveInvoice(Invoice invoice){
         String invoiceNumder=null;

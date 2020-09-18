@@ -30,8 +30,101 @@
 		<outputFolder>${project.build.directory}/${project.artifactId}
 		</outputFolder>
 		<spring.boot.version>2.1.2.RELEASE</spring.boot.version>
+		<junit4version>4.11</junit4version>
+		<junit.jupiter.version>5.3.2</junit.jupiter.version>
+		<junit.platform.version>1.5.2</junit.platform.version>
+		<postgresql.version>42.2.2</postgresql.version>
+		<lo4j2.version>2.8.2</lo4j2.version>
+		<hibernate.version>5.4.2.Final</hibernate.version>
+		<javax.validator.api.version>2.0.0.Final</javax.validator.api.version>
+		<javax.hibernate.validator.version>6.0.15.Final</javax.hibernate.validator.version>
+		<jasper.report.version>6.14.0</jasper.report.version>
+		<lombok.version>1.18.12</lombok.version>
 	</properties>
 
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Hibernate -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${javax.validator.api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.validator</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${javax.hibernate.validator.version}</version>
+			</dependency>
+
+			<!-- log4j2 -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${lo4j2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${lo4j2.version}</version>
+			</dependency>
+
+			<!-- Postgres -->
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+			</dependency>
+			<!-- JUnit 4 -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit4version}</version>
+				<scope>test</scope>
+			</dependency>
+           <!-- JUnit-5 -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.platform</groupId>
+				<artifactId>junit-platform-runner</artifactId>
+				<version>${junit.platform.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Jasper report-->
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports</artifactId>
+				<version>${jasper.report.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- lombock -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 	
 
 	<dependencies>
@@ -50,7 +143,6 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>1.1.0.Final</version>
 		</dependency>
 
 		<!-- Spring Boot Admin -->
