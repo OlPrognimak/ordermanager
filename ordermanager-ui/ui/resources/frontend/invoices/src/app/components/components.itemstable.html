@@ -1,15 +1,15 @@
 <div class="p-grid">
   <div class="p-col-12">
-    <p-table [value]="invoiceItems" [rows]="100" editMode="row">
+    <p-table [value]="invoiceItems" [rows]="40" editMode="row">
       <ng-template pTemplate="header">
         <tr>
-          <th>Item description</th>
-          <th>Amount</th>
-          <th>Price</th>
-          <th>Vat%</th>
-          <th>Summa netto</th>
-          <th>Summa brutto</th>
-          <th>Delete</th>
+          <th style="width: 40%">Item description</th>
+          <th style="width: 10%">Amount</th>
+          <th style="width: 10%">Price</th>
+          <th style="width: 10%">Vat%</th>
+          <th style="width: 10%">Summa netto</th>
+          <th style="width: 10%">Summa brutto</th>
+          <th style="width: 10%">Delete</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-invoiceitem>
