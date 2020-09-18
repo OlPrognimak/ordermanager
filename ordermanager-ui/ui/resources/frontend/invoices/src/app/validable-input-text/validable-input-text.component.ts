@@ -77,7 +77,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   writeValue(value: any): void {
     if (value !== undefined){
       this.value = value;
-      this.renderer.setProperty(this.elementRef.nativeElement, 'personFormModel.personFirstName', value);
+      //this.renderer.setProperty(this.elementRef.nativeElement, 'personFormModel.personFirstName', value);
     }
   }
 

@@ -1,0 +1,27 @@
+<div style="display: table; width: 100%;">
+  <div style="display: table-row; width: 100%;">
+    <div style="display: table-cell; width: 100%;">
+      <div style="margin-bottom: 15pt">
+                <span class="p-float-label">
+                <p-dropdown  #modelRef="ngModel"
+                             required
+                             minlength="{{txtMinLength}}"
+                             id="{{idComponent}}"
+                             [options]="optionList"
+                             [(ngModel)]="value"
+                             (ngModelChange)="onChange($event)">
+                </p-dropdown>
+                <label for="{{idComponent}}">{{labelText}}</label>
+                </span>
+      </div>
+    </div>
+    <div *ngIf="modelRef.errors?.minlength" style ="display: table-cell; width: 10%;">
+      <div style="margin-top: 15pt !important;">
+        <p-message severity="error"></p-message>
+      </div>
+    </div>
+    <div *ngIf="modelRef.errors?.required" style ="display: table-cell; width: 10%;">
+      <p-message severity="error"></p-message>
+    </div>
+  </div>
+</div>

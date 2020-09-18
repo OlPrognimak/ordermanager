@@ -180,4 +180,8 @@ export class PersonFormComponent implements OnInit {
   onChangeBicSwift(value: any): void {
     this.personFormModel.bankAccountFormModel.bicSwift = value;
   }
+
+  onChangePersonType(value: any) {
+    this.personFormModel.personType = value;
+  }
 }
