@@ -135,53 +135,5 @@ export class PersonFormComponent implements OnInit {
     const params = new HttpParams();
     return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { params } );
   }
-  /* callback from component */
-  onChangeFirstName(value: any): void{
-    this.personFormModel.personFirstName = value;
-  }
 
-  onChangeLastName(value: any): void{
-    this.personFormModel.personLastName = value;
-  }
-
-  onChangeCompanyName(value: any): any{
-    this.personFormModel.companyName = value;
-  }
-
-  onChangeTaxNumber(value: any): void{
-    this.personFormModel.taxNumber = value;
-  }
-
-  onChangeZipCode(value: any): void{
-    this.personFormModel.personAddressFormModel.zipCode = value;
-  }
-
-  onChangeCity(value: any): void{
-    this.personFormModel.personAddressFormModel.city = value;
-  }
-
-  onChangeStreet(value: any): void{
-    this.personFormModel.personAddressFormModel.street = value;
-  }
-
-
-  onChangeBankName(value: any): void {
-    this.personFormModel.bankAccountFormModel.bankName = value;
-  }
-
-  onChangeAccountNumber(value: any): void {
-    this.personFormModel.bankAccountFormModel.accountNumber = value;
-  }
-
-  onChangeIban(value: any): void {
-    this.personFormModel.bankAccountFormModel.iban = value;
-  }
-
-  onChangeBicSwift(value: any): void {
-    this.personFormModel.bankAccountFormModel.bicSwift = value;
-  }
-
-  onChangePersonType(value: any) {
-    this.personFormModel.personType = value;
-  }
 }

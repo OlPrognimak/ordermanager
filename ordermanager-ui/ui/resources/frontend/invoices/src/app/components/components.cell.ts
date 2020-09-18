@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 
 @Component({
-  //styleUrls: ['./components.cell.css'],
   styles: [`
         :host ::ng-deep .p-cell-editing {
             padding-top: 0 !important;
