@@ -30,7 +30,17 @@
  */
 package com.pr.ordermanager.controller;
 
+import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.service.JasperReportService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +51,16 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * The rest controller for generation pdf report
+ *
  * @author Oleksandr Prognimak
  */
+@OpenAPIDefinition(
+        info = @Info(
+                title = "This controller contains the end points for generation of invoices in PDF format and  using" +
+                        "jasper report for that",
+                contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@emai.com")
+        )
+)
 @RestController
 @CrossOrigin
 public class JasperReportController {
@@ -54,19 +72,47 @@ public class JasperReportController {
     /**
      * Produce pdf report from report data in database for report which is
      * defined by {@code invoiceNumber}
+     *
      * @param invoiceNumber the number of invoice
-     * @return  the response with pdf report
+     * @return the response with pdf report
      */
-    @GetMapping("/invoice/report/{invoiceNumber}")
+    @Operation(description = "Produces invoice in pdf format",
+            method = "get",
+            operationId = "printReport",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "delivers invoice in pdf format as byte array",
+                            content = {@Content(
+                                    mediaType = "application/pdf"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response in case if exception in database or in the " +
+                                    "generation of pdf report occurs ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "JasperReport",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
+    @GetMapping(value = "/invoice/report/{invoiceNumber}")
     @ResponseBody
-    public HttpEntity<byte[]> printReport(@PathVariable String invoiceNumber)  {
-        logger.debug("invoiceNumber: "+invoiceNumber);
+    public HttpEntity<byte[]> printReport(@Parameter(description = "the number of invoice")
+                                              @PathVariable String invoiceNumber) {
+        logger.debug("invoiceNumber: " + invoiceNumber);
         byte[] report = jasperReportService.createPdfReport(invoiceNumber);
-        logger.debug("Report size: "+report.length);
+        logger.debug("Report size: " + report.length);
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_PDF);
         header.set(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=" + "invoice_"+invoiceNumber+".pdf");
+                "attachment; filename=" + "invoice_" + invoiceNumber + ".pdf");
         header.setContentLength(report.length);
         logger.debug("Response created");
         return new HttpEntity<byte[]>(report, header);

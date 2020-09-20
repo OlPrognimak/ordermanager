@@ -23,10 +23,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-    <hibernate.version>5.4.2.Final</hibernate.version>
-    <cassandra.driver.version>4.2.0</cassandra.driver.version>
-
   </properties>
 
   <dependencies>
@@ -90,7 +86,11 @@
       <groupId>net.sf.jasperreports</groupId>
       <artifactId>jasperreports</artifactId>
     </dependency>
-
+    <!-- OpenAPI -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-ui</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
