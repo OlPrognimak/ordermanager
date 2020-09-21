@@ -68,7 +68,7 @@ import static org.springframework.http.HttpStatus.OK;
         info = @Info(
                 title = "This controller contains the end points for deliver metadata for invoices and person forms" +
                         "and for management with ones",
-                contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@emai.com")
+                contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@gmai.com")
         )
 )
 @RestController
