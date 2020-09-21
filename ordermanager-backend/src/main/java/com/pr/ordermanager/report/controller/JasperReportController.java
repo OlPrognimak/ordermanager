@@ -59,7 +59,7 @@ import org.springframework.web.bind.annotation.*;
         info = @Info(
                 title = "This controller contains the end points for generation of invoices in PDF format and  using" +
                         "jasper report for that",
-                contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@gmai.com")
+                contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@gmail.com")
         )
 )
 @RestController
