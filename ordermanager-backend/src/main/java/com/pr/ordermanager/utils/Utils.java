@@ -30,6 +30,8 @@
  */
 package com.pr.ordermanager.utils;
 
+import org.springframework.util.StringUtils;
+
 /**
  * the utility class
  * @author Oleksandr Prognimak
@@ -46,11 +48,12 @@ public class Utils {
      * @return empty string if value
      */
     public static String emptyOrValue(String value){
-        if(null==value){
-            return "";
-        }else{
-            return value;
-        }
+       if (!StringUtils.isEmpty(value)){
+           return value;
+       }else{
+           return "";
+       }
+
 
     }
 

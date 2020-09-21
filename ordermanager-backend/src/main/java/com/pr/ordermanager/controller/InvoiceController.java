@@ -32,6 +32,7 @@ package com.pr.ordermanager.controller;
 
 
 import com.pr.ordermanager.controller.model.*;
+import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.jpa.entity.Invoice;
 import com.pr.ordermanager.jpa.entity.ItemCatalog;
 import com.pr.ordermanager.jpa.entity.Person;
@@ -39,6 +40,14 @@ import com.pr.ordermanager.service.EntityToModelMapperHelper;
 import com.pr.ordermanager.service.InvoiceMappingService;
 import com.pr.ordermanager.service.InvoiceService;
 import com.pr.ordermanager.service.ModelToEntityMapperHelper;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +64,13 @@ import static org.springframework.http.HttpStatus.OK;
 /**
  * This controler provide the rest services for UI and  for management with person and invoices on UI side
  */
+@OpenAPIDefinition(
+        info = @Info(
+                title = "This controller contains the end points for deliver metadata for invoices and person forms" +
+                        "and for management with ones",
+                contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@emai.com")
+        )
+)
 @RestController
 @CrossOrigin
 public class InvoiceController {
@@ -82,6 +98,32 @@ public class InvoiceController {
      * @param invoiceFormModel the model with invoice data
      * @return response with status und created id of report
      */
+    @Operation(description = "Puts new invoice to the database",
+            method = "put",
+            operationId = "putNewInvoice",
+            responses = {
+                    @ApiResponse(responseCode = "201",
+                            description = "The saving of new invoice to the database was successful",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0002 occurs in case of validation request error, " +
+                                    "and with code CODE_0000 in case if something else unexpected happens ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Invoice",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
     @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewInvoice(@RequestBody InvoiceFormModel invoiceFormModel) {
 
@@ -96,6 +138,32 @@ public class InvoiceController {
      * @param personFormModel the model with data for creation and saving person to the database
      * @return the response with status and created id of person
      */
+    @Operation(description = "Puts new person to the database",
+            method = "put",
+            operationId = "putNewPerson",
+            responses = {
+                    @ApiResponse(responseCode = "201",
+                            description = "The saving of new person to the database was successful",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0001 in case if validation of request happens, " +
+                                    "and with code CODE_0000 in case if something else happens ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Person",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
     @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewPerson(@RequestBody PersonFormModel personFormModel) {
 
@@ -105,10 +173,35 @@ public class InvoiceController {
     }
 
     /**
-     * Retrieves the catalog item for selected id in invoice items
+     * Retrieves catalog item for selected id in invoice items
      * @param idItemCatalog the id of item in catalog of items
      * @return model object which represents catalog item
      */
+    @Operation(description = "Puts new person to the database",
+            method = "get",
+            operationId = "getItemCatalog",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Retrieves catalog item for selected id in invoice items ",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0000 in case if somme error occurs ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Invoice",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
     @GetMapping(value = PATH_ITEM_CATALOG+"/{idItemCatalog}", produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<ItemCatalogModel> getItemCatalog(
             @PathVariable() Long idItemCatalog){
@@ -133,6 +226,33 @@ public class InvoiceController {
      *
      * @return the response with list of {@link DropdownDataType} with persons
      */
+    @Operation(description = "Delivers the list of persons for drop down in UI as key and value map where " +
+            "key is ID of person and value is " +
+            "concatenation of person first name, last name and company name ",
+            method = "get",
+            operationId = "getPersonsDropdown",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "In case of successful delivering of person list ",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0000 in case if somme error occurs ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Person",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
     @RequestMapping(value = PATH_PERSONS_DROPDOWN, method = RequestMethod.GET,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<List<DropdownDataType>> getPersonsDropdown() {
@@ -146,6 +266,34 @@ public class InvoiceController {
      *
      * @return the response with list of {@link DropdownDataType} with catalog items
      */
+    @Operation(description = "Delivers the list of items from catalog of items for drop down in UI as key and value map where " +
+            "key is ID of ItemCatalog and value is " +
+            "concatenation of short description catalog item and price ",
+            method = "get",
+            operationId = "getCatalogItemsDropdown",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "In case of successful delivering of DropdownDataType list transformed from" +
+                                    " ItemCatalog",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0000 in case if somme error occurs ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Person",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
     @RequestMapping(value = PATH_ITEMSCATALOG_DROPDOWN, method = RequestMethod.GET,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<List<DropdownDataType>> getCatalogItemsDropdown() {
@@ -159,6 +307,31 @@ public class InvoiceController {
      *
      * @return the response with lists of {@link InvoiceFormModel}
      */
+    @Operation(description = "Delivers the list of Invoices for table in UI for printing Invoices in PDF format ",
+            method = "get",
+            operationId = "getInvoices",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "In case of successful delivering of invoices list ",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0000 in case if somme error occurs ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Invoice",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
     @RequestMapping(value = PATH_INVOICES_LIST, method = RequestMethod.GET,
             produces = APPLICATION_JSON)
     public ResponseEntity<List<InvoiceFormModel>> getInvoices(){
