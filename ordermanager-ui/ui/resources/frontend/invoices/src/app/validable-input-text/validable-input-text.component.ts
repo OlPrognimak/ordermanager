@@ -50,7 +50,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   @Input() public labelText = '';
   @Input() controlType = 'input';
 
-  public value = '';
+  @Input() value = '';
 
   onChange: (val) => void;
   onTouched: () => void;
@@ -62,7 +62,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   }
 
   registerOnChange(fn: any): void {
-    console.log('OnChange Called: ' + fn);
+   // console.log('OnChange Called: ' + fn);
     this.onChange = fn;
   }
 
@@ -79,7 +79,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   writeValue(value: any): void {
     if (value !== undefined){
       this.value = value;
-      //this.renderer.setProperty(this.elementRef.nativeElement, 'personFormModel.personFirstName', value);
+      this.renderer.setProperty(this.elementRef.nativeElement, 'personFormModel.zipCode', value);
     }
   }
 

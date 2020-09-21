@@ -1,5 +1,6 @@
 package com.pr.ordermanager.repository.jpa;
 
+import com.pr.ordermanager.invoice.repository.InvoiceItemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,13 @@
 package com.pr.ordermanager;
 
-import com.pr.ordermanager.jpa.entity.*;
+import com.pr.ordermanager.invoice.entity.ItemCatalog;
+import com.pr.ordermanager.person.entity.BankAccount;
+import com.pr.ordermanager.person.entity.Person;
+import com.pr.ordermanager.person.entity.PersonAddress;
+import com.pr.ordermanager.person.entity.PersonType;
+import com.pr.ordermanager.person.service.PersonService;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
-import com.pr.ordermanager.service.InvoiceService;
+import com.pr.ordermanager.invoice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +16,9 @@ public class TestServiceHelper {
 
     @Autowired
     private InvoiceService invoiceService;
+    @Autowired
+    private PersonService personService;
+
 
     public ItemCatalog createItemCatalog(){
         ItemCatalog itemCatalog = RepositoryTestHelper.createItemCatalog();
@@ -31,7 +39,7 @@ public class TestServiceHelper {
             RepositoryTestHelper.createPerson (
                 PersonType.PRIVATE, personRecipientAddress, bankRecipientAccount );
 
-        invoiceService.savePerson ( personRecipient );
+        personService.savePerson ( personRecipient );
 
         return personRecipient;
     }
@@ -48,7 +56,7 @@ public class TestServiceHelper {
             RepositoryTestHelper.createPerson (
                 PersonType.PRIVATE, personSuplierAddress, bankSupplierAccount );
 
-        invoiceService.savePerson ( personSupplier );
+        personService.savePerson ( personSupplier );
 
         return personSupplier;
     }

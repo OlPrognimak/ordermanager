@@ -28,54 +28,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+package com.pr.ordermanager.invoice.repository;
 
-@Component({
-  selector: 'app-validable-dropdownlist',
-  templateUrl: './validable-dropdownlist.component.html',
-  styleUrls: ['./validable-dropdownlist.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidableDropdownlistComponent),
-      multi: true
-    }
-  ]
-})
-export class ValidableDropdownlistComponent implements OnInit, ControlValueAccessor {
-  @Input() optionList: any;
-  @Input() public txtMinLength = 0;
-  @Input() public idComponent = '';
-  @Input() public labelText = '';
-  @Input() public placeholder = '';
-  @Input() value: any;
-  onChange: (val) => void;
-  onTouched: () => void;
+import com.pr.ordermanager.invoice.entity.Invoice;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+/**
+ * @author Oleksandr Prognimak
+ */
+public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
-  ngOnInit(): void {
-  }
-
-  registerOnChange(fn: any): void {
-    console.log('OnChange Called: ' + fn);
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
-
-  /**
-   *
-   */
-  writeValue(value: any): void {
-    if (value !== undefined){
-      this.value = value;
-    }
-  }
+    Invoice findByInvoiceNumber(String invoiceNumber);
 }

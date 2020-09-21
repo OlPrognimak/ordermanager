@@ -136,4 +136,7 @@ export class PersonFormComponent implements OnInit {
     return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { params } );
   }
 
+  onChangePersonType(value: any): void {
+    this.personFormModel.personType = value;
+  }
 }

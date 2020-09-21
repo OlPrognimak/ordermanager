@@ -1,14 +1,24 @@
 package com.pr.ordermanager.repository;
 
-import com.pr.ordermanager.controller.model.*;
-import com.pr.ordermanager.jpa.entity.*;
+import com.pr.ordermanager.invoice.entity.Invoice;
+import com.pr.ordermanager.invoice.entity.InvoiceItem;
+import com.pr.ordermanager.invoice.entity.ItemCatalog;
+import com.pr.ordermanager.invoice.model.InvoiceFormModel;
+import com.pr.ordermanager.invoice.model.InvoiceItemModel;
+import com.pr.ordermanager.person.entity.BankAccount;
+import com.pr.ordermanager.person.entity.Person;
+import com.pr.ordermanager.person.entity.PersonAddress;
+import com.pr.ordermanager.person.entity.PersonType;
+import com.pr.ordermanager.person.model.BankAccountFormModel;
+import com.pr.ordermanager.person.model.PersonAddressFormModel;
+import com.pr.ordermanager.person.model.PersonFormModel;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static com.pr.ordermanager.jpa.entity.RateType.DAILY;
+import static com.pr.ordermanager.invoice.entity.RateType.DAILY;
 
 public class RepositoryTestHelper {
     private RepositoryTestHelper() {

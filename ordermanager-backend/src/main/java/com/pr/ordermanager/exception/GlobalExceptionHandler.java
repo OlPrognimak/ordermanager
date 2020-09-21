@@ -28,54 +28,35 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+package com.pr.ordermanager.exception;
 
-@Component({
-  selector: 'app-validable-dropdownlist',
-  templateUrl: './validable-dropdownlist.component.html',
-  styleUrls: ['./validable-dropdownlist.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidableDropdownlistComponent),
-      multi: true
+import com.pr.ordermanager.common.model.ResponseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<ResponseException> handleAccessDeniedException(
+            Exception ex, WebRequest request) {
+
+        if (ex instanceof OrderManagerException) {
+            OrderManagerException ordMngEx = (OrderManagerException)ex;
+            ResponseException responseException = ResponseException.builder()
+                    .errorCode(ordMngEx.getErrorCode())
+                    .errorMessage(ordMngEx.getMessage()).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+        }else{
+            ResponseException responseException = ResponseException.builder()
+                    .errorCode(CODE_0000)
+                    .errorMessage(ex.getMessage()).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+        }
+
     }
-  ]
-})
-export class ValidableDropdownlistComponent implements OnInit, ControlValueAccessor {
-  @Input() optionList: any;
-  @Input() public txtMinLength = 0;
-  @Input() public idComponent = '';
-  @Input() public labelText = '';
-  @Input() public placeholder = '';
-  @Input() value: any;
-  onChange: (val) => void;
-  onTouched: () => void;
-
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
-
-  ngOnInit(): void {
-  }
-
-  registerOnChange(fn: any): void {
-    console.log('OnChange Called: ' + fn);
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
-
-  /**
-   *
-   */
-  writeValue(value: any): void {
-    if (value !== undefined){
-      this.value = value;
-    }
-  }
 }

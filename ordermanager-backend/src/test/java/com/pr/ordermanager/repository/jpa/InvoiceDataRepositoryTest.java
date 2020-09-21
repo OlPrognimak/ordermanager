@@ -1,6 +1,7 @@
 package com.pr.ordermanager.repository.jpa;
 
-import javax.persistence.EntityManager;
+import com.pr.ordermanager.invoice.repository.InvoiceItemRepository;
+import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest

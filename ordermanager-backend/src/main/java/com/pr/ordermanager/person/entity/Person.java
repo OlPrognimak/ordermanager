@@ -28,54 +28,47 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+package com.pr.ordermanager.person.entity;
 
-@Component({
-  selector: 'app-validable-dropdownlist',
-  templateUrl: './validable-dropdownlist.component.html',
-  styleUrls: ['./validable-dropdownlist.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidableDropdownlistComponent),
-      multi: true
-    }
-  ]
-})
-export class ValidableDropdownlistComponent implements OnInit, ControlValueAccessor {
-  @Input() optionList: any;
-  @Input() public txtMinLength = 0;
-  @Input() public idComponent = '';
-  @Input() public labelText = '';
-  @Input() public placeholder = '';
-  @Input() value: any;
-  onChange: (val) => void;
-  onTouched: () => void;
+import com.pr.ordermanager.invoice.entity.Invoice;
+import lombok.*;
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+import javax.persistence.*;
+import java.util.List;
 
-  ngOnInit(): void {
-  }
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+@Entity
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String personLastName;
+    private String personFirstName;
+    private String companyName;
+    private String taxNumber;
+    @Enumerated(EnumType.STRING)
+    private PersonType personType;
+    @OneToMany(mappedBy="invoiceSupplierPerson", cascade = CascadeType.ALL)
+    private List<Invoice>  invoiceSuppliers;
+    @OneToMany(mappedBy="invoiceRecipientPerson", cascade = CascadeType.ALL)
+    private List<Invoice>  invoiceRecipient;
+    @ManyToMany (cascade = CascadeType.ALL)
+    @OrderColumn(name = "id")
+    @JoinTable(
+        name = "person_to_address",
+        joinColumns = @JoinColumn(name = "persons_id"),
+        inverseJoinColumns = @JoinColumn(name = "address_id"))
+    private List<PersonAddress> personAddress;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "person_to_account",
+        joinColumns = @JoinColumn(name = "persons_id"),
+        inverseJoinColumns = @JoinColumn(name = "bank_account_id"))
+    @OrderColumn(name = "id")
+    private List<BankAccount> bankAccount;
 
-  registerOnChange(fn: any): void {
-    console.log('OnChange Called: ' + fn);
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-  }
-
-  /**
-   *
-   */
-  writeValue(value: any): void {
-    if (value !== undefined){
-      this.value = value;
-    }
-  }
 }

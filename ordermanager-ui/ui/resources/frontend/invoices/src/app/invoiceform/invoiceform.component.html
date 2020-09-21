@@ -12,6 +12,7 @@
       <app-validable-input-text [labelText]="'Invoice Number'"
                                 [idComponent]="'id_InvoiceNumber'"
                                 [txtMinLength]="2"
+                                [value]="invoiceFormData.invoiceNumber"
                                 [ngModel]="invoiceFormData.invoiceNumber"
                                 (ngModelChange) = "invoiceFormData.invoiceNumber=$event">
       </app-validable-input-text>
@@ -31,6 +32,7 @@
                                   [labelText]="'Rate Type'"
                                   [idComponent]="'id-rateType'"
                                   [txtMinLength]="1"
+                                  [value]="invoiceFormData.rateType"
                                   [ngModel]="invoiceFormData.rateType"
                                   (ngModelChange) = "invoiceFormData.rateType=$event">
       </app-validable-dropdownlist>
@@ -43,6 +45,7 @@
                                 [labelText]="'Creation Date'"
                                 [(ngModel)]="invoiceFormData.creationDate"
                                 [dateFormat]="'dd.mm.yy'"
+                                [value]="invoiceFormData.creationDate"
                                 (ngModelChange) = "invoiceFormData.creationDate=$event">
         </app-validable-calendar>
     </div>
@@ -52,6 +55,7 @@
                               [labelText]="'Invoice Date'"
                               [(ngModel)]="invoiceFormData.invoiceDate"
                               [dateFormat]="'dd.mm.yy'"
+                              [value]="invoiceFormData.invoiceDate"
                               (ngModelChange) = "invoiceFormData.invoiceDate=$event">
       </app-validable-calendar>
     </div>
@@ -63,6 +67,7 @@
                                   [idComponent]="'id-invoiceCreator'"
                                   [placeholder]="['_']"
                                   [txtMinLength]="-1"
+                                  [value]="invoiceFormData.personSupplierId"
                                   [ngModel]="invoiceFormData.personSupplierId"
                                   (ngModelChange) = "invoiceFormData.personSupplierId=$event">
       </app-validable-dropdownlist>
@@ -76,6 +81,7 @@
                                   [idComponent]="'id-invoiceRecipient'"
                                   [placeholder]="['_']"
                                   [txtMinLength]="0"
+                                  [value]="invoiceFormData.personRecipientId"
                                   [ngModel]="invoiceFormData.personRecipientId"
                                   (ngModelChange) = "invoiceFormData.personRecipientId=$event">
       </app-validable-dropdownlist>

@@ -40,7 +40,8 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.Filter;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.pr.ordermanager.repository.jpa"})
+@EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
+        "com.pr.ordermanager.person.repository"})
 public class AngularBackendApplication {
 
 

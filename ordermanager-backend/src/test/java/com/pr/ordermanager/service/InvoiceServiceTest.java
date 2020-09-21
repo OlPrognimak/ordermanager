@@ -2,12 +2,15 @@ package com.pr.ordermanager.service;
 
 import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
-import com.pr.ordermanager.jpa.entity.*;
+import com.pr.ordermanager.invoice.entity.Invoice;
+import com.pr.ordermanager.invoice.entity.InvoiceItem;
+import com.pr.ordermanager.invoice.entity.ItemCatalog;
+import com.pr.ordermanager.invoice.repository.InvoiceRepository;
+import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
+import com.pr.ordermanager.invoice.service.InvoiceService;
+import com.pr.ordermanager.person.entity.Person;
+import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
-import com.pr.ordermanager.repository.jpa.InvoiceRepository;
-import com.pr.ordermanager.repository.jpa.ItemCatalogRepository;
-import com.pr.ordermanager.repository.jpa.PersonRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,32 +46,17 @@ public class InvoiceServiceTest {
 
     @BeforeEach
     void setUp() {
-       // personRepository.deleteAll();
-       // invoiceRepository.deleteAll();
+        personRepository.deleteAll();
+        invoiceRepository.deleteAll();
 
     }
 
     @AfterEach
     void tearDown() {
-        //personRepository.deleteAll();
-        //personRepository.deleteAll();
+        personRepository.deleteAll();
+        personRepository.deleteAll();
     }
 
-    @Test
-    void savePerson() {
-             PersonAddress personAddress =
-             RepositoryTestHelper.createPersonAddress("München", "Bonner str.", "12345",null);
-             BankAccount bankAccount = RepositoryTestHelper.createBankAccount("DE11 1234 1234 1234 1234 0", "TestBank");
-             Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, personAddress, bankAccount);
-             invoiceService.savePerson(person);
-            //invoiceData.getInvoiceItems()
-            Assert.assertNotNull(person.getId());
-            Assert.assertNotNull(person.getBankAccount());
-            Assert.assertNotNull(person.getPersonAddress());
-            Assert.assertEquals(1, person.getBankAccount().size());
-            Assert.assertEquals(1, person.getPersonAddress().size());
-
-    }
 
     @Test
     void saveInvoice() {

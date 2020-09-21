@@ -143,8 +143,8 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
           const msg: Message = {severity: 'success', summary: 'Congradulation!',
                         detail: 'The invoice is saved successfully.'};
           this.messageService.add(msg);
-          this.utilService.hideMassage(msg, 2000);
           this.resetModel();
+          this.utilService.hideMassage(msg, 2000);
       }
     ).catch(error => {
       const msg: Message = {severity: 'error', summary: 'Error',
@@ -186,10 +186,11 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   private resetModel(): void{
     this.invoiceFormData = new InvoiceFormModel();
     this.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
-    //this.eventsModelIsReset.next();
-    if(this.isViewInitialized) {
-      this.itemsTableComponent.resetTotalValues();
-    }
+    this.eventsModelIsReset.next();
+
+    // if (this.isViewInitialized) {
+    //   this.itemsTableComponent.resetTotalValues();
+    // }
   }
 
 
