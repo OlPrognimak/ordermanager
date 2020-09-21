@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localede from '@angular/common/locales/de';
 
@@ -45,6 +45,7 @@ import {Observable, Subject} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
 import {MessageService} from 'primeng/api';
+import {ItemsTableComponent} from "../components/components.itemstable";
 
 
 
@@ -67,7 +68,7 @@ function handleError(err: any): void {
   templateUrl: './invoiceform.component.html',
   providers:  [MessageService, ComponentsUtilService]
 })
-export class InvoiceFormComponent implements OnInit{
+export class InvoiceFormComponent implements OnInit,  AfterViewInit{
 
 
   eventsModelIsReset: Subject<void> = new Subject<void>();
@@ -81,7 +82,8 @@ export class InvoiceFormComponent implements OnInit{
   /** Model invoice recipient for dropdown component */
   personInvoiceRecipient: DropdownDataType[];
   executionResult = false;
-
+  private isViewInitialized = false;
+  @ViewChild(ItemsTableComponent) itemsTableComponent: ItemsTableComponent;
   /**
    * Constructor
    * @param dataGridService inject service
@@ -93,6 +95,13 @@ export class InvoiceFormComponent implements OnInit{
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
+  }
+
+  /**
+   * @override
+   */
+  ngAfterViewInit(): void {
+    this.isViewInitialized = true;
   }
 
 
@@ -167,11 +176,20 @@ export class InvoiceFormComponent implements OnInit{
     alert(JSON.stringify(data));
   }
 
-
+  /**
+   * This method has two possible implementation to reset total values on
+   * child component.
+   * 1) With using subject eventsModelIsReset.next() or
+   * 2) By using @ChildView reference Object this.itemsTableComponent.resetTotalValues()
+   * @private
+   */
   private resetModel(): void{
     this.invoiceFormData = new InvoiceFormModel();
     this.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
-    this.eventsModelIsReset.next();
+    //this.eventsModelIsReset.next();
+    if(this.isViewInitialized) {
+      this.itemsTableComponent.resetTotalValues();
+    }
   }
 
 
