@@ -88,7 +88,7 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
     this.modelChangedSubscription.unsubscribe();
   }
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
-  private resetTotalValues(): void{
+  public resetTotalValues(): void{
     this.calculatorService.totalNettoSum = 0;
     this.calculatorService.totalBruttoSum = 0;
   }
