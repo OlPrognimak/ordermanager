@@ -9,10 +9,17 @@ The next functionality will be planned:
 # Backend frameworks
 - SpringBoot-2 
 - Lombok https://projectlombok.org/features/all. The useful frameworks which simplifying the development process of pojos like  entity and rest
-  service model beans.  
+  service model beans.
+- OpenAPI/Swagger-UI  
 
-# Backend features and useful tricks and kicks
-- //TODO
+# Backend configuration, features and useful tips and tricks
+- OpenAPI/Sagger-UI URLs
+  * OpenAPI documentation in JSON format: http://localhost:8081/backend/v3/api-docs/
+  * OpenAPI documentation in YAML format: http://localhost:8081/backend/v3/api-docs.yaml
+  * Swagger-UI: http://localhost:8081/backend/swagger-ui.html
+
+  
+  
 
 # Frontend frameworks and libraries
 - Angular 10
