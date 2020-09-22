@@ -30,6 +30,7 @@
  */
 package com.pr.ordermanager.invoice.entity;
 
+import com.pr.ordermanager.common.entity.AbstractEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -43,7 +44,7 @@ import javax.persistence.Id;
 @Data
 @Builder
 @Entity
-public class ItemCatalog {
+public class ItemCatalog extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -30,6 +30,7 @@
  */
 package com.pr.ordermanager.person.entity;
 
+import com.pr.ordermanager.common.entity.AbstractEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,7 +42,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-public class PersonAddress {
+public class PersonAddress extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

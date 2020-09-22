@@ -12,9 +12,7 @@
                                     [labelText]="'Person Type'"
                                     [idComponent]="'id-personType'"
                                     [txtMinLength]="1"
-                                    [value]="personFormModel.personType"
-                                    [ngModel]="personFormModel.personType"
-                                    (ngModelChange) = "personFormModel.personType = $event">
+                                    [(ngModel)] = "personFormModel.personType">
         </app-validable-dropdownlist>
       </div>
     </div>
@@ -24,18 +22,14 @@
         <app-validable-input-text [labelText]="'First name'"
                                   [idComponent]="'id_firstName'"
                                   [txtMinLength]="2"
-                                  [value]="personFormModel.personFirstName"
-                                  [ngModel]="personFormModel.personFirstName"
-                                  (ngModelChange) = "personFormModel.personFirstName=$event">
+                                  [(ngModel)] = "personFormModel.personFirstName">
         </app-validable-input-text>
       </div>
       <div class="p-col-3">
           <app-validable-input-text [labelText]="'Last name'"
                                     [idComponent]="'id_lastName'"
                                     [txtMinLength]="2"
-                                    [value]="personFormModel.personLastName"
-                                    [ngModel]="personFormModel.personLastName"
-                                    (ngModelChange) = "personFormModel.personLastName=$event">
+                                    [(ngModel)] = "personFormModel.personLastName">
           </app-validable-input-text>
       </div>
      </div>
@@ -45,9 +39,7 @@
          <app-validable-input-text [labelText]="'Company name'"
                                   [idComponent]="'id_company_Name'"
                                   [txtMinLength]="2"
-                                  [value]="personFormModel.companyName"
-                                  [ngModel]="personFormModel.companyName"
-                                  (ngModelChange) = "personFormModel.companyName=$event">
+                                  [(ngModel)] = "personFormModel.companyName">
         </app-validable-input-text>
       </div>
     </div>
@@ -57,9 +49,7 @@
         <app-validable-input-text [labelText]="'Tax number'"
                                   [idComponent]="'id_tax_Number'"
                                   [txtMinLength]="5"
-                                  [value]="personFormModel.taxNumber"
-                                  [ngModel]="personFormModel.taxNumber"
-                                  (ngModelChange) = "personFormModel.taxNumber=$event">
+                                  [(ngModel)] = "personFormModel.taxNumber">
         </app-validable-input-text>
       </div>
     </div>
@@ -74,18 +64,14 @@
       <app-validable-input-text [labelText]="'Zip'"
                                 [idComponent]="'id_Zip'"
                                 [txtMinLength]="4"
-                                [value]="personFormModel.personAddressFormModel.zipCode"
-                                [ngModel]="personFormModel.personAddressFormModel.zipCode"
-                                (ngModelChange) = "personFormModel.personAddressFormModel.zipCode=$event">
+                                [(ngModel)] = "personFormModel.personAddressFormModel.zipCode">
       </app-validable-input-text>
     </div>
     <div style="margin-left: 5pt" class="p-col-3">
       <app-validable-input-text [labelText]="'City'"
                                 [idComponent]="'id_City'"
                                 [txtMinLength]="2"
-                                [value]="personFormModel.personAddressFormModel.city"
-                                [ngModel]="personFormModel.personAddressFormModel.city"
-                                (ngModelChange) = "personFormModel.personAddressFormModel.city=$event">
+                                [(ngModel)] = "personFormModel.personAddressFormModel.city">
       </app-validable-input-text>
     </div>
   </div>
@@ -102,9 +88,7 @@
       <app-validable-input-text [labelText]="'Street'"
                                 [idComponent]="'id_Street'"
                                 [txtMinLength]="2"
-                                [value]="personFormModel.personAddressFormModel.street"
-                                [ngModel]="personFormModel.personAddressFormModel.street"
-                                (ngModelChange) = "personFormModel.personAddressFormModel.street=$event">
+                                [(ngModel)] = "personFormModel.personAddressFormModel.street">
       </app-validable-input-text>
       </div>
     </div>
@@ -122,9 +106,7 @@
       <app-validable-input-text [labelText]="'Bank name'"
                                 [idComponent]="'id_BankName'"
                                 [txtMinLength]="2"
-                                [value]="personFormModel.bankAccountFormModel.bankName"
-                                [ngModel]="personFormModel.bankAccountFormModel.bankName"
-                                (ngModelChange) = "personFormModel.bankAccountFormModel.bankName=$event">
+                                [(ngModel)] = "personFormModel.bankAccountFormModel.bankName">
       </app-validable-input-text>
     </div>
 
@@ -143,9 +125,8 @@
         <app-validable-input-text [labelText]="'IBAN'"
                                   [idComponent]="'id_AccountNumber'"
                                   [txtMinLength]="2"
-                                  [value]="personFormModel.bankAccountFormModel.iban"
-                                  [ngModel]="personFormModel.bankAccountFormModel.iban"
-                                  (ngModelChange) = "personFormModel.bankAccountFormModel.iban=$event">
+                                  [(ngModel)] = "personFormModel.bankAccountFormModel.iban">
+
         </app-validable-input-text>
       </div>
 
@@ -154,9 +135,7 @@
         <app-validable-input-text [labelText]="'BIC/SWIFT'"
                                   [idComponent]="'id-acc-bicSwift'"
                                   [txtMinLength]="0"
-                                  [value]="personFormModel.bankAccountFormModel.bicSwift"
-                                  [ngModel]="personFormModel.bankAccountFormModel.bicSwift"
-                                  (ngModelChange) = "personFormModel.bankAccountFormModel.bicSwift=$event">
+                                  [(ngModel)] = "personFormModel.bankAccountFormModel.bicSwift">
         </app-validable-input-text>
       </div>
     </div>

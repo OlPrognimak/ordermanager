@@ -30,7 +30,9 @@
  */
 package com.pr.ordermanager.invoice.entity;
 
+import com.pr.ordermanager.common.entity.AbstractEntity;
 import com.pr.ordermanager.person.entity.Person;
+import com.pr.ordermanager.security.entity.InvoiceUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,7 +46,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-public class Invoice {
+public class Invoice extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +58,10 @@ public class Invoice {
             mappedBy = "invoice",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    List<InvoiceItem> invoiceItems;
+    private List<InvoiceItem> invoiceItems;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private InvoiceUser invoiceUser;
     /**The person which  made and supply an invoice */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="invoice_supplier")

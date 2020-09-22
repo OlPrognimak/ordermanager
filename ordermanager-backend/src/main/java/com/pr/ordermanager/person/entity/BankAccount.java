@@ -30,6 +30,7 @@
  */
 package com.pr.ordermanager.person.entity;
 
+import com.pr.ordermanager.common.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,7 +44,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-public class BankAccount {
+public class BankAccount extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

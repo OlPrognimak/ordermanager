@@ -28,53 +28,31 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.pr.ordermanager;
+package com.pr.ordermanager.common.entity;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.client.RestTemplate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Version;
+import java.time.Instant;
 
-import javax.servlet.Filter;
+/**
+ * @author Oleksandr Prognimak
+ * @since  21.09.2020 - 21:56
+ */
+public  class AbstractEntity {
+    @Version
+    private Integer version;
+    private Instant created;
+    private Instant modified;
 
-@SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
-        "com.pr.ordermanager.person.repository", "com.pr.ordermanager.security.repository"})
-public class AngularBackendApplication {
-
-
-    /**
-     *
-     * @param args parameters
-     */
-    public static void main(String[] args) {
-        SpringApplication
-                .run(AngularBackendApplication.class,
-                        args);
+    @PrePersist
+    private void onPersist() {
+        this.created = Instant.now();
     }
 
-
-    @Bean(name = "corsFilter")
-    public Filter corsFilter() {
-        return new CorsFilter();
+    @PreUpdate
+    private void onUpdate() {
+        this.modified = Instant.now();
     }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-
-
-    @Bean
-    public FilterRegistrationBean corsFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(corsFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("corsFilter");
-        registration.setOrder(1);
-        return registration;
-    }
 }

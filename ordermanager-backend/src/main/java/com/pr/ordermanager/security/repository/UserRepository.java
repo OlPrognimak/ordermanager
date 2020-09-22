@@ -28,53 +28,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.pr.ordermanager;
+package com.pr.ordermanager.security.repository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.client.RestTemplate;
+import com.pr.ordermanager.security.entity.InvoiceUser;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.servlet.Filter;
-
-@SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
-        "com.pr.ordermanager.person.repository", "com.pr.ordermanager.security.repository"})
-public class AngularBackendApplication {
-
-
-    /**
-     *
-     * @param args parameters
-     */
-    public static void main(String[] args) {
-        SpringApplication
-                .run(AngularBackendApplication.class,
-                        args);
-    }
-
-
-    @Bean(name = "corsFilter")
-    public Filter corsFilter() {
-        return new CorsFilter();
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-
-
-    @Bean
-    public FilterRegistrationBean corsFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(corsFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("corsFilter");
-        registration.setOrder(1);
-        return registration;
-    }
+/**
+ * @author Oleksandr Prognimak
+ * @since  21.09.2020 - 22:03
+ */
+public interface UserRepository extends JpaRepository<InvoiceUser, Long> {
 }

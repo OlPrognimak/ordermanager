@@ -30,7 +30,9 @@
  */
 package com.pr.ordermanager.person.entity;
 
+import com.pr.ordermanager.common.entity.AbstractEntity;
 import com.pr.ordermanager.invoice.entity.Invoice;
+import com.pr.ordermanager.security.entity.InvoiceUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,7 +44,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-public class Person {
+public class Person  extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,6 +58,9 @@ public class Person {
     private List<Invoice>  invoiceSuppliers;
     @OneToMany(mappedBy="invoiceRecipientPerson", cascade = CascadeType.ALL)
     private List<Invoice>  invoiceRecipient;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private InvoiceUser invoiceUser;
     @ManyToMany (cascade = CascadeType.ALL)
     @OrderColumn(name = "id")
     @JoinTable(

@@ -49,8 +49,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   @Input() public idComponent = '';
   @Input() public labelText = '';
   @Input() controlType = 'input';
-
-  @Input() value = '';
+  private controlValue = '';
 
   onChange: (val) => void;
   onTouched: () => void;
@@ -61,8 +60,20 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   ngOnInit(): void {
   }
 
+  // get accessor
+  get value(): any {
+    return this.controlValue;
+  }
+
+  // set accessor including call the onchange callback
+  set value(v: any) {
+    if (v !== this.value) {
+      this.controlValue = v;
+      this.onChange(v);
+    }
+  }
+
   registerOnChange(fn: any): void {
-   // console.log('OnChange Called: ' + fn);
     this.onChange = fn;
   }
 
@@ -78,8 +89,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
    */
   writeValue(value: any): void {
     if (value !== undefined){
-      this.value = value;
-      this.renderer.setProperty(this.elementRef.nativeElement, 'personFormModel.zipCode', value);
+      this.controlValue = value;
     }
   }
 
