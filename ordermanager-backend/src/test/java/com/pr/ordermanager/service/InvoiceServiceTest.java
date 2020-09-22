@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -79,6 +80,8 @@ public class InvoiceServiceTest {
 
     @Test
     void getAllData() {
+        String pw_hash = BCrypt.hashpw("alexadmin", BCrypt.gensalt(10));
+        System.out.println(pw_hash);
     }
 
 }

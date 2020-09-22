@@ -11,11 +11,12 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.pr" level="debug" additivity="false">
-            <AppenderRef ref="ConsoleAppender" />
-        </Logger>
 
-        <Root level="warn">
+<!--        <Logger name="com.pr" level="debug" additivity="false">-->
+<!--            <AppenderRef ref="ConsoleAppender" />-->
+<!--        </Logger>-->
+
+        <Root level="info">
             <AppenderRef ref="ConsoleAppender" />
         </Root>
     </Loggers>

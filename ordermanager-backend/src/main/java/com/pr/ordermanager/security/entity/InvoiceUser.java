@@ -19,9 +19,20 @@ import javax.persistence.Id;
 @Builder
 @Entity
 public class InvoiceUser extends AbstractEntity {
+    /**
+     *
+     * @param userName the name of user
+     * @param password the password of user
+     */
+     public InvoiceUser(String userName, String password){
+         this.userName =userName;
+         this.userPassword = password;
+     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userName;
+    private String userPassword;
     private String roles;
 }

@@ -38,4 +38,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since  21.09.2020 - 22:03
  */
 public interface UserRepository extends JpaRepository<InvoiceUser, Long> {
+    /**
+     *
+     * @param userName the user name
+     * @return the {@link InvoiceUser}  or null
+     */
+    InvoiceUser findByUserName(String userName);
 }

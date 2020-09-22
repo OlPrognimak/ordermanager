@@ -45,9 +45,11 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @CrossOrigin
 public class PersonController {
-    private static final String PATH_BANK_ACC = "/account";
-    private static final String PATH_PERSONS_DROPDOWN = "/personsdropdown";
-    private static final String PATH_PERSON = "/person";
+    private static final String PATH = "/person";
+    private static final String PATH_PERSON = PATH;
+    private static final String PATH_BANK_ACC = PATH+"/account";
+    private static final String PATH_PERSONS_DROPDOWN =PATH+ "/personsdropdown";
+
     private static final String APPLICATION_JSON = "application/json";
 
     @Autowired

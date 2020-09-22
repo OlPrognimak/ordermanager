@@ -30,6 +30,7 @@
  */
 package com.pr.ordermanager.common.entity;
 
+import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Version;
@@ -39,7 +40,8 @@ import java.time.Instant;
  * @author Oleksandr Prognimak
  * @since  21.09.2020 - 21:56
  */
-public  class AbstractEntity {
+@MappedSuperclass
+public class AbstractEntity {
     @Version
     private Integer version;
     private Instant created;

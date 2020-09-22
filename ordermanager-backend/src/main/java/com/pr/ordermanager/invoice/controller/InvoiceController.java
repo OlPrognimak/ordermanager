@@ -78,8 +78,8 @@ public class InvoiceController {
 
     Logger logger = LogManager.getLogger(InvoiceController.class);
 
-    private static final String PATH = "";
-    private static final String PATH_INVOICE = PATH + "/invoice";
+    private static final String PATH = "/invoice";
+    private static final String PATH_INVOICE = PATH;
     private static final String PATH_INVOICES_LIST = PATH + "/invoicesList";
     private static final String PATH_ITEM_CATALOG = PATH + "/itemcatalog";
 

@@ -39,7 +39,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.Filter;
 
-@SpringBootApplication
+@SpringBootApplication(/*exclude = {SecurityAutoConfiguration.class}*/)
 @EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
         "com.pr.ordermanager.person.repository", "com.pr.ordermanager.security.repository"})
 public class AngularBackendApplication {

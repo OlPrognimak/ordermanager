@@ -5,4 +5,7 @@ package com.pr.ordermanager.security.controller;
  * @since 21.09.2020 - 22:24
  */
 public class InvoiceUserController {
+
+
+
 }
