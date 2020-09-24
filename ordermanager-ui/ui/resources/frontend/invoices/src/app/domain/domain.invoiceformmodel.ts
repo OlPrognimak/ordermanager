@@ -114,3 +114,10 @@ export class CalculatorParameters{
   nettoSum = 0;
 }
 
+/**
+ * Object for logging checking
+ */
+export class LoggingCheck{
+  logged = false;
+}
+

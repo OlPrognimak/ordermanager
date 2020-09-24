@@ -46,6 +46,7 @@ import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
 import {MessageService} from 'primeng/api';
 import {ItemsTableComponent} from "../components/components.itemstable";
+import {AppSecurityService} from "../app-security.service";
 
 
 
@@ -90,11 +91,13 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @param httpClient the http client
    */
   constructor( private httpClient: HttpClient,
+               private appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: ComponentsUtilService) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
+
   }
 
   /**
@@ -116,10 +119,11 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       {label: 'Daily rate', value: 'DAILY'}
     ];
 
+
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json');
-    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'personsdropdown', {headers})
+    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', {headers})
       .subscribe(
         data => {
           this.personInvoiceSupplier = data;

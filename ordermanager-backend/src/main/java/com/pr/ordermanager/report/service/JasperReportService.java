@@ -65,7 +65,7 @@ public class JasperReportService {
     private static final Logger logger = LogManager.getLogger();
     @Autowired
     DataSource dataSource;
-    @Value("${jasper.reports.directory.path}")
+    @Value("${jasper.reports.directory.path:default}")
     private String jasperRepDirPath;
     @Autowired
     private Environment env;

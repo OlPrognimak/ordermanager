@@ -126,8 +126,7 @@ public class PersonController {
                     name = "basicAuth"
             )}
     )
-    @RequestMapping(value = PATH_PERSONS_DROPDOWN, method = RequestMethod.GET,
-            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @GetMapping(value = PATH_PERSONS_DROPDOWN, produces = APPLICATION_JSON)
     public ResponseEntity<List<DropdownDataType>> getPersonsDropdown() {
         List<Person> allPersons = personService.getAllPersons();
         List<DropdownDataType> dropdownDataTypes =

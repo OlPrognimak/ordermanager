@@ -31,27 +31,46 @@
 package com.pr.ordermanager.security.controller;
 
 import com.pr.ordermanager.security.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 /**
  * @author Oleksandr Prognimak
  * @since 21.09.2020 - 22:24
  */
 @RestController
-@CrossOrigin
+@CrossOrigin()
 public class InvoiceUserController {
-
+ public final static Logger logger = LogManager.getLogger(InvoiceUserController.class);
     @Autowired
     UserService userService;
 
 
-    @PostMapping()
+    //@PostMapping()
     public ResponseEntity<String> createUser(@RequestHeader(name = "User-Name") String userName,
                                              @RequestHeader(name = "User-Password") String userPassword){
-        String userLogin = userService.saveUserLogin(userName, userPassword);
+        String userLogin = userService.createUserLogin(userName, userPassword);
         return ResponseEntity.ok(userLogin);
     }
+
+    @GetMapping(value = "/user")
+    public ResponseEntity<String> user(Principal user) {
+        String result="";
+        if(user!=null) {
+            result = "{\"logged\": true}";
+        }else{
+            result = "{\"logged\": false}";
+        }
+        return ResponseEntity.ok(result);
+    }
+
 
 }

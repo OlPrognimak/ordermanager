@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author Oleksandr Prognimak
- * @created 22.09.2020 - 19:51
+ * @since 22.09.2020 - 19:51
  */
 @Service
 public class InvoiceSecurityUserDetailsService implements UserDetailsService {

@@ -47,7 +47,7 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0007;
 
 /**
  * @author Oleksandr Prognimak
- * @created 22.09.2020 - 19:01
+ * @since 22.09.2020 - 19:01
  */
 @Service
 public class UserService {
@@ -79,7 +79,7 @@ public class UserService {
      * @param password not encoded password
      * @return encoded password
      */
-    public String saveUserLogin(String userName, String password) {
+    public String createUserLogin(String userName, String password) {
         String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
         userRepository.save(user);

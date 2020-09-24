@@ -51,8 +51,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
+
     @Autowired
     private InvoiceSecurityUserDetailsService invoiceSecurityUserDetailsService;
 
@@ -60,19 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         logger.info("LogConfiguration started");
-        http.authorizeRequests().regexMatchers("\\/login*").permitAll()
+        http.cors().and().authorizeRequests().regexMatchers("\\/login*").permitAll()
                 .anyRequest().authenticated().and().httpBasic();
-
-//                .and().formLogin().loginPage("/login").permitAll() //redirect to login page
-//                .and().logout().permitAll();
-
-//                http.csrf().disable()
-//                .authorizeRequests()
-//                .regexMatchers("\\/person*","\\/invoice*")
-//                //.anyRequest()
-//                .authenticated()
-//                .and()
-//                .httpBasic();
     }
 
     @Autowired
@@ -81,42 +69,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     {
         logger.info("LogConfiguration started");
         auth.userDetailsService(invoiceSecurityUserDetailsService);
-//        Authentication contextAuth = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = contextAuth.getName();
-//        logger.info("User name :"+userName);
-//        Object credentials =
-//               contextAuth.getCredentials();
-//        logger.info("Credentials :"+credentials);
-
-
-
-//        userService.getUserOrException(userName);
-//       auth.getDefaultUserDetailsService()
-//        auth.
-//                .inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("{noop}password")
-//                .roles("USER");
     }
-//
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new DelegatingPasswordEncoder();
-//    }
-
-
-//    @Bean
-//    public AuthenticationProvider daoAuthenticationProvider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(passwordEncoder);
-//        provider.setUserDetailsPasswordService(
-//                this.databaseUserDetailPasswordService);
-//        provider.setUserDetailsService(this.databaseUserDetailsService);
-//        return provider;
-//    }
 }

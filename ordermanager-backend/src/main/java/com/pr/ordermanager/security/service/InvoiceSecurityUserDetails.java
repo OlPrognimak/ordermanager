@@ -44,12 +44,11 @@ import java.util.Collection;
 public class InvoiceSecurityUserDetails  extends InvoiceUser implements UserDetails {
     /**
      * The user which ned to be authenticated
-     * @param user
+     * @param user the user to be authenticated
      */
     public InvoiceSecurityUserDetails(InvoiceUser user){
         super(user.getUserName(), user.getUserPassword());
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
