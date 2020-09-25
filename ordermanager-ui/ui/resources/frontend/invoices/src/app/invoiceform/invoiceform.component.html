@@ -77,9 +77,9 @@
   </div>
 
   <app-items-table [modelChangedEvent] = "eventsModelIsReset.asObservable()"
-                   (changeItemEvent)="itemsChanged($event)"
-                   (totalNettoSumEvent) = "itemsTotalNettoChanged($event)"
-                   (totalBruttoSumEvent)="itemsTotalBruttoChanged($event)"
+                   (changeItemEvent)="this.invoiceFormData.invoiceItems=$event"
+                   (totalNettoSumEvent) = "invoiceFormData.totalSumNetto=$event"
+                   (totalBruttoSumEvent)="this.invoiceFormData.totalSumBrutto=$event"
                    [invoiceItems]="invoiceFormData.invoiceItems"></app-items-table>
 
   <div class="p-grid">

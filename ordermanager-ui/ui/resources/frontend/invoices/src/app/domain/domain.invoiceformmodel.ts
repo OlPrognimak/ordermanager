@@ -115,7 +115,7 @@ export class CalculatorParameters{
 }
 
 /**
- * Object for logging checking
+ * Object for checking login
  */
 export class LoggingCheck{
   logged = false;

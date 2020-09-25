@@ -87,8 +87,11 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   @ViewChild(ItemsTableComponent) itemsTableComponent: ItemsTableComponent;
   /**
    * Constructor
-   * @param dataGridService inject service
-   * @param httpClient the http client
+   *
+   * @param httpClient injected the http client
+   * @param appSecurityService injected service for authorization
+   * @param messageService injected service for management with messages
+   * @param utilService injected utility with method for deleting messages
    */
   constructor( private httpClient: HttpClient,
                private appSecurityService: AppSecurityService,
@@ -159,24 +162,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
     });
   }
 
-  /**
-   * In case if items in table was deleted or added to the model
-   * @param invoiceItems the new state of the items
-   */
-  itemsChanged(invoiceItems: InvoiceItemModel[]): any{
-    this.invoiceFormData.invoiceItems = invoiceItems;
-  }
-
-  itemsTotalBruttoChanged(totalBrutto: number): any{
-    this.invoiceFormData.totalSumBrutto = totalBrutto;
-  }
-
-  itemsTotalNettoChanged(totalNetto: number): any{
-    this.invoiceFormData.totalSumNetto = totalNetto;
-  }
-
-
-  printToJson(data: any): void {
+  public printToJson(data: any): void {
     alert(JSON.stringify(data));
   }
 
@@ -190,16 +176,16 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   private resetModel(): void{
     this.invoiceFormData = new InvoiceFormModel();
     this.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
-    this.eventsModelIsReset.next();
+    // this.eventsModelIsReset.next();
 
-    // if (this.isViewInitialized) {
-    //   this.itemsTableComponent.resetTotalValues();
-    // }
+    if (this.isViewInitialized) {
+       this.itemsTableComponent.resetTotalValues();
+    }
   }
 
 
   /**
-   * Creates new instance of data model for invoice
+   * Creates PUT Observer  for saving invoice on server
    */
   private handleHttpRequest(): Observable<string>{
     const params = new HttpParams();
@@ -207,7 +193,4 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       this.backendUrl + 'invoice', this.invoiceFormData, { params } );
   }
 
-  onChangeInvoiceNumber(value: any): void {
-    this.invoiceFormData.invoiceNumber = value;
-  }
 }
