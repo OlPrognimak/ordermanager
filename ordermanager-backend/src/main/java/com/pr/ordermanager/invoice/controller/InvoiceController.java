@@ -73,7 +73,7 @@ import static org.springframework.http.HttpStatus.OK;
         )
 )
 @RestController
-@CrossOrigin
+@CrossOrigin()
 public class InvoiceController {
 
     Logger logger = LogManager.getLogger(InvoiceController.class);

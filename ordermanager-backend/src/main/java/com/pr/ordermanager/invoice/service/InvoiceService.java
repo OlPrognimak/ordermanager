@@ -39,7 +39,6 @@ import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,7 +49,6 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0002;
  * @author  Oleksandr Prognimak
  */
 @Service
-@Transactional
 public class InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;

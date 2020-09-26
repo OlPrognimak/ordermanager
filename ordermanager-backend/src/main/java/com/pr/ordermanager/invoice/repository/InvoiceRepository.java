@@ -32,10 +32,12 @@ package com.pr.ordermanager.invoice.repository;
 
 import com.pr.ordermanager.invoice.entity.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Oleksandr Prognimak
  */
+@Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     Invoice findByInvoiceNumber(String invoiceNumber);

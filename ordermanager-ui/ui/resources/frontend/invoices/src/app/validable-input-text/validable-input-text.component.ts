@@ -48,7 +48,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
   @Input()  public txtMinLength = 30;
   @Input() public idComponent = '';
   @Input() public labelText = '';
-  @Input() controlType = 'input';
+  @Input() inputType = 'text';
   private controlValue = '';
 
   onChange: (val) => void;

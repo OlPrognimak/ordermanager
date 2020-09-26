@@ -14,7 +14,7 @@ export class ComponentsItemtableService {
   backendUrl: string;
   /** contains items schot description for dropdown list */
   catalogItems: DropdownDataType[];
-
+  basicAuthKey = 'basicAuthKey';
   /**
    * The constructor of service
    * @param httpClient http client
@@ -28,10 +28,12 @@ export class ComponentsItemtableService {
 
   /* downloads items from catalog items */
   private downloadCatalogItemsDropdownList(): void{
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
-    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'itemscatalogdropdown', {headers})
+    const headers = new HttpHeaders({
+      Authorization : localStorage.getItem(this.basicAuthKey),
+      'Content-Type' : 'application/json',
+      Accept : '*/*'
+    } );
+    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'invoice/itemscatalogdropdown', {headers})
       .subscribe(
         data => {
           this.catalogItems = data;
@@ -48,11 +50,13 @@ export class ComponentsItemtableService {
    * @param idItemCatalog id catalog item
    */
   loadCatalogItemDetails(invoiceitem: InvoiceItemModel, idItemCatalog: any): void{
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
+    const headers = new HttpHeaders({
+      Authorization : localStorage.getItem(this.basicAuthKey),
+      'Content-Type' : 'application/json',
+      Accept : '*/*'
+    } );
     invoiceitem.catalogItemId = Number(idItemCatalog);
-    this.httpClient.get<ItemCatalogModel>((this.backendUrl + 'itemcatalog/' + invoiceitem.catalogItemId),
+    this.httpClient.get<ItemCatalogModel>((this.backendUrl + 'invoice/itemcatalog/' + invoiceitem.catalogItemId),
       {headers})
       .toPromise()
       .then(data => {

@@ -3,12 +3,13 @@ import {AppSecurityService} from './app-security.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [AppSecurityService]
+  providers: [AppSecurityService, MessageService]
 })
 export class AppComponent implements OnInit{
   title = 'frontend';
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit{
   backendUrl: string;
 
   constructor(public appSecurityService: AppSecurityService,
-              private http: HttpClient, private router: Router) {
+              private http: HttpClient, private router: Router,
+              private messageService: MessageService) {
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
@@ -32,7 +34,8 @@ export class AppComponent implements OnInit{
    */
   logout(): any {
     this.http.post('logout', {}).pipe(finalize(() => {
-      this.appSecurityService.authenticated = false;
+     // this.appSecurityService.authenticated = false;
+      localStorage.setItem('authenticated', 'false');
       console.log('Logout Call');
       // this.router.navigateByUrl(this.backendUrl + '/login');
       this.router.navigateByUrl('/');
@@ -44,25 +47,18 @@ export class AppComponent implements OnInit{
     console.log('Before Login Call');
 
     this.appSecurityService.authenticate(this.credentials, (result) => {
-      console.log('Login Result :' + result);
-      // this.router.navigateByUrl(this.backendUrl + '/login');
-      if (result === true) {
-        this.appSecurityService.authenticated = true;
-        this.router.navigateByUrl('/');
-        console.log('Is logedd');
-        return true;
-      }else{
-        this.appSecurityService.authenticated = true;
-        console.log('Login Call');
-        const headers =  new HttpHeaders();
-        this.appSecurityService.authenticated = false;
-        this.router.navigateByUrl('/');
-        return true;
-       // headers.set('Authorization', 'Basic ' + btoa(credentials.username + ':' + credentials.password));
-       // this.http.post(this.backendUrl,)
-      }
 
-      return false;
+       console.log('Login Result :' + result);
+       if (result === true) {
+        this.router.navigateByUrl('/');
+       }else{
+        this.credentials.username = '';
+        this.credentials.password = '';
+        this.router.navigateByUrl('/');
+        console.log('Not logged :' + result);
+        this.messageService.add({severity: 'error', summary: 'Loging error',
+          detail: 'Please enter correct user name and password.'});
+       }
     });
 
   }

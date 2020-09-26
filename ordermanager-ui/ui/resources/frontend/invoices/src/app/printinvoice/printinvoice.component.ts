@@ -57,7 +57,7 @@ export class PrintinvoiceComponent implements OnInit {
   frameworkComponents;
   @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
   columnDefs = [];
-
+  basicAuthKey = 'basicAuthKey';
   /**
    * the column definition for table
    */
@@ -107,10 +107,12 @@ export class PrintinvoiceComponent implements OnInit {
    * Load Invoice from server and set to table model for printing of invoices
    */
   loadInvoices(): void {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
-    this.httpClient.get<InvoiceFormModel[]>(this.backendUrl + 'invoicesList', {headers})
+    const headers = new HttpHeaders({
+      Authorization : localStorage.getItem(this.basicAuthKey),
+      'Content-Type' : 'application/json',
+      Accept : '*/*'
+    } );
+    this.httpClient.get<InvoiceFormModel[]>(this.backendUrl + 'invoice/invoicesList', {headers})
       .subscribe((data => {
             this.invoicesFormModel = data;
           }

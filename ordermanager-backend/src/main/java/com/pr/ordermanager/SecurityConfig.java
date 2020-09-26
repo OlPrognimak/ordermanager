@@ -59,8 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         logger.info("LogConfiguration started");
-        http.cors().and().authorizeRequests().regexMatchers("\\/login*").permitAll()
-                .anyRequest().authenticated().and().httpBasic();
+             http
+                .cors().and().csrf().disable()
+                .authorizeRequests().anyRequest().permitAll()
+                .regexMatchers("\\/login*").permitAll().anyRequest().authenticated()
+                .antMatchers("/error").permitAll().anyRequest().authenticated()
+                     .antMatchers("/error/**").permitAll().anyRequest().authenticated()
+                .and()
+                .httpBasic();
     }
 
     @Autowired

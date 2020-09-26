@@ -34,6 +34,7 @@ import localede from '@angular/common/locales/de';
 
 
 import {
+  CreatedResponse,
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface, InvoiceItemModel,
@@ -84,6 +85,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   personInvoiceRecipient: DropdownDataType[];
   executionResult = false;
   private isViewInitialized = false;
+  basicAuthKey = 'basicAuthKey';
   @ViewChild(ItemsTableComponent) itemsTableComponent: ItemsTableComponent;
   /**
    * Constructor
@@ -123,9 +125,12 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
     ];
 
 
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
+
+    const headers = new HttpHeaders({
+      Authorization : localStorage.getItem(this.basicAuthKey),
+      'Content-Type' : 'application/json',
+      Accept : '*/*'
+    } );
     this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', {headers})
       .subscribe(
         data => {
@@ -133,7 +138,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
           this.personInvoiceRecipient = this.personInvoiceSupplier;
         },
          error => {
-             alert('Error :' + JSON.stringify(error));
+             console.log('Error :' + JSON.stringify(error));
          }
       );
   }
@@ -187,10 +192,13 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   /**
    * Creates PUT Observer  for saving invoice on server
    */
-  private handleHttpRequest(): Observable<string>{
-    const params = new HttpParams();
-    return this.httpClient.put<string>(
-      this.backendUrl + 'invoice', this.invoiceFormData, { params } );
+  private handleHttpRequest(): Observable<CreatedResponse>{
+    const headers = new HttpHeaders({
+      Authorization : localStorage.getItem(this.basicAuthKey),
+      Accept : '*/*'
+    } );
+    return this.httpClient.put<CreatedResponse>(
+      this.backendUrl + 'invoice', this.invoiceFormData, { headers } );
   }
 
 }

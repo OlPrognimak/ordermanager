@@ -29,16 +29,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {Observable, of} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message, MessageService} from 'primeng/api';
-import {InputTextModule} from 'primeng/inputtext';
-import {MessagesModule} from 'primeng/messages';
-import {UIMessage} from 'primeng/message';
-
 
 function handleResult(result: string): void {
   console.log('Result: ' + JSON.stringify(result));
@@ -71,10 +67,13 @@ export class PersonFormComponent implements OnInit {
   personInvoiceSupplier: DropdownDataType[];
   /** Model for person type dropdown component */
   personType: DropdownDataType[];
+  basicAuthKey = 'basicAuthKey';
   /**
    * The constructor
    * @param httpClient the http client
    * @param messageService primeNG message service
+   * @param utilService utility service with method for management with success
+   * and not success messages
    */
   constructor( private httpClient: HttpClient,
                private messageService: MessageService,
@@ -118,25 +117,21 @@ export class PersonFormComponent implements OnInit {
         }
     );
   }
-
-  isLengthInvalide(value: any, minLength: number): boolean {
-    if ( value === undefined || value === null || value < minLength){
-      return true;
-    } else {
-      return true;
-    }
-  }
-
+  /** for test */
   showJson(event: any): void{
     console.log(JSON.stringify(this.personFormModel));
   }
 
+  /**
+   * Creates Observable for put http request
+   */
   handleClickHttp(): Observable<string>{
-    const params = new HttpParams();
-    return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { params } );
+    const headers = new HttpHeaders({
+      Authorization : localStorage.getItem(this.basicAuthKey),
+      'Content-Type' : 'application/json',
+      Accept : '*/*'
+    } );
+    return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { headers } );
   }
 
-  onChangePersonType(value: any): void {
-    this.personFormModel.personType = value;
-  }
 }

@@ -121,3 +121,7 @@ export class LoggingCheck{
   logged = false;
 }
 
+export class CreatedResponse {
+ createdId: number;
+}
+

@@ -8,8 +8,8 @@ import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
-import com.pr.ordermanager.repository.RepositoryTestHelper;
 import com.pr.ordermanager.report.service.ModelToEntityMapperHelper;
+import com.pr.ordermanager.repository.RepositoryTestHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
@@ -98,8 +95,11 @@ class InvoiceControllerTest {
                 RepositoryTestHelper.createInvoiceFormModel(personSupplier.getId (), personRecipient.getId());
         invoiceFormModel.getInvoiceItems().get(0).setCatalogItemId(itemCatalog.getId());
         String json = mapper.writeValueAsString(invoiceFormModel);
+        System.out.println(json);
+        if( true ) return;
+        HttpHeaders httpHeaders = new HttpHeaders();
         RequestEntity<InvoiceFormModel> request = RequestEntity
-                .put(new URI("http://localhost:"+port+"/backend/invoice"))
+                .put(new URI("http://localhost:"+port+"/backend/invoice")).header("Authorization","Basic YWRtaW46dGVzdDEyMzQ1")
                 .accept( MediaType.APPLICATION_JSON)
                 .body(invoiceFormModel);
 

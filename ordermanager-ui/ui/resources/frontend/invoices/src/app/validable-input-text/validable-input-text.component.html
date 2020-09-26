@@ -9,12 +9,12 @@
   <div style ="display: table-row; width: 100%;">
     <div style ="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                    <input class="ng-dirty p-mr-2"
+                    <input  class="ng-dirty p-mr-2"
                            pInputText
                            required
                            minlength="{{txtMinLength}}"
                            id="{{idComponent}}"
-                           type="text"
+                           type="{{inputType}}"
                            [(ngModel)]="value"
                            (ngModelChange)="onChange($event)"
                            #modelRef="ngModel"/>

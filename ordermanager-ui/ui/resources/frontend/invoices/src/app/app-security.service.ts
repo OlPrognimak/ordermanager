@@ -5,9 +5,9 @@ import {LoggingCheck} from "./domain/domain.invoiceformmodel";
 @Injectable()
 export class AppSecurityService {
 
-  authenticated = false;
+  // authenticated = false;
   backendUrl: string;
-  private loginResponse = 'user';
+  basicAuthKey = 'basicAuthKey';
 
   /**
    *
@@ -17,41 +17,57 @@ export class AppSecurityService {
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
+    localStorage.setItem('authenticated', 'false');
   }
 
   /**
    * @param credentials security credentials
    * @param callback security callback
    */
-  authenticate(credentials, callback): any {
 
-    console.log('Authenticate User Name: ' + credentials.username + ' Password :' + credentials.password);
+  authenticate = (credentials, callback) => {
 
+    const basicAuth = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
     const headers = new HttpHeaders(credentials ? {
-      Authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password),
+      Authorization : basicAuth,
       'Content-Type' : 'application/json',
       Accept : '*/*'
     } : {});
 
     this.http.get<LoggingCheck>(this.backendUrl + 'user', {headers}).pipe().subscribe(
       (response) => {
-      console.log('Logging checking logging :' + response);
+      console.log('authentication checking logging :' + response);
       if (response.logged === true) {
-        this.authenticated = true;
-        console.log('Logging [is Logger]');
-        return true;
+        localStorage.setItem('authenticated', 'true');
+        localStorage.setItem(this.basicAuthKey, basicAuth);
+        console.log('authentication [is OK]');
+        return callback && callback(true);
       } else {
-        this.authenticated = false;
-        console.log('Logging [is Not Logged]');
-        return false;
+        this.clearCredentials(credentials);
+        console.log('authentication [is Not Logged]');
+        return callback && callback(false);
       }
-      // return callback && callback();
     },
       ((error) => {
-        console.log('Logging checking error :' + JSON.stringify(error));
+        this.clearCredentials(credentials);
+        console.log('authentication checking error :' + JSON.stringify(error));
+        return callback && callback(false);
       }));
-
   }
 
+  /** clear credentials for logging */
+  private clearCredentials(credentials: any): void{
+    localStorage.setItem('authenticated', 'false');
+    localStorage.setItem(this.basicAuthKey, '');
+  }
+
+
+  isAuthenticated(): boolean {
+    if (localStorage.getItem('authenticated') === 'true'){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
 
