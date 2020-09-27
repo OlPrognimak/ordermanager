@@ -1,9 +1,3 @@
-<!--
-<form #inviceForm="ngForm" appIdentityRevealed>
-  <div [hidden]="inviceForm.submitted">
-    <div class="cross-validation" [class.cross-validation-error]=
-      "inviceForm.errors?.identityRevealed && (inviceForm.touched || inviceForm.dirty)">
--->
 <div *ngIf="appSecurityService.isAuthenticated()" class="p-fluid">
 
   <p-messages></p-messages>

@@ -7,8 +7,9 @@ import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.repository.BankAccountRepository;
 import com.pr.ordermanager.person.repository.PersonAddressRepository;
 import com.pr.ordermanager.person.repository.PersonRepository;
+import com.pr.ordermanager.security.entity.InvoiceUser;
+import com.pr.ordermanager.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,14 +31,18 @@ public class PersonService {
     PersonAddressRepository personAddressRepository;
     @Autowired
     BankAccountRepository bankAccountRepository;
+    @Autowired
+    UserService userService;
 
     /**
      *
      * @param person the invoice to be saved
+     * @param userName currently authenticated user name
      * @exception OrderManagerException in case if person can not be saved
      */
-    public void savePerson(Person person){
-
+    public void savePerson(Person person, String userName){
+        InvoiceUser user = userService.getUserOrException(userName);
+        person.setInvoiceUser(user);
         if (validatePerson(person) ){
             try {
                 personRepository.save(person);
@@ -81,9 +86,10 @@ public class PersonService {
         }
     }
 
-    public List<Person> getAllPersons(){
-        return personRepository.findAll(
-                Sort.by(Sort.Direction.ASC, "personLastName","companyName"));
+    public List<Person> getAllPersons(String userName){
+        return personRepository.findAllPersonsByUserName(userName);
+       // return personRepository.findAll(
+       //         Sort.by(Sort.Direction.ASC, "personLastName","companyName"));
     }
 
     private boolean validatePerson(Person person){

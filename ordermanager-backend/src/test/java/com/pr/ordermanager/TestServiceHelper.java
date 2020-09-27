@@ -39,7 +39,7 @@ public class TestServiceHelper {
             RepositoryTestHelper.createPerson (
                 PersonType.PRIVATE, personRecipientAddress, bankRecipientAccount );
 
-        personService.savePerson ( personRecipient );
+        personService.savePerson ( personRecipient ,"admin");
 
         return personRecipient;
     }
@@ -56,7 +56,7 @@ public class TestServiceHelper {
             RepositoryTestHelper.createPerson (
                 PersonType.PRIVATE, personSuplierAddress, bankSupplierAccount );
 
-        personService.savePerson ( personSupplier );
+        personService.savePerson ( personSupplier, "admin" );
 
         return personSupplier;
     }

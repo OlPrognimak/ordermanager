@@ -8,6 +8,8 @@ import com.pr.ordermanager.report.service.ModelToEntityMapperHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.security.Principal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Oleksandr Prognimak
@@ -62,9 +67,13 @@ class PersonControllerTest {
             PersonType.ORGANISATION,
             personAddress, bankAccount );
         */
+        Principal principal = mock(Principal.class);
+        when(principal.getName()).thenReturn("admin");
+
         PersonFormModel personFormModel = RepositoryTestHelper.createTestPersonFormModel();
         String json = mapper.writeValueAsString(personFormModel);
-        ResponseEntity<CreatedResponse> responseResponseEntity = personController.putNewPerson ( personFormModel );
+        ResponseEntity<CreatedResponse> responseResponseEntity =
+                personController.putNewPerson ( personFormModel, principal );
         assertEquals(HttpStatus.CREATED,responseResponseEntity.getStatusCode());
         assertTrue (responseResponseEntity.getBody().getCreatedId ()>0);
     }

@@ -58,7 +58,7 @@ class PersonServiceTest {
                 RepositoryTestHelper.createPersonAddress("München", "Bonner str.", "12345",null);
         BankAccount bankAccount = RepositoryTestHelper.createBankAccount("DE11 1234 1234 1234 1234 0", "TestBank");
         Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, personAddress, bankAccount);
-        personService.savePerson(person);
+        personService.savePerson(person, "admin");
         //invoiceData.getInvoiceItems()
         Assert.assertNotNull(person.getId());
         Assert.assertNotNull(person.getBankAccount());

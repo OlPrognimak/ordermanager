@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -87,11 +88,13 @@ public class PersonController {
                     name = "basicAuth"
             )}
     )
-    @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public ResponseEntity<CreatedResponse> putNewPerson(@RequestBody PersonFormModel personFormModel) {
+    @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> putNewPerson(
+            @RequestBody PersonFormModel personFormModel, Principal principal) {
 
         Person person = ModelToEntityMapperHelper.mapPersonFormModelToEntity(personFormModel);
-        personService.savePerson(person);
+        personService.savePerson(person, principal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));
     }
 
@@ -127,8 +130,8 @@ public class PersonController {
             )}
     )
     @GetMapping(value = PATH_PERSONS_DROPDOWN, produces = APPLICATION_JSON)
-    public ResponseEntity<List<DropdownDataType>> getPersonsDropdown() {
-        List<Person> allPersons = personService.getAllPersons();
+    public ResponseEntity<List<DropdownDataType>> getPersonsDropdown(Principal principal) {
+        List<Person> allPersons = personService.getAllPersons(principal.getName());
         List<DropdownDataType> dropdownDataTypes =
                 EntityToModelMapperHelper.mapPersonToDropdownType(allPersons);
         return ResponseEntity.status(OK).body(dropdownDataTypes);
