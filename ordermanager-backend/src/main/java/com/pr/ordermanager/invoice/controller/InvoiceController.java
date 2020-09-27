@@ -56,6 +56,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -123,11 +124,13 @@ public class InvoiceController {
                     name = "basicAuth"
             )}
     )
-    @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
-    public ResponseEntity<CreatedResponse> putNewInvoice(@RequestBody InvoiceFormModel invoiceFormModel) {
+    @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> putNewInvoice(
+            @RequestBody InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
 
         Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
-        invoiceService.saveInvoice(invoice);
+        invoiceService.saveInvoice(invoice,securityPrincipal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(invoice.getId()));
     }
 
@@ -257,8 +260,9 @@ public class InvoiceController {
     )
     @RequestMapping(value = PATH_INVOICES_LIST, method = RequestMethod.GET,
             produces = APPLICATION_JSON)
-    public ResponseEntity<List<InvoiceFormModel>> getInvoices(){
-        List<Invoice> invoices = invoiceService.getInvoices();
+    public ResponseEntity<List<InvoiceFormModel>> getInvoices(Principal principal){
+
+        List<Invoice> invoices = invoiceService.getAllUserInvoices(principal.getName());
         List<InvoiceFormModel> invoiceFormModels =
                 invoices.stream().map(i ->
                         EntityToModelMapperHelper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());

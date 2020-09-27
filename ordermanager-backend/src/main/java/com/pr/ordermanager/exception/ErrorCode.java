@@ -43,6 +43,7 @@ public enum ErrorCode {
     CODE_0005(5, "Can not find address"),
     CODE_0006(6, "Can not find bank account"),
     CODE_0007(7, "Can not find user in database"),
+    CODE_0008(8, "The user already exists"),
     CODE_10001(10001, "Can not create jasper report"),
     CODE_10002(10002, "Database exception");
     private String shotDescription;

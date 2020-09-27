@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.pr.ordermanager;
+package com.pr.ordermanager.security.controller;
 
 import com.pr.ordermanager.security.service.InvoiceSecurityUserDetailsService;
 import org.apache.logging.log4j.LogManager;
@@ -61,10 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         logger.info("LogConfiguration started");
              http
                 .cors().and().csrf().disable()
-                .authorizeRequests().anyRequest().permitAll()
-                .regexMatchers("\\/login*").permitAll().anyRequest().authenticated()
+                     .authorizeRequests()
+                .antMatchers("/registration", "/login").permitAll()
+                //.antMatchers("/backend/registration*").permitAll()
+                //.antMatchers("/registration/*").permitAll()
                 .antMatchers("/error").permitAll().anyRequest().authenticated()
-                     .antMatchers("/error/**").permitAll().anyRequest().authenticated()
+                     .antMatchers("/error/*").permitAll().anyRequest().authenticated()
                 .and()
                 .httpBasic();
     }
@@ -73,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception
     {
-        logger.info("LogConfiguration started");
+        logger.info("Global Configuration started");
         auth.userDetailsService(invoiceSecurityUserDetailsService);
     }
 

@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   backendUrl: string;
 
   constructor(public appSecurityService: AppSecurityService,
-              private http: HttpClient, private router: Router,
+              private http: HttpClient, public router: Router,
               private messageService: MessageService) {
     this.backendUrl =
       document.getElementById('appConfigId')
@@ -29,6 +29,10 @@ export class AppComponent implements OnInit{
 
   }
 
+  public navigateCreateNewUser(): void{
+    this.router.navigateByUrl('/user-registration-page');
+  }
+
   /**
    * Site logout
    */
@@ -36,13 +40,17 @@ export class AppComponent implements OnInit{
     this.http.post('logout', {}).pipe(finalize(() => {
      // this.appSecurityService.authenticated = false;
       localStorage.setItem('authenticated', 'false');
+      this.credentials.username = '';
+      this.credentials.password = '';
       console.log('Logout Call');
-      // this.router.navigateByUrl(this.backendUrl + '/login');
       this.router.navigateByUrl('/');
 
     })).subscribe();
   }
 
+  /**
+   * Login to the application
+   */
   login(): any {
     console.log('Before Login Call');
 

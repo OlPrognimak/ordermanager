@@ -36,6 +36,9 @@ import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
+import com.pr.ordermanager.security.entity.InvoiceUser;
+import com.pr.ordermanager.security.repository.UserRepository;
+import com.pr.ordermanager.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -53,7 +56,11 @@ public class InvoiceService {
     @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     private ItemCatalogRepository itemCatalogRepository;
+    @Autowired
+    private UserService userService;
 
     /**
      *
@@ -64,27 +71,33 @@ public class InvoiceService {
        return itemCatalogRepository.findById(idItemCatalog).get();
     }
 
-
-
-
-    //TODO need to implement serch by parametes
-    public List<Invoice> getInvoices(){
-        //
-        return invoiceRepository.findAll();
+    /**
+     *
+     * @param userName the currently loged user
+     * @return the list of invoices which belongs to the user {@code userName}
+     */
+    public List<Invoice> getAllUserInvoices(String userName){
+        InvoiceUser user = userRepository.findByUserName(userName);
+        List<Invoice> invoices = invoiceRepository.findByInvoiceUser(user);
+        return invoices;
     }
+
 
 
     /**
      *
      * @param invoice the invoice to be saved
+     * @param userName the currently logined user
      * @return result of execution
      *
      * @exception  OrderManagerException in case if invoice can not be saved
      */
-    public String saveInvoice(Invoice invoice){
+    public String saveInvoice(Invoice invoice, String userName){
         String invoiceNumder=null;
         if (validateInvoiceData(invoice) ){
+            InvoiceUser user = userService.getUserOrException(userName);
             try {
+                invoice.setInvoiceUser(user);
                 invoiceRepository.save(invoice);
                 invoiceNumder = invoice.getInvoiceNumber();
             }catch(Exception ex) {
@@ -101,18 +114,25 @@ public class InvoiceService {
         Invoice invoiceData = invoiceRepository.findByInvoiceNumber(invoiceNumber);
         return invoiceData;
     }
-
+    //TODO need to implement
     private boolean validateInvoiceData(Invoice invoiceData){
         return true;
     }
 
 
-
+    /**
+     *
+     * @return retrieve all items from catalog
+     */
     public List<ItemCatalog> getAllCatalogItems(){
         return itemCatalogRepository.findAll(
                 Sort.by(Sort.Direction.ASC, "shortDescription"));
     }
 
+    /**
+     *
+     * @param itemCatalog save catalod item to the database
+     */
     public void saveItemCatalog(ItemCatalog itemCatalog){
        itemCatalogRepository.save(itemCatalog);
     }

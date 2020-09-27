@@ -25,8 +25,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.security.Principal;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
@@ -67,6 +70,8 @@ class InvoiceControllerTest {
 
     @Test
     void putNewInvoice() {
+        Principal principal = mock(Principal.class);
+        when(principal.getName()).thenReturn("admin");
 
         assertNotNull(invoiceController);
         Person personSupplier = testServiceHelper.personSupplier();
@@ -77,7 +82,7 @@ class InvoiceControllerTest {
                 RepositoryTestHelper.createInvoiceFormModel (personSupplier.getId (), personRecipient.getId ());
         invoiceFormModel.getInvoiceItems().get(0).setCatalogItemId(itemCatalog.getId());
         final ResponseEntity<CreatedResponse> responseEntity =
-                invoiceController.putNewInvoice ( invoiceFormModel );
+                invoiceController.putNewInvoice ( invoiceFormModel, principal);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertTrue (responseEntity.getBody ().getCreatedId ()>0);

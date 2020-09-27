@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
 import {PersonFormComponent} from './personform/personform.component';
 import {PrintinvoiceComponent} from './printinvoice/printinvoice.component';
+import {UserRegistrationComponent} from './user-registration/user-registration.component';
 
 
 const routes: Routes = [
   {path: 'create-invoice-page',  component: InvoiceFormComponent},
   {path: 'create-person_page', component: PersonFormComponent},
-  {path: 'invoice-list_page', component: PrintinvoiceComponent}
+  {path: 'invoice-list_page', component: PrintinvoiceComponent},
+  {path: 'user-registration-page', component: UserRegistrationComponent }
 ];
 
 @NgModule({

@@ -67,7 +67,7 @@ public class InvoiceServiceTest {
         Person personSupplier = testServiceHelper.personSupplier();
         Person personRecipient = testServiceHelper.personRecipient();
         Invoice invoice = RepositoryTestHelper.createInvoice ( item, personSupplier, personRecipient );
-        invoiceService.saveInvoice (invoice);
+        invoiceService.saveInvoice (invoice, "admin");
         Assertions.assertNotNull (invoice);
 
     }

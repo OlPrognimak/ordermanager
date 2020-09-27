@@ -1,5 +1,5 @@
 
-<div class="p-fluid">
+<div *ngIf="securityService.isAuthenticated()"  class="p-fluid">
 
   <p-messages></p-messages>
   <div class="p-grid p-col-6">
@@ -139,6 +139,7 @@
         </app-validable-input-text>
       </div>
     </div>
+    <a href="#">Register new user</a>
   </div>
   <div style="margin-top:5px;" class="p-grid">
     <div class="p-col-1">

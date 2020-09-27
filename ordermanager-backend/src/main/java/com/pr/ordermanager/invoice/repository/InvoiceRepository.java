@@ -31,8 +31,11 @@
 package com.pr.ordermanager.invoice.repository;
 
 import com.pr.ordermanager.invoice.entity.Invoice;
+import com.pr.ordermanager.security.entity.InvoiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Oleksandr Prognimak
@@ -41,4 +44,11 @@ import org.springframework.stereotype.Repository;
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     Invoice findByInvoiceNumber(String invoiceNumber);
+
+    /**
+     *
+     * @param invoiceUser the user which belongs the invoices
+     * @return th list of Invoices which belongs to the user {@code invoiceUser}
+     */
+    List<Invoice> findByInvoiceUser(InvoiceUser invoiceUser);
 }

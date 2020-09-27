@@ -26,6 +26,9 @@ import {MessageModule} from 'primeng/message';
 import { ValidableInputTextComponent } from './validable-input-text/validable-input-text.component';
 import { ValidableDropdownlistComponent } from './validable-dropdownlist/validable-dropdownlist.component';
 import { ValidableCalendarComponent } from './validable-calendar/validable-calendar.component';
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import {ComponentsUtilService} from "./components/components.util.service";
+import {MessageService} from "primeng/api";
 
 
 
@@ -44,7 +47,8 @@ import { ValidableCalendarComponent } from './validable-calendar/validable-calen
     TableCellRendererComponent,
     ValidableInputTextComponent,
     ValidableDropdownlistComponent,
-    ValidableCalendarComponent
+    ValidableCalendarComponent,
+    UserRegistrationComponent
 
   ],
   imports: [
@@ -64,7 +68,7 @@ import { ValidableCalendarComponent } from './validable-calendar/validable-calen
 
 
   ],
-  providers: [],
+  providers: [ComponentsUtilService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

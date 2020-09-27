@@ -96,7 +96,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @param utilService injected utility with method for deleting messages
    */
   constructor( private httpClient: HttpClient,
-               private appSecurityService: AppSecurityService,
+               public appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: ComponentsUtilService) {
      this.backendUrl =
@@ -123,9 +123,6 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       {label: 'Hourly rate', value: 'HOURLY'},
       {label: 'Daily rate', value: 'DAILY'}
     ];
-
-
-
     const headers = new HttpHeaders({
       Authorization : localStorage.getItem(this.basicAuthKey),
       'Content-Type' : 'application/json',
@@ -152,7 +149,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
     this.handleHttpRequest(
        ).toPromise().then(response => {
 
-          const msg: Message = {severity: 'success', summary: 'Congradulation!',
+          const msg: Message = {severity: 'success', summary: 'Congratulation!',
                         detail: 'The invoice is saved successfully.'};
           this.messageService.add(msg);
           this.resetModel();

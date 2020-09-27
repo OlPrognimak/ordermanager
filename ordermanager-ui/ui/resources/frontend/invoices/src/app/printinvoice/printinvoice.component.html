@@ -1,3 +1,4 @@
+<div style="width: 100%; height: 100%" *ngIf="securityService.isAuthenticated()">
 <ag-grid-angular
   #agGrid
   style=" height: 70%;"
@@ -11,3 +12,4 @@
   [columnDefs]="columnDefs"
   (gridReady) = "onGridReady($event)"
   rowSelection="multiple"></ag-grid-angular>
+</div>

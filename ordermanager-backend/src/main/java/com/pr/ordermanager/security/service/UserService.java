@@ -42,8 +42,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
-import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
-import static com.pr.ordermanager.exception.ErrorCode.CODE_0007;
+import static com.pr.ordermanager.exception.ErrorCode.*;
 
 /**
  * @author Oleksandr Prognimak
@@ -79,10 +78,15 @@ public class UserService {
      * @param password not encoded password
      * @return encoded password
      */
-    public String createUserLogin(String userName, String password) {
+    public Long createUserLogin(String userName, String password) {
         String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
-        userRepository.save(user);
-        return encriptedPassword;
+        InvoiceUser existedUser = userRepository.findByUserName(userName);
+        if(existedUser==null) {
+            InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
+            userRepository.save(user);
+            return user.getId();
+        }else{
+            throw new OrderManagerException(CODE_0008,"The user with name: ["+userName+"] already exists");
+        }
     }
 }

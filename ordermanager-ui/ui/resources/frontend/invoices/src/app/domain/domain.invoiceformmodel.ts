@@ -125,3 +125,12 @@ export class CreatedResponse {
  createdId: number;
 }
 
+/**
+ * The object for registration of new user in the system
+ */
+export class NewUser{
+  userName: string;
+  userPassword: string;
+  userPasswordRepeat: string;
+}
+

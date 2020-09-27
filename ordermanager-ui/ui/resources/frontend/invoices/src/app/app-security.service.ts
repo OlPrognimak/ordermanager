@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {LoggingCheck} from "./domain/domain.invoiceformmodel";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AppSecurityService {
@@ -13,7 +14,7 @@ export class AppSecurityService {
    *
    * @param http http client
    */
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
@@ -61,13 +62,25 @@ export class AppSecurityService {
     localStorage.setItem(this.basicAuthKey, '');
   }
 
-
+  /**
+   * checks wheather the app authenticated
+   */
   isAuthenticated(): boolean {
     if (localStorage.getItem('authenticated') === 'true'){
       return true;
     }else{
+
       return false;
     }
   }
+
+  /**
+   * navigate to the root bage
+   */
+  navigateToRootPage(): void{
+    this.router.navigateByUrl('/');
+  }
+
+
 }
 

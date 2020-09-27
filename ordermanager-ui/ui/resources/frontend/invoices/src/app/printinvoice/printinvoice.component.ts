@@ -34,6 +34,7 @@ import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {AgGridAngular} from 'ag-grid-angular';
 import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
 import * as _moment from 'moment';
+import {AppSecurityService} from "../app-security.service";
 
 /**
  * The component which contains table with invoices for printing in PDF format
@@ -41,13 +42,14 @@ import * as _moment from 'moment';
 @Component({
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
-  styleUrls: ['./printinvoice.component.css']
+  styleUrls: ['./printinvoice.component.css'],
+  providers: []
 })
 export class PrintinvoiceComponent implements OnInit {
 
 
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, public securityService: AppSecurityService) {
   }
   invoicesFormModel: any;
   backendUrl: string;

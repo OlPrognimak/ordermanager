@@ -37,7 +37,7 @@ import {Message, MessageService} from 'primeng/api';
  * The useful utility service
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ComponentsUtilService{
 

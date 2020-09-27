@@ -19,7 +19,7 @@
   <!--</div>-->
   <div type="form">
 
-    <div class="p-fluid">
+    <div *ngIf ="router.url!=='/user-registration-page'" class="p-fluid">
       <div class="p-grid">
         <div class="p-col-3"></div>
         <div class="p-col-6">
@@ -59,7 +59,9 @@
             </div>
             <div class="p-col-3"></div>
           </div>
-
+          <div style="text-align: center; margin-bottom: 10pt;">
+              <a routerLink="/user-registration-page" routerLinkActive="active">Register new user route</a>
+          </div>
           <div class="p-grid">
             <div class="p-col-3"></div>
             <div class="p-col-2">
@@ -71,24 +73,6 @@
       </div>
     </div>
   </div>
-
-
-
-<!--  <div>-->
-<!--    <div class="form-group">-->
-
-<!--      <input type="text"   class="form-control" id="username"-->
-<!--             name="username" [(ngModel)]="credentials.username"/>-->
-<!--      <label for="username">Username:</label>-->
-<!--    </div>-->
-<!--    <div class="form-group">-->
-<!--      <label for="password">Password:</label>-->
-<!--      <input type="password" class="form-control" id="password"-->
-<!--             name="password" [(ngModel)]="credentials.password"/>-->
-<!--    </div>-->
-<!--    <button type="button" (click)="login()" class="btn btn-primary">Submit</button>-->
-<!--  </div>-->
-
 </ng-template>
 
 <router-outlet></router-outlet>

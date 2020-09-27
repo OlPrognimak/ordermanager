@@ -35,6 +35,7 @@ import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../
 import {Observable, of} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message, MessageService} from 'primeng/api';
+import {AppSecurityService} from '../app-security.service';
 
 function handleResult(result: string): void {
   console.log('Result: ' + JSON.stringify(result));
@@ -77,7 +78,8 @@ export class PersonFormComponent implements OnInit {
    */
   constructor( private httpClient: HttpClient,
                private messageService: MessageService,
-               private utilService: ComponentsUtilService){
+               private utilService: ComponentsUtilService,
+               public securityService: AppSecurityService){
   }
 
   /**
@@ -105,7 +107,9 @@ export class PersonFormComponent implements OnInit {
     this.handleClickHttp().subscribe((response) =>
       {
           this.personFormModel = new PersonFormModel();
-          const msg: Message = {severity: 'success', summary: 'Congratulation!', detail: 'The person is saved successfully.'};
+          const msg: Message = {severity: 'success',
+            summary: 'Congratulation!',
+            detail: 'The person is saved successfully.'};
           this.messageService.add(msg);
           this.utilService.hideMassage(msg, 2000);
           handleResult(response);

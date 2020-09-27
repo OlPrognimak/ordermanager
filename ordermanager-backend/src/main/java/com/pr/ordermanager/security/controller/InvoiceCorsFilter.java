@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.pr.ordermanager;
+package com.pr.ordermanager.security.controller;
 
 
 import org.apache.logging.log4j.LogManager;

@@ -1,0 +1,73 @@
+
+<div type="form">
+
+  <div class="p-fluid">
+    <div class="p-grid">
+      <div class="p-col-3"></div>
+      <div class="p-col-6">
+        <p-messages></p-messages>
+      </div>
+      <div class="p-col-3"></div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-1">
+
+      </div>
+      <div class="p-col-2"></div>
+      <div style="margin-right: 20pt;" class="p-col-6 p-shadow-4">
+        <div class="p-grid">
+          <div class="p-col-2">
+            <p-button label="Home" (click)="router.navigateByUrl('/')"></p-button>
+          </div>
+          <div style="text-align: center" class="p-col-3"></div>
+          <H2>User registration</H2>
+          <div class="p-col-7"></div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-3"></div>
+          <div class="p-col-6">
+            <app-validable-input-text [labelText]="'User name'"
+                                      [idComponent]="'id_UserName'"
+                                      [txtMinLength]="2"
+                                      [(ngModel)]="newUser.userName">
+            </app-validable-input-text>
+          </div>
+          <div class="p-col-3"></div>
+        </div>
+        <div style="margin-top: 15pt" class="p-grid">
+          <div class="p-col-3"></div>
+          <div class="p-col-6">
+            <app-validable-input-text [labelText]="'Password'"
+                                      [idComponent]="'id_UsePassword'"
+                                      [inputType]="'password'"
+                                      [txtMinLength]="5"
+                                      [(ngModel)]="newUser.userPassword">
+            </app-validable-input-text>
+          </div>
+          <div class="p-col-3"></div>
+        </div>
+        <div style="margin-top: 15pt" class="p-grid">
+          <div class="p-col-3"></div>
+          <div class="p-col-6">
+            <app-validable-input-text [labelText]="'Repeat password'"
+                                      [idComponent]="'id_UsePasswordRepeat'"
+                                      [inputType]="'password'"
+                                      [txtMinLength]="5"
+                                      [(ngModel)]="newUser.userPasswordRepeat">
+            </app-validable-input-text>
+          </div>
+          <div class="p-col-3"></div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-3"></div>
+          <div class="p-col-3">
+            <p-button label="Register user" (click)="registerUser()"></p-button>
+          </div>
+          <div class="p-col-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
