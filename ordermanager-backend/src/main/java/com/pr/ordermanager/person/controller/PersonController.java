@@ -60,6 +60,7 @@ public class PersonController {
     /**
      * Saves new person to the databse
      * @param personFormModel the model with data for creation and saving person to the database
+     * @param principal injects by SpringBoot
      * @return the response with status and created id of person
      */
     @Operation(description = "Puts new person to the database",
@@ -99,7 +100,7 @@ public class PersonController {
     }
 
     /**
-     *
+     * @param principal Security principal. Injects by SpringBoot
      * @return the response with list of {@link DropdownDataType} with persons
      */
     @Operation(description = "Delivers the list of persons for drop down in UI as key and value map where " +

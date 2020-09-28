@@ -93,11 +93,7 @@ public class InvoiceController {
     @Autowired
     private Environment env;
 
-    /**
-     * Saves the new invoice to the database
-     * @param invoiceFormModel the model with invoice data
-     * @return response with status und created id of report
-     */
+
     @Operation(description = "Puts new invoice to the database",
             method = "put",
             operationId = "putNewInvoice",
@@ -124,11 +120,17 @@ public class InvoiceController {
                     name = "basicAuth"
             )}
     )
+    /**
+     * Saves the new invoice to the database
+     * @param invoiceFormModel the model with invoice data
+     * @param securityPrincipal injects by springBoot
+     * @return response with status und created id of report
+     */
     @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewInvoice(
             @RequestBody InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
-
+        InvoiceValidator.validateInvoiceData(invoiceFormModel);
         Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
         invoiceService.saveInvoice(invoice,securityPrincipal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(invoice.getId()));
@@ -230,7 +232,7 @@ public class InvoiceController {
     }
 
     /**
-     *
+     * @param principal injects by SpringBoot
      * @return the response with lists of {@link InvoiceFormModel}
      */
     @Operation(description = "Delivers the list of Invoices for table in UI for printing Invoices in PDF format ",

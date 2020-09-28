@@ -41,7 +41,7 @@ import {
   InvoiceItemModelInterface
 
 } from '../domain/domain.invoiceformmodel';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
@@ -153,13 +153,21 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
                         detail: 'The invoice is saved successfully.'};
           this.messageService.add(msg);
           this.resetModel();
-          this.utilService.hideMassage(msg, 2000);
+          this.utilService.hideMassage(msg, 4000);
       }
     ).catch(error => {
+      let errorText = 'The invoice is not saved.';
+      if (error instanceof HttpErrorResponse){
+        if ( error.status === 400){
+          errorText = error.error.errorMessage;
+        }
+
+      }
       const msg: Message = {severity: 'error', summary: 'Error',
-                              detail: 'The invoice is not saved.'};
+                              detail: errorText};
       this.messageService.add(msg);
-      this.utilService.hideMassage(msg, 2000);
+
+      this.utilService.hideMassage(msg, 10000);
       handleError(error);
     });
   }

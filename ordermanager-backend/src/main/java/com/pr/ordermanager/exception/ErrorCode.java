@@ -45,11 +45,24 @@ public enum ErrorCode {
     CODE_0007(7, "Can not find user in database"),
     CODE_0008(8, "The user already exists"),
     CODE_10001(10001, "Can not create jasper report"),
-    CODE_10002(10002, "Database exception");
-    private String shotDescription;
+    CODE_10002(10002, "Database exception"),
+    CODE_20001(20001, "Validation error. invoiceFormData.creationDate can not be null."),
+    CODE_20002(20002, "Validation error. invoiceFormData.invoiceDate can not be null."),
+    CODE_20003(20003, "Validation error. invoiceFormData.invoiceNumber can not be blank."),
+    CODE_20004(20004, "Validation error. invoiceFormData.rateType can not be blank."),
+    CODE_20005(20005, "Validation error. invoiceFormData.personSupplier can not be null."),
+    CODE_20006(20006, "Validation error. invoiceFormData.personRecipient can not be null."),
+    CODE_20007(20007, "Validation error. invoiceFormData.invoiceItems at least one item must be added."),
+    CODE_20008(20008, "Validation error. invoiceFormData.invoiceItems must have selected item, item price and amount of items.");
+
+    private String shortDescription;
     private int errorCode;
-    ErrorCode(int errorCode, String shotDescription){
+    ErrorCode(int errorCode, String shortDescription){
       this.errorCode = errorCode;
-      this.shotDescription = shotDescription;
+      this.shortDescription = shortDescription;
+    }
+
+    public String getShortDesctiption(){
+        return shortDescription;
     }
 }

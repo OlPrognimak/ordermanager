@@ -46,13 +46,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
-import static com.pr.ordermanager.exception.ErrorCode.CODE_0002;
 
 /**
  * @author  Oleksandr Prognimak
  */
 @Service
 public class InvoiceService {
+
     @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired
@@ -93,8 +93,7 @@ public class InvoiceService {
      * @exception  OrderManagerException in case if invoice can not be saved
      */
     public String saveInvoice(Invoice invoice, String userName){
-        String invoiceNumder=null;
-        if (validateInvoiceData(invoice) ){
+            String invoiceNumder=null;
             InvoiceUser user = userService.getUserOrException(userName);
             try {
                 invoice.setInvoiceUser(user);
@@ -103,10 +102,6 @@ public class InvoiceService {
             }catch(Exception ex) {
                 throw new OrderManagerException(CODE_0000,"Unexpected exception",ex);
             }
-        }else{
-            throw new OrderManagerException(CODE_0002,"The validation of Person is failed.");
-        }
-
         return invoiceNumder;
     }
 
@@ -114,11 +109,6 @@ public class InvoiceService {
         Invoice invoiceData = invoiceRepository.findByInvoiceNumber(invoiceNumber);
         return invoiceData;
     }
-    //TODO need to implement
-    private boolean validateInvoiceData(Invoice invoiceData){
-        return true;
-    }
-
 
     /**
      *
