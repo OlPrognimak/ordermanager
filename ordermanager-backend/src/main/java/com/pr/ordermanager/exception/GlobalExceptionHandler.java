@@ -39,12 +39,21 @@ import org.springframework.web.context.request.WebRequest;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
 
+/**
+ * The exception handler for capturing application exceptions and mapping to the  response exception
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * Handle currently with all exceptions
+     * @param ex the exception which occurs in application
+     * @param request the web request
+     * @return response entity with response exception
+     */
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<ResponseException> handleAccessDeniedException(
             Exception ex, WebRequest request) {
-
         if (ex instanceof OrderManagerException) {
             OrderManagerException ordMngEx = (OrderManagerException)ex;
             ResponseException responseException = ResponseException.builder()

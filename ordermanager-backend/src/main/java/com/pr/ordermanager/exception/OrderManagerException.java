@@ -33,6 +33,7 @@ package com.pr.ordermanager.exception;
 import lombok.*;
 
 /**
+ * The global application exception
  * @author Oleksandr Prognimak
  */
 @ToString
