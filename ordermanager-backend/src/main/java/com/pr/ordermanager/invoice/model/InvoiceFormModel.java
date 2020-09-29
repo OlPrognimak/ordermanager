@@ -37,6 +37,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.key.OffsetDateTimeKeyDeserial
 import com.fasterxml.jackson.datatype.jsr310.ser.OffsetDateTimeSerializer;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -49,7 +51,7 @@ import java.util.List;
 @Data
 @Builder
 public class InvoiceFormModel {
-
+    @NotNull @NotEmpty
     private String invoiceNumber;
     private String invoiceDescription;
     private Long personSupplierId;
