@@ -13,6 +13,14 @@ The next functionality will be planned:
 - OpenAPI/Swagger-UI  
 
 # Backend configuration, features and useful tips and tricks
+- Security
+   Currently uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
+     The implementation of security contains:
+    * class @@com.pr.ordermanager.security.controller.SecurityConfig@@ 
+    * the database table @@InvoceUser@@ 
+    * the service @@UserService@@ 
+    * JPARepository @@UserRepository@@  
+    * Rest Controller  @@InvoiceUserController@@
 - OpenAPI/Sagger-UI URLs
   * OpenAPI documentation in JSON format: http://localhost:8083/backend/v3/api-docs/
   * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
