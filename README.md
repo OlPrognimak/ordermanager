@@ -17,7 +17,7 @@ The next functionality will be planned:
 - Security. 
    Currently uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
      The implementation of security contains:
-    * security configuration com.pr.ordermanager.security.controller.SecurityConfig
+    * security configuration ```java com.pr.ordermanager.security.controller.SecurityConfig```
     * the database table InvoceUser 
     * the service UserService 
     * JPARepository UserRepository  
