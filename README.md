@@ -5,6 +5,7 @@ The next functionality will be planned:
  - creation of persons with addresses and bank accounts
  - create invoices with multiple items, goods and services
  - generate and printing out of the invoice in PDF format
+ 
 
 # Backend frameworks
 - SpringBoot-2 
@@ -12,11 +13,11 @@ The next functionality will be planned:
   service model beans.
 - OpenAPI/Swagger-UI  
 
-# Backend configuration, features and useful tips and tricks
-- Security
+# Backend configuration, features and useful tips 
+- Security. 
    Currently uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
      The implementation of security contains:
-    * security configuration <font color="blue">com.pr.ordermanager.security.controller.SecurityConfig</font> 
+    * security configuration <div style="color: blue">com.pr.ordermanager.security.controller.SecurityConfig</div> 
     * the database table @@InvoceUser@@ 
     * the service @@UserService@@ 
     * JPARepository @@UserRepository@@  
