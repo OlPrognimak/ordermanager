@@ -85,6 +85,6 @@ public class InvoiceFormModel {
     private OffsetDateTime invoiceDate;
     @NotBlank
     private String rateType;
-    @NotNull @NotEmpty
+    @NotEmpty
     private List<InvoiceItemModel>   invoiceItems;
 }

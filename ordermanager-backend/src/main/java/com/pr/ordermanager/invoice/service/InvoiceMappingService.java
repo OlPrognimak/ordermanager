@@ -31,13 +31,15 @@
 package com.pr.ordermanager.invoice.service;
 
 
-import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.entity.Invoice;
-import com.pr.ordermanager.person.entity.Person;
+import com.pr.ordermanager.invoice.entity.InvoiceItem;
+import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.entity.RateType;
+import com.pr.ordermanager.invoice.model.InvoiceFormModel;
+import com.pr.ordermanager.invoice.model.InvoiceItemModel;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
+import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
-import com.pr.ordermanager.report.service.ModelToEntityMapperHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,7 +97,7 @@ public class InvoiceMappingService {
             invoice.setInvoiceItems(
                 invoiceFormModel.getInvoiceItems()
                     .stream()
-                    .map(i-> ModelToEntityMapperHelper.mapInvoiceItemModelToEntity(
+                    .map(i-> mapInvoiceItemModelToEntity(
                          i, invoice, itemCatalogRepository.findById (
                              i.getCatalogItemId ()).orElseThrow()))
                             .collect( Collectors.toList())
@@ -104,6 +106,21 @@ public class InvoiceMappingService {
             personInvoiceRecipient.setInvoiceRecipient(Arrays.asList(invoice));
             return invoice;
 
+    }
+
+    public static InvoiceItem mapInvoiceItemModelToEntity(
+            InvoiceItemModel invoiceFormModel, Invoice invoice, ItemCatalog itemCatalog){
+
+        InvoiceItem invoiceItem = InvoiceItem.builder()
+                .itemPrice(invoiceFormModel.getItemPrice())
+                .amountItems(invoiceFormModel.getAmountItems())
+                .itemCatalog(itemCatalog)
+                .vat(invoiceFormModel.getVat())
+                .sumNetto(invoiceFormModel.getSumNetto())
+                .sumBrutto(invoiceFormModel.getSumBrutto())
+                .invoice(invoice)
+                .build();
+        return invoiceItem;
     }
 
 }

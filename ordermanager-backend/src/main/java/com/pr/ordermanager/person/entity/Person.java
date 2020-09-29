@@ -52,6 +52,7 @@ public class Person  extends AbstractEntity {
     private String personFirstName;
     private String companyName;
     private String taxNumber;
+    private String email;
     @Enumerated(EnumType.STRING)
     private PersonType personType;
     @OneToMany(mappedBy="invoiceSupplierPerson", cascade = CascadeType.ALL)
