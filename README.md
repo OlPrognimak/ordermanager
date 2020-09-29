@@ -14,9 +14,9 @@ The next functionality will be planned:
 
 # Backend configuration, features and useful tips and tricks
 - OpenAPI/Sagger-UI URLs
-  * OpenAPI documentation in JSON format: http://localhost:8081/backend/v3/api-docs/
-  * OpenAPI documentation in YAML format: http://localhost:8081/backend/v3/api-docs.yaml
-  * Swagger-UI: http://localhost:8081/backend/swagger-ui.html
+  * OpenAPI documentation in JSON format: http://localhost:8083/backend/v3/api-docs/
+  * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
+  * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
 
   
   
@@ -67,7 +67,7 @@ The next functionality will be planned:
   
 ``` html
  <ng-template pTemplate="output">
-             {{invoiceitem.numberItems | standardFloat}}
+             {{invoiceitem.amountItems | standardFloat}}
  </ng-template>
    
 ```

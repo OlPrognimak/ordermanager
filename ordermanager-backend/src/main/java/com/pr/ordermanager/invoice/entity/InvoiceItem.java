@@ -45,7 +45,7 @@ public class InvoiceItem extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double numberItems;
+    private Double amountItems;
     private Double itemPrice;
     private Integer vat;
     private Double sumNetto;

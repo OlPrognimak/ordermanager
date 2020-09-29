@@ -35,6 +35,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author Oleksandr Prognimak
  */
@@ -46,8 +49,11 @@ import lombok.ToString;
 public class PersonAddressFormModel {
 
     private Long id;
+    @NotBlank
     private String city;
+    @NotBlank
     private String street;
+    @NotBlank
     private String zipCode;
     private String postBoxCode;
 }

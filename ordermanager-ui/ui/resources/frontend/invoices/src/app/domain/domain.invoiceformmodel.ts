@@ -49,7 +49,7 @@ export interface InvoiceItemModelInterface {
   idxItem: number;
   catalogItemId: number;
   description: string;
-  numberItems: number;
+  amountItems: number;
   itemPrice: number;
   vat: number;
   sumNetto: number;
@@ -101,7 +101,7 @@ export class InvoiceItemModel implements InvoiceItemModelInterface{
   catalogItemId: number;
   description = '';
   itemPrice = 0;
-  numberItems = 0;
+  amountItems = 0;
   vat = 0;
   sumNetto = 0;
   sumBrutto = 0;

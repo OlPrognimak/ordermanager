@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -92,8 +93,8 @@ public class PersonController {
     @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewPerson(
-            @RequestBody PersonFormModel personFormModel, Principal principal) {
-
+            @RequestBody @Valid PersonFormModel personFormModel, Principal principal) {
+        PersonValidator.validate(personFormModel);
         Person person = ModelToEntityMapperHelper.mapPersonFormModelToEntity(personFormModel);
         personService.savePerson(person, principal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));

@@ -89,7 +89,7 @@ public class ModelToEntityMapperHelper {
 
         InvoiceItem invoiceItem = InvoiceItem.builder()
             .itemPrice(invoiceFormModel.getItemPrice())
-            .numberItems(invoiceFormModel.getNumberItems())
+            .amountItems(invoiceFormModel.getAmountItems())
             .itemCatalog(itemCatalog)
             .vat(invoiceFormModel.getVat())
                 .sumNetto(invoiceFormModel.getSumNetto())
