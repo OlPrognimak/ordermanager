@@ -56,6 +56,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -129,7 +130,7 @@ public class InvoiceController {
     @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewInvoice(
-            @RequestBody InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
+            @RequestBody @Valid InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
         InvoiceValidator.validateInvoiceData(invoiceFormModel);
         Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
         invoiceService.saveInvoice(invoice,securityPrincipal.getName());
