@@ -33,6 +33,8 @@ package com.pr.ordermanager.person.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.pr.ordermanager.common.model.DropdownDataType;
+import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonAddress;
@@ -40,14 +42,25 @@ import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.model.BankAccountFormModel;
 import com.pr.ordermanager.person.model.PersonAddressFormModel;
 import com.pr.ordermanager.person.model.PersonFormModel;
+import com.pr.ordermanager.utils.Utils;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
+ * The mapper class for mapping rest model object {@link PersonFormModel} and their member objects
+ * to the entity {@link Person}
+ *
  * @author  Oleksandr Prognimak
  */
 public class PersonModelToEntityMapperHelper {
 
+
+    /**
+     *
+     * @return object mapper for management with json and json objects
+     */
    public static ObjectMapper createObjectMapper() {
        ObjectMapper mapper = new ObjectMapper();
        mapper.registerModule(new JavaTimeModule());
@@ -55,51 +68,79 @@ public class PersonModelToEntityMapperHelper {
        return mapper;
    }
 
-
-    public static Person mapPersonFormModelToEntity(PersonFormModel personFormModel) {
-        Person person = Person.builder()
-                .personFirstName(personFormModel.getPersonFirstName())
-                .personLastName(personFormModel.getPersonLastName())
-                .personType(PersonType.valueOf(personFormModel.getPersonType()))
-                .companyName(personFormModel.getCompanyName())
-                .email(personFormModel.getEmail())
-                .taxNumber ( personFormModel.getTaxNumber () )
+    /**
+     * Maps source data from object {@link PersonFormModel} to the entity {@link Person}
+     *
+     * @param source the data source object {@link PersonFormModel}
+     * @return the target object {@link Person}
+     */
+    public static Person mapPersonFormModelToEntity(PersonFormModel source) {
+        Person target = Person.builder()
+                .personFirstName(source.getPersonFirstName())
+                .personLastName(source.getPersonLastName())
+                .personType(PersonType.valueOf(source.getPersonType()))
+                .companyName(source.getCompanyName())
+                .email(source.getEmail())
+                .taxNumber ( source.getTaxNumber () )
                 .bankAccount(
                     Arrays.asList(
                         mapBankAccountFormModelToEntity(
-                            personFormModel.getBankAccountFormModel()
+                            source.getBankAccountFormModel()
                         )
                     )
                 )
                 .personAddress(
                     Arrays.asList(
                         mapPersonAddressFormModelToEntity (
-                            personFormModel.getPersonAddressFormModel ()
+                            source.getPersonAddressFormModel ()
                         )
                     )
                 )
                 .build();
-        return person;
+        return target;
     }
 
-
-   // List<InvoiceItem> items = invoiceFormModel.getInvoiceItems().stream().map(i->  )
-
-
-    public static PersonAddress mapPersonAddressFormModelToEntity(PersonAddressFormModel personAddressFormModel){
+    /**
+     * Maps source data from object {@link PersonAddressFormModel} to the entity {@link PersonAddress}
+     *
+     * @param source the data source object {@link PersonFormModel}
+     * @return the target object {@link Person}
+     */
+    public static PersonAddress mapPersonAddressFormModelToEntity(PersonAddressFormModel source){
        return PersonAddress.builder ()
-           .postBoxCode (personAddressFormModel.getPostBoxCode())
-           .zipCode (personAddressFormModel.getZipCode())
-           .street (personAddressFormModel.getStreet())
-           .city (personAddressFormModel.getCity()).build();
+           .postBoxCode (source.getPostBoxCode())
+           .zipCode (source.getZipCode())
+           .street (source.getStreet())
+           .city (source.getCity()).build();
     }
 
-    public static BankAccount mapBankAccountFormModelToEntity(BankAccountFormModel bankAccountFormModel){
+
+    /**
+     * Maps source data from object {@link BankAccountFormModel} to the entity {@link BankAccount}
+     *
+     * @param source the data source object {@link BankAccountFormModel}
+     * @return the target object {@link BankAccount}
+     */
+    public static BankAccount mapBankAccountFormModelToEntity(BankAccountFormModel source){
         return BankAccount.builder ()
-             .bankName ( bankAccountFormModel.getBankName ())
-             .iban (bankAccountFormModel.getIban())
-             .bicSwift (bankAccountFormModel.getBicSwift ())
-             .accountNumber (bankAccountFormModel.getAccountNumber()).build();
+             .bankName ( source.getBankName ())
+             .iban (source.getIban())
+             .bicSwift (source.getBicSwift ())
+             .accountNumber (source.getAccountNumber()).build();
+    }
+
+    /**
+     * Maps the data from list of source Entity objects {@link Person} to the list of rest model objects
+     * {@link DropdownDataType}
+     * @param source the list of Entity object {@link Person} with data for mapping to the target List
+     * @return the List of target objects {@link InvoiceFormModel}
+     */
+    public static List<DropdownDataType> mapPersonToDropdownType(List<Person> source){
+        return source.stream().map(p->new DropdownDataType(
+                Utils.emptyOrValue(p.getPersonFirstName())+ " "+
+                        Utils.emptyOrValue(p.getPersonLastName())+ " "+
+                        Utils.emptyOrValue(p.getCompanyName()).trim(),
+                ""+p.getId())).collect(Collectors.toList());
     }
 
 }

@@ -8,7 +8,6 @@ import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,11 +59,11 @@ class PersonServiceTest {
         Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, personAddress, bankAccount);
         personService.savePerson(person, "admin");
         //invoiceData.getInvoiceItems()
-        Assert.assertNotNull(person.getId());
-        Assert.assertNotNull(person.getBankAccount());
-        Assert.assertNotNull(person.getPersonAddress());
-        Assert.assertEquals(1, person.getBankAccount().size());
-        Assert.assertEquals(1, person.getPersonAddress().size());
+        assertNotNull(person.getId());
+        assertNotNull(person.getBankAccount());
+        assertNotNull(person.getPersonAddress());
+        assertEquals(1, person.getBankAccount().size());
+        assertEquals(1, person.getPersonAddress().size());
 
     }
 

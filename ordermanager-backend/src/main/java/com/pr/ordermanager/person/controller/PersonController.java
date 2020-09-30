@@ -7,11 +7,10 @@ package com.pr.ordermanager.person.controller;
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.common.model.DropdownDataType;
 import com.pr.ordermanager.exception.OrderManagerException;
-import com.pr.ordermanager.invoice.service.EntityToModelMapperHelper;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.model.PersonFormModel;
-import com.pr.ordermanager.person.service.PersonService;
 import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
+import com.pr.ordermanager.person.service.PersonService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -133,9 +132,9 @@ public class PersonController {
     )
     @GetMapping(value = PATH_PERSONS_DROPDOWN, produces = APPLICATION_JSON)
     public ResponseEntity<List<DropdownDataType>> getPersonsDropdown(Principal principal) {
-        List<Person> allPersons = personService.getAllPersons(principal.getName());
+        List<Person> allPersons = personService.getAllUserPersons(principal.getName());
         List<DropdownDataType> dropdownDataTypes =
-                EntityToModelMapperHelper.mapPersonToDropdownType(allPersons);
+                PersonModelToEntityMapperHelper.mapPersonToDropdownType(allPersons);
         return ResponseEntity.status(OK).body(dropdownDataTypes);
     }
 }

@@ -37,12 +37,6 @@ import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.model.InvoiceItemModel;
 import com.pr.ordermanager.invoice.model.ItemCatalogModel;
-import com.pr.ordermanager.person.entity.BankAccount;
-import com.pr.ordermanager.person.entity.Person;
-import com.pr.ordermanager.person.entity.PersonAddress;
-import com.pr.ordermanager.person.model.BankAccountFormModel;
-import com.pr.ordermanager.person.model.PersonAddressFormModel;
-import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.utils.Utils;
 
 import java.util.List;
@@ -59,90 +53,59 @@ public class EntityToModelMapperHelper {
 
     }
 
-    public static PersonFormModel mapPersonEntityToFormModel(Person person){
-        return PersonFormModel.builder()
-            .personFirstName(person.getPersonFirstName())
-            .personLastName(person.getPersonLastName())
-            .personType(person.getPersonType().name())
-            .taxNumber(person.getTaxNumber())
-            .build();
-    }
-
-
-    public static PersonAddressFormModel mapPersonAddressEntityToFormModel(PersonAddress personAddress){
-        return PersonAddressFormModel.builder()
-            .city(personAddress.getCity())
-            .id(personAddress.getId())
-            .postBoxCode(personAddress.getPostBoxCode())
-            .street(personAddress.getStreet())
-            .zipCode(personAddress.getZipCode())
-            .build();
-    }
-
-
-    public static BankAccountFormModel mapPersonBankAccountEntityToFormModel(BankAccount bankAccount){
-        return BankAccountFormModel.builder()
-            .id(bankAccount.getId())
-            .accountNumber(bankAccount.getAccountNumber())
-            .bankName(bankAccount.getBankName())
-            .bicSwift(bankAccount.getBicSwift())
-            .iban(bankAccount.getIban()).build();
-    }
 
     /**
-     * Maps {@code invoice} {@link Invoice} to {@link InvoiceFormModel}
-     * @param invoice the invoice entity
-     * @return the invoice model
+     * Maps the data from source Entity object {@link Invoice} to rest model object {@link InvoiceFormModel}
+     * @param source the source Entity object {@link Invoice} with data for mapping to the target object
+     * @return the target object {@link InvoiceFormModel}
      */
-    public static InvoiceFormModel mapInvoiceEntityToFormModel(Invoice invoice){
+    public static InvoiceFormModel mapInvoiceEntityToFormModel(Invoice source){
         InvoiceFormModel invoiceFormModel = InvoiceFormModel.builder()
             .personRecipientId(
-                    invoice.getInvoiceRecipientPerson().getId())
+                    source.getInvoiceRecipientPerson().getId())
              .recipientFullName(
-                     (Utils.emptyOrValue(invoice.getInvoiceRecipientPerson().getPersonFirstName())+" "+
-                             Utils.emptyOrValue(invoice.getInvoiceRecipientPerson().getPersonLastName())+ " "+
-                             Utils.emptyOrValue(invoice.getInvoiceRecipientPerson().getCompanyName())
+                     (Utils.emptyOrValue(source.getInvoiceRecipientPerson().getPersonFirstName())+" "+
+                             Utils.emptyOrValue(source.getInvoiceRecipientPerson().getPersonLastName())+ " "+
+                             Utils.emptyOrValue(source.getInvoiceRecipientPerson().getCompanyName())
                      ).trim()
              )
-            .invoiceNumber(invoice.getInvoiceNumber())
-            .invoiceDescription(invoice.getInvoiceDescription())
-            .invoiceDate(invoice.getInvoiceDate())
-            .creationDate(invoice.getCreationDate())
-            .rateType(invoice.getRateType().name())
-            .personSupplierId(invoice.getInvoiceSupplierPerson().getId())
+            .invoiceNumber(source.getInvoiceNumber())
+            .invoiceDescription(source.getInvoiceDescription())
+            .invoiceDate(source.getInvoiceDate())
+            .creationDate(source.getCreationDate())
+            .rateType(source.getRateType().name())
+            .personSupplierId(source.getInvoiceSupplierPerson().getId())
                 .supplierFullName(
-                        (Utils.emptyOrValue(invoice.getInvoiceSupplierPerson().getPersonFirstName())+" "+
-                                Utils.emptyOrValue(invoice.getInvoiceSupplierPerson().getPersonLastName())+ " "+
-                                Utils.emptyOrValue(invoice.getInvoiceSupplierPerson().getCompanyName())).trim())
-             .totalSumBrutto(invoice.getTotalSumBrutto())
-                .totalSumNetto(invoice.getTotalSumNetto())
+                        (Utils.emptyOrValue(source.getInvoiceSupplierPerson().getPersonFirstName())+" "+
+                                Utils.emptyOrValue(source.getInvoiceSupplierPerson().getPersonLastName())+ " "+
+                                Utils.emptyOrValue(source.getInvoiceSupplierPerson().getCompanyName())).trim())
+             .totalSumBrutto(source.getTotalSumBrutto())
+                .totalSumNetto(source.getTotalSumNetto())
              .invoiceItems(
-                invoice.getInvoiceItems()
+                source.getInvoiceItems()
                     .stream()
                     .map(i->mapEntityToModelInvoiceItem(i)).collect(Collectors.toList())
             ).build();
         return invoiceFormModel;
     }
 
-    public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem invoiceItem){
+    /**
+     * Maps the data from source Entity object {@link InvoiceItem} to rest model object {@link InvoiceItemModel}
+     * @param source the source Entity object {@link InvoiceItem} with data for mapping to the target
+     * @return the target object {@link InvoiceFormModel}
+     */
+    public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem source){
         return InvoiceItemModel.builder()
-                .catalogItemId (invoiceItem.getItemCatalog().getId())
-                .itemPrice(invoiceItem.getItemPrice())
-                .description(invoiceItem.getItemCatalog().getDescription())
-                .amountItems(invoiceItem.getAmountItems())
-                .vat(invoiceItem.getVat())
-                .sumNetto(invoiceItem.getSumNetto())
-                .sumBrutto(invoiceItem.getSumBrutto())
+                .catalogItemId (source.getItemCatalog().getId())
+                .itemPrice(source.getItemPrice())
+                .description(source.getItemCatalog().getDescription())
+                .amountItems(source.getAmountItems())
+                .vat(source.getVat())
+                .sumNetto(source.getSumNetto())
+                .sumBrutto(source.getSumBrutto())
                 .build();
     }
 
-    public static List<DropdownDataType> mapPersonToDropdownType(List<Person> persons){
-        return persons.stream().map(p->new DropdownDataType(
-                Utils.emptyOrValue(p.getPersonFirstName())+ " "+
-                        Utils.emptyOrValue(p.getPersonLastName())+ " "+
-                        Utils.emptyOrValue(p.getCompanyName()).trim(),
-                ""+p.getId())).collect(Collectors.toList());
-    }
 
     public static List<DropdownDataType> mapListCatalogItemsToDropdownType(List<ItemCatalog> itemCatalogs){
         return itemCatalogs.stream().map(c->new DropdownDataType(

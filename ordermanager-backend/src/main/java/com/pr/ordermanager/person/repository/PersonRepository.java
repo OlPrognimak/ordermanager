@@ -32,12 +32,10 @@ package com.pr.ordermanager.person.repository;
 
 
 import com.pr.ordermanager.person.entity.Person;
-import com.pr.ordermanager.security.entity.InvoiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NamedQuery;
 import java.util.List;
 
 /**
@@ -45,13 +43,6 @@ import java.util.List;
  */
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    /**
-     * Search {@code personFirstName} by first and last name with all invoices
-     * @param personFirstName the first name of person
-     * @param personLastName the last name of person
-     * @return found person
-     */
-    Person findByPersonFirstNameAndPersonLastName(String personFirstName, String personLastName);
 
     /**
      *
@@ -61,5 +52,4 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query("select p from Person p where p.invoiceUser.userName = :userName")
     List<Person> findAllPersonsByUserName(String userName);
 
-    List<Person> findUserByInvoiceUser(InvoiceUser invoiceUser);
 }

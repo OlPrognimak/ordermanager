@@ -49,7 +49,7 @@ import java.util.Optional;
 import static com.pr.ordermanager.exception.ErrorCode.*;
 
 /**
- *
+ * The service for management with {@link Person}
  * @author Oleksandr Prognimak
  * @since  21.09.2020 - 14:39
  */
@@ -65,23 +65,19 @@ public class PersonService {
     UserService userService;
 
     /**
-     *
-     * @param person the invoice to be saved
+     * @param person   the invoice to be saved
      * @param userName currently authenticated user name
-     * @exception OrderManagerException in case if person can not be saved
+     * @throws OrderManagerException in case if person can not be saved
      */
-    public void savePerson(Person person, String userName){
+    public void savePerson(Person person, String userName) {
         InvoiceUser user = userService.getUserOrException(userName);
         person.setInvoiceUser(user);
-        if (validatePerson(person) ){
-            try {
-                personRepository.save(person);
-            }catch(Exception ex) {
-                throw new OrderManagerException(CODE_0000,"Unexpected exception",ex);
-            }
-        }else{
-            throw new OrderManagerException(CODE_0001,"The validation of Person is failed.");
+        try {
+            personRepository.save(person);
+        } catch (Exception ex) {
+            throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
         }
+
 
     }
 
@@ -116,14 +112,15 @@ public class PersonService {
         }
     }
 
-    public List<Person> getAllPersons(String userName){
+    /**
+     *
+     * @param userName
+     * @return
+     */
+    public List<Person> getAllUserPersons(String userName){
         return personRepository.findAllPersonsByUserName(userName);
-       // return personRepository.findAll(
-       //         Sort.by(Sort.Direction.ASC, "personLastName","companyName"));
     }
 
-    private boolean validatePerson(Person person){
-        return true;
-    }
+
 
 }

@@ -1,35 +1,35 @@
-package com.pr.ordermanager.security.service;
+package com.pr.ordermanager.security.repository;
 
-import com.pr.ordermanager.TestServicesConfiguration;
+import com.pr.ordermanager.security.entity.InvoiceUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
  * @author Oleksandr Prognimak
- * @sence 24.09.2020 - 09:03
+ * @created 30.09.2020 - 22:31
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Transactional
-@Import( TestServicesConfiguration.class )
-class UserServiceTest {
+class UserRepositoryTest {
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
     @Test
-    void getUserOrException() {
-    }
-
-    @Test
-    void createUserLogin() {
-        userService.createUserLogin("test123", "test12345");
+    void saveUser() {
+        String password="test123";
+        String userName="user1";
+        String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        InvoiceUser existedUser = userRepository.findByUserName(userName);
+        InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
+        userRepository.save(user);
     }
 }

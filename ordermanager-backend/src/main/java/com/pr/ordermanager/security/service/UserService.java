@@ -64,10 +64,10 @@ public class UserService {
          InvoiceUser user = userRepository.findByUserName(userName);
          return user;
         }catch (EntityNotFoundException | DataAccessException ex){
-            logger.error("Use is not Found",ex);
+            logger.error("User is not Found",ex);
             throw new OrderManagerException(CODE_0007,"Can not find user with user name: "+userName);
         }catch(Exception e){
-            logger.error("Use is not Found",e);
+            logger.error("Unexpected error",e);
             throw new OrderManagerException(CODE_0000,"Unexpected error in searching user wit name: "+userName);
         }
     }
