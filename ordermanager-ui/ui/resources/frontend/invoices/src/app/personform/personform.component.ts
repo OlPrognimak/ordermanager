@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {Observable, of} from 'rxjs';
@@ -103,22 +103,29 @@ export class PersonFormComponent implements OnInit {
    * Saves person to the database
    * @param event the event from ui
    */
-  savePerson(event: any): void{
-    this.handleClickHttp().subscribe((response) =>
-      {
-          this.personFormModel = new PersonFormModel();
-          const msg: Message = {severity: 'success',
-            summary: 'Congratulation!',
-            detail: 'The person is saved successfully.'};
-          this.messageService.add(msg);
-          this.utilService.hideMassage(msg, 2000);
-          handleResult(response);
+  savePerson(event: any): void {
+    this.handleClickHttp().subscribe((response) => {
+        this.personFormModel = new PersonFormModel();
+        const msg: Message = {
+          severity: 'success',
+          summary: 'Congratulation!',
+          detail: 'The person is saved successfully.'
+        };
+        this.messageService.add(msg);
+        this.utilService.hideMassage(msg, 2000);
+        handleResult(response);
       }, (error) => {
-          const msg = {severity: 'error', summary: 'Error', detail: 'The person is not saved.'};
-          this.messageService.add(msg);
-          this.utilService.hideMassage(msg, 2000);
-          handleError(error);
+        let errorText = 'The person is not saved.';
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 400) {
+            errorText = error.error.errorMessage;
+          }
         }
+        const msg = {severity: 'error', summary: 'Error', detail: errorText};
+        this.messageService.add(msg);
+        this.utilService.hideMassage(msg, 4000);
+        handleError(error);
+      }
     );
   }
   /** for test */

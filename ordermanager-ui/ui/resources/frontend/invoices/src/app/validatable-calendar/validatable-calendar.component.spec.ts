@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidableCalendarComponent } from './validable-calendar.component';
+import { ValidatableCalendarComponent } from './validatable-calendar.component';
 
 describe('ValidableCalendarComponent', () => {
-  let component: ValidableCalendarComponent;
-  let fixture: ComponentFixture<ValidableCalendarComponent>;
+  let component: ValidatableCalendarComponent;
+  let fixture: ComponentFixture<ValidatableCalendarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValidableCalendarComponent ]
+      declarations: [ ValidatableCalendarComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ValidableCalendarComponent);
+    fixture = TestBed.createComponent(ValidatableCalendarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

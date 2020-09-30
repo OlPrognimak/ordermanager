@@ -14,9 +14,7 @@
 
 <br/>
 <ng-template #elseBlock>
-  <!--<div class="alert alert-danger" [hidden]="!error">-->
-  <!--  There was a problem logging in. Please try again.-->
-  <!--</div>-->
+
   <div type="form">
 
     <div *ngIf ="router.url!=='/user-registration-page'" class="p-fluid">
@@ -39,23 +37,23 @@
           <div class="p-grid">
             <div class="p-col-3"></div>
             <div class="p-col-6">
-              <app-validable-input-text [labelText]="'User name'"
-                                        [idComponent]="'id_UserName'"
-                                        [txtMinLength]="2"
-                                        [(ngModel)]="credentials.username">
-              </app-validable-input-text>
+              <app-validatable-input-text [labelText]="'User name'"
+                                          [idComponent]="'id_UserName'"
+                                          [txtMinLength]="2"
+                                          [(ngModel)]="credentials.username">
+              </app-validatable-input-text>
             </div>
             <div class="p-col-3"></div>
           </div>
           <div style="margin-top: 15pt" class="p-grid">
             <div class="p-col-3"></div>
             <div class="p-col-6">
-              <app-validable-input-text [labelText]="'Password'"
-                                        [idComponent]="'id_UsePassword'"
-                                        [inputType]="'password'"
-                                        [txtMinLength]="5"
-                                        [(ngModel)]="credentials.password">
-              </app-validable-input-text>
+              <app-validatable-input-text [labelText]="'Password'"
+                                          [idComponent]="'id_UsePassword'"
+                                          [inputType]="'password'"
+                                          [txtMinLength]="5"
+                                          [(ngModel)]="credentials.password">
+              </app-validatable-input-text>
             </div>
             <div class="p-col-3"></div>
           </div>

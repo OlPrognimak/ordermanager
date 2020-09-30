@@ -32,24 +32,24 @@ import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angu
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'app-validable-input-text',
-  templateUrl: './validable-input-text.component.html',
-  styleUrls: ['./validable-input-text.component.css'],
+  selector: 'app-validatable-input-text',
+  templateUrl: './validatable-input-text.component.html',
+  styleUrls: ['./validatable-input-text.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidableInputTextComponent),
+      useExisting: forwardRef(() => ValidatableInputTextComponent),
       multi: true
     }
   ]
 })
-export class ValidableInputTextComponent implements OnInit, ControlValueAccessor  {
+export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor  {
   /** minimal length of text */
   @Input()  public txtMinLength = 30;
   @Input() public idComponent = '';
   @Input() public labelText = '';
   @Input() inputType = 'text';
-  private controlValue = '';
+  @Input() controlValue = '';
 
   onChange: (val) => void;
   onTouched: () => void;
@@ -67,7 +67,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
 
   // set accessor including call the onchange callback
   set value(v: any) {
-    if (v !== this.value) {
+    if (v !== this.controlValue) {
       this.controlValue = v;
       this.onChange(v);
     }
@@ -88,9 +88,7 @@ export class ValidableInputTextComponent implements OnInit, ControlValueAccessor
    *
    */
   writeValue(value: any): void {
-    if (value !== undefined){
       this.controlValue = value;
-    }
   }
 
 }

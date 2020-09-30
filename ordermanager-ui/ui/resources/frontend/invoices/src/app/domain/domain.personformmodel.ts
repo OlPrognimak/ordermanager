@@ -38,6 +38,7 @@ export class PersonFormModel {
   companyName: string ;
   personType: string ;
   taxNumber: string;
+  email: string;
   personAddressFormModel: PersonAddressFormModel = new PersonAddressFormModel();
   bankAccountFormModel: BankAccountFormModel = new BankAccountFormModel();
 

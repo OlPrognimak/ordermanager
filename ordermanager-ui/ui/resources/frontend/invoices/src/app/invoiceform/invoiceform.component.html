@@ -3,11 +3,11 @@
   <p-messages></p-messages>
   <div class="p-grid">
     <div style="margin-top: 10pt" class="p-col-4">
-      <app-validable-input-text [labelText]="'Invoice Number'"
-                                [idComponent]="'id_InvoiceNumber'"
-                                [txtMinLength]="2"
-                                [(ngModel)] = "invoiceFormData.invoiceNumber">
-      </app-validable-input-text>
+      <app-validatable-input-text [labelText]="'Invoice Number'"
+                                  [idComponent]="'id_InvoiceNumber'"
+                                  [txtMinLength]="2"
+                                  [(ngModel)] = "invoiceFormData.invoiceNumber">
+      </app-validatable-input-text>
     </div>
     <div style="margin-top: 10pt" class="p-col-4">
        <span class="p-float-label">
@@ -20,53 +20,53 @@
   </div>
   <div class="p-grid">
     <div style="margin-top: 15pt" class="p-col-3">
-      <app-validable-dropdownlist [optionList]="invoiceRate"
-                                  [labelText]="'Rate Type'"
-                                  [idComponent]="'id-rateType'"
-                                  [txtMinLength]="1"
-                                  [(ngModel)] ="invoiceFormData.rateType">
-      </app-validable-dropdownlist>
+      <app-validatable-dropdownlist [optionList]="invoiceRate"
+                                    [labelText]="'Rate Type'"
+                                    [idComponent]="'id-rateType'"
+                                    [txtMinLength]="1"
+                                    [(ngModel)] ="invoiceFormData.rateType">
+      </app-validatable-dropdownlist>
     </div>
   </div>
   <div class="p-grid">
     <div class="p-col-3">
 
-        <app-validable-calendar [idComponent]="'id-creationDate'"
-                                [labelText]="'Creation Date'"
-                                [(ngModel)]="invoiceFormData.creationDate"
-                                [dateFormat]="'dd.mm.yy'">
-        </app-validable-calendar>
+        <app-validatable-calendar [idComponent]="'id-creationDate'"
+                                  [labelText]="'Creation Date'"
+                                  [(ngModel)]="invoiceFormData.creationDate"
+                                  [dateFormat]="'dd.mm.yy'">
+        </app-validatable-calendar>
     </div>
 
     <div class="p-col-3">
-      <app-validable-calendar [idComponent]="'id-InvoiceDate'"
-                              [labelText]="'Invoice Date'"
-                              [(ngModel)]="invoiceFormData.invoiceDate"
-                              [dateFormat]="'dd.mm.yy'">
-      </app-validable-calendar>
+      <app-validatable-calendar [idComponent]="'id-InvoiceDate'"
+                                [labelText]="'Invoice Date'"
+                                [(ngModel)]="invoiceFormData.invoiceDate"
+                                [dateFormat]="'dd.mm.yy'">
+      </app-validatable-calendar>
     </div>
   </div>
   <div class="p-grid">
     <div style="margin-top: 15pt;" class="p-col-6">
-      <app-validable-dropdownlist [optionList]="personInvoiceSupplier"
-                                  [labelText]="'Invoice creator person'"
-                                  [idComponent]="'id-invoiceCreator'"
-                                  [placeholder]="['_']"
-                                  [txtMinLength]="-1"
-                                  [(ngModel)] ="invoiceFormData.personSupplierId">
-      </app-validable-dropdownlist>
+      <app-validatable-dropdownlist [optionList]="personInvoiceSupplier"
+                                    [labelText]="'Invoice creator person'"
+                                    [idComponent]="'id-invoiceCreator'"
+                                    [placeholder]="['_']"
+                                    [txtMinLength]="-1"
+                                    [(ngModel)] ="invoiceFormData.personSupplierId">
+      </app-validatable-dropdownlist>
 
     </div>
   </div>
   <div class="p-grid">
     <div class="p-col-6">
-      <app-validable-dropdownlist [optionList]="personInvoiceRecipient"
-                                  [labelText]="'Invoice recipient person'"
-                                  [idComponent]="'id-invoiceRecipient'"
-                                  [placeholder]="['_']"
-                                  [txtMinLength]="0"
-                                  [(ngModel)] ="invoiceFormData.personRecipientId">
-      </app-validable-dropdownlist>
+      <app-validatable-dropdownlist [optionList]="personInvoiceRecipient"
+                                    [labelText]="'Invoice recipient person'"
+                                    [idComponent]="'id-invoiceRecipient'"
+                                    [placeholder]="['_']"
+                                    [txtMinLength]="0"
+                                    [(ngModel)] ="invoiceFormData.personRecipientId">
+      </app-validatable-dropdownlist>
     </div>
   </div>
 
