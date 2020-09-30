@@ -8,7 +8,7 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
 public class InvoiceValidator {
     private InvoiceValidator() {
 
-    }//TODO need to implement
+    }//TODO need to implemen
 
     public static boolean validateInvoiceData(InvoiceFormModel invoiceData) {
 
