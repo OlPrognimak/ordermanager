@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidableInputTextComponent } from './validable-input-text.component';
+import { ValidatableInputTextComponent } from './validatable-input-text.component';
 
 describe('ValidableInputTextComponent', () => {
-  let component: ValidableInputTextComponent;
-  let fixture: ComponentFixture<ValidableInputTextComponent>;
+  let component: ValidatableInputTextComponent;
+  let fixture: ComponentFixture<ValidatableInputTextComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValidableInputTextComponent ]
+      declarations: [ ValidatableInputTextComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ValidableInputTextComponent);
+    fixture = TestBed.createComponent(ValidatableInputTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
 
-<div type="form">
+<div>
 
   <div class="p-fluid">
     <div class="p-grid">
@@ -26,35 +26,35 @@
         <div class="p-grid">
           <div class="p-col-3"></div>
           <div class="p-col-6">
-            <app-validable-input-text [labelText]="'User name'"
-                                      [idComponent]="'id_UserName'"
-                                      [txtMinLength]="2"
-                                      [(ngModel)]="newUser.userName">
-            </app-validable-input-text>
+            <app-validatable-input-text [labelText]="'User name'"
+                                        [idComponent]="'id_UserName'"
+                                        [txtMinLength]="2"
+                                        [(ngModel)]="newUser.userName">
+            </app-validatable-input-text>
           </div>
           <div class="p-col-3"></div>
         </div>
         <div style="margin-top: 15pt" class="p-grid">
           <div class="p-col-3"></div>
           <div class="p-col-6">
-            <app-validable-input-text [labelText]="'Password'"
-                                      [idComponent]="'id_UsePassword'"
-                                      [inputType]="'password'"
-                                      [txtMinLength]="5"
-                                      [(ngModel)]="newUser.userPassword">
-            </app-validable-input-text>
+            <app-validatable-input-text [labelText]="'Password'"
+                                        [idComponent]="'id_UsePassword'"
+                                        [inputType]="'password'"
+                                        [txtMinLength]="5"
+                                        [(ngModel)]="newUser.userPassword">
+            </app-validatable-input-text>
           </div>
           <div class="p-col-3"></div>
         </div>
         <div style="margin-top: 15pt" class="p-grid">
           <div class="p-col-3"></div>
           <div class="p-col-6">
-            <app-validable-input-text [labelText]="'Repeat password'"
-                                      [idComponent]="'id_UsePasswordRepeat'"
-                                      [inputType]="'password'"
-                                      [txtMinLength]="5"
-                                      [(ngModel)]="newUser.userPasswordRepeat">
-            </app-validable-input-text>
+            <app-validatable-input-text [labelText]="'Repeat password'"
+                                        [idComponent]="'id_UsePasswordRepeat'"
+                                        [inputType]="'password'"
+                                        [txtMinLength]="5"
+                                        [(ngModel)]="newUser.userPasswordRepeat">
+            </app-validatable-input-text>
           </div>
           <div class="p-col-3"></div>
         </div>

@@ -23,9 +23,9 @@ import {TableModule} from 'primeng/table';
 import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
 import {MessageModule} from 'primeng/message';
-import { ValidableInputTextComponent } from './validable-input-text/validable-input-text.component';
-import { ValidableDropdownlistComponent } from './validable-dropdownlist/validable-dropdownlist.component';
-import { ValidableCalendarComponent } from './validable-calendar/validable-calendar.component';
+import { ValidatableInputTextComponent } from './validatable-input-text/validatable-input-text.component';
+import { ValidatableDropdownlistComponent } from './validatable-dropdownlist/validatable-dropdownlist.component';
+import { ValidatableCalendarComponent } from './validatable-calendar/validatable-calendar.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import {ComponentsUtilService} from "./components/components.util.service";
 import {MessageService} from "primeng/api";
@@ -45,9 +45,9 @@ import {MessageService} from "primeng/api";
     ComponentsPipesNumberDouble,
     PrintinvoiceComponent,
     TableCellRendererComponent,
-    ValidableInputTextComponent,
-    ValidableDropdownlistComponent,
-    ValidableCalendarComponent,
+    ValidatableInputTextComponent,
+    ValidatableDropdownlistComponent,
+    ValidatableCalendarComponent,
     UserRegistrationComponent
 
   ],

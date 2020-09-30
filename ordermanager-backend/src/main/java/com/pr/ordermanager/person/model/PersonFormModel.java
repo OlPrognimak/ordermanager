@@ -34,6 +34,7 @@ package com.pr.ordermanager.person.model;
 import lombok.*;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -52,7 +53,7 @@ public class PersonFormModel {
     @NotNull
     private String personType;
     private String taxNumber;
-    @Email
+    @Email @NotBlank
     private String email;
     @NotNull
     private PersonAddressFormModel personAddressFormModel;

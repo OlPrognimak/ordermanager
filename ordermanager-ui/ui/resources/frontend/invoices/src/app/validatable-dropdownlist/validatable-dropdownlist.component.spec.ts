@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidableDropdownlistComponent } from './validable-dropdownlist.component';
+import { ValidatableDropdownlistComponent } from './validatable-dropdownlist.component';
 
 describe('ValidableDropdownlistComponent', () => {
-  let component: ValidableDropdownlistComponent;
-  let fixture: ComponentFixture<ValidableDropdownlistComponent>;
+  let component: ValidatableDropdownlistComponent;
+  let fixture: ComponentFixture<ValidatableDropdownlistComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ValidableDropdownlistComponent ]
+      declarations: [ ValidatableDropdownlistComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ValidableDropdownlistComponent);
+    fixture = TestBed.createComponent(ValidatableDropdownlistComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

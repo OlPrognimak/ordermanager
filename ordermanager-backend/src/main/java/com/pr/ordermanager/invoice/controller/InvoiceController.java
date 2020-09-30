@@ -65,7 +65,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
- * This controler provide the rest services for UI and  for management with person and invoices on UI side
+ * This controller provides the rest services for UI and  for management invoices on UI side
  */
 @OpenAPIDefinition(
         info = @Info(
