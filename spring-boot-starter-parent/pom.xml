@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.2.RELEASE</version>
+		<version>2.3.4.RELEASE</version>
 		<relativePath/>
 	</parent>
 
@@ -28,10 +28,13 @@
 		<docker.image.prefix>myproject</docker.image.prefix>
 		<outputFolder>${project.build.directory}/${project.artifactId}
 		</outputFolder>
-		<spring.boot.version>2.3.1.RELEASE</spring.boot.version>
-		<junit4version>4.11</junit4version>
-		<junit.jupiter.version>5.3.2</junit.jupiter.version>
-		<junit.platform.version>1.5.2</junit.platform.version>
+		<spring.boot.version>2.3.4.RELEASE</spring.boot.version>
+		<junit4version>4.12</junit4version>
+		<junit.jupiter.version>5.6.2</junit.jupiter.version>
+		<junit.jupiter.engine.version>5.6.2</junit.jupiter.engine.version>
+		<junit.vintage.engine>5.6.2</junit.vintage.engine>
+		<junit.platform.version>1.7.0-RC1</junit.platform.version>
+		<mockito.junit.jupiter.version>3.3.3</mockito.junit.jupiter.version>
 		<postgresql.version>42.2.2</postgresql.version>
 		<lo4j2.version>2.8.2</lo4j2.version>
 		<hibernate.version>5.4.2.Final</hibernate.version>
@@ -40,7 +43,7 @@
 		<jasper.report.version>6.14.0</jasper.report.version>
 		<lombok.version>1.18.12</lombok.version>
 		<springdoc.openapi.version>1.2.32</springdoc.openapi.version>
-		<mockito.version>1.10.19</mockito.version>
+		<mockito.version>3.5.9</mockito.version>
 	</properties>
 
 
@@ -97,14 +100,44 @@
            <!-- JUnit-5 -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
-				<artifactId>junit-jupiter-engine</artifactId>
+				<artifactId>junit-jupiter</artifactId>
 				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.platform</groupId>
+				<artifactId>junit-platform-launcher</artifactId>
+				<version>${junit.platform.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit.jupiter.engine.version}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.platform</groupId>
 				<artifactId>junit-platform-runner</artifactId>
 				<version>${junit.platform.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.vintage</groupId>
+				<artifactId>junit-vintage-engine</artifactId>
+				<version>${junit.vintage.engine}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>${mockito.junit.jupiter.version}</version>
 				<scope>test</scope>
 			</dependency>
 
@@ -133,10 +166,17 @@
 			<!--Mockito -->
 			<dependency>
 				<groupId>org.mockito</groupId>
-				<artifactId>mockito-all</artifactId>
+				<artifactId>mockito-core</artifactId>
 				<version>${mockito.version}</version>
 				<scope>test</scope>
 			</dependency>
+
+<!--			<dependency>-->
+<!--				<groupId>org.mockito</groupId>-->
+<!--				<artifactId>mockito-all</artifactId>-->
+<!--				<version>${mockito.version}</version>-->
+<!--				<scope>test</scope>-->
+<!--			</dependency>-->
 
 		</dependencies>
 	</dependencyManagement>
@@ -175,6 +215,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${spring.boot.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
