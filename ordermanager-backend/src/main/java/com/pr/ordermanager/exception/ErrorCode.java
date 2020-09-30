@@ -53,7 +53,10 @@ public enum ErrorCode {
     CODE_20005(20005, "Validation error. invoiceFormData.personSupplier can not be null."),
     CODE_20006(20006, "Validation error. invoiceFormData.personRecipient can not be null."),
     CODE_20007(20007, "Validation error. invoiceFormData.invoiceItems at least one item must be added."),
-    CODE_20008(20008, "Validation error. invoiceFormData.invoiceItems must have selected item, item price and amount of items.");
+    CODE_20008(20008, "Validation error. invoiceFormData.invoiceItems must have selected item, item price and amount of items."),
+    CODE_20021(20021, "Validation error. Person.personFirstName can not be blank."),
+    CODE_20022(20022, "Validation error. Person.personLastName can not be blank."),
+    CODE_20023(20023, "Validation error. Person.companyName can not be blank.");
 
     private String shortDescription;
     private int errorCode;

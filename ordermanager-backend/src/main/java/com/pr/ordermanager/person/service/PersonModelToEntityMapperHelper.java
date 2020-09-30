@@ -28,28 +28,25 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.pr.ordermanager.report.service;
+package com.pr.ordermanager.person.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.pr.ordermanager.person.model.BankAccountFormModel;
-import com.pr.ordermanager.invoice.model.InvoiceItemModel;
-import com.pr.ordermanager.person.model.PersonAddressFormModel;
-import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.person.entity.BankAccount;
-import com.pr.ordermanager.invoice.entity.Invoice;
-import com.pr.ordermanager.invoice.entity.InvoiceItem;
-import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.entity.PersonType;
+import com.pr.ordermanager.person.model.BankAccountFormModel;
+import com.pr.ordermanager.person.model.PersonAddressFormModel;
+import com.pr.ordermanager.person.model.PersonFormModel;
+
 import java.util.Arrays;
 
 /**
  * @author  Oleksandr Prognimak
  */
-public class ModelToEntityMapperHelper {
+public class PersonModelToEntityMapperHelper {
 
    public static ObjectMapper createObjectMapper() {
        ObjectMapper mapper = new ObjectMapper();
@@ -65,6 +62,7 @@ public class ModelToEntityMapperHelper {
                 .personLastName(personFormModel.getPersonLastName())
                 .personType(PersonType.valueOf(personFormModel.getPersonType()))
                 .companyName(personFormModel.getCompanyName())
+                .email(personFormModel.getEmail())
                 .taxNumber ( personFormModel.getTaxNumber () )
                 .bankAccount(
                     Arrays.asList(
@@ -84,20 +82,6 @@ public class ModelToEntityMapperHelper {
         return person;
     }
 
-    public static InvoiceItem mapInvoiceItemModelToEntity(
-        InvoiceItemModel invoiceFormModel, Invoice invoice, ItemCatalog itemCatalog){
-
-        InvoiceItem invoiceItem = InvoiceItem.builder()
-            .itemPrice(invoiceFormModel.getItemPrice())
-            .numberItems(invoiceFormModel.getNumberItems())
-            .itemCatalog(itemCatalog)
-            .vat(invoiceFormModel.getVat())
-                .sumNetto(invoiceFormModel.getSumNetto())
-                .sumBrutto(invoiceFormModel.getSumBrutto())
-            .invoice(invoice)
-            .build();
-        return invoiceItem;
-    }
 
    // List<InvoiceItem> items = invoiceFormModel.getInvoiceItems().stream().map(i->  )
 

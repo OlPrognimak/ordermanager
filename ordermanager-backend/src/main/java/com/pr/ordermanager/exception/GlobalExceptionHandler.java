@@ -30,12 +30,19 @@
  */
 package com.pr.ordermanager.exception;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pr.ordermanager.common.model.ResponseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
 
@@ -44,6 +51,23 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    ObjectMapper objectMapper;
+    GlobalExceptionHandler(){
+        objectMapper = new ObjectMapper();
+    }
+
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public Map<String, String> handleValidationExceptions(
+//            MethodArgumentNotValidException ex) {
+//        Map<String, String> errors = new HashMap<>();
+//        ex.getBindingResult().getAllErrors().forEach((error) -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//        return errors;
+//    }
 
     /**
      * Handle currently with all exceptions
@@ -54,16 +78,38 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<ResponseException> handleAccessDeniedException(
             Exception ex, WebRequest request) {
+
         if (ex instanceof OrderManagerException) {
-            OrderManagerException ordMngEx = (OrderManagerException)ex;
+            OrderManagerException ordMngEx = (OrderManagerException) ex;
             ResponseException responseException = ResponseException.builder()
                     .errorCode(ordMngEx.getErrorCode())
                     .errorMessage(ordMngEx.getMessage()).build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+        }else if (ex instanceof  MethodArgumentNotValidException){
+            Map<String, String> errors = new HashMap<>();
+            MethodArgumentNotValidException maex = (MethodArgumentNotValidException)ex;
+            maex.getBindingResult().getAllErrors().forEach((error) -> {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getDefaultMessage();
+                errors.put(fieldName, errorMessage);
+            });
+            try {
+                String json = objectMapper.writeValueAsString(errors);
+                ResponseException responseException = ResponseException.builder()
+                        .errorCode(CODE_0000)
+                        .errorMessage(json).build();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
+            } catch (JsonProcessingException e) {
+                return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                        ResponseException.builder().shortText(
+                                "Unexpected validation erreor").errorCode(CODE_0000).build()
+                );
+            }
         }else{
             ResponseException responseException = ResponseException.builder()
                     .errorCode(CODE_0000)
                     .errorMessage(ex.getMessage()).build();
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
         }
 

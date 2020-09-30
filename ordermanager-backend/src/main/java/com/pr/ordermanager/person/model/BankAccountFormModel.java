@@ -36,6 +36,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author Oleksandr Prognimak
  */
@@ -47,7 +49,10 @@ import lombok.ToString;
 public class BankAccountFormModel {
     private Long id;
     private String accountNumber;
+    @NotBlank
     private String iban;
+    @NotBlank
     private String bicSwift;
+    @NotBlank
     private String bankName;
 }

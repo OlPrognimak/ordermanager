@@ -5,6 +5,7 @@ The next functionality will be planned:
  - creation of persons with addresses and bank accounts
  - create invoices with multiple items, goods and services
  - generate and printing out of the invoice in PDF format
+ 
 
 # Backend frameworks
 - SpringBoot-2 
@@ -12,11 +13,19 @@ The next functionality will be planned:
   service model beans.
 - OpenAPI/Swagger-UI  
 
-# Backend configuration, features and useful tips and tricks
+# Backend configuration, features and useful tips 
+- Security. 
+   Currently uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
+     The implementation of security contains:
+    * security configuration ```java com.pr.ordermanager.security.controller.SecurityConfig```
+    * the database table InvoceUser 
+    * the service UserService 
+    * JPARepository UserRepository  
+    * Rest Controller  InvoiceUserController
 - OpenAPI/Sagger-UI URLs
-  * OpenAPI documentation in JSON format: http://localhost:8081/backend/v3/api-docs/
-  * OpenAPI documentation in YAML format: http://localhost:8081/backend/v3/api-docs.yaml
-  * Swagger-UI: http://localhost:8081/backend/swagger-ui.html
+  * OpenAPI documentation in JSON format: http://localhost:8083/backend/v3/api-docs/
+  * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
+  * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
 
   
   
@@ -67,7 +76,7 @@ The next functionality will be planned:
   
 ``` html
  <ng-template pTemplate="output">
-             {{invoiceitem.numberItems | standardFloat}}
+             {{invoiceitem.amountItems | standardFloat}}
  </ng-template>
    
 ```

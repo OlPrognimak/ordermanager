@@ -8,7 +8,7 @@ import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
-import com.pr.ordermanager.report.service.ModelToEntityMapperHelper;
+import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +63,7 @@ class InvoiceControllerTest {
         //personRepository.deleteAll();
     }
 
-    ObjectMapper mapper = ModelToEntityMapperHelper.createObjectMapper();
+    ObjectMapper mapper = PersonModelToEntityMapperHelper.createObjectMapper();
 
     @Autowired
     RestTemplate restClient;

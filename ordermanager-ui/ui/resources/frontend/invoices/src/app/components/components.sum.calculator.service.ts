@@ -102,7 +102,7 @@ export class ComponentsSumCalculatorService{
    */
   private calculateNettoSum(params: CalculatorParameters): CalculatorParameters{
     params.invoiceItemEvent.sumNetto = Number((
-    params.invoiceItemEvent.numberItems * params.invoiceItemEvent.itemPrice).toFixed(2));
+    params.invoiceItemEvent.amountItems * params.invoiceItemEvent.itemPrice).toFixed(2));
     console.log('Calculated sum netto ' + params.invoiceItemEvent.sumNetto);
     return params;
   }

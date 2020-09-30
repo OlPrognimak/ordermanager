@@ -7,7 +7,7 @@ public class ModelToEntityMapperTest {
     @Test
     public void mapModelToEntityPerson() throws Exception {
 //        Person person =
-//            ModelToEntityMapperHelper.mapPersonFormModelToEntity(RepositoryTestHelper.createInvoiceFormModel());
+//            PersonModelToEntityMapperHelper.mapPersonFormModelToEntity(RepositoryTestHelper.createInvoiceFormModel());
 //        Assert.assertNotNull(person);
     }
 
@@ -17,7 +17,7 @@ public class ModelToEntityMapperTest {
 //        Invoice invoiceData = RepositoryTestHelper.createInvoice(item);
 //        Person person = RepositoryTestHelper.createPerson(invoiceData);
 //
-//        InvoiceFormModel invoiceFormModel = ModelToEntityMapperHelper.mapPersonEntityToFormModel(person);
+//        InvoiceFormModel invoiceFormModel = PersonModelToEntityMapperHelper.mapPersonEntityToFormModel(person);
 //        Assert.assertNotNull(invoiceFormModel);
     }
 

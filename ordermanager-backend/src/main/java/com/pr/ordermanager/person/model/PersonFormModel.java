@@ -33,6 +33,9 @@ package com.pr.ordermanager.person.model;
 
 import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Oleksandr Prognimak
  */
@@ -46,9 +49,14 @@ public class PersonFormModel {
     private String personLastName;
     private String personFirstName;
     private String companyName;
+    @NotNull
     private String personType;
     private String taxNumber;
+    @Email
+    private String email;
+    @NotNull
     private PersonAddressFormModel personAddressFormModel;
     private BankAccountFormModel bankAccountFormModel;
+
 
 }

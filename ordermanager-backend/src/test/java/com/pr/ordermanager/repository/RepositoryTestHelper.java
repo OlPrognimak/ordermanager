@@ -84,7 +84,7 @@ public class RepositoryTestHelper {
     public static InvoiceItem createItem(ItemCatalog itemCatalog) {
         var item = new InvoiceItem();
         item.setItemCatalog(itemCatalog);
-        item.setNumberItems(22d);
+        item.setAmountItems(22d);
         item.setItemPrice(600d);
         item.setVat(16);
         return item;
@@ -95,7 +95,7 @@ public class RepositoryTestHelper {
                 .description("Geleistete Tagen  im Juni 2020 gemäß \n" +
                         "beigefügten abgezeichneten\n" +
                         "Leistungsnachweisen\n")
-                .numberItems(22d)
+                .amountItems(22d)
                 .itemPrice(600d)
                 .vat(16).build();
 

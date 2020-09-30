@@ -4,12 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.repository.RepositoryTestHelper;
-import com.pr.ordermanager.report.service.ModelToEntityMapperHelper;
+import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -50,7 +48,7 @@ class PersonControllerTest {
         //personRepository.deleteAll();
     }
 
-    ObjectMapper mapper = ModelToEntityMapperHelper.createObjectMapper();
+    ObjectMapper mapper = PersonModelToEntityMapperHelper.createObjectMapper();
 
     @Autowired
     RestTemplate restClient;

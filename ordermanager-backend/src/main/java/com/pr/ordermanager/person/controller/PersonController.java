@@ -11,7 +11,7 @@ import com.pr.ordermanager.invoice.service.EntityToModelMapperHelper;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.person.service.PersonService;
-import com.pr.ordermanager.report.service.ModelToEntityMapperHelper;
+import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -92,9 +93,9 @@ public class PersonController {
     @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT,
             produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewPerson(
-            @RequestBody PersonFormModel personFormModel, Principal principal) {
-
-        Person person = ModelToEntityMapperHelper.mapPersonFormModelToEntity(personFormModel);
+            @RequestBody @Valid PersonFormModel personFormModel, Principal principal) {
+        PersonValidator.validate(personFormModel);
+        Person person = PersonModelToEntityMapperHelper.mapPersonFormModelToEntity(personFormModel);
         personService.savePerson(person, principal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));
     }

@@ -36,6 +36,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 /**
  * @author Oleksandr Prognimak
  */
@@ -45,10 +48,12 @@ import lombok.ToString;
 @Data
 @Builder
 public class InvoiceItemModel {
-
+    @NotNull
     private Long catalogItemId;
     private String description;
-    private Double numberItems;
+    @NotNull @Positive
+    private Double amountItems;
+    @NotNull @Positive
     private Double itemPrice;
     private Integer vat;
     private Double sumNetto;
