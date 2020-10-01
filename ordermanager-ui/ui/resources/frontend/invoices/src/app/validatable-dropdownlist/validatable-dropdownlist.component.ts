@@ -49,7 +49,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Input() public idComponent = '';
   @Input() public labelText = '';
   @Input() public placeholder = '';
-  @Input() value: any;
+  @Input() controlValue: any;
   onChange: (val) => void;
   onTouched: () => void;
 
@@ -58,8 +58,20 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   ngOnInit(): void {
   }
 
+  // get accessor
+  get value(): any {
+    return this.controlValue;
+  }
+
+  // set accessor including call the onchange callback
+  set value(v: any) {
+    if (v !== this.controlValue) {
+      this.controlValue = v;
+      this.onChange(v);
+    }
+  }
+
   registerOnChange(fn: any): void {
-    console.log('OnChange Called: ' + fn);
     this.onChange = fn;
   }
 
@@ -74,8 +86,6 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
    *
    */
   writeValue(value: any): void {
-    if (value !== undefined){
-      this.value = value;
-    }
+      this.controlValue = value;
   }
 }

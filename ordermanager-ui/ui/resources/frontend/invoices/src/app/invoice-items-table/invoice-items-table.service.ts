@@ -9,7 +9,7 @@ import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../domain/do
 @Injectable({
   providedIn: 'root',
 })
-export class ComponentsItemtableService {
+export class InvoiceItemsTableService {
   /** the url to the server */
   backendUrl: string;
   /** contains items schot description for dropdown list */
@@ -64,8 +64,8 @@ export class ComponentsItemtableService {
           invoiceitem.vat = data.vat;
         }
       ).catch(error => {
-            this.printToJson(error);
-        }
+        this.printToJson(error);
+      }
     );
   }
 

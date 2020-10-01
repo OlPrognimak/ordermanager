@@ -9,8 +9,6 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
-import {EditableCellComponent} from './components/components.cell';
-import {ItemsTableComponent} from './components/components.itemstable';
 import {ComponentsPipesNumberDouble} from './components/components.pipes.number';
 import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
 import {AgGridModule} from 'ag-grid-angular';
@@ -27,9 +25,10 @@ import { ValidatableInputTextComponent } from './validatable-input-text/validata
 import { ValidatableDropdownlistComponent } from './validatable-dropdownlist/validatable-dropdownlist.component';
 import { ValidatableCalendarComponent } from './validatable-calendar/validatable-calendar.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
-import {ComponentsUtilService} from "./components/components.util.service";
-import {MessageService} from "primeng/api";
-
+import {ComponentsUtilService} from './components/components.util.service';
+import {MessageService} from 'primeng/api';
+import { EditableInputCellComponent } from './editable-input-cell/editable-input-cell.component';
+import { InvoiceItemsTableComponent } from './invoice-items-table/invoice-items-table.component';
 
 
 
@@ -40,15 +39,15 @@ import {MessageService} from "primeng/api";
     InvoiceFormComponent,
     PersonFormComponent,
     routingComponent,
-    EditableCellComponent,
-    ItemsTableComponent,
     ComponentsPipesNumberDouble,
     PrintinvoiceComponent,
     TableCellRendererComponent,
     ValidatableInputTextComponent,
     ValidatableDropdownlistComponent,
     ValidatableCalendarComponent,
-    UserRegistrationComponent
+    UserRegistrationComponent,
+    EditableInputCellComponent,
+    InvoiceItemsTableComponent
 
   ],
   imports: [

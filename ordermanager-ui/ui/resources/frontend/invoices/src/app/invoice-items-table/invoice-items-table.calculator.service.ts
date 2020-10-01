@@ -41,10 +41,10 @@ import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class ComponentsSumCalculatorService{
+export class InvoiceItemsTableCalculatorService{
 
-   totalNettoSum: number;
-   totalBruttoSum: number;
+  totalNettoSum: number;
+  totalBruttoSum: number;
 
   constructor(){
     this.totalNettoSum = 0;
@@ -102,7 +102,7 @@ export class ComponentsSumCalculatorService{
    */
   private calculateNettoSum(params: CalculatorParameters): CalculatorParameters{
     params.invoiceItemEvent.sumNetto = Number((
-    params.invoiceItemEvent.amountItems * params.invoiceItemEvent.itemPrice).toFixed(2));
+      params.invoiceItemEvent.amountItems * params.invoiceItemEvent.itemPrice).toFixed(2));
     console.log('Calculated sum netto ' + params.invoiceItemEvent.sumNetto);
     return params;
   }
@@ -112,11 +112,11 @@ export class ComponentsSumCalculatorService{
    * @param params
    */
   private calculateBruttoSum(params: CalculatorParameters): CalculatorParameters{
-      params.invoiceItemEvent.sumBrutto = Number((
+    params.invoiceItemEvent.sumBrutto = Number((
       params.invoiceItemEvent.sumNetto + (params.invoiceItemEvent.sumNetto / 100)
-        * params.invoiceItemEvent.vat).toFixed(2));
-      console.log('Calculated sum brutto ' + params.invoiceItemEvent.sumBrutto);
-      return params;
+      * params.invoiceItemEvent.vat).toFixed(2));
+    console.log('Calculated sum brutto ' + params.invoiceItemEvent.sumBrutto);
+    return params;
   }
 
   /*Summarize the netto price from one item to total netto price of whole invoice */

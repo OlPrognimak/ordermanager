@@ -47,6 +47,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Cors filter for enabling cors requests. Currently allows all re
+ */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class InvoiceCorsFilter extends CorsFilter  {
@@ -63,7 +66,9 @@ public class InvoiceCorsFilter extends CorsFilter  {
 	}
 
 
-
+	/**
+	 * @Overreid
+    */
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
 
 		try {
