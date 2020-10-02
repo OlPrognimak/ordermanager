@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {LoggingCheck} from "./domain/domain.invoiceformmodel";
-import {Router} from "@angular/router";
+import {LoggingCheck} from './domain/domain.invoiceformmodel';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AppSecurityService {

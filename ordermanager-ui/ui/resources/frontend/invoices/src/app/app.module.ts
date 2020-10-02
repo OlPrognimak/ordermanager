@@ -29,6 +29,7 @@ import {ComponentsUtilService} from './components/components.util.service';
 import {MessageService} from 'primeng/api';
 import { EditableInputCellComponent } from './editable-input-cell/editable-input-cell.component';
 import { InvoiceItemsTableComponent } from './invoice-items-table/invoice-items-table.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 
 
@@ -47,7 +48,8 @@ import { InvoiceItemsTableComponent } from './invoice-items-table/invoice-items-
     ValidatableCalendarComponent,
     UserRegistrationComponent,
     EditableInputCellComponent,
-    InvoiceItemsTableComponent
+    InvoiceItemsTableComponent,
+    UserLoginComponent
 
   ],
   imports: [

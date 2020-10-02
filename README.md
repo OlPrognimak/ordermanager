@@ -32,7 +32,23 @@ The next functionality will be planned:
 
 # Frontend frameworks and libraries
 - Angular 10
+- PrimeNG https://www.primefaces.org/primeng/
+- Ag-Grid https://www.ag-grid.com/
 - moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
+
+# Frontend components
+|Nr.|Component name|Description|
+|---|:--------------|-----------|
+|1|invoiceform| The page which contains ui-form for input data for invoice|
+|2|personform|The page which contains the ui-form for input data for person|
+|3|printinvoice|The page with table which contains the list of existed invoices in the database |
+|4|user-registration| The page for the registration of a new user|
+|5|validatable-input-text|The component which uses by another pages, forms or components. This input text shows error in case if length less as defined. Also this component user flowing labels. |
+|6|validatable-dropdownlist|The component which uses by another pages, forms or components. ...|
+|7|validatable-calendar|The component which uses by another pages, forms or components. ...|
+|8|invoice-items-table|The component which uses by page invoiceform.|
+ 
+
 
 # Fronend features and useful tricks and kicks
  - use components in development. Example of the component is a table for invoice items.
