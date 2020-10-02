@@ -34,7 +34,7 @@ import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {AgGridAngular} from 'ag-grid-angular';
 import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
 import * as _moment from 'moment';
-import {AppSecurityService} from "../app-security.service";
+import {AppSecurityService} from "../user-login/app-security.service";
 
 /**
  * The component which contains table with invoices for printing in PDF format

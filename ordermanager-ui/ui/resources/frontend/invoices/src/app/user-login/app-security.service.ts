@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {LoggingCheck} from './domain/domain.invoiceformmodel';
+import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
+import {finalize} from "rxjs/operators";
 
 @Injectable()
 export class AppSecurityService {
@@ -9,7 +10,7 @@ export class AppSecurityService {
   // authenticated = false;
   backendUrl: string;
   basicAuthKey = 'basicAuthKey';
-
+  credentials = {username: '', password: ''};
   /**
    *
    * @param http http client
@@ -72,6 +73,22 @@ export class AppSecurityService {
 
       return false;
     }
+  }
+
+
+  /**
+   * Site logout
+   */
+  logout(): any {
+    this.http.post('logout', {}).pipe(finalize(() => {
+      // this.appSecurityService.authenticated = false;
+      localStorage.setItem('authenticated', 'false');
+      this.credentials.username = '';
+      this.credentials.password = '';
+      console.log('Logout Call');
+      this.router.navigateByUrl('/');
+
+    })).subscribe();
   }
 
   /**
