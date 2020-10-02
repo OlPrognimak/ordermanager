@@ -53,7 +53,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   @Input() public labelText = '';
   @Input() dateFormat = 'dd.mm.yy';
 
-  @Input() value = '';
+  @Input() controlValue = '';
   calModul: CalendarModule;
   onChange: (val) => void;
   onTouched: () => void;
@@ -61,11 +61,23 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
 
+  // get accessor
+  get value(): any {
+    return this.controlValue;
+  }
+
+  // set accessor including call the onchange callback
+  set value(v: any) {
+    if (v !== this.controlValue) {
+      this.controlValue = v;
+      this.onChange(v);
+    }
+  }
+
   ngOnInit(): void {
   }
 
   registerOnChange(fn: any): void {
-    console.log('OnChange Called: ' + fn);
     this.onChange = fn;
   }
 
@@ -80,9 +92,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
    *
    */
   writeValue(value: any): void {
-    if (value !== undefined){
-      this.value = value;
-    }
+      this.controlValue = value;
   }
 
 }

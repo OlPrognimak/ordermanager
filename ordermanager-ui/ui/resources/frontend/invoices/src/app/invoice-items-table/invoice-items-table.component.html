@@ -31,9 +31,10 @@
           <td pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
-                       [ngModel]="invoiceitem.amountItems"
-                       (ngModelChange)="invoiceitem.amountItems=$event" required />
+                <input class="p-cell-editing" type="text"
+                       (change)="inputBoxChanged(invoiceitem, $event)"
+                       [(ngModel)]="invoiceitem.amountItems"
+                       required />
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.amountItems | standardFloat}}
@@ -41,11 +42,17 @@
             </p-cellEditor>
           </td>
           <td pEditableColumn>
+<!--            <app-editable-input-cell-->
+<!--              [rowModel]="invoiceitem"-->
+<!--              (changeItemEvent)="inputBoxChanged(invoiceitem, $event)"-->
+<!--              [(ngModel)]="invoiceitem.itemPrice">-->
+<!--            </app-editable-input-cell>-->
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input name="price" class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
+                <input name="price" class="p-cell-editing" type="text"
+                       (change)="inputBoxChanged(invoiceitem, $event)"
                        [(ngModel)]="invoiceitem.itemPrice"
-                       (ngModelChange)="invoiceitem.itemPrice=$event" required/>
+                       required/>
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.itemPrice | standardFloat}}
@@ -61,7 +68,7 @@
                 -->
                 <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
                        [(ngModel)]="invoiceitem.vat"
-                       (ngModelChange)="invoiceitem.vat=$event" required/>
+                       required/>
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.vat | standardFloat}}
@@ -106,5 +113,6 @@
     <p-button label="AddItem" (onClick)="addNewItem()"></p-button>
   </div>
 </div>
+
 
 

@@ -46,8 +46,8 @@ import {Observable, Subject} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
 import {MessageService} from 'primeng/api';
-import {ItemsTableComponent} from "../components/components.itemstable";
-import {AppSecurityService} from "../app-security.service";
+import {AppSecurityService} from '../app-security.service';
+import {InvoiceItemsTableComponent} from "../invoice-items-table/invoice-items-table.component";
 
 
 
@@ -86,7 +86,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   executionResult = false;
   private isViewInitialized = false;
   basicAuthKey = 'basicAuthKey';
-  @ViewChild(ItemsTableComponent) itemsTableComponent: ItemsTableComponent;
+  @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
   /**
    * Constructor
    *
@@ -156,6 +156,8 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
           this.utilService.hideMassage(msg, 4000);
       }
     ).catch(error => {
+      console.log('Error: ' + error);
+      handleError(error);
       let errorText = 'The invoice is not saved.';
       if (error instanceof HttpErrorResponse){
         if ( error.status === 400){
@@ -168,7 +170,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       this.messageService.add(msg);
 
       this.utilService.hideMassage(msg, 10000);
-      handleError(error);
+
     });
   }
 

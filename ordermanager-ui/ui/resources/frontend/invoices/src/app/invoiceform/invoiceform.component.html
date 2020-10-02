@@ -70,11 +70,13 @@
     </div>
   </div>
 
-  <app-items-table [modelChangedEvent] = "eventsModelIsReset.asObservable()"
+  <app-invoice-items-table [modelChangedEvent] = "eventsModelIsReset.asObservable()"
                    (changeItemEvent)="this.invoiceFormData.invoiceItems=$event"
                    (totalNettoSumEvent) = "invoiceFormData.totalSumNetto=$event"
                    (totalBruttoSumEvent)="this.invoiceFormData.totalSumBrutto=$event"
-                   [invoiceItems]="invoiceFormData.invoiceItems"></app-items-table>
+                   [invoiceItems]="invoiceFormData.invoiceItems">
+
+  </app-invoice-items-table>
 
   <div class="p-grid">
     <div class="p-col-1">

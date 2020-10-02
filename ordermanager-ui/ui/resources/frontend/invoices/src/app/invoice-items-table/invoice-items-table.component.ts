@@ -30,9 +30,9 @@
  */
 import {Component, EventEmitter, Injectable, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {InvoiceItemModel} from '../domain/domain.invoiceformmodel';
-import {ComponentsItemtableService} from './components.itemtable.service';
-import {ComponentsSumCalculatorService} from "./components.sum.calculator.service";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription} from 'rxjs';
+import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
+import {InvoiceItemsTableService} from './invoice-items-table.service';
 
 @Component({
   styles: [`
@@ -46,11 +46,11 @@ import {Observable, Subscription} from "rxjs";
       width: 100% !important;
     }
   `],
-  selector: 'app-items-table',
-  templateUrl: './components.itemstable.html',
-  providers:  [ComponentsSumCalculatorService]
+  selector: 'app-invoice-items-table',
+  templateUrl: './invoice-items-table.component.html',
+  providers:  [InvoiceItemsTableCalculatorService]
 })
-export class ItemsTableComponent implements OnInit, OnDestroy {
+export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Input() invoiceItems: InvoiceItemModel[];
   /** The observer for observation model changing event in parent component */
   @Input() modelChangedEvent: Observable<void>;
@@ -62,8 +62,8 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
   backendUrl: string;
   idxItem: number;
 
-  constructor(private itemtableService: ComponentsItemtableService,
-              private calculatorService: ComponentsSumCalculatorService) {
+  constructor(public itemtableService: InvoiceItemsTableService,
+              private calculatorService: InvoiceItemsTableCalculatorService) {
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl');
@@ -143,6 +143,7 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
+    this.printToJson(model);
     const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
     promise.then(() => {
         this.emitTotalChanged();
@@ -161,8 +162,5 @@ export class ItemsTableComponent implements OnInit, OnDestroy {
   printToJson(data: any): void {
     console.log(JSON.stringify(data));
   }
-
-
-
 
 }

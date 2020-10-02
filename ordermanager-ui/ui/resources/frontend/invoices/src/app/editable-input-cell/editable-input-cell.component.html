@@ -1,0 +1,12 @@
+  <p-cellEditor>
+    <ng-template  pTemplate="input">
+      <input pInputText name="price" class="p-cell-editing" type="text"
+             [(ngModel)]="value"
+             (ngModelChange)="onChange($event)"
+             required/>
+    </ng-template>
+    <ng-template pTemplate="output">
+      {{value | standardFloat}}
+    </ng-template>
+  </p-cellEditor>
+
