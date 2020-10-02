@@ -14,13 +14,15 @@ public class InvoiceValidator {
 
     }
 
+    /**
+     *
+     * @param invoiceData the model
+     * @return true if successful validated
+     */
     public static boolean validateInvoiceData(InvoiceFormModel invoiceData) {
-
         if (invoiceData.getInvoiceItems() == null || invoiceData.getInvoiceItems().size() == 0) {
-            throw new OrderManagerException(CODE_20007, CODE_20007.getShortDesctiption() + " At least one Item should be selected.");
+            throw new OrderManagerException(CODE_20007, CODE_20007.getMessage() + " At least one Item should be selected.");
         }
-
-
         return true;
     }
 }

@@ -39,6 +39,8 @@ import com.pr.ordermanager.person.repository.PersonAddressRepository;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +57,8 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
  */
 @Service
 public class PersonService {
+    private static final Logger logger = LogManager.getLogger(PersonService.class);
+
     @Autowired
     PersonRepository personRepository;
     @Autowired
@@ -65,6 +69,7 @@ public class PersonService {
     UserService userService;
 
     /**
+     * Saves {@link Person} to the database
      * @param person   the invoice to be saved
      * @param userName currently authenticated user name
      * @throws OrderManagerException in case if person can not be saved
@@ -75,14 +80,13 @@ public class PersonService {
         try {
             personRepository.save(person);
         } catch (Exception ex) {
+            logger.error(ex);
             throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
         }
-
-
     }
 
     /**
-     * Retrievs all addresses for person which is defined by {@code personId}
+     * Retrieves all addresses for person which is defined by {@code personId}
      * @param personId id of person
      * @return all all addresses for person which is defined by {@code personId}
      */
@@ -91,6 +95,7 @@ public class PersonService {
         if(optionalPerson.isPresent()){
             return  optionalPerson.get().getPersonAddress();
         }else{
+            logger.error("The person with id "+personId+ " is not found.");
             throw new OrderManagerException(CODE_0005,"The person with id "+personId+ " is not found.");
         }
     }
@@ -106,19 +111,30 @@ public class PersonService {
         try {
             return optionalPerson.orElseThrow().getBankAccount();
         }catch(NoSuchElementException ex){
+            logger.error("The person with id "+personId+ " is not found.");
             throw new OrderManagerException(CODE_0006,"The person with id "+personId+ " is not found.");
         }catch(Exception ex){
+            logger.error(ex);
             throw new OrderManagerException(CODE_0000,"Unexpected err with getting Person with id "+personId+ ".",ex);
         }
     }
 
     /**
-     *
-     * @param userName
-     * @return
+     * Search and retrieve the persons which belongs to the user {@code userName}
+     * @param userName the user whom belongs the persons
+     * @return the list of {@link Person}
      */
     public List<Person> getAllUserPersons(String userName){
-        return personRepository.findAllPersonsByUserName(userName);
+
+        try{
+            List<Person> persons = personRepository.findAllPersonsByUserName(userName);
+            if(persons.isEmpty()){
+                throw new OrderManagerException(CODE_0009, CODE_0009.getMessage(userName));
+            }
+            return persons;
+        }catch(Exception ex){
+            throw new OrderManagerException(CODE_0000,"In  "+userName+ " is not found.");
+        }
     }
 
 

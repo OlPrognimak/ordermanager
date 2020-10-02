@@ -20,16 +20,16 @@ public class PersonValidator {
     public static boolean validate(PersonFormModel person){
         if(person.getPersonType().equals(PersonType.PRIVATE.name())){
             if(Strings.isBlank(person.getPersonFirstName())){
-                throw new OrderManagerException(CODE_20021, CODE_20021.getShortDesctiption());
+                throw new OrderManagerException(CODE_20021, CODE_20021.getMessage());
             }else if(Strings.isBlank(person.getPersonLastName())){
-                throw new OrderManagerException(CODE_20022, CODE_20022.getShortDesctiption());
+                throw new OrderManagerException(CODE_20022, CODE_20022.getMessage());
             }else if(Strings.isBlank(person.getTaxNumber())){
-                throw new OrderManagerException(CODE_20022, CODE_20022.getShortDesctiption());
+                throw new OrderManagerException(CODE_20022, CODE_20022.getMessage());
             }
             return true;
         }else if(person.getPersonType().equals(PersonType.ORGANISATION.name())){
             if(Strings.isBlank(person.getCompanyName())) {
-                throw new OrderManagerException(CODE_20023, CODE_20023.getShortDesctiption());
+                throw new OrderManagerException(CODE_20023, CODE_20023.getMessage());
             }
             return true;
         }else{

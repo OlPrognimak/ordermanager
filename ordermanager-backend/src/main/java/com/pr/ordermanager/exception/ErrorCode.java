@@ -30,6 +30,8 @@
  */
 package com.pr.ordermanager.exception;
 
+import java.text.MessageFormat;
+
 /**
  * Enumeration with error codes
  * @author Oleksandr Prognimak
@@ -44,6 +46,7 @@ public enum ErrorCode {
     CODE_0006(6, "Can not find bank account"),
     CODE_0007(7, "Can not find user in database"),
     CODE_0008(8, "The user already exists"),
+    CODE_0009(9, "Can not find the persons fro the user with name {0}"),
     CODE_10001(10001, "Can not create jasper report"),
     CODE_10002(10002, "Database exception"),
     CODE_20001(20001, "Validation error. invoiceFormData.creationDate can not be null."),
@@ -58,14 +61,28 @@ public enum ErrorCode {
     CODE_20022(20022, "Validation error. Person.personLastName can not be blank."),
     CODE_20023(20023, "Validation error. Person.companyName can not be blank.");
 
-    private String shortDescription;
-    private int errorCode;
-    ErrorCode(int errorCode, String shortDescription){
+    private final String message;
+    private final int errorCode;
+
+    /**
+     *
+     * @param errorCode
+     * @param message
+     */
+    ErrorCode(int errorCode, String message){
       this.errorCode = errorCode;
-      this.shortDescription = shortDescription;
+      this.message = message;
     }
 
-    public String getShortDesctiption(){
-        return shortDescription;
+    public String getMessage(){
+        return message;
+    }
+
+    public String getMessage(String ... values){
+        return MessageFormat.format(message,values);
+    }
+
+    public int getErrorCode() {
+        return errorCode;
     }
 }
