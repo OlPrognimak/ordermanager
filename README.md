@@ -3,15 +3,15 @@
     - [Backend frameworks](#Backend-frameworks)
     - [Packages structure](#Packages-structure)
     - [Tests](#Tests)
-    - [Backend configuration features and useful tips](Backend configuration features and useful tips  )
+    - [Backend configuration features and useful tips](#Backend-configuration-features-and-useful-tips)
  
  2. [Frontend](#Frontend)
-    - [Frontend frameworks and libraries](Frontend-frameworks-and-libraries)
-    - [Frontend components](Frontend-components)
-    - [Fronend features and useful tips](Fronend-features-and-useful-tips)
+    - [Frontend frameworks and libraries](#Frontend-frameworks-and-libraries)
+    - [Frontend components](#Frontend-components)
+    - [Fronend features and useful tips](#Fronend-features-and-useful-tips)
  
  3. [PDF Documents](#PDF-Documents)
-    - [Invoice pdf](Invoice pdf)
+    - [Invoice pdf](#Invoice-pdf)
 
 
 # Short description
