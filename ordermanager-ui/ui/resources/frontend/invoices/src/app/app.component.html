@@ -6,71 +6,14 @@
     <a routerLink="/create-invoice-page" routerLinkActive="active">Create invoice</a>
     <a routerLink="/create-person_page" routerLinkActive="active">Create person</a>
     <a routerLink="/invoice-list_page" routerLinkActive="active">Print invoice</a>
-    <a (click)="logout()">Logout</a>
+    <a (click)="appSecurityService.logout()">Logout</a>
   </nav>
-
 
 </div>
 
 <br/>
 <ng-template #elseBlock>
-
-  <div type="form">
-
-    <div *ngIf ="router.url!=='/user-registration-page'" class="p-fluid">
-      <div class="p-grid">
-        <div class="p-col-3"></div>
-        <div class="p-col-6">
-          <p-messages></p-messages>
-        </div>
-        <div class="p-col-3"></div>
-      </div>
-      <div class="p-grid">
-        <div class="p-col-3"></div>
-        <div style="margin-right: 20pt;" class="p-col-6 p-shadow-4">
-          <div class="p-grid">
-            <div class="p-col-1"></div>
-            <div style="text-align: center" class="p-col-3"></div>
-            <H2>Please login to the system</H2>
-            <div class="p-col-3"></div>
-          </div>
-          <div class="p-grid">
-            <div class="p-col-3"></div>
-            <div class="p-col-6">
-              <app-validatable-input-text [labelText]="'User name'"
-                                          [idComponent]="'id_UserName'"
-                                          [txtMinLength]="2"
-                                          [(ngModel)]="credentials.username">
-              </app-validatable-input-text>
-            </div>
-            <div class="p-col-3"></div>
-          </div>
-          <div style="margin-top: 15pt" class="p-grid">
-            <div class="p-col-3"></div>
-            <div class="p-col-6">
-              <app-validatable-input-text [labelText]="'Password'"
-                                          [idComponent]="'id_UsePassword'"
-                                          [inputType]="'password'"
-                                          [txtMinLength]="5"
-                                          [(ngModel)]="credentials.password">
-              </app-validatable-input-text>
-            </div>
-            <div class="p-col-3"></div>
-          </div>
-          <div style="text-align: center; margin-bottom: 10pt;">
-              <a routerLink="/user-registration-page" routerLinkActive="active">Register new user route</a>
-          </div>
-          <div class="p-grid">
-            <div class="p-col-3"></div>
-            <div class="p-col-2">
-              <p-button label="Login" (click)="login()"></p-button>
-            </div>
-            <div class="p-col-4"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-user-login></app-user-login>
 </ng-template>
 
 <router-outlet></router-outlet>

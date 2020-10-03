@@ -46,7 +46,7 @@ import {Observable, Subject} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
 import {MessageService} from 'primeng/api';
-import {AppSecurityService} from '../app-security.service';
+import {AppSecurityService} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from "../invoice-items-table/invoice-items-table.component";
 
 

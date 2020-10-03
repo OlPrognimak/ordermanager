@@ -35,7 +35,7 @@ import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../
 import {Observable, of} from 'rxjs';
 import {ComponentsUtilService} from '../components/components.util.service';
 import {Message, MessageService} from 'primeng/api';
-import {AppSecurityService} from '../app-security.service';
+import {AppSecurityService} from '../user-login/app-security.service';
 
 function handleResult(result: string): void {
   console.log('Result: ' + JSON.stringify(result));
