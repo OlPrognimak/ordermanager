@@ -3,7 +3,7 @@
     - [Backend frameworks](#Backend-frameworks)
     - [Packages structure](#Packages-structure)
     - [Tests](#Tests)
-    - [Backend configuration, features and useful tips](Backend-configuration,-features-and-useful-tips )
+    - [Backend configuration features and useful tips](Backend configuration features and useful tips  )
  
  2. [Frontend](#Frontend)
     - [Frontend frameworks and libraries](Frontend-frameworks-and-libraries)
@@ -69,7 +69,7 @@ Maven module ```ordermanager-backend```.
  * Mockito
  * SpringBoot Test  
 
-## Backend configuration, features and useful tips 
+## Backend configuration features and useful tips 
 - Security. 
    Currently, uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
      The implementation of security contains:
@@ -158,7 +158,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
  </ng-template>
    
 ```
-#PDF Documents
+# PDF Documents
 *The PDF document for printing invoices and other documents uses of JasperReport. 
 *As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
 
