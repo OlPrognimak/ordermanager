@@ -28,12 +28,12 @@ Maven module ```ordermanager-backend```.
  - The backend part is presented by the microcervice which is based on springboot framework verion 2.x.
  - The database can be different and depend on the configuration. Currently, uses Postges 10.x
 
-##Backend frameworks
+## Backend frameworks
 - SpringBoot-2 
 - Lombok https://projectlombok.org/features/all. The useful frameworks which simplifying the development process of pojos like  entity and rest
   service model beans.
 - OpenAPI/Swagger-UI
-##Packages structure
+## Packages structure
 ```diff
    com
     |_pr
