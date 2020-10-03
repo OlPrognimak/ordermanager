@@ -1,9 +1,17 @@
 ##### Table of contents
-1. [Backend](#Backend)
- - [Backend frameworks](#Backend-frameworks)
+ 1. [Backend](#Backend)
+    - [Backend frameworks](#Backend-frameworks)
+    - [Packages structure](#Packages-structure)
+    - [Tests](#Tests)
+    - [Backend configuration, features and useful tips](Backend-configuration,-features-and-useful-tips )
  
  2. [Frontend](#Frontend)
- - [Frontend frameworks and libraries](Frontend-frameworks-and-libraries)
+    - [Frontend frameworks and libraries](Frontend-frameworks-and-libraries)
+    - [Frontend components](Frontend-components)
+    - [Fronend features and useful tips](Fronend-features-and-useful-tips)
+ 
+ 3. [PDF Documents](#PDF-Documents)
+    - [Invoice pdf](Invoice pdf)
 
 
 # Short description
@@ -63,7 +71,7 @@ Maven module ```ordermanager-backend```.
 
 ## Backend configuration, features and useful tips 
 - Security. 
-   Currently uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
+   Currently, uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
      The implementation of security contains:
     * security configuration ```java com.pr.ordermanager.security.controller.SecurityConfig```
     * the database table InvoceUser 
@@ -83,11 +91,15 @@ UI-Framework Angular of version 10.
 - PrimeNG https://www.primefaces.org/primeng/
 - Ag-Grid https://www.ag-grid.com/
 - moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
+## Project structure
+- maven module **ordermanager-ui**. Contains springboot microservice for running generated web application. 
+The pom.xml contains an  plugins for compilation and building angular application and packing produced content to the war/jar file.
+- **ordermanager-ui** contains a folder **ui** with angular project. 
 
 ## Frontend components
 |Nr.|Component name|Description|
 |---|:--------------|-----------|
-|1|app| That is a root of application and contains the home page with navigation bar. |
+|1|app| That is a root of the application and contains the home page with navigation bar. |
 |2|app/invoiceform| The page which contains ui-form for input data for invoice.|
 |3|app/personform|The page which contains the ui-form for input data for person|
 |4|app/printinvoice|The page with table which contains the list of existed invoices in the database.`This table uses component ``ag-Grid`` (angular). Each row in table contains button for download invoice in PDF format from server.  |
@@ -146,10 +158,13 @@ UI-Framework Angular of version 10.
  </ng-template>
    
 ```
-#Invoice PDF Documents
-*The PDF document for printing invoices uses the JasperReport. 
-*The beste tools for development I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
+#PDF Documents
+*The PDF document for printing invoices and other documents uses of JasperReport. 
+*As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
 
+## Invoice pdf
+The Invoice in PDF format generates from the data which is saved to the database with using **invoiceform** comonent and
+printed out bei using **printinvoice** component.
 
 
 
