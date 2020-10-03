@@ -6,7 +6,6 @@ import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.service.PersonService;
-import com.pr.ordermanager.repository.RepositoryTestHelper;
 import com.pr.ordermanager.invoice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

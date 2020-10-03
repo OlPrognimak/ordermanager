@@ -66,9 +66,7 @@ public class InvoiceCorsFilter extends CorsFilter  {
 	}
 
 
-	/**
-	 * @Overreid
-    */
+	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
 
 		try {

@@ -33,10 +33,7 @@ package com.pr.ordermanager.invoice.entity;
 import com.pr.ordermanager.common.entity.AbstractEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @ToString
 @AllArgsConstructor
@@ -44,9 +41,10 @@ import javax.persistence.Id;
 @Data
 @Builder
 @Entity
+@SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
 public class ItemCatalog extends AbstractEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="invoice_seq_gen")
     private Long id;
     private String description;
     private String shortDescription;

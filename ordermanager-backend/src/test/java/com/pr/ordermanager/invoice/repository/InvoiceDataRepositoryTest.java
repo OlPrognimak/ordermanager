@@ -1,16 +1,18 @@
-package com.pr.ordermanager.service;
+package com.pr.ordermanager.invoice.repository;
 
 import com.pr.ordermanager.RepositoryTestHelper;
-import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.InvoiceItem;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
-import com.pr.ordermanager.invoice.repository.InvoiceRepository;
-import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
-import com.pr.ordermanager.invoice.service.InvoiceService;
+import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
+import com.pr.ordermanager.person.entity.PersonAddress;
+import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.repository.PersonRepository;
+import com.pr.ordermanager.person.service.PersonService;
+import com.pr.ordermanager.security.repository.UserRepository;
+import com.pr.ordermanager.security.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -29,60 +33,55 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@TestPropertySource(locations = "classpath:testapplication.properties")
-//@Transactional
 @Import( TestServicesConfiguration.class )
-public class InvoiceServiceTest {
+@Transactional
+class InvoiceDataRepositoryTest {
 
     @Autowired
-    private InvoiceService invoiceService;
+    InvoiceRepository invoiceDataRepository;
     @Autowired
-    private PersonRepository personRepository;
+    InvoiceItemRepository invoiceItemRepository;
     @Autowired
-    private InvoiceRepository invoiceRepository;
+    ItemCatalogRepository itemCatalogRepository;
     @Autowired
-    private ItemCatalogRepository itemCatalogRepository;
-
-
+    UserService userService;
     @Autowired
-    TestServiceHelper testServiceHelper;
+    PersonService personService;
+    @Autowired
+    PersonRepository personRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
+        invoiceDataRepository.deleteAll();
         personRepository.deleteAll();
-        invoiceRepository.deleteAll();
-
+        userRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
+        invoiceDataRepository.deleteAll();
         personRepository.deleteAll();
-        personRepository.deleteAll();
+        userRepository.deleteAll();
     }
-
-
     @Test
-    void saveInvoice() {
+    public void testGetAll() throws Exception{
         ItemCatalog itemCatalog = RepositoryTestHelper.createItemCatalog();
         itemCatalogRepository.save(itemCatalog);
         InvoiceItem item = RepositoryTestHelper.createItem(itemCatalog);
-        Person personSupplier = testServiceHelper.personSupplier();
-        Person personRecipient = testServiceHelper.personRecipient();
-        Invoice invoice = RepositoryTestHelper.createInvoice ( item, personSupplier, personRecipient );
-        invoiceService.saveInvoice (invoice, "admin");
-        Assertions.assertNotNull (invoice);
+        Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, new PersonAddress(), new BankAccount());
+        Long userLogin = userService.createUserLogin("test", "test12345");
+        personService.savePerson(person, "test");
 
+        Invoice invoice =RepositoryTestHelper.createInvoice(item, person, person);
+
+        invoiceDataRepository.save(invoice);
+        List<Invoice> invoiceDataList = invoiceDataRepository.findAll();
+        Assertions.assertEquals(1, invoiceDataList.size());
+        Assertions.assertEquals(1, invoiceDataList.get(0).getInvoiceItems().size());
     }
 
 
-
-    @Test
-    void getInvoiceByInvoiceNumber() {
-    }
-
-    @Test
-    void getAllData() {
-        String pw_hash = BCrypt.hashpw("alexadmin", BCrypt.gensalt(10));
-        System.out.println(pw_hash);
-    }
 
 }

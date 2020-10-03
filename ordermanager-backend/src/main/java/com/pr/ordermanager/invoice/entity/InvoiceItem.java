@@ -41,9 +41,10 @@ import javax.persistence.*;
 @Data
 @Builder
 @Entity
+@SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
 public class InvoiceItem extends AbstractEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="invoice_seq_gen")
     private Long id;
     private Double amountItems;
     private Double itemPrice;

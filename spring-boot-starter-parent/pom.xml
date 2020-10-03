@@ -36,6 +36,7 @@
 		<junit.platform.version>1.7.0-RC1</junit.platform.version>
 		<mockito.junit.jupiter.version>3.3.3</mockito.junit.jupiter.version>
 		<postgresql.version>42.2.2</postgresql.version>
+		<h2.version>1.4.200</h2.version>
 		<lo4j2.version>2.8.2</lo4j2.version>
 		<hibernate.version>5.4.2.Final</hibernate.version>
 		<javax.validator.api.version>2.0.0.Final</javax.validator.api.version>
@@ -89,6 +90,12 @@
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>${postgresql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+				<scope>test</scope>
 			</dependency>
 			<!-- JUnit 4 -->
 			<dependency>

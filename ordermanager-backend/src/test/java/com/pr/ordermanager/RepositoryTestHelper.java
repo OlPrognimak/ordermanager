@@ -1,4 +1,4 @@
-package com.pr.ordermanager.repository;
+package com.pr.ordermanager;
 
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.InvoiceItem;
@@ -33,6 +33,7 @@ public class RepositoryTestHelper {
                 .personAddress(Arrays.asList(personAddress))
                 .bankAccount(Arrays.asList(bankAccount))
                 .taxNumber("" + System.currentTimeMillis())
+                .email("test@test.de")
                 .build();
         personAddress.setPersons(Arrays.asList(person));
         personAddress.setPersons(Arrays.asList(person));
@@ -151,6 +152,7 @@ public class RepositoryTestHelper {
                 .personAddressFormModel(personAddressFormModel)
                 .bankAccountFormModel(bankAccountFormModel)
                 .taxNumber("" + System.currentTimeMillis())
+                .email("test@test.com")
                 .build();
         return personFormModel;
     }

@@ -1,7 +1,6 @@
-package com.pr.ordermanager.person.service;
+package com.pr.ordermanager.person.respository;
 
 import com.pr.ordermanager.RepositoryTestHelper;
-import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
@@ -9,6 +8,7 @@ import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,34 +17,28 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-
-/**
- * @author Oleksandr Prognimak
- * @created 21.09.2020 - 15:09
- */
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@TestPropertySource(locations = "classpath:testapplication.properties")
 @Import( TestServicesConfiguration.class )
-class PersonServiceTest {
-
-    @Autowired
-    PersonService personService;
+@Transactional
+class PersonRepositoryTest {
     @Autowired
     PersonRepository personRepository;
 
-    @Autowired
-    TestServiceHelper testServiceHelper;
 
     @BeforeEach
     void setUp() {
-         personRepository.deleteAll();
+        personRepository.deleteAll();
     }
 
     @AfterEach
@@ -53,20 +47,21 @@ class PersonServiceTest {
     }
 
     @Test
-    void savePerson() {
-        PersonAddress personAddress =
-                RepositoryTestHelper.createPersonAddress("München", "Bonner str.", "12345",null);
-        BankAccount bankAccount = RepositoryTestHelper.createBankAccount("DE11 1234 1234 1234 1234 0", "TestBank");
-        Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, personAddress, bankAccount);
-        personService.savePerson(person, "admin");
-        //invoiceData.getInvoiceItems()
-        assertNotNull(person.getId());
-        assertNotNull(person.getBankAccount());
-        assertNotNull(person.getPersonAddress());
-        assertEquals(1, person.getBankAccount().size());
-        assertEquals(1, person.getPersonAddress().size());
+    public void testGetAll() throws Exception {
+        PersonAddress personRecipientAddress =
+                RepositoryTestHelper.createPersonAddress(
+                        "Köln", "Kölner str.", null,"55555");
 
+        BankAccount bankRecipientAccount =
+                RepositoryTestHelper.createBankAccount(
+                        "DE44 5555 5555 5555 5555 5", "Receiver  Bank");
+        Person person =
+                RepositoryTestHelper.createPerson (
+                        PersonType.PRIVATE, personRecipientAddress, bankRecipientAccount );
+        personRepository.save(person);
+        List<Person> personList = personRepository.findAll();
+        Assertions.assertEquals(1, personList.size());
+        assertThat(person, is(personList.get(0)));
     }
-
 
 }

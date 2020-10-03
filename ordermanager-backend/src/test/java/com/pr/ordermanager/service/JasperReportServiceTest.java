@@ -5,7 +5,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -21,12 +20,13 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@TestPropertySource(locations = "classpath:testapplication.properties")
 class JasperReportServiceTest {
     Logger logger = LogManager.getLogger(JasperReportServiceTest.class);
     @Autowired
     JasperReportService jasperReportService;
 
-    @Test
+    //@Test
     void printReport() throws Exception {
         byte[] report = jasperReportService.createPdfReport("test-1");
         Assertions.assertNotNull(report);

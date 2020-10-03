@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
@@ -19,6 +18,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@TestPropertySource(locations = "classpath:testapplication.properties")
 class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;

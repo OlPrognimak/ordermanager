@@ -1,7 +1,6 @@
 package com.pr.ordermanager.person.controller;
 
 import com.pr.ordermanager.exception.OrderManagerException;
-import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.model.PersonFormModel;
 import org.apache.logging.log4j.util.Strings;
@@ -9,11 +8,12 @@ import org.apache.logging.log4j.util.Strings;
 import static com.pr.ordermanager.exception.ErrorCode.*;
 
 /**
- * Person special case validator. And depends on the person type {@link Person#getPersonType()} is
- * {@link PersonType#PRIVATE) person or {@link PersonType#ORGANISATION)
- * The rest attributes willb validatet with Bean Validation
+ * Person special case validator. And depends on the person type can be PRIVATE or ORGANISATION
+ * The rest attributes will be validated with Bean Validation
  * @author Oleksandr Prognimak
  * @since 29.09.2020 - 16:50
+ * @see PersonType#PRIVATE
+ * @see PersonType#ORGANISATION
  */
 public class PersonValidator {
 

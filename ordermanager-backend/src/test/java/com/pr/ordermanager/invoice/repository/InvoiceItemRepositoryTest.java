@@ -1,9 +1,11 @@
-package com.pr.ordermanager.security.service;
+package com.pr.ordermanager.invoice.repository;
 
+import com.pr.ordermanager.RepositoryTestHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
-import com.pr.ordermanager.security.entity.InvoiceUser;
-import com.pr.ordermanager.security.repository.UserRepository;
+import com.pr.ordermanager.invoice.entity.InvoiceItem;
+import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,46 +16,42 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.List;
+
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-/**
- * @author Oleksandr Prognimak
- * @sence 24.09.2020 - 09:03
- */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@TestPropertySource(locations = "classpath:testapplication.properties")
-@Transactional
 @Import( TestServicesConfiguration.class )
-class UserServiceTest {
+@Transactional
+class InvoiceItemRepositoryTest {
     @Autowired
-    UserService userService;
+    InvoiceItemRepository invoiceItemRepository;
     @Autowired
-    UserRepository userRepository;
+    ItemCatalogRepository itemCatalogRepository;
+
+
 
     @BeforeEach
     void setUp() {
-        userRepository.deleteAll();
+        invoiceItemRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
-        userRepository.deleteAll();
+        invoiceItemRepository.deleteAll();
     }
-
     @Test
-    void getUserOrException() {
-    }
+    public void testGetAll() throws Exception{
 
-    @Test
-    void createUserLogin() {
-        userService.createUserLogin("test123", "test12345");
-        InvoiceUser user = userService.getUserOrException("test123");
-        assertNotNull(user);
-        assertEquals("test123",user.getUserName());
+        ItemCatalog itemCatalog = RepositoryTestHelper.createItemCatalog();
+        itemCatalogRepository.save(itemCatalog);
+        InvoiceItem item = RepositoryTestHelper.createItem(itemCatalog);
+        invoiceItemRepository.save(item);
+        List<InvoiceItem> invoiceItems = invoiceItemRepository.findAll();
+        Assertions.assertEquals(1, invoiceItems.size());
 
     }
 }

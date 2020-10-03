@@ -1,16 +1,17 @@
 ##### Table of contents
- 1. [Backend](#Backend)
+ 1. [Short description](#Short-description)
+ 2. [Backend](#Backend)
     - [Backend frameworks](#Backend-frameworks)
     - [Packages structure](#Packages-structure)
     - [Tests](#Tests)
     - [Backend configuration features and useful tips](#Backend-configuration-features-and-useful-tips)
  
- 2. [Frontend](#Frontend)
+ 3. [Frontend](#Frontend)
     - [Frontend frameworks and libraries](#Frontend-frameworks-and-libraries)
     - [Frontend components](#Frontend-components)
     - [Fronend features and useful tips](#Fronend-features-and-useful-tips)
  
- 3. [PDF Documents](#PDF-Documents)
+ 4. [PDF Documents](#PDF-Documents)
     - [Invoice pdf](#Invoice-pdf)
 
 
@@ -23,7 +24,7 @@ The next functionality will be planned:
  - create invoices with multiple items, goods and services
  - generate and printing out of the invoice in PDF format
  
-#Backend
+# Backend
 Maven module ```ordermanager-backend```.
  - The backend part is presented by the microcervice which is based on springboot framework verion 2.x.
  - The database can be different and depend on the configuration. Currently, uses Postges 10.x

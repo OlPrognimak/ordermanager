@@ -1,6 +1,7 @@
 package com.pr.ordermanager.invoice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pr.ordermanager.RepositoryTestHelper;
 import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.common.model.CreatedResponse;
@@ -9,7 +10,6 @@ import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
-import com.pr.ordermanager.repository.RepositoryTestHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,7 +38,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource(locations = "classpath:testapplication.properties")
+//@TestPropertySource(locations = "classpath:testapplication.properties")
 @Import( TestServicesConfiguration.class )
 //@Transactional
 class InvoiceControllerTest {
