@@ -1,28 +1,59 @@
+##### Table of contents
+1. [Backend](#Backend)
+ - [Backend frameworks](#Backend-frameworks)
+ 
+ 2. [Frontend](#Frontend)
+ - [Frontend frameworks and libraries](Frontend-frameworks-and-libraries)
+
+
 # Short description
 The project is created first of all  for the collecting of the useful features  on the frontend 
 and backend parts on base of the real application. 
 The next functionality will be planned:
+ - create and save orders (currently not yet implemented)
  - creation of persons with addresses and bank accounts
  - create invoices with multiple items, goods and services
  - generate and printing out of the invoice in PDF format
  
 #Backend
-## Backend frameworks
+Maven module ```ordermanager-backend```.
+ - The backend part is presented by the microcervice which is based on springboot framework verion 2.x.
+ - The database can be different and depend on the configuration. Currently, uses Postges 10.x
+
+##Backend frameworks
 - SpringBoot-2 
 - Lombok https://projectlombok.org/features/all. The useful frameworks which simplifying the development process of pojos like  entity and rest
   service model beans.
 - OpenAPI/Swagger-UI
-## Packages structure
+##Packages structure
 ```diff
    com
     |_pr
        |_ordermanager
                |_common
+               |    |_entity
+               |    |_model
                |_exception
                |_invoice
+               |    |_controller
+               |    |_entity
+               |    |_model
+               |    |_repository
+               |    |_service
                |_person
+               |    |_controller
+               |    |_entity
+               |    |_model
+               |    |_repository
+               |    |_service
                |_report
+               |    |_controller
+               |    |_service
                |_security
+               |    |_controller
+               |    |_entity
+               |    |_repository
+               |    |_service 
                |_utils 
 ```
 ## Tests
@@ -43,10 +74,10 @@ The next functionality will be planned:
   * OpenAPI documentation in JSON format: http://localhost:8083/backend/v3/api-docs/
   * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
   * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
-
-  
-#Frontend
-
+ 
+# Frontend
+The frontend application is implemented with using springboot framework as a runner of web application and
+UI-Framework Angular of version 10.
 ## Frontend frameworks and libraries
 - Angular 10
 - PrimeNG https://www.primefaces.org/primeng/
@@ -69,8 +100,6 @@ The next functionality will be planned:
 |11|app/invoice-items-table|The component which uses by page invoiceform(2) and contains invoice items. This table uses ```PrimeNG``` component ``Table``.  The user can add or remove items there, change price, amount and var% of item. Also there will be calculated netto and brutto price of item and total netto and brutto price of whole invoice. |
 |12|app/components|contains (or will contain) miscellaneous utility classes, pipes, and other|
  
-
-
 ## Fronend features and useful tips
  - use components in development. Example of the component is a table for invoice items.
  - @Output. Example of using @Output for updating model in parent component. 
