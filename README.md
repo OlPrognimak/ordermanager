@@ -69,6 +69,7 @@ Maven module ```ordermanager-backend```.
  * JUnit-5
  * Mockito
  * SpringBoot Test  
+ * H2 Data in memory database for testing components which uses database. 
 
 ## Backend configuration features and useful tips 
 - Security. 
@@ -164,7 +165,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
 *As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
 
 ## Invoice pdf
-The Invoice in PDF format generates from the data which is saved to the database with using **invoiceform** comonent and
+The Invoices in PDF format generates from the data which is saved in the database with using **invoiceform** component and
 printed out bei using **printinvoice** component.
 
 

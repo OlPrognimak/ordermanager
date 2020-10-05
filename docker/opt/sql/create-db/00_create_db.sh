@@ -6,7 +6,7 @@ POSTGRES="psql --username pvog"
 echo "Creating database: "
 
 $POSTGRES <<EOSQL
-CREATE DATABASE TESTDB OWNER pvog;
+CREATE DATABASE test_db OWNER pvog;
 
 EOSQL
 

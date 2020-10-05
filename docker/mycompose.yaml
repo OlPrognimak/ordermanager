@@ -1,38 +1,1 @@
-version: '2.4'
-
-networks:
-  nw_prognimak: {}
-
-services:
-
-  postgres:
-    environment:
-      PGDATA: /var/lib/postgresql-ftu/data/pgdata
-      POSTGRES_INITDB_ARGS: --data-checksums
-      POSTGRES_PASSWORD: pvog
-      POSTGRES_USER: pvog
-    hostname: postgres
-    image: postgres:9.5
-    networks:
-      nw_prognimak: null
-    ports:
-    - 5455:5432
-    volumes:
-    - vol-postgres2:/var/lib/postgresql-ftu/data/pgdata:rw
-    - ./opt/sql/create-db:/docker-entrypoint-initdb.d:rw
-
-  ordermanager:
-    #depends_on:
-    #- postgres
-    environment:
-      DB_PORT: 5432
-      DB_HOST: postgres
-    hostname: ordermanager
-    image: ordermanager/backend
-    networks:
-      nw_prognimak: null
-    ports:
-    - 8083:8083
-    
-volumes:
-  vol-postgres2: {}
+version: '3.3'networks:  nw_prognimak: {}services:  postgres:    environment:      PGDATA: /var/lib/postgresql-ftu/data/pgdata      POSTGRES_INITDB_ARGS: --data-checksums      POSTGRES_PASSWORD: pvog      POSTGRES_USER: pvog    hostname: postgres    image: library/postgres:11    networks:      nw_prognimak: null    ports:    - 5455:5432    volumes:    - vol-postgres2:/var/lib/postgresql-ftu/data/pgdata:rw    - ./opt/sql/create-db:/docker-entrypoint-initdb.d:rw  ordermanager:    depends_on:    - postgres    environment:      DB_PORT: 5432      DB_HOST: postgres    hostname: ordermanager    image: prognimak.ordermanager/backend    networks:      nw_prognimak: null    ports:    - 8083:8083    volumes:  vol-postgres2: {}
