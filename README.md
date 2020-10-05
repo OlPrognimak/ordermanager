@@ -14,7 +14,11 @@
  4. [PDF Documents](#PDF-Documents)
     - [Invoice pdf](#Invoice-pdf)
 
-
+# Start application in docker container
+ - please go to folder ./docker and follow with description in README_DOCKER.md) file
+ - 1\. create backend image with correspondent version
+ - 2\. create frontend image with correspondent version  
+ - 3\. run docker-compose (see ./docker/README_DOCKER.md)
 # Short description
 The project is created first of all  for the collecting of the useful features  on the frontend 
 and backend parts on base of the real application. 

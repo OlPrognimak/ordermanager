@@ -1,23 +1,35 @@
-### Build docker image
+### Build backend docker image
 To build docker image runs this script from location of Dockerfile
 ````
-docker build -t prognimak.ordermanager/backend .
+docker build -t prognimak.ordermanager/backend:<version> .
 ````
-### Run docker image
+### Build frontend docker image
+To build docker image runs this script from location of Dockerfile
+````
+docker build -t prognimak.ordermanager/frontend:<version> .
+````
 
-If wants to run only ordermanager image than run that script
-```
- docker run --env DB_PORT=5432 --env DB_HOST=prognimak -p 8083:8083 prognimak.ordermanager/backend
-```
 
-### Run docker-compose
-To run docker compose with postgresql data base and orderimage backend application
+### Run with docker-compose
+- change version of images in compose file which you have created above
+- remove older docker containers and volumes
+- run script 
 ```
- docker-compose -f mycompose.yaml up -d
+ docker-compose -f ordermanager-compose.yaml up -d
 ```
 
 ### Deploy with docker stack
-To deploy docker stack with postgresql data base and orderimage backend application
+Before need to init SWARM if not yet initialized then run command:
 ```
- docker stack deploy -c mycompose.yaml my-stack
+docker swarm init
+```
+and then run
+```
+ docker stack deploy -c ordermanager-compose.yaml my-stack
+```
+
+### Remove deployed containers, recreate and restart with compose file 
+simple run script
+```
+ ./delete-start.sh
 ```
