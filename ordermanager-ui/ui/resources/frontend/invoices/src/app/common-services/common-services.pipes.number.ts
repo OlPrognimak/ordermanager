@@ -28,36 +28,13 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Injectable} from '@angular/core';
-import {of} from 'rxjs';
-import {delay, map} from 'rxjs/operators';
-import {Message, MessageService} from 'primeng/api';
+import { Pipe, PipeTransform } from '@angular/core';
 
-/**
- * The useful utility service
- */
-@Injectable({
-  providedIn: 'root'
+@Pipe({
+  name: 'standardFloat',
 })
-export class ComponentsUtilService{
-
-  constructor( private messageService: MessageService) {
-  }
-
-  /**
-   * Hide message after delay time
-   */
-  public hideMassage(message: Message, delayTimeMs: number): void{
-    const observable = of(message).pipe(delay(delayTimeMs));
-    const operatorFunction = map((msg: Message) => {
-      this.messageService.clear(msg.key);
-      return true;
-    } );
-    const messageFunction = operatorFunction(observable);
-    messageFunction.toPromise().then((data) => {
-        console.log('Message clear');
-      }
-    );
-  }
-
+export class CommonServicesPipesNumber implements PipeTransform {
+  transform( val: number): string{
+        return Number(val).toFixed(2);
+   }
 }

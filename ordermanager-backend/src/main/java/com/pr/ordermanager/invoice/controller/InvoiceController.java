@@ -138,6 +138,48 @@ public class InvoiceController {
     }
 
 
+    @Operation(description = "Puts new ItemCatalog to the database",
+            method = "put",
+            operationId = "putNewCatalogItem",
+            responses = {
+                    @ApiResponse(responseCode = "201",
+                            description = "The saving of new ItemCatalog to the database was successful",
+                            content = {@Content(
+                                    mediaType = "application/json"
+                            )}
+                    ),
+                    @ApiResponse(responseCode = "400",
+                            description = "response with code CODE_0000 in case if something unexpected happens ",
+                            content = {@Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            implementation = OrderManagerException.class
+                                    )
+                            )}
+                    )
+            },
+            tags = "Invoice",
+            security = {@SecurityRequirement(
+                    name = "basicAuth"
+            )}
+    )
+    /**
+     * Saves the new ItemCatalog to the database
+     * @param itemCatalogModel the model with ItemCatalog data
+     *
+     * @return response with status und created id of report
+     */
+    @RequestMapping(value = PATH_ITEM_CATALOG, method = RequestMethod.PUT,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> putNewCatalogItem(
+            @RequestBody @Valid ItemCatalogModel itemCatalogModel) {
+        ItemCatalog itemCatalog = invoiceMappingService.mapModelToItemCatalogEntity(itemCatalogModel);
+        invoiceService.saveItemCatalog(itemCatalog);
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(itemCatalog.getId()));
+    }
+
+
+
 
     /**
      * Retrieves catalog item for selected id in invoice items

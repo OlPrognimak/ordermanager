@@ -32,6 +32,10 @@ package com.pr.ordermanager.invoice.model;
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 /**
  * @author Oleksandr Prognimak
  */
@@ -42,8 +46,11 @@ import lombok.*;
 @Builder
 public class ItemCatalogModel {
     private Long id;
+    @NotBlank
     private String description;
     private String shortDescription;
+    @NotNull @Positive
     private Double itemPrice;
+    @NotNull @Positive
     private Integer vat;
 }

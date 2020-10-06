@@ -43,11 +43,11 @@ import {
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {ComponentsUtilService} from '../components/components.util.service';
 import {Message} from 'primeng/api/message';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
-import {InvoiceItemsTableComponent} from "../invoice-items-table/invoice-items-table.component";
+import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
+import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 
 
 
@@ -68,7 +68,7 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [MessageService, ComponentsUtilService]
+  providers:  [MessageService, CommonServicesUtilService]
 })
 export class InvoiceFormComponent implements OnInit,  AfterViewInit{
 
@@ -98,7 +98,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   constructor( private httpClient: HttpClient,
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
-               private utilService: ComponentsUtilService) {
+               private utilService: CommonServicesUtilService) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;

@@ -30,12 +30,13 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import {DropdownDataType} from '../domain/domain.invoiceformmodel';
+import {DropdownDataType, ItemCatalogModel} from '../domain/domain.invoiceformmodel';
 import {PersonAddressFormModel, BankAccountFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {Observable, of} from 'rxjs';
-import {ComponentsUtilService} from '../components/components.util.service';
 import {Message, MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
+import {CommonServicesUtilService} from '../common-services/common-services-util.service';
+import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 
 function handleResult(result: string): void {
   console.log('Result: ' + JSON.stringify(result));
@@ -53,7 +54,7 @@ function handleError(err: any): void {
   styleUrls: ['./personform.component.css'],
   selector:    'app-person',
   templateUrl: './personform.component.html',
-  providers:  [MessageService, ComponentsUtilService]
+  providers:  [MessageService, CommonServicesUtilService]
 })
 export class PersonFormComponent implements OnInit {
   /** The base url string for communication with server */
@@ -75,11 +76,14 @@ export class PersonFormComponent implements OnInit {
    * @param messageService primeNG message service
    * @param utilService utility service with method for management with success
    * and not success messages
+   * @param securityService
+   * @param httpService
    */
   constructor( private httpClient: HttpClient,
                private messageService: MessageService,
-               private utilService: ComponentsUtilService,
-               public securityService: AppSecurityService){
+               private utilService: CommonServicesUtilService,
+               public securityService: AppSecurityService,
+               private httpService: CommonServicesAppHttpService<PersonFormModel>) {
   }
 
   /**
@@ -98,6 +102,20 @@ export class PersonFormComponent implements OnInit {
     this.personBankAccountModel = this.personFormModel.bankAccountFormModel;
     this.personAddressModel = this.personFormModel.personAddressFormModel;
   }
+
+
+  // /**
+  //  * Saves person to the database on server
+  //  * @param item the item for saving
+  //  */
+  // savePerson(event: any): void {
+  //   this.httpService.putObjectToServer(this.personFormModel, 'Person',
+  //     'invoice/itemcatalog', (callback) => {
+  //       if (callback){
+  //         this.personFormModel = new PersonFormModel();
+  //       }
+  //     });
+  // }
 
   /**
    * Saves person to the database
@@ -128,6 +146,8 @@ export class PersonFormComponent implements OnInit {
       }
     );
   }
+
+
   /** for test */
   showJson(event: any): void{
     console.log(JSON.stringify(this.personFormModel));

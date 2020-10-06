@@ -9,7 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
-import {ComponentsPipesNumberDouble} from './components/components.pipes.number';
+import {CommonServicesPipesNumber} from './common-services/common-services.pipes.number';
 import { PrintinvoiceComponent } from './printinvoice/printinvoice.component';
 import {AgGridModule} from 'ag-grid-angular';
 import { TableCellRendererComponent } from './table-cell-renderer/table-cell-renderer.component';
@@ -25,11 +25,12 @@ import { ValidatableInputTextComponent } from './validatable-input-text/validata
 import { ValidatableDropdownlistComponent } from './validatable-dropdownlist/validatable-dropdownlist.component';
 import { ValidatableCalendarComponent } from './validatable-calendar/validatable-calendar.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
-import {ComponentsUtilService} from './components/components.util.service';
+import {CommonServicesUtilService} from './common-services/common-services-util.service';
 import {MessageService} from 'primeng/api';
 import { EditableInputCellComponent } from './editable-input-cell/editable-input-cell.component';
 import { InvoiceItemsTableComponent } from './invoice-items-table/invoice-items-table.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { ItemsFormComponent } from './items-form/items-form.component';
 
 
 
@@ -40,7 +41,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
     InvoiceFormComponent,
     PersonFormComponent,
     routingComponent,
-    ComponentsPipesNumberDouble,
+    CommonServicesPipesNumber,
     PrintinvoiceComponent,
     TableCellRendererComponent,
     ValidatableInputTextComponent,
@@ -49,7 +50,8 @@ import { UserLoginComponent } from './user-login/user-login.component';
     UserRegistrationComponent,
     EditableInputCellComponent,
     InvoiceItemsTableComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    ItemsFormComponent
 
   ],
   imports: [
@@ -69,7 +71,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 
 
   ],
-  providers: [ComponentsUtilService, MessageService],
+  providers: [CommonServicesUtilService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

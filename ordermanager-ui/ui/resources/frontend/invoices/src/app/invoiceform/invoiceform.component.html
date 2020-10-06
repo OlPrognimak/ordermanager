@@ -1,6 +1,10 @@
 <div *ngIf="appSecurityService.isAuthenticated()" class="p-fluid">
 
-  <p-messages></p-messages>
+  <H2>Create invoice</H2>
+  <div>
+    <p-messages></p-messages>
+  </div>
+
   <div class="p-grid">
     <div style="margin-top: 10pt" class="p-col-4">
       <app-validatable-input-text [labelText]="'Invoice Number'"

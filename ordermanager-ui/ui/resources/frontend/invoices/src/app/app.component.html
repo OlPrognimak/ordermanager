@@ -3,6 +3,7 @@
 </div>
 <div *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
   <nav>
+    <a routerLink="/create-invoice-item-page" routerLinkActive="active">Create invoice Item</a>
     <a routerLink="/create-invoice-page" routerLinkActive="active">Create invoice</a>
     <a routerLink="/create-person_page" routerLinkActive="active">Create person</a>
     <a routerLink="/invoice-list_page" routerLinkActive="active">Print invoice</a>

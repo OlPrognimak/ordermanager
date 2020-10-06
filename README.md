@@ -116,7 +116,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
 |9|app/validatable-dropdownlist|The component which uses by another components. This dropdown list shows error if item is not selected.|
 |10|app/validatable-calendar|The component which uses by another pages, forms or components. The calendar which shows error in case if date is not selected.|
 |11|app/invoice-items-table|The component which uses by page invoiceform(2) and contains invoice items. This table uses ```PrimeNG``` component ``Table``.  The user can add or remove items there, change price, amount and var% of item. Also there will be calculated netto and brutto price of item and total netto and brutto price of whole invoice. |
-|12|app/components|contains (or will contain) miscellaneous utility classes, pipes, and other|
+|12|app/common-services|contains (or will contain) common resources like utility classes, pipes, services|
  
 ## Fronend features and useful tips
  - use components in development. Example of the component is a table for invoice items.
@@ -152,7 +152,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
       @Pipe({
         name: 'standardFloat'
       })
-      export class ComponentsPipesNumberDouble implements PipeTransform {
+      export class CommonServicesPipesNumberDouble implements PipeTransform {
           ....
       }
   ```

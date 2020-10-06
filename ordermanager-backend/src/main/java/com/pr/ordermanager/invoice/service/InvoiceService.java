@@ -39,6 +39,8 @@ import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
 import com.pr.ordermanager.security.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
  */
 @Service
 public class InvoiceService {
-
+    private static final Logger logger = LogManager.getLogger(InvoiceService.class);
     @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired
@@ -123,8 +125,13 @@ public class InvoiceService {
      *
      * @param itemCatalog save catalod item to the database
      */
-    public void saveItemCatalog(ItemCatalog itemCatalog){
-       itemCatalogRepository.save(itemCatalog);
+    public void saveItemCatalog(ItemCatalog itemCatalog) {
+        try {
+            itemCatalogRepository.save(itemCatalog);
+        } catch (Exception ex) {
+            logger.error("Can not save catalog item",ex);
+            throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
+        }
     }
 
 }

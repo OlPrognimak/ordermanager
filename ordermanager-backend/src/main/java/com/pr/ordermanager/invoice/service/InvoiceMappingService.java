@@ -37,6 +37,7 @@ import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.entity.RateType;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.model.InvoiceItemModel;
+import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
@@ -108,7 +109,7 @@ public class InvoiceMappingService {
 
     }
 
-    public static InvoiceItem mapInvoiceItemModelToEntity(
+    public  InvoiceItem mapInvoiceItemModelToEntity(
             InvoiceItemModel invoiceFormModel, Invoice invoice, ItemCatalog itemCatalog){
 
         InvoiceItem invoiceItem = InvoiceItem.builder()
@@ -121,6 +122,21 @@ public class InvoiceMappingService {
                 .invoice(invoice)
                 .build();
         return invoiceItem;
+    }
+
+    /**
+     * Maps the data from source Model object {@link ItemCatalogModel} to the entity  object {@link ItemCatalog}
+     * @param source the source Entity object {@link InvoiceItem} with data for mapping to the target
+     * @return the target entity object {@link ItemCatalog}
+     */
+    public  ItemCatalog mapModelToItemCatalogEntity(ItemCatalogModel source){
+        return ItemCatalog.builder()
+                .id(source.getId())
+                .description(source.getDescription())
+                .shortDescription(source.getShortDescription())
+                .itemPrice(source.getItemPrice())
+                .vat(source.getVat())
+                .build();
     }
 
 }

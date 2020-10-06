@@ -33,8 +33,8 @@ import {CreatedResponse, NewUser} from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {Message} from 'primeng/api/message';
-import {ComponentsUtilService} from '../components/components.util.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {CommonServicesUtilService} from "../common-services/common-services-util.service";
 
 @Component({
   selector: 'app-user-registration',
@@ -50,7 +50,7 @@ export class UserRegistrationComponent implements OnInit {
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
-              private utilService: ComponentsUtilService,
+              private utilService: CommonServicesUtilService,
               public router: Router) {
     this.backendUrl =
       document.getElementById('appConfigId')
