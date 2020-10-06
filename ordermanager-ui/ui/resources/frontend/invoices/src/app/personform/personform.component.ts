@@ -54,7 +54,7 @@ function handleError(err: any): void {
   styleUrls: ['./personform.component.css'],
   selector:    'app-person',
   templateUrl: './personform.component.html',
-  providers:  [MessageService, CommonServicesUtilService]
+  providers:  []
 })
 export class PersonFormComponent implements OnInit {
   /** The base url string for communication with server */
@@ -104,65 +104,22 @@ export class PersonFormComponent implements OnInit {
   }
 
 
-  // /**
-  //  * Saves person to the database on server
-  //  * @param item the item for saving
-  //  */
-  // savePerson(event: any): void {
-  //   this.httpService.putObjectToServer(this.personFormModel, 'Person',
-  //     'invoice/itemcatalog', (callback) => {
-  //       if (callback){
-  //         this.personFormModel = new PersonFormModel();
-  //       }
-  //     });
-  // }
-
   /**
-   * Saves person to the database
-   * @param event the event from ui
+   * Saves person to the database on server
+   * @param item the item for saving
    */
   savePerson(event: any): void {
-    this.handleClickHttp().subscribe((response) => {
-        this.personFormModel = new PersonFormModel();
-        const msg: Message = {
-          severity: 'success',
-          summary: 'Congratulation!',
-          detail: 'The person is saved successfully.'
-        };
-        this.messageService.add(msg);
-        this.utilService.hideMassage(msg, 2000);
-        handleResult(response);
-      }, (error) => {
-        let errorText = 'The person is not saved.';
-        if (error instanceof HttpErrorResponse) {
-          if (error.status === 400) {
-            errorText = error.error.errorMessage;
-          }
+    this.httpService.putObjectToServer(this.personFormModel, 'Person',
+      'person', (callback) => {
+        if (callback){
+          this.personFormModel = new PersonFormModel();
         }
-        const msg = {severity: 'error', summary: 'Error', detail: errorText};
-        this.messageService.add(msg);
-        this.utilService.hideMassage(msg, 4000);
-        handleError(error);
-      }
-    );
+      });
   }
-
 
   /** for test */
   showJson(event: any): void{
     console.log(JSON.stringify(this.personFormModel));
-  }
-
-  /**
-   * Creates Observable for put http request
-   */
-  handleClickHttp(): Observable<string>{
-    const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
-    return this.httpClient.put<string>(this.backendUrl, this.personFormModel, { headers } );
   }
 
 }

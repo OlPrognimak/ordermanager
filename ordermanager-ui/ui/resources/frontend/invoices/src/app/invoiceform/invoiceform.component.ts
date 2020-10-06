@@ -48,6 +48,8 @@ import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
+import {PersonFormModel} from "../domain/domain.personformmodel";
+import {CommonServicesAppHttpService} from "../common-services/common-services.app.http.service";
 
 
 
@@ -68,7 +70,7 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [MessageService, CommonServicesUtilService]
+  providers:  []
 })
 export class InvoiceFormComponent implements OnInit,  AfterViewInit{
 
@@ -94,11 +96,13 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @param appSecurityService injected service for authorization
    * @param messageService injected service for management with messages
    * @param utilService injected utility with method for deleting messages
+   * @param httpService http service for communication with server
    */
   constructor( private httpClient: HttpClient,
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
-               private utilService: CommonServicesUtilService) {
+               private utilService: CommonServicesUtilService,
+               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl =
        document.getElementById('appConfigId')
          .getAttribute('data-backendUrl') ;
@@ -140,38 +144,17 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       );
   }
 
-
   /**
-   * save invoice to the server
-   * @param event possible event
+   * Saves person to the database on server
+   * @param item the item for saving
    */
-  public saveInvoice(event: any): void{
-    this.handleHttpRequest(
-       ).toPromise().then(response => {
-
-          const msg: Message = {severity: 'success', summary: 'Congratulation!',
-                        detail: 'The invoice is saved successfully.'};
-          this.messageService.add(msg);
+  saveInvoice(event: any): void {
+    this.httpService.putObjectToServer(this.invoiceFormData, 'Invoice',
+      'invoice', (callback) => {
+        if (callback){
           this.resetModel();
-          this.utilService.hideMassage(msg, 4000);
-      }
-    ).catch(error => {
-      console.log('Error: ' + error);
-      handleError(error);
-      let errorText = 'The invoice is not saved.';
-      if (error instanceof HttpErrorResponse){
-        if ( error.status === 400){
-          errorText = error.error.errorMessage;
         }
-
-      }
-      const msg: Message = {severity: 'error', summary: 'Error',
-                              detail: errorText};
-      this.messageService.add(msg);
-
-      this.utilService.hideMassage(msg, 10000);
-
-    });
+      });
   }
 
   public printToJson(data: any): void {
@@ -193,19 +176,6 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
     if (this.isViewInitialized) {
        this.itemsTableComponent.resetTotalValues();
     }
-  }
-
-
-  /**
-   * Creates PUT Observer  for saving invoice on server
-   */
-  private handleHttpRequest(): Observable<CreatedResponse>{
-    const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
-      Accept : '*/*'
-    } );
-    return this.httpClient.put<CreatedResponse>(
-      this.backendUrl + 'invoice', this.invoiceFormData, { headers } );
   }
 
 }
