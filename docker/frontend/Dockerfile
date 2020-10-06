@@ -1,8 +1,8 @@
 # Stage 1 Node
-FROM node:10.16.3
-WORKDIR /usr/src/app
-RUN npm install
-RUN npm install -g @angular/cli
+#FROM node:10.16.3
+#WORKDIR /usr/src/app
+#RUN npm install
+#RUN npm install -g @angular/cli
 
 #Stage 2 Springboot
 FROM openjdk:14-jdk-alpine

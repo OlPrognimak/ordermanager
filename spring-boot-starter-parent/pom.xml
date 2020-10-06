@@ -289,6 +289,11 @@
 
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
 				<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation 
 					processors -->
 				<plugin>

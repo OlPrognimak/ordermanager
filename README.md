@@ -90,7 +90,7 @@ Maven module ```ordermanager-backend```.
   * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
  
 # Frontend
-The frontend application is implemented with using springboot framework as a runner of web application and
+The frontend application has implemented with using springboot framework as a runner of web application and
 UI-Framework Angular of version 10.
 ## Frontend frameworks and libraries
 - Angular 10
@@ -99,22 +99,22 @@ UI-Framework Angular of version 10.
 - moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
 ## Project structure
 - maven module **ordermanager-ui**. Contains springboot microservice for running generated web application. 
-The pom.xml contains an  plugins for compilation and building angular application and packing produced content to the war/jar file.
+The pom.xml contains an  plugins for compilation and building angular application and packaging produced content to the war/jar file.
 - **ordermanager-ui** contains a folder **ui** with angular project. 
 
 ## Frontend components
 |Nr.|Component name|Description|
 |---|:--------------|-----------|
 |1|app| That is a root of the application and contains the home page with navigation bar. |
-|2|app/invoiceform| The page which contains ui-form for input data for invoice.|
-|3|app/personform|The page which contains the ui-form for input data for person|
-|4|app/printinvoice|The page with table which contains the list of existed invoices in the database.`This table uses component ``ag-Grid`` (angular). Each row in table contains button for download invoice in PDF format from server.  |
-|5|app/table-cell-renderer| This is cell with button for for download invoice in PDF Format. Uses by ``ag-Grid`` in component (4).    
+|2|app/invoiceform| This is a component which contains an ui-form for input data for invoice.|
+|3|app/personform|This is a component which contains an ui-form for input data for person|
+|4|app/printinvoice|This is a component with the table which contains the list of existed invoices in the database.`This table uses component ``ag-Grid`` (angular). Each row in table contains button for download invoice in PDF format from server.  |
+|5|app/table-cell-renderer| This is a cell with button for for download invoice in PDF Format. Uses by ``ag-Grid`` in component (4).    
 |6|app/user-login|User login page to login to the invoice management application|
-|7|app/user-registration| The page for the registration of a new user|
-|8|app/validatable-input-text|The component which uses by another pages, forms or components. This input text shows error in case if length less as defined. Also this component user flowing labels. |
-|9|app/validatable-dropdownlist|The component which uses by another pages, forms or components. ...|
-|10|app/validatable-calendar|The component which uses by another pages, forms or components. ...|
+|7|app/user-registration| The component with a form for registration of a new user|
+|8|app/validatable-input-text|The component which uses by another components. This input text shows error in case if length less as defined. Also this component user flowing labels. |
+|9|app/validatable-dropdownlist|The component which uses by another components. This dropdown list shows error if item is not selected.|
+|10|app/validatable-calendar|The component which uses by another pages, forms or components. The calendar which shows error in case if date is not selected.|
 |11|app/invoice-items-table|The component which uses by page invoiceform(2) and contains invoice items. This table uses ```PrimeNG``` component ``Table``.  The user can add or remove items there, change price, amount and var% of item. Also there will be calculated netto and brutto price of item and total netto and brutto price of whole invoice. |
 |12|app/components|contains (or will contain) miscellaneous utility classes, pipes, and other|
  
@@ -165,8 +165,8 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
    
 ```
 # PDF Documents
-*The PDF document for printing invoices and other documents uses of JasperReport. 
-*As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
+- PDF document for printing invoices and other documents based on JasperReport. 
+- As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
 
 ## Invoice pdf
 The Invoices in PDF format generates from the data which is saved in the database with using **invoiceform** component and
