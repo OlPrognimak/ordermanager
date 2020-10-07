@@ -30,7 +30,7 @@ services:
       DB_HOST: postgres
       REPORTS_PATH: /var/ordermanager/reports
     hostname: ordermanager
-    image: prognimak.ordermanager/backend:003
+    image: prognimak.ordermanager/backend:001
     networks:
       nw_prognimak: null
     ports:

@@ -32,6 +32,7 @@ package com.pr.ordermanager.report.controller;
 
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.controller.InvoiceController;
+import com.pr.ordermanager.report.model.PdfRequest;
 import com.pr.ordermanager.report.service.JasperReportService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,10 +46,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * The rest controller for generation pdf report
@@ -78,8 +83,9 @@ public class JasperReportController {
      * @return the response with pdf report
      */
     @Operation(description = "Produces invoice in pdf format",
-            method = "get",
+            method = "post",
             operationId = "printReport",
+
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "delivers invoice in pdf format as byte array",
@@ -103,20 +109,18 @@ public class JasperReportController {
                     name = "basicAuth"
             )}
     )
-    @GetMapping(value = "/invoice/report/{invoiceNumber}")
-    @ResponseBody
-    public HttpEntity<byte[]> printReport(@Parameter(description = "the number of invoice")
-                                              @PathVariable String invoiceNumber) {
-        logger.debug("invoiceNumber: " + invoiceNumber);
-        byte[] report = jasperReportService.createPdfReport(invoiceNumber);
+    @PostMapping(value = "/invoice/report", produces="application/pdf")
+    //@ResponseBody
+    public ResponseEntity<byte[]> printReport(@Parameter(description = "the number of invoice")
+                                              @RequestBody() PdfRequest pdfRequest) {
+        logger.info("Request Body: "+pdfRequest.getInvoiceNumber());
+        logger.debug("invoiceNumber: " + pdfRequest.getInvoiceNumber());
+        byte[] report = jasperReportService.createPdfReport(pdfRequest.getInvoiceNumber());
         logger.debug("Report size: " + report.length);
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(MediaType.APPLICATION_PDF);
-        header.set(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=" + "invoice_" + invoiceNumber + ".pdf");
-        header.setContentLength(report.length);
-        logger.debug("Response created");
-        return new HttpEntity<byte[]>(report, header);
+       return ResponseEntity.status(OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=invoice_" + pdfRequest.getInvoiceNumber() + ".pdf")
+                .body(report);
+
 
     }
 }
