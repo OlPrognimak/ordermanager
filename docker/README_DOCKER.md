@@ -1,3 +1,11 @@
+### Build front end and back application 
+- go to the project **ordermanager-backend** and run there maven goals ```mvn clean install``` the goal creates artifact **ordermanager-backend.jar** in
+target directory and then ant plugin copies  one to the directory docker/backend. This artifact will be necessary 
+for creation docker image. 
+- go to the project **ordermanager-ui** and run there maven goals ```mvn clean install``` the goal creates artifact **ordermanager-jar.jar** in
+target directory and then ant plugin copies  one to the directory **docker/frontend**. This artifact will be necessary 
+for creation docker image. 
+
 ### Build backend docker image
 To build docker image runs this script from location of Dockerfile
 ````

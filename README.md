@@ -117,7 +117,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
 |10|app/validatable-calendar|The component which uses by another pages, forms or components. The calendar which shows error in case if date is not selected.|
 |11|app/invoice-items-table|The component which uses by page invoiceform(2) and contains invoice items. This table uses ```PrimeNG``` component ``Table``.  The user can add or remove items there, change price, amount and var% of item. Also there will be calculated netto and brutto price of item and total netto and brutto price of whole invoice. |
 |12|app/common-services|contains (or will contain) common resources like utility classes, pipes, services|
- 
+|13|app/item-form|contains form for creation new inviuce item and saving on to the databse on server| 
 ## Fronend features and useful tips
  - use components in development. Example of the component is a table for invoice items.
  - @Output. Example of using @Output for updating model in parent component. 
