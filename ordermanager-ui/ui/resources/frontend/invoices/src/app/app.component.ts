@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AppSecurityService} from './user-login/app-security.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import {AppSecurityService} from './user-login/app-security.service';
 })
 export class AppComponent implements OnInit{
   title = 'frontend';
-  constructor(public appSecurityService: AppSecurityService) {
+  constructor(public appSecurityService: AppSecurityService, public router: Router) {
 
   }
 

@@ -119,17 +119,22 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
 |12|app/common-services|contains (or will contain) common resources like utility classes, pipes, services|
 |13|app/item-form|contains form for creation new inviuce item and saving on to the databse on server| 
 ## Fronend features and useful tips
- - use components in development. Example of the component is a table for invoice items.
- - @Output. Example of using @Output for updating model in parent component. 
-   Definition of event emmiter for output of object to parent component. See file *components.itemstable.ts* .  
+ - ``` @Output ```. Example of using ``` @Output ``` for updating model in parent component. 
+   Example of using ``` @EventEmitter ``` for output of object to parent component. See the class ```InvoiceItemsTableComponent``` 
+   file *invoice-items-table.itemstable.ts* .  
+   
  ```javascript
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
  ```
-  The binding  of output event emmiter is located in the html template file invoiceform.component.html. 
-  ```html
+  In our case the Emitter emits event when new item is added or removed from table model.
+  See ```addNewItem()``` and ```deleteItem(idxItem: any)``` in the same class.
+  
+  The example of binding  of output event emitter to the parent component is located in the html template file invoiceform.component.html. 
+  Here  ``` app-items-table ``` is child component. 
+```html
       <app-items-table (changeItemEvent)="itemsChanged($event)" ...
   ```
-  The method *itemsChanged* accepts the emitted event with model data from the table of items.
+  The method *itemsChanged* accepts the emitted event with model data from the child component( table of items).
   This method replaces the invoice model with data from child components.
   See the component file *invoiceform.component.ts*
   ```javascript
@@ -164,6 +169,13 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
  </ng-template>
    
 ```
+- Download and open PDF  
+Example of usage is located in the class ```TableCellRendererComponent``` which is defined in the ts file 
+``` html
+
+```
+ 
+
 # PDF Documents
 - PDF document for printing invoices and other documents based on JasperReport. 
 - As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio

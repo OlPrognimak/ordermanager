@@ -79,7 +79,7 @@ public class JasperReportController {
      * Produce pdf report from report data in database for report which is
      * defined by {@code invoiceNumber}
      *
-     * @param invoiceNumber the number of invoice
+     * @param pdfRequest the object which contains number of invoice
      * @return the response with pdf report
      */
     @Operation(description = "Produces invoice in pdf format",
@@ -111,7 +111,7 @@ public class JasperReportController {
     )
     @PostMapping(value = "/invoice/report", produces="application/pdf")
     //@ResponseBody
-    public ResponseEntity<byte[]> printReport(@Parameter(description = "the number of invoice")
+    public ResponseEntity<byte[]> printReport(@Parameter(description = "the request with invoice number")
                                               @RequestBody() PdfRequest pdfRequest) {
         logger.info("Request Body: "+pdfRequest.getInvoiceNumber());
         logger.debug("invoiceNumber: " + pdfRequest.getInvoiceNumber());

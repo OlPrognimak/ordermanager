@@ -35,12 +35,14 @@ import {MessageService} from 'primeng/api';
 import {Message} from 'primeng/api/message';
 import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../common-services/common-services-util.service";
+import {of} from "rxjs";
+import {delay} from "rxjs/operators";
 
 @Component({
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
   styleUrls: ['./user-registration.component.css'],
-  providers: [MessageService]
+  providers: []
 })
 export class UserRegistrationComponent implements OnInit {
 
@@ -84,8 +86,13 @@ export class UserRegistrationComponent implements OnInit {
             detail: 'You are successfully registered.'
           };
           this.messageService.add(msg);
-
+          this.newUser.userName = '';
+          this.newUser.userPassword = '';
           this.utilService.hideMassage(msg, 3000);
+          const observable = of().pipe(delay(3000));
+          observable.toPromise().then(() => {
+            this.router.navigateByUrl('/');
+          });
         }),
         (error => {
           console.log(JSON.stringify(error));

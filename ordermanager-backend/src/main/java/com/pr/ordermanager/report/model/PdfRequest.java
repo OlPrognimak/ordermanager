@@ -2,7 +2,7 @@ package com.pr.ordermanager.report.model;
 
 /**
  * @author Oleksandr Prognimak
- * @created 07.10.2020 - 19:57
+ * @since 07.10.2020 - 19:57
  */
 public class PdfRequest {
     private String invoiceNumber;

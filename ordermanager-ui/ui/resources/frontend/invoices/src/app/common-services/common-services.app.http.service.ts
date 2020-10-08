@@ -48,7 +48,7 @@ export class CommonServicesAppHttpService<T> {
 
 
   /*  prints success message  */
-  private printSuccessMessage(objectName: any): void{
+  public printSuccessMessage(objectName: any): void{
     const msg: Message = {
       severity: 'success', summary: 'Congratulation!',
       detail: 'The ' + objectName + ' is saved successfully.'
@@ -64,10 +64,10 @@ export class CommonServicesAppHttpService<T> {
    * @param objectName object name
    * @param error error which occures
    */
-  private printUnSuccessMessage(objectName: any, error): void{
+  public printUnSuccessMessage(objectName: any, error): void{
     console.log('Error: ' + error);
     this.handleError(error);
-    let errorText = 'The ' + objectName + ' is not saved.';
+    let errorText = 'With processing ' + objectName + ' happens unexpected error.';
     if (error instanceof HttpErrorResponse) {
       if (error.status === 400) {
         errorText = error.error.errorMessage;
@@ -77,7 +77,6 @@ export class CommonServicesAppHttpService<T> {
     const msg: Message = {severity: 'error', summary: 'Error',
       detail: errorText};
     this.messageService.add(msg);
-
     this.utilService.hideMassage(msg, 10000);
   }
 

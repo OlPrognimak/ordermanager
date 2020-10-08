@@ -3,6 +3,7 @@ import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
+import {CommonServicesAppHttpService} from "../common-services/common-services.app.http.service";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -16,7 +17,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   private cellVale: any;
   private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private httpService: CommonServicesAppHttpService<string>) { }
 
   /**
    * @inheritDoc
@@ -59,13 +60,14 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
     this.httpClient.post<any>(this.backendUrl + 'invoice/report/', {invoiceNumber: this.cellVale},
       {headers, responseType: 'blob' as 'json'})
       .subscribe(((data) => {
-            console.log('PDF Data Loaded');
             const pdfBlob = new Blob([data], { type: 'application/pdf' });
-            console.log('report loaded');
             const fileURL = URL.createObjectURL(pdfBlob);
             window.open(fileURL);
           }
-        )
+        ),
+        (error) => {
+          this.httpService.printUnSuccessMessage('pdf Invoice ', error);
+        }
       );
   }
 
