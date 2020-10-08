@@ -107,8 +107,8 @@ public class RepositoryTestHelper {
                 .invoiceNumber("InvNr_" + System.currentTimeMillis())
                 .personSupplierId(personSupplierId)
                 .personRecipientId(personRecipientId)
-                .creationDate(OffsetDateTime.now())
-                .invoiceDate(OffsetDateTime.now())
+                .creationDate(OffsetDateTime.now().withMinute(0).withHour(0).withSecond(0).withNano(0))
+                .invoiceDate(OffsetDateTime.now().withMinute(0).withHour(0).withSecond(0).withNano(0))
                 .rateType("HOURLY")
                 .invoiceItems(Arrays.asList(createInvoiceItemModel())).build();
 
