@@ -1,10 +1,12 @@
-<div style="margin-right: 20pt; margin-top: 10pt" class="p-grid p-shadow-4">
+
+
+<div  class="p-grid  app_title p-shadow-4">
   <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>
   <h1 style="margin-left: 5pt;">Order manager</h1>
 
 </div>
-<div style="margin-top: 5pt;" class="p-grid p-shadow-4" *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
-  <nav>
+<div s class="nav_app_cls p-grid p-shadow-4" *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
+  <nav style="margin-bottom: 10pt;">
     <a routerLink="/create-invoice-item-page" routerLinkActive="active">Create invoice Item</a>
     <a routerLink="/create-invoice-page" routerLinkActive="active">Create invoice</a>
     <a routerLink="/create-person_page" routerLinkActive="active">Create person</a>

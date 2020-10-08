@@ -21,8 +21,9 @@
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
     </div>
-    <div *ngIf="modelRef.errors?.minlength" style ="display: table-cell; width: 10%;">
-      <div style="margin-top: 15pt !important;">
+    <div *ngIf=
+           "modelRef.errors?.minlength" style ="display: table-cell; width: 10%;">
+      <div>
         <p-message severity="error"></p-message>
       </div>
     </div>
