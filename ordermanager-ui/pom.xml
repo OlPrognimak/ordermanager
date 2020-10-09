@@ -71,6 +71,32 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>angular-cli build</id>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <executable>ng</executable>
+              <arguments>
+                <argument>build</argument>
+                <argument>--output-hashing=none</argument>
+                <argument>--prod</argument>
+                <!--<argument>&#45;&#45;aot</argument>-->
+                <argument>--build-optimizer</argument>
+                <argument>--base-href=/${app.baseurl}/</argument>
+              </arguments>
+              <workingDirectory>ui/resources/frontend/invoices</workingDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.2</version>
         <executions>
@@ -94,32 +120,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>exec-maven-plugin</artifactId>
-        <groupId>org.codehaus.mojo</groupId>
-        <version>1.6.0</version>
-        <executions>
-           <execution>
-            <id>angular-cli build</id>
-             <goals>
-               <goal>exec</goal>
-             </goals>
-             <phase>generate-resources</phase>
-            <configuration>
-              <executable>ng</executable>
-              <arguments>
-                <argument>build</argument>
-                <argument>--output-hashing=none</argument>
-                <argument>--prod</argument>
-                <!--<argument>&#45;&#45;aot</argument>-->
-                <argument>--build-optimizer</argument>
-                <argument>--base-href=/${app.baseurl}/</argument>
-               </arguments>
-              <workingDirectory>ui/resources/frontend/invoices</workingDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>

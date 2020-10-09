@@ -23,7 +23,7 @@ docker build -t prognimak.ordermanager/frontend:<version> .
 - remove older docker containers and volumes
 - run script 
 ```
- docker-compose -f ordermanager-compose.yaml up -d
+ docker-compose -f docker-compose.yaml up -d
 ```
 
 ### Deploy with docker stack
