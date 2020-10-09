@@ -32,6 +32,10 @@ import { InvoiceItemsTableComponent } from './invoice-items-table/invoice-items-
 import { UserLoginComponent } from './user-login/user-login.component';
 import { ItemsFormComponent } from './items-form/items-form.component';
 import {CommonServicesAppHttpService} from './common-services/common-services.app.http.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {DialogModule} from 'primeng/dialog';
+
+
 
 
 
@@ -68,9 +72,9 @@ import {CommonServicesAppHttpService} from './common-services/common-services.ap
     InputTextModule,
     AgGridModule.withComponents([MatButton, TableCellRendererComponent]),
     MessagesModule,
-    MessageModule
-
-
+    MessageModule,
+    MatProgressSpinnerModule,
+    DialogModule
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService],
   bootstrap: [AppComponent]

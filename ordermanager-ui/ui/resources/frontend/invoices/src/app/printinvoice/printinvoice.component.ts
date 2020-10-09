@@ -34,7 +34,9 @@ import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {AgGridAngular} from 'ag-grid-angular';
 import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
 import * as _moment from 'moment';
-import {AppSecurityService} from "../user-login/app-security.service";
+import {AppSecurityService} from '../user-login/app-security.service';
+import {GridOptions} from 'ag-grid-community';
+import {DialogModule} from 'primeng/dialog';
 
 /**
  * The component which contains table with invoices for printing in PDF format
@@ -47,27 +49,59 @@ import {AppSecurityService} from "../user-login/app-security.service";
 })
 export class PrintinvoiceComponent implements OnInit {
 
-
-
-  constructor(private httpClient: HttpClient, public securityService: AppSecurityService) {
-  }
-  invoicesFormModel: any;
+  // nvoicesFormModel: any;
   backendUrl: string;
   private gridApi;
   private gridColumnApi;
   private gridOprionsApi;
+  invoicesFormModel: InvoiceFormModel[];
   frameworkComponents;
   @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
-  columnDefs = [];
+  private readonly columnDefs = [];
   basicAuthKey = 'basicAuthKey';
+  gridOptions: any;
   /**
    * the column definition for table
    */
-
   creationDateCell: any;
-
   invoiceDateCell: any;
+  processRuns: boolean;
+  displayProcessDialog = false;
 
+
+  constructor(private httpClient: HttpClient, public securityService: AppSecurityService) {
+    this.gridOptions = ({
+      context: {
+        componentParent: this
+      }
+    } as GridOptions);
+
+    this.columnDefs = [
+      {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: 'tableCellRenderer'},
+      {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
+        sortable: true, filter: true, checkboxSelection: true, editable: true},
+      {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
+      {headerName: 'Invoice creator', resizable: true, field: 'supplierFullName', sortable: true, filter: true, editable: true},
+      {headerName: 'Invoice recipient', resizable: true, field: 'recipientFullName', sortable: true, filter: true, editable: true},
+      {headerName: 'Rate type',  field: 'rateType', sortable: true, filter: true, editable: true},
+      {headerName: 'Creation date', resizable: true, field: 'creationDate',
+        cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true},
+      {headerName: 'Invoice date',  resizable: true, field: 'invoiceDate',
+        cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true},
+      {headerName: 'Netto price',  resizable: true, field: 'totalSumNetto', sortable: true, filter: true, editable: true},
+      {headerName: 'Brutto price',  resizable: true, field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
+    ];
+    this.gridOptions.columnDefs = this.columnDefs;
+  }
+
+  /**
+   *
+   * @param isRun
+   */
+  public isProcessRunned(isRun: boolean): void{
+      this.displayProcessDialog = isRun;
+      this.processRuns = isRun;
+  }
 
   ngOnInit(): void {
     this.backendUrl =
@@ -86,29 +120,14 @@ export class PrintinvoiceComponent implements OnInit {
       return _moment(data.creationDate).format('DD.MM.YYYY');
     };
 
-    this.columnDefs = [
-      {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: 'tableCellRenderer'},
-      {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
-        sortable: true, filter: true, checkboxSelection: true, editable: true},
-      {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
-      {headerName: 'Invoice creator', resizable: true, field: 'supplierFullName', sortable: true, filter: true, editable: true},
-      {headerName: 'Invoice recipient', resizable: true, field: 'recipientFullName', sortable: true, filter: true, editable: true},
-      {headerName: 'Rate type',  field: 'rateType', sortable: true, filter: true, editable: true},
-      {headerName: 'Creation date', resizable: true, field: 'creationDate',
-        cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true},
-      {headerName: 'Invoice date',  resizable: true, field: 'invoiceDate',
-        cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true},
-      {headerName: 'Netto price',  resizable: true, field: 'totalSumNetto', sortable: true, filter: true, editable: true},
-      {headerName: 'Brutto price',  resizable: true, field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
-
-    ];
-
   }
 
   /**
    * Load Invoice from server and set to table model for printing of invoices
    */
   loadInvoices(): void {
+    this.isProcessRunned(true);
+
     const headers = new HttpHeaders({
       Authorization : localStorage.getItem(this.basicAuthKey),
       'Content-Type' : 'application/json',
@@ -117,6 +136,7 @@ export class PrintinvoiceComponent implements OnInit {
     this.httpClient.get<InvoiceFormModel[]>(this.backendUrl + 'invoice/invoicesList', {headers})
       .subscribe((data => {
             this.invoicesFormModel = data;
+            this.isProcessRunned(false);
           }
 
         )

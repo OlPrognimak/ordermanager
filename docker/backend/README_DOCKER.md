@@ -9,7 +9,7 @@ docker build -t prognimak.ordermanager/backend:<version> .
 ### Run docker-compose
 To run docker compose with postgresql data base and orderimage backend application
 ```
- docker-compose -f ordermanager-compose.yaml up -d
+ docker-compose -f docker-compose.yaml up -d
 ```
 
 ### Deploy with docker stack
@@ -20,5 +20,5 @@ docker swarm init
 ```
 then run
 ```
- docker stack deploy -c ordermanager-compose.yaml my-stack
+ docker stack deploy -c docker-compose.yaml my-stack
 ```

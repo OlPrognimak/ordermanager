@@ -13,7 +13,7 @@ If wants to run only ordermanager image than run that script
 ### Run docker-compose
 To run docker compose with postgresql data base and orderimage backend application
 ```
- docker-compose -f mycompose.yaml up -d
+ docker-compose -f docker-compose.yaml up -d
 ```
 
 ### Deploy with docker stack
@@ -24,5 +24,5 @@ docker swarm init
 ```
 then run
 ```
- docker stack deploy -c mycompose.yaml my-stack
+ docker stack deploy -c docker-compose.yaml my-stack
 ```

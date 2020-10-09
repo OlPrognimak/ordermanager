@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {CommonServicesAppHttpService} from "../common-services/common-services.app.http.service";
 
 /**
@@ -18,6 +17,8 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
   constructor(private httpClient: HttpClient, private httpService: CommonServicesAppHttpService<string>) { }
+  parentTableComponent: any;
+  public params: any;
 
   /**
    * @inheritDoc
@@ -26,6 +27,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl');
+    this.parentTableComponent = this.params.context.componentParent;
   }
 
 
@@ -33,6 +35,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
    * @inheritDoc
    */
   agInit(params: ICellRendererParams): void {
+    this.params = params;
     this.cellVale = params.value;
   }
 
@@ -49,6 +52,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
    */
   loadPdfReport(event: any): any {
    // window.open(this.backendUrl + 'invoice/report/' + this.cellVale);
+    this.params.context.componentParent.isProcessRunned(true);
     const headers = new HttpHeaders({
       Authorization : localStorage.getItem(this.basicAuthKey),
       Accept : '*/*',
@@ -63,10 +67,12 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
             const pdfBlob = new Blob([data], { type: 'application/pdf' });
             const fileURL = URL.createObjectURL(pdfBlob);
             window.open(fileURL);
+            this.params.context.componentParent.isProcessRunned(false);
           }
         ),
         (error) => {
           this.httpService.printUnSuccessMessage('pdf Invoice ', error);
+         // this.params.context.componentParent.runStrotPdfLoadingProcess(false);
         }
       );
   }
