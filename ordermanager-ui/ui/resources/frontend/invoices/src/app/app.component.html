@@ -1,7 +1,8 @@
 
 
 <div  class="p-grid  app_title p-shadow-4">
-  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>
+<!--  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
+  <a  [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
   <h1 style="margin-left: 5pt;">Order manager</h1>
 
 </div>

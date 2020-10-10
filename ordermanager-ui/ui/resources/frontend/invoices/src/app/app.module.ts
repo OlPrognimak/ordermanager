@@ -34,6 +34,8 @@ import { ItemsFormComponent } from './items-form/items-form.component';
 import {CommonServicesAppHttpService} from './common-services/common-services.app.http.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DialogModule} from 'primeng/dialog';
+import {ToastModule} from "primeng/toast";
+import {TooltipModule} from "primeng/tooltip";
 
 
 
@@ -74,7 +76,9 @@ import {DialogModule} from 'primeng/dialog';
     MessagesModule,
     MessageModule,
     MatProgressSpinnerModule,
-    DialogModule
+    DialogModule,
+    ToastModule,
+    TooltipModule
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService],
   bootstrap: [AppComponent]

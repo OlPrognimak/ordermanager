@@ -2,7 +2,7 @@
 
   <H2>Create invoice</H2>
   <div>
-    <p-messages></p-messages>
+    <p-toast></p-toast>
   </div>
 
   <div class="p-grid">
@@ -84,14 +84,9 @@
 
   <div class="p-grid">
     <div class="p-col-1">
-      <p-button label="Submit" (onClick)="saveInvoice($event)"></p-button>
+      <p-button [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
     </div>
-    <div class="p-col-1">
-      <p-button label="Json" (onClick)="printToJson(invoiceFormData)"></p-button>
-      <!--
-      <p-button label="ResetModel" (onClick)="resetModel()"></p-button>
-      -->
-    </div>
+
   </div>
 </div>
 
