@@ -37,6 +37,7 @@ import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../common-services/common-services-util.service";
 import {of} from "rxjs";
 import {delay} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-user-registration',
@@ -54,9 +55,8 @@ export class UserRegistrationComponent implements OnInit {
               private messageService: MessageService,
               private utilService: CommonServicesUtilService,
               public router: Router) {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') ;
+    this.backendUrl = environment.baseUrl;
+
   }
 
   /**

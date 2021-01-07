@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ItemCatalogModel} from '../domain/domain.invoiceformmodel';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-items-form',
@@ -19,9 +20,7 @@ export class ItemsFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.model = new ItemCatalogModel();
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') ;
+    this.backendUrl = environment.baseUrl;
   }
 
   /**

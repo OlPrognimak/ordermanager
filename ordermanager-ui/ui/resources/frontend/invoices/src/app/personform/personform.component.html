@@ -124,7 +124,6 @@
                [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
         <label for="id_AccountNumber">Account number</label>
       </span>
-
     </div>
   </div>
 
@@ -151,12 +150,7 @@
   </div>
   <div style="margin-top:5px;" class="p-grid">
     <div class="p-col-1">
-      <p-button label="Submit" (onClick)="savePerson($event)"></p-button>
-    </div>
-  </div>
-  <div style="margin-top:5px;" class="p-grid">
-    <div class="p-col-1">
-      <p-button label="JSON" (onClick)="showJson($event)"></p-button>
+      <p-button label="Save" (onClick)="savePerson($event)"></p-button>
     </div>
   </div>
 </div>

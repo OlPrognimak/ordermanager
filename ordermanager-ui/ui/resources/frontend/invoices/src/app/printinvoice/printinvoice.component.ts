@@ -37,6 +37,7 @@ import * as _moment from 'moment';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
 import {DialogModule} from 'primeng/dialog';
+import {environment} from "../../environments/environment";
 
 /**
  * The component which contains table with invoices for printing in PDF format
@@ -104,9 +105,7 @@ export class PrintinvoiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl');
+    this.backendUrl = environment.baseUrl;
 
     this.frameworkComponents = {
       tableCellRenderer: TableCellRendererComponent
