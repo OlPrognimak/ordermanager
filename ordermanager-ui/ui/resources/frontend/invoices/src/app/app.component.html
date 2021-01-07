@@ -1,18 +1,18 @@
-
-
-<div  class="p-grid  app_title p-shadow-4">
+<div  class="p-grid  app_title p-shadow-4" *ngIf="!this.appSecurityService.isAuthenticated();">
 <!--  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
   <a  [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
-  <h1 style="margin-left: 5pt;">Order manager</h1>
+  <h3 style="margin-left: 5pt;">Order manager</h3>
 
 </div>
-<div s class="nav_app_cls p-grid p-shadow-4" *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
+
+<div class="nav_app_cls p-grid p-shadow-4" *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
+
   <nav style="margin-bottom: 10pt;">
-    <a routerLink="/create-invoice-item-page" routerLinkActive="active">Create invoice Item</a>
-    <a routerLink="/create-invoice-page" routerLinkActive="active">Create invoice</a>
-    <a routerLink="/create-person_page" routerLinkActive="active">Create person</a>
-    <a routerLink="/invoice-list_page" routerLinkActive="active">Print invoice</a>
-    <a (click)="appSecurityService.logout()">Logout</a>
+    <div class="p-grid" >
+    <a style="margin-right: 10pt;" [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
+    <p-menubar style="height: 40pt; margin-top: 7pt;" [model]="menuItems"></p-menubar>
+    <a style="margin-left: 10pt;margin-top: 8pt;" (click)="appSecurityService.logout()">Logout</a>
+    </div>
   </nav>
 
 </div>

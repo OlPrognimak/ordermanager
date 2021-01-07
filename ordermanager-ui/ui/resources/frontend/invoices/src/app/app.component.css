@@ -6,4 +6,8 @@
 .nav_app_cls {
   margin-right: 20pt;
   margin-top: 5pt;
+  height: 50pt;
+}
+div.p-menubar {
+   padding: 0pt !important;
 }
