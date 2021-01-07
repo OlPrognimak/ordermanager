@@ -5,6 +5,7 @@ import {Observable, of} from 'rxjs';
 import {CreatedResponse} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
 import {CommonServicesUtilService} from './common-services-util.service';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class CommonServicesAppHttpService<T> {
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
               private utilService: CommonServicesUtilService) {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') ;
+    this.backendUrl = environment.baseUrl;
+    //  document.getElementById('appConfigId')
+    //    .getAttribute('data-backendUrl') ;
   }
 
   /**

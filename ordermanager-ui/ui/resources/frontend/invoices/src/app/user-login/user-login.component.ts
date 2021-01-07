@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {finalize} from 'rxjs/operators';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-user-login',
@@ -18,9 +19,7 @@ export class UserLoginComponent implements OnInit {
   constructor(public appSecurityService: AppSecurityService,
               private http: HttpClient, public router: Router,
               private messageService: MessageService) {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') ;
+    this.backendUrl = environment.baseUrl;
     this.appSecurityService.authenticate(appSecurityService.credentials, undefined);
   }
 

@@ -29,14 +29,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
-import {ToastModule} from 'primeng/toast';
 
 function handleResult(result: string): void {
   console.log('Result: ' + JSON.stringify(result));
@@ -57,8 +55,6 @@ function handleError(err: any): void {
   providers: []
 })
 export class PersonFormComponent implements OnInit {
-  /** The base url string for communication with server */
-  backendUrl: string;
   /** person model */
   personFormModel: PersonFormModel;
   /** bank account model */
@@ -73,15 +69,13 @@ export class PersonFormComponent implements OnInit {
 
   /**
    * The constructor
-   * @param httpClient the http client
    * @param messageService primeNG message service
    * @param utilService utility service with method for management with success
    * and not success messages
-   * @param securityService
-   * @param httpService
+   * @param securityService injects the security service module
+   * @param httpService injects the http service module
    */
-  constructor(private httpClient: HttpClient,
-              private messageService: MessageService,
+  constructor(private messageService: MessageService,
               private utilService: CommonServicesUtilService,
               public securityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel>) {
@@ -96,9 +90,6 @@ export class PersonFormComponent implements OnInit {
       {label: 'Private person', value: 'PRIVATE'},
       {label: 'Organisation', value: 'ORGANISATION'}
     ];
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') + 'person';
     this.personFormModel = new PersonFormModel();
     this.personBankAccountModel = this.personFormModel.bankAccountFormModel;
     this.personAddressModel = this.personFormModel.personAddressFormModel;

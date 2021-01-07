@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../domain/domain.invoiceformmodel';
+import {environment} from "../../environments/environment";
 
 
 /**
@@ -20,9 +21,7 @@ export class InvoiceItemsTableService {
    * @param httpClient http client
    */
   constructor(private httpClient: HttpClient) {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') ;
+    this.backendUrl = environment.baseUrl;
     this.downloadCatalogItemsDropdownList();
   }
 

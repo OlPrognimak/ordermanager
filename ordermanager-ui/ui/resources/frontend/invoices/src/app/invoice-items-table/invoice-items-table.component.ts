@@ -33,6 +33,7 @@ import {InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {Observable, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
 import {InvoiceItemsTableService} from './invoice-items-table.service';
+import {environment} from "../../environments/environment";
 
 @Component({
   styles: [`
@@ -64,9 +65,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
 
   constructor(public itemtableService: InvoiceItemsTableService,
               private calculatorService: InvoiceItemsTableCalculatorService) {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl');
+    this.backendUrl = environment.baseUrl;
     this.idxItem = 0;
   }
 

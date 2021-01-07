@@ -34,7 +34,6 @@ import localede from '@angular/common/locales/de';
 
 
 import {
-  CreatedResponse,
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface, InvoiceItemModel,
@@ -43,13 +42,12 @@ import {
 } from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {Message} from 'primeng/api/message';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
-import {PersonFormModel} from "../domain/domain.personformmodel";
 import {CommonServicesAppHttpService} from "../common-services/common-services.app.http.service";
+import {environment} from "../../environments/environment";
 
 
 
@@ -103,9 +101,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
                private messageService: MessageService,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
-     this.backendUrl =
-       document.getElementById('appConfigId')
-         .getAttribute('data-backendUrl') ;
+     this.backendUrl = environment.baseUrl;
 
   }
 

@@ -91,7 +91,7 @@ WHERE
 	<pageHeader>
 		<band height="207" splitType="Stretch">
 			<staticText>
-				<reportElement x="148" y="-30" width="160" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
+				<reportElement x="120" y="-30" width="188" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
@@ -109,13 +109,13 @@ WHERE
 	.concat( " " ).concat(    $F{recipient_company_name} !=null? $F{recipient_company_name} :""  )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="41" width="80" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
+				<reportElement x="280" y="41" width="100" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA["Rechnung-Nr."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="60" width="90" height="14" uuid="e57825e5-7680-4abb-a02b-152ff9c1e230">
+				<reportElement x="279" y="60" width="100" height="14" uuid="e57825e5-7680-4abb-a02b-152ff9c1e230">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA["Rechnungsdatum:"]]></textFieldExpression>
