@@ -9,7 +9,7 @@
 
   <nav style="margin-bottom: 10pt;">
     <div class="p-grid" >
-    <a style="margin-right: 10pt;" [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
+    <a style="margin-right: 10pt; margin-top: 8pt;margin-left: 10pt;" [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
     <p-menubar [model]="menuItems"></p-menubar>
     <a style="margin-left: 10pt;margin-top: 8pt;" (click)="appSecurityService.logout()">Logout</a>
     </div>
