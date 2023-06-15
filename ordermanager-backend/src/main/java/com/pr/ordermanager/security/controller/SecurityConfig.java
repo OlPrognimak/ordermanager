@@ -42,6 +42,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -188,8 +189,9 @@ public class SecurityConfig {
                         .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
                         .anonymous()
-                        .requestMatchers("/person/**",  "/invoice/**"
-                                ,"/person/personsdropdown",
+                       .requestMatchers(HttpMethod.OPTIONS,"/person/personsdropdown",
+                               "/invoice/itemscatalogdropdown").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/person/personsdropdown",
                                 "/invoice/itemscatalogdropdown").authenticated()
 
 

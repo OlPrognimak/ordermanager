@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
+import {
+  HttpBackend,
+  HttpClient,
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest
+} from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
@@ -13,16 +21,18 @@ export class AppSecurityService {
   backendUrl: string;
   basicAuthKey = 'basicAuthKey';
   credentials = {username: '', password: ''};
+  http: HttpClient;
   /**
    *
    * @param http http client
    */
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(/*private http: HttpClient, */ private handler: HttpBackend, private router: Router) {
     console.log('####### Init AppSecurityService');
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
   //  localStorage.setItem('authenticated', 'false');
+    this.http = new HttpClient(handler);
   }
 
   /**
@@ -53,7 +63,7 @@ export class AppSecurityService {
       headers : reqheaders
     };
 
-    this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).pipe().subscribe(
+    this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).subscribe(
       (response) => {
       console.log('authentication checking logging :' + response);
       if (response.logged === true) {

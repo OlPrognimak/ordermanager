@@ -95,7 +95,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   executionResult = false;
   private isViewInitialized = false;
   basicAuthKey = 'basicAuthKey';
-  httpClient: HttpClient;
+  //httpClient: HttpClient;
 
   @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
   /**
@@ -107,14 +107,14 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @param utilService injected utility with method for deleting messages
    * @param httpService http service for communication with server
    */
-  constructor( /*private httpClient: HttpClient, */
+  constructor( private httpClient: HttpClient,
                private handler: HttpBackend, private httpXhrBackend: HttpXhrBackend,
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl = environment.baseUrl;
-     this.httpClient = new HttpClient(handler);
+    // this.httpClient = new HttpClient(handler);
 
   }
 
@@ -159,6 +159,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
     // };
 
     const req = new HttpRequest('GET', this.backendUrl + 'person/personsdropdown', {headers : rheaders});
+    req.headers.set('Authorization', auth);
     console.log('********** Authorization header has set:' + req.headers.get('Authorization'));
     this.httpClient.request<DropdownDataType[]>(req).pipe()
       .subscribe(
@@ -174,8 +175,8 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
           }
         },
         error => {
-          console.log('GET person/personsdropdown Error occurs. Status: ' + error.status);
-          console.log('GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(error.headers));
+          console.log('Error GET person/personsdropdown Error occurs. Status: ' + error.status);
+          console.log('Error GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(error.headers));
           console.log('Error :' + JSON.stringify(error));
         }
       );
