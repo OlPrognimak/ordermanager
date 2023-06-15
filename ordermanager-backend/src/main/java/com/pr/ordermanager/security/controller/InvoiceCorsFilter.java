@@ -39,20 +39,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Cors filter for enabling cors requests. Currently allows all re
+ * Cors filter for enabling cors requests. Currently, allows all re
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class InvoiceCorsFilter extends CorsFilter  {
+public class InvoiceCorsFilter extends CorsFilter {
 
 	private static final Logger logger = LogManager
 			.getLogger(InvoiceCorsFilter.class);
@@ -80,7 +80,7 @@ public class InvoiceCorsFilter extends CorsFilter  {
 
 	private void filter(ServletRequest req, ServletResponse res,
 						FilterChain chain) throws IOException, ServletException {
-		logger.info("CorsFilter started...");
+		logger.info("CorsFilter: filter requested...");
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpServletRequest request = (HttpServletRequest) req;
 
@@ -110,7 +110,10 @@ public class InvoiceCorsFilter extends CorsFilter  {
 											"Access-Control-Allow-Methods,"+
 							 				"Authorization," +
 											"Access-Control-Max-Age,"+
-											"X-HTTP-Method-Override");
+											"X-HTTP-Method-Override,"+
+											"user-password,"+
+											"user-name,"+
+											"Access-Control-Allow-Origin");
 		chain.doFilter(request, response);
 	}
 

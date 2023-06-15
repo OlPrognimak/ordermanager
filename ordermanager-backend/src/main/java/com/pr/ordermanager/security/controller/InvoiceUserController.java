@@ -45,11 +45,11 @@ import java.security.Principal;
  * @since 21.09.2020 - 22:24
  */
 @RestController
-@CrossOrigin()
+@CrossOrigin(origins = "*")
 public class InvoiceUserController {
  public final static Logger logger = LogManager.getLogger(InvoiceUserController.class);
     @Autowired
-    UserService userService;
+    private UserService userService;
 
 
     @PostMapping(value = "/registration")
@@ -60,6 +60,14 @@ public class InvoiceUserController {
         return ResponseEntity.ok(createdResponse);
     }
 
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<String> login() {
+        String result="";
+
+        result = "{\"logged\": true}";
+        return ResponseEntity.ok(result);
+    }
 
 
     @GetMapping(value = "/user")
@@ -72,6 +80,5 @@ public class InvoiceUserController {
         }
         return ResponseEntity.ok(result);
     }
-
 
 }

@@ -44,6 +44,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -133,7 +134,9 @@ public class PersonService {
             }
             return persons;
         }catch(Exception ex){
-            throw new OrderManagerException(CODE_0000,"In  "+userName+ " is not found.");
+            logger.error("No persons for  "+userName+ " are found.");
+            return new ArrayList<>();
+            //throw new OrderManagerException(CODE_0000,"No persons for  "+userName+ " are found.");
         }
     }
 

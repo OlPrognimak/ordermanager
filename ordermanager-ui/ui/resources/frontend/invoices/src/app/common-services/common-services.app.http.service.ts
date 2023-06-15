@@ -85,12 +85,14 @@ export class CommonServicesAppHttpService<T> {
    * Creates PUT Observer  for saving invoice on server
    */
   private handleHttpRequest(objectToSave: T, endPointPath: string): Observable<CreatedResponse>{
-    const headers = new HttpHeaders({
+    const reqheaders = new HttpHeaders({
       Authorization : localStorage.getItem(this.basicAuthKey),
       Accept : '*/*'
     } );
+    const options = {headers : reqheaders};
+
     return this.httpClient.put<any>(
-      this.backendUrl + endPointPath, objectToSave, { headers } );
+      this.backendUrl + endPointPath, objectToSave, options );
   }
 
   private handleError(err: any): void {

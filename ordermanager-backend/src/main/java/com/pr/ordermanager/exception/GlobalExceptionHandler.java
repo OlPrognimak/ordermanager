@@ -33,6 +33,8 @@ package com.pr.ordermanager.exception;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pr.ordermanager.common.model.ResponseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -55,6 +57,7 @@ public class GlobalExceptionHandler {
     GlobalExceptionHandler(){
         objectMapper = new ObjectMapper();
     }
+    private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class.getSimpleName());
 
     /**
      * Handle currently with all exceptions
@@ -65,6 +68,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ Exception.class })
     public ResponseEntity<ResponseException> handleAccessDeniedException(
             Exception ex, WebRequest request) {
+
+        logger.error(ex.getMessage(), ex);
 
         if (ex instanceof OrderManagerException) {
             OrderManagerException ordMngEx = (OrderManagerException) ex;

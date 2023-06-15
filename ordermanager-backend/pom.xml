@@ -22,7 +22,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.source>17</maven.compiler.source>
   </properties>
 
   <dependencies>
@@ -174,15 +174,30 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <executions>
             <execution>
+              <id>id-clean</id>
+              <phase>clean</phase>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              <configuration>
+                <tasks>
+                  <delete>
+                    <fileset dir="../docker/backend" includes="*.jar"/>
+                  </delete>
+                </tasks>
+              </configuration>
+            </execution>
+            <execution>
+              <id>id-install</id>
               <phase>install</phase>
+              <goals>
+                <goal>run</goal>
+              </goals>
               <configuration>
                 <target>
                   <copy file="target/${project.artifactId}.jar" tofile="../docker/backend/${project.artifactId}.jar"/>
                 </target>
               </configuration>
-              <goals>
-                <goal>run</goal>
-              </goals>
             </execution>
           </executions>
         </plugin>

@@ -31,20 +31,26 @@
 package com.pr.ordermanager.security.service;
 
 import com.pr.ordermanager.security.entity.InvoiceUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
  * @author Oleksandr Prognimak
  * @since 22.09.2020 - 19:51
  */
-@Service
+//@Service
+@AllArgsConstructor
+@Deprecated
 public class InvoiceSecurityUserDetailsService implements UserDetailsService {
-    @Autowired
-    UserService userService;
+
+    private static UserService userService;
+
+    private static BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      *
@@ -53,6 +59,7 @@ public class InvoiceSecurityUserDetailsService implements UserDetailsService {
      * @throws UsernameNotFoundException if user in the database is not found
      */
     @Override
+    @Deprecated
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         InvoiceUser user = userService.getUserOrException(userName);
         if(null == user){

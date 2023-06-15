@@ -18,7 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,6 +26,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.security.Principal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -116,6 +118,17 @@ class InvoiceControllerTest {
 
     @Test
     void getInvoice() {
+      System.out.println(doubleToString(198.986543D));
+
     }
+
+    public static final String doubleToString(final Double doubleValue) {
+        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance();
+        symbols.setDecimalSeparator(',');
+        final DecimalFormat decimalFormat = new DecimalFormat("00000,00", symbols);
+        final double value = doubleValue == null ? 0d : doubleValue;
+        return decimalFormat.format(value);
+    }
+
 
 }

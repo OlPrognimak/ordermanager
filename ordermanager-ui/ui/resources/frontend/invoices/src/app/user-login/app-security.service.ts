@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
-import {finalize} from "rxjs/operators";
+import {finalize} from 'rxjs/operators';
+import {Observable} from "rxjs";
+
 
 @Injectable()
 export class AppSecurityService {
@@ -16,10 +18,11 @@ export class AppSecurityService {
    * @param http http client
    */
   constructor(private http: HttpClient, private router: Router) {
+    console.log('####### Init AppSecurityService');
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
-    localStorage.setItem('authenticated', 'false');
+  //  localStorage.setItem('authenticated', 'false');
   }
 
   /**
@@ -29,14 +32,28 @@ export class AppSecurityService {
 
   authenticate = (credentials, callback) => {
 
-    const basicAuth = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
-    const headers = new HttpHeaders(credentials ? {
+    const isAuthenticated = localStorage.getItem('authenticated');
+    console.log('######## Is authenticated? ' + isAuthenticated);
+    if ( isAuthenticated !== undefined && isAuthenticated !== '' && isAuthenticated === 'true') {
+      return;
+    }
+
+    const basicAuth =  'Basic ' + btoa(credentials.username + ':' + credentials.password);
+    const reqheaders = new HttpHeaders(credentials ? {
       Authorization : basicAuth,
       'Content-Type' : 'application/json',
       Accept : '*/*'
     } : {});
 
-    this.http.get<LoggingCheck>(this.backendUrl + 'user', {headers}).pipe().subscribe(
+    // const httpParams = new HttpParams()
+    //   .set('username', credentials.username)
+    //   .set('password', credentials.password);
+
+    const options = {
+      headers : reqheaders
+    };
+
+    this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).pipe().subscribe(
       (response) => {
       console.log('authentication checking logging :' + response);
       if (response.logged === true) {
@@ -64,13 +81,12 @@ export class AppSecurityService {
   }
 
   /**
-   * checks wheather the app authenticated
+   * checks whether the app authenticated
    */
   isAuthenticated(): boolean {
     if (localStorage.getItem('authenticated') === 'true'){
       return true;
     }else{
-
       return false;
     }
   }

@@ -59,13 +59,13 @@ class PersonServiceMockTest {
     void savePerson() {
         String userName = "TestUser";
         InvoiceUser testUser = new InvoiceUser();
-        testUser.setUserName(userName);
+        testUser.setUsername(userName);
         Person person = new Person();
         when(userService.getUserOrException(userName)).thenReturn(testUser);
         personService.savePerson(person, userName);
         assertNotNull(person.getInvoiceUser());
         assertEquals(testUser,person.getInvoiceUser());
-        assertEquals(testUser.getUserName(),person.getInvoiceUser().getUserName());
+        assertEquals(testUser.getUsername(),person.getInvoiceUser().getUsername());
     }
 
     @Test

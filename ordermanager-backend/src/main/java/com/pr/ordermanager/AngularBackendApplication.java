@@ -34,17 +34,21 @@ import com.pr.ordermanager.security.controller.InvoiceCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
         "com.pr.ordermanager.person.repository","com.pr.ordermanager.security.repository"})
+@ComponentScan(basePackages = { "com.pr.ordermanager.*" })
+@EntityScan(basePackages = {"com.pr.ordermanager.*"})
 public class AngularBackendApplication {
-    @Autowired
-    InvoiceCorsFilter corsFilter;
+//    @Autowired
+//    InvoiceCorsFilter corsFilter;
     /**
      *
      * @param args parameters
@@ -62,13 +66,13 @@ public class AngularBackendApplication {
 
 
 
-    @Bean
-    public FilterRegistrationBean corsFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(corsFilter);
-        registration.addUrlPatterns("*");
-        registration.setName("corsFilter");
-        registration.setOrder(1);
-        return registration;
-    }
+//    @Bean
+//    public FilterRegistrationBean corsFilterRegistration() {
+//        FilterRegistrationBean registration = new FilterRegistrationBean();
+//        registration.setFilter(corsFilter);
+//        registration.addUrlPatterns("*");
+//        registration.setName("corsFilter");
+//        registration.setOrder(1);
+//        return registration;
+//    }
 }

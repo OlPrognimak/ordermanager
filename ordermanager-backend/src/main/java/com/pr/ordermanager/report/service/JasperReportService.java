@@ -45,7 +45,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -64,7 +64,7 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_10002;
 public class JasperReportService {
     private static final Logger logger = LogManager.getLogger();
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
     @Value("${jasper.reports.directory.path:default}")
     private String jasperRepDirPath;
     @Autowired

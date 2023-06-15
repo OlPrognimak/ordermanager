@@ -31,16 +31,22 @@
 package com.pr.ordermanager.security.service;
 
 import com.pr.ordermanager.exception.OrderManagerException;
+import com.pr.ordermanager.security.entity.GrantedRole;
 import com.pr.ordermanager.security.entity.InvoiceUser;
+import com.pr.ordermanager.security.repository.RoleRepository;
 import com.pr.ordermanager.security.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
 
 import static com.pr.ordermanager.exception.ErrorCode.*;
 
@@ -49,10 +55,15 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
  * @since 22.09.2020 - 19:01
  */
 @Service
+@AllArgsConstructor
+@Transactional
 public class UserService {
     private static final Logger logger = LogManager.getLogger();
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final InvoiceUserDetailsManager invoiceUserDetailsManager;
+    private final RoleRepository roleRepository;
 
     /**
      *
@@ -61,8 +72,9 @@ public class UserService {
      */
     public InvoiceUser getUserOrException(String userName){
         try {
-         InvoiceUser user = userRepository.findByUserName(userName);
-         return user;
+         //InvoiceUser user = userRepository.findByUsername(userName);
+         return   (InvoiceUser)invoiceUserDetailsManager.loadUserByUsername(userName);
+         //return user;
         }catch (EntityNotFoundException | DataAccessException ex){
             logger.error("User is not Found",ex);
             throw new OrderManagerException(CODE_0007,"Can not find user with user name: "+userName);
@@ -80,13 +92,15 @@ public class UserService {
      */
     public Long createUserLogin(String userName, String password) {
         String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        InvoiceUser existedUser = userRepository.findByUserName(userName);
-        if(existedUser==null) {
-            InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
-            userRepository.save(user);
-            return user.getId();
-        }else{
-            throw new OrderManagerException(CODE_0008,"The user with name: ["+userName+"] already exists");
-        }
+        InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
+        user.setAuthorities(List.of(roleRepository.findByAuthority("ROLE_USER")));
+        //userRepository.save(user);
+        invoiceUserDetailsManager.createUser(user);
+        return user.getId();
+
     }
 }

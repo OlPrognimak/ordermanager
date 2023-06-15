@@ -49,7 +49,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
      * @param userName the name of logged  user to the application
      * @return all persons which belongs to the logged user
      */
-    @Query("select p from Person p where p.invoiceUser.userName = :userName")
+    @Query("select p from Person p where p.invoiceUser.username = :userName")
     List<Person> findAllPersonsByUserName(String userName);
 
 }

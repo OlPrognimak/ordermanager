@@ -33,7 +33,7 @@ package com.pr.ordermanager.person.entity;
 import com.pr.ordermanager.common.entity.AbstractEntity;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @ToString

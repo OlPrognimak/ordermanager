@@ -53,7 +53,7 @@ class UserServiceTest {
         userService.createUserLogin("test123", "test12345");
         InvoiceUser user = userService.getUserOrException("test123");
         assertNotNull(user);
-        assertEquals("test123",user.getUserName());
+        assertEquals("test123",user.getUsername());
 
     }
 }

@@ -31,9 +31,12 @@
 package com.pr.ordermanager.security.entity;
 
 import com.pr.ordermanager.common.entity.AbstractEntity;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+
+import java.util.List;
 
 /**
  * @author Oleksandr Prognimak
@@ -46,21 +49,31 @@ import javax.persistence.*;
 @Builder
 @Entity
 @SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
-public class InvoiceUser extends AbstractEntity {
+public class InvoiceUser extends AbstractEntity implements UserDetails {
     /**
      *
      * @param userName the name of user
      * @param password the password of user
      */
      public InvoiceUser(String userName, String password){
-         this.userName =userName;
-         this.userPassword = password;
+         this.username =userName;
+         this.password = password;
      }
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="invoice_seq_gen")
     private Long id;
-    private String userName;
-    private String userPassword;
+    private String username;
+    private String password;
     private String roles;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
+    @ManyToMany
+    @JoinTable(
+            name = "user_to_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<GrantedRole> authorities;
 }

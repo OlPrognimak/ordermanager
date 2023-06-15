@@ -23,9 +23,9 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.source>17</maven.compiler.source>
     <!--maven.compiler.target>1.11</maven.compiler.target-->
-    <hibernate.version>5.4.2.Final</hibernate.version>
+    <hibernate.version>6.2.3.Final</hibernate.version>
     <cassandra.driver.version>4.2.0</cassandra.driver.version>
     <app.baseurl>frontend</app.baseurl>
   </properties>
@@ -130,6 +130,21 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
+            <id>id-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <delete>
+                  <fileset dir="../docker/frontend" includes="*.jar"/>
+                </delete>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>id-install</id>
             <phase>install</phase>
             <configuration>
               <target>

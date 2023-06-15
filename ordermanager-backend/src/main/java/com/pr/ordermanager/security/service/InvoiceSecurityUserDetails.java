@@ -30,12 +30,11 @@
  */
 package com.pr.ordermanager.security.service;
 
+import com.pr.ordermanager.security.entity.GrantedRole;
 import com.pr.ordermanager.security.entity.InvoiceUser;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Oleksandr Prognimak
@@ -47,22 +46,22 @@ public class InvoiceSecurityUserDetails  extends InvoiceUser implements UserDeta
      * @param user the user to be authenticated
      */
     public InvoiceSecurityUserDetails(InvoiceUser user){
-        super(user.getUserName(), user.getUserPassword());
+        super(user.getUsername(), user.getPassword());
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.createAuthorityList("ROLE_INVOICE","ROLE_PERSON", "ROLE_INVOICE_PERSON");
+    public List<GrantedRole> getAuthorities() {
+        return super.getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return super.getUserPassword();
+        return super.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return super.getUserName();
+        return super.getUsername();
     }
 
     @Override

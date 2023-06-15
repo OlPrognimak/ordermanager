@@ -40,14 +40,23 @@ import {
   InvoiceItemModelInterface
 
 } from '../domain/domain.invoiceformmodel';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {
+  HttpBackend,
+  HttpClient,
+  HttpErrorResponse,
+  HttpEvent, HttpHandler,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest,
+  HttpResponse, HttpXhrBackend
+} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
-import {CommonServicesAppHttpService} from "../common-services/common-services.app.http.service";
-import {environment} from "../../environments/environment";
+import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
+import {environment} from '../../environments/environment';
 
 
 
@@ -86,6 +95,8 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   executionResult = false;
   private isViewInitialized = false;
   basicAuthKey = 'basicAuthKey';
+  httpClient: HttpClient;
+
   @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
   /**
    * Constructor
@@ -96,12 +107,14 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @param utilService injected utility with method for deleting messages
    * @param httpService http service for communication with server
    */
-  constructor( private httpClient: HttpClient,
+  constructor( /*private httpClient: HttpClient, */
+               private handler: HttpBackend, private httpXhrBackend: HttpXhrBackend,
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl = environment.baseUrl;
+     this.httpClient = new HttpClient(handler);
 
   }
 
@@ -113,32 +126,74 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   }
 
 
+  // @ts-ignore
   /**
    * Initialisation of the class
    */
   ngOnInit(): void {
+    console.log('################## : ngOnInit Start InvoiceForm');
     this.resetModel();
     this.invoiceRate = [
       {label: '[Select rate type]', value: null},
       {label: 'Hourly rate', value: 'HOURLY'},
       {label: 'Daily rate', value: 'DAILY'}
     ];
-    const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
-    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', {headers})
+    const auth = localStorage.getItem(this.basicAuthKey);
+    console.log('###### Auth :' + auth);
+    const rheaders = new HttpHeaders()
+      .set('authorization', auth);
+    //   .set('Content-Type', 'application/json')
+    //   .set('Accept', '*/*');
+    //   Authorization : localStorage.getItem(this.basicAuthKey),
+    //   'Content-Type' : 'application/json' as const,
+    //   Accept : '*/*' as const
+    // });
+    // const reqheaders = new HttpHeaders({
+    //   Authorization : localStorage.getItem(this.basicAuthKey),
+    //   'Content-Type' : 'application/json' as const,
+    //   Accept : '*/*' as const
+    // });
+    //
+    // const options = {
+    //   headers: reqheaders
+    // };
+
+    const req = new HttpRequest('GET', this.backendUrl + 'person/personsdropdown', {headers : rheaders});
+    console.log('********** Authorization header has set:' + req.headers.get('Authorization'));
+    this.httpClient.request<DropdownDataType[]>(req).pipe()
       .subscribe(
         data => {
-          this.personInvoiceSupplier = data;
-          this.personInvoiceRecipient = this.personInvoiceSupplier;
+          const response = data as HttpResponse<DropdownDataType[]>;
+          if (response.ok) {
+            this.personInvoiceSupplier = response.body;
+            this.personInvoiceRecipient = this.personInvoiceSupplier;
+          } else {
+            console.log('GET person/personsdropdown Error occurs. Status: ' + response.status);
+            console.log('GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(response.headers));
+            console.log('GET person/personsdropdown Error occurs. Body: ' + JSON.stringify(response.body));
+          }
         },
-         error => {
-             console.log('Error :' + JSON.stringify(error));
-         }
+        error => {
+          console.log('GET person/personsdropdown Error occurs. Status: ' + error.status);
+          console.log('GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(error.headers));
+          console.log('Error :' + JSON.stringify(error));
+        }
       );
   }
+
+  //   this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', options)
+  //     .subscribe(
+  //       data => {
+  //         this.personInvoiceSupplier = data;
+  //         this.personInvoiceRecipient = this.personInvoiceSupplier;
+  //       },
+  //        error => {
+  //            console.log('GET person/personsdropdown Error occurs. Status: ' + error.status);
+  //            console.log('GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(error.headers) );
+  //            console.log('Error :' + JSON.stringify(error));
+  //        }
+  //     );
+  // }
 
   /**
    * Saves person to the database on server

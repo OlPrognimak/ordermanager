@@ -28,7 +28,7 @@ class UserRepositoryTest {
         String password="test123";
         String userName="user1";
         String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        InvoiceUser existedUser = userRepository.findByUserName(userName);
+        InvoiceUser existedUser = userRepository.findByUsername(userName);
         InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
         userRepository.save(user);
     }

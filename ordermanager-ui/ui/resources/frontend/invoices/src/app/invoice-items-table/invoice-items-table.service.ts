@@ -28,9 +28,7 @@ export class InvoiceItemsTableService {
   /* downloads items from catalog items */
   private downloadCatalogItemsDropdownList(): void{
     const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
+      Authorization : localStorage.getItem(this.basicAuthKey)
     } );
     this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'invoice/itemscatalogdropdown', {headers})
       .subscribe(

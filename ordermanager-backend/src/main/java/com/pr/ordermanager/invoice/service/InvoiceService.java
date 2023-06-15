@@ -79,7 +79,7 @@ public class InvoiceService {
      * @return the list of invoices which belongs to the user {@code userName}
      */
     public List<Invoice> getAllUserInvoices(String userName){
-        InvoiceUser user = userRepository.findByUserName(userName);
+        InvoiceUser user = userRepository.findByUsername(userName);
         List<Invoice> invoices = invoiceRepository.findByInvoiceUser(user);
         return invoices;
     }

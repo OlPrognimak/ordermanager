@@ -35,7 +35,7 @@ import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
 

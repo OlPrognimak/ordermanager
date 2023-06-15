@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {PrInvoiceFormDirective} from './invoiceform/invoiceform.service';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
 import {CommonServicesPipesNumber} from './common-services/common-services.pipes.number';
@@ -39,6 +39,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {Menu, MenuModule} from 'primeng/menu';
 import {MenubarModule} from 'primeng/menubar';
 import {RouterModule} from "@angular/router";
+import {BasicInterceptor} from "./user-login/basic-auth-interceptor";
 
 
 
@@ -85,7 +86,8 @@ import {RouterModule} from "@angular/router";
     MenubarModule,
     RouterModule
   ],
-  providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService],
+  providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

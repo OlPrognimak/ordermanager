@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -130,6 +131,7 @@ public class PersonController {
                     name = "basicAuth"
             )}
     )
+    @PreAuthorize("hasRole('USER')")
     @GetMapping(value = PATH_PERSONS_DROPDOWN, produces = APPLICATION_JSON)
     public ResponseEntity<List<DropdownDataType>> getPersonsDropdown(Principal principal) {
         List<Person> allPersons = personService.getAllUserPersons(principal.getName());

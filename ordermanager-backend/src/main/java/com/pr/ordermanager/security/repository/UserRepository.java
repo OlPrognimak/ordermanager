@@ -40,8 +40,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<InvoiceUser, Long> {
     /**
      *
-     * @param userName the user name
+     * @param username the user name
      * @return the {@link InvoiceUser}  or null
      */
-    InvoiceUser findByUserName(String userName);
+    InvoiceUser findByUsername(String username);
 }

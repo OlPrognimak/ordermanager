@@ -30,10 +30,8 @@
  */
 package com.pr.ordermanager.common.entity;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Version;
+import jakarta.persistence.*;
+
 import java.time.Instant;
 
 /**
