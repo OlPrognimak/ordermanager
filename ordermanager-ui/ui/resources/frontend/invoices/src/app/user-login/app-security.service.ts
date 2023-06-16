@@ -13,25 +13,24 @@ import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {Observable} from "rxjs";
 
+export  const basicAuthKey = 'basicAuthKey';
 
 @Injectable()
 export class AppSecurityService {
 
   // authenticated = false;
   backendUrl: string;
-  basicAuthKey = 'basicAuthKey';
   credentials = {username: '', password: ''};
   http: HttpClient;
   /**
    *
    * @param http http client
    */
-  constructor(/*private http: HttpClient, */ private handler: HttpBackend, private router: Router) {
+  constructor(private handler: HttpBackend, private router: Router) {
     console.log('####### Init AppSecurityService');
     this.backendUrl =
       document.getElementById('appConfigId')
         .getAttribute('data-backendUrl') ;
-  //  localStorage.setItem('authenticated', 'false');
     this.http = new HttpClient(handler);
   }
 
@@ -55,20 +54,15 @@ export class AppSecurityService {
       Accept : '*/*'
     } : {});
 
-    // const httpParams = new HttpParams()
-    //   .set('username', credentials.username)
-    //   .set('password', credentials.password);
-
     const options = {
       headers : reqheaders
     };
 
     this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).subscribe(
       (response) => {
-      console.log('authentication checking logging :' + response);
       if (response.logged === true) {
         localStorage.setItem('authenticated', 'true');
-        localStorage.setItem(this.basicAuthKey, basicAuth);
+        localStorage.setItem(basicAuthKey, basicAuth);
         console.log('authentication [is OK]');
         return callback && callback(true);
       } else {
@@ -87,7 +81,7 @@ export class AppSecurityService {
   /** clear credentials for logging */
   private clearCredentials(credentials: any): void{
     localStorage.setItem('authenticated', 'false');
-    localStorage.setItem(this.basicAuthKey, '');
+    localStorage.setItem(basicAuthKey, '');
   }
 
   /**
@@ -123,7 +117,5 @@ export class AppSecurityService {
   navigateToRootPage(): void{
     this.router.navigateByUrl('/');
   }
-
-
 }
 

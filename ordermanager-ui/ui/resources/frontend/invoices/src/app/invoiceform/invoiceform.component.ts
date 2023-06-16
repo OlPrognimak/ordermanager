@@ -52,7 +52,7 @@ import {
 } from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
-import {AppSecurityService} from '../user-login/app-security.service';
+import {AppSecurityService, basicAuthKey} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
@@ -94,8 +94,6 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
   personInvoiceRecipient: DropdownDataType[];
   executionResult = false;
   private isViewInitialized = false;
-  basicAuthKey = 'basicAuthKey';
-  //httpClient: HttpClient;
 
   @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
   /**
@@ -122,15 +120,23 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @override
    */
   ngAfterViewInit(): void {
+    // this.loadFormData();
     this.isViewInitialized = true;
   }
 
+
+  /**
+   * Initialisation of the class
+   */
+  ngOnInit(): void {
+    this.loadFormData();
+  }
 
   // @ts-ignore
   /**
    * Initialisation of the class
    */
-  ngOnInit(): void {
+  loadFormData(): void {
     console.log('################## : ngOnInit Start InvoiceForm');
     this.resetModel();
     this.invoiceRate = [
@@ -138,63 +144,32 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       {label: 'Hourly rate', value: 'HOURLY'},
       {label: 'Daily rate', value: 'DAILY'}
     ];
-    const auth = localStorage.getItem(this.basicAuthKey);
+    const auth = localStorage.getItem(basicAuthKey);
     console.log('###### Auth :' + auth);
-    const rheaders = new HttpHeaders()
-      .set('authorization', auth);
-    //   .set('Content-Type', 'application/json')
-    //   .set('Accept', '*/*');
-    //   Authorization : localStorage.getItem(this.basicAuthKey),
-    //   'Content-Type' : 'application/json' as const,
-    //   Accept : '*/*' as const
-    // });
-    // const reqheaders = new HttpHeaders({
-    //   Authorization : localStorage.getItem(this.basicAuthKey),
-    //   'Content-Type' : 'application/json' as const,
-    //   Accept : '*/*' as const
-    // });
-    //
-    // const options = {
-    //   headers: reqheaders
-    // };
 
-    const req = new HttpRequest('GET', this.backendUrl + 'person/personsdropdown', {headers : rheaders});
-    req.headers.set('Authorization', auth);
-    console.log('********** Authorization header has set:' + req.headers.get('Authorization'));
+    const headers = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept : '*/*'
+    });
+
+    const req = new HttpRequest('GET', this.backendUrl + 'person/personsdropdown', null, {headers});
     this.httpClient.request<DropdownDataType[]>(req).pipe()
       .subscribe(
-        data => {
+        (data  ) => {
           const response = data as HttpResponse<DropdownDataType[]>;
-          if (response.ok) {
+          if (response.status === 200) {
             this.personInvoiceSupplier = response.body;
             this.personInvoiceRecipient = this.personInvoiceSupplier;
           } else {
-            console.log('GET person/personsdropdown Error occurs. Status: ' + response.status);
-            console.log('GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(response.headers));
-            console.log('GET person/personsdropdown Error occurs. Body: ' + JSON.stringify(response.body));
+            console.log('The status for person/personsdropdown is wrong: ' + response.status);
           }
         },
         error => {
-          console.log('Error GET person/personsdropdown Error occurs. Status: ' + error.status);
-          console.log('Error GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(error.headers));
           console.log('Error :' + JSON.stringify(error));
         }
       );
   }
-
-  //   this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', options)
-  //     .subscribe(
-  //       data => {
-  //         this.personInvoiceSupplier = data;
-  //         this.personInvoiceRecipient = this.personInvoiceSupplier;
-  //       },
-  //        error => {
-  //            console.log('GET person/personsdropdown Error occurs. Status: ' + error.status);
-  //            console.log('GET person/personsdropdown Error occurs. Headers: ' + JSON.stringify(error.headers) );
-  //            console.log('Error :' + JSON.stringify(error));
-  //        }
-  //     );
-  // }
 
   /**
    * Saves person to the database on server
