@@ -2,16 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   HttpBackend,
   HttpClient,
-  HttpEvent,
-  HttpHandler,
-  HttpHeaders,
-  HttpParams,
-  HttpRequest
+  HttpHeaders
 } from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
-import {Observable} from "rxjs";
 
 export  const basicAuthKey = 'basicAuthKey';
 
@@ -99,16 +94,12 @@ export class AppSecurityService {
   /**
    * Site logout
    */
-  logout(): any {
-    this.http.post('logout', {}).pipe(finalize(() => {
-      // this.appSecurityService.authenticated = false;
+  logout(): void {
       localStorage.setItem('authenticated', 'false');
       this.credentials.username = '';
       this.credentials.password = '';
       console.log('Logout Call');
       this.router.navigateByUrl('/');
-
-    })).subscribe();
   }
 
   /**

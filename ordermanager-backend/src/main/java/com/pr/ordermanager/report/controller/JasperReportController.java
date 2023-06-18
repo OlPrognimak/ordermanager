@@ -48,10 +48,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -109,7 +106,7 @@ public class JasperReportController {
                     name = "basicAuth"
             )}
     )
-    @PostMapping(value = "/invoice/report", produces="application/pdf")
+    @PostMapping(value = "/invoice/printreport", produces="application/pdf")
     //@ResponseBody
     public ResponseEntity<byte[]> printReport(@Parameter(description = "the request with invoice number")
                                               @RequestBody() PdfRequest pdfRequest) {

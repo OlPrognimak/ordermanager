@@ -3,8 +3,7 @@ import {AppSecurityService} from './app-security.service';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
-import {finalize} from 'rxjs/operators';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-user-login',

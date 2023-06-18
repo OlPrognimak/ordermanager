@@ -37,6 +37,7 @@ export class AppComponent implements OnInit{
           icon: 'pi pi-fw',
           items: [
             {label: 'Create Invoice', icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-page'},
+            {label: 'Create Invoice item', icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-item-page'},
             {label: 'Edit Invoice', icon: 'pi pi-fw pi-pencil',  routerLink: '/create-invoice-page'},
             {label: 'Print invoice', icon: 'pi pi-fw pi-file-pdf', routerLink: '/invoice-list_page'}
           ]

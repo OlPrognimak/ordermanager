@@ -60,7 +60,7 @@ public class Person  extends AbstractEntity {
     private List<Invoice>  invoiceSuppliers;
     @OneToMany(mappedBy="invoiceRecipientPerson", cascade = CascadeType.ALL)
     private List<Invoice>  invoiceRecipient;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private InvoiceUser invoiceUser;
     @ManyToMany (cascade = CascadeType.ALL)

@@ -39,6 +39,7 @@ import com.pr.ordermanager.person.repository.PersonAddressRepository;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.service.UserService;
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,7 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
  * @since  21.09.2020 - 14:39
  */
 @Service
+@Transactional
 public class PersonService {
     private static final Logger logger = LogManager.getLogger(PersonService.class);
 

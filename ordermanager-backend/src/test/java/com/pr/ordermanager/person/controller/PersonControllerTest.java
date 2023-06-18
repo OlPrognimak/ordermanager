@@ -104,13 +104,15 @@ class PersonControllerTest {
         PersonFormModel personFormModel = RepositoryTestHelper.createTestPersonFormModel();
         userService.createUserLogin("admin","test12345");
         RequestEntity<PersonFormModel> request = RequestEntity
-                .put(new URI("http://localhost:"+port+"/backend/person")).header("Authorization","Basic YWRtaW46dGVzdDEyMzQ1")
+                .put(new URI("http://localhost:"+port+"/backend/person"))
+                .header("Authorization","Basic YWRtaW46dGVzdDEyMzQ1")
+                .header("Content-Type", "application/json")
                 .accept( MediaType.APPLICATION_JSON)
                 .body(personFormModel);
 
         ResponseEntity<CreatedResponse> responseEntity = restClient.exchange(request,CreatedResponse.class);
         assertEquals(HttpStatus.CREATED,responseEntity.getStatusCode());
-        assertTrue (responseEntity.getBody().getCreatedId ()>0);
+        assertTrue (responseEntity.getBody().getCreatedId () > 0);
 
     }
 

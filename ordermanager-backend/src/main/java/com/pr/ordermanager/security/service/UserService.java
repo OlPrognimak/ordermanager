@@ -73,7 +73,7 @@ public class UserService {
     public InvoiceUser getUserOrException(String userName){
         try {
          //InvoiceUser user = userRepository.findByUsername(userName);
-         return   (InvoiceUser)invoiceUserDetailsManager.loadUserByUsername(userName);
+         return userRepository.findByUsername(userName);
          //return user;
         }catch (EntityNotFoundException | DataAccessException ex){
             logger.error("User is not Found",ex);

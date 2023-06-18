@@ -53,16 +53,20 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   loadPdfReport(event: any): any {
    // window.open(this.backendUrl + 'invoice/report/' + this.cellVale);
     this.params.context.componentParent.isProcessRunned(true);
-    const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
+    const rheaders = new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
       Accept : '*/*',
       'Content-Type':  'application/json',
     } );
     const httpParams =  new HttpParams();
     httpParams.set('invoiceNumber', this.cellVale);
+    const options = {
+      headers : rheaders,
+      responseType: 'blob' as 'json'
+    };
 
-    this.httpClient.post<any>(this.backendUrl + 'invoice/report/', {invoiceNumber: this.cellVale},
-      {headers, responseType: 'blob' as 'json'})
+    this.httpClient.post<any>(this.backendUrl + 'invoice/printreport', {invoiceNumber: this.cellVale},
+      options)
       .subscribe(((data) => {
             const pdfBlob = new Blob([data], { type: 'application/pdf' });
             const fileURL = URL.createObjectURL(pdfBlob);
@@ -71,6 +75,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
           }
         ),
         (error) => {
+          this.params.context.componentParent.isProcessRunned(false);
           this.httpService.printUnSuccessMessage('pdf Invoice ', error);
          // this.params.context.componentParent.runStrotPdfLoadingProcess(false);
         }

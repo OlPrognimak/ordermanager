@@ -8,12 +8,12 @@ import org.springframework.context.annotation.Bean;
 @TestConfiguration
 public class TestServicesConfiguration {
 
-    @Autowired
-    private TestServiceHelper testServiceHelper;
-
-    @Bean
-    public TestServiceHelper getTestServiceHelper(){
-        return  testServiceHelper;
-    }
+//    @Autowired
+//    private TestServiceHelper testServiceHelper;
+//
+//    @Bean
+//    public TestServiceHelper getTestServiceHelper(){
+//        return  testServiceHelper;
+//    }
 
 }

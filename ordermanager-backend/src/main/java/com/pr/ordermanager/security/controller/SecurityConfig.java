@@ -160,26 +160,6 @@ public class SecurityConfig {
         };
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests((authorizeRequests) ->
-//                        authorizeRequests
-//                                .requestMatchers("/**").hasRole("USER")
-//                )
-//                .httpBasic(withDefaults());
-//        return http.build();
-//    }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user = User.withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("password")
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -189,11 +169,15 @@ public class SecurityConfig {
                         .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
                         .anonymous()
-                       .requestMatchers(HttpMethod.OPTIONS,"/person/personsdropdown",
-                               "/invoice/itemscatalogdropdown").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/person/personsdropdown",
-                                "/invoice/itemscatalogdropdown").authenticated()
-
+                       .requestMatchers(HttpMethod.OPTIONS,"/person/**",
+                               "/invoice/**", "/person",
+                               "/invoice", "/logout").permitAll()
+                       .requestMatchers(HttpMethod.GET, "/person/**",
+                                "/invoice/**", "").authenticated()
+                       .requestMatchers(HttpMethod.PUT, "/person/**",
+                             "/invoice/**").authenticated()
+                       .requestMatchers(HttpMethod.POST,
+                               "/invoice/printreport").permitAll()
 
                 ).httpBasic(Customizer.withDefaults()).build();
     }
@@ -202,7 +186,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.debug(debugSecurity)
                 .ignoring()
-                .requestMatchers("/registration", "/login");
+                .requestMatchers("/registration", "/login", "/invoice/report");
 
                 //.requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
                 //.antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
@@ -212,32 +196,6 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception
-//    {
-//        logger.info("LogConfiguration started");
-//             http
-//                .cors().and().csrf().disable()
-//                     .authorizeRequests()
-//                .antMatchers("/registration", "/login").permitAll()
-//                .antMatchers("/error").permitAll().anyRequest().authenticated()
-//                    // .antMatchers("/error/*").permitAll().anyRequest().authenticated()
-//                .and()
-//                .httpBasic();
-//    }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth,
-//                                BCryptPasswordEncoder bCryptPasswordEncoder,
-//                                InvoiceUserDetailsManager invoiceUserDetailsManager)
-//            throws Exception
-//    {
-//        logger.info("Global Configuration started");
-//        //auth.userDetailsService(invoiceSecurityUserDetailsService);
-//        auth.userDetailsService(invoiceUserDetailsManager).passwordEncoder(bCryptPasswordEncoder);
-//
-//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

@@ -65,10 +65,13 @@ public class JasperReportService {
     private static final Logger logger = LogManager.getLogger();
     @Autowired
     private DataSource dataSource;
-    @Value("${jasper.reports.directory.path:default}")
+
+    @Value("${jasper.reports.directory.path:reports}")
     private String jasperRepDirPath;
+
     @Autowired
     private Environment env;
+
     private JasperReport jasperReport;
 
     @PostConstruct
@@ -92,7 +95,7 @@ public class JasperReportService {
      * @return the pdf report as array of bytes
      */
     public byte[] createPdfReport(String invoiceNumber)  {
-        System.out.println("Path to dir:"+jasperRepDirPath);
+        System.out.println("Path to dir:" + jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);

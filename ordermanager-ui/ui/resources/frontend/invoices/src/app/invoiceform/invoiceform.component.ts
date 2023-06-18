@@ -40,15 +40,12 @@ import {
   InvoiceItemModelInterface
 
 } from '../domain/domain.invoiceformmodel';
+
 import {
-  HttpBackend,
   HttpClient,
-  HttpErrorResponse,
-  HttpEvent, HttpHandler,
   HttpHeaders,
-  HttpParams,
   HttpRequest,
-  HttpResponse, HttpXhrBackend
+  HttpResponse
 } from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
@@ -106,13 +103,11 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @param httpService http service for communication with server
    */
   constructor( private httpClient: HttpClient,
-               private handler: HttpBackend, private httpXhrBackend: HttpXhrBackend,
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl = environment.baseUrl;
-    // this.httpClient = new HttpClient(handler);
 
   }
 
@@ -120,7 +115,6 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * @override
    */
   ngAfterViewInit(): void {
-    // this.loadFormData();
     this.isViewInitialized = true;
   }
 

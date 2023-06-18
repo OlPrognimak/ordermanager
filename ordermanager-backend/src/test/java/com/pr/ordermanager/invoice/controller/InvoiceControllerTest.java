@@ -42,7 +42,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@TestPropertySource(locations = "classpath:testapplication.properties")
-@Import( TestServicesConfiguration.class )
+@Import( {TestServicesConfiguration.class , TestServiceHelper.class})
 //@Transactional
 class InvoiceControllerTest {
     @LocalServerPort

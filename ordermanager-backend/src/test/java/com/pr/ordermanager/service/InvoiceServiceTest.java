@@ -30,7 +30,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@TestPropertySource(locations = "classpath:testapplication.properties")
 //@Transactional
-@Import( TestServicesConfiguration.class )
+@Import( {TestServicesConfiguration.class , TestServiceHelper.class})
 public class InvoiceServiceTest {
 
     @Autowired

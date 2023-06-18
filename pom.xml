@@ -11,12 +11,12 @@
 	</parent>
 
 	<groupId>com.pr.ordermanager</groupId>
-	<artifactId>ordermanager-springboot-starter</artifactId>
+	<artifactId>ordermanager-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>ordermanager-springboot-starter</name>
-	<description>Backed for amgular project</description>
+	<name>ordermanager-parent</name>
+	<description>Parent project</description>
 
 	
 	<properties>
@@ -428,4 +428,8 @@
 		</profile>
 
 	</profiles>
+	<modules>
+		<module>ordermanager-backend</module>
+		<module>ordermanager-ui</module>
+	</modules>
 </project>
