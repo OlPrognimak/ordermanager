@@ -1,10 +1,9 @@
 package com.pr.ordermanager.security.entity;
 
 import com.pr.ordermanager.common.entity.AbstractEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-
-import jakarta.persistence.*;
 
 @Entity
 @Data

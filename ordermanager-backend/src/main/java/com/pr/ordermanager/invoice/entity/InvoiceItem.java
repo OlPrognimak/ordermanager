@@ -31,9 +31,8 @@
 package com.pr.ordermanager.invoice.entity;
 
 import com.pr.ordermanager.common.entity.AbstractEntity;
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 
 @ToString
 @AllArgsConstructor

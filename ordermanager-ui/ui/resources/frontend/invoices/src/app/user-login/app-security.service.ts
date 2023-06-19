@@ -1,12 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpBackend,
-  HttpClient,
-  HttpHeaders
-} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpBackend, HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
-import {finalize} from 'rxjs/operators';
 
 export  const basicAuthKey = 'basicAuthKey';
 

@@ -1,7 +1,6 @@
 import {Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, Renderer2} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {InvoiceItemModel} from "../domain/domain.invoiceformmodel";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-editable-input-cell',

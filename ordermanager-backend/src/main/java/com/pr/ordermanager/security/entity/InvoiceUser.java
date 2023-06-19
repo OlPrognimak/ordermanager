@@ -35,7 +35,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import java.util.List;
 
 /**

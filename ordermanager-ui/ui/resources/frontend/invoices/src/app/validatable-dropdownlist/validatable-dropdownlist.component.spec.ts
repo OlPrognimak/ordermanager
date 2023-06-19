@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ValidatableDropdownlistComponent } from './validatable-dropdownlist.component';
+import {ValidatableDropdownlistComponent} from './validatable-dropdownlist.component';
 
 describe('ValidableDropdownlistComponent', () => {
   let component: ValidatableDropdownlistComponent;

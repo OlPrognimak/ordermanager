@@ -33,9 +33,9 @@ package com.pr.ordermanager.person.entity;
 import com.pr.ordermanager.common.entity.AbstractEntity;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.security.entity.InvoiceUser;
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.util.List;
 
 @ToString

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EditableInputCellComponent } from './editable-input-cell.component';
+import {EditableInputCellComponent} from './editable-input-cell.component';
 
 describe('EditableInputCellComponent', () => {
   let component: EditableInputCellComponent;

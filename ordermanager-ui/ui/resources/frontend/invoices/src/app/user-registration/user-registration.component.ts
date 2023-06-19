@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CreatedResponse, NewUser} from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from 'primeng/api';

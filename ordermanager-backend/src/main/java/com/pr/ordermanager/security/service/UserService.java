@@ -31,10 +31,10 @@
 package com.pr.ordermanager.security.service;
 
 import com.pr.ordermanager.exception.OrderManagerException;
-import com.pr.ordermanager.security.entity.GrantedRole;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.RoleRepository;
 import com.pr.ordermanager.security.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -44,11 +44,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import java.util.List;
 
-import static com.pr.ordermanager.exception.ErrorCode.*;
+import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
+import static com.pr.ordermanager.exception.ErrorCode.CODE_0007;
 
 /**
  * @author Oleksandr Prognimak

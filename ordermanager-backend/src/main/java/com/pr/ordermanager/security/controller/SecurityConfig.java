@@ -36,11 +36,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,33 +46,24 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor;
 import org.springframework.security.authorization.method.SecuredAuthorizationManager;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.access.intercept.RequestMatcherDelegatingAuthorizationManager;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.lang.reflect.Field;
-
-import static org.springframework.beans.factory.config.BeanDefinition.ROLE_INFRASTRUCTURE;
 
 /**
  * @author Oleksandr Prognimak
@@ -87,11 +76,7 @@ import static org.springframework.beans.factory.config.BeanDefinition.ROLE_INFRA
 public class SecurityConfig {
     private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
 
-    private static final boolean debugSecurity = true;
-//    @Autowired
-//    private InvoiceSecurityUserDetailsService invoiceSecurityUserDetailsService;
-//    @Autowired
-//    private  InvoiceUserDetailsManager userDetailsService;
+    private static final boolean debugSecurity = false;
 
 
     @Bean
@@ -136,20 +121,6 @@ public class SecurityConfig {
         return new AuthorizationManagerBeforeMethodInterceptor(pattern, authorizationManager);
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf()
-//                .disable()
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        return http.build();
-//    }
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -164,7 +135,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-       return http.csrf(csrf -> csrf.disable()).cors((cors->cors.disable()))
+       return http.httpBasic(httBasic -> httBasic.addObjectPostProcessor(
+                       new ObjectPostProcessor<BasicAuthenticationFilter>() {
+                           @Override
+                           public <O extends BasicAuthenticationFilter> O postProcess(O filter) {
+                               filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
+                               return filter;
+                           }
+                       }
+               ))
+               .csrf(csrf -> csrf.disable()).cors((cors->cors.disable()))
+               .sessionManagement(sessionMng -> {
+                           sessionMng.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                           sessionMng.sessionFixation().newSession();
+                       }
+               )
                .authorizeHttpRequests( (authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
@@ -177,9 +162,11 @@ public class SecurityConfig {
                        .requestMatchers(HttpMethod.PUT, "/person/**",
                              "/invoice/**").authenticated()
                        .requestMatchers(HttpMethod.POST,
-                               "/invoice/printreport").permitAll()
+                               "/invoice/printreport").authenticated()
 
-                ).httpBasic(Customizer.withDefaults()).build();
+                )
+               //.httpBasic(Customizer.withDefaults())
+               .build();
     }
 
     @Bean

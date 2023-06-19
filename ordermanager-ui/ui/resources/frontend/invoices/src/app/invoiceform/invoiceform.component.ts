@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localede from '@angular/common/locales/de';
 
@@ -36,25 +36,19 @@ import localede from '@angular/common/locales/de';
 import {
   DropdownDataType,
   InvoiceFormModel,
-  InvoiceFormModelInterface, InvoiceItemModel,
+  InvoiceFormModelInterface,
+  InvoiceItemModel,
   InvoiceItemModelInterface
-
 } from '../domain/domain.invoiceformmodel';
 
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpRequest,
-  HttpResponse
-} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
+import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService, basicAuthKey} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 import {environment} from '../../environments/environment';
-
 
 
 registerLocaleData(localede, 'de');

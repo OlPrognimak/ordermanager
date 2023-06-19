@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ValidatableCalendarComponent } from './validatable-calendar.component';
+import {ValidatableCalendarComponent} from './validatable-calendar.component';
 
 describe('ValidableCalendarComponent', () => {
   let component: ValidatableCalendarComponent;

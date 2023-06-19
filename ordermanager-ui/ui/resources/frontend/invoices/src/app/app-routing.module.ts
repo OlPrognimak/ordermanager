@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
 import {PersonFormComponent} from './personform/personform.component';
 import {PrintinvoiceComponent} from './printinvoice/printinvoice.component';

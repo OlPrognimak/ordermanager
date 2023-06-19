@@ -32,12 +32,12 @@ package com.pr.ordermanager.security.controller;
 
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.security.service.UserService;
-import org.apache.catalina.security.SecurityConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -52,6 +52,7 @@ public class InvoiceUserController {
  public final static Logger logger = LogManager.getLogger(InvoiceUserController.class);
     @Autowired
     private UserService userService;
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
 
     @PostMapping(value = "/registration")

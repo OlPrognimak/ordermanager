@@ -2,7 +2,6 @@ package com.pr.ordermanager.security.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.core.log.LogMessage;
 import org.springframework.security.web.DefaultRedirectStrategy;
 
 import java.io.IOException;

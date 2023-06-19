@@ -1,11 +1,8 @@
-import {AfterContentChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AppSecurityService} from './user-login/app-security.service';
 import {Router} from "@angular/router";
 import {MenuItem} from "primeng/api";
-import {Menubar} from 'primeng/menubar';
 import {Menu} from "primeng/menu";
-import {forEach} from "ag-grid-community/dist/lib/utils/array";
-import {element} from "protractor";
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TableCellRendererComponent } from './table-cell-renderer.component';
+import {TableCellRendererComponent} from './table-cell-renderer.component';
 
 describe('TableCellRendererComponent', () => {
   let component: TableCellRendererComponent;

@@ -31,12 +31,12 @@
 package com.pr.ordermanager.person.entity;
 
 import com.pr.ordermanager.common.entity.AbstractEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
 import java.util.List;
 
 @AllArgsConstructor

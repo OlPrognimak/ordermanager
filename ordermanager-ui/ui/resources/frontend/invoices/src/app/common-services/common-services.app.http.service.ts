@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {CreatedResponse} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
 import {CommonServicesUtilService} from './common-services-util.service';

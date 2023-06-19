@@ -33,9 +33,9 @@ package com.pr.ordermanager.invoice.entity;
 import com.pr.ordermanager.common.entity.AbstractEntity;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.security.entity.InvoiceUser;
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
 

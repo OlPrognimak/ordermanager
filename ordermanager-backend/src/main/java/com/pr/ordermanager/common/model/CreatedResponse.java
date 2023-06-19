@@ -30,11 +30,7 @@
  */
 package com.pr.ordermanager.common.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * @author Oleksandr Prognimak

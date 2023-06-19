@@ -27,6 +27,7 @@ public class InvoiceUsernamePasswordAuthenticationFilter extends UsernamePasswor
     }
 
     private String getUserOrPassword(HttpServletRequest request, int index) {
+        System.out.println("++++++++++++++++++++++++++++++++ SESSION ID :"+request.getSession().getId());
         String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
         if(auth != null) {
             String loginHeader = auth.trim().substring(6) ;

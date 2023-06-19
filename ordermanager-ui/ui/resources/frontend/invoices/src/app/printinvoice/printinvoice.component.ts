@@ -36,7 +36,6 @@ import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-rend
 import * as _moment from 'moment';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
-import {DialogModule} from 'primeng/dialog';
 import {environment} from "../../environments/environment";
 
 /**

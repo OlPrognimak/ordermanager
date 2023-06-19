@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ItemCatalogModel} from '../domain/domain.invoiceformmodel';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
