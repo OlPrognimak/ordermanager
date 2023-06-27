@@ -77,7 +77,7 @@ export class PrintinvoiceComponent implements OnInit {
     } as GridOptions);
 
     this.columnDefs = [
-      {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: 'tableCellRenderer'},
+      {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent},
       {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
         sortable: true, filter: true, checkboxSelection: true, editable: true},
       {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
