@@ -35,8 +35,8 @@ import {MessageService} from 'primeng/api';
 import {Message} from 'primeng/api/message';
 import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../common-services/common-services-util.service";
-import {of} from "rxjs";
-import {delay} from "rxjs/operators";
+import {of, subscribeOn} from "rxjs";
+import {delay, map} from "rxjs/operators";
 import {environment} from "../../environments/environment";
 
 @Component({

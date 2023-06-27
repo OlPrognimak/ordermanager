@@ -44,12 +44,12 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
   ]
 })
 export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor {
-  @Input() optionList: any;
+  @Input() public optionList: any;
   @Input() public txtMinLength = 0;
   @Input() public idComponent = '';
   @Input() public labelText = '';
   @Input() public placeholder = '';
-  @Input() controlValue: any;
+  @Input() public controlValue: any;
   onChange: (val) => void;
   onTouched: () => void;
 

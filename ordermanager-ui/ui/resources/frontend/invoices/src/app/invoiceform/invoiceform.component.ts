@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {registerLocaleData} from '@angular/common';
 import localede from '@angular/common/locales/de';
 
@@ -41,7 +41,7 @@ import {
   InvoiceItemModelInterface
 } from '../domain/domain.invoiceformmodel';
 
-import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService, basicAuthKey} from '../user-login/app-security.service';
@@ -49,6 +49,8 @@ import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-t
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 import {environment} from '../../environments/environment';
+import {map} from "rxjs/operators";
+import {PersonLoadServiceDirective} from "./invoiceform.personload.service";
 
 
 registerLocaleData(localede, 'de');
@@ -70,23 +72,28 @@ function handleError(err: any): void {
   templateUrl: './invoiceform.component.html',
   providers:  []
 })
-export class InvoiceFormComponent implements OnInit,  AfterViewInit{
+export class InvoiceFormComponent implements OnInit, AfterViewInit{
 
-
+  //@ViewChild("invoiceForm") invoiceForm: FormControl;
   eventsModelIsReset: Subject<void> = new Subject<void>();
   backendUrl: string;
   invoiceRate: DropdownDataType[];
   /** The invoice data model */
   invoiceFormData: InvoiceFormModelInterface;
-  invoiceItem: InvoiceItemModelInterface ;
-  /** Model invoice supplier for dropdown component */
-  personInvoiceSupplier: DropdownDataType[];
-  /** Model invoice recipient for dropdown component */
-  personInvoiceRecipient: DropdownDataType[];
+  invoiceItem: InvoiceItemModelInterface;
   executionResult = false;
   private isViewInitialized = false;
 
+  /** Model invoice supplier for dropdown component */
+  @Input() personInvoiceSupplier: DropdownDataType[];
+  /** Model invoice recipient for dropdown component */
+  @Input() personInvoiceRecipient: DropdownDataType[];
+  /** Event for updating input variable 'personInvoiceSupplier'*/
+  @Output() personInvoiceSupplierEvent = new EventEmitter<DropdownDataType[]>();
+  /** Event for updating input variable 'personInvoiceRecipient'*/
+  @Output() personInvoiceRecipientEvent = new EventEmitter<DropdownDataType[]>();
   @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
+
   /**
    * Constructor
    *
@@ -100,7 +107,8 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: CommonServicesUtilService,
-               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
+               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
+               private personLoadService: PersonLoadServiceDirective) {
      this.backendUrl = environment.baseUrl;
 
   }
@@ -117,23 +125,26 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    * Initialisation of the class
    */
   ngOnInit(): void {
-    this.loadFormData();
-  }
-
-  // @ts-ignore
-  /**
-   * Initialisation of the class
-   */
-  loadFormData(): void {
-    console.log('################## : ngOnInit Start InvoiceForm');
     this.resetModel();
     this.invoiceRate = [
-      {label: '[Select rate type]', value: null},
+     //{label: '[Select rate type]', value: null},
       {label: 'Hourly rate', value: 'HOURLY'},
       {label: 'Daily rate', value: 'DAILY'}
     ];
+      const promice: Promise<any> = this.loadFormData();
+      promice.then( data => {
+         //this.emitPersonDataChanged();
+        }
+      );
+  }
+
+
+
+  /**
+   * Initialisation of the class
+   */
+  async loadFormData(): Promise<any> {
     const auth = localStorage.getItem(basicAuthKey);
-    console.log('###### Auth :' + auth);
 
     const headers = new HttpHeaders({
       'Content-Type' : 'application/json',
@@ -141,22 +152,25 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
       Accept : '*/*'
     });
 
-    const req = new HttpRequest('GET', this.backendUrl + 'person/personsdropdown', null, {headers});
-    this.httpClient.request<DropdownDataType[]>(req).pipe()
-      .subscribe(
-        (data  ) => {
-          const response = data as HttpResponse<DropdownDataType[]>;
-          if (response.status === 200) {
-            this.personInvoiceSupplier = response.body;
-            this.personInvoiceRecipient = this.personInvoiceSupplier;
-          } else {
-            console.log('The status for person/personsdropdown is wrong: ' + response.status);
-          }
-        },
-        error => {
-          console.log('Error :' + JSON.stringify(error));
-        }
-      );
+    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', {headers})
+       .pipe(
+         map( response => {
+             this.personInvoiceRecipient = response;
+             this.personInvoiceSupplier = response;
+             console.log('Get PersonDropDown Response :' + JSON.stringify(response));
+             return response;
+           },
+         ),
+
+       );
+     observableHttpRequest.subscribe();
+   }
+
+
+    /** emits events with changed total netto and brutto sums */
+  private emitPersonDataChanged(): void{
+    this.personInvoiceSupplierEvent.emit(this.personInvoiceSupplier);
+    this.personInvoiceRecipientEvent.emit(this.personInvoiceRecipient);
   }
 
   /**
@@ -165,7 +179,7 @@ export class InvoiceFormComponent implements OnInit,  AfterViewInit{
    */
   saveInvoice(event: any): void {
     this.httpService.putObjectToServer(this.invoiceFormData, 'Invoice',
-      'invoice', (callback) => {
+      'invoice', this.messageService, this.utilService,  (callback) => {
         if (callback){
           this.resetModel();
         }

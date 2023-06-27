@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {CommonServicesAppHttpService} from "../common-services/common-services.app.http.service";
+import {CommonServicesAppHttpService, MessagesPrinter} from "../common-services/common-services.app.http.service";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -16,7 +16,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   private cellVale: any;
   private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
-  constructor(private httpClient: HttpClient, private httpService: CommonServicesAppHttpService<string>) { }
+  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter,  private httpService: CommonServicesAppHttpService<string>) { }
   parentTableComponent: any;
   public params: any;
 
@@ -76,7 +76,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
         ),
         (error) => {
           this.params.context.componentParent.isProcessRunned(false);
-          this.httpService.printUnSuccessMessage('pdf Invoice ', error);
+          this.messagePrinter.printUnSuccessMessage('pdf Invoice ', error);
          // this.params.context.componentParent.runStrotPdfLoadingProcess(false);
         }
       );

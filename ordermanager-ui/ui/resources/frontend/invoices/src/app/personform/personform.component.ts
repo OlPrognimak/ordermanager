@@ -102,7 +102,7 @@ export class PersonFormComponent implements OnInit {
    */
   savePerson(event: any): void {
     this.httpService.putObjectToServer(this.personFormModel, 'Person',
-      'person', (callback) => {
+      'person', this.messageService, this.utilService, (callback) => {
         if (callback) {
           this.personFormModel = new PersonFormModel();
         }

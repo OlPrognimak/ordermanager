@@ -1,0 +1,26 @@
+:host ::ng-deep .p-cell-editing {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  /*height: 50pt !important;*/
+  height: 25pt !important;
+  width: 100% !important;
+}
+
+input[type="text"]  {
+  margin: 5px 5px 5px 5px !important;
+
+  width: 100% !important;
+  height: 21pt;
+}
+.sizes .p-inputtext {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.sizes .p-inputtext:last-child {
+  margin-bottom: 0;
+}
+.p-field * {
+  display: block;
+}

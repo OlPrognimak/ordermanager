@@ -29,24 +29,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {InvoiceItemModel} from '../domain/domain.invoiceformmodel';
+import {DropdownDataType, InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {Observable, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
 import {InvoiceItemsTableService} from './invoice-items-table.service';
 import {environment} from "../../environments/environment";
 
 @Component({
-  styles: [`
-    :host ::ng-deep .p-cell-editing {
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-      /*height: 50pt !important;*/
-      height: 25pt !important;
-      width: 100% !important;
-    }
-  `],
+  styles: [],
+  styleUrls: ['./invoice-items-table.component.css'],
   selector: 'app-invoice-items-table',
   templateUrl: './invoice-items-table.component.html',
   providers:  [InvoiceItemsTableCalculatorService]
@@ -60,6 +51,10 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
+
+  @Input() catalogItems: DropdownDataType[];
+
+
   backendUrl: string;
   idxItem: number;
 
@@ -81,6 +76,13 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
     this.modelChangedSubscription = this.modelChangedEvent.subscribe(() => {
       this.resetTotalValues();
     });
+
+    this.itemtableService.downloadCatalogItemsDropdownList(callback => {
+      if(callback) {
+        this.catalogItems = callback;
+      }
+    })
+
   }
 
   ngOnDestroy(): void {
@@ -98,7 +100,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    * @param event id catalog item
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
-    return this.itemtableService.loadCatalogItemDetails(invoiceitem, event);
+     this.itemtableService.loadCatalogItemDetails(invoiceitem, event);
   }
 
   /**
@@ -129,7 +131,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   getCatalogDescription(idItemCatalog: string): any {
     if (idItemCatalog !== undefined) {
       // tslint:disable-next-line:triple-equals
-      const rez = this.itemtableService.getDropdownCatalogItems().filter(
+      const rez = this.catalogItems.filter(
         val => Number(val.value) === Number(idItemCatalog));
       return rez[0].label;
     } else {
