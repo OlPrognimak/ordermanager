@@ -1,8 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {CommonServicesAppHttpService, MessagesPrinter} from "../common-services/common-services.app.http.service";
+import {Observable, of, pipe} from "rxjs";
+import {map} from "rxjs/operators";
+import {Message} from "primeng/api/message";
+import {MessageService} from "primeng/api";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -10,15 +14,17 @@ import {CommonServicesAppHttpService, MessagesPrinter} from "../common-services/
 @Component({
   selector: 'app-table-cell-renderer',
   templateUrl: './table-cell-renderer.component.html',
-  styleUrls: ['./table-cell-renderer.component.css']
+  styleUrls: ['./table-cell-renderer.component.css'],
+  providers: [MessageService]
 })
 export class TableCellRendererComponent implements OnInit, ICellRendererAngularComp {
   private cellVale: any;
   private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
-  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter,  private httpService: CommonServicesAppHttpService<string>) { }
+  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter,  private messageService: MessageService) { }
   parentTableComponent: any;
   public params: any;
+  private msgObservable = of(this.messagePrinter);
 
   /**
    * @inheritDoc
@@ -47,10 +53,14 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
     return true;
   }
 
+  loadPdfReport(event: any): any {
+    return this.load(event, this.msgObservable, this.params);
+  }
+
   /**
    * Loads pdf report from server
    */
-  loadPdfReport(event: any): any {
+  load(event: any, msgObservable: Observable<MessagesPrinter>, params: any ): any {
    // window.open(this.backendUrl + 'invoice/report/' + this.cellVale);
     this.params.context.componentParent.isProcessRunned(true);
     const rheaders = new HttpHeaders({
@@ -65,21 +75,24 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
       responseType: 'blob' as 'json'
     };
 
-    this.httpClient.post<any>(this.backendUrl + 'invoice/printreport', {invoiceNumber: this.cellVale},
-      options)
-      .subscribe(((data) => {
-            const pdfBlob = new Blob([data], { type: 'application/pdf' });
-            const fileURL = URL.createObjectURL(pdfBlob);
-            window.open(fileURL);
-            this.params.context.componentParent.isProcessRunned(false);
+    const blobObserver = this.httpClient.post<Blob>(this.backendUrl + 'invoice/printreport', {invoiceNumber: this.cellVale}, options)
+        .pipe(
+           map(
+             (response: Blob) => {
+                     const pdfBlob = new Blob([response], { type: 'application/pdf' })
+                     const fileURL = URL.createObjectURL(pdfBlob)
+                     window.open(fileURL)
+                     this.params.context.componentParent.isProcessRunned(false)
+             }
+           )
+        )
+        blobObserver
+          .subscribe({
+          error(err) {
+            params.context.componentParent.isProcessRunned(false);
+            msgObservable.subscribe(m => m.printUnSuccessMessage('pdf Invoice ', err))
           }
-        ),
-        (error) => {
-          this.params.context.componentParent.isProcessRunned(false);
-          this.messagePrinter.printUnSuccessMessage('pdf Invoice ', error);
-         // this.params.context.componentParent.runStrotPdfLoadingProcess(false);
-        }
-      );
+        });
   }
 
 }

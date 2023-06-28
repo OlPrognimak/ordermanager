@@ -39,7 +39,6 @@ import {TooltipModule} from 'primeng/tooltip';
 import {MenubarModule} from 'primeng/menubar';
 import {RouterModule} from "@angular/router";
 import {BasicInterceptor} from "./user-login/basic-auth-interceptor";
-import {PersonLoadServiceDirective} from "./invoiceform/invoiceform.personload.service";
 
 
 @NgModule({
@@ -59,8 +58,7 @@ import {PersonLoadServiceDirective} from "./invoiceform/invoiceform.personload.s
     EditableInputCellComponent,
     InvoiceItemsTableComponent,
     UserLoginComponent,
-    ItemsFormComponent,
-    PersonLoadServiceDirective
+    ItemsFormComponent
 
   ],
   imports: [
@@ -84,7 +82,7 @@ import {PersonLoadServiceDirective} from "./invoiceform/invoiceform.personload.s
     MenubarModule,
     RouterModule
   ],
-  providers: [CommonServicesAppHttpService, PersonLoadServiceDirective, CommonServicesUtilService, MessageService,
+  providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })

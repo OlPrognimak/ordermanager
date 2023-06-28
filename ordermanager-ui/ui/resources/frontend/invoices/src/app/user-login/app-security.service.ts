@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpBackend, HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
+import {map} from "rxjs/operators";
+import {finalize} from "rxjs";
 
 export  const basicAuthKey = 'basicAuthKey';
 
@@ -48,28 +50,54 @@ export class AppSecurityService {
       headers : reqheaders
     };
 
-    this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).subscribe(
-      (response) => {
-      if (response.logged === true) {
-        localStorage.setItem('authenticated', 'true');
-        localStorage.setItem(basicAuthKey, basicAuth);
-        console.log('authentication [is OK]');
-        return callback && callback(true);
-      } else {
-        this.clearCredentials(credentials);
-        console.log('authentication [is Not Logged]');
-        return callback && callback(false);
-      }
-    },
-      ((error) => {
-        this.clearCredentials(credentials);
-        console.log('authentication checking error :' + JSON.stringify(error));
-        return callback && callback(false);
+   const login  = this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).pipe(
+      map( response => {
+        if (response.logged === true) {
+          localStorage.setItem('authenticated', 'true');
+          localStorage.setItem(basicAuthKey, basicAuth);
+          console.log('authentication [is OK]');
+          return true;
+        } else {
+          console.log('authentication [is Not Logged]');
+          return false;
+        }
       }));
+   login.subscribe(
+     {
+       next(data) {
+         if(data) {
+           return callback(true);
+         } else {
+           return callback(false);
+         }
+
+       },
+       error(err) {
+         return callback(false);
+       }
+     }
+   )
+
+    //   if (response.logged === true) {
+    //     localStorage.setItem('authenticated', 'true');
+    //     localStorage.setItem(basicAuthKey, basicAuth);
+    //     console.log('authentication [is OK]');
+    //     return callback && callback(true);
+    //   } else {
+    //     this.clearCredentials(credentials);
+    //     console.log('authentication [is Not Logged]');
+    //     return callback && callback(false);
+    //   }
+    // },
+    //   ((error) => {
+    //     this.clearCredentials(credentials);
+    //     console.log('authentication checking error :' + JSON.stringify(error));
+    //     return callback && callback(false);
+    //   }));
   }
 
   /** clear credentials for logging */
-  private clearCredentials(credentials: any): void{
+  public clearCredentials(): void{
     localStorage.setItem('authenticated', 'false');
     localStorage.setItem(basicAuthKey, '');
   }
@@ -87,14 +115,20 @@ export class AppSecurityService {
 
 
   /**
+   *
    * Site logout
    */
-  logout(): void {
+  //TODO After migration to Angular-16 doesnt work more
+  logout(): any {
+    this.http.post(this.backendUrl + 'logout', {}).pipe(finalize(() => {
+      // this.appSecurityService.authenticated = false;
       localStorage.setItem('authenticated', 'false');
       this.credentials.username = '';
       this.credentials.password = '';
       console.log('Logout Call');
       this.router.navigateByUrl('/');
+
+    })).subscribe();
   }
 
   /**

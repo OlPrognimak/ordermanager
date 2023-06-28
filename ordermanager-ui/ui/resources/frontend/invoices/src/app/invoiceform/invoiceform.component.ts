@@ -50,7 +50,6 @@ import {CommonServicesUtilService} from '../common-services/common-services-util
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 import {environment} from '../../environments/environment';
 import {map} from "rxjs/operators";
-import {PersonLoadServiceDirective} from "./invoiceform.personload.service";
 
 
 registerLocaleData(localede, 'de');
@@ -107,8 +106,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
                public appSecurityService: AppSecurityService,
                private messageService: MessageService,
                private utilService: CommonServicesUtilService,
-               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
-               private personLoadService: PersonLoadServiceDirective) {
+               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl = environment.baseUrl;
 
   }
@@ -179,7 +177,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    */
   saveInvoice(event: any): void {
     this.httpService.putObjectToServer(this.invoiceFormData, 'Invoice',
-      'invoice', this.messageService, this.utilService,  (callback) => {
+      'invoice', (callback) => {
         if (callback){
           this.resetModel();
         }

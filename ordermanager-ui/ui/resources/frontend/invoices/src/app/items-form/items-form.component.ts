@@ -33,7 +33,7 @@ export class ItemsFormComponent implements OnInit {
    */
   saveItem(item: any): void {
    this.httpService.putObjectToServer(this.model, 'Invoice Item',
-      'invoice/itemcatalog', this.messageService, this.utilService, (callback) => {
+      'invoice/itemcatalog', (callback) => {
        if (callback){
          this.model = new ItemCatalogModel();
        }

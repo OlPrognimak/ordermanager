@@ -33,9 +33,7 @@ export class CommonServicesAppHttpService<T> {
    * @param msgService
    * @param callback the callback object
    */
-  putObjectToServer = (objectToSave: T, objectName: string, endPointPath: string,
-                       msgService: MessageService,
-                       utilService: CommonServicesUtilService, callback) => {
+  putObjectToServer = (objectToSave: T, objectName: string, endPointPath: string, callback) => {
 
      const msgObservable = of(this.messagePrinter);
 
@@ -81,8 +79,8 @@ export class CommonServicesAppHttpService<T> {
   providedIn: 'root'
 })
 export class MessagesPrinter {
-  constructor(private messageService: MessageService,
-              private utilService: CommonServicesUtilService) {}
+  constructor(public messageService: MessageService,
+              public utilService: CommonServicesUtilService) {}
 
   /*  prints success message  */
   public printSuccessMessage(objectName: any): void{
