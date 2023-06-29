@@ -50,8 +50,8 @@ import java.io.IOException;
 /**
  * Cors filter for enabling cors requests. Currently, allows all re
  */
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class InvoiceCorsFilter extends CorsFilter {
 
 	private static final Logger logger = LogManager
