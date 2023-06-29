@@ -65,22 +65,27 @@ export class InvoiceItemsTableCalculatorService{
     params.invoiceItemsTableModel = invoiceItems;
 
     const nettoSumParamsObservable = of(params);
-    const nettoSumOperator = map((itemsModel: CalculatorParameters) => this.calculateNettoSum(itemsModel));
+    const nettoSumOperator = map((itemsModel: CalculatorParameters) =>
+      this.calculateNettoSum(itemsModel));
     const observableNettoParams = nettoSumOperator(nettoSumParamsObservable);
-    const numberPromise = observableNettoParams.toPromise()
-      .then((data) => {
+    const numberPromise = observableNettoParams.pipe(
+      map(data => {
         return this.calculateBruttoSum(data);
-      }).then((data) => {
-        return this.calculateTottalNettoSum(data);
-      }).then((data) => {
-        return this.calculateTottalBruttoSum(data);
-      }).then(() => {
-          return 0;
-        }
-      );
-    await numberPromise;
+      })
+    ).pipe(
+      map(data => {
+        return this.calculateTottalNettoSum(data)
+      })
+    ).pipe(
+      map(data => {
+        return this.calculateTottalBruttoSum(data)
+      })
+    )
+    numberPromise.subscribe();
 
+    await numberPromise;
   }
+
   /*Calculate the total netto price for whole report*/
   private calculateTottalNettoSum(params: CalculatorParameters): CalculatorParameters{
     this.totalNettoSum = 0;

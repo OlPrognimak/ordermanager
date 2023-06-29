@@ -1,3 +1,4 @@
+<form #invoiceForm ="ngForm" >
 <div *ngIf="appSecurityService.isAuthenticated()" class="p-fluid">
 
   <H2>Create invoice</H2>
@@ -50,12 +51,13 @@
       </app-validatable-calendar>
     </div>
   </div>
+
   <div class="p-grid">
     <div style="margin-top: 15pt;" class="p-col-6">
       <app-validatable-dropdownlist [optionList]="personInvoiceSupplier"
                                     [labelText]="'Invoice creator person'"
                                     [idComponent]="'id-invoiceCreator'"
-                                    [placeholder]="['_']"
+                                    [placeholder]="'Select person'"
                                     [txtMinLength]="-1"
                                     [(ngModel)] ="invoiceFormData.personSupplierId">
       </app-validatable-dropdownlist>
@@ -67,7 +69,7 @@
       <app-validatable-dropdownlist [optionList]="personInvoiceRecipient"
                                     [labelText]="'Invoice recipient person'"
                                     [idComponent]="'id-invoiceRecipient'"
-                                    [placeholder]="['_']"
+                                    [placeholder]="'Select person'"
                                     [txtMinLength]="0"
                                     [(ngModel)] ="invoiceFormData.personRecipientId">
       </app-validatable-dropdownlist>
@@ -89,6 +91,7 @@
 
   </div>
 </div>
+</form>
 
 
 

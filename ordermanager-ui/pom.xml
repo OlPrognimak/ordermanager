@@ -85,7 +85,7 @@
               <arguments>
                 <argument>build</argument>
                 <argument>--output-hashing=none</argument>
-                <argument>--prod</argument>
+<!--                <argument>&#45;&#45;prod</argument>-->
                 <!--<argument>&#45;&#45;aot</argument>-->
                 <argument>--build-optimizer</argument>
                 <argument>--base-href=/${app.baseurl}/</argument>

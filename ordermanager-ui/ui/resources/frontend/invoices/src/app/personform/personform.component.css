@@ -3,6 +3,9 @@ input[type="text"] {
   width: 100% !important;
 }
 
+.p-menubar .p-menubar-root-list{
+  width: 300pt !important;
+}
 
 * {
   box-sizing: border-box !important;

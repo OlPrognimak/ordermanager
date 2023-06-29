@@ -6,6 +6,12 @@ import {InvoiceItemModel} from "../domain/domain.invoiceformmodel";
   selector: 'app-editable-input-cell',
   templateUrl: './editable-input-cell.component.html',
   styleUrls: ['./editable-input-cell.component.css'],
+  styles: [
+  ':host ::ng-deep .p-cell-editing {\n' +
+  '          padding-top: 0 !important;\n' +
+  '          padding-bottom: 0 !important;\n' +
+  '      }'
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -51,7 +57,6 @@ export class EditableInputCellComponent implements OnInit,  ControlValueAccessor
   }
 
   writeValue(val: any): void {
-    console.log("+++++ new Value = "+val);
     this.controlValue = val;
     this.changeItemEvent.emit(this.rowModel);
   }

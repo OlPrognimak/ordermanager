@@ -152,7 +152,7 @@ public class SecurityConfig {
                )
                .authorizeHttpRequests( (authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico", "/polyfills.js")
                         .anonymous()
                        .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                "/invoice/**", "/person",

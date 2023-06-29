@@ -1,6 +1,7 @@
-<div class="p-grid">
+<p-toast></p-toast>
+<div class="p-card">
   <div class="p-col-12">
-    <p-table [value]="invoiceItems" [rows]="40" editMode="row">
+    <p-table  [value]="invoiceItems" [rows]="40" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 40%">Item description</th>
@@ -14,21 +15,20 @@
       </ng-template>
       <ng-template pTemplate="body" let-invoiceitem>
         <tr>
-          <td pEditableColumn>
+          <td style="width: 40%" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown [options]="itemtableService.getDropdownCatalogItems()"
+                <p-dropdown  appendTo = "body" [options]="catalogItems"
                             placeholder="[Select item from catalog]"
                             [ngModel]="invoiceitem.catalogItemId"
-                            (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
-                            [style]="{'width':'100%'}"></p-dropdown>
+                            (ngModelChange)="catalogItemSlected(invoiceitem, $event)"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
                 {{getCatalogDescription(invoiceitem.catalogItemId)}}
               </ng-template>
             </p-cellEditor>
           </td>
-          <td pEditableColumn>
+          <td style="width: 10%" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <input class="p-cell-editing" type="text"
@@ -41,7 +41,7 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td pEditableColumn>
+          <td style="width: 10%" pEditableColumn>
 <!--            <app-editable-input-cell-->
 <!--              [rowModel]="invoiceitem"-->
 <!--              (changeItemEvent)="inputBoxChanged(invoiceitem, $event)"-->
@@ -59,7 +59,7 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td pEditableColumn>
+          <td style="width: 10%" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <!--
@@ -75,13 +75,13 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td>
+          <td style="width: 10%">
             {{invoiceitem.sumNetto | standardFloat}}
           </td>
-          <td>
+          <td style="width: 10%">
             {{invoiceitem.sumBrutto | standardFloat}}
           </td>
-          <td>
+          <td style="width: 10%">
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                     (click)="deleteItem(invoiceitem.idxItem)"></button>
           </td>

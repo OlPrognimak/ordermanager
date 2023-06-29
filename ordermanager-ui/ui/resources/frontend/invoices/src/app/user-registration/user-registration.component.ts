@@ -35,9 +35,11 @@ import {MessageService} from 'primeng/api';
 import {Message} from 'primeng/api/message';
 import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../common-services/common-services-util.service";
-import {of} from "rxjs";
-import {delay} from "rxjs/operators";
+import {Observable, of, subscribeOn} from "rxjs";
+import {delay, map} from "rxjs/operators";
 import {environment} from "../../environments/environment";
+import {MessagesPrinter} from "../common-services/common-services.app.http.service";
+import {AppSecurityService} from "../user-login/app-security.service";
 
 @Component({
   selector: 'app-user-registration',
@@ -50,11 +52,13 @@ export class UserRegistrationComponent implements OnInit {
   public newUser: NewUser = new NewUser();
   backendUrl: string;
   basicAuthKey = 'basicAuthKey';
+  observableMessagePrinter: Observable<MessagesPrinter> = of(this.messagePrinter);
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
               private utilService: CommonServicesUtilService,
-              public router: Router) {
+              private appSecurityService: AppSecurityService,
+              public router: Router, private messagePrinter: MessagesPrinter) {
     this.backendUrl = environment.baseUrl;
 
   }
@@ -63,13 +67,17 @@ export class UserRegistrationComponent implements OnInit {
    *
    */
   ngOnInit(): void {
+
+  }
+
+  registerUser(): void {
+    this.registerUserInternal(this.newUser, this.router, this.observableMessagePrinter);
   }
 
   /**
    * save new user in the database
    */
-  public registerUser(): void {
-
+  registerUserInternal(intNewUser: NewUser, intRouter: Router, intMsgPrinter:  Observable<MessagesPrinter>) {
 
     const headers = new HttpHeaders({
       'User-Name': this.newUser.userName,
@@ -77,32 +85,25 @@ export class UserRegistrationComponent implements OnInit {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
+
     this.httpClient
       .post<CreatedResponse>(this.backendUrl + 'registration', {}, {headers})
-      .subscribe((response => {
-          console.log(JSON.stringify(response));
-          const msg: Message = {
-            severity: 'success', summary: 'Congratulation!',
-            detail: 'You are successfully registered.'
-          };
-          this.messageService.add(msg);
-          this.newUser.userName = '';
-          this.newUser.userPassword = '';
-          this.utilService.hideMassage(msg, 3000);
-          const observable = of().pipe(delay(3000));
-          observable.toPromise().then(() => {
-            this.router.navigateByUrl('/');
-          });
-        }),
-        (error => {
-          console.log(JSON.stringify(error));
-          const msg: Message = {
-            severity: 'error', summary: 'Error!',
-            detail: 'You are not registered. Some error occurs. Please inform administrator.'
-          };
-          this.messageService.add(msg);
-          this.utilService.hideMassage(msg, 3000);
-        })
-      );
+      .subscribe(
+        {
+          next(response) {
+            console.log(JSON.stringify(response))
+            intNewUser.userName = ''
+            intNewUser.userPassword = ''
+            intNewUser.userPasswordRepeat = ''
+            intMsgPrinter.subscribe(m => m.printSuccessMessage('You are successfully registered.'))
+          },
+          error(err) {
+            console.log(JSON.stringify(err));
+            intMsgPrinter.subscribe(m =>
+              m.printUnSuccessMessage('You are not registered. Some error occurs. Please inform administrator.', err))
+          }
+        }
+
+      )
   }
 }

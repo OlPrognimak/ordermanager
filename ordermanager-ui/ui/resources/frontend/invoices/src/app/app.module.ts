@@ -13,7 +13,7 @@ import {CommonServicesPipesNumber} from './common-services/common-services.pipes
 import {PrintinvoiceComponent} from './printinvoice/printinvoice.component';
 import {AgGridModule} from 'ag-grid-angular';
 import {TableCellRendererComponent} from './table-cell-renderer/table-cell-renderer.component';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatButtonModule} from '@angular/material/button';
 import {ButtonModule} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
@@ -61,27 +61,28 @@ import {BasicInterceptor} from "./user-login/basic-auth-interceptor";
     ItemsFormComponent
 
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ButtonModule,
-    DropdownModule,
-    CalendarModule,
-    TableModule,
-    InputTextModule,
-    AgGridModule.withComponents([MatButton, TableCellRendererComponent]),
-    MessagesModule,
-    MessageModule,
-    MatProgressSpinnerModule,
-    DialogModule,
-    ToastModule,
-    TooltipModule,
-    MenubarModule,
-    RouterModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        ButtonModule,
+        DropdownModule,
+        CalendarModule,
+        TableModule,
+        InputTextModule,
+        AgGridModule,
+        MessagesModule,
+        MessageModule,
+        MatProgressSpinnerModule,
+        DialogModule,
+        ToastModule,
+        TooltipModule,
+        MenubarModule,
+        RouterModule,
+        MatButtonModule
+    ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }],
   bootstrap: [AppComponent]
