@@ -5,7 +5,8 @@
   margin-bottom: 0 !important;
   /*height: 50pt !important;*/
   height: 25pt !important;
-  width: 100% !important;
+  width: auto !important;
+  /*width: 100% !important;*/
 }
 
 input[type="text"]  {

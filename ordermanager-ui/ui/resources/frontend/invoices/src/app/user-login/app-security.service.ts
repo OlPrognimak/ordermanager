@@ -77,23 +77,6 @@ export class AppSecurityService {
        }
      }
    )
-
-    //   if (response.logged === true) {
-    //     localStorage.setItem('authenticated', 'true');
-    //     localStorage.setItem(basicAuthKey, basicAuth);
-    //     console.log('authentication [is OK]');
-    //     return callback && callback(true);
-    //   } else {
-    //     this.clearCredentials(credentials);
-    //     console.log('authentication [is Not Logged]');
-    //     return callback && callback(false);
-    //   }
-    // },
-    //   ((error) => {
-    //     this.clearCredentials(credentials);
-    //     console.log('authentication checking error :' + JSON.stringify(error));
-    //     return callback && callback(false);
-    //   }));
   }
 
   /** clear credentials for logging */
@@ -131,11 +114,5 @@ export class AppSecurityService {
     })).subscribe();
   }
 
-  /**
-   * navigate to the root bage
-   */
-  navigateToRootPage(): void{
-    this.router.navigateByUrl('/');
-  }
 }
 

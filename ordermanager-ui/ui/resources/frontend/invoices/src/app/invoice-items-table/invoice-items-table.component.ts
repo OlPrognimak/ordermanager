@@ -100,7 +100,12 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    * @param event id catalog item
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
-     this.itemtableService.loadCatalogItemDetails(invoiceitem, event);
+     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback =>{
+      // this.changeItemEvent.emit(this.invoiceItems);
+       console.log("###### Item.Amount =:"+callback.amountItems)
+       this.inputBoxChanged(callback, null)
+     });
+
   }
 
   /**

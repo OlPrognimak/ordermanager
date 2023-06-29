@@ -47,7 +47,7 @@ export class InvoiceItemsTableService {
    * @param invoiceitem the item which belong to table row in item table model
    * @param idItemCatalog id catalog item
    */
-  loadCatalogItemDetails(invoiceitem: InvoiceItemModel, idItemCatalog: any): void{
+  loadCatalogItemDetails = (invoiceitem: InvoiceItemModel, idItemCatalog: any, callback): void =>{
     const headers = new HttpHeaders({
       Authorization : localStorage.getItem(this.basicAuthKey),
       'Content-Type' : 'application/json',
@@ -58,8 +58,13 @@ export class InvoiceItemsTableService {
       {headers})
       .subscribe( {
         next(response){
-          invoiceitem.itemPrice = response.itemPrice;
-          invoiceitem.vat = response.vat;
+          invoiceitem.amountItems = 0
+          invoiceitem.sumNetto = 0
+          invoiceitem.sumBrutto = 0
+          invoiceitem.itemPrice = response.itemPrice
+          invoiceitem.vat = response.vat
+
+          return callback(invoiceitem)
         },
         error(err) {
           this.printToJson(err);
