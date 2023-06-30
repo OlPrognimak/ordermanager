@@ -1,0 +1,10 @@
+.printIvoiceButtonFokus:focus {
+  background-color: #039be5;
+}
+
+.printInvoiceButton {
+  margin-top: 0pt;
+  height: 20px;
+  font-size: small
+}
+

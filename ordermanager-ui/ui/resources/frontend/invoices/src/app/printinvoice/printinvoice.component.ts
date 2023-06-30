@@ -38,6 +38,7 @@ import {AppSecurityService} from '../user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
 import {environment} from "../../environments/environment";
 
+
 /**
  * The component which contains table with invoices for printing in PDF format
  */
@@ -63,8 +64,8 @@ export class PrintinvoiceComponent implements OnInit {
   /**
    * the column definition for table
    */
-  creationDateCell: any;
-  invoiceDateCell: any;
+  creationDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
+  invoiceDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
   processRuns: boolean;
   displayProcessDialog = false;
 
@@ -79,7 +80,7 @@ export class PrintinvoiceComponent implements OnInit {
     this.columnDefs = [
       {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent},
       {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
-        sortable: true, filter: true, checkboxSelection: true, editable: true},
+        sortable: true, filter: true,  editable: true},
       {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
       {headerName: 'Invoice creator', resizable: true, field: 'supplierFullName', sortable: true, filter: true, editable: true},
       {headerName: 'Invoice recipient', resizable: true, field: 'recipientFullName', sortable: true, filter: true, editable: true},
@@ -109,15 +110,6 @@ export class PrintinvoiceComponent implements OnInit {
     this.frameworkComponents = {
       tableCellRenderer: TableCellRendererComponent
     };
-
-    this.creationDateCell =  (data) => {
-      return _moment(data.creationDate).format('DD.MM.YYYY');
-    };
-
-    this.invoiceDateCell =  (data) => {
-      return _moment(data.creationDate).format('DD.MM.YYYY');
-    };
-
   }
 
   /**

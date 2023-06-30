@@ -2,11 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {CommonServicesAppHttpService, MessagesPrinter} from "../common-services/common-services.app.http.service";
+import {MessagesPrinter} from "../common-services/common-services.app.http.service";
 import {Observable, of, pipe} from "rxjs";
 import {map} from "rxjs/operators";
-import {Message} from "primeng/api/message";
-import {MessageService} from "primeng/api";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -15,13 +13,13 @@ import {MessageService} from "primeng/api";
   selector: 'app-table-cell-renderer',
   templateUrl: './table-cell-renderer.component.html',
   styleUrls: ['./table-cell-renderer.component.css'],
-  providers: [MessageService]
+  providers: []
 })
 export class TableCellRendererComponent implements OnInit, ICellRendererAngularComp {
   private cellVale: any;
   private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
-  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter,  private messageService: MessageService) { }
+  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter) { }
   parentTableComponent: any;
   public params: any;
   private msgObservable = of(this.messagePrinter);
