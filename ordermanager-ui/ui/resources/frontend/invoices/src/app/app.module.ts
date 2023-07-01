@@ -5,7 +5,7 @@ import {AppRoutingModule, routingComponent} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {PrInvoiceFormDirective} from './invoiceform/invoiceform.service';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
@@ -39,6 +39,8 @@ import {TooltipModule} from 'primeng/tooltip';
 import {MenubarModule} from 'primeng/menubar';
 import {RouterModule} from "@angular/router";
 import {BasicInterceptor} from "./user-login/basic-auth-interceptor";
+import {InputMaskModule} from "primeng/inputmask";
+import {InputNumberModule} from "primeng/inputnumber";
 
 
 @NgModule({
@@ -61,28 +63,31 @@ import {BasicInterceptor} from "./user-login/basic-auth-interceptor";
     ItemsFormComponent
 
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        FormsModule,
-        HttpClientModule,
-        ButtonModule,
-        DropdownModule,
-        CalendarModule,
-        TableModule,
-        InputTextModule,
-        AgGridModule,
-        MessagesModule,
-        MessageModule,
-        MatProgressSpinnerModule,
-        DialogModule,
-        ToastModule,
-        TooltipModule,
-        MenubarModule,
-        RouterModule,
-        MatButtonModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ButtonModule,
+    DropdownModule,
+    CalendarModule,
+    TableModule,
+    InputTextModule,
+    AgGridModule,
+    MessagesModule,
+    MessageModule,
+    MatProgressSpinnerModule,
+    DialogModule,
+    ToastModule,
+    TooltipModule,
+    MenubarModule,
+    RouterModule,
+    MatButtonModule,
+    InputMaskModule,
+    InputNumberModule,
+    ReactiveFormsModule
+  ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }],
   bootstrap: [AppComponent]

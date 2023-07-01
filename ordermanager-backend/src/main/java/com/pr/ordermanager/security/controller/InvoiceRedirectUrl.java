@@ -19,16 +19,6 @@ public class InvoiceRedirectUrl extends DefaultRedirectStrategy {
 
         response.getOutputStream().write("{\"logged\": true}".getBytes());
         response.flushBuffer();
-//        String redirectUrl = calculateRedirectUrl(request.getContextPath(), url);
-//        redirectUrl = response.encodeRedirectURL(redirectUrl);
-//        if (this.logger.isDebugEnabled()) {
-//            this.logger.debug(LogMessage.format("Redirecting to %s", redirectUrl));
-//        }
-//        response.sendRedirect(redirectUrl);
     }
 
-
-//    protected String calculateRedirectUrl(String contextPath, String url) {
-//        return super.calculateRedirectUrl(contextUrl, url);
-//    }
 }

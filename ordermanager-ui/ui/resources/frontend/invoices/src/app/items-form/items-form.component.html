@@ -2,12 +2,13 @@
   <div style="text-align: center" class="p-grid">
      <H2 style="text-align: center">Create invoice item</H2>
   </div>
-  <p-messages></p-messages>
+  <p-toast></p-toast>
 
 
   <div class="p-grid">
     <div style="margin-top: 10pt" class="p-col-4">
-      <app-validatable-input-text [labelText]="'Item  description'"
+      <app-validatable-input-text [name] = "'description'"
+                                  [labelText]="'Item  description'"
                                   [idComponent]="'id_ItemDesc'"
                                   [txtMinLength]="2"
                                   [(ngModel)] = "model.description">
@@ -26,7 +27,8 @@
 
   <div style="margin-top: 10pt" class="p-grid">
     <div class="p-col-2">
-      <app-validatable-input-text [labelText]="'Item  price'"
+      <app-validatable-input-text [name] = "'itemPrice'"
+                                  [labelText]="'Item  price'"
                                   [idComponent]="'id_ItemPrice'"
                                   [txtMinLength]="1"
                                   [(ngModel)] = "model.itemPrice">
@@ -35,7 +37,8 @@
   </div>
   <div style="margin-top: 10pt" class="p-grid">
       <div class="p-col-2">
-        <app-validatable-input-text [labelText]="'Vat%'"
+        <app-validatable-input-text [name]="'vat'"
+                                    [labelText]="'Vat%'"
                                     [idComponent]="'id_ItemVat'"
                                     [txtMinLength]="1"
                                     [(ngModel)] = "model.vat">

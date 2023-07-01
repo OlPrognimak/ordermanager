@@ -149,7 +149,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    this.printToJson(model);
+    //this.printToJson("$$$$$$$$$ MODEL :"+model.amountItems+ "  Value :"+ JSON.stringify(event));
     const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
     promise.then(() => {
         this.emitTotalChanged();

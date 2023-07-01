@@ -119,7 +119,6 @@ export class PrintinvoiceComponent implements OnInit {
     this.isProcessRunned(true);
 
     const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
       'Content-Type' : 'application/json',
       Accept : '*/*'
     } );

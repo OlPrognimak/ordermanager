@@ -30,8 +30,7 @@
  */
 import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import { FormsModule } from '@angular/forms'
-import { NgModule }      from '@angular/core';
+
 
 @Component({
   selector: 'app-validatable-input-text',
@@ -52,6 +51,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   @Input() public labelText = '';
   @Input() inputType = 'text';
   @Input() controlValue = '';
+  @Input() name: any='';
 
   onChange: (val) => void;
   onTouched: () => void;

@@ -31,8 +31,12 @@
           <td style="width: 10%" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input class="p-cell-editing" type="text"
-                       (change)="inputBoxChanged(invoiceitem, $event)"
+                <p-inputNumber name ="amountItems" (onInput)="inputBoxChanged(invoiceitem, $event)"
+                               placeholder = '0.00'
+                               class="p-cell-editing ng-dirty"
+                               mode="decimal"
+                               [minFractionDigits]="2"
+                               [maxFractionDigits]="5"
                        [(ngModel)]="invoiceitem.amountItems"
                        required />
               </ng-template>
@@ -49,8 +53,10 @@
 <!--            </app-editable-input-cell>-->
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input name="price" class="p-cell-editing" type="text"
-                       (change)="inputBoxChanged(invoiceitem, $event)"
+                <p-inputNumber name = "price" (onInput)="inputBoxChanged(invoiceitem, $event)"
+                               placeholder = '0.00'
+                               class="p-cell-editing ng-dirty"
+                               mode="decimal"
                        [(ngModel)]="invoiceitem.itemPrice"
                        required/>
               </ng-template>
@@ -66,7 +72,10 @@
                 <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
                        (ngModelChange)="invoiceitem.vat=$event" required/>
                 -->
-                <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)"
+                <p-inputNumber name = "vat" (onInput)="inputBoxChanged(invoiceitem, $event)"
+                       placeholder = '0.00'
+                       class="p-cell-editing ng-dirty"
+                       mode="decimal"
                        [(ngModel)]="invoiceitem.vat"
                        required/>
               </ng-template>
@@ -90,11 +99,14 @@
     </p-table>
   </div>
 
+  <div class="p-col-1">
+    <p-button [pTooltip]="'Add new empty item'" class="p-button-secondary" label="AddItem" (onClick)="addNewItem()"></p-button>
+  </div>
 </div>
 
 <div class="p-grid">
   <div class="p-col-1">
-    <p-button [pTooltip]="'Add new empty item'" label="AddItem" (onClick)="addNewItem()"></p-button>
+<!--    <p-button [pTooltip]="'Add new empty item'" label="AddItem" (onClick)="addNewItem()"></p-button>-->
   </div>
   <div class="p-col-9"></div>
   <div class="p-col-2">

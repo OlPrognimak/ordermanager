@@ -50,6 +50,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Input() public labelText = '';
   @Input() public placeholder = '';
   @Input() public controlValue: any;
+  @Input() public name = ''
   onChange: (val) => void;
   onTouched: () => void;
 

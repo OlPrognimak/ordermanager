@@ -52,7 +52,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   @Input() public idComponent = '';
   @Input() public labelText = '';
   @Input() dateFormat = 'dd.mm.yy';
-
+  @Input() name = ''
   @Input() controlValue = '';
   calModul: CalendarModule;
   onChange: (val) => void;

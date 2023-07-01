@@ -8,7 +8,8 @@
 
   <div class="p-grid">
     <div style="margin-top: 10pt" class="p-col-4">
-      <app-validatable-input-text [labelText]="'Invoice Number'"
+      <app-validatable-input-text [name] = "'invoiceNumber'"
+                                  [labelText]="'Invoice Number'"
                                   [idComponent]="'id_InvoiceNumber'"
                                   [txtMinLength]="2"
                                   [(ngModel)] = "invoiceFormData.invoiceNumber">
@@ -16,7 +17,8 @@
     </div>
     <div style="margin-top: 10pt" class="p-col-4">
        <span class="p-float-label">
-       <input style="width:100%;" id="id-invoiceDescription" type="text" [(ngModel)]="invoiceFormData.invoiceDescription
+       <input name="'invoiceDescription'" style="width:100%;" id="id-invoiceDescription" type="text"
+              [(ngModel)]="invoiceFormData.invoiceDescription
 " pInputText/>
        <label  for="id-invoiceDescription">Invoice description</label>
        </span>
@@ -25,7 +27,8 @@
   </div>
   <div class="p-grid">
     <div style="margin-top: 15pt" class="p-col-3">
-      <app-validatable-dropdownlist [optionList]="invoiceRate"
+      <app-validatable-dropdownlist [name] = "'invoiceRatesList'"
+                                    [optionList]="invoiceRate"
                                     [labelText]="'Rate Type'"
                                     [idComponent]="'id-rateType'"
                                     [txtMinLength]="1"
@@ -36,7 +39,8 @@
   <div class="p-grid">
     <div class="p-col-3">
 
-        <app-validatable-calendar [idComponent]="'id-creationDate'"
+        <app-validatable-calendar [name] = "'creationDate'"
+                                  [idComponent]="'id-creationDate'"
                                   [labelText]="'Creation Date'"
                                   [(ngModel)]="invoiceFormData.creationDate"
                                   [dateFormat]="'dd.mm.yy'">
@@ -44,7 +48,8 @@
     </div>
 
     <div class="p-col-3">
-      <app-validatable-calendar [idComponent]="'id-InvoiceDate'"
+      <app-validatable-calendar [name] = "'inviceDate'"
+                                [idComponent]="'id-InvoiceDate'"
                                 [labelText]="'Invoice Date'"
                                 [(ngModel)]="invoiceFormData.invoiceDate"
                                 [dateFormat]="'dd.mm.yy'">
@@ -54,7 +59,8 @@
 
   <div class="p-grid">
     <div style="margin-top: 15pt;" class="p-col-6">
-      <app-validatable-dropdownlist [optionList]="personInvoiceSupplier"
+      <app-validatable-dropdownlist [name] = "'creator'"
+                                    [optionList]="personInvoiceSupplier"
                                     [labelText]="'Invoice creator person'"
                                     [idComponent]="'id-invoiceCreator'"
                                     [placeholder]="'Select person'"
@@ -66,7 +72,8 @@
   </div>
   <div class="p-grid">
     <div class="p-col-6">
-      <app-validatable-dropdownlist [optionList]="personInvoiceRecipient"
+      <app-validatable-dropdownlist [name] = "'recipient'"
+                                    [optionList]="personInvoiceRecipient"
                                     [labelText]="'Invoice recipient person'"
                                     [idComponent]="'id-invoiceRecipient'"
                                     [placeholder]="'Select person'"
