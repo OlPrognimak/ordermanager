@@ -10,7 +10,6 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.pr.ordermanager</groupId>
   <artifactId>ordermanager-backend</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -25,10 +24,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
      <!-- JUNIT-5 -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -105,11 +100,17 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
     </dependency>
-    <!--  JWT -->
+
     <dependency>
-      <groupId>com.auth0</groupId>
-      <artifactId>java-jwt</artifactId>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>1.70</version>
     </dependency>
+    <!--  JWT -->
+<!--    <dependency>-->
+<!--      <groupId>com.auth0</groupId>-->
+<!--      <artifactId>java-jwt</artifactId>-->
+<!--    </dependency>-->
 <!--    <dependency>-->
 <!--      <groupId>org.apache.logging.log4j</groupId>-->
 <!--      <artifactId>log4j-api</artifactId>-->

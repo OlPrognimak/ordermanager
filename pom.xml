@@ -35,8 +35,8 @@
 		<junit.vintage.engine>5.6.2</junit.vintage.engine>
 		<junit.platform.version>1.7.0-RC1</junit.platform.version>
 		<mockito.junit.jupiter.version>3.3.3</mockito.junit.jupiter.version>
-		<postgresql.version>42.2.2</postgresql.version>
-		<h2.version>1.4.200</h2.version>
+		<postgresql.version>42.6.0</postgresql.version>
+		<h2.version>2.1.214</h2.version>
 		<log4j2.version>2.20.0</log4j2.version>
 		<hibernate.version>6.2.3.Final</hibernate.version>
 		<javax.validator.api.version>2.0.1.Final</javax.validator.api.version>

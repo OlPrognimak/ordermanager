@@ -48,7 +48,7 @@ public class Utils {
      * @return empty string if value
      */
     public static String emptyOrValue(String value){
-       if (!StringUtils.isEmpty(value)){
+       if (StringUtils.hasText(value)){
            return value;
        }else{
            return "";
