@@ -28,7 +28,6 @@ services:
       DB_NAME: test_db
       DB_PORT: 5432
       DB_HOST: postgres
-      REPORTS_PATH: /var/ordermanager/reports
     hostname: ordermanager
     image: prognimak.ordermanager/backend:001
     networks:
@@ -37,7 +36,6 @@ services:
     - 8083:8083
     volumes:
       - vol-ordermanager:/data/ordermanager-backend
-      - ./backend/opt/reports:/var/ordermanager/reports:rw
 ##### UI
   ordermanager-ui:
     depends_on:

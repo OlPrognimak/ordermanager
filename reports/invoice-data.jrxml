@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice-details" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96155e65-6218-4260-8237-984947a9b936">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TESTDB"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
@@ -138,7 +138,7 @@ FROM invoice_item
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="180" height="30" uuid="8d67abdb-a89c-4d8c-936b-dadaf442bf11"/>
-								<textElement textAlignment="Center">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Beschreibung]]></text>
@@ -146,7 +146,13 @@ FROM invoice_item
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="180" height="30" uuid="41b81e96-53d2-42f8-98e5-1551347022da"/>
+								<reportElement x="0" y="0" width="180" height="30" uuid="41b81e96-53d2-42f8-98e5-1551347022da">
+									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement verticalAlignment="Middle" markup="none">
+									<paragraph leftIndent="3" rightIndent="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -156,7 +162,7 @@ FROM invoice_item
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="80" height="30" uuid="5383029d-48fa-44d8-99bc-74efdeb063a6"/>
-								<textElement textAlignment="Center">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stunde":(($P{rateType}).equals("DAILY")?"Tages":"")]]></textFieldExpression>
@@ -164,8 +170,12 @@ FROM invoice_item
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField pattern="#0.00">
-								<reportElement x="0" y="0" width="80" height="30" uuid="13f30109-b0a8-4ca4-8da5-564409fc19c2"/>
-								<textElement textAlignment="Right"/>
+								<reportElement x="0" y="0" width="80" height="30" uuid="13f30109-b0a8-4ca4-8da5-564409fc19c2">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<paragraph rightIndent="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{item_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -175,7 +185,7 @@ FROM invoice_item
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="75" height="30" uuid="957fe29b-586d-4eab-b9ee-7b7400005d88"/>
-								<textElement textAlignment="Center">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
 								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stundensatz (Euro)":(($P{rateType}).equals("DAILY")?"Tagessatz (Euro)":"")]]></textFieldExpression>
@@ -183,8 +193,12 @@ FROM invoice_item
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField pattern="#0.00">
-								<reportElement x="0" y="0" width="75" height="30" uuid="47a43a89-0d88-40f4-bdd3-d672fa3a0c30"/>
-								<textElement textAlignment="Right"/>
+								<reportElement x="0" y="0" width="75" height="30" uuid="47a43a89-0d88-40f4-bdd3-d672fa3a0c30">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<paragraph rightIndent="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{amount_items}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -194,16 +208,20 @@ FROM invoice_item
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="80" height="30" uuid="732cec0b-1bb1-44bf-b313-58a0e7e9b2c0"/>
-								<textElement textAlignment="Center">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Netto sum]]></text>
+								<text><![CDATA[Netto Sum]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField pattern="#0.00">
-								<reportElement x="0" y="0" width="80" height="30" uuid="27a5cc9e-a06d-4630-b6e4-fb21ca4e29da"/>
-								<textElement textAlignment="Right"/>
+								<reportElement x="0" y="0" width="80" height="30" uuid="27a5cc9e-a06d-4630-b6e4-fb21ca4e29da">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<paragraph rightIndent="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sum_netto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -213,7 +231,7 @@ FROM invoice_item
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="30" uuid="b7b7b7e9-fe50-45bb-97f0-5c5a3edfc0d2"/>
-								<textElement textAlignment="Center">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
 								<text><![CDATA[MvSt.%]]></text>
@@ -221,8 +239,12 @@ FROM invoice_item
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField pattern="#0.00">
-								<reportElement x="0" y="0" width="60" height="30" uuid="94d1b23c-ad48-49c8-8f41-c608e1568d1a"/>
-								<textElement textAlignment="Right"/>
+								<reportElement x="0" y="0" width="60" height="30" uuid="94d1b23c-ad48-49c8-8f41-c608e1568d1a">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<paragraph rightIndent="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{vat}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -232,16 +254,21 @@ FROM invoice_item
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="94" height="30" uuid="1ec901d9-fa4c-46c8-ab13-9c2d3fd30837"/>
-								<textElement textAlignment="Center">
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Brutto sum]]></text>
+								<text><![CDATA[Brutto Sum]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField pattern="###0.00">
-								<reportElement x="0" y="0" width="94" height="30" uuid="ac85cb03-256f-469a-a682-7b408f789414"/>
-								<textElement textAlignment="Right"/>
+								<reportElement x="0" y="0" width="94" height="30" uuid="ac85cb03-256f-469a-a682-7b408f789414">
+									<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<paragraph leftIndent="0" rightIndent="10"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{sum_brutto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -251,12 +278,15 @@ FROM invoice_item
 		</band>
 	</pageHeader>
 	<summary>
-		<band height="91">
+		<band height="119">
 			<textField pattern="#0.00">
-				<reportElement x="469" y="3" width="91" height="18" uuid="244513e5-70ed-4b76-9f5d-4fbe03acb738">
+				<reportElement x="469" y="3" width="81" height="18" uuid="244513e5-70ed-4b76-9f5d-4fbe03acb738">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="3"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{tottalNettoSum}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -267,10 +297,13 @@ FROM invoice_item
 				<text><![CDATA[Rechnungsbetrag netto :]]></text>
 			</staticText>
 			<textField pattern="#0.00">
-				<reportElement x="469" y="24" width="91" height="18" uuid="98e09660-349e-4a7f-a616-6d9e9e45018a">
+				<reportElement x="469" y="24" width="81" height="18" uuid="98e09660-349e-4a7f-a616-6d9e9e45018a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<paragraph rightIndent="3"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{totalVat}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -281,34 +314,84 @@ FROM invoice_item
 				<text><![CDATA[Mehrwertsteuer :]]></text>
 			</staticText>
 			<textField pattern="#0.00">
-				<reportElement x="469" y="46" width="91" height="18" uuid="2434919a-0886-44fb-8809-e6243bd1af7f">
+				<reportElement x="469" y="50" width="81" height="21" uuid="2434919a-0886-44fb-8809-e6243bd1af7f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$V{totalBruttoSum}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="320" y="46" width="142" height="18" uuid="811cbb11-945e-4ac3-b7a7-14e67c16a893">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Right"/>
-				<text><![CDATA[Rechnungsbetrag brutto :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="469" y="68" width="91" height="21" uuid="e0eb52d7-9e94-4f6a-9482-79cd0ac34323"/>
-				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+					<paragraph rightIndent="3"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{totalBruttoSum}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="290" y="68" width="173" height="21" uuid="af4414db-8471-4f23-941e-1bac638fb54e">
+				<reportElement x="290" y="50" width="173" height="21" uuid="af4414db-8471-4f23-941e-1bac638fb54e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Rechnungsbetrag :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="80" width="165" height="20" uuid="b4aa9ff2-d6b6-4f43-be1e-bd93772c3dce">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Bitte überweisen den Betrag]]></text>
+			</staticText>
+			<textField pattern="#0.00">
+				<reportElement x="169" y="80" width="42" height="20" uuid="a70108ed-d75c-4c97-8deb-24ba137564af">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalBruttoSum}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="215" y="80" width="305" height="20" uuid="b84b5f00-75b2-4c84-8e71-141032f25e11">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Euro auf mein Konto.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="551" y="3" width="15" height="18" uuid="325e8961-d9a5-42c9-85f0-6c5f3f986663">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[€]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="551" y="24" width="15" height="18" uuid="38a8d37a-0888-4fa5-88cb-df142012b7ef">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[€]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="551" y="50" width="15" height="21" uuid="e4fe9b70-fad3-45b0-b1fc-9877972eb575">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[€]]></text>
 			</staticText>
 		</band>
 	</summary>
