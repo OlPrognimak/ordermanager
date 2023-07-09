@@ -44,7 +44,7 @@ import com.pr.ordermanager.person.model.PersonAddressFormModel;
 import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.utils.Utils;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,7 +75,7 @@ public class PersonModelToEntityMapperHelper {
      * @return the target object {@link Person}
      */
     public static Person mapPersonFormModelToEntity(PersonFormModel source) {
-        Person target = Person.builder()
+        return Person.builder()
                 .personFirstName(source.getPersonFirstName())
                 .personLastName(source.getPersonLastName())
                 .personType(PersonType.valueOf(source.getPersonType()))
@@ -83,22 +83,49 @@ public class PersonModelToEntityMapperHelper {
                 .email(source.getEmail())
                 .taxNumber ( source.getTaxNumber () )
                 .bankAccount(
-                    Arrays.asList(
-                        mapBankAccountFormModelToEntity(
-                            source.getBankAccountFormModel()
+                        Collections.singletonList(
+                                mapBankAccountFormModelToEntity(
+                                        source.getBankAccountFormModel()
+                                )
                         )
-                    )
                 )
                 .personAddress(
-                    Arrays.asList(
-                        mapPersonAddressFormModelToEntity (
-                            source.getPersonAddressFormModel ()
+                        Collections.singletonList(
+                                mapPersonAddressFormModelToEntity(
+                                        source.getPersonAddressFormModel()
+                                )
                         )
-                    )
                 )
                 .build();
-        return target;
     }
+
+    /**
+     * Maps source data from object {@link PersonFormModel} to the entity {@link Person}
+     *
+     * @param source the data source object {@link PersonFormModel}
+     * @return the target object {@link Person}
+     */
+    public static PersonFormModel mapPersonEntityToModel(Person source) {
+        return PersonFormModel.builder()
+                .personFirstName(source.getPersonFirstName())
+                .personLastName(source.getPersonLastName())
+                .personType(source.getPersonType().name())
+                .companyName(source.getCompanyName())
+                .email(source.getEmail())
+                .taxNumber ( source.getTaxNumber () )
+                .bankAccountFormModel(
+                        (source.getBankAccount()==null||source.getBankAccount().isEmpty())? null:
+                                mapBankAccountEntityToModel(source.getBankAccount().get(0))
+                )
+                .personAddressFormModel(
+                        mapPersonAddressToEntity (
+                                source.getPersonAddress().get(0)
+                        )
+                )
+                .build();
+    }
+
+
 
     /**
      * Maps source data from object {@link PersonAddressFormModel} to the entity {@link PersonAddress}
@@ -116,6 +143,21 @@ public class PersonModelToEntityMapperHelper {
 
 
     /**
+     * Maps source data from object {@link PersonAddress} to the entity {@link PersonAddressFormModel}
+     *
+     * @param source the data source object {@link PersonAddress}
+     * @return the target object {@link PersonAddressFormModel}
+     */
+    public static PersonAddressFormModel mapPersonAddressToEntity(PersonAddress source){
+        return PersonAddressFormModel.builder ()
+                .postBoxCode (source.getPostBoxCode())
+                .zipCode (source.getZipCode())
+                .street (source.getStreet())
+                .city (source.getCity()).build();
+    }
+
+
+    /**
      * Maps source data from object {@link BankAccountFormModel} to the entity {@link BankAccount}
      *
      * @param source the data source object {@link BankAccountFormModel}
@@ -129,6 +171,22 @@ public class PersonModelToEntityMapperHelper {
              .accountNumber (source.getAccountNumber()).build();
     }
 
+
+
+    /**
+     * Maps source data from object {@link BankAccount} to the entity {@link BankAccountFormModel}
+     *
+     * @param source the data source object {@link BankAccount}
+     * @return the target object {@link BankAccountFormModel}
+     */
+    public static BankAccountFormModel mapBankAccountEntityToModel(BankAccount source){
+        return BankAccountFormModel.builder ()
+                .bankName( source.getBankName ())
+                .iban(source.getIban())
+                .bicSwift(source.getBicSwift ())
+                .accountNumber (source.getAccountNumber()).build();
+    }
+
     /**
      * Maps the data from list of source Entity objects {@link Person} to the list of rest model objects
      * {@link DropdownDataType}
@@ -140,7 +198,7 @@ public class PersonModelToEntityMapperHelper {
                 Utils.emptyOrValue(p.getPersonFirstName())+ " "+
                         Utils.emptyOrValue(p.getPersonLastName())+ " "+
                         Utils.emptyOrValue(p.getCompanyName()).trim(),
-                ""+p.getId())).collect(Collectors.toList());
+                String.valueOf(p.getId()))).collect(Collectors.toList());
     }
 
 }

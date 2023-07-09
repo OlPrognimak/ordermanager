@@ -28,50 +28,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Injectable} from '@angular/core';
-import {of} from 'rxjs';
-import {delay, map} from 'rxjs/operators';
-import {Message, MessageService} from 'primeng/api';
+import {Pipe, PipeTransform} from '@angular/core';
+import * as _moment from "moment/moment";
 
-export const printToJson = (data: any): void  => {
-  console.log(JSON.stringify(data));
-}
-/**
- * The useful utility service
- */
-@Injectable({
-  providedIn: 'root'
+@Pipe({
+  name: 'dateType',
 })
-export class CommonServicesUtilService{
-
-  constructor( private messageService: MessageService) {
-  }
-
-  /**
-   * Hide message after delay time
-   */
-  public hideMassage(message: Message, delayTimeMs: number): void{
-    const observable = of(message).pipe(delay(delayTimeMs));
-    const operatorFunction = map((msg: Message) => {
-      this.messageService.clear(msg.key);
-      return true;
-    } );
-    const messageFunction = operatorFunction(observable);
-    messageFunction.subscribe(data=>console.log('Message clear'))
-  }
-
-  /**
-   *
-   *
-   * @param objectName
-   * @param errorText
-   */
-  printUnSuccessMessage(objectName: any, errorText): void{
-    const msg: Message = {severity: 'error', summary: 'Error',
-      detail: errorText};
-    this.messageService.add(msg);
-
-    this.hideMassage(msg, 10000);
-  }
-
+export class CommonServicesPipesDate implements PipeTransform {
+  transform( val: any, format): any{
+        return _moment(val).format(format);
+   }
 }

@@ -1,8 +1,5 @@
 package com.pr.ordermanager.person.controller;
 
-/**
-
- */
 
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.common.model.DropdownDataType;
@@ -27,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper.mapPersonEntityToModel;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -48,8 +47,9 @@ import static org.springframework.http.HttpStatus.OK;
 @CrossOrigin
 public class PersonController {
     private static final String PATH = "/person";
+
+    private static final String PERSONS = "/persons";
     private static final String PATH_PERSON = PATH;
-    private static final String PATH_BANK_ACC = PATH+"/account";
     private static final String PATH_PERSONS_DROPDOWN =PATH+ "/personsdropdown";
 
     private static final String APPLICATION_JSON = "application/json";
@@ -138,5 +138,15 @@ public class PersonController {
         List<DropdownDataType> dropdownDataTypes =
                 PersonModelToEntityMapperHelper.mapPersonToDropdownType(allPersons);
         return ResponseEntity.status(OK).body(dropdownDataTypes);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = PERSONS, produces = APPLICATION_JSON)
+    public ResponseEntity<List<PersonFormModel>> getUserPersons(Principal principal) {
+        List<Person> allPersons = personService.getAllUserPersons(principal.getName());
+        List<PersonFormModel> personFormModels = allPersons.stream().map(
+                PersonModelToEntityMapperHelper::mapPersonEntityToModel).collect(Collectors.toList());
+
+        return ResponseEntity.status(OK).body(personFormModels);
     }
 }

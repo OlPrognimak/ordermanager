@@ -88,8 +88,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(InvoiceUserDetailsManager invoiceUserDetailsManager,
             HttpSecurity httpSecurity, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
-        RequestMatcherDelegatingAuthorizationManager reqManager= null;
-        AnonymousAuthenticationFilter schFilter;
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
@@ -192,9 +190,9 @@ public class SecurityConfig {
                         .anonymous()
                        .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                "/invoice/**", "/person",
-                               "/invoice", "/logout").permitAll()
+                               "/invoice", "/logout", "/persons").permitAll()
                        .requestMatchers(HttpMethod.GET, "/person/**",
-                                "/invoice/**", "").authenticated()
+                                "/invoice/**", "/persons").authenticated()
                        .requestMatchers(HttpMethod.PUT, "/person/**",
                              "/invoice/**").authenticated()
                        .requestMatchers(HttpMethod.POST,

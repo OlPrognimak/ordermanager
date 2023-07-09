@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpBackend, HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
 import {map} from "rxjs/operators";
 import {finalize} from "rxjs";
 import axios from 'axios'
+import {environment} from "../../environments/environment";
 
 export  const basicAuthKey = 'basicAuthKey';
 
@@ -14,17 +15,13 @@ export class AppSecurityService {
   // authenticated = false;
   backendUrl: string;
   credentials = {username: '', password: ''};
-  http: HttpClient;
   /**
    *
    * @param http http client
    */
-  constructor(private handler: HttpBackend, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     console.log('####### Init AppSecurityService');
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl') ;
-    this.http = new HttpClient(handler);
+    this.backendUrl = environment.baseUrl;
   }
 
   /**
@@ -90,11 +87,7 @@ export class AppSecurityService {
    * checks whether the app authenticated
    */
   isAuthenticated(): boolean {
-    if (localStorage.getItem('authenticated') === 'true'){
-      return true;
-    }else{
-      return false;
-    }
+    return localStorage.getItem('authenticated') === 'true';
   }
 
 

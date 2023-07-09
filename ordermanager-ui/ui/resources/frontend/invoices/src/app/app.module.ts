@@ -1,19 +1,19 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
 import {AppRoutingModule, routingComponent} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {PrInvoiceFormDirective} from './invoiceform/invoiceform.service';
 import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PersonFormComponent} from './personform/personform.component';
 import {CommonServicesPipesNumber} from './common-services/common-services.pipes.number';
 import {PrintinvoiceComponent} from './printinvoice/printinvoice.component';
 import {AgGridModule} from 'ag-grid-angular';
 import {TableCellRendererComponent} from './table-cell-renderer/table-cell-renderer.component';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button';
 import {ButtonModule} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
@@ -41,6 +41,9 @@ import {RouterModule} from "@angular/router";
 import {BasicInterceptor} from "./user-login/basic-auth-interceptor";
 import {InputMaskModule} from "primeng/inputmask";
 import {InputNumberModule} from "primeng/inputnumber";
+import {CommonModule} from "@angular/common";
+import {InvoiceManagementModule} from "./invoice-management/invoice-management.component";
+import {RippleModule} from "primeng/ripple";
 
 
 @NgModule({
@@ -61,7 +64,6 @@ import {InputNumberModule} from "primeng/inputnumber";
     InvoiceItemsTableComponent,
     UserLoginComponent,
     ItemsFormComponent
-
   ],
   imports: [
     BrowserModule,
@@ -86,10 +88,13 @@ import {InputNumberModule} from "primeng/inputnumber";
     MatButtonModule,
     InputMaskModule,
     InputNumberModule,
-    ReactiveFormsModule
+    CommonModule,
+    InvoiceManagementModule,
+    RippleModule
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
-    { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+    {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

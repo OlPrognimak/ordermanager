@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {observable, Observable, Observer, of, Subscription} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {CreatedResponse} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
 import {CommonServicesUtilService} from './common-services-util.service';
@@ -30,7 +30,6 @@ export class CommonServicesAppHttpService<T> {
    * @param objectToSave object to be saved on server
    * @param objectName object name to be saved
    * @param endPointPath rest API end point path
-   * @param msgService
    * @param callback the callback object
    */
   putObjectToServer = (objectToSave: T, objectName: string, endPointPath: string, callback) => {
@@ -63,7 +62,7 @@ export class CommonServicesAppHttpService<T> {
    */
   private handleHttpRequest(objectToSave: T, endPointPath: string): Observable<CreatedResponse>{
     const reqheaders = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
+      Authorization : localStorage.getItem(this.basicAuthKey) as string,
       Accept : '*/*'
     } );
     const options = {headers : reqheaders};

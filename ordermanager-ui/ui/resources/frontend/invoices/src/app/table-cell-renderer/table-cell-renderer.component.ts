@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ICellRendererAngularComp} from 'ag-grid-angular';
 import {ICellRendererParams} from 'ag-grid-community';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {MessagesPrinter} from "../common-services/common-services.app.http.service";
-import {Observable, of, pipe} from "rxjs";
+import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -28,9 +29,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
    * @inheritDoc
    */
   ngOnInit(): void {
-    this.backendUrl =
-      document.getElementById('appConfigId')
-        .getAttribute('data-backendUrl');
+    this.backendUrl = environment.baseUrl
     this.parentTableComponent = this.params.context.componentParent;
   }
 

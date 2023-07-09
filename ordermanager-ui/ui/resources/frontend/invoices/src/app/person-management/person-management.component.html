@@ -1,0 +1,48 @@
+<div *ngIf="appSecurityService.isAuthenticated()" class="p-fluid">
+    <H2>Person management (Under construction)</H2>
+    <div>
+      <p-toast></p-toast>
+    </div>
+  <div class="p-col-12">
+    <div class="overlayProcess childElementCenter" *ngIf="processRuns">
+      <mat-progress-spinner  mode="indeterminate" *ngIf="processRuns"> </mat-progress-spinner>
+    </div>
+
+    <p-table  [value]="persons" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%">Person last name</th>
+          <th style="width: 15%">Person first name</th>
+          <th style="width: 25%">Company name</th>
+          <th style="width: 10%">Person type</th>
+          <th style="width: 10%">Tax number</th>
+          <th style="width: 20%">E-mail</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-person>
+        <tr>
+          <td>
+            <div>{{person.personLastName}}</div>
+          </td>
+          <td>
+            <div>{{person.personFirstName}}</div>
+          </td>
+          <td>
+            <div>{{person.companyName}}</div>
+          </td>
+          <td>
+            <div>{{person.personType}}</div>
+          </td>
+          <td>
+            <div>{{person.taxNumber}}</div>
+          </td>
+          <td>
+            <div>{{person.email}}</div>
+          </td>
+        </tr>
+
+      </ng-template>
+    </p-table>
+  </div>
+</div>

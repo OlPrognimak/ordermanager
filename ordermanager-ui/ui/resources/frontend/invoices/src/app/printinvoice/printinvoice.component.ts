@@ -37,6 +37,7 @@ import * as _moment from 'moment';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
 import {environment} from "../../environments/environment";
+import {MessagesPrinter} from "../common-services/common-services.app.http.service";
 
 
 /**
@@ -46,7 +47,7 @@ import {environment} from "../../environments/environment";
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
   styleUrls: ['./printinvoice.component.css'],
-  providers: []
+  providers: [MessagesPrinter]
 })
 export class PrintinvoiceComponent implements OnInit {
 
@@ -54,11 +55,10 @@ export class PrintinvoiceComponent implements OnInit {
   backendUrl: string;
   private gridApi;
   private gridColumnApi;
-  private gridOprionsApi;
   invoicesFormModel: InvoiceFormModel[];
   frameworkComponents;
   @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
-  private readonly columnDefs = [];
+  private readonly columnDefs:any;
   basicAuthKey = 'basicAuthKey';
   gridOptions: any;
   /**
@@ -67,10 +67,9 @@ export class PrintinvoiceComponent implements OnInit {
   creationDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
   invoiceDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
   processRuns: boolean;
-  displayProcessDialog = false;
 
-
-  constructor(private httpClient: HttpClient, public securityService: AppSecurityService) {
+  constructor(private httpClient: HttpClient, public securityService: AppSecurityService,
+              private messagePrinter:MessagesPrinter) {
     this.gridOptions = ({
       context: {
         componentParent: this
@@ -78,7 +77,7 @@ export class PrintinvoiceComponent implements OnInit {
     } as GridOptions);
 
     this.columnDefs = [
-      {headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent},
+      { headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent },
       {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
         sortable: true, filter: true,  editable: true},
       {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
@@ -99,14 +98,12 @@ export class PrintinvoiceComponent implements OnInit {
    *
    * @param isRun
    */
-  public isProcessRunned(isRun: boolean): void{
-      this.displayProcessDialog = isRun;
+  public isProcessRunned(isRun: boolean): void {
       this.processRuns = isRun;
   }
 
   ngOnInit(): void {
     this.backendUrl = environment.baseUrl;
-
     this.frameworkComponents = {
       tableCellRenderer: TableCellRendererComponent
     };
@@ -115,7 +112,11 @@ export class PrintinvoiceComponent implements OnInit {
   /**
    * Load Invoice from server and set to table model for printing of invoices
    */
-  loadInvoices(): void {
+  loadInvoices() {
+    this.loadInvoicesInternal(this)
+  }
+
+  loadInvoicesInternal(component:PrintinvoiceComponent): void {
     this.isProcessRunned(true);
 
     const headers = new HttpHeaders({
@@ -123,13 +124,18 @@ export class PrintinvoiceComponent implements OnInit {
       Accept : '*/*'
     } );
     this.httpClient.get<InvoiceFormModel[]>(this.backendUrl + 'invoice/invoicesList', {headers})
-      .subscribe((data => {
-            this.invoicesFormModel = data;
-            this.isProcessRunned(false);
-          }
-
-        )
-      );
+      .subscribe({
+        next(response) {
+          component.invoicesFormModel = response
+        },
+        error(err) {
+          component.isProcessRunned(false)
+          component.messagePrinter.printUnSuccessMessage('Pdf print', err);
+        },
+        complete(){
+          component.isProcessRunned(false)
+        }
+      })
   }
 
   /**

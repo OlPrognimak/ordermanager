@@ -1,16 +1,22 @@
 import {async, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {UserLoginComponent} from "./user-login/user-login.component";
+import {NO_ERRORS_SCHEMA} from "@angular/compiler";
+import {MessageService} from "primeng/api";
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule, HttpClientTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent, UserLoginComponent
       ],
+      providers: [MessageService],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

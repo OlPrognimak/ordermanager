@@ -1,6 +1,6 @@
 
 <div  style="margin-top: 5pt;" *ngIf="router.url!=='/user-registration-page'" class="p-fluid p-flex-row p-justify-center">
-  <form (submit)="login()"  #loginForm="ngForm">
+  <form (submit)="login(loginForm)"  #loginForm="ngForm">
   <div class="p-grid">
     <div class="p-col-3"></div>
     <div class="p-col-6">

@@ -1,8 +1,8 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../domain/domain.invoiceformmodel';
 import {environment} from "../../environments/environment";
-
+import {printToJson} from "../common-services/common-services-util.service";
 
 /**
  * The service for table which contains items of invoice
@@ -46,10 +46,11 @@ export class InvoiceItemsTableService {
    * Load catalog item from server and update the invoice table model
    * @param invoiceitem the item which belong to table row in item table model
    * @param idItemCatalog id catalog item
+   * @param callback result call back object
    */
   loadCatalogItemDetails = (invoiceitem: InvoiceItemModel, idItemCatalog: any, callback): void =>{
     const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey),
+      Authorization : localStorage.getItem(this.basicAuthKey) as string,
       'Content-Type' : 'application/json',
       Accept : '*/*'
     } );
@@ -67,7 +68,7 @@ export class InvoiceItemsTableService {
           return callback(invoiceitem)
         },
         error(err) {
-          this.printToJson(err);
+          printToJson(err);
         }
       });
   }
@@ -78,10 +79,6 @@ export class InvoiceItemsTableService {
    */
   getDropdownCatalogItems(): DropdownDataType[]{
     return this.catalogItems;
-  }
-
-  printToJson(data: any): void {
-    console.log(JSON.stringify(data));
   }
 
 }

@@ -30,7 +30,7 @@
  */
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DropdownDataType, InvoiceItemModel} from '../domain/domain.invoiceformmodel';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
 import {InvoiceItemsTableService} from './invoice-items-table.service';
 import {environment} from "../../environments/environment";
@@ -45,7 +45,7 @@ import {environment} from "../../environments/environment";
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Input() invoiceItems: InvoiceItemModel[];
   /** The observer for observation model changing event in parent component */
-  @Input() modelChangedEvent: Observable<void>;
+  @Input() modelChangedEvent: Observable<void> = of();
   /** The subscription for observer of model changing event in parent component */
   private modelChangedSubscription: Subscription;
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
