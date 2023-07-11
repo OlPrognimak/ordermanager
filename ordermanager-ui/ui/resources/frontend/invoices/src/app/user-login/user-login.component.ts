@@ -1,4 +1,4 @@
-import {Component, OnInit,} from '@angular/core';
+import {Component, NgModule, OnInit,} from '@angular/core';
 import {AppSecurityService} from './app-security.service';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -25,7 +25,6 @@ export class UserLoginComponent implements OnInit {
               private messageService: MessageService) {
     this.backendUrl = environment.baseUrl;
     this.observableMsgService = of(messageService);
-   // this.appSecurityService.authenticate(appSecurityService.credentials, undefined);
   }
 
   ngOnInit(): void {
@@ -42,7 +41,7 @@ export class UserLoginComponent implements OnInit {
   login(loginForm:NgForm): any {
     console.log('Before Login Call'+JSON.stringify(loginForm.value));
 
-    this.appSecurityService.authenticate(this.appSecurityService.credentials, (result) => {
+    this.appSecurityService.authenticate(this.appSecurityService, this.appSecurityService.credentials, (result) => {
 
       console.log('Login Result :' + result);
       if (result === true) {
@@ -60,7 +59,17 @@ export class UserLoginComponent implements OnInit {
 
       }
     });
-
   }
-
 }
+
+//
+// @NgModule(
+//   {
+//     imports: [CommonModule, FormsModule, ButtonModule, AppModule],
+//     declarations: [UserLoginComponent],
+//     exports: [UserLoginComponent]
+//   }
+// )
+// export class UserLoginModule{
+
+//}

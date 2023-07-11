@@ -73,7 +73,7 @@ public class InvoiceUserController {
     }
 
 
-    @GetMapping(value = "/user")
+    @GetMapping(value = "/checkUser")
     public ResponseEntity<String> user(Principal user) {
         String result="";
         if(user!=null) {

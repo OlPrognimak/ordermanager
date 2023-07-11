@@ -190,9 +190,9 @@ public class SecurityConfig {
                         .anonymous()
                        .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                "/invoice/**", "/person",
-                               "/invoice", "/logout", "/persons").permitAll()
+                               "/invoice", "/logout", "/persons", "/checkUser").permitAll()
                        .requestMatchers(HttpMethod.GET, "/person/**",
-                                "/invoice/**", "/persons").authenticated()
+                                "/invoice/**", "/persons", "/checkUser").authenticated()
                        .requestMatchers(HttpMethod.PUT, "/person/**",
                              "/invoice/**").authenticated()
                        .requestMatchers(HttpMethod.POST,

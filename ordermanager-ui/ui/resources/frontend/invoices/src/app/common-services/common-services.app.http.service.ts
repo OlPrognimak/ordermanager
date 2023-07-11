@@ -93,20 +93,27 @@ export class MessagesPrinter {
   }
 
   /**
+   * Shows the error message
    *
-   *
-   * @param objectName object name
+   * @param messagePart object name
    * @param error error which occures
    */
-  public printUnSuccessMessage(objectName: any, error): void{
-    console.log('Error: ' + error);
-    handleError(error);
-    let errorText = 'With processing ' + objectName + ' happens unexpected error.';
-    if (error instanceof HttpErrorResponse) {
-      if (error.status === 400) {
-        errorText = error.error.errorMessage;
-      }
+  public printUnSuccessMessage(messagePart: any, error): void{
 
+    let errorText: string = '' ;
+
+    if (error != null) {
+      console.log('Error: ' + error);
+      handleError(error);
+      errorText = 'With processing ' + messagePart + ' happens unexpected error.';
+      if (error instanceof HttpErrorResponse) {
+        if (error.status === 400) {
+          errorText = error.error.errorMessage;
+        }
+
+      }
+    } else {
+      errorText = error;
     }
     const msg: Message = {severity: 'error', summary: 'Error',
       detail: errorText};

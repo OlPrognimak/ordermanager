@@ -29,7 +29,6 @@ import {CommonServicesUtilService} from './common-services/common-services-util.
 import {MessageService} from 'primeng/api';
 import {EditableInputCellComponent} from './editable-input-cell/editable-input-cell.component';
 import {InvoiceItemsTableComponent} from './invoice-items-table/invoice-items-table.component';
-import {UserLoginComponent} from './user-login/user-login.component';
 import {ItemsFormComponent} from './items-form/items-form.component';
 import {CommonServicesAppHttpService} from './common-services/common-services.app.http.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -44,6 +43,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {CommonModule} from "@angular/common";
 import {InvoiceManagementModule} from "./invoice-management/invoice-management.component";
 import {RippleModule} from "primeng/ripple";
+import {UserLoginComponent} from "./user-login/user-login.component";
 
 
 @NgModule({
@@ -62,8 +62,8 @@ import {RippleModule} from "primeng/ripple";
     UserRegistrationComponent,
     EditableInputCellComponent,
     InvoiceItemsTableComponent,
-    UserLoginComponent,
-    ItemsFormComponent
+    ItemsFormComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,

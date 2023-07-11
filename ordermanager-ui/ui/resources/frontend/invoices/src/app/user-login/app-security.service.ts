@@ -3,25 +3,57 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggingCheck} from '../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
 import {map} from "rxjs/operators";
-import {finalize} from "rxjs";
+import {finalize, interval, Observable, of} from "rxjs";
 import axios from 'axios'
 import {environment} from "../../environments/environment";
+import {MessagesPrinter} from "../common-services/common-services.app.http.service";
 
 export  const basicAuthKey = 'basicAuthKey';
 
+/**
+ *
+ */
+export class Auth {
+  private _authenticated: boolean
+
+  set authenticated(value: boolean) {
+    this._authenticated = value
+  }
+
+  get authenticated() : boolean {
+    return this._authenticated
+  }
+
+}
+
+/**
+ *
+ */
 @Injectable()
 export class AppSecurityService {
 
   // authenticated = false;
   backendUrl: string;
   credentials = {username: '', password: ''};
+
   /**
    *
    * @param http http client
    */
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private messagePrinter: MessagesPrinter) {
     console.log('####### Init AppSecurityService');
     this.backendUrl = environment.baseUrl;
+    this.isServerStillAlive(this)
+  }
+
+  isServerStillAlive(service: AppSecurityService) {
+      interval(5000).subscribe(
+        () => {
+          console.log("!!!!!!!!!!! IsAuthenticated :" +service.isAuthenticated())
+          if (service.isAuthenticated()) {
+            service.checkBackendAuthentication(service)
+          }
+        })
   }
 
   /**
@@ -29,7 +61,7 @@ export class AppSecurityService {
    * @param callback security callback
    */
 
-  authenticate = (credentials, callback) => {
+  authenticate = (service: AppSecurityService, credentials, callback) => {
 
     const isAuthenticated = localStorage.getItem('authenticated');
     console.log('######## Is authenticated? ' + isAuthenticated);
@@ -79,6 +111,8 @@ export class AppSecurityService {
 
   /** clear credentials for logging */
   public clearCredentials(): void{
+    this.credentials.username = ''
+    this.credentials.password = ''
     localStorage.setItem('authenticated', 'false');
     localStorage.setItem(basicAuthKey, '');
   }
@@ -86,8 +120,36 @@ export class AppSecurityService {
   /**
    * checks whether the app authenticated
    */
-  isAuthenticated(): boolean {
+  isAuthenticated() {
     return localStorage.getItem('authenticated') === 'true';
+  }
+
+
+  checkBackendAuthentication (service: AppSecurityService) {
+    const auth = new Auth();
+    const headers = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept : '*/*'
+    });
+
+    this.http.get<LoggingCheck>(this.backendUrl+"checkUser", {headers})
+      .subscribe(
+        {
+          next(response) {
+            if (response.logged !== true) {
+              service.clearCredentials()
+              service.router.navigateByUrl('/')
+            } else {
+              auth.authenticated = true
+            }
+          },
+          error(err) {
+            service.clearCredentials()
+            service.router.navigateByUrl('/')
+          }
+        }
+      )
   }
 
 
@@ -109,4 +171,7 @@ export class AppSecurityService {
   }
 
 }
+
+
+
 
