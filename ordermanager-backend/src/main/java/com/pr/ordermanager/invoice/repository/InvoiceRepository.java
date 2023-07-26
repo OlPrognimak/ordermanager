@@ -35,6 +35,7 @@ import com.pr.ordermanager.security.entity.InvoiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -51,4 +52,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
      * @return th list of Invoices which belongs to the user {@code invoiceUser}
      */
     List<Invoice> findByInvoiceUser(InvoiceUser invoiceUser);
+
+    List<Invoice> findByInvoiceUserAndCreationDateBetween(InvoiceUser invoiceUser, OffsetDateTime startDate, OffsetDateTime endDate);
 }

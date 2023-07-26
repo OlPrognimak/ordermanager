@@ -27,4 +27,3 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule{}
-export  const routingComponent = [InvoiceFormComponent, PersonFormComponent];

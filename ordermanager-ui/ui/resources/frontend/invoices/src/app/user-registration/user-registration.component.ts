@@ -32,11 +32,9 @@ import {Component, OnInit} from '@angular/core';
 import {CreatedResponse, NewUser} from '../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
-import {Message} from 'primeng/api/message';
 import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../common-services/common-services-util.service";
-import {Observable, of, subscribeOn} from "rxjs";
-import {delay, map} from "rxjs/operators";
+import {Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
 import {MessagesPrinter} from "../common-services/common-services.app.http.service";
 import {AppSecurityService} from "../user-login/app-security.service";
@@ -45,7 +43,7 @@ import {AppSecurityService} from "../user-login/app-security.service";
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
   styleUrls: ['./user-registration.component.css'],
-  providers: []
+  providers: [HttpClient, MessageService, CommonServicesUtilService, AppSecurityService, MessagesPrinter],
 })
 export class UserRegistrationComponent implements OnInit {
 

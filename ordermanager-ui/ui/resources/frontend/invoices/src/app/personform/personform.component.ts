@@ -28,22 +28,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, NgModule, OnInit} from '@angular/core';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
-
-function handleResult(result: string): void {
-  console.log('Result: ' + JSON.stringify(result));
-}
-
-
-function handleError(err: any): void {
-  console.log('Error: ' + JSON.stringify(err));
-}
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {ButtonModule} from "primeng/button";
+import {ValidatableInputTextModule} from "../validatable-input-text/validatable-input-text.component";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
+import {ToastModule} from "primeng/toast";
+import {ValidatableDropdownlistModule} from "../validatable-dropdownlist/validatable-dropdownlist.component";
+import {InputTextModule} from "primeng/inputtext";
 
 /**
  * The component which contains form component for creation of person
@@ -52,7 +52,7 @@ function handleError(err: any): void {
   styleUrls: ['./personform.component.css'],
   selector: 'app-person',
   templateUrl: './personform.component.html',
-  providers: []
+  providers: [MessageService]
 })
 export class PersonFormComponent implements OnInit {
   /** person model */
@@ -86,7 +86,7 @@ export class PersonFormComponent implements OnInit {
    */
   ngOnInit(): void {
     this.personType = [
-      {label: '[Select person type]', value: null},
+      // {label: '[Select person type]', value: ''},
       {label: 'Private person', value: 'PRIVATE'},
       {label: 'Organisation', value: 'ORGANISATION'}
     ];
@@ -115,3 +115,13 @@ export class PersonFormComponent implements OnInit {
   }
 
 }
+
+@NgModule(
+  {
+    imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, ValidatableDropdownlistModule,
+      MessagesModule, MessageModule, ToastModule, InputTextModule],
+    declarations: [PersonFormComponent],
+    exports:  [PersonFormComponent],
+  }
+)
+export class PersonFormModule{}

@@ -31,6 +31,7 @@
 package com.pr.ordermanager.invoice.service;
 
 
+import com.pr.ordermanager.common.model.RequestPeriodDate;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
@@ -44,7 +45,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
@@ -84,7 +87,25 @@ public class InvoiceService {
         return invoices;
     }
 
-
+    /**
+     *
+     * @param userName the currently loged user
+     * @param periodDate the date period
+     * @return the list of invoices which belongs to the user {@code userName}
+     */
+    public List<Invoice> getAllUserInvoices(String userName, RequestPeriodDate periodDate){
+        InvoiceUser user = userRepository.findByUsername(userName);
+        OffsetDateTime endDate = null;
+        Assert.notNull(periodDate.getStartDate(),"The start date can not be null");
+        if(periodDate.getEndDate() != null) {
+            endDate = periodDate.getEndDate();
+        } else {
+            endDate = OffsetDateTime.now();
+        }
+        List<Invoice> invoices = invoiceRepository.findByInvoiceUserAndCreationDateBetween(
+                user, periodDate.getStartDate(), endDate);
+        return invoices;
+    }
 
     /**
      *
@@ -108,8 +129,7 @@ public class InvoiceService {
     }
 
     public Invoice getInvoice(String invoiceNumber){
-        Invoice invoiceData = invoiceRepository.findByInvoiceNumber(invoiceNumber);
-        return invoiceData;
+        return invoiceRepository.findByInvoiceNumber(invoiceNumber);
     }
 
     /**

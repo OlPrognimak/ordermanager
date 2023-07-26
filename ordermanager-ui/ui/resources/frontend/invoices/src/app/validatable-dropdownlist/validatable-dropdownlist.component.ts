@@ -28,8 +28,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  forwardRef,
+  Input,
+  NgModule,
+  OnInit,
+  Renderer2
+} from '@angular/core';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
+import {ToastModule} from "primeng/toast";
+import {DropdownModule} from "primeng/dropdown";
 
 @Component({
   selector: 'app-validatable-dropdownlist',
@@ -48,7 +62,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Input() public txtMinLength = 0;
   @Input() public idComponent = '';
   @Input() public labelText = '';
-  @Input() public placeholder = '';
+  @Input() public placeholder = 'Select peron type';
   @Input() public controlValue: any;
   @Input() public name = ''
   onChange: (val) => void;
@@ -89,4 +103,16 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   writeValue(value: any): void {
       this.controlValue = value;
   }
+}
+
+@NgModule(
+  {
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, DropdownModule],
+    declarations: [ValidatableDropdownlistComponent],
+    exports: [ValidatableDropdownlistComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  }
+)
+export class ValidatableDropdownlistModule{
+
 }

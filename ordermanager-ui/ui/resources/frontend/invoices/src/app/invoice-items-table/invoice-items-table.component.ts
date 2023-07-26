@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DropdownDataType, InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
@@ -51,8 +51,8 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
-
   @Input() catalogItems: DropdownDataType[];
+  @Input() myInputField;
 
 
   backendUrl: string;
@@ -68,8 +68,16 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
     return this.calculatorService.totalNettoSum;
   }
 
+  setTotalNettoSum(value: any) {
+
+  }
+
   public getToltalBruttoSum(): any {
     return this.calculatorService.totalBruttoSum;
+  }
+
+  public setTottalBruttoSum(value: any){
+
   }
 
   ngOnInit(): void {
@@ -149,7 +157,6 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    //this.printToJson("$$$$$$$$$ MODEL :"+model.amountItems+ "  Value :"+ JSON.stringify(event));
     const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
     promise.then(() => {
         this.emitTotalChanged();

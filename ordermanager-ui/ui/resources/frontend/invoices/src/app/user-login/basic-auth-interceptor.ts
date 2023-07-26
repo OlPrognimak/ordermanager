@@ -17,7 +17,7 @@ export class BasicInterceptor {
     // add auth header
     if ( localStorage.getItem('authenticated') === 'true') {
       request = request.clone({
-        setHeaders: { Authorization: localStorage.getItem(basicAuthKey) }
+        setHeaders: { Authorization: localStorage.getItem(basicAuthKey) as string }
       });
     }
 

@@ -1,0 +1,35 @@
+<div style="margin-top: 20pt; margin-bottom: 20pt; height: 100%" class="p-shadow-4">
+  <form (submit)="loadData(finderPeriodForm)" #finderPeriodForm="ngForm">
+    <div class="overlayProcess childElementCenter" *ngIf="service.processRuns">
+      <mat-progress-spinner mode="indeterminate" *ngIf="service.processRuns"></mat-progress-spinner>
+    </div>
+    <h3 style="margin-left: 5pt">Select date period</h3>
+    <div class="p-grid">
+
+      <div class="p-col-3 justifyPanel">
+        <app-validatable-calendar [name]="'startDate'"
+                                  [idComponent]="'id-StartDate'"
+                                  [labelText]="'Start Date'"
+                                  [(ngModel)]="requestDatePeriod.startDate"
+                                  (controlModel)="startDateControlModel = $event"
+                                  [dateFormat]="'dd.mm.yy'">
+        </app-validatable-calendar>
+      </div>
+
+      <div class="p-col-3 justifyPanel">
+        <app-validatable-calendar [name]="'endDate'"
+                                  [idComponent]="'id-EndDate'"
+                                  [labelText]="'End Date'"
+                                  [(ngModel)]="requestDatePeriod.endDate"
+                                  (controlModel)="endDateControlModel = $event"
+                                  [dateFormat]="'dd.mm.yy'">
+        </app-validatable-calendar>
+      </div>
+
+      <div class="p-col-1 justifyPanel">
+        <p-button type="submit" class="submit-button" [disabled]="isSubmitButtonDisabled()" label="Find"></p-button>
+      </div>
+
+    </div>
+  </form>
+</div>

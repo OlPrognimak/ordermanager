@@ -56,8 +56,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.RequestMatcherDelegatingAuthorizationManager;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -186,7 +184,8 @@ public class SecurityConfig {
                )
                .authorizeHttpRequests( (authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico", "/polyfills.js")
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico",
+                                "/polyfills.js")
                         .anonymous()
                        .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                "/invoice/**", "/person",
@@ -196,7 +195,7 @@ public class SecurityConfig {
                        .requestMatchers(HttpMethod.PUT, "/person/**",
                              "/invoice/**").authenticated()
                        .requestMatchers(HttpMethod.POST,
-                               "/invoice/printreport").authenticated()
+                               "/invoice/**", "/person/**").authenticated()
 
                 )
                //.httpBasic(Customizer.withDefaults())

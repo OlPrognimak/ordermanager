@@ -4,9 +4,7 @@
       <p-toast></p-toast>
     </div>
   <div class="p-col-12">
-    <div class="overlayProcess childElementCenter" *ngIf="processRuns">
-      <mat-progress-spinner  mode="indeterminate" *ngIf="processRuns"> </mat-progress-spinner>
-    </div>
+    <app-dateperiod-finder [url]="'person/personsListPeriod'" (responseOutput)="persons = $event" #dataFinder/>
 
     <p-table  [value]="persons" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">

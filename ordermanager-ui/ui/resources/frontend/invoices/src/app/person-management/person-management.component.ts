@@ -1,56 +1,44 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {TableModule} from "primeng/table";
 import {ToastModule} from "primeng/toast";
 import {PersonFormModel} from "../domain/domain.personformmodel";
 import {AppSecurityService} from "../user-login/app-security.service";
-import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
-import {MessagesPrinter} from "../common-services/common-services.app.http.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {DateperiodFinderComponent} from "../common-components/dateperiod-finder/dateperiod-finder.component";
 
 @Component({
   selector: 'app-person-management',
   standalone: true,
-  imports: [CommonModule, TableModule, ToastModule, HttpClientModule, MatProgressSpinnerModule],
+    imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent],
   templateUrl: './person-management.component.html',
   styleUrls: ['./person-management.component.css'],
-  providers: [AppSecurityService, HttpClient, MessagesPrinter]
+  providers: [AppSecurityService]
 })
-export class PersonManagementComponent implements OnInit {
+export class PersonManagementComponent implements OnInit, AfterViewInit {
 
-  persons: PersonFormModel[];
-  processRuns: boolean;
+  _persons: PersonFormModel[];
+  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
 
-  constructor(public appSecurityService: AppSecurityService, private http: HttpClient,
-              private messagePrinter: MessagesPrinter) {
+  constructor(public appSecurityService: AppSecurityService) {
   }
 
   ngOnInit(): void {
-    this.loadPersonsInternal(this)
+
   }
 
-  loadPersonsInternal(component: PersonManagementComponent): void {
-    this.processRuns = true
-    const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
-    this.http.get<PersonFormModel[]>(
-      this.appSecurityService.backendUrl + 'persons', {headers})
-      .subscribe(
-        {
-          next(response) {
-            component.persons = response
-            component.processRuns = false
-          },
-          error(err) {
-            component.processRuns = false
-            component.messagePrinter.printUnSuccessMessage('of loading all persons', err)
-          },
-          complete() {
-            component.processRuns = false
-          }
-        }
-      )
+  set persons(value) {
+    this._persons = value
   }
+
+  get persons() {
+    return this._persons
+  }
+
+  ngAfterViewInit(): void {
+    if( this.dataFinder !== undefined) {
+      this.dataFinder.loadData(null)
+    }
+  }
+
 }

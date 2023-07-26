@@ -14,7 +14,7 @@
                                 minlength="txtMinLength"
                                 id="{{idComponent}}"
                                 [(ngModel)]="controlValue"
-                                (ngModelChange)="onChange($event)"
+                                (ngModelChange)="onChange($event); valueChanged(modelCalenderRef)"
                                 #modelCalenderRef="ngModel">
                     </p-calendar>
                     <label  for="{{idComponent}}">{{labelText}}</label>

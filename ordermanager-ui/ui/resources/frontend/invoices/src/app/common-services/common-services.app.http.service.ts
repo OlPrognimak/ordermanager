@@ -66,7 +66,6 @@ export class CommonServicesAppHttpService<T> {
       Accept : '*/*'
     } );
     const options = {headers : reqheaders};
-
     return this.httpClient.put<any>(
       this.backendUrl + endPointPath, objectToSave, options );
   }
@@ -100,7 +99,7 @@ export class MessagesPrinter {
    */
   public printUnSuccessMessage(messagePart: any, error): void{
 
-    let errorText: string = '' ;
+    let errorText: string
 
     if (error != null) {
       console.log('Error: ' + error);

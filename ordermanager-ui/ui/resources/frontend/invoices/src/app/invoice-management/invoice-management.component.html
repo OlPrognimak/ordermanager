@@ -1,14 +1,12 @@
-
-<div *ngIf="invoiceManagementService.securityService.isAuthenticated()" class="p-card">
+<div *ngIf="securityService.isAuthenticated" class="p-fluid p-flex-row">
   <H2>Invoice management (Under construction)</H2>
   <div>
     <p-toast></p-toast>
   </div>
-  <div class="overlayProcess childElementCenter" *ngIf="invoiceManagementService.processRuns">
-    <mat-progress-spinner   mode="indeterminate" *ngIf="invoiceManagementService.processRuns"> </mat-progress-spinner>
-  </div>
-  <div class="p-col-12">
-    <p-table  [value]="invoiceManagementService.invoices" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+  <app-dateperiod-finder  [url]="'invoice/invoicesListPeriod'" (responseOutput)="invoices = $event" #dataFinder/>
+  <div class ="p-grid p-card">
+    <div class="p-col-12">
+    <p-table  [value]="invoices" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10%">Invoice number</th>
@@ -48,6 +46,7 @@
 
       </ng-template>
     </p-table>
+  </div>
   </div>
 </div>
 

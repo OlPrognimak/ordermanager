@@ -1,6 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {TableCellRendererComponent} from './table-cell-renderer.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MessageModule} from "primeng/message";
+import {MessageService} from "primeng/api";
+import {AgGridModule} from "ag-grid-angular";
 
 describe('TableCellRendererComponent', () => {
   let component: TableCellRendererComponent;
@@ -8,7 +12,9 @@ describe('TableCellRendererComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TableCellRendererComponent ]
+      declarations: [ TableCellRendererComponent],
+      imports: [HttpClientModule, MessageModule, AgGridModule],
+      providers: [MessageService]
     })
     .compileComponents();
   }));

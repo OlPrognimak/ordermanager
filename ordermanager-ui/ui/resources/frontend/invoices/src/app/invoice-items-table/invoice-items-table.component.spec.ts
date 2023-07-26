@@ -11,6 +11,9 @@ import {CommonServicesPipesNumber} from "../common-services/common-services.pipe
 import {Tooltip, TooltipModule} from "primeng/tooltip";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {NgModel} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
+import {InputNumberModule} from "primeng/inputnumber";
+import {DropdownModule} from "primeng/dropdown";
 
 describe('InvoiceItemsTableComponent', () => {
   let component: InvoiceItemsTableComponent;
@@ -18,8 +21,9 @@ describe('InvoiceItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InvoiceItemsTableComponent, Toast, CommonServicesPipesNumber, Tooltip, NgModel],
-      imports: [HttpClientModule, ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule],
+      declarations: [ InvoiceItemsTableComponent, Toast, CommonServicesPipesNumber, Tooltip, NgModel ],
+      imports: [HttpClientModule, ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule,
+        InputTextModule, InputNumberModule, DropdownModule],
       providers: [MessageService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

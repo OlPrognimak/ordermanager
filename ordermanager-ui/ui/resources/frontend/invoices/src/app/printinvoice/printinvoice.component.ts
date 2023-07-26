@@ -29,7 +29,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {AgGridAngular} from 'ag-grid-angular';
 import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
@@ -38,6 +37,7 @@ import {AppSecurityService} from '../user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
 import {environment} from "../../environments/environment";
 import {MessagesPrinter} from "../common-services/common-services.app.http.service";
+import {DateperiodFinderComponent} from "../common-components/dateperiod-finder/dateperiod-finder.component";
 
 
 /**
@@ -47,7 +47,7 @@ import {MessagesPrinter} from "../common-services/common-services.app.http.servi
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
   styleUrls: ['./printinvoice.component.css'],
-  providers: [MessagesPrinter]
+  providers: [MessagesPrinter, AppSecurityService]
 })
 export class PrintinvoiceComponent implements OnInit {
 
@@ -58,6 +58,7 @@ export class PrintinvoiceComponent implements OnInit {
   invoicesFormModel: InvoiceFormModel[];
   frameworkComponents;
   @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
+  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
   private readonly columnDefs:any;
   basicAuthKey = 'basicAuthKey';
   gridOptions: any;
@@ -68,8 +69,7 @@ export class PrintinvoiceComponent implements OnInit {
   invoiceDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
   processRuns: boolean;
 
-  constructor(private httpClient: HttpClient, public securityService: AppSecurityService,
-              private messagePrinter:MessagesPrinter) {
+  constructor( public securityService: AppSecurityService) {
     this.gridOptions = ({
       context: {
         componentParent: this
@@ -94,13 +94,6 @@ export class PrintinvoiceComponent implements OnInit {
     this.gridOptions.columnDefs = this.columnDefs;
   }
 
-  /**
-   *
-   * @param isRun
-   */
-  public isProcessRunned(isRun: boolean): void {
-      this.processRuns = isRun;
-  }
 
   ngOnInit(): void {
     this.backendUrl = environment.baseUrl;
@@ -113,29 +106,7 @@ export class PrintinvoiceComponent implements OnInit {
    * Load Invoice from server and set to table model for printing of invoices
    */
   loadInvoices() {
-    this.loadInvoicesInternal(this)
-  }
-
-  loadInvoicesInternal(component:PrintinvoiceComponent): void {
-    this.isProcessRunned(true);
-
-    const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
-    this.httpClient.get<InvoiceFormModel[]>(this.backendUrl + 'invoice/invoicesList', {headers})
-      .subscribe({
-        next(response) {
-          component.invoicesFormModel = response
-        },
-        error(err) {
-          component.isProcessRunned(false)
-          component.messagePrinter.printUnSuccessMessage('Pdf print', err);
-        },
-        complete(){
-          component.isProcessRunned(false)
-        }
-      })
+    this.dataFinder.loadData(null)
   }
 
   /**

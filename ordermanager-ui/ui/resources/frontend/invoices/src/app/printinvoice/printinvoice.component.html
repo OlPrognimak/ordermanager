@@ -1,17 +1,9 @@
-<div style="margin-top: 20pt; width: 100%; height: 100%" *ngIf="securityService.isAuthenticated">
+<div style="margin-top: 20pt; width: 100%; height: 100%" *ngIf="securityService.isAuthenticated" class="p-fluid p-flex-row">
   <p-toast></p-toast>
-<!--  <p-dialog [blockScroll]="false" [showHeader]="false"  [(visible)]="displayProcessDialog" [modal]="true"-->
-<!--            [style]="{width: '30%', height: '220pt'}"-->
-<!--             [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">-->
-
-<!--   <mat-progress-spinner  mode="indeterminate" *ngIf="processRuns"> </mat-progress-spinner>-->
-
-<!--  </p-dialog>-->
-
-   <div class="overlayProcess childElementCenter" *ngIf="processRuns">
-     <mat-progress-spinner  mode="indeterminate" *ngIf="processRuns"> </mat-progress-spinner>
-   </div>
-
+  <div style="height: 15%">
+  <app-dateperiod-finder #dataFinder [url]="'invoice/invoicesListPeriod'" (responseOutput)="invoicesFormModel = $event"/>
+  </div>
+  <div style="margin-top: 20pt; width: 100%; height: 85%">
   <ag-grid-angular
   #agGrid
   style="height: 70%;"
@@ -20,9 +12,9 @@
   [animateRows] = "true"
   [rowData]="invoicesFormModel"
   [gridOptions]="gridOptions"
-  [frameworkComponents] = "frameworkComponents"
   (rowValueChanged)="onRowValueChanged($event)"
   (cellValueChanged)="cellChanged($event)"
   (gridReady) = "onGridReady($event)"
   rowSelection="multiple"></ag-grid-angular>
+  </div>
 </div>

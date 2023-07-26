@@ -28,8 +28,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {registerLocaleData} from '@angular/common';
+import {AfterViewInit, Component, EventEmitter, Input, NgModule, OnInit, Output, ViewChild} from '@angular/core';
+import {CommonModule, registerLocaleData} from '@angular/common';
 import localede from '@angular/common/locales/de';
 
 
@@ -41,7 +41,7 @@ import {
   InvoiceItemModelInterface
 } from '../domain/domain.invoiceformmodel';
 
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService, basicAuthKey} from '../user-login/app-security.service';
@@ -50,6 +50,19 @@ import {CommonServicesUtilService} from '../common-services/common-services-util
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 import {environment} from '../../environments/environment';
 import {map} from "rxjs/operators";
+import {FormsModule} from "@angular/forms";
+import {ValidatableDropdownlistModule} from "../validatable-dropdownlist/validatable-dropdownlist.component";
+import {ValidatableInputTextModule} from "../validatable-input-text/validatable-input-text.component";
+import {ValidatableCalendarModule} from "../validatable-calendar/validatable-calendar.component";
+import {MessageModule} from "primeng/message";
+import {ToastModule} from "primeng/toast";
+import {ButtonModule} from "primeng/button";
+import {TableModule} from "primeng/table";
+import {TooltipModule} from "primeng/tooltip";
+import {InvoicePipesModule} from "../common-services/common-services.pipes.number";
+import {InputTextModule} from "primeng/inputtext";
+import {InputNumberModule} from "primeng/inputnumber";
+import {DropdownModule} from "primeng/dropdown";
 
 
 registerLocaleData(localede, 'de');
@@ -69,7 +82,8 @@ function handleError(err: any): void {
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  []
+  providers:  [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService,
+    CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit{
 
@@ -206,3 +220,14 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   }
 
 }
+
+@NgModule(
+  {
+    imports: [CommonModule, FormsModule, ValidatableDropdownlistModule, ValidatableInputTextModule,
+      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule,
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule],
+    declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
+    exports: [InvoiceFormComponent, InvoiceItemsTableComponent]
+  }
+)
+export class InvoiceFormModule {}

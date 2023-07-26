@@ -3,6 +3,7 @@ package com.pr.ordermanager.person.controller;
 
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.common.model.DropdownDataType;
+import com.pr.ordermanager.common.model.RequestPeriodDate;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.model.PersonFormModel;
@@ -25,8 +26,6 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper.mapPersonEntityToModel;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -49,6 +48,8 @@ public class PersonController {
     private static final String PATH = "/person";
 
     private static final String PERSONS = "/persons";
+
+    private static final String PATH_PERSONS_LIST_PERIOD = PATH+"/personsListPeriod";
     private static final String PATH_PERSON = PATH;
     private static final String PATH_PERSONS_DROPDOWN =PATH+ "/personsdropdown";
 
@@ -144,6 +145,17 @@ public class PersonController {
     @GetMapping(value = PERSONS, produces = APPLICATION_JSON)
     public ResponseEntity<List<PersonFormModel>> getUserPersons(Principal principal) {
         List<Person> allPersons = personService.getAllUserPersons(principal.getName());
+        List<PersonFormModel> personFormModels = allPersons.stream().map(
+                PersonModelToEntityMapperHelper::mapPersonEntityToModel).collect(Collectors.toList());
+
+        return ResponseEntity.status(OK).body(personFormModels);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(value = PATH_PERSONS_LIST_PERIOD,  produces = APPLICATION_JSON)
+    public ResponseEntity<List<PersonFormModel>> getPersonsByPeriod(Principal principal,
+                                                                    @RequestBody RequestPeriodDate periodDate) {
+        List<Person> allPersons = personService.getAllUserPersons(principal.getName(), periodDate);
         List<PersonFormModel> personFormModels = allPersons.stream().map(
                 PersonModelToEntityMapperHelper::mapPersonEntityToModel).collect(Collectors.toList());
 

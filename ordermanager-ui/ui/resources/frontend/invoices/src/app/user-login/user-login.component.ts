@@ -5,13 +5,21 @@ import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {environment} from '../../environments/environment';
 import {Observable, of} from "rxjs";
-import {NgForm} from "@angular/forms";
+import {FormsModule, NgForm} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {ButtonModule} from "primeng/button";
+import {
+  ValidatableInputTextModule
+} from "../validatable-input-text/validatable-input-text.component";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, AppSecurityService, HttpClient]
 })
 export class UserLoginComponent implements OnInit {
 
@@ -62,14 +70,15 @@ export class UserLoginComponent implements OnInit {
   }
 }
 
-//
-// @NgModule(
-//   {
-//     imports: [CommonModule, FormsModule, ButtonModule, AppModule],
-//     declarations: [UserLoginComponent],
-//     exports: [UserLoginComponent]
-//   }
-// )
-// export class UserLoginModule{
 
-//}
+@NgModule(
+  {
+    imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, MessagesModule,
+      MessageModule, ToastModule],
+    declarations: [UserLoginComponent],
+    exports: [UserLoginComponent]
+  }
+)
+export class UserLoginModule{
+
+}

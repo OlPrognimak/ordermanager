@@ -102,6 +102,7 @@
   <div class="p-col-1">
     <p-button [pTooltip]="'Add new empty item'" class="p-button-secondary" label="AddItem" (onClick)="addNewItem()"></p-button>
   </div>
+
 </div>
 
 <div class="p-grid">
@@ -112,18 +113,18 @@
   <div class="p-col-2">
 
     <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
-    <input id="id-tottalNettoSun" name="tottalNettoSum" class="p-cell-editing" type="text"
+    <input placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" class="p-field" type="text"
            [ngModel]="getTotalNettoSum()  | standardFloat"
-           (ngModelChange)="getTotalNettoSum()" required/>
+           (ngModelChange)="setTotalNettoSum($event)" required/>
   </div>
 </div>
 <div class="p-grid">
   <div class="p-col-10"></div>
   <div class="p-col-2">
     <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
-    <input  id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
+    <input placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
            [ngModel]="getToltalBruttoSum() | standardFloat"
-           (ngModelChange)="getToltalBruttoSum()" required/>
+           (ngModelChange)="setTottalBruttoSum($event)" required/>
   </div>
 </div>
 

@@ -8,6 +8,8 @@ import {MessageService} from "primeng/api";
 import {FormsModule} from "@angular/forms";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
+import {ValidatableInputTextComponent} from "../validatable-input-text/validatable-input-text.component";
+import {MessageModule} from "primeng/message";
 
 
 describe('UserLoginComponent', () => {
@@ -16,8 +18,8 @@ describe('UserLoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserLoginComponent],
-      imports: [FormsModule, ToastModule, ButtonModule],
+      declarations: [ UserLoginComponent, ValidatableInputTextComponent],
+      imports: [FormsModule, ToastModule, ButtonModule, MessageModule],
       providers: [HttpHandler, MessageService, AppSecurityService, HttpClient],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -32,5 +34,6 @@ describe('UserLoginComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    
   });
 });

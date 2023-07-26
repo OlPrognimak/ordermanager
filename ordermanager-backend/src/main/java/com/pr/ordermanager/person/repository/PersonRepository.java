@@ -36,6 +36,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -51,5 +52,8 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
      */
     @Query("select p from Person p where p.invoiceUser.username = :userName")
     List<Person> findAllPersonsByUserName(String userName);
+
+    @Query("select p from Person p where p.invoiceUser.username = :userName and p.created between :startDate and :endDate")
+    List<Person> findAllPersonsByUserNameAndCreatedBetween(String userName, Instant startDate, Instant endDate);
 
 }

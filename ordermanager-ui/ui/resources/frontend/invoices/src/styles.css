@@ -74,7 +74,7 @@ nav div div {
 }
 
 nav div div ul {
-  width: 150% !important;
+  min-width: fit-content;
 }
 
 

@@ -34,7 +34,7 @@
         <div class="p-col-6">
           <app-validatable-input-text  [name] = "'password'"
                                       [labelText]="'Password'"
-                                      [idComponent]="'id_UsePassword'"
+                                      [idComponent]="'id_UserPassword'"
                                       [inputType]="'password'"
                                       [txtMinLength]="5"
                                       [(ngModel)]="appSecurityService.credentials.password">
@@ -48,7 +48,7 @@
       <div class="p-grid">
         <div class="p-col-3"></div>
         <div class="p-col-2">
-          <p-button type="submit"  label="Login"></p-button>
+          <p-button type="submit" class ="submit-button"  label="Login"></p-button>
         </div>
         <div class="p-col-4"></div>
       </div>

@@ -28,9 +28,24 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Input,
+  NgModule,
+  OnInit,
+  Output,
+  Renderer2
+} from '@angular/core';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from "@angular/forms";
 import {CalendarModule} from 'primeng/calendar';
+import {CommonModule} from "@angular/common";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
+import {ToastModule} from "primeng/toast";
+import {InputTextModule} from "primeng/inputtext";
 
 
 @Component({
@@ -54,6 +69,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   @Input() dateFormat = 'dd.mm.yy';
   @Input() name = ''
   @Input() controlValue = '';
+  @Output() controlModel: EventEmitter<NgModel> = new EventEmitter<NgModel>()
   calModul: CalendarModule;
   onChange: (val) => void;
   onTouched: () => void;
@@ -96,4 +112,16 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
       this.controlValue = value;
   }
 
+  valueChanged(modelCalenderRef: NgModel) {
+    this.controlModel.emit(modelCalenderRef)
+  }
 }
+
+@NgModule(
+  {
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, CalendarModule,],
+    declarations: [ValidatableCalendarComponent],
+    exports: [ValidatableCalendarComponent]
+  }
+)
+export class ValidatableCalendarModule{}

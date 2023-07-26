@@ -33,6 +33,7 @@ package com.pr.ordermanager.invoice.controller;
 
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.common.model.DropdownDataType;
+import com.pr.ordermanager.common.model.RequestPeriodDate;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
@@ -83,6 +84,8 @@ public class InvoiceController {
     private static final String PATH = "/invoice";
     private static final String PATH_INVOICE = PATH;
     private static final String PATH_INVOICES_LIST = PATH + "/invoicesList";
+
+    private static final String PATH_INVOICES_LIST_PERIOD = PATH + "/invoicesListPeriod";
     private static final String PATH_ITEM_CATALOG = PATH + "/itemcatalog";
 
     private static final String PATH_ITEMSCATALOG_DROPDOWN = PATH + "/itemscatalogdropdown";
@@ -308,6 +311,17 @@ public class InvoiceController {
     public ResponseEntity<List<InvoiceFormModel>> getInvoices(Principal principal){
 
         List<Invoice> invoices = invoiceService.getAllUserInvoices(principal.getName());
+        List<InvoiceFormModel> invoiceFormModels =
+                invoices.stream().map(i ->
+                        EntityToModelMapperHelper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());
+        return ResponseEntity.status(OK).body(invoiceFormModels);
+    }
+
+
+    @PostMapping(path = PATH_INVOICES_LIST_PERIOD, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<List<InvoiceFormModel>> getInvoicesByPeriod(Principal principal, @RequestBody RequestPeriodDate periodDate){
+
+        List<Invoice> invoices = invoiceService.getAllUserInvoices(principal.getName(), periodDate);
         List<InvoiceFormModel> invoiceFormModels =
                 invoices.stream().map(i ->
                         EntityToModelMapperHelper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());

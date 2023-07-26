@@ -14,7 +14,7 @@ import {environment} from "../../environments/environment";
   selector: 'app-table-cell-renderer',
   templateUrl: './table-cell-renderer.component.html',
   styleUrls: ['./table-cell-renderer.component.css'],
-  providers: []
+  providers: [HttpClient, MessagesPrinter]
 })
 export class TableCellRendererComponent implements OnInit, ICellRendererAngularComp {
   private cellVale: any;
@@ -22,7 +22,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   private basicAuthKey = 'basicAuthKey';
   constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter) { }
   parentTableComponent: any;
-  public params: any;
+  public params: ICellRendererParams;
   private msgObservable = of(this.messagePrinter);
 
   /**

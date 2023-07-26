@@ -30,6 +30,7 @@
  */
 package com.pr.ordermanager.person.service;
 
+import com.pr.ordermanager.common.model.RequestPeriodDate;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
@@ -143,5 +144,26 @@ public class PersonService {
     }
 
 
+    /**
+     * Search and retrieve the persons which belongs to the user {@code userName}
+     * @param userName the user whom belongs the persons
+     * @param periodDate the date of period
+     * @return the list of {@link Person}
+     */
+    public List<Person> getAllUserPersons(String userName, RequestPeriodDate periodDate){
+
+        try{
+            List<Person> persons = personRepository.findAllPersonsByUserNameAndCreatedBetween(userName,
+                    periodDate.getStartDate().toInstant(), periodDate.getEndDate().toInstant());
+            if(persons.isEmpty()){
+                throw new OrderManagerException(CODE_0009, CODE_0009.getMessage(userName));
+            }
+            return persons;
+        }catch(Exception ex){
+            logger.error("No persons for  "+userName+ " are found.", ex);
+            return new ArrayList<>();
+            //throw new OrderManagerException(CODE_0000,"No persons for  "+userName+ " are found.");
+        }
+    }
 
 }

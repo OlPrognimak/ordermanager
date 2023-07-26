@@ -45,6 +45,11 @@ export interface InvoiceFormModelInterface {
   totalSumBrutto: number;
 }
 
+export interface RequestPeriodDateInterface {
+  startDate: Date;
+  endDate: Date;
+}
+
 export interface InvoiceItemModelInterface {
   idxItem: number;
   catalogItemId: number;
@@ -95,6 +100,17 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   }
 }
 
+
+export class RequestDatePriod implements RequestPeriodDateInterface {
+  startDate: Date = _moment().startOf('year').toDate();
+  endDate: Date = new Date();
+  public toJSON(): RequestPeriodDateInterface {
+    return Object.assign({}, this, {
+      startDate: _moment(this.startDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ' )
+    });
+  }
+}
 
 export class InvoiceItemModel implements InvoiceItemModelInterface{
   idxItem: number;

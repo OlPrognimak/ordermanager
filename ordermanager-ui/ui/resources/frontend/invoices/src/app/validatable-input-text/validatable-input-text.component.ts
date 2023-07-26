@@ -28,8 +28,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  forwardRef,
+  Input,
+  NgModule,
+  OnInit,
+  Renderer2
+} from '@angular/core';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {CommonModule} from "@angular/common";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
+import {ToastModule} from "primeng/toast";
+import {InputTextModule} from "primeng/inputtext";
 
 
 @Component({
@@ -48,7 +62,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   /** minimal length of text */
   @Input()  public txtMinLength = 30;
   @Input() public idComponent = '';
-  @Input() public labelText = '';
+  @Input()  labelText = '';
   @Input() inputType = 'text';
   @Input() controlValue = '';
   @Input() name: any='';
@@ -92,5 +106,17 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   writeValue(value: any): void {
       this.controlValue = value;
   }
+
+}
+
+@NgModule(
+  {
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule],
+    declarations: [ValidatableInputTextComponent],
+    exports: [ValidatableInputTextComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  }
+)
+export class ValidatableInputTextModule{
 
 }

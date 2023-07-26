@@ -20,6 +20,13 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
+    resolve: {
+      fallback: [{ "path": require.resolve('path-browserify') }, { "timers": require.resolve('timers-browserify') }]
+    },
+    // ,
+    // resolve: {
+    //   fallback: { "timers": require.resolve('timers-browserify') }
+    // },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
