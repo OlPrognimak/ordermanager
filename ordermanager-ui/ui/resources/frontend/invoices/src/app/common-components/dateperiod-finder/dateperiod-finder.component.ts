@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ValidatableCalendarModule} from "../../validatable-calendar/validatable-calendar.component";
 import {FormsModule, NgForm, NgModel} from "@angular/forms";
@@ -15,7 +24,7 @@ import {printToJson} from "../../common-services/common-services-util.service";
   templateUrl: './dateperiod-finder.component.html',
   styleUrls: ['./dateperiod-finder.component.css']
 })
-export class DateperiodFinderComponent {
+export class DateperiodFinderComponent implements OnInit, AfterViewInit{
 
   constructor( public service: RequestPeriodDateService) {
   }
@@ -23,6 +32,7 @@ export class DateperiodFinderComponent {
   @Input() requestDatePeriod: RequestDatePriod = new RequestDatePriod()
   @Input() url: string = ''
   @Output() responseOutput = new EventEmitter<any>()
+  @Output() onFinderIsReady = new EventEmitter<boolean>
   startDateControlModel: NgModel
   endDateControlModel: NgModel
 
@@ -41,6 +51,13 @@ export class DateperiodFinderComponent {
     }else{
       return false
     }
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.onFinderIsReady.emit(true)
   }
 
 }

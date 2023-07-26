@@ -3,7 +3,7 @@
   <div>
     <p-toast></p-toast>
   </div>
-  <app-dateperiod-finder  [url]="'invoice/invoicesListPeriod'" (responseOutput)="invoices = $event" #dataFinder/>
+  <app-dateperiod-finder  [url]="'invoice/invoicesListPeriod'" (onFinderIsReady) = "finderIsReady($event)" (responseOutput)="invoices = $event" #dataFinder/>
   <div class ="p-grid p-card">
     <div class="p-col-12">
     <p-table  [value]="invoices" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">

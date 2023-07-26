@@ -29,6 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {InvoiceFormModel} from '../domain/domain.invoiceformmodel';
 import {AgGridAngular} from 'ag-grid-angular';
 import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
@@ -47,7 +48,7 @@ import {DateperiodFinderComponent} from "../common-components/dateperiod-finder/
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
   styleUrls: ['./printinvoice.component.css'],
-  providers: [MessagesPrinter, AppSecurityService]
+  providers: [MessagesPrinter, AppSecurityService, HttpClient]
 })
 export class PrintinvoiceComponent implements OnInit {
 
@@ -94,6 +95,13 @@ export class PrintinvoiceComponent implements OnInit {
     this.gridOptions.columnDefs = this.columnDefs;
   }
 
+  /**
+   *
+   * @param isRun
+   */
+  public isProcessRunned(isRun: boolean): void {
+      this.processRuns = isRun;
+  }
 
   ngOnInit(): void {
     this.backendUrl = environment.baseUrl;

@@ -15,7 +15,7 @@ import {DateperiodFinderComponent} from "../common-components/dateperiod-finder/
   styleUrls: ['./person-management.component.css'],
   providers: [AppSecurityService]
 })
-export class PersonManagementComponent implements OnInit, AfterViewInit {
+export class PersonManagementComponent implements OnInit {
 
   _persons: PersonFormModel[];
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
@@ -24,7 +24,9 @@ export class PersonManagementComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    setTimeout(() =>{
+      this.dataFinder.loadData(null)
+    })
   }
 
   set persons(value) {
@@ -33,12 +35,6 @@ export class PersonManagementComponent implements OnInit, AfterViewInit {
 
   get persons() {
     return this._persons
-  }
-
-  ngAfterViewInit(): void {
-    if( this.dataFinder !== undefined) {
-      this.dataFinder.loadData(null)
-    }
   }
 
 }

@@ -10,6 +10,7 @@ import {ValidatableCalendarModule} from "../validatable-calendar/validatable-cal
 import {FormsModule} from "@angular/forms";
 import {DateperiodFinderComponent} from "../common-components/dateperiod-finder/dateperiod-finder.component";
 import {InvoiceFormModel} from "../domain/domain.invoiceformmodel";
+import {of} from "rxjs";
 
 @NgModule(
   {
@@ -28,14 +29,18 @@ export class InvoiceManagementModule{}
   styleUrls: ['./invoice-management.component.css'],
   providers: [CommonServicesPipesDate, AppSecurityService, MessageService]
 })
-export class InvoiceManagementComponent  implements OnInit, AfterViewInit{
+export class InvoiceManagementComponent  implements OnInit {
 
   @Input() invoicesModel: InvoiceFormModel[]
-  @ViewChild('dataFinder', {static: true}) dataFinder: DateperiodFinderComponent
+  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
   constructor(public securityService: AppSecurityService) {
   }
 
   ngOnInit(): void {
+   //of(this.dataFinder).subscribe(f =>f.loadData(null))
+    setTimeout(() =>{
+      of(this.dataFinder).subscribe(f =>f.loadData(null))
+    })
   }
 
   set invoices(value){
@@ -46,10 +51,7 @@ export class InvoiceManagementComponent  implements OnInit, AfterViewInit{
     return this.invoicesModel
   }
 
-  ngAfterViewInit(): void {
-    if( this.dataFinder !== undefined) {
-      this.dataFinder.loadData(null)
-    }
-  }
 
+  finderIsReady(value: boolean) {
+  }
 }
