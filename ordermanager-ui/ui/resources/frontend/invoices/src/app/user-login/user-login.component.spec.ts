@@ -8,7 +8,7 @@ import {MessageService} from "primeng/api";
 import {FormsModule} from "@angular/forms";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
-import {ValidatableInputTextComponent} from "../validatable-input-text/validatable-input-text.component";
+import {ValidatableInputTextComponent} from "../common-components/validatable-input-text/validatable-input-text.component";
 import {MessageModule} from "primeng/message";
 
 
@@ -34,6 +34,6 @@ describe('UserLoginComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    
+
   });
 });

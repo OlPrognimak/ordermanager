@@ -30,17 +30,15 @@
  */
 import {
   Component,
-  ElementRef,
-  EventEmitter,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef, EventEmitter,
   forwardRef,
   Input,
   NgModule,
-  OnInit,
-  Output,
+  OnInit, Output,
   Renderer2
 } from '@angular/core';
-import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from "@angular/forms";
-import {CalendarModule} from 'primeng/calendar';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {CommonModule} from "@angular/common";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
@@ -49,33 +47,63 @@ import {InputTextModule} from "primeng/inputtext";
 
 
 @Component({
-  selector: 'app-validatable-calendar',
-  templateUrl: './validatable-calendar.component.html',
-  styleUrls: ['./validatable-calendar.component.css'],
+  selector: 'app-validatable-input-text',
+  templateUrl: './validatable-input-text.component.html',
+  styleUrls: ['./validatable-input-text.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidatableCalendarComponent),
+      useExisting: forwardRef(() => ValidatableInputTextComponent),
       multi: true
     }
   ]
 })
-export class ValidatableCalendarComponent implements OnInit, ControlValueAccessor {
-
+export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor  {
   /** minimal length of text */
-  @Input()  public txtMinLength = 1;
+  @Input()  public txtMinLength = 30;
   @Input() public idComponent = '';
-  @Input() public labelText = '';
-  @Input() dateFormat = 'dd.mm.yy';
-  @Input() name = ''
+  @Input()  labelText = '';
+  @Input() inputType = 'text';
   @Input() controlValue = '';
-  @Output() controlModel: EventEmitter<NgModel> = new EventEmitter<NgModel>()
-  calModul: CalendarModule;
+  @Input() name: any='';
+  @Output() componentHasError = new EventEmitter<boolean>
+
   onChange: (val) => void;
   onTouched: () => void;
+  hasRequiredError: boolean =  false
+  hasMinLengthError: boolean =  false
+  lastEmitedValue: boolean = undefined
 
+  setHasRequiredError(val: boolean, origin: any) {
+    if(this.hasRequiredError === undefined || this.hasRequiredError !==val) {
+      this.hasRequiredError = val
+      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
+      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+    return origin
+  }
+
+  setHasMinLengthError(val: boolean, origin: any) {
+    if(this.hasMinLengthError === undefined || this.hasMinLengthError !==val) {
+      this.hasMinLengthError = val
+      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
+      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+
+    return origin;
+  }
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+
+
+  ngOnInit(): void {
+  }
 
   // get accessor
   get value(): any {
@@ -89,10 +117,6 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
       this.onChange(v);
     }
   }
-
-  ngOnInit(): void {
-  }
-
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -112,16 +136,16 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
       this.controlValue = value;
   }
 
-  valueChanged(modelCalenderRef: NgModel) {
-    this.controlModel.emit(modelCalenderRef)
-  }
 }
 
 @NgModule(
   {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, CalendarModule,],
-    declarations: [ValidatableCalendarComponent],
-    exports: [ValidatableCalendarComponent]
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule],
+    declarations: [ValidatableInputTextComponent],
+    exports: [ValidatableInputTextComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
   }
 )
-export class ValidatableCalendarModule{}
+export class ValidatableInputTextModule{
+
+}

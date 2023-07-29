@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, Renderer2} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {InvoiceItemModel} from "../domain/domain.invoiceformmodel";
+import {InvoiceItemModel} from "../../domain/domain.invoiceformmodel";
 
 @Component({
   selector: 'app-editable-input-cell',

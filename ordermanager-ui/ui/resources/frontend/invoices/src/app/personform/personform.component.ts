@@ -38,11 +38,11 @@ import {CommonServicesAppHttpService} from '../common-services/common-services.a
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
-import {ValidatableInputTextModule} from "../validatable-input-text/validatable-input-text.component";
+import {ValidatableInputTextModule} from "../common-components/validatable-input-text/validatable-input-text.component";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
-import {ValidatableDropdownlistModule} from "../validatable-dropdownlist/validatable-dropdownlist.component";
+import {ValidatableDropdownlistModule} from "../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {InputTextModule} from "primeng/inputtext";
 
 /**
@@ -107,11 +107,6 @@ export class PersonFormComponent implements OnInit {
           this.personFormModel = new PersonFormModel();
         }
       });
-  }
-
-  /** for test */
-  showJson(event: any): void {
-    console.log(JSON.stringify(this.personFormModel));
   }
 
 }

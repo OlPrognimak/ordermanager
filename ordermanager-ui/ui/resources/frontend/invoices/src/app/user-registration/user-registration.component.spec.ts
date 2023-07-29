@@ -5,7 +5,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MessageModule} from "primeng/message";
 import {MessageService} from "primeng/api";
 import {ToastModule} from "primeng/toast";
-import {ValidatableInputTextModule} from "../validatable-input-text/validatable-input-text.component";
+import {ValidatableInputTextModule} from "../common-components/validatable-input-text/validatable-input-text.component";
 import {ButtonModule} from "primeng/button";
 import {FormsModule} from "@angular/forms";
 

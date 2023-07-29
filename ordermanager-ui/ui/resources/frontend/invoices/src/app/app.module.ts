@@ -16,12 +16,12 @@ import {TableModule} from 'primeng/table';
 import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
 import {MessageModule} from 'primeng/message';
-import {ValidatableDropdownlistModule} from './validatable-dropdownlist/validatable-dropdownlist.component';
-import {ValidatableCalendarModule} from './validatable-calendar/validatable-calendar.component';
+import {ValidatableDropdownlistModule} from './common-components/validatable-dropdownlist/validatable-dropdownlist.component';
+import {ValidatableCalendarModule} from './common-components/validatable-calendar/validatable-calendar.component';
 import {UserRegistrationComponent} from './user-registration/user-registration.component';
 import {CommonServicesUtilService} from './common-services/common-services-util.service';
 import {MessageService} from 'primeng/api';
-import {EditableInputCellComponent} from './editable-input-cell/editable-input-cell.component';
+import {EditableInputCellComponent} from './common-components/editable-input-cell/editable-input-cell.component';
 import {ItemsFormComponent} from './items-form/items-form.component';
 import {CommonServicesAppHttpService} from './common-services/common-services.app.http.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -37,10 +37,11 @@ import {CommonModule} from "@angular/common";
 import {InvoiceManagementModule} from "./invoice-management/invoice-management.component";
 import {RippleModule} from "primeng/ripple";
 import {UserLoginModule} from "./user-login/user-login.component";
-import {ValidatableInputTextModule} from "./validatable-input-text/validatable-input-text.component";
+import {ValidatableInputTextModule} from "./common-components/validatable-input-text/validatable-input-text.component";
 import {PersonFormModule} from "./personform/personform.component";
 import {InvoiceFormModule} from "./invoiceform/invoiceform.component";
 import {DateperiodFinderComponent} from "./common-components/dateperiod-finder/dateperiod-finder.component";
+import {InvoicePipesModule} from "./common-services/common-services.pipes.number";
 
 
 @NgModule({
@@ -52,39 +53,40 @@ import {DateperiodFinderComponent} from "./common-components/dateperiod-finder/d
     EditableInputCellComponent,
     ItemsFormComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        FormsModule,
-        HttpClientModule,
-        ButtonModule,
-        DropdownModule,
-        TableModule,
-        InputTextModule,
-        AgGridModule,
-        MessagesModule,
-        MessageModule,
-        MatProgressSpinnerModule,
-        DialogModule,
-        ToastModule,
-        TooltipModule,
-        MenubarModule,
-        RouterModule,
-        MatButtonModule,
-        InputMaskModule,
-        InputNumberModule,
-        CommonModule,
-        InvoiceManagementModule,
-        RippleModule,
-        UserLoginModule,
-        ValidatableCalendarModule,
-        ValidatableInputTextModule,
-        ValidatableDropdownlistModule,
-        PersonFormModule,
-        InvoiceFormModule,
-        DateperiodFinderComponent
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ButtonModule,
+    DropdownModule,
+    TableModule,
+    InputTextModule,
+    AgGridModule,
+    MessagesModule,
+    MessageModule,
+    MatProgressSpinnerModule,
+    DialogModule,
+    ToastModule,
+    TooltipModule,
+    MenubarModule,
+    RouterModule,
+    MatButtonModule,
+    InputMaskModule,
+    InputNumberModule,
+    CommonModule,
+    InvoiceManagementModule,
+    RippleModule,
+    UserLoginModule,
+    ValidatableCalendarModule,
+    ValidatableInputTextModule,
+    ValidatableDropdownlistModule,
+    PersonFormModule,
+    InvoiceFormModule,
+    DateperiodFinderComponent,
+    InvoicePipesModule
+  ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],
   bootstrap: [AppComponent],

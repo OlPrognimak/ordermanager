@@ -1,4 +1,4 @@
-<form #invoiceForm ="ngForm" >
+<form #invoiceForm ="ngForm">
 <div *ngIf="appSecurityService.isAuthenticated" class="p-fluid">
 
   <H2>Create invoice</H2>
@@ -11,7 +11,8 @@
       <app-validatable-input-text [name] = "'invoiceNumber'"
                                   [labelText]="'Invoice Number'"
                                   [idComponent]="'id_InvoiceNumber'"
-                                  [txtMinLength]="2"
+                                  (componentHasError) = "setHasInvoiceNumberError($event)"
+                                  [txtMinLength]="5"
                                   [(ngModel)] = "invoiceFormData.invoiceNumber">
       </app-validatable-input-text>
     </div>
@@ -31,6 +32,7 @@
                                     [labelText]="'Rate Type'"
                                     [idComponent]="'id-rateType'"
                                     [txtMinLength]="1"
+                                    (componentHasError) = "setHasInvoiceratesError($event)"
                                     [(ngModel)] ="invoiceFormData.rateType">
       </app-validatable-dropdownlist>
     </div>
@@ -42,15 +44,21 @@
                                   [idComponent]="'id-creationDate'"
                                   [labelText]="'Creation Date'"
                                   [(ngModel)]="invoiceFormData.creationDate"
+                                  calendarDateFormat="dd.mm.yy"
+                                  maxlength="10"
+                                  (componentHasError) = "setHasCreationDateError($event)"
                                   [dateFormat]="'dd.mm.yy'">
         </app-validatable-calendar>
     </div>
 
     <div class="p-col-3">
-      <app-validatable-calendar [name] = "'inviceDate'"
+      <app-validatable-calendar [name] = "'invoiceDate'"
                                 [idComponent]="'id-InvoiceDate'"
                                 [labelText]="'Invoice Date'"
                                 [(ngModel)]="invoiceFormData.invoiceDate"
+                                calendarDateFormat="dd.mm.yy"
+                                maxlength="10"
+                                (componentHasError) = "setHasInvoiceDateError($event)"
                                 [dateFormat]="'dd.mm.yy'">
       </app-validatable-calendar>
     </div>
@@ -64,6 +72,7 @@
                                     [idComponent]="'id-invoiceCreator'"
                                     [placeholder]="'Select person'"
                                     [txtMinLength]="-1"
+                                    (componentHasError) = "setHasCreatorError($event)"
                                     [(ngModel)] ="invoiceFormData.personSupplierId">
       </app-validatable-dropdownlist>
 
@@ -77,6 +86,7 @@
                                     [idComponent]="'id-invoiceRecipient'"
                                     [placeholder]="'Select person'"
                                     [txtMinLength]="0"
+                                    (componentHasError) = "setHasRecipientError($event)"
                                     [(ngModel)] ="invoiceFormData.personRecipientId">
       </app-validatable-dropdownlist>
     </div>
@@ -92,7 +102,7 @@
 
   <div class="p-grid">
     <div class="p-col-1">
-      <p-button [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
+      <p-button [disabled] = "hasErrors()" [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
     </div>
 
   </div>

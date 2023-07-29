@@ -1,4 +1,5 @@
 <div style="margin-top: 20pt; margin-bottom: 20pt; height: 100%" class="p-shadow-4">
+  <p-toast></p-toast>
   <form (submit)="loadData(finderPeriodForm)" #finderPeriodForm="ngForm">
     <div class="overlayProcess childElementCenter" *ngIf="service.processRuns">
       <mat-progress-spinner mode="indeterminate" *ngIf="service.processRuns"></mat-progress-spinner>
@@ -11,8 +12,8 @@
                                   [idComponent]="'id-StartDate'"
                                   [labelText]="'Start Date'"
                                   [(ngModel)]="requestDatePeriod.startDate"
-                                  (controlModel)="startDateControlModel = $event"
-                                  [dateFormat]="'dd.mm.yy'">
+                                  calendarDateFormat="dd.mm.yy"
+                                  (controlModel)="startDateControlModel = $event">
         </app-validatable-calendar>
       </div>
 
@@ -22,7 +23,7 @@
                                   [labelText]="'End Date'"
                                   [(ngModel)]="requestDatePeriod.endDate"
                                   (controlModel)="endDateControlModel = $event"
-                                  [dateFormat]="'dd.mm.yy'">
+                                  calendarDateFormat="dd.mm.yy">
         </app-validatable-calendar>
       </div>
 

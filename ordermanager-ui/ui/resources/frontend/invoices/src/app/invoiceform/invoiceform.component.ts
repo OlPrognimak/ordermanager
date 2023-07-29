@@ -51,9 +51,9 @@ import {CommonServicesAppHttpService} from '../common-services/common-services.a
 import {environment} from '../../environments/environment';
 import {map} from "rxjs/operators";
 import {FormsModule} from "@angular/forms";
-import {ValidatableDropdownlistModule} from "../validatable-dropdownlist/validatable-dropdownlist.component";
-import {ValidatableInputTextModule} from "../validatable-input-text/validatable-input-text.component";
-import {ValidatableCalendarModule} from "../validatable-calendar/validatable-calendar.component";
+import {ValidatableDropdownlistModule} from "../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
+import {ValidatableInputTextModule} from "../common-components/validatable-input-text/validatable-input-text.component";
+import {ValidatableCalendarModule} from "../common-components/validatable-calendar/validatable-calendar.component";
 import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
 import {ButtonModule} from "primeng/button";
@@ -63,18 +63,10 @@ import {InvoicePipesModule} from "../common-services/common-services.pipes.numbe
 import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {DropdownModule} from "primeng/dropdown";
+import {RippleModule} from "primeng/ripple";
 
 
 registerLocaleData(localede, 'de');
-
-function handleResult(result: string): void {
-  console.log('Result: ' + JSON.stringify(result));
-}
-
-
-function handleError(err: any): void {
-  console.log('Error: ' + JSON.stringify(err));
-}
 
 /**
  * The component class for creation and management with invoice
@@ -106,6 +98,12 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   /** Event for updating input variable 'personInvoiceRecipient'*/
   @Output() personInvoiceRecipientEvent = new EventEmitter<DropdownDataType[]>();
   @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
+  private hasInvoiceNumberError: boolean = true;
+  private hasInvoiceCreatesError: boolean = true;
+  private hasCreatorError: boolean = true;
+  private hasRecipientError: boolean = true;
+  private hasCreationDateError: boolean;
+  private hasInvoiceDateError: boolean;
 
   /**
    * Constructor
@@ -156,8 +154,6 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    * Initialisation of the class
    */
   async loadFormData(): Promise<any> {
-    const auth = localStorage.getItem(basicAuthKey);
-
     const headers = new HttpHeaders({
       'Content-Type' : 'application/json',
       'Access-Control-Allow-Origin': '*',
@@ -219,13 +215,59 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
     }
   }
 
+  setHasInvoiceNumberError(val: boolean) {
+    setTimeout( () =>{
+      if(this.hasInvoiceNumberError !== val) {
+        this.hasInvoiceNumberError = val
+      }
+    })
+  }
+
+  setHasInvoiceratesError(event: boolean) {
+    setTimeout( () => {
+      this.hasInvoiceCreatesError = event
+    })
+  }
+
+  setHasCreatorError(event: boolean) {
+    setTimeout( () => {
+      this.hasCreatorError = event
+    })
+  }
+
+  setHasRecipientError(event: boolean) {
+    setTimeout( () => {
+      this.hasRecipientError = event
+    })
+  }
+
+  hasErrors(): boolean{
+    return (this.hasInvoiceNumberError||
+            this.hasCreatorError||
+            this.hasRecipientError||
+            this.hasInvoiceCreatesError||
+            this.hasCreationDateError||
+            this.hasInvoiceDateError)
+  }
+
+  setHasCreationDateError(event: boolean) {
+    setTimeout( () => {
+      this.hasCreationDateError = event
+    })
+  }
+
+  setHasInvoiceDateError(event: boolean) {
+    setTimeout( () => {
+      this.hasInvoiceDateError = event
+    })
+  }
 }
 
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule, ValidatableInputTextModule,
       ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule],
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule],
     declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
     exports: [InvoiceFormComponent, InvoiceItemsTableComponent]
   }

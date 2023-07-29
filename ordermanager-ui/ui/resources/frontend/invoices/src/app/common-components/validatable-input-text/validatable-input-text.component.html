@@ -12,7 +12,7 @@
                     <input  class="ng-dirty p-mr-2"
                            pInputText
                            required
-                           minLength="{{txtMinLength}}"
+                           minlength="{{txtMinLength}}"
                            id="{{idComponent}}"
                            type="{{inputType}}"
                            [(ngModel)]="value"
@@ -22,12 +22,10 @@
                </span>
     </div>
     <div *ngIf=
-           "modelRef.errors?.minLength" style ="display: table-cell; width: 10%;">
-      <div>
+           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
         <p-message severity="error"></p-message>
-      </div>
     </div>
-    <div *ngIf="modelRef.errors?.required" style ="display: table-cell; width: 10%;">
+    <div *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)" style ="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
     </div>
   </div>

@@ -31,11 +31,11 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  ElementRef,
+  ElementRef, EventEmitter,
   forwardRef,
   Input,
   NgModule,
-  OnInit,
+  OnInit, Output,
   Renderer2
 } from '@angular/core';
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
@@ -65,10 +65,40 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Input() public placeholder = 'Select peron type';
   @Input() public controlValue: any;
   @Input() public name = ''
+  @Output() componentHasError = new EventEmitter<boolean>
+  hasRequiredError: boolean =  false
+  hasMinLengthError: boolean =  false
+  lastEmitedValue: boolean = undefined
   onChange: (val) => void;
   onTouched: () => void;
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+
+  setHasRequiredError(val: boolean, origin: any) {
+    if(this.hasRequiredError === undefined || this.hasRequiredError !==val) {
+      this.hasRequiredError = val
+      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
+      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+    return origin
+  }
+
+  setHasMinLengthError(val: boolean, origin: any) {
+    if(this.hasMinLengthError === undefined || this.hasMinLengthError !==val) {
+      this.hasMinLengthError = val
+      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
+      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+
+    return origin;
+  }
+
 
   ngOnInit(): void {
   }

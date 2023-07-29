@@ -1,6 +1,4 @@
 import {
-  AfterContentChecked,
-  AfterViewChecked,
   AfterViewInit,
   Component,
   EventEmitter,
@@ -9,18 +7,19 @@ import {
   Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ValidatableCalendarModule} from "../../validatable-calendar/validatable-calendar.component";
+import {ValidatableCalendarModule} from "../validatable-calendar/validatable-calendar.component";
 import {FormsModule, NgForm, NgModel} from "@angular/forms";
 import {RequestDatePriod} from "../../domain/domain.invoiceformmodel";
 import {RequestPeriodDateService} from "./datenperiod-finder.service";
 import {ButtonModule} from "primeng/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {printToJson} from "../../common-services/common-services-util.service";
+import {ToastModule} from "primeng/toast";
+import {MessageModule} from "primeng/message";
 
 @Component({
   selector: 'app-dateperiod-finder',
   standalone: true,
-  imports: [CommonModule, ValidatableCalendarModule, FormsModule, ButtonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, ValidatableCalendarModule, FormsModule, ButtonModule, MatProgressSpinnerModule, ToastModule, MessageModule],
   templateUrl: './dateperiod-finder.component.html',
   styleUrls: ['./dateperiod-finder.component.css']
 })
@@ -46,11 +45,29 @@ export class DateperiodFinderComponent implements OnInit, AfterViewInit{
 
   isSubmitButtonDisabled(): boolean {
     if(this.startDateControlModel!==undefined||this.endDateControlModel!==undefined) {
-      return (this.startDateControlModel !== undefined && this.startDateControlModel.invalid) ||
-        (this.endDateControlModel !== undefined && this.endDateControlModel.invalid);
-    }else{
-      return false
+        if (this.requestDatePeriod.startDate!==null&&this.requestDatePeriod.endDate!==null&&
+          this.requestDatePeriod.startDate > this.requestDatePeriod.endDate) {
+          this.startDateControlModel?.control.setErrors({
+            startDateMoreEndDate: true
+          })
+          this.endDateControlModel?.control.setErrors({
+            startDateMoreEndDate: true
+          })
+          return true
+        } else {
+          this.startDateControlModel?.control.setErrors({
+            startDateMoreEndDate: null
+          })
+          this.startDateControlModel?.control.updateValueAndValidity()
+          this.endDateControlModel?.control.setErrors({
+            startDateMoreEndDate: null
+          })
+          this.endDateControlModel?.control.updateValueAndValidity()
+        }
     }
+    return (this.startDateControlModel !== undefined && this.startDateControlModel.invalid) ||
+        (this.endDateControlModel !== undefined && this.endDateControlModel.invalid);
+
   }
 
   ngOnInit(): void {

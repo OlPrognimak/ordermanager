@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, NgModule, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, NgModule, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MessageService, SharedModule} from "primeng/api";
@@ -6,7 +6,7 @@ import {TableModule} from "primeng/table";
 import {ToastModule} from "primeng/toast";
 import {CommonServicesPipesDate} from "../common-services/common-services.pipes.date";
 import {AppSecurityService} from "../user-login/app-security.service";
-import {ValidatableCalendarModule} from "../validatable-calendar/validatable-calendar.component";
+import {ValidatableCalendarModule} from "../common-components/validatable-calendar/validatable-calendar.component";
 import {FormsModule} from "@angular/forms";
 import {DateperiodFinderComponent} from "../common-components/dateperiod-finder/dateperiod-finder.component";
 import {InvoiceFormModel} from "../domain/domain.invoiceformmodel";

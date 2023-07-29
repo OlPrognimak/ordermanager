@@ -18,25 +18,25 @@
           <td style="width: 40%" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown  appendTo = "body" [options]="catalogItems"
-                            placeholder="[Select item from catalog]"
-                            [ngModel]="invoiceitem.catalogItemId"
+                <p-dropdown #itemsRef appendTo = "body" [options]="catalogItems"
+                            [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
+                            [ngModel]="invoiceitem?.catalogItemId"
                             (ngModelChange)="catalogItemSlected(invoiceitem, $event)"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
-                {{getCatalogDescription(invoiceitem.catalogItemId)}}
+                {{getCatalogDescription(invoiceitem?.catalogItemId) }}
               </ng-template>
             </p-cellEditor>
           </td>
           <td style="width: 10%" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-inputNumber name ="amountItems" (onInput)="inputBoxChanged(invoiceitem, $event)"
+                <p-inputNumber [disabled] ="invoiceitem?.catalogItemId===undefined" name ="amountItems" (onInput)="inputBoxChanged(invoiceitem, $event)"
                                placeholder = '0.00'
                                class="p-cell-editing ng-dirty"
                                mode="decimal"
                                [minFractionDigits]="2"
-                               [maxFractionDigits]="5"
+                               [maxFractionDigits]="2"
                        [(ngModel)]="invoiceitem.amountItems"
                        required />
               </ng-template>
@@ -53,10 +53,12 @@
 <!--            </app-editable-input-cell>-->
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-inputNumber name = "price" (onInput)="inputBoxChanged(invoiceitem, $event)"
+                <p-inputNumber [disabled] ="invoiceitem?.catalogItemId===undefined" name = "price" (onInput)="inputBoxChanged(invoiceitem, $event)"
                                placeholder = '0.00'
                                class="p-cell-editing ng-dirty"
                                mode="decimal"
+                               [minFractionDigits]="2"
+                               [maxFractionDigits]="2"
                        [(ngModel)]="invoiceitem.itemPrice"
                        required/>
               </ng-template>
@@ -72,11 +74,13 @@
                 <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
                        (ngModelChange)="invoiceitem.vat=$event" required/>
                 -->
-                <p-inputNumber name = "vat" (onInput)="inputBoxChanged(invoiceitem, $event)"
+                <p-inputNumber [disabled] ="invoiceitem?.catalogItemId===undefined" name = "vat" (onInput)="inputBoxChanged(invoiceitem, $event)"
                        placeholder = '0.00'
                        class="p-cell-editing ng-dirty"
                        mode="decimal"
                        [(ngModel)]="invoiceitem.vat"
+                       [minFractionDigits]="2"
+                       [maxFractionDigits]="2"
                        required/>
               </ng-template>
               <ng-template pTemplate="output">

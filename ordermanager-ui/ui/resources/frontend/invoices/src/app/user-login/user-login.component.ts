@@ -10,7 +10,7 @@ import {CommonModule} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {
   ValidatableInputTextModule
-} from "../validatable-input-text/validatable-input-text.component";
+} from "../common-components/validatable-input-text/validatable-input-text.component";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";

@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DropdownDataType, InvoiceItemModel} from '../domain/domain.invoiceformmodel';
 import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
@@ -57,6 +57,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
 
   backendUrl: string;
   idxItem: number;
+  defaultItemMsg: string = "Click to select item";
 
   constructor(public itemtableService: InvoiceItemsTableService,
               private calculatorService: InvoiceItemsTableCalculatorService) {
@@ -109,8 +110,8 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
      this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback =>{
-      // this.changeItemEvent.emit(this.invoiceItems);
-       console.log("###### Item.Amount =:"+callback.amountItems)
+      this.changeItemEvent.emit(this.invoiceItems);
+      // console.log("###### Item.Amount =:"+callback.amountItems)
        this.inputBoxChanged(callback, null)
      });
 
@@ -142,13 +143,14 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    * @param idItemCatalog the id of item in catalog of items
    */
   getCatalogDescription(idItemCatalog: string): any {
-    if (idItemCatalog !== undefined) {
+   if (idItemCatalog !== undefined) {
       // tslint:disable-next-line:triple-equals
       const rez = this.catalogItems.filter(
         val => Number(val.value) === Number(idItemCatalog));
-      return rez[0].label;
-    } else {
-      return '[Please select item]';
+      const labelTxt = rez[0].label
+      return labelTxt;
+   } else {
+     return '[Please select item]';
     }
   }
 

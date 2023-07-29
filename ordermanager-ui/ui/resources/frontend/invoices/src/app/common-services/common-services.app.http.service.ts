@@ -112,7 +112,8 @@ export class MessagesPrinter {
 
       }
     } else {
-      errorText = error;
+      errorText = messagePart;
+      console.log('Error: ' + errorText);
     }
     const msg: Message = {severity: 'error', summary: 'Error',
       detail: errorText};
