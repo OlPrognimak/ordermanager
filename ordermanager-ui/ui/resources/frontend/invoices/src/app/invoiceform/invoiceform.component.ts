@@ -44,7 +44,7 @@ import {
 import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
-import {AppSecurityService, basicAuthKey} from '../user-login/app-security.service';
+import {AppSecurityService} from '../user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
@@ -241,7 +241,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
     })
   }
 
-  hasErrors(): boolean{
+  haveErrors(): boolean{
     return (this.hasInvoiceNumberError||
             this.hasCreatorError||
             this.hasRecipientError||

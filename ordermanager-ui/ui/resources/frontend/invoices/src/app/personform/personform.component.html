@@ -10,6 +10,7 @@
                                       [labelText]="'Person Type'"
                                       [idComponent]="'id-personType'"
                                       [txtMinLength]="1"
+                                      (componentHasError) = "setHasPersonTypeError($event)"
                                       [(ngModel)] = "personFormModel.personType">
         </app-validatable-dropdownlist>
       </div>
@@ -20,6 +21,7 @@
         <app-validatable-input-text [labelText]="'First name'"
                                     [idComponent]="'id_firstName'"
                                     [txtMinLength]="2"
+                                    (componentHasErrorEvent) = "setHasFirstNameError($event)"
                                     [(ngModel)] = "personFormModel.personFirstName">
         </app-validatable-input-text>
       </div>
@@ -27,6 +29,7 @@
           <app-validatable-input-text [labelText]="'Last name'"
                                       [idComponent]="'id_lastName'"
                                       [txtMinLength]="2"
+                                      (componentHasErrorEvent) = "setHasLastNameError($event)"
                                       [(ngModel)] = "personFormModel.personLastName">
           </app-validatable-input-text>
       </div>
@@ -37,6 +40,7 @@
          <app-validatable-input-text [labelText]="'Company name'"
                                      [idComponent]="'id_company_Name'"
                                      [txtMinLength]="2"
+                                     (componentHasErrorEvent) = "setHasCompanyNameError($event)"
                                      [(ngModel)] = "personFormModel.companyName">
         </app-validatable-input-text>
       </div>
@@ -46,6 +50,7 @@
         <app-validatable-input-text [labelText]="'E-mail'"
                                     [idComponent]="'id_email'"
                                     [txtMinLength]="5"
+                                    (componentHasErrorEvent) = "setHasEmailError($event)"
                                     [(ngModel)] = "personFormModel.email">
         </app-validatable-input-text>
       </div>
@@ -55,6 +60,7 @@
         <app-validatable-input-text [labelText]="'Tax number'"
                                     [idComponent]="'id_tax_Number'"
                                     [txtMinLength]="5"
+                                    (componentHasErrorEvent) = "setHasTaxNumberError($event)"
                                     [(ngModel)] = "personFormModel.taxNumber">
         </app-validatable-input-text>
       </div>
@@ -70,6 +76,7 @@
       <app-validatable-input-text [labelText]="'Zip'"
                                   [idComponent]="'id_Zip'"
                                   [txtMinLength]="4"
+                                  (componentHasErrorEvent) = "setHasZipCodeError($event)"
                                   [(ngModel)] = "personFormModel.personAddressFormModel.zipCode">
       </app-validatable-input-text>
     </div>
@@ -77,6 +84,7 @@
       <app-validatable-input-text [labelText]="'City'"
                                   [idComponent]="'id_City'"
                                   [txtMinLength]="2"
+                                  (componentHasErrorEvent) = "setHasCityError($event)"
                                   [(ngModel)] = "personFormModel.personAddressFormModel.city">
       </app-validatable-input-text>
     </div>
@@ -94,6 +102,7 @@
       <app-validatable-input-text [labelText]="'Street'"
                                   [idComponent]="'id_Street'"
                                   [txtMinLength]="2"
+                                  (componentHasErrorEvent) = "setHasStreetError($event)"
                                   [(ngModel)] = "personFormModel.personAddressFormModel.street">
       </app-validatable-input-text>
       </div>
@@ -112,6 +121,7 @@
       <app-validatable-input-text [labelText]="'Bank name'"
                                   [idComponent]="'id_BankName'"
                                   [txtMinLength]="2"
+                                  (componentHasErrorEvent) = "setHasBankNameError($event)"
                                   [(ngModel)] = "personFormModel.bankAccountFormModel.bankName">
       </app-validatable-input-text>
     </div>
@@ -127,19 +137,20 @@
 
     <div class="p-grid">
       <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-3">
-        <app-validatable-input-text [labelText]="'IBAN'"
-                                    [idComponent]="'id_AccountNumber'"
+        <app-validatable-input-text  [labelText]="'IBAN'"
+                                    [idComponent]="'id_IBAN'"
                                     [txtMinLength]="2"
+                                    (componentHasErrorEvent) = "setHasIbahError($event)"
                                     [(ngModel)] = "personFormModel.bankAccountFormModel.iban">
 
         </app-validatable-input-text>
       </div>
 
-
       <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-2">
         <app-validatable-input-text [labelText]="'BIC/SWIFT'"
                                     [idComponent]="'id-acc-bicSwift'"
                                     [txtMinLength]="0"
+                                    (componentHasErrorEvent) = "setHasBicError($event)"
                                     [(ngModel)] = "personFormModel.bankAccountFormModel.bicSwift">
         </app-validatable-input-text>
       </div>
@@ -147,7 +158,7 @@
   </div>
   <div style="margin-top:5px;" class="p-grid">
     <div class="p-col-1">
-      <p-button label="Save" (onClick)="savePerson($event)"></p-button>
+      <p-button [disabled]="haveErrors()" label="Save" (onClick)="savePerson($event)"></p-button>
     </div>
   </div>
 </div>

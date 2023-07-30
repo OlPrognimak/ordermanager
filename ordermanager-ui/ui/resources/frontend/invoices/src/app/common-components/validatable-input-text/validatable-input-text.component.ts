@@ -66,7 +66,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   @Input() inputType = 'text';
   @Input() controlValue = '';
   @Input() name: any='';
-  @Output() componentHasError = new EventEmitter<boolean>
+  @Output() componentHasErrorEvent = new EventEmitter<boolean>
 
   onChange: (val) => void;
   onTouched: () => void;
@@ -80,7 +80,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
       const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
       if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
         this.lastEmitedValue = emitVal
-        this.componentHasError.emit(emitVal)
+        this.componentHasErrorEvent.emit(emitVal)
       }
     }
     return origin
@@ -92,7 +92,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
       const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
       if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
         this.lastEmitedValue = emitVal
-        this.componentHasError.emit(emitVal)
+        this.componentHasErrorEvent.emit(emitVal)
       }
     }
 

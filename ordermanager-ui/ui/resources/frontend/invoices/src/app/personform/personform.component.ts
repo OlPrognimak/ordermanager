@@ -36,7 +36,7 @@ import {AppSecurityService} from '../user-login/app-security.service';
 import {CommonServicesUtilService} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, NgModel} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {ValidatableInputTextModule} from "../common-components/validatable-input-text/validatable-input-text.component";
 import {MessagesModule} from "primeng/messages";
@@ -44,6 +44,7 @@ import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
 import {ValidatableDropdownlistModule} from "../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {InputTextModule} from "primeng/inputtext";
+import {AngularIbanModule} from "angular-iban";
 
 /**
  * The component which contains form component for creation of person
@@ -66,6 +67,22 @@ export class PersonFormComponent implements OnInit {
   /** Model for person type dropdown component */
   personType: DropdownDataType[];
   basicAuthKey = 'basicAuthKey';
+  private hasPersonTypeError: boolean;
+  private hasFirstNameError: boolean;
+  private hasLastNameError: boolean;
+  private hasCompanyNameError: boolean;
+  private hasEmailError: boolean;
+  private hasTaxNumberError: boolean;
+  private hasZipCodeError: boolean;
+  private hasCityError: boolean;
+  private hasStreetError: boolean;
+  private hasBankNameError: boolean;
+  private hasIbahError: boolean;
+  private hasBicError: boolean;
+  ibanContolModel: NgModel;
+  ibanValidationAtts =  {
+    ibanValidator: null
+  }
 
   /**
    * The constructor
@@ -79,6 +96,7 @@ export class PersonFormComponent implements OnInit {
               private utilService: CommonServicesUtilService,
               public securityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel>) {
+
   }
 
   /**
@@ -109,14 +127,139 @@ export class PersonFormComponent implements OnInit {
       });
   }
 
+  setHasPersonTypeError(val: boolean) {
+    setTimeout( () => {
+      if(this.hasPersonTypeError !== val) {
+        this.hasPersonTypeError = val
+      }
+    })
+  }
+
+  setHasFirstNameError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasFirstNameError !== val) {
+        this.hasFirstNameError = val
+      }
+    })
+  }
+
+  setHasLastNameError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasLastNameError !== val) {
+        this.hasLastNameError = val
+      }
+    })
+  }
+
+  setHasCompanyNameError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasCompanyNameError !== val) {
+        this.hasCompanyNameError = val
+      }
+    })
+  }
+
+  setHasEmailError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasEmailError !== val) {
+        this.hasEmailError = val
+      }
+    })
+  }
+
+  setHasTaxNumberError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasTaxNumberError !== val) {
+        this.hasTaxNumberError = val
+      }
+    })
+  }
+
+  setHasZipCodeError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasZipCodeError !== val) {
+        this.hasZipCodeError = val
+      }
+    })
+  }
+
+  setHasCityError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasCityError !== val) {
+        this.hasCityError = val
+      }
+    })
+  }
+
+  setHasStreetError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasStreetError !== val) {
+        this.hasStreetError = val
+      }
+    })
+  }
+
+  setHasBankNameError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasBankNameError !== val) {
+        this.hasBankNameError = val
+      }
+    })
+  }
+
+  setHasIbahError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasIbahError !== val) {
+        this.hasIbahError = val
+      }
+    })
+  }
+
+  setHasBicError(val: boolean) {
+    setTimeout(() => {
+      if (this.hasBicError !== val) {
+        this.hasBicError = val
+      }
+    })
+  }
+
+  haveErrors() {
+    let hasSomeError = false
+    if(this.hasPersonTypeError) {
+      return true;
+    } else if(this.personFormModel.personType==='PRIVATE'){
+      hasSomeError = this.hasFirstNameError || this.hasLastNameError || this.hasTaxNumberError
+    } else if(this.personFormModel.personType==='ORGANISATION'){
+      hasSomeError = this.hasCompanyNameError
+    }
+    const commonResult = hasSomeError ||
+             this.hasEmailError ||
+             this.hasZipCodeError ||
+             this.hasCityError ||
+             this.hasStreetError ||
+             this.hasBankNameError ||
+             this.hasIbahError ||
+             this.hasBicError
+    return commonResult
+  }
+
+  setIbanControlModel(val: NgModel) {
+    setTimeout(() => {
+      this.ibanContolModel = val
+    })
+  }
+
+  setIbanContolModel(model: NgModel) {
+    this.ibanContolModel = model
+  }
 }
 
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule],
+      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule],
     declarations: [PersonFormComponent],
-    exports:  [PersonFormComponent],
+    exports: [PersonFormComponent],
   }
 )
 export class PersonFormModule{}

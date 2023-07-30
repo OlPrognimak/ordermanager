@@ -29,6 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {
+  AfterViewInit,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef, EventEmitter,
@@ -36,9 +37,9 @@ import {
   Input,
   NgModule,
   OnInit, Output,
-  Renderer2
+  Renderer2, ViewChild
 } from '@angular/core';
-import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
@@ -57,7 +58,8 @@ import {DropdownModule} from "primeng/dropdown";
     }
   ]
 })
-export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor {
+export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+  @ViewChild('modelRef') modelRef: NgModel
   @Input() public optionList: any;
   @Input() public txtMinLength = 0;
   @Input() public idComponent = '';
@@ -66,6 +68,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Input() public controlValue: any;
   @Input() public name = ''
   @Output() componentHasError = new EventEmitter<boolean>
+  @Output() controlModelEvent = new EventEmitter<NgModel>
   hasRequiredError: boolean =  false
   hasMinLengthError: boolean =  false
   lastEmitedValue: boolean = undefined
@@ -73,6 +76,10 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   onTouched: () => void;
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+
+  ngAfterViewInit(): void {
+    this.controlModelEvent.emit(this.modelRef)
+    }
 
   setHasRequiredError(val: boolean, origin: any) {
     if(this.hasRequiredError === undefined || this.hasRequiredError !==val) {
@@ -143,6 +150,4 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
   }
 )
-export class ValidatableDropdownlistModule{
-
-}
+export class ValidatableDropdownlistModule{}

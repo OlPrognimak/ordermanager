@@ -11,7 +11,7 @@
       <app-validatable-input-text [name] = "'invoiceNumber'"
                                   [labelText]="'Invoice Number'"
                                   [idComponent]="'id_InvoiceNumber'"
-                                  (componentHasError) = "setHasInvoiceNumberError($event)"
+                                  (componentHasErrorEvent) = "setHasInvoiceNumberError($event)"
                                   [txtMinLength]="5"
                                   [(ngModel)] = "invoiceFormData.invoiceNumber">
       </app-validatable-input-text>
@@ -102,7 +102,7 @@
 
   <div class="p-grid">
     <div class="p-col-1">
-      <p-button [disabled] = "hasErrors()" [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
+      <p-button [disabled] = "haveErrors()" [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
     </div>
 
   </div>
