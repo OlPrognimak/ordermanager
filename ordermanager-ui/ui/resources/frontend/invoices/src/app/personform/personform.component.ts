@@ -28,12 +28,12 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, NgModule, OnInit} from '@angular/core';
+import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
 import {DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../user-login/app-security.service';
-import {CommonServicesUtilService} from '../common-services/common-services-util.service';
+import {CommonServicesUtilService, printToJson} from '../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../common-services/common-services.app.http.service';
 import {CommonModule} from "@angular/common";
 import {FormsModule, NgModel} from "@angular/forms";
@@ -45,6 +45,7 @@ import {ToastModule} from "primeng/toast";
 import {ValidatableDropdownlistModule} from "../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {InputTextModule} from "primeng/inputtext";
 import {AngularIbanModule} from "angular-iban";
+import {InvoicePipesModule} from "../common-services/common-services.pipes.number";
 
 /**
  * The component which contains form component for creation of person
@@ -56,6 +57,8 @@ import {AngularIbanModule} from "angular-iban";
   providers: [MessageService]
 })
 export class PersonFormComponent implements OnInit {
+
+  @ViewChild('modelRef') ibanModelRef: NgModel
   /** person model */
   personFormModel: PersonFormModel;
   /** bank account model */
@@ -77,11 +80,11 @@ export class PersonFormComponent implements OnInit {
   private hasCityError: boolean;
   private hasStreetError: boolean;
   private hasBankNameError: boolean;
-  private hasIbahError: boolean;
+  private hasIbahError: boolean = true;
   private hasBicError: boolean;
   ibanContolModel: NgModel;
   ibanValidationAtts =  {
-    ibanValidator: null
+    ibanValidator: true
   }
 
   /**
@@ -207,13 +210,17 @@ export class PersonFormComponent implements OnInit {
     })
   }
 
-  setHasIbahError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasIbahError !== val) {
-        this.hasIbahError = val
-      }
-    })
+  setHasIbahError(val: boolean, origin: any) {
+
+    if (this.hasIbahError !== val) {
+      setTimeout(() => {
+          this.hasIbahError = val
+        })
+    }
+
+    return origin;
   }
+
 
   setHasBicError(val: boolean) {
     setTimeout(() => {
@@ -257,7 +264,7 @@ export class PersonFormComponent implements OnInit {
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule],
+      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule],
     declarations: [PersonFormComponent],
     exports: [PersonFormComponent],
   }
