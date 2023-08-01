@@ -1,6 +1,14 @@
 input[type="text"] {
-  margin: 5px 5px 5px 5px !important;
+  margin: 5px 5px 5px 2px !important;
   width: 100% !important;
+}
+
+:host::ng-deep div#id_Iban_Iban_err > p-message > .p-inline-message.p-component.p-inline-message-error.p-inline-message-icon-only{
+  margin-left: 2px !important;
+}
+
+:host::ng-deep div#id_Iban_Required_err > p-message > .p-inline-message.p-component.p-inline-message-error.p-inline-message-icon-only{
+  margin-left: 2px !important;
 }
 
 .p-menubar .p-menubar-root-list{
