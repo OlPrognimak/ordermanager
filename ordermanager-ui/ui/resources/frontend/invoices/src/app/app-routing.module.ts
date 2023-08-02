@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {InvoiceFormComponent} from './invoiceform/invoiceform.component';
-import {PersonFormComponent} from './personform/personform.component';
-import {PrintinvoiceComponent} from './printinvoice/printinvoice.component';
-import {UserRegistrationComponent} from './user-registration/user-registration.component';
-import {ItemsFormComponent} from './items-form/items-form.component';
-import {PersonManagementComponent} from "./person-management/person-management.component";
-import {InvoiceManagementComponent} from "./invoice-management/invoice-management.component";
+import {InvoiceFormComponent} from './invoice/invoiceform/invoiceform.component';
+import {PersonFormComponent} from './person/personform/personform.component';
+import {PrintinvoiceComponent} from './invoice/printinvoice/printinvoice.component';
+import {UserRegistrationComponent} from './user/user-registration/user-registration.component';
+import {ItemsFormComponent} from './invoice/items-form/items-form.component';
+import {PersonManagementComponent} from "./person/person-management/person-management.component";
+import {InvoiceManagementComponent} from "./invoice/invoice-management/invoice-management.component";
 
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule, RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 

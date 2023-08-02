@@ -2,7 +2,7 @@ import {fakeAsync, TestBed, waitForAsync} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {UserLoginComponent} from "./user-login/user-login.component";
+import {UserLoginComponent} from "./user/user-login/user-login.component";
 import {NO_ERRORS_SCHEMA} from "@angular/compiler";
 import {MessageService} from "primeng/api";
 import {TooltipModule} from "primeng/tooltip";
