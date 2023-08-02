@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AppSecurityService} from './user-login/app-security.service';
+import {AppSecurityService} from './user/user-login/app-security.service';
 import {Router} from "@angular/router";
 import {MenuItem} from "primeng/api";
 import {Menu} from "primeng/menu";
