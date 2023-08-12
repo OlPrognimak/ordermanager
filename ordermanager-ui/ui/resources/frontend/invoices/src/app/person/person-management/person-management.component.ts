@@ -13,11 +13,12 @@ import {InputTextModule} from "primeng/inputtext";
 import {ButtonModule} from "primeng/button";
 import {CommonServicesAppHttpService} from "../../common-services/common-services.app.http.service";
 import {RippleModule} from "primeng/ripple";
+import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-person-management',
   standalone: true,
-  imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule],
+  imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule, ConfirmationDialogComponent],
   templateUrl: './person-management.component.html',
   styleUrls: ['./person-management.component.css'],
   providers: [AppSecurityService]
@@ -27,12 +28,17 @@ export class PersonManagementComponent implements OnInit {
   @ViewChild('personDialog') personDialog: EditPersonDialogComponent
   /**Reference on child component of data finder bei date period.*/
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+  /**Reference to child component delete person confirmation dialog. */
+  @ViewChild('confirmDialog') confirmDialog: ConfirmationDialogComponent
+
   isPersonDialogVisible = false;
   _persons: PersonFormModel[];
   /**Contains person with changes. */
   personsChanges: PersonFormModel[];
   selectedPerson!: PersonFormModel
   keySelection: boolean = true;
+  showConfirmDialog: boolean;
+  confirmDialogMessage: string = 'Are you sure you want to delete the person?';
 
 
 
@@ -129,12 +135,24 @@ export class PersonManagementComponent implements OnInit {
   }
 
   deletePerson(id) {
+    this.confirmDialog.transferObject = id
+    this.showConfirmDialog = true
+  }
+
+  handleConfirmation(id: any) {
     this.httpService.putObjectToServer('DELETE',
       null, "person delete", 'person/'+id, callback =>{
-      if(callback){
-        console.log("DELETED :"+id)
-        //this.personsChanges.
-      }
-    })
+        if(callback){
+          console.log("DELETED :"+id)
+          //this.personsChanges.
+        }
+      })
+    this.showConfirmDialog = false
+  }
+
+  handleCancel(e: boolean) {
+    if (e === true) {
+      this.showConfirmDialog = false
+    }
   }
 }

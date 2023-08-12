@@ -73,3 +73,9 @@
                         #personDialog>
 </app-edit-person-dialog>
 
+<app-confirmation-dialog [display]="showConfirmDialog"
+                         [message]="confirmDialogMessage"
+                         (confirmed)="handleConfirmation(confirmDialog.transferObject)"
+                         (canceled) = "handleCancel($event)"
+                         #confirmDialog></app-confirmation-dialog>
+
