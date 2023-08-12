@@ -40,14 +40,14 @@ export class AppSecurityService {
    *
    * @param http http client
    */
-  constructor(private http: HttpClient, private router: Router, private messagePrinter: MessagesPrinter) {
+  constructor(private http: HttpClient, private router: Router) {
     console.log('####### Init AppSecurityService');
     this.backendUrl = environment.baseUrl;
     this.isServerStillAlive(this)
   }
 
   isServerStillAlive(service: AppSecurityService) {
-      interval(5000).subscribe(
+      interval(30000).subscribe(
         () => {
           console.log("!!!!!!!!!!! IsAuthenticated :" +service.isAuthenticated())
           if (service.isAuthenticated()) {
@@ -60,7 +60,6 @@ export class AppSecurityService {
    * @param credentials security credentials
    * @param callback security callback
    */
-
   authenticate = (service: AppSecurityService, credentials, callback) => {
 
     const isAuthenticated = localStorage.getItem('authenticated');

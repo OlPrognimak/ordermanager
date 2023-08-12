@@ -32,11 +32,11 @@ export class CommonServicesAppHttpService<T> {
    * @param endPointPath rest API end point path
    * @param callback the callback object
    */
-  putObjectToServer = (objectToSave: T, objectName: string, endPointPath: string, callback) => {
+  putObjectToServer = (httpMethod: string, objectToSave: T, objectName: string, endPointPath: string, callback) => {
 
      const msgObservable = of(this.messagePrinter);
 
-    this.handleHttpRequest(objectToSave, endPointPath).subscribe({
+    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).subscribe({
         next (response) {
           if (response.createdId > 0) {
             msgObservable.subscribe(
@@ -49,8 +49,9 @@ export class CommonServicesAppHttpService<T> {
           }
         },
         error (err) {
+          console.log("Handle HTTP Request Error :" + JSON.stringify(err))
           msgObservable.subscribe(
-            msgService => msgService.printUnSuccessMessage(objectName, err));
+            msgService => msgService.printUnsuccessefulMessage(objectName, err));
           return callback && callback(false);
         }
       })
@@ -60,14 +61,26 @@ export class CommonServicesAppHttpService<T> {
   /**
    * Creates PUT Observer  for saving invoice on server
    */
-  private handleHttpRequest(objectToSave: T, endPointPath: string): Observable<CreatedResponse>{
+  private handleHttpRequest(objectToSave: T, endPointPath: string, method: string): Observable<CreatedResponse> {
     const reqheaders = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey) as string,
-      Accept : '*/*'
-    } );
-    const options = {headers : reqheaders};
-    return this.httpClient.put<any>(
-      this.backendUrl + endPointPath, objectToSave, options );
+      Authorization: localStorage.getItem(this.basicAuthKey) as string,
+      Accept: '*/*'
+    });
+    const options = {headers: reqheaders};
+
+    if (method === 'PUT') {
+      return this.httpClient.put<any>(
+        this.backendUrl + endPointPath, objectToSave, options);
+    } else if (method === 'POST') {
+      return this.httpClient.post<any>(
+        this.backendUrl + endPointPath, objectToSave, options);
+    } else if (method === 'DELETE'){
+        return this.httpClient.delete<any>(
+          this.backendUrl + endPointPath, options );
+    } else {
+      throw new Error("HTTP Method '"+method+"' not supported")
+    }
+
   }
 
 }
@@ -97,7 +110,7 @@ export class MessagesPrinter {
    * @param messagePart object name
    * @param error error which occures
    */
-  public printUnSuccessMessage(messagePart: any, error): void{
+  public printUnsuccessefulMessage(messagePart: any, error): void{
 
     let errorText: string
 

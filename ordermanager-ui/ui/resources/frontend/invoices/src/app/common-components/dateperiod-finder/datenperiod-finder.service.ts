@@ -35,7 +35,7 @@ export class RequestPeriodDateService {
            }
          },
          error(err) {
-           messagePrinter.printUnSuccessMessage(" request period ", err)
+           messagePrinter.printUnsuccessefulMessage(" request period ", err)
            service.setProcessRun(false)
          },
          complete(){

@@ -39,7 +39,7 @@ export class InvoiceManagementComponent  implements OnInit {
   ngOnInit(): void {
    //of(this.dataFinder).subscribe(f =>f.loadData(null))
     setTimeout(() =>{
-      of(this.dataFinder).subscribe(f =>f.loadData(null))
+      of(this.dataFinder).subscribe(f =>f.loadData())
     })
   }
 
@@ -53,5 +53,6 @@ export class InvoiceManagementComponent  implements OnInit {
 
 
   finderIsReady(value: boolean) {
+    //TODO maybe will be need
   }
 }

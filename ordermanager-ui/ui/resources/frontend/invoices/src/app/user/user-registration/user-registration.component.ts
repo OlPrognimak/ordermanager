@@ -98,7 +98,7 @@ export class UserRegistrationComponent implements OnInit {
           error(err) {
             console.log(JSON.stringify(err));
             intMsgPrinter.subscribe(m =>
-              m.printUnSuccessMessage('You are not registered. Some error occurs. Please inform administrator.', err))
+              m.printUnsuccessefulMessage('You are not registered. Some error occurs. Please inform administrator.', err))
           }
         }
 

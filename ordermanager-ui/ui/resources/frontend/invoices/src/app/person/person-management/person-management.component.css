@@ -19,3 +19,13 @@
   height: calc(100vh - 20px);
   background-color: rgba(0,0,0,0);
 }
+
+
+.align-right {
+  display: flex;
+  justify-content: right;
+}
+
+.saveButton-align {
+  margin: 5px 5px 5px 5px;
+}

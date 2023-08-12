@@ -155,7 +155,8 @@ public class SecurityConfig {
                 HttpMethod.PUT.name(),
                 HttpMethod.OPTIONS.name(),
                 HttpMethod.POST.name(),
-                HttpMethod.HEAD.name()
+                HttpMethod.HEAD.name(),
+                HttpMethod.DELETE.name()
         ));
         corsConfiguration.setMaxAge(60*60L);
         corsConfigurationSource.registerCorsConfiguration("/**",corsConfiguration);
@@ -196,6 +197,8 @@ public class SecurityConfig {
                              "/invoice/**").authenticated()
                        .requestMatchers(HttpMethod.POST,
                                "/invoice/**", "/person/**").authenticated()
+                       .requestMatchers(HttpMethod.DELETE,
+                               "/invoice/**", "/person/**", "/person", "/invoice").authenticated()
 
                 )
                //.httpBasic(Customizer.withDefaults())

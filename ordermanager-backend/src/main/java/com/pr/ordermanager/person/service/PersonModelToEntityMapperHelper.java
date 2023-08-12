@@ -44,6 +44,7 @@ import com.pr.ordermanager.person.model.PersonAddressFormModel;
 import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +58,7 @@ import java.util.stream.Collectors;
 public class PersonModelToEntityMapperHelper {
 
 
+
     /**
      *
      * @return object mapper for management with json and json objects
@@ -67,6 +69,47 @@ public class PersonModelToEntityMapperHelper {
        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
        return mapper;
    }
+
+   public static void mapPersonFomModelToAttachedEntity(PersonFormModel source, Person person) {
+
+       person.setPersonFirstName(source.getPersonFirstName());
+       person.setPersonLastName(source.getPersonLastName());
+       person.setPersonType(PersonType.valueOf(source.getPersonType()));
+       person.setCompanyName(source.getCompanyName());
+       person.setEmail(source.getEmail());
+       person.setTaxNumber (source.getTaxNumber ());
+       if(person.getBankAccount() !=null&& person.getBankAccount().size() > 0) {
+           mapBankAccountFormModelToAttachedEntity(source.getBankAccountFormModel(), person.getBankAccount().get(0));
+       }
+
+       if(person.getPersonAddress() !=null&& person.getBankAccount().size() > 0) {
+           mapPersonAddressFormModelToAttachedEntity(source.getPersonAddressFormModel(), person.getPersonAddress().get(0));
+       }
+
+   }
+
+    /**
+     *
+     * @param source
+     * @param personAddress
+     */
+    public static void mapPersonAddressFormModelToAttachedEntity(
+            PersonAddressFormModel source, PersonAddress personAddress) {
+        personAddress.setPostBoxCode (source.getPostBoxCode());
+        personAddress.setZipCode (source.getZipCode());
+        personAddress.setStreet (source.getStreet());
+        personAddress.setCity (source.getCity());
+    }
+
+
+    public static List<Person> mapPersonsFormModelToEntities(List<PersonFormModel> source) {
+       final List<Person> resultList = new ArrayList<>();
+        source.forEach(p -> {
+            resultList.add(mapPersonFormModelToEntity(p));
+        });
+
+        return resultList;
+    }
 
     /**
      * Maps source data from object {@link PersonFormModel} to the entity {@link Person}
@@ -107,6 +150,7 @@ public class PersonModelToEntityMapperHelper {
      */
     public static PersonFormModel mapPersonEntityToModel(Person source) {
         return PersonFormModel.builder()
+                .id(source.getId())
                 .personFirstName(source.getPersonFirstName())
                 .personLastName(source.getPersonLastName())
                 .personType(source.getPersonType().name())
@@ -156,6 +200,19 @@ public class PersonModelToEntityMapperHelper {
                 .city (source.getCity()).build();
     }
 
+
+    /**
+     * Maps source data from object {@link BankAccountFormModel} to the entity {@link BankAccount}
+     *
+     * @param source the data source object {@link BankAccountFormModel}
+     * @param  bankAccount the target object for mapping
+     */
+    public static void mapBankAccountFormModelToAttachedEntity(BankAccountFormModel source, BankAccount bankAccount){
+        bankAccount.setBankName(source.getBankName());
+        bankAccount.setIban(source.getIban());
+        bankAccount.setBicSwift(source.getBicSwift());
+        bankAccount.setAccountNumber(source.getAccountNumber());
+    }
 
     /**
      * Maps source data from object {@link BankAccountFormModel} to the entity {@link BankAccount}

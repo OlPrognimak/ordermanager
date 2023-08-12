@@ -65,3 +65,7 @@ export class BankAccountFormModel {
   bicSwift: string ;
   bankName; string ;
 }
+
+export class IdWrapper {
+  id: number
+}

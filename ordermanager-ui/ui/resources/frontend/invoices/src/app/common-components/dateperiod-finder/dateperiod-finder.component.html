@@ -1,6 +1,6 @@
 <div style="margin-top: 20pt; margin-bottom: 20pt; height: 100%" class="p-shadow-4">
   <p-toast></p-toast>
-  <form (submit)="loadData(finderPeriodForm)" #finderPeriodForm="ngForm">
+  <form (submit)="loadData()" #finderPeriodForm="ngForm">
     <div class="overlayProcess childElementCenter" *ngIf="service.processRuns">
       <mat-progress-spinner mode="indeterminate" *ngIf="service.processRuns"></mat-progress-spinner>
     </div>

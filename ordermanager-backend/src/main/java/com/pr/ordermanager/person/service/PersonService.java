@@ -35,6 +35,7 @@ import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonAddress;
+import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.person.repository.BankAccountRepository;
 import com.pr.ordermanager.person.repository.PersonAddressRepository;
 import com.pr.ordermanager.person.repository.PersonRepository;
@@ -72,6 +73,7 @@ public class PersonService {
     @Autowired
     UserService userService;
 
+
     /**
      * Saves {@link Person} to the database
      * @param person   the invoice to be saved
@@ -87,6 +89,32 @@ public class PersonService {
             logger.error(ex);
             throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
         }
+    }
+
+
+    /**
+     * Update {@link Person} to the database
+     * @param persons   the invoice to be saved
+     * @param userName currently authenticated user name
+     * @throws OrderManagerException in case if person can not be saved
+     */
+    public void updatePersons(final List<PersonFormModel> persons, final String userName) {
+
+        persons.forEach(p -> {
+            Optional<Person> personEntityOpt = personRepository.findById(p.getId());
+            if(personEntityOpt.isPresent()) {
+                Person person = personEntityOpt.get();
+                PersonModelToEntityMapperHelper.mapPersonFomModelToAttachedEntity(p, person);
+                try {
+                    personRepository.save(person);
+                } catch (Exception ex) {
+                    logger.error(ex);
+                    throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -166,4 +194,15 @@ public class PersonService {
         }
     }
 
+    public void deletePerson(Long personId, String principal) {
+
+        Long[] personUsageInInvoices = personRepository.findPersonUsageInInvoices(personId);
+        if(personUsageInInvoices == null || personUsageInInvoices.length==0) {
+            logger.info("Try to delete person with ID :" + personId);
+            personRepository.deletePersonByPersonId(personId);
+        } else {
+            throw new OrderManagerException(CODE_0000,"The person can not be deleted.");
+        }
+
+    }
 }

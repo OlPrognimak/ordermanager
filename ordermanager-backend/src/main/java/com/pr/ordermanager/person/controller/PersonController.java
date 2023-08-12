@@ -45,13 +45,13 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @CrossOrigin
 public class PersonController {
-    private static final String PATH = "/person";
+    private static final String ROOT_PATH = "/person";
 
     private static final String PERSONS = "/persons";
 
-    private static final String PATH_PERSONS_LIST_PERIOD = PATH+"/personsListPeriod";
-    private static final String PATH_PERSON = PATH;
-    private static final String PATH_PERSONS_DROPDOWN =PATH+ "/personsdropdown";
+    private static final String PATH_PERSONS_LIST_PERIOD = ROOT_PATH +"/personsListPeriod";
+    private static final String PATH_PERSON = ROOT_PATH;
+    private static final String PATH_PERSONS_DROPDOWN = ROOT_PATH + "/personsdropdown";
 
     private static final String APPLICATION_JSON = "application/json";
 
@@ -91,8 +91,8 @@ public class PersonController {
                     name = "basicAuth"
             )}
     )
-    @RequestMapping(value = PATH_PERSON, method = RequestMethod.PUT,
-            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+
+    @PutMapping(value= PATH_PERSON, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewPerson(
             @RequestBody @Valid PersonFormModel personFormModel, Principal principal) {
         PersonValidator.validate(personFormModel);
@@ -100,6 +100,25 @@ public class PersonController {
         personService.savePerson(person, principal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));
     }
+
+    @PostMapping(value= PATH_PERSON, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> updatePersons(
+            @RequestBody @Valid List<PersonFormModel> persons, Principal principal) {
+        persons.forEach(PersonValidator::validate
+        );
+        personService.updatePersons(persons, principal.getName());
+
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(1L));
+    }
+
+    @DeleteMapping(value= PATH_PERSON+"/{personId}", produces = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> deletePerson(
+            @PathVariable @Valid Long personId, Principal principal) {
+        personService.deletePerson(personId, principal.getName());
+
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(personId));
+    }
+
 
     /**
      * @param principal Security principal. Injects by SpringBoot

@@ -1,16 +1,12 @@
-<p-dialog header="Edit person" [(visible)]="visible" [style]="{ width: '80vw', height: '80%' }">
+<p-dialog header="Edit person" [(visible)]="visible" [style]="{ width: '80vw', height: '80%' }" (onHide)="setVisible(false)">
 <div *ngIf="securityService.isAuthenticated();" class="p-fluid">
-
   <form [formGroup]="editPersonFG">
-    <p-toast></p-toast>
-    <div class="p-grid p-col-6">
-      <H2>Edit Person</H2>
-    </div>
     <div class=" p-shadow-4">
       <div style="margin-left: 2px;" class="p-grid">
         <div class="p-col-6">
           <ng-container *ngTemplateOutlet="comboboxTemplate;
           context:{controlPath: 'personType',
+                   placeholderPar: 'Select person type',
                    idComponent: 'id-personType',
                    labelText: 'Person Type',
                    optionList: personType
@@ -18,10 +14,10 @@
           </ng-container>
         </div>
       </div>
-      <div style="margin-bottom: 10pt;" *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
+      <div style="margin-bottom: 10pt;" *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid">
         <div style="margin-left: 6px" class="p-col-3">
           <ng-container *ngTemplateOutlet="inputTextTemplate;
-          context:{controlPath: 'firstName',
+          context:{controlPath: 'personFirstName',
                    idComponent: 'id_firstName',
                    labelText: 'First name'
                   }">
@@ -29,7 +25,7 @@
         </div>
         <div class="p-col-3">
           <ng-container *ngTemplateOutlet="inputTextTemplate;
-          context:{controlPath: 'lastName',
+          context:{controlPath: 'personLastName',
                    idComponent: 'id_lastName',
                    labelText: 'Last name'
                   }">
@@ -37,7 +33,7 @@
         </div>
       </div>
 
-      <div style="margin-bottom: 10pt" *ngIf="personFormModel.personType==='ORGANISATION'" class="p-grid">
+      <div style="margin-bottom: 10pt" *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid">
         <div class="p-col-3">
           <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'companyName',
@@ -58,8 +54,8 @@
         </div>
       </div>
       <div style="margin-left: 0px !important; padding-left: 0px !important;"
-           *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
-        <div style="padding-left: 0px" class="p-col-2">
+           *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid">
+        <div style="padding-left: 5px" class="p-col-2">
           <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'taxNumber',
                    idComponent: 'id_taxNumber',
@@ -98,12 +94,14 @@
         </div>
         <div style="margin-left: 0px" class="p-grid">
           <div style="padding-left: 6px !important;" class="p-col-2">
+            <div style="margin-top: 15pt">
             <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.postBoxCode',
                    idComponent: 'id_postBoxCode',
                    labelText: 'Post Box'
                   }">
             </ng-container>
+            </div>
           </div>
           <div style="margin-left: 5pt" class="p-col-3">
             <div style="margin-top: 15pt">
@@ -139,7 +137,7 @@
             </ng-container>
           </div>
 
-          <div class="p-col-2">
+          <div style="margin-top: 5pt;" class="p-col-2">
             <ng-container *ngTemplateOutlet="inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.accountNumber',
                      idComponent: 'id_AccountNumber',
@@ -150,7 +148,7 @@
         </div>
 
         <div class="p-grid">
-          <div style="margin-left: 4pt; margin-top: 8pt" class="p-col-4">
+          <div style="margin-left: 4pt; margin-top: 12pt" class="p-col-4">
             <ng-container *ngTemplateOutlet="inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.iban',
                      idComponent: 'id_iban',
@@ -159,7 +157,6 @@
             </ng-container>
           </div>
           <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-2">
-
             <ng-container *ngTemplateOutlet="inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.bicSwift',
                      idComponent: 'id-acc-bicSwift',
@@ -171,20 +168,17 @@
       </div>
     </div>
     <!-- END BANK FORM -->
-    <div style="margin-top:5px;" class="p-grid">
-      <div class="p-col-1">
-        <p-button [disabled]="haveErrors()" label="Save" (onClick)="setChanges($event)"></p-button>
-      </div>
-    </div>
   </form>
 
 </div>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="setVisibilityChanged(false)" label="Cancel" styleClass="p-button-text"></p-button>
+    <p-button [disabled] = "haveErrors()" icon="pi pi-check" (click)="sendChanges()" label="Save" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-check pink-300"  (click)="setVisible(false)" label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>
 
 
+<!-- the input template for input texts-->
 <ng-template #inputTextTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
   <div style="display: table; width: 100%;">
     <div style="display: table-row; width: 100%;">
@@ -192,17 +186,21 @@
                <span class="p-float-label">
                     <input [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
                            pInputText
-                           required
+                           minlength="0"
                            id="{{idComponent}}"
-                           type="text"/>
+                           type="text" />
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
+      </div>
+      <div *ngIf= "getControl(controlPath).invalid" style ="display: table-cell; width: 10%;">
+        <p-message severity="error"></p-message>
       </div>
     </div>
   </div>
 </ng-template>
 
 
+<!-- The combobox template for selecting person type. -->
 <ng-template #comboboxTemplate let-controlPath="controlPath"
              let-idComponent="idComponent"
              let-labelText="labelText"
@@ -215,7 +213,7 @@
         <div style="margin-bottom: 15pt">
                 <span class="p-float-label">
                 <p-dropdown [formControl]="getControl(controlPath)"
-                            (change)="typeChanged($event)"
+                            (onChange)="personTypeChanged($event)"
                             placeholder="{{placeholderPar}}"
                             required
                             minlength="1"
