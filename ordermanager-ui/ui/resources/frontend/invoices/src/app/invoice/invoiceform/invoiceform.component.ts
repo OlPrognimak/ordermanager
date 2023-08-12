@@ -186,7 +186,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    * @param item the item for saving
    */
   saveInvoice(event: any): void {
-    this.httpService.putObjectToServer(this.invoiceFormData, 'Invoice',
+    this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback){
           this.resetModel();

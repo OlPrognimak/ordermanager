@@ -87,7 +87,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
           .subscribe({
           error(err) {
             params.context.componentParent.isProcessRunned(false);
-            msgObservable.subscribe(m => m.printUnSuccessMessage('pdf Invoice ', err))
+            msgObservable.subscribe(m => m.printUnsuccessefulMessage('pdf Invoice ', err))
           }
         });
   }

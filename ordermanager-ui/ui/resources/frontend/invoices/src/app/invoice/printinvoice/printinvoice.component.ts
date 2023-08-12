@@ -114,7 +114,7 @@ export class PrintinvoiceComponent implements OnInit {
    * Load Invoice from server and set to table model for printing of invoices
    */
   loadInvoices() {
-    this.dataFinder.loadData(null)
+    this.dataFinder.loadData()
   }
 
   /**

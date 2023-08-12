@@ -33,7 +33,9 @@ package com.pr.ordermanager.person.repository;
 
 import com.pr.ordermanager.person.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -55,5 +57,23 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Query("select p from Person p where p.invoiceUser.username = :userName and p.created between :startDate and :endDate")
     List<Person> findAllPersonsByUserNameAndCreatedBetween(String userName, Instant startDate, Instant endDate);
+
+    /**
+     * Delete person by person id.
+     *
+     * @param personId person
+     */
+    @Modifying
+    @Query("delete from Person p where p.id = :personId")
+    void deletePersonByPersonId(@Param("personId") Long personId);
+
+    @Query("""
+        SELECT i.id FROM Invoice i 
+            JOIN i.invoiceRecipientPerson recipient 
+            JOIN i.invoiceSupplierPerson supplier 
+            WHERE (recipient.id = :personId) OR (supplier.id = :personId)
+        """)
+    Long[] findPersonUsageInInvoices(@Param("personId") Long personId);
+
 
 }

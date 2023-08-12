@@ -35,7 +35,7 @@ export class DateperiodFinderComponent implements OnInit, AfterViewInit{
   startDateControlModel: NgModel
   endDateControlModel: NgModel
 
-  loadData(finderPeriodForm:NgForm) {
+  loadData() {
     this.service.findData(this.url, this.requestDatePeriod.toJSON(), callback =>{
       if(callback) {
         this.responseOutput.emit(callback)
@@ -43,6 +43,11 @@ export class DateperiodFinderComponent implements OnInit, AfterViewInit{
     })
   }
 
+  /**
+   * Disable submit button if start date is more than end date
+   *
+   * @return true if start date is more than end date
+   */
   isSubmitButtonDisabled(): boolean {
     if(this.startDateControlModel!==undefined||this.endDateControlModel!==undefined) {
         if (this.requestDatePeriod.startDate!==null&&this.requestDatePeriod.endDate!==null&&
