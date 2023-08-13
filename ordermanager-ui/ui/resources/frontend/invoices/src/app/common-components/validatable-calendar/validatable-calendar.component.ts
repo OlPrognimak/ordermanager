@@ -127,7 +127,6 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
 
   registerOnChange(fn: any): void {
-    console.log('registr on change: '+fn)
     this.onChange = fn;
   }
 

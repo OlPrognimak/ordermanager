@@ -10,13 +10,15 @@
     <div style ="display: table-cell; width: 100%;">
                <span class="p-float-label">
                     <input  class="ng-dirty p-mr-2"
+                           name="{{inputName}}"
                            pInputText
                            required
+                            [pattern]="inputPattern"
                            minlength="{{txtMinLength}}"
                            id="{{idComponent}}"
                            type="{{inputType}}"
                            [(ngModel)]="value"
-                           (ngModelChange)="onChange($event)"
+
                            #modelRef="ngModel"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
@@ -28,5 +30,13 @@
     <div *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)" style ="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
     </div>
+    <div *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)" style ="display: table-cell; width: 10%;">
+      <div *ngIf="modelRef.errors?.minlength===undefined">
+        <p-message severity="error"></p-message>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="modelRef.errors?.pattern" class="alert alert-danger">
+    {{patternErrorText}}
   </div>
 </div>

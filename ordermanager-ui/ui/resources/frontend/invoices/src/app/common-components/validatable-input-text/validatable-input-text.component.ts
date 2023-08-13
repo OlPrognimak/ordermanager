@@ -29,6 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import {
+  ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef, EventEmitter,
@@ -64,20 +65,27 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   @Input() public idComponent = '';
   @Input()  labelText = '';
   @Input() inputType = 'text';
+  @Input() inputPattern: any;
   @Input() controlValue = '';
   @Input() name: any='';
+  @Input() inputName: string;
+  @Input() patternErrorText: string
   @Output() componentHasErrorEvent = new EventEmitter<boolean>
 
-  onChange: (val) => void;
-  onTouched: () => void;
+
+  onChange: (val) => {};
+  onTouched: () => {};
   hasRequiredError: boolean =  false
   hasMinLengthError: boolean =  false
+  hasPatternError: boolean = false
+
   lastEmitedValue: boolean = undefined
+  disabled: boolean = false
 
   setHasRequiredError(val: boolean, origin: any) {
     if(this.hasRequiredError === undefined || this.hasRequiredError !==val) {
       this.hasRequiredError = val
-      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
+      const emitVal = this.hasError()
       if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
         this.lastEmitedValue = emitVal
         this.componentHasErrorEvent.emit(emitVal)
@@ -89,7 +97,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   setHasMinLengthError(val: boolean, origin: any) {
     if(this.hasMinLengthError === undefined || this.hasMinLengthError !==val) {
       this.hasMinLengthError = val
-      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
+      const emitVal = this.hasError()
       if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
         this.lastEmitedValue = emitVal
         this.componentHasErrorEvent.emit(emitVal)
@@ -99,7 +107,27 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
     return origin;
   }
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+  setHasPatternError(val: boolean, origin: any) {
+    if(this.hasPatternError === undefined || this.hasPatternError !==val) {
+      this.hasMinLengthError = val
+      const emitVal = this.hasError();
+      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasErrorEvent.emit(emitVal)
+      }
+    }
+
+    return origin;
+  }
+
+  private hasError() {
+    const emitVal = (this.hasRequiredError === true ||
+      this.hasMinLengthError === true ||
+      this.hasPatternError === true)
+    return emitVal;
+  }
+
+  constructor(private renderer: Renderer2, private elementRef: ElementRef, private cdr: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {
@@ -111,11 +139,14 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   }
 
   // set accessor including call the onchange callback
+
   set value(v: any) {
-    if (v !== this.controlValue) {
+    console.log('set value :'+v)
+   // if (v !== this.controlValue) {
       this.controlValue = v;
       this.onChange(v);
-    }
+      this.cdr.detectChanges()
+   // }
   }
 
   registerOnChange(fn: any): void {
@@ -127,6 +158,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled
   }
 
   /**

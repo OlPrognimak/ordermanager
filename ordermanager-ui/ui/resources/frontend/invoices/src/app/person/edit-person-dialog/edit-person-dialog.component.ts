@@ -58,7 +58,9 @@ export class EditPersonDialogComponent {
       companyName: this.formBuilder.nonNullable.control(''),
       personType: this.formBuilder.nonNullable.control('', [Validators.required]),
       taxNumber: this.formBuilder.nonNullable.control(''),
-      email: this.formBuilder.nonNullable.control('', [Validators.required]),
+      email: this.formBuilder.nonNullable.control('', [Validators.required,
+        Validators.minLength(5),
+        Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}')]),
       personAddressFormModel: this.formBuilder.group({
         city: this.formBuilder.nonNullable.control('', [Validators.required]),
         street: this.formBuilder.nonNullable.control('', [Validators.required]),

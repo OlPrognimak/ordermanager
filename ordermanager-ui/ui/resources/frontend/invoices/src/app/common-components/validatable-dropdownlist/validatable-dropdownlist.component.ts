@@ -67,8 +67,10 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Input() public placeholder = 'Select peron type';
   @Input() public controlValue: any;
   @Input() public name = ''
+  @Input() inputName: string;
   @Output() componentHasError = new EventEmitter<boolean>
   @Output() controlModelEvent = new EventEmitter<NgModel>
+  @Output() valueChanged = new EventEmitter<any>
   hasRequiredError: boolean =  false
   hasMinLengthError: boolean =  false
   lastEmitedValue: boolean = undefined
@@ -106,7 +108,9 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
     return origin;
   }
 
-
+  setValueChanged(val) {
+    this.valueChanged.emit(val)
+  }
   ngOnInit(): void {
   }
 
@@ -119,6 +123,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   set value(v: any) {
     if (v !== this.controlValue) {
       this.controlValue = v;
+      console.log(' SET VALUE '+v)
       this.onChange(v);
     }
   }
@@ -139,6 +144,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
    */
   writeValue(value: any): void {
       this.controlValue = value;
+    console.log(' WRITE VALUE '+value)
   }
 }
 

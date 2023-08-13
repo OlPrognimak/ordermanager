@@ -16,12 +16,10 @@ import {ButtonModule} from "primeng/button";
 })
 export class ConfirmationDialogComponent {
   @Input() display: boolean = false;
-  @Input() message: string = 'CCCCCCCCCCCC';
+  @Input() message: string = '';
   @Output() confirmed = new EventEmitter<void>();
   @Output() canceled = new EventEmitter<boolean>();
   transferObject: any
-  @Input() message2: any ="xxxxxxxx";
-
 
   onConfirm(): void {
     this.confirmed.emit();

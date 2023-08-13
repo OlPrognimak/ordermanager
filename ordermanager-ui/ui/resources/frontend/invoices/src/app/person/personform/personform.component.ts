@@ -36,7 +36,7 @@ import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {CommonServicesUtilService} from '../../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
 import {CommonModule} from "@angular/common";
-import {FormsModule, NgModel} from "@angular/forms";
+import {FormGroupDirective, FormsModule, NgForm, NgModel} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {ValidatableInputTextModule} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import {MessagesModule} from "primeng/messages";
@@ -54,11 +54,12 @@ import {InvoicePipesModule} from "../../common-services/common-services.pipes.nu
   styleUrls: ['./personform.component.css'],
   selector: 'app-person',
   templateUrl: './personform.component.html',
-  providers: [MessageService]
+  providers: [MessageService, FormGroupDirective]
 })
 export class PersonFormComponent implements OnInit {
 
   @ViewChild('modelRef') ibanModelRef: NgModel
+  @ViewChild('personForm') personForm: NgForm
   /** person model */
   personFormModel: PersonFormModel;
   /** bank account model */
@@ -83,6 +84,7 @@ export class PersonFormComponent implements OnInit {
   private hasIbahError: boolean = true;
   private hasBicError: boolean;
   ibanContolModel: NgModel;
+  emailPattern =  '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}'
   ibanValidationAtts =  {
     ibanValidator: true
   }
@@ -258,6 +260,10 @@ export class PersonFormComponent implements OnInit {
 
   setIbanContolModel(model: NgModel) {
     this.ibanContolModel = model
+  }
+
+  peronTypeChanged($event: any) {
+    //this.formGroupDirective.form.updateValueAndValidity()
   }
 }
 

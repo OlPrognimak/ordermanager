@@ -5,19 +5,21 @@
                 <span class="p-float-label">
                 <p-dropdown  #modelRef="ngModel"
                              placeholder="{{placeholder}}"
+                             [name] = "inputName"
                              required
                              minlength="{{txtMinLength}}"
                              id="{{idComponent}}"
                              [options]="optionList"
                              [(ngModel)]="controlValue"
-                             (ngModelChange)="onChange($event)">
+                             (ngModelChange)="onChange($event); setValueChanged($event)">
                 </p-dropdown>
                 <label for="{{idComponent}}">{{labelText}}</label>
                 </span>
       </div>
     </div>
 
-    <div *ngIf="setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
+    <div *ngIf="setHasMinLengthError(modelRef.errors?.minlength !== null,
+                                          modelRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
       <div style="margin-top: 15pt !important;">
         <p-message severity="error"></p-message>
       </div>

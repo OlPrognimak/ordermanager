@@ -3,14 +3,18 @@
   <div class="p-grid p-col-6">
     <H2>Create Person</H2>
   </div>
+  <form #personForm = "ngForm">
   <div class=" p-shadow-4">
     <div style="margin-left: 2px;" class="p-grid">
       <div class="p-col-6">
         <app-validatable-dropdownlist [optionList]="personType"
                                       [labelText]="'Person Type'"
+                                      name="personType"
+                                      inputName="personType"
                                       [idComponent]="'id-personType'"
                                       [txtMinLength]="1"
                                       (componentHasError)="setHasPersonTypeError($event)"
+                                      (valueChanged)="peronTypeChanged($event)"
                                       [(ngModel)]="personFormModel.personType">
         </app-validatable-dropdownlist>
       </div>
@@ -19,6 +23,8 @@
     <div style="margin-bottom: 10pt;" *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
       <div style="margin-left: 6px" class="p-col-3">
         <app-validatable-input-text [labelText]="'First name'"
+                                    name = "personFirstName"
+                                    inputName="personFirstName"
                                     [idComponent]="'id_firstName'"
                                     [txtMinLength]="2"
                                     (componentHasErrorEvent)="setHasFirstNameError($event)"
@@ -27,6 +33,8 @@
       </div>
       <div class="p-col-3">
         <app-validatable-input-text [labelText]="'Last name'"
+                                    name="personLastName"
+                                    inputName="personLastName"
                                     [idComponent]="'id_lastName'"
                                     [txtMinLength]="2"
                                     (componentHasErrorEvent)="setHasLastNameError($event)"
@@ -38,6 +46,8 @@
     <div style="margin-bottom: 10pt" *ngIf="personFormModel.personType==='ORGANISATION'" class="p-grid">
       <div class="p-col-3">
         <app-validatable-input-text [labelText]="'Company name'"
+                                    name = "companyName"
+                                    inputName="companyName"
                                     [idComponent]="'id_company_Name'"
                                     [txtMinLength]="2"
                                     (componentHasErrorEvent)="setHasCompanyNameError($event)"
@@ -48,7 +58,11 @@
     <div style="margin-bottom: 10pt;  margin-left: 2px" class="p-grid">
       <div style="padding-left: 5px" class="p-col-3">
         <app-validatable-input-text [labelText]="'E-mail'"
+                                    name = "email"
+                                    [inputPattern]="emailPattern"
+                                    patternErrorText="Wrong email"
                                     [idComponent]="'id_email'"
+                                    [inputType]="'text'"
                                     [txtMinLength]="5"
                                     (componentHasErrorEvent)="setHasEmailError($event)"
                                     [(ngModel)]="personFormModel.email">
@@ -58,6 +72,8 @@
     <div  style="margin-left: 0px !important; padding-left: 0px !important;" *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid">
       <div style="padding-left: 0px" class="p-col-2">
         <app-validatable-input-text [labelText]="'Tax number'"
+                                    name = "taxNumber"
+                                    inputName="taxNumber"
                                     [idComponent]="'id_tax_Number'"
                                     [txtMinLength]="5"
                                     (componentHasErrorEvent)="setHasTaxNumberError($event)"
@@ -74,6 +90,8 @@
     <div class="p-grid">
       <div style="margin-left: 5pt" class="p-col-2">
         <app-validatable-input-text [labelText]="'Zip'"
+                                    name="zipCode"
+                                    inputName="zipCode"
                                     [idComponent]="'id_Zip'"
                                     [txtMinLength]="4"
                                     (componentHasErrorEvent)="setHasZipCodeError($event)"
@@ -82,6 +100,8 @@
       </div>
       <div style="margin-left: 5pt" class="p-col-3">
         <app-validatable-input-text [labelText]="'City'"
+                                    name = "city"
+                                    inputName="city"
                                     [idComponent]="'id_City'"
                                     [txtMinLength]="2"
                                     (componentHasErrorEvent)="setHasCityError($event)"
@@ -93,6 +113,7 @@
       <div style="padding-left: 6px !important;" class="p-col-2">
       <span style="margin-top: 10pt" class="p-float-label">
         <input style="margin-left: 0px !Important" pInputText id="id-add-postBoxCode" type="text"
+               name="postBoxCode"
                [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"/>
         <label for="id-add-postBoxCode">Post Box</label>
       </span>
@@ -100,6 +121,8 @@
       <div style="margin-left: 5pt" class="p-col-3">
         <div style="margin-top: 15pt">
           <app-validatable-input-text [labelText]="'Street'"
+                                      name = "street"
+                                      inputName="street"
                                       [idComponent]="'id_Street'"
                                       [txtMinLength]="2"
                                       (componentHasErrorEvent)="setHasStreetError($event)"
@@ -119,6 +142,8 @@
     <div class="p-grid">
       <div style="margin-top: 5pt; margin-left: 5pt" class="p-col-4">
         <app-validatable-input-text [labelText]="'Bank name'"
+                                    name = "bankName"
+                                    inputName="bankName"
                                     [idComponent]="'id_BankName'"
                                     [txtMinLength]="2"
                                     (componentHasErrorEvent)="setHasBankNameError($event)"
@@ -129,6 +154,7 @@
       <div class="p-col-2">
       <span class="p-float-label">
         <input pInputText id="id_AccountNumber" type="text"
+               name="accountNumber"
                [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"/>
         <label for="id_AccountNumber">Account number</label>
       </span>
@@ -144,6 +170,7 @@
                     <input class="ng-dirty p-mr-2"
                            pInputText
                            required
+                           name ="iban"
                            id="id_IBAN"
                            type="text"
                            [ngModel]="personFormModel.bankAccountFormModel.iban | ibanFormatter"
@@ -172,6 +199,8 @@
 
       <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-2">
         <app-validatable-input-text [labelText]="'BIC/SWIFT'"
+                                    name = "bicSwift"
+                                    inputName="bicSwift"
                                     [idComponent]="'id-acc-bicSwift'"
                                     [txtMinLength]="5"
                                     (componentHasErrorEvent)="setHasBicError($event)"
@@ -183,8 +212,10 @@
   <div style="margin-top:5px;" class="p-grid">
     <div class="p-col-1">
       <p-button [disabled]="haveErrors()" label="Save" (onClick)="savePerson($event)"></p-button>
+<!--    <p-button [disabled]="personForm.invalid" label="Save" (onClick)="savePerson($event)"></p-button>-->
     </div>
   </div>
+  </form>
 </div>
 
 
