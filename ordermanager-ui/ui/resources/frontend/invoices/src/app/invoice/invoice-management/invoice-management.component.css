@@ -16,3 +16,7 @@ span.p-calendar {
 .p-field * {
   display: block;
 }
+.number-right-align {
+  display: grid;
+  justify-content: right
+}

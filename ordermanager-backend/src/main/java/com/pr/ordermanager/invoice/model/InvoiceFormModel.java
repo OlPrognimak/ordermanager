@@ -52,6 +52,7 @@ import java.util.List;
 @Data
 @Builder
 public class InvoiceFormModel {
+    private Long id;
     @NotBlank
     private String invoiceNumber;
     private String invoiceDescription;

@@ -78,6 +78,7 @@ export interface DropdownDataType{
 }
 
 export class InvoiceFormModel implements InvoiceFormModelInterface{
+  id: number;
   creationDate: Date;
   invoiceDate: Date;
   invoiceItems: InvoiceItemModelInterface[] = [];

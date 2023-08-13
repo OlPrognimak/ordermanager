@@ -6,7 +6,14 @@
   <app-dateperiod-finder  [url]="'invoice/invoicesListPeriod'" (onFinderIsReady) = "finderIsReady($event)" (responseOutput)="invoices = $event" #dataFinder/>
   <div class ="p-grid p-card">
     <div class="p-col-12">
-    <p-table  [value]="invoices" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+    <p-table  [value]="invoices"
+              [rows]="20"
+              paginator = "true"
+              [autoLayout]="true"
+              selectionMode="multiple"
+              [metaKeySelection] = keySelection
+              [(selection)] = "selectedInvoice"
+              [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 10%">Invoice number</th>
@@ -18,8 +25,9 @@
           <th style="width: 10%">Brutto sum</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-invoice>
-        <tr>
+      <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
+        <tr [ngStyle]= "{'color':isInvoiceChanged(invoice)}" [pSelectableRow]="invoice"
+            [pSelectableRowIndex]="rowIndex" title="Double click to edit person">
           <td>
             <div>{{invoice.invoiceNumber}}</div>
           </td>
@@ -37,10 +45,10 @@
             <div>{{invoice.creationDate | dateType: 'YY.MM.YYYY'}}</div>
           </td>
           <td>
-            <div>{{invoice.totalSumNetto}}</div>
+            <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
           </td>
           <td>
-            <div>{{invoice.totalSumBrutto}}</div>
+            <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
           </td>
         </tr>
 
