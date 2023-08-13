@@ -123,7 +123,6 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   set value(v: any) {
     if (v !== this.controlValue) {
       this.controlValue = v;
-      console.log(' SET VALUE '+v)
       this.onChange(v);
     }
   }
@@ -144,7 +143,6 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
    */
   writeValue(value: any): void {
       this.controlValue = value;
-    console.log(' WRITE VALUE '+value)
   }
 }
 

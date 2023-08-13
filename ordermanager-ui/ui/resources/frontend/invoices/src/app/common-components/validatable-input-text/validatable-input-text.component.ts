@@ -141,12 +141,9 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   // set accessor including call the onchange callback
 
   set value(v: any) {
-    console.log('set value :'+v)
-   // if (v !== this.controlValue) {
       this.controlValue = v;
       this.onChange(v);
       this.cdr.detectChanges()
-   // }
   }
 
   registerOnChange(fn: any): void {
