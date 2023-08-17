@@ -1,0 +1,110 @@
+<ng-template #inputTextTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
+  <div style="display: table; width: 100%;">
+    <div style="display: table-row; width: 100%;">
+      <div style="display: table-cell; width: 100%;">
+               <span class="p-float-label">
+                    <input [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
+                           pInputText
+                           minlength="0"
+                           id="{{idComponent}}"
+                           type="text" />
+                  <label for="{{idComponent}}">{{labelText}}</label>
+               </span>
+      </div>
+      <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+        <p-message severity="error"></p-message>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<!-- The combobox template for selecting person type. -->
+<ng-template #comboboxTemplate let-controlPath="controlPath"
+             let-idComponent="idComponent"
+             let-labelText="labelText"
+             let-placeholderPar="placeholderPar"
+             let-optionList="optionList">
+
+  <div style="display: table; width: 100%;">
+    <div style="display: table-row; width: 100%;">
+      <div style="display: table-cell; width: 100%;">
+        <div style="margin-bottom: 15pt">
+                <span class="p-float-label">
+                <p-dropdown [formControl]="getControl(controlPath)"
+                            (onChange)="onDropdownValueChanged($event)"
+                            placeholder="{{placeholderPar}}"
+                            required
+                            minlength="1"
+                            id="{{idComponent}}"
+                            [options]="optionList">
+                </p-dropdown>
+                <label for="{{idComponent}}">{{labelText}}</label>
+                </span>
+          <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+            <p-message severity="error"></p-message>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template  #calendarTemplate let-controlPath="controlPath"
+              let-idComponent="idComponent"
+              let-labelText="labelText"
+              let-calendarDateFormat="calendarDateFormat">
+  <div style ="display: table; width: 100%;">
+    <div style ="display: table-row; width: 100%;">
+      <div style ="display: table-cell; width: 100%;">
+               <span class="p-float-label">
+                    <p-calendar [formControl]="getControl(controlPath)"
+                                dateFormat="{{calendarDateFormat}}"
+                                required
+                                [showIcon]="true"
+                                minlength="1"
+                                id="{{idComponent}}"
+                                (onSelect)="onCalendarChange($event, controlPath)">
+                    </p-calendar>
+                    <label  for="{{idComponent}}">{{labelText}}</label>
+               </span>
+      </div>
+      <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+        <p-message severity="error"></p-message>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template  #standaloneFormCalendarTemplate let-controlName="controlName"
+              let-idComponent="idComponent"
+              let-labelText="labelText"
+              let-calendarDateFormat="calendarDateFormat">
+  <form>
+    <div style ="display: table; width: 100%;">
+      <div style ="display: table-row; width: 100%;">
+        <div style ="display: table-cell; width: 100%;">
+                 <span class="p-float-label">
+                      <p-calendar name="{{controlName}}"
+                                  dateFormat="{{calendarDateFormat}}"
+                                  required
+                                  [showIcon]="true"
+                                  minlength="1"
+                                  [(ngModel)]="dateTemplateModel"
+                                  id="{{idComponent}}"
+                                  (onSelect)="onCalendarChange($event, controlName)" #pCalendarRef = "ngModel">
+                      </p-calendar>
+                      <label  for="{{idComponent}}">{{labelText}}</label>
+                 </span>
+        </div>
+        <div *ngIf= "pCalendarRef.control?.invalid" style ="display: table-cell; width: 10%;">
+          <p-message severity="error"></p-message>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+

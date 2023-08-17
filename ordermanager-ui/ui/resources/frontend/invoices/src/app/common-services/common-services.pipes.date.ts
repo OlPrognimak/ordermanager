@@ -35,7 +35,7 @@ import * as _moment from "moment/moment";
   name: 'dateType',
 })
 export class CommonServicesPipesDate implements PipeTransform {
-  transform( val: any, format): any{
+  transform( val: Date, format): any{
         return _moment(val).format(format);
    }
 }

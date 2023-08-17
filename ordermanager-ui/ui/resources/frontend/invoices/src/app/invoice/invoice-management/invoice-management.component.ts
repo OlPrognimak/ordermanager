@@ -12,6 +12,10 @@ import {DateperiodFinderComponent} from "../../common-components/dateperiod-find
 import {InvoiceFormModel} from "../../domain/domain.invoiceformmodel";
 import {of} from "rxjs";
 import {InvoicePipesModule} from "../../common-services/common-services.pipes.number";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {EditInvoiceDialogComponent} from "../edit-invoice-dialog/edit-invoice-dialog.component";
+import {CalendarModule} from "primeng/calendar";
 
 @NgModule(
   {
@@ -25,18 +29,28 @@ export class InvoiceManagementModule{}
   selector: 'app-invoice-management',
   standalone: true,
   imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
-    InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule],
+    InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
+    ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule],
   templateUrl: './invoice-management.component.html',
   styleUrls: ['./invoice-management.component.css'],
   providers: [CommonServicesPipesDate, AppSecurityService, MessageService]
 })
 export class InvoiceManagementComponent  implements OnInit {
+  get isInvoiceDialogVisible(): boolean {
+    return this._isInvoiceDialogVisible;
+  }
+
+  set isInvoiceDialogVisible(value: boolean) {
+    this._isInvoiceDialogVisible = value;
+  }
 
   @Input() invoicesModel: InvoiceFormModel[]
+  @ViewChild('invoiceDialog') invoiceDialog: EditInvoiceDialogComponent
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
   private invoicesChanges: InvoiceFormModel[]
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
+  private _isInvoiceDialogVisible: boolean;
 
   constructor(public securityService: AppSecurityService) {
   }
@@ -48,7 +62,7 @@ export class InvoiceManagementComponent  implements OnInit {
   }
 
   set invoices(value){
-    this.invoicesModel = value
+      this.invoicesModel = value
   }
 
   get invoices() {
@@ -67,5 +81,28 @@ export class InvoiceManagementComponent  implements OnInit {
     } else {
       return '#495057'
     }
+  }
+
+  deleteInvoice(id) {
+
+  }
+
+  rowDoubleClick($event: MouseEvent, invoice: InvoiceFormModel) {
+    //console.log("######## ID :"+invoice.id)
+    setTimeout(() => {
+      this.invoiceDialog.setInvoice(invoice)
+      this.invoiceDialog.visible = true
+      this.isInvoiceDialogVisible = true
+    })
+  }
+
+  protected readonly Date = Date;
+
+  convertToDate(date: any) {
+    return new Date(date)
+  }
+
+  setCalendarValue($event: any) {
+
   }
 }
