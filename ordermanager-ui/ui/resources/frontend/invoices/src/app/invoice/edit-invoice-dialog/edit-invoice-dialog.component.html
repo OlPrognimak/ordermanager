@@ -50,17 +50,7 @@
                   }">
         </ng-container>
 
-<!--        <ng-container *ngTemplateOutlet="templatesComponent.standaloneFormCalendarTemplate;-->
-<!--          context:{controlName: 'creationDate',-->
-<!--                   idComponent: 'id-creationDat',-->
-<!--                   labelText: 'Creation Date',-->
-<!--                   calendarDateFormat: 'dd.mm.yy'-->
-<!--                  }">-->
-<!--        </ng-container>-->
-
       </div>
-
-
       <div class="p-col-3">
 
         <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
@@ -70,21 +60,6 @@
                    calendarDateFormat: 'dd.mm.yy'
                   }">
         </ng-container>
-<!--        <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;-->
-<!--          context:{controlPath: 'invoiceDate',-->
-<!--                   idComponent: 'id-InvoiceDate',-->
-<!--                   labelText: 'Invoice Date',-->
-<!--                   calendarDateFormat: 'dd.mm.yy'-->
-<!--                  }">-->
-<!--        </ng-container>-->
-<!--        <ng-container *ngTemplateOutlet="templatesComponentForInvoiceDate.standaloneFormCalendarTemplate;-->
-<!--          context:{controlName: 'invoiceDate',-->
-<!--                   idComponent: 'id-invoiceDate',-->
-<!--                   labelText: 'Invoice Date',-->
-<!--                   calendarDateFormat: 'dd.mm.yy'-->
-<!--                  }">-->
-<!--        </ng-container>-->
-
       </div>
     </div>
 
@@ -133,6 +108,3 @@
                          (calendarValueChanged)="setCalendarValue($event)"
                          [templatesFormGroup]="editInvoiceFG"></app-templates-component>
 
-<app-templates-component #templatesComponentForInvoiceDate
-                         (calendarValueChanged)="setCalendarValue($event)"
-                         [templatesFormGroup]="editInvoiceFG"></app-templates-component>

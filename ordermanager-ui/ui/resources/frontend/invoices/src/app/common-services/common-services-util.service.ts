@@ -32,10 +32,24 @@ import {Injectable} from '@angular/core';
 import {of} from 'rxjs';
 import {delay, map} from 'rxjs/operators';
 import {Message, MessageService} from 'primeng/api';
+import {DropdownDataType} from "../domain/domain.invoiceformmodel";
 
 export const printToJson = (data: any): void  => {
   console.log(JSON.stringify(data));
 }
+
+
+export const invoiceRate: DropdownDataType[] = [
+  //{label: '[Select rate type]', value: null},
+  {label: 'Hourly rate', value: 'HOURLY'},
+  {label: 'Daily rate', value: 'DAILY'}
+];
+
+export const personType: DropdownDataType[] = [
+  // {label: '[Select person type]', value: ''},
+  {label: 'Private person', value: 'PRIVATE'},
+  {label: 'Organisation', value: 'ORGANISATION'}
+];
 /**
  * The useful utility service
  */
@@ -73,5 +87,6 @@ export class CommonServicesUtilService{
 
     this.hideMassage(msg, 10000);
   }
+
 
 }

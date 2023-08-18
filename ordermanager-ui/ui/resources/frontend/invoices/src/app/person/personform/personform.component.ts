@@ -33,7 +33,7 @@ import {DropdownDataType} from '../../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
-import {CommonServicesUtilService} from '../../common-services/common-services-util.service';
+import {CommonServicesUtilService, personType} from '../../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
 import {CommonModule} from "@angular/common";
 import {FormGroupDirective, FormsModule, NgForm, NgModel} from "@angular/forms";
@@ -68,8 +68,6 @@ export class PersonFormComponent implements OnInit {
   personAddressModel: PersonAddressFormModel;
   /** Model invoice supplier for dropdown component */
   personInvoiceSupplier: DropdownDataType[];
-  /** Model for person type dropdown component */
-  personType: DropdownDataType[];
   basicAuthKey = 'basicAuthKey';
   private hasPersonTypeError: boolean;
   private hasFirstNameError: boolean;
@@ -108,11 +106,6 @@ export class PersonFormComponent implements OnInit {
    * Init component
    */
   ngOnInit(): void {
-    this.personType = [
-      // {label: '[Select person type]', value: ''},
-      {label: 'Private person', value: 'PRIVATE'},
-      {label: 'Organisation', value: 'ORGANISATION'}
-    ];
     this.personFormModel = new PersonFormModel();
     this.personBankAccountModel = this.personFormModel.bankAccountFormModel;
     this.personAddressModel = this.personFormModel.personAddressFormModel;
@@ -265,6 +258,8 @@ export class PersonFormComponent implements OnInit {
   peronTypeChanged($event: any) {
     //this.formGroupDirective.form.updateValueAndValidity()
   }
+
+  protected readonly personType = personType;
 }
 
 @NgModule(

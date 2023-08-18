@@ -25,8 +25,6 @@ export class TemplatesComponentComponent {
   @Output() dropdownValueChanged: EventEmitter<DropdownChangeEvent> = new EventEmitter<DropdownChangeEvent>()
   @Output() calendarValueChanged: EventEmitter<CalendarValueWrapper> = new EventEmitter<CalendarValueWrapper>()
 
-
-  //dateTemplateModel: Date = new Date();
   dateTemplateModel: Date
 
   getControl(controlPath: string) {
@@ -45,7 +43,6 @@ export class TemplatesComponentComponent {
 
 
 }
-
 
 export class InputTextTemplateContext {
   controlPath: string

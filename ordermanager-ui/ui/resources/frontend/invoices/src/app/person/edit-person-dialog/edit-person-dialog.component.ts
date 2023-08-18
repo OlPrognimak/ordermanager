@@ -18,6 +18,7 @@ import {DropdownDataType} from "../../domain/domain.invoiceformmodel";
 import {DropdownModule} from "primeng/dropdown";
 import {DialogModule} from "primeng/dialog";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
+import {personType} from "../../common-services/common-services-util.service";
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -32,12 +33,6 @@ export class EditPersonDialogComponent {
   originalPersonFormModel: PersonFormModel = new PersonFormModel();
   /**true if no changes in edited person happens*/
   isNoChangesInPersonModel: boolean = true
-  /**person type model*/
-  personType: DropdownDataType[] = [
-    // {label: '[Select person type]', value: ''},
-    {label: 'Private person', value: 'PRIVATE'},
-    {label: 'Organisation', value: 'ORGANISATION'}
-  ];
   /**person form group*/
   editPersonFG: FormGroup
   @Input() visible: boolean = false
@@ -199,4 +194,6 @@ export class EditPersonDialogComponent {
       }
     }
   }
+
+  protected readonly personType = personType;
 }

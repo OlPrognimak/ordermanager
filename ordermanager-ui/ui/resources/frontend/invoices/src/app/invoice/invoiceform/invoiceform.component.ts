@@ -37,8 +37,7 @@ import {
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface,
-  InvoiceItemModel,
-  InvoiceItemModelInterface
+  InvoiceItemModel
 } from '../../domain/domain.invoiceformmodel';
 
 import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
@@ -46,7 +45,7 @@ import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
-import {CommonServicesUtilService} from '../../common-services/common-services-util.service';
+import {CommonServicesUtilService, invoiceRate} from '../../common-services/common-services-util.service';
 import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
 import {environment} from '../../../environments/environment';
 import {map} from "rxjs/operators";
@@ -82,11 +81,8 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   //@ViewChild("invoiceForm") invoiceForm: FormControl;
   eventsModelIsReset: Subject<void> = new Subject<void>();
   backendUrl: string;
-  invoiceRate: DropdownDataType[];
   /** The invoice data model */
   invoiceFormData: InvoiceFormModelInterface;
-  invoiceItem: InvoiceItemModelInterface;
-  executionResult = false;
   private isViewInitialized = false;
 
   /** Model invoice supplier for dropdown component */
@@ -136,44 +132,20 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    */
   ngOnInit(): void {
     this.resetModel();
-    this.invoiceRate = [
-     //{label: '[Select rate type]', value: null},
-      {label: 'Hourly rate', value: 'HOURLY'},
-      {label: 'Daily rate', value: 'DAILY'}
-    ];
-      const promice: Promise<any> = this.loadFormData();
-      promice.then( data => {
-         //this.emitPersonDataChanged();
-        }
-      );
+    this.loadFormData();
   }
-
-
 
   /**
    * Initialisation of the class
    */
-  async loadFormData(): Promise<any> {
-    const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      Accept : '*/*'
-    });
-
-    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', {headers})
-       .pipe(
-         map( response => {
-             this.personInvoiceRecipient = response;
-             this.personInvoiceSupplier = response;
-             console.log('Get PersonDropDown Response :' + JSON.stringify(response));
-             return response;
-           },
-         ),
-
-       );
-     observableHttpRequest.subscribe();
+  loadFormData() {
+    this.httpService.loadDropdownData('person/personsdropdown', callback => {
+      if(callback !=null) {
+        this.personInvoiceRecipient = callback;
+        this.personInvoiceSupplier = callback;
+      }
+    })
    }
-
 
     /** emits events with changed total netto and brutto sums */
   private emitPersonDataChanged(): void{
@@ -261,6 +233,8 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
       this.hasInvoiceDateError = event
     })
   }
+
+  protected readonly invoiceRate = invoiceRate;
 }
 
 @NgModule(

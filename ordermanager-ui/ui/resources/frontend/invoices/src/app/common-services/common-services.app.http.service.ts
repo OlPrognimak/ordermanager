@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {CreatedResponse} from '../domain/domain.invoiceformmodel';
+import {CreatedResponse, DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
-import {CommonServicesUtilService} from './common-services-util.service';
+import {CommonServicesUtilService, printToJson} from './common-services-util.service';
 import {environment} from '../../environments/environment';
+import {map} from "rxjs/operators";
 
 
 const  handleError = function(err: any): void {
@@ -80,6 +81,34 @@ export class CommonServicesAppHttpService<T> {
     } else {
       throw new Error("HTTP Method '"+method+"' not supported")
     }
+
+  }
+
+
+  loadDropdownData = (url: string, callback) => {
+    const headers = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept : '*/*'
+    });
+
+    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + url, {headers})
+      .pipe(
+        map( response => {
+            console.log('Get PersonDropDown Response :' + JSON.stringify(response));
+            return response;
+          },
+        ),
+      );
+
+      observableHttpRequest.subscribe({
+        next(response) {
+          return callback(response)
+        },
+        error(err) {
+          console.log("Error loading dropdown data: "+printToJson(err))
+        }
+      });
 
   }
 
