@@ -27,7 +27,9 @@ export class CommonServicesAppHttpService<T> {
   }
 
   /**
-   * Call http PUT method to save object on server side
+   * Call http  method to save/delete/update object on server side
+   *
+   * @param httpMethod the HTTP Method PUT, DELETE or POST
    * @param objectToSave object to be saved on server
    * @param objectName object name to be saved
    * @param endPointPath rest API end point path
@@ -36,13 +38,11 @@ export class CommonServicesAppHttpService<T> {
   putObjectToServer = (httpMethod: string, objectToSave: T, objectName: string, endPointPath: string, callback) => {
 
      const msgObservable = of(this.messagePrinter);
-
     this.handleHttpRequest(objectToSave, endPointPath, httpMethod).subscribe({
         next (response) {
           if (response.createdId > 0) {
             msgObservable.subscribe(
               msgService => msgService.printSuccessMessage(objectName));
-            console.log('PUT Object Success: ' + response);
             return callback(true);
           }else{
             console.log('Unexpected error: ' + response);

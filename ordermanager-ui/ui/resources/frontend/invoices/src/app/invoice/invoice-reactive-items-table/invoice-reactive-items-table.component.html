@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="p-card">
   <div class="p-col-12">
-    <p-table  [value]="invoiceItems" [rows]="40" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+    <p-table [value]="invoiceReactiveItems" [rows]="40" [autoLayout]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 40%">Item description</th>
@@ -10,7 +10,7 @@
           <th style="width: 10%">Vat%</th>
           <th style="width: 10%">Sum netto</th>
           <th style="width: 10%">Sum brutto</th>
-          <th style="width: 10%">Manage</th>
+          <th style="width: 10%">Delete</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-invoiceitem>

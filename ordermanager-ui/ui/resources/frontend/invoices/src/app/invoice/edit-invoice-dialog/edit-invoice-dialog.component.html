@@ -1,14 +1,13 @@
-<p-dialog header="Edit person" [(visible)]="visible" [style]="{ width: '80vw', height: '80%' }" (onHide)="setVisible(false)">
+<p-dialog header="Edit invoice" [(visible)]="visible"
+          [style]="{ width: '80vw', height: '80%' }"
+          (onHide)="setVisible(false)">
 
   <div *ngIf="appSecurityService.isAuthenticated();"  [formGroup]="editInvoiceFG">
-
-  <div class="p-fluid">
-
-    <H2>Create invoice</H2>
     <div>
       <p-toast></p-toast>
+      <p-message></p-message>
     </div>
-
+  <div class="p-fluid">
     <div class="p-grid">
       <div style="margin-top: 10pt" class="p-col-4">
         <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
@@ -88,19 +87,19 @@
       </div>
     </div>
 
-<!--    <app-invoice-items-table [modelChangedEvent] = "eventsModelIsReset.asObservable()"-->
-<!--                             (changeItemEvent)="this.invoiceFormData.invoiceItems=$event"-->
-<!--                             (totalNettoSumEvent) = "invoiceFormData.totalSumNetto=$event"-->
-<!--                             (totalBruttoSumEvent)="this.invoiceFormData.totalSumBrutto=$event"-->
-<!--                             [invoiceItems]="invoiceFormData.invoiceItems">-->
+    <app-reactive-invoice-items-table
+                             (changeItemEvent)="invoiceItemsChanged($event)"
+                             (totalNettoSumEvent) = "tottalNettoSumChanged($event)"
+                             (totalBruttoSumEvent)="tottalBruttoSumChanged($event)"
+                             [invoiceReactiveItems]="invoiceReactiveDlgFormData.invoiceItems" #reactiveItemsTableComponent>
 
-<!--    </app-invoice-items-table>-->
+    </app-reactive-invoice-items-table>
 
 
   </div>
 </div>
   <ng-template pTemplate="footer">
-    <p-button [disabled] = "editInvoiceFG?.invalid" icon="pi pi-check" (click)="sendChanges()" label="Save" styleClass="p-button-text"></p-button>
+    <p-button [disabled] = "editInvoiceFG?.invalid" icon="pi pi-check" (click)="putChangesBack()" label="Save" styleClass="p-button-text"></p-button>
     <p-button icon="pi pi-check pink-300"  (click)="setVisible(false)" label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>

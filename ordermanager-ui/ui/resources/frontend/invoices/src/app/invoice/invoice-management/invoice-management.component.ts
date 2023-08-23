@@ -47,10 +47,10 @@ export class InvoiceManagementComponent  implements OnInit {
   @Input() invoicesModel: InvoiceFormModel[]
   @ViewChild('invoiceDialog') invoiceDialog: EditInvoiceDialogComponent
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
-  private invoicesChanges: InvoiceFormModel[]
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
   private _isInvoiceDialogVisible: boolean;
+  invoiceChangesList: InvoiceFormModel[] = []
 
   constructor(public securityService: AppSecurityService) {
   }
@@ -75,7 +75,7 @@ export class InvoiceManagementComponent  implements OnInit {
   }
 
   isInvoiceChanged(invoice: InvoiceFormModel) {
-    let obj = this.invoicesChanges?.filter(v =>invoice.id === v.id)
+    let obj = this.invoiceChangesList?.filter(v =>invoice.id === v.id)
     if( obj!==undefined && obj.length >0){
       return 'blue'
     } else {
@@ -104,5 +104,22 @@ export class InvoiceManagementComponent  implements OnInit {
 
   setCalendarValue($event: any) {
 
+  }
+
+  invoiceItemChanged(invoice: InvoiceFormModel) {
+    const modelPerson = this.invoicesModel.filter(p =>p.id === invoice.id )?.at(0)
+    const changedInvoice =
+      this.invoiceChangesList.filter(i => i.id === invoice.id)?.at(0)
+    //here I put original person to list of changes to keep original value
+    if(changedInvoice === undefined) {
+      this.invoiceChangesList.push(modelPerson)
+    }
+
+    this.invoicesModel.filter((i, idx) =>{
+        if(i.id === invoice.id) {
+          this.invoicesModel[idx] =  invoice
+          return
+        }
+    })
   }
 }

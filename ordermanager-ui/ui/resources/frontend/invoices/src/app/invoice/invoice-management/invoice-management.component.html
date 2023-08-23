@@ -68,5 +68,5 @@
   </div>
 </div>
 
-<app-edit-invoice-dialog #invoiceDialog></app-edit-invoice-dialog>
+<app-edit-invoice-dialog (invoiceChanged)="invoiceItemChanged($event)" #invoiceDialog></app-edit-invoice-dialog>
 

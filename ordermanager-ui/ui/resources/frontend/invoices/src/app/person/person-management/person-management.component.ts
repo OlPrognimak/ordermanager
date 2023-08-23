@@ -93,6 +93,7 @@ export class PersonManagementComponent implements OnInit {
     const modelPerson = this.persons.filter(p =>p.id === person.id )?.at(0)
     const changedPerson =
       this.personsChanges.filter(p => p.id === person.id)?.at(0)
+    //here I put original person to list of changes to keep original value
     if(changedPerson === undefined) {
       this.personsChanges.push(modelPerson)
     }

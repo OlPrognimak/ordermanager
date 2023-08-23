@@ -40,15 +40,14 @@ import {
   InvoiceItemModel
 } from '../../domain/domain.invoiceformmodel';
 
-import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
 import {CommonServicesUtilService, invoiceRate} from '../../common-services/common-services-util.service';
-import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
+import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
 import {environment} from '../../../environments/environment';
-import {map} from "rxjs/operators";
 import {FormsModule} from "@angular/forms";
 import {ValidatableDropdownlistModule} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {ValidatableInputTextModule} from "../../common-components/validatable-input-text/validatable-input-text.component";
@@ -63,6 +62,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {DropdownModule} from "primeng/dropdown";
 import {RippleModule} from "primeng/ripple";
+import {MessagesModule} from "primeng/messages";
 
 
 registerLocaleData(localede, 'de');
@@ -73,7 +73,7 @@ registerLocaleData(localede, 'de');
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService,
+  providers:  [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit{
@@ -112,7 +112,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    */
   constructor( private httpClient: HttpClient,
                public appSecurityService: AppSecurityService,
-               private messageService: MessageService,
+               private messageService: MessagesPrinter,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl = environment.baseUrl;
@@ -155,7 +155,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
 
   /**
    * Saves person to the database on server
-   * @param item the item for saving
+   * @param event the item for saving
    */
   saveInvoice(event: any): void {
     this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
@@ -166,9 +166,6 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
       });
   }
 
-  public printToJson(data: any): void {
-    alert(JSON.stringify(data));
-  }
 
   /**
    * This method has two possible implementation to reset total values on
@@ -240,7 +237,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule, ValidatableInputTextModule,
-      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule,
+      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule,  MessagesModule,
       ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule],
     declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
     exports: [InvoiceFormComponent, InvoiceItemsTableComponent]
