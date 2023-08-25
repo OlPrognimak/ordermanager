@@ -34,6 +34,8 @@ import com.pr.ordermanager.security.entity.InvoiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
+ * The JPA repository for <code>User</code>
+ *
  * @author Oleksandr Prognimak
  * @since  21.09.2020 - 22:03
  */

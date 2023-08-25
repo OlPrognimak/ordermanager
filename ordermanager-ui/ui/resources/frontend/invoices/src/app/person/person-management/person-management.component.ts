@@ -128,7 +128,6 @@ export class PersonManagementComponent implements OnInit {
 
     this.httpService.putObjectToServer('POST', changes, "person changes", 'person', callback =>{
        if(callback){
-         console.log("SEND CHANGES :"+JSON.stringify(changes))
          this.personsChanges = []
        }
     })

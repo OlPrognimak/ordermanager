@@ -45,7 +45,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -63,6 +63,44 @@ public class InvoiceMappingService {
      private PersonRepository personRepository;
      @Autowired
      private ItemCatalogRepository itemCatalogRepository;
+
+
+    /**
+     * Maps rest service model object {@link InvoiceFormModel} to
+     * the target entity object of class {@link Invoice}
+     * @param invoiceFormModel the source object for mapping
+     *
+     */
+    public void mapInvoiceModelToExistedEntity(InvoiceFormModel invoiceFormModel, Invoice invoice){
+
+        if(invoice.getInvoiceSupplierPerson().getId() != invoiceFormModel.getPersonSupplierId()) {
+            Optional<Person> supplierPerson = personRepository.findById(invoiceFormModel.getPersonSupplierId());
+            invoice.setInvoiceSupplierPerson(supplierPerson.get());
+            supplierPerson.get().setInvoiceSuppliers(List.of(invoice));
+        }
+        if(invoice.getInvoiceRecipientPerson().getId() != invoiceFormModel.getPersonSupplierId()) {
+            Optional<Person> recipientPerson = personRepository.
+                    findById(invoiceFormModel.getPersonRecipientId());
+            invoice.setInvoiceRecipientPerson(recipientPerson.get());
+            recipientPerson.get().setInvoiceRecipient(List.of(invoice));
+        }
+
+        invoice.setInvoiceDate(invoiceFormModel.getInvoiceDate());
+        invoice.setInvoiceNumber(invoiceFormModel.getInvoiceNumber());
+        invoice.setInvoiceDescription(invoiceFormModel.getInvoiceDescription());
+        invoice.setCreationDate(invoiceFormModel.getCreationDate());
+        invoice.setRateType( RateType.valueOf(invoiceFormModel.getRateType()));
+        invoice.setTotalSumBrutto(invoiceFormModel.getTotalSumBrutto());
+        invoice.setTotalSumNetto(invoiceFormModel.getTotalSumNetto());
+        invoice.getInvoiceItems().clear();
+        List<InvoiceItem> invoiceItems = invoiceFormModel.getInvoiceItems()
+                .stream()
+                .map(i -> mapInvoiceItemModelToEntity(
+                        i, invoice, itemCatalogRepository.findById(
+                                i.getCatalogItemId()).orElseThrow()))
+                .collect(Collectors.toList());
+        invoice.getInvoiceItems().addAll(invoiceItems);
+    }
 
     /**
      * Maps rest service model object {@link InvoiceFormModel} to
@@ -103,8 +141,8 @@ public class InvoiceMappingService {
                              i.getCatalogItemId ()).orElseThrow()))
                             .collect( Collectors.toList())
             );
-            personInvoiceSupplier.setInvoiceSuppliers( Arrays.asList(invoice));
-            personInvoiceRecipient.setInvoiceRecipient(Arrays.asList(invoice));
+            personInvoiceSupplier.setInvoiceSuppliers(List.of(invoice));
+            personInvoiceRecipient.setInvoiceRecipient(List.of(invoice));
             return invoice;
 
     }

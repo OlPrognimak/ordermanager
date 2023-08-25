@@ -31,6 +31,7 @@
 import * as _moment from 'moment';
 
 export interface InvoiceFormModelInterface {
+  id: number;
   personSupplierId: number;
   personRecipientId: number;
   invoiceNumber: string;
@@ -51,6 +52,7 @@ export interface RequestPeriodDateInterface {
 }
 
 export interface InvoiceItemModelInterface {
+  id: number;
   idxItem: number;
   catalogItemId: number;
   description: string;
@@ -81,7 +83,7 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   id: number;
   creationDate: Date;
   invoiceDate: Date;
-  invoiceItems: InvoiceItemModelInterface[] = [];
+  invoiceItems: InvoiceItemModel[] = [];
   invoiceNumber: string;
   supplierFullName: string;
   recipientFullName: string ;
@@ -92,12 +94,14 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   totalSumNetto: number;
   totalSumBrutto: number;
 
-  public toJSON(): InvoiceFormModelInterface {
-    return Object.assign({}, this, {
+  public toJSON(): InvoiceFormModel {
+    const withDateTransform = Object.assign({}, this, {
 
-      creationDate: _moment(this.creationDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-      invoiceDate: _moment(this.invoiceDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ' )
+      creationDate: _moment(this.creationDate).format( 'yyyy-MM-DDTHH:mm:ss.SSSZZ'),
+      invoiceDate: _moment(this.invoiceDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ' )
     });
+    console.log("INVOICE FORM TRANSFORMED MODEL :"+JSON.stringify(withDateTransform))
+    return withDateTransform;
   }
 }
 
@@ -107,13 +111,14 @@ export class RequestDatePriod implements RequestPeriodDateInterface {
   endDate: Date = new Date();
   public toJSON(): RequestPeriodDateInterface {
     return Object.assign({}, this, {
-      startDate: _moment(this.startDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ' )
+      startDate: _moment(this.startDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZ' )
     });
   }
 }
 
 export class InvoiceItemModel implements InvoiceItemModelInterface{
+  id: number;
   idxItem: number;
   catalogItemId: number;
   description = '';

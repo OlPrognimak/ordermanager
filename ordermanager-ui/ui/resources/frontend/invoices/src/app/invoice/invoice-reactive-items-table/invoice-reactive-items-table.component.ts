@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {DropdownDataType, InvoiceItemModel} from '../../domain/domain.invoiceformmodel';
 import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from '../invoice-items-table/invoice-items-table.calculator.service';
@@ -41,6 +41,7 @@ import {InvoicePipesModule} from "../../common-services/common-services.pipes.nu
 import {ButtonModule} from "primeng/button";
 import {TooltipModule} from "primeng/tooltip";
 import {ToastModule} from "primeng/toast";
+import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   styles: [],
@@ -55,11 +56,14 @@ import {ToastModule} from "primeng/toast";
     InvoicePipesModule,
     ButtonModule,
     TooltipModule,
-    ToastModule
+    ToastModule,
+    ConfirmationDialogComponent
   ],
   providers: [InvoiceItemsTableCalculatorService]
 })
 export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
+  @ViewChild('confirmDeleteItemDialog') confirmDeleteItemDialog: ConfirmationDialogComponent
+
   @Input() invoiceReactiveItems: InvoiceItemModel[];
   /** The observer for observation model changing event in parent component */
   @Input() modelChangedEvent: Observable<void> = of();
@@ -70,6 +74,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
   @Input() catalogItems: DropdownDataType[];
   @Input() myInputField;
+  saveDeeleteDialogMessage: string = 'Are you sure you want to delete invoice item?'
+  showDeleteConfirmDialog: boolean = false
 
 
   backendUrl: string;
@@ -149,10 +155,16 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    * Deletes item from list of items
    * @param idxItem index of item in list items
    */
-  deleteItem(idxItem: any): void {
-    this.invoiceReactiveItems = this.invoiceReactiveItems.filter(val => val.idxItem !== idxItem);
+  deleteItem(id: number, idxItem: number): void {
+    //console.log(id+": Before Rest Items"+JSON.stringify(this.invoiceReactiveItems))
+    if (typeof id === 'number') {
+      this.invoiceReactiveItems = this.invoiceReactiveItems.filter(val => val.id !== id)
+    } else {
+      this.invoiceReactiveItems = this.invoiceReactiveItems.filter(val => val.idxItem !== idxItem)
+    }
+    //console.log("Rest Items"+JSON.stringify(this.invoiceReactiveItems))
     this.changeItemEvent.emit(this.invoiceReactiveItems);
-    this.inputBoxChanged(new InvoiceItemModel(), 0);
+    this.inputBoxChanged(new InvoiceItemModel(), 0)
   }
 
   /**
@@ -196,4 +208,12 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
     console.log(JSON.stringify(data));
   }
 
+  handleDeleteConfirmation(transferObject: any) {
+    this.deleteItem(transferObject.id, transferObject.idxItem)
+  }
+
+  showDeleteItemDialog(id: number, idxItem: number) {
+    this.confirmDeleteItemDialog.transferObject = {id: id, idxItem: idxItem}
+    this.showDeleteConfirmDialog = true
+  }
 }

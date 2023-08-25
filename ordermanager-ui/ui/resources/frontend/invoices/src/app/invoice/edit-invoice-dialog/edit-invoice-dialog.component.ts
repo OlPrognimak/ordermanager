@@ -47,6 +47,7 @@ import {
 import {Subject} from "rxjs";
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
+import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 export type InvoiceControls = { [key in keyof InvoiceFormModelInterface]: AbstractControl }
 type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: InvoiceControls }
 
@@ -65,7 +66,7 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
     ValidatableDropdownlistModule,
     TemplatesComponentComponent,
     TooltipModule, MessageModule, MessagesModule,
-    DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent],
+    DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, ConfirmationDialogComponent],
   providers:  [
     MessageService, MessagesPrinter, CommonServicesUtilService
   ],
@@ -76,7 +77,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 
   @ViewChild('templatesComponent') templatesComponentComponent : TemplatesComponentComponent
   @ViewChild('templatesComponentForInvoiceDate') templatesComponentForInvoiceDate : TemplatesComponentComponent
-  @ViewChild('reactiveItemsTableComponent') itemsTableComponent: InvoiceReactiveItemsTableComponent;
+  @ViewChild('reactiveItemsTableComponent') itemsTableComponent: InvoiceReactiveItemsTableComponent
 
   editInvoiceFG: InvoiceFormGroup
   visible: boolean;
@@ -98,7 +99,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
               private messageService: MessageService,
               private messagePrinter: MessagesPrinter,
               private utilService: CommonServicesUtilService,
-              private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
+              private httpService: CommonServicesAppHttpService<InvoiceFormModel>,
               private formBuilder: FormBuilder) {
 
     this.editInvoiceFG = this.formBuilder.group({
@@ -148,26 +149,11 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   setInvoice(invoice: InvoiceFormModel) {
-      this.originalInvoice = invoice
-      this.invoiceReactiveDlgFormData = Object.assign({},invoice)
-      this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
-      //this.invoiceItems = invoice.invoiceItems
-      // this.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
-      //console.log("------Invoice Items :"+JSON.stringify(invoice.invoiceItems))
-      //this.invoiceFormData.invoiceItems = []
-      // this.getControl('id').setValue(invoice.id)
-      // this.getControl('invoiceNumber').setValue(invoice.invoiceNumber)
-      // this.getControl('invoiceDescription').setValue(invoice.invoiceDescription)
-      // this.getControl('creationDate').setValue(new Date(invoice.creationDate))
-      // this.getControl('invoiceDate').setValue(new Date(invoice.invoiceDate))
-      // this.getControl('supplierFullName').setValue(invoice.supplierFullName)
-      // this.getControl('recipientFullName').setValue(invoice.recipientFullName)
-      // this.getControl('personRecipientId').setValue(''+invoice.personRecipientId)
-      // this.getControl('personSupplierId').setValue(''+invoice.personSupplierId)
-      // this.getControl('rateType').setValue(invoice.rateType)
-      // this.getControl('totalSumNetto').setValue(invoice.totalSumNetto)
-      // this.getControl('totalSumBrutto').setValue(invoice.totalSumBrutto)
-      // this.editInvoiceFG.updateValueAndValidity()
+    this.originalInvoice = invoice
+    this.invoiceReactiveDlgFormData = Object.assign({},invoice)
+    console.log(" SET ORIGINAL INVOICE "+JSON.stringify(this.originalInvoice))
+
+    this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)
     //FIXME need to fix Issue.  see Issue #16 in  Github project ordermanager
     this.getControl('personRecipientId').setValue(''+this.invoiceReactiveDlgFormData.personRecipientId)
@@ -213,7 +199,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.originalInvoice.supplierFullName = supplier?.label
     this.originalInvoice.recipientFullName = recipient?.label
     if( compareObjects(keepOriginalInvoice,this.originalInvoice) &&
-      compareObjects(keepOriginalInvoice.invoiceItems,this.originalInvoice.invoiceItems)) {
+      this.validateInvoiceItems(keepOriginalInvoice.invoiceItems,this.originalInvoice.invoiceItems)) {
       this.messagePrinter.printUnsuccessefulMessage(
         "No changes in the invoice found", null)
 
@@ -221,6 +207,22 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       this.invoiceChanged.emit(this.originalInvoice)
       this.visible = false
     }
+  }
+
+
+  validateInvoiceItems(originalItems: InvoiceItemModel[], changedItems: InvoiceItemModel[]): boolean {
+    if( !compareObjects(originalItems,changedItems) ) return false
+    let isValid: boolean = true
+    originalItems.forEach((o, idx) =>{
+      const changed = changedItems.filter(c =>c.id === o.id)?.at(0)
+      if(changed !== undefined) {
+          isValid = isValid&&compareObjects(o, changed)
+      } else {
+          isValid = false
+          return
+      }
+    })
+    return isValid
   }
 
   setVisible(isVisible: boolean) {
@@ -250,4 +252,5 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   tottalBruttoSumChanged(event: number) {
     this.invoiceReactiveDlgFormData.totalSumBrutto=event
   }
+
 }

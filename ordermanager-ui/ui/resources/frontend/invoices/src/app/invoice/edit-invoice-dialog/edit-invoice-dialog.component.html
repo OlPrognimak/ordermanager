@@ -1,5 +1,6 @@
 <p-dialog header="Edit invoice" [(visible)]="visible"
           [style]="{ width: '80vw', height: '80%' }"
+          [contentStyle]="{'overflow': 'auto'}"
           (onHide)="setVisible(false)">
 
   <div *ngIf="appSecurityService.isAuthenticated();"  [formGroup]="editInvoiceFG">
@@ -106,4 +107,5 @@
 <app-templates-component #templatesComponent
                          (calendarValueChanged)="setCalendarValue($event)"
                          [templatesFormGroup]="editInvoiceFG"></app-templates-component>
+
 

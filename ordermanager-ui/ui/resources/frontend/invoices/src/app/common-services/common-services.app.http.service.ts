@@ -65,6 +65,7 @@ export class CommonServicesAppHttpService<T> {
   private handleHttpRequest(objectToSave: T, endPointPath: string, method: string): Observable<CreatedResponse> {
     const reqheaders = new HttpHeaders({
       Authorization: localStorage.getItem(this.basicAuthKey) as string,
+      'Content-Type': 'application/json',
       Accept: '*/*'
     });
     const options = {headers: reqheaders};

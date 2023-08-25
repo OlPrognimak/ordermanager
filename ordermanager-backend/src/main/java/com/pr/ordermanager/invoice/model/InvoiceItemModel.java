@@ -45,6 +45,7 @@ import javax.validation.constraints.Positive;
 @Builder
 public class InvoiceItemModel {
     @NotNull
+    private Long id;
     private Long catalogItemId;
     private String description;
     @NotNull @Positive

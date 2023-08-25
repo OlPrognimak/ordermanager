@@ -116,7 +116,7 @@ public class PersonController {
             @PathVariable @Valid Long personId, Principal principal) {
         personService.deletePerson(personId, principal.getName());
 
-        return ResponseEntity.status(CREATED).body(new CreatedResponse(personId));
+        return ResponseEntity.status(OK).body(new CreatedResponse(personId));
     }
 
 

@@ -97,6 +97,7 @@ public class EntityToModelMapperHelper {
      */
     public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem source){
         return InvoiceItemModel.builder()
+                .id(source.getId())
                 .catalogItemId (source.getItemCatalog().getId())
                 .itemPrice(source.getItemPrice())
                 .description(source.getItemCatalog().getDescription())

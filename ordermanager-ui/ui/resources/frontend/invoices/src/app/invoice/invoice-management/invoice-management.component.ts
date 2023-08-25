@@ -1,7 +1,7 @@
 import {Component, Input, NgModule, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MessageService, SharedModule} from "primeng/api";
+import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {ToastModule} from "primeng/toast";
 import {CommonServicesPipesDate} from "../../common-services/common-services.pipes.date";
@@ -16,6 +16,10 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {EditInvoiceDialogComponent} from "../edit-invoice-dialog/edit-invoice-dialog.component";
 import {CalendarModule} from "primeng/calendar";
+import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
+import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+import {MessageModule} from "primeng/message";
+import {MessagesModule} from "primeng/messages";
 
 @NgModule(
   {
@@ -30,10 +34,11 @@ export class InvoiceManagementModule{}
   standalone: true,
   imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
     InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
-    ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule],
+    ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule, ConfirmationDialogComponent,
+    MessageModule, MessagesModule],
   templateUrl: './invoice-management.component.html',
   styleUrls: ['./invoice-management.component.css'],
-  providers: [CommonServicesPipesDate, AppSecurityService, MessageService]
+  providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
 })
 export class InvoiceManagementComponent  implements OnInit {
   get isInvoiceDialogVisible(): boolean {
@@ -47,12 +52,16 @@ export class InvoiceManagementComponent  implements OnInit {
   @Input() invoicesModel: InvoiceFormModel[]
   @ViewChild('invoiceDialog') invoiceDialog: EditInvoiceDialogComponent
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+
+  /**Reference to child component delete person confirmation dialog. */
+  @ViewChild('confirmDeleteInvoiceDialog') confirmDeleteInvoiceDialog: ConfirmationDialogComponent
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
   private _isInvoiceDialogVisible: boolean;
   invoiceChangesList: InvoiceFormModel[] = []
 
-  constructor(public securityService: AppSecurityService) {
+  constructor(public securityService: AppSecurityService,
+              private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter ) {
   }
 
   ngOnInit(): void {
@@ -84,7 +93,8 @@ export class InvoiceManagementComponent  implements OnInit {
   }
 
   deleteInvoice(id) {
-
+      this.confirmDeleteInvoiceDialog.transferObject = id
+      this.showDeleteConfirmDialog = true
   }
 
   rowDoubleClick($event: MouseEvent, invoice: InvoiceFormModel) {
@@ -97,13 +107,13 @@ export class InvoiceManagementComponent  implements OnInit {
   }
 
   protected readonly Date = Date;
+  deleteConfirmDialogMessage: any = 'Are you really want to permanently delete invoice?'
+  showDeleteConfirmDialog: boolean = false
+  showSaveConfirmDialog: boolean = false
+  saveConfirmDialogMessage: string = 'Are you really want to permanently save changes in invoices'
 
   convertToDate(date: any) {
     return new Date(date)
-  }
-
-  setCalendarValue($event: any) {
-
   }
 
   invoiceItemChanged(invoice: InvoiceFormModel) {
@@ -121,5 +131,52 @@ export class InvoiceManagementComponent  implements OnInit {
           return
         }
     })
+  }
+
+  saveChangedInvoices($event: MouseEvent) {
+    const changes = this.invoicesModel.filter(i =>
+      i.id ===this.invoiceChangesList?.filter(c =>c?.id == i?.id)?.at(0)?.id)
+    const changesList: InvoiceFormModel[] = []
+
+    changes.forEach(i =>{
+      changesList.push(Object.assign(new InvoiceFormModel(), i))
+    })
+    this.httpService.putObjectToServer('POST', changesList, "invoice changes", 'invoice', callback =>{
+      if(callback){
+        this.invoiceChangesList = []
+      }
+    })
+  }
+
+  /**
+   * Indicates whether are changes in invoices
+   */
+  haveNoChanges() {
+    return this.invoiceChangesList == undefined || this.invoiceChangesList.length < 1;
+  }
+
+  handleCancelDeleteInvoice($event: boolean) {
+    this.showDeleteConfirmDialog = false
+  }
+
+  handleConfirmationDeleteInvoice(id: any) {
+    this.httpService.putObjectToServer('DELETE',
+      null, "invoice delete", 'invoice/'+id, callback =>{
+        if(callback){
+          console.log("DELETED :"+id)
+          //this.messagePrinter.printSuccessMessage("The invoice successfully deleted.")
+          this.showDeleteConfirmDialog = false
+          this.ngOnInit()
+        }
+      })
+  }
+
+  handleConfirmationSaveInvoice(transferObject: any) {
+    this.saveChangedInvoices(null)
+    this.showSaveConfirmDialog = false
+  }
+
+  handleCancelSaveInvoice($event: boolean) {
+    this.showSaveConfirmDialog = false
   }
 }
