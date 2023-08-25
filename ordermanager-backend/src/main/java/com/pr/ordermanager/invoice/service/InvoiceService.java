@@ -35,8 +35,10 @@ import com.pr.ordermanager.common.model.RequestPeriodDate;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
+import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
+import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
 import com.pr.ordermanager.security.service.UserService;
@@ -49,6 +51,7 @@ import org.springframework.util.Assert;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
 
@@ -66,6 +69,9 @@ public class InvoiceService {
     private ItemCatalogRepository itemCatalogRepository;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private InvoiceMappingService invoiceMappingService;
 
     /**
      *
@@ -128,6 +134,31 @@ public class InvoiceService {
         return invoiceNumder;
     }
 
+    /**
+     * Update {@link Person} to the database
+     * @param invoices   the invoice to be saved
+     * @param userName currently authenticated user name
+     * @throws OrderManagerException in case if person can not be saved
+     */
+    public void updateInvoices(final List<InvoiceFormModel> invoices, final String userName) {
+
+        invoices.forEach(i -> {
+            Optional<Invoice> invoiceEntityOpt = invoiceRepository.findById(i.getId());
+            if(invoiceEntityOpt.isPresent()) {
+                Invoice invoice = invoiceEntityOpt.get();
+                invoiceMappingService.mapInvoiceModelToExistedEntity(i, invoice);
+                try {
+                    invoiceRepository.save(invoice);
+                } catch (Exception ex) {
+                    logger.error(ex);
+                    throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
+                }
+            }
+        });
+
+
+    }
+
     public Invoice getInvoice(String invoiceNumber){
         return invoiceRepository.findByInvoiceNumber(invoiceNumber);
     }
@@ -154,4 +185,16 @@ public class InvoiceService {
         }
     }
 
+    /**
+     * Delete invoice
+     *
+     * @param invoiceId id of invoice
+     * @param name user name
+     */
+    public void deleteInvoice(Long invoiceId, String name) {
+        Optional<Invoice> invoiceOptional = invoiceRepository.findById(invoiceId);
+        if (invoiceOptional.isPresent()) {
+            invoiceRepository.delete(invoiceOptional.get());
+        }
+    }
 }

@@ -37,19 +37,17 @@ import {
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface,
-  InvoiceItemModel,
-  InvoiceItemModelInterface
+  InvoiceItemModel
 } from '../../domain/domain.invoiceformmodel';
 
-import {HttpClient, HttpClientModule, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
-import {CommonServicesUtilService} from '../../common-services/common-services-util.service';
-import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
+import {CommonServicesUtilService, invoiceRate} from '../../common-services/common-services-util.service';
+import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
 import {environment} from '../../../environments/environment';
-import {map} from "rxjs/operators";
 import {FormsModule} from "@angular/forms";
 import {ValidatableDropdownlistModule} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {ValidatableInputTextModule} from "../../common-components/validatable-input-text/validatable-input-text.component";
@@ -64,6 +62,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {DropdownModule} from "primeng/dropdown";
 import {RippleModule} from "primeng/ripple";
+import {MessagesModule} from "primeng/messages";
 
 
 registerLocaleData(localede, 'de');
@@ -74,7 +73,7 @@ registerLocaleData(localede, 'de');
 @Component({
   selector:    'app-invoice',
   templateUrl: './invoiceform.component.html',
-  providers:  [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService,
+  providers:  [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit{
@@ -82,11 +81,8 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   //@ViewChild("invoiceForm") invoiceForm: FormControl;
   eventsModelIsReset: Subject<void> = new Subject<void>();
   backendUrl: string;
-  invoiceRate: DropdownDataType[];
   /** The invoice data model */
   invoiceFormData: InvoiceFormModelInterface;
-  invoiceItem: InvoiceItemModelInterface;
-  executionResult = false;
   private isViewInitialized = false;
 
   /** Model invoice supplier for dropdown component */
@@ -116,7 +112,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    */
   constructor( private httpClient: HttpClient,
                public appSecurityService: AppSecurityService,
-               private messageService: MessageService,
+               private messageService: MessagesPrinter,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      this.backendUrl = environment.baseUrl;
@@ -136,44 +132,20 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    */
   ngOnInit(): void {
     this.resetModel();
-    this.invoiceRate = [
-     //{label: '[Select rate type]', value: null},
-      {label: 'Hourly rate', value: 'HOURLY'},
-      {label: 'Daily rate', value: 'DAILY'}
-    ];
-      const promice: Promise<any> = this.loadFormData();
-      promice.then( data => {
-         //this.emitPersonDataChanged();
-        }
-      );
+    this.loadFormData();
   }
-
-
 
   /**
    * Initialisation of the class
    */
-  async loadFormData(): Promise<any> {
-    const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      Accept : '*/*'
-    });
-
-    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'person/personsdropdown', {headers})
-       .pipe(
-         map( response => {
-             this.personInvoiceRecipient = response;
-             this.personInvoiceSupplier = response;
-             console.log('Get PersonDropDown Response :' + JSON.stringify(response));
-             return response;
-           },
-         ),
-
-       );
-     observableHttpRequest.subscribe();
+  loadFormData() {
+    this.httpService.loadDropdownData('person/personsdropdown', callback => {
+      if(callback !=null) {
+        this.personInvoiceRecipient = callback;
+        this.personInvoiceSupplier = callback;
+      }
+    })
    }
-
 
     /** emits events with changed total netto and brutto sums */
   private emitPersonDataChanged(): void{
@@ -183,9 +155,11 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
 
   /**
    * Saves person to the database on server
-   * @param item the item for saving
+   * @param event the item for saving
    */
   saveInvoice(event: any): void {
+   console.log("SEND NEW INVOICE :"+JSON.stringify(this.invoiceFormData));
+
     this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback){
@@ -194,9 +168,6 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
       });
   }
 
-  public printToJson(data: any): void {
-    alert(JSON.stringify(data));
-  }
 
   /**
    * This method has two possible implementation to reset total values on
@@ -261,12 +232,14 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
       this.hasInvoiceDateError = event
     })
   }
+
+  protected readonly invoiceRate = invoiceRate;
 }
 
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule, ValidatableInputTextModule,
-      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule,
+      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule,  MessagesModule,
       ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule],
     declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
     exports: [InvoiceFormComponent, InvoiceItemsTableComponent]

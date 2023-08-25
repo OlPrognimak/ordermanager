@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="p-card">
   <div class="p-col-12">
-    <p-table  [value]="invoiceItems" [rows]="40" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+    <p-table [value]="invoiceReactiveItems" [rows]="40" [autoLayout]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 40%">Item description</th>
@@ -10,7 +10,7 @@
           <th style="width: 10%">Vat%</th>
           <th style="width: 10%">Sum netto</th>
           <th style="width: 10%">Sum brutto</th>
-          <th style="width: 10%">Manage</th>
+          <th style="width: 10%">Delete</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-invoiceitem>
@@ -96,7 +96,7 @@
           </td>
           <td style="width: 10%">
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                    (click)="deleteItem(invoiceitem.idxItem)"></button>
+                    (click)="showDeleteItemDialog(invoiceitem.id, invoiceitem.idxItem)"></button>
           </td>
         </tr>
       </ng-template>
@@ -132,6 +132,10 @@
   </div>
 </div>
 
-
+<app-confirmation-dialog [display]="showDeleteConfirmDialog"
+                         [message]="saveDeeleteDialogMessage"
+                         (confirmed)="handleDeleteConfirmation(confirmDeleteItemDialog.transferObject)"
+                         (canceled) = "showDeleteConfirmDialog=false"
+                         #confirmDeleteItemDialog></app-confirmation-dialog>
 
 

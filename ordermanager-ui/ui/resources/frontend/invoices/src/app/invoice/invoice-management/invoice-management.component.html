@@ -2,51 +2,94 @@
   <H2>Invoice management (Under construction)</H2>
   <div>
     <p-toast></p-toast>
+    <p-message></p-message>
   </div>
-  <app-dateperiod-finder  [url]="'invoice/invoicesListPeriod'" (onFinderIsReady) = "finderIsReady($event)" (responseOutput)="invoices = $event" #dataFinder/>
-  <div class ="p-grid p-card">
+  <app-dateperiod-finder [url]="'invoice/invoicesListPeriod'" (onFinderIsReady)="finderIsReady($event)"
+                         (responseOutput)="invoices = $event" #dataFinder/>
+  <div class="p-grid p-card">
     <div class="p-col-12">
-    <p-table  [value]="invoices" [rows]="20" [autoLayout]="true"  [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 10%">Invoice number</th>
-          <th style="width: 25%">Supplier</th>
-          <th style="width: 25%">Recipient</th>
-          <th style="width: 10%">Invoice date</th>
-          <th style="width: 10%">Invoice creation date</th>
-          <th style="width: 10%">Netto sum</th>
-          <th style="width: 10%">Brutto sum</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-invoice>
-        <tr>
-          <td>
-            <div>{{invoice.invoiceNumber}}</div>
-          </td>
-          <td>
-            <div>{{invoice.supplierFullName}}</div>
-          </td>
-          <td>
-            <div>{{invoice.recipientFullName}}</div>
-          </td>
+      <p-table [value]="invoices"
+               [rows]="10"
+               paginator="true"
+               [autoLayout]="true"
+               selectionMode="multiple"
+               [metaKeySelection]=keySelection
+               [(selection)]="selectedInvoice"
+               [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 10%">Invoice number</th>
+            <th style="width: 25%">Supplier</th>
+            <th style="width: 25%">Recipient</th>
+            <th style="width: 10%">Invoice date</th>
+            <th style="width: 10%">Invoice creation date</th>
+            <th style="width: 10%">Netto sum</th>
+            <th style="width: 10%">Brutto sum</th>
+            <th style="width: 5%">Manage</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
+          <tr [ngStyle]="{'color':isInvoiceChanged(invoice)}" [pSelectableRow]="invoice"
+              [pSelectableRowIndex]="rowIndex"
+              (dblclick)="rowDoubleClick($event, invoice)"
+              title="Double click to edit person">
+            <td>
+              <div>{{invoice.invoiceNumber}}</div>
+            </td>
+            <td>
+              <div>{{invoice.supplierFullName}}</div>
+            </td>
+            <td>
+              <div>{{invoice.recipientFullName}}</div>
+            </td>
 
-          <td>
-             <div>{{invoice.invoiceDate | dateType: 'MM.YYYY'}}</div>
-          </td>
-          <td>
-            <div>{{invoice.creationDate | dateType: 'YY.MM.YYYY'}}</div>
-          </td>
-          <td>
-            <div>{{invoice.totalSumNetto}}</div>
-          </td>
-          <td>
-            <div>{{invoice.totalSumBrutto}}</div>
-          </td>
-        </tr>
+            <td>
+              <div>{{invoice.invoiceDate | dateType: 'DD.MM.YYYY'}}</div>
+            </td>
+            <td>
+              <div>{{convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY'}}</div>
+            </td>
+            <td>
+              <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
+            </td>
+            <td>
+              <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
+            </td>
+            <td>
+              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                      (click)="deleteInvoice(invoice.id)"></button>
+              <button style="margin-left: 2px;" pButton pRipple icon="pi pi-pencil"
+                      class="p-button-rounded p-button-warning"
+                      (click)="rowDoubleClick($event, invoice)"></button>
+            </td>
+          </tr>
 
-      </ng-template>
-    </p-table>
+        </ng-template>
+      </p-table>
+    </div>
   </div>
+  <div class="p-grid">
+    <div class="p-col-11 ">
+    </div>
+    <div style="margin-top: 10px;" class="p-col-1 ">
+      <p-button class="saveButton-align" [disabled]="haveNoChanges()" label="Save"
+                (onClick)="showSaveConfirmDialog = true"></p-button>
+    </div>
   </div>
 </div>
+
+<app-edit-invoice-dialog (invoiceChanged)="invoiceItemChanged($event)" #invoiceDialog></app-edit-invoice-dialog>
+
+<app-confirmation-dialog [display]="showDeleteConfirmDialog"
+                         [message]="deleteConfirmDialogMessage"
+                         (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
+                         (canceled) = "handleCancelDeleteInvoice($event)"
+                         #confirmDeleteInvoiceDialog></app-confirmation-dialog>
+
+<app-confirmation-dialog [display]="showSaveConfirmDialog"
+                         [message]="saveConfirmDialogMessage"
+                         (confirmed)="handleConfirmationSaveInvoice(confirmDeleteInvoiceDialog.transferObject)"
+                         (canceled) = "handleCancelSaveInvoice($event)"
+                         #confirmDeleteInvoiceDialog></app-confirmation-dialog>
+
 

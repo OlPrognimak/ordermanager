@@ -61,6 +61,7 @@ public class EntityToModelMapperHelper {
      */
     public static InvoiceFormModel mapInvoiceEntityToFormModel(Invoice source){
         InvoiceFormModel invoiceFormModel = InvoiceFormModel.builder()
+            .id(source.getId())
             .personRecipientId(
                     source.getInvoiceRecipientPerson().getId())
              .recipientFullName(
@@ -96,6 +97,7 @@ public class EntityToModelMapperHelper {
      */
     public static InvoiceItemModel mapEntityToModelInvoiceItem(InvoiceItem source){
         return InvoiceItemModel.builder()
+                .id(source.getId())
                 .catalogItemId (source.getItemCatalog().getId())
                 .itemPrice(source.getItemPrice())
                 .description(source.getItemCatalog().getDescription())
@@ -110,7 +112,7 @@ public class EntityToModelMapperHelper {
     public static List<DropdownDataType> mapListCatalogItemsToDropdownType(List<ItemCatalog> itemCatalogs){
         return itemCatalogs.stream().map(c->new DropdownDataType(
                 c.getShortDescription()+ " : Price :"+c.getItemPrice()+ " " ,
-                ""+c.getId())).collect(Collectors.toList());
+                String.valueOf(c.getId()))).collect(Collectors.toList());
     }
 
 

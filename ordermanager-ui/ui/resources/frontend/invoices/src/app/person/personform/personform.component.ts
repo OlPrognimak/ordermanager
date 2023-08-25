@@ -33,8 +33,8 @@ import {DropdownDataType} from '../../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
-import {CommonServicesUtilService} from '../../common-services/common-services-util.service';
-import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
+import {CommonServicesUtilService, personType} from '../../common-services/common-services-util.service';
+import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
 import {CommonModule} from "@angular/common";
 import {FormGroupDirective, FormsModule, NgForm, NgModel} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
@@ -54,7 +54,7 @@ import {InvoicePipesModule} from "../../common-services/common-services.pipes.nu
   styleUrls: ['./personform.component.css'],
   selector: 'app-person',
   templateUrl: './personform.component.html',
-  providers: [MessageService, FormGroupDirective]
+  providers: [MessageService, FormGroupDirective, MessagesPrinter]
 })
 export class PersonFormComponent implements OnInit {
 
@@ -68,8 +68,6 @@ export class PersonFormComponent implements OnInit {
   personAddressModel: PersonAddressFormModel;
   /** Model invoice supplier for dropdown component */
   personInvoiceSupplier: DropdownDataType[];
-  /** Model for person type dropdown component */
-  personType: DropdownDataType[];
   basicAuthKey = 'basicAuthKey';
   private hasPersonTypeError: boolean;
   private hasFirstNameError: boolean;
@@ -92,12 +90,14 @@ export class PersonFormComponent implements OnInit {
   /**
    * The constructor
    * @param messageService primeNG message service
+   * @param messagePrinter use for printing messages
    * @param utilService utility service with method for management with success
    * and not success messages
    * @param securityService injects the security service module
    * @param httpService injects the http service module
    */
   constructor(private messageService: MessageService,
+              private messagePrinter: MessagesPrinter,
               private utilService: CommonServicesUtilService,
               public securityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel>) {
@@ -108,11 +108,6 @@ export class PersonFormComponent implements OnInit {
    * Init component
    */
   ngOnInit(): void {
-    this.personType = [
-      // {label: '[Select person type]', value: ''},
-      {label: 'Private person', value: 'PRIVATE'},
-      {label: 'Organisation', value: 'ORGANISATION'}
-    ];
     this.personFormModel = new PersonFormModel();
     this.personBankAccountModel = this.personFormModel.bankAccountFormModel;
     this.personAddressModel = this.personFormModel.personAddressFormModel;
@@ -121,13 +116,21 @@ export class PersonFormComponent implements OnInit {
 
   /**
    * Saves person to the database on server
-   * @param item the item for saving
+   * @param event the event object
    */
   savePerson(event: any): void {
+
     this.httpService.putObjectToServer('PUT', this.personFormModel, 'Person',
       'person', (callback) => {
         if (callback) {
+          setTimeout(() =>{
+            this.messagePrinter.printSuccessMessage('Person')
+          })
           this.personFormModel = new PersonFormModel();
+        }else {
+          setTimeout(() =>{
+            this.messagePrinter.printUnsuccessefulMessage('The person can not be saved', null)
+          })
         }
       });
   }
@@ -265,6 +268,8 @@ export class PersonFormComponent implements OnInit {
   peronTypeChanged($event: any) {
     //this.formGroupDirective.form.updateValueAndValidity()
   }
+
+  protected readonly personType = personType;
 }
 
 @NgModule(

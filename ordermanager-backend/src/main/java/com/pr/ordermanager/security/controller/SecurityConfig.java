@@ -147,7 +147,10 @@ public class SecurityConfig {
                 HttpHeaders.CONTENT_TYPE,
                 HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS,
                 HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN,
-                HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS
+                HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS,
+                HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS,
+                "user-password",
+                "user-name"
         ));
 
         corsConfiguration.setAllowedMethods(Arrays.asList(

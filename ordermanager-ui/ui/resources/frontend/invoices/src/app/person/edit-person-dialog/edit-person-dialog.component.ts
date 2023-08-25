@@ -14,10 +14,10 @@ import {
 import {
   ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {DropdownDataType} from "../../domain/domain.invoiceformmodel";
 import {DropdownModule} from "primeng/dropdown";
 import {DialogModule} from "primeng/dialog";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
+import {personType} from "../../common-services/common-services-util.service";
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -32,12 +32,6 @@ export class EditPersonDialogComponent {
   originalPersonFormModel: PersonFormModel = new PersonFormModel();
   /**true if no changes in edited person happens*/
   isNoChangesInPersonModel: boolean = true
-  /**person type model*/
-  personType: DropdownDataType[] = [
-    // {label: '[Select person type]', value: ''},
-    {label: 'Private person', value: 'PRIVATE'},
-    {label: 'Organisation', value: 'ORGANISATION'}
-  ];
   /**person form group*/
   editPersonFG: FormGroup
   @Input() visible: boolean = false
@@ -49,6 +43,7 @@ export class EditPersonDialogComponent {
    *
    * @param securityService the security service
    * @param formBuilder form builder
+   * @param messagePrinter use for printing messages
    */
   constructor(public securityService: AppSecurityService, private formBuilder: FormBuilder, private messagePrinter: MessagesPrinter) {
     this.editPersonFG = this.formBuilder.group({
@@ -139,7 +134,6 @@ export class EditPersonDialogComponent {
 
   mapFromGroupToPersonModel() {
     const personModel: PersonFormModel = new PersonFormModel()
-
     personModel.personType = this.getControl('personType').value?.trim();
     personModel.id = this.getControl('personId').value;
     if (personModel.personType === 'ORGANISATION') {
@@ -189,8 +183,8 @@ export class EditPersonDialogComponent {
 
     if (this.editPersonFG.valid) {
       const model = this.mapFromGroupToPersonModel();
-      console.log(" Result: "+JSON.stringify(model))
-      console.log('is no changes? :'+this.isNoChangesInPersonModel)
+      //console.log(" Result: "+JSON.stringify(model))
+      //console.log('is no changes? :'+this.isNoChangesInPersonModel)
       if(this.isNoChangesInPersonModel === true) {
         this.messagePrinter.printUnsuccessefulMessage("The person data has no changes.", null)
       } else {
@@ -199,4 +193,6 @@ export class EditPersonDialogComponent {
       }
     }
   }
+
+  protected readonly personType = personType;
 }

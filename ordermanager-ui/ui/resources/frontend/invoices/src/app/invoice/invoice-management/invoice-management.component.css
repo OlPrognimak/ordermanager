@@ -16,3 +16,11 @@ span.p-calendar {
 .p-field * {
   display: block;
 }
+.number-right-align {
+  display: grid;
+  justify-content: right
+}
+
+.saveButton-align {
+  margin: 5px 5px 5px 5px;
+}

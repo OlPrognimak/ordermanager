@@ -130,14 +130,43 @@ public class InvoiceController {
      * @param securityPrincipal injects by springBoot
      * @return response with status und created id of report
      */
-    @RequestMapping(value = PATH_INVOICE, method = RequestMethod.PUT,
-            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @PutMapping(value = PATH_INVOICE, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewInvoice(
             @RequestBody @Valid InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
         InvoiceValidator.validateInvoiceData(invoiceFormModel);
         Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
         invoiceService.saveInvoice(invoice,securityPrincipal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(invoice.getId()));
+    }
+
+
+
+    /**
+     * Save changes of invoices to the database
+     * @param invoiceFormModels the list of models with invoice data
+     * @param securityPrincipal injects by springBoot
+     * @return response with status und created id of report
+     */
+    @PostMapping(value = PATH_INVOICE,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> updateInvoice(
+            @RequestBody @Valid List<InvoiceFormModel> invoiceFormModels, Principal securityPrincipal) {
+
+        invoiceFormModels.forEach(im -> {
+            InvoiceValidator.validateInvoiceData(im);
+        });
+
+        invoiceService.updateInvoices(invoiceFormModels,securityPrincipal.getName());
+        return ResponseEntity.status(OK).body(new CreatedResponse(1L));
+    }
+
+
+    @DeleteMapping(value= PATH_INVOICE+"/{invoiceId}", produces = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> deletePerson(
+            @PathVariable @Valid Long invoiceId, Principal principal) {
+        invoiceService.deleteInvoice(invoiceId, principal.getName());
+
+        return ResponseEntity.status(OK).body(new CreatedResponse(invoiceId));
     }
 
 

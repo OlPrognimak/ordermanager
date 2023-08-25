@@ -34,7 +34,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../../common-services/common-services-util.service";
-import {Observable, of} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {AppSecurityService} from "../user-login/app-security.service";
@@ -50,7 +49,6 @@ export class UserRegistrationComponent implements OnInit {
   public newUser: NewUser = new NewUser();
   backendUrl: string;
   basicAuthKey = 'basicAuthKey';
-  observableMessagePrinter: Observable<MessagesPrinter> = of(this.messagePrinter);
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
@@ -69,13 +67,13 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   registerUser(): void {
-    this.registerUserInternal(this.newUser, this.router, this.observableMessagePrinter);
+    this.registerUserInternal(this.newUser, this.router, this.messagePrinter);
   }
 
   /**
    * save new user in the database
    */
-  registerUserInternal(intNewUser: NewUser, intRouter: Router, intMsgPrinter:  Observable<MessagesPrinter>) {
+  registerUserInternal(intNewUser: NewUser, intRouter: Router, intMsgPrinter:  MessagesPrinter) {
 
     const headers = new HttpHeaders({
       'User-Name': this.newUser.userName,
@@ -93,15 +91,13 @@ export class UserRegistrationComponent implements OnInit {
             intNewUser.userName = ''
             intNewUser.userPassword = ''
             intNewUser.userPasswordRepeat = ''
-            intMsgPrinter.subscribe(m => m.printSuccessMessage('You are successfully registered.'))
-          },
+            intMsgPrinter.printSuccessMessage('You are successfully registered.')
+            },
           error(err) {
             console.log(JSON.stringify(err));
-            intMsgPrinter.subscribe(m =>
-              m.printUnsuccessefulMessage('You are not registered. Some error occurs. Please inform administrator.', err))
+            intMsgPrinter.printUnsuccessefulMessage('You are not registered. Some error occurs. Please inform administrator.', err)
           }
         }
-
       )
   }
 }

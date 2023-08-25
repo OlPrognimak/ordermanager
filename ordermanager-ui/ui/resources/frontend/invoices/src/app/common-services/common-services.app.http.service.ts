@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {CreatedResponse} from '../domain/domain.invoiceformmodel';
+import {CreatedResponse, DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
-import {CommonServicesUtilService} from './common-services-util.service';
+import {CommonServicesUtilService, printToJson} from './common-services-util.service';
 import {environment} from '../../environments/environment';
+import {map} from "rxjs/operators";
 
 
 const  handleError = function(err: any): void {
@@ -26,7 +27,9 @@ export class CommonServicesAppHttpService<T> {
   }
 
   /**
-   * Call http PUT method to save object on server side
+   * Call http  method to save/delete/update object on server side
+   *
+   * @param httpMethod the HTTP Method PUT, DELETE or POST
    * @param objectToSave object to be saved on server
    * @param objectName object name to be saved
    * @param endPointPath rest API end point path
@@ -35,13 +38,11 @@ export class CommonServicesAppHttpService<T> {
   putObjectToServer = (httpMethod: string, objectToSave: T, objectName: string, endPointPath: string, callback) => {
 
      const msgObservable = of(this.messagePrinter);
-
     this.handleHttpRequest(objectToSave, endPointPath, httpMethod).subscribe({
         next (response) {
           if (response.createdId > 0) {
             msgObservable.subscribe(
               msgService => msgService.printSuccessMessage(objectName));
-            console.log('PUT Object Success: ' + response);
             return callback(true);
           }else{
             console.log('Unexpected error: ' + response);
@@ -64,6 +65,7 @@ export class CommonServicesAppHttpService<T> {
   private handleHttpRequest(objectToSave: T, endPointPath: string, method: string): Observable<CreatedResponse> {
     const reqheaders = new HttpHeaders({
       Authorization: localStorage.getItem(this.basicAuthKey) as string,
+      'Content-Type': 'application/json',
       Accept: '*/*'
     });
     const options = {headers: reqheaders};
@@ -80,6 +82,34 @@ export class CommonServicesAppHttpService<T> {
     } else {
       throw new Error("HTTP Method '"+method+"' not supported")
     }
+
+  }
+
+
+  loadDropdownData = (url: string, callback) => {
+    const headers = new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept : '*/*'
+    });
+
+    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + url, {headers})
+      .pipe(
+        map( response => {
+            console.log('Get PersonDropDown Response :' + JSON.stringify(response));
+            return response;
+          },
+        ),
+      );
+
+      observableHttpRequest.subscribe({
+        next(response) {
+          return callback(response)
+        },
+        error(err) {
+          console.log("Error loading dropdown data: "+printToJson(err))
+        }
+      });
 
   }
 
