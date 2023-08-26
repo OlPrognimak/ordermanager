@@ -96,7 +96,7 @@ export class CommonServicesAppHttpService<T> {
     const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + url, {headers})
       .pipe(
         map( response => {
-            console.log('Get PersonDropDown Response :' + JSON.stringify(response));
+            //console.log('Get PersonDropDown Response :' + JSON.stringify(response));
             return response;
           },
         ),

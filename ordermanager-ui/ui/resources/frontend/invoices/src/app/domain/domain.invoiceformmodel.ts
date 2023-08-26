@@ -111,8 +111,8 @@ export class RequestDatePriod implements RequestPeriodDateInterface {
   endDate: Date = new Date();
   public toJSON(): RequestPeriodDateInterface {
     return Object.assign({}, this, {
-      startDate: _moment(this.startDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZ'),
-      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZ' )
+      startDate: _moment(this.startDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ' )
     });
   }
 }
