@@ -219,7 +219,6 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
           isValid = isValid&&compareObjects(o, changed)
       } else {
           isValid = false
-          return
       }
     })
     return isValid
