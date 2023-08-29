@@ -151,7 +151,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   setInvoice(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({},invoice)
-    console.log(" SET ORIGINAL INVOICE "+JSON.stringify(this.originalInvoice))
+    //console.log(" SET ORIGINAL INVOICE "+JSON.stringify(this.originalInvoice))
 
     this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)

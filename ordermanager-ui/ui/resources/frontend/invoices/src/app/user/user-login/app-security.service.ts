@@ -6,7 +6,6 @@ import {map} from "rxjs/operators";
 import {finalize, interval} from "rxjs";
 import axios from 'axios'
 import {environment} from "../../../environments/environment";
-import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 
 export  const basicAuthKey = 'basicAuthKey';
 
@@ -163,7 +162,6 @@ export class AppSecurityService {
       localStorage.setItem('authenticated', 'false');
       this.credentials.username = '';
       this.credentials.password = '';
-      console.log('Logout Call');
       this.router.navigateByUrl('/');
 
     })).subscribe();

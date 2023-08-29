@@ -5,19 +5,21 @@
 
 </div>
 
-<div class="nav_app_cls p-grid p-shadow-4" *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
+<div *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
+<div class="nav_app_cls p-grid p-shadow-4" >
   <nav style="margin-bottom: 10pt;">
     <div class="p-grid" >
     <a style="margin-right: 10pt; margin-top: 8pt;margin-left: 10pt;"  [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
     <p-menubar  [model] = "menuItems"></p-menubar>
-    <a style="margin-left: 10pt;margin-top: 8pt;" (click)="appSecurityService.logout()">Logout</a>
     </div>
 
   </nav>
-
 </div>
-
+  <div style = "margin: 10pt 10pt 10pt 10pt;">
+    <h2>Homepage of Ordermanager Application</h2>
+  </div>
 <br/>
+</div>
 <ng-template #elseBlock>
   <app-user-login></app-user-login>
 </ng-template>

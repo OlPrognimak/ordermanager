@@ -25,13 +25,14 @@ export class AppComponent implements OnInit{
       this.menuItems = [
         {
           label: 'User management',
+          icon: 'pi pi-fw pi-users',
           items: [
             {label: 'Create user', icon: 'pi pi-fw pi-user-plus', routerLink: '/user-registration-page'}
             ]
         },
         {
           label: 'Invoice',
-          icon: 'pi pi-fw',
+          icon: 'pi pi-fw pi-book',
           items: [
             {label: 'Create invoice', icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-page'},
             {label: 'Create invoice item', icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-item-page'},
@@ -46,8 +47,16 @@ export class AppComponent implements OnInit{
             {label: 'Create Peron', icon: 'pi pi-fw pi-plus', routerLink: '/create-person_page'},
             {label: 'Person management', icon: 'pi pi-fw pi-pencil',  routerLink: '/person-management-page'}
           ]
+        },
+        {
+          label: 'Logout',
+          icon: 'pi pi-fw pi-sign-out',
+          command: () => this.appSecurityService.logout()
         }
       ];
+
+
+
 
   }
 }
