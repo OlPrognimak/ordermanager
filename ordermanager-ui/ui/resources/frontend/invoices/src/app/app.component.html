@@ -1,11 +1,11 @@
-<div  class="p-grid  app_title p-shadow-4" *ngIf="!this.appSecurityService.isAuthenticated();">
+<div  class="p-grid  app_title p-shadow-4" *ngIf="!isAuthenticated();">
 <!--  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
   <a [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
   <h3 style="margin-left: 5pt;">Order manager</h3>
 
 </div>
 
-<div *ngIf="this.appSecurityService.isAuthenticated(); else elseBlock">
+<div *ngIf="isAuthenticated(); else elseBlock">
 <div class="nav_app_cls p-grid p-shadow-4" >
   <nav style="margin-bottom: 10pt;">
     <div class="p-grid" >

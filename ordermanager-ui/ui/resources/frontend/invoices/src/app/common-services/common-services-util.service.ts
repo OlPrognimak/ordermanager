@@ -38,6 +38,13 @@ export const printToJson = (data: any): void  => {
   console.log(JSON.stringify(data));
 }
 
+export const setAuthenticated = (isAuthenticated: boolean): void => {
+  localStorage.setItem('userAuthenticated', ''+isAuthenticated)
+}
+
+export const isAuthenticated = (): boolean => {
+  return localStorage.getItem('userAuthenticated') === 'true'
+}
 
 export const invoiceRate: DropdownDataType[] = [
   //{label: '[Select rate type]', value: null},

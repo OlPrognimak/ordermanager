@@ -34,9 +34,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../../common-services/common-services-util.service";
-import {environment} from "../../../environments/environment";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
-import {AppSecurityService} from "../user-login/app-security.service";
+import {AppSecurityService, remoteBackendUrl} from "../user-login/app-security.service";
 
 @Component({
   selector: 'app-user-registration',
@@ -47,7 +46,7 @@ import {AppSecurityService} from "../user-login/app-security.service";
 export class UserRegistrationComponent implements OnInit {
 
   public newUser: NewUser = new NewUser();
-  backendUrl: string;
+  //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
 
   constructor(private httpClient: HttpClient,
@@ -55,7 +54,7 @@ export class UserRegistrationComponent implements OnInit {
               private utilService: CommonServicesUtilService,
               private appSecurityService: AppSecurityService,
               public router: Router, private messagePrinter: MessagesPrinter) {
-    this.backendUrl = environment.baseUrl;
+    //this.backendUrl = environment.baseUrl;
 
   }
 
@@ -83,7 +82,7 @@ export class UserRegistrationComponent implements OnInit {
     });
 
     this.httpClient
-      .post<CreatedResponse>(this.backendUrl + 'registration', {}, {headers})
+      .post<CreatedResponse>(remoteBackendUrl() + 'registration', {}, {headers})
       .subscribe(
         {
           next(response) {

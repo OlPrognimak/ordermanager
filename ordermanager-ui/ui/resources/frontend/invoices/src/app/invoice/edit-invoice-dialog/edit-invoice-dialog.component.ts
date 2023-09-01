@@ -26,7 +26,7 @@ import {MessageService} from "primeng/api";
 import {
   CommonServicesUtilService,
   compareObjects,
-  invoiceRate
+  invoiceRate, isAuthenticated
 } from "../../common-services/common-services-util.service";
 import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {
@@ -252,4 +252,5 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.invoiceReactiveDlgFormData.totalSumBrutto=event
   }
 
+  protected readonly isAuthenticated = isAuthenticated;
 }

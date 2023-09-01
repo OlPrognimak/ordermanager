@@ -33,7 +33,11 @@ import {DropdownDataType} from '../../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
-import {CommonServicesUtilService, personType} from '../../common-services/common-services-util.service';
+import {
+  CommonServicesUtilService,
+  isAuthenticated,
+  personType
+} from '../../common-services/common-services-util.service';
 import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
 import {CommonModule} from "@angular/common";
 import {FormGroupDirective, FormsModule, NgForm, NgModel} from "@angular/forms";
@@ -270,6 +274,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   protected readonly personType = personType;
+  protected readonly isAuthenticated = isAuthenticated;
 }
 
 @NgModule(

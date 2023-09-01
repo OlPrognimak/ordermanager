@@ -45,9 +45,12 @@ import {Subject} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {InvoiceItemsTableComponent} from '../invoice-items-table/invoice-items-table.component';
-import {CommonServicesUtilService, invoiceRate} from '../../common-services/common-services-util.service';
+import {
+  CommonServicesUtilService,
+  invoiceRate,
+  isAuthenticated
+} from '../../common-services/common-services-util.service';
 import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
-import {environment} from '../../../environments/environment';
 import {FormsModule} from "@angular/forms";
 import {ValidatableDropdownlistModule} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {ValidatableInputTextModule} from "../../common-components/validatable-input-text/validatable-input-text.component";
@@ -78,9 +81,8 @@ registerLocaleData(localede, 'de');
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit{
 
-  //@ViewChild("invoiceForm") invoiceForm: FormControl;
   eventsModelIsReset: Subject<void> = new Subject<void>();
-  backendUrl: string;
+  //backendUrl: string;
   /** The invoice data model */
   invoiceFormData: InvoiceFormModelInterface;
   private isViewInitialized = false;
@@ -115,7 +117,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
                private messageService: MessagesPrinter,
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
-     this.backendUrl = environment.baseUrl;
+     //this.backendUrl = environment.baseUrl;
 
   }
 
@@ -234,6 +236,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   }
 
   protected readonly invoiceRate = invoiceRate;
+  protected readonly isAuthenticated = isAuthenticated;
 }
 
 @NgModule(

@@ -3,7 +3,7 @@
           [contentStyle]="{'overflow': 'auto'}"
           (onHide)="setVisible(false)">
 
-  <div *ngIf="appSecurityService.isAuthenticated();"  [formGroup]="editInvoiceFG">
+  <div *ngIf="isAuthenticated();"  [formGroup]="editInvoiceFG">
     <div>
       <p-toast></p-toast>
     </div>

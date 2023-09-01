@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpEvent, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {RequestPeriodDateInterface} from "../../domain/domain.invoiceformmodel";
-import {environment} from "../../../environments/environment";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
+import {remoteBackendUrl} from "../../user/user-login/app-security.service";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class RequestPeriodDateService {
        Accept : '*/*'
      } );
      const reguest: HttpRequest<RequestPeriodDateInterface> =
-       new HttpRequest('POST', environment.baseUrl+url, period,{headers: headersReq})
+       new HttpRequest('POST', remoteBackendUrl()+url, period,{headers: headersReq})
      const messagePrinter = this.msgPrinter
      this.http.request<any>(reguest).subscribe(
        {

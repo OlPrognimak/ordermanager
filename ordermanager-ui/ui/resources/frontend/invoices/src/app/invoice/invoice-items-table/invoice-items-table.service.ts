@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../../domain/domain.invoiceformmodel';
-import {environment} from "../../../environments/environment";
 import {printToJson} from "../../common-services/common-services-util.service";
+import {remoteBackendUrl} from "../../user/user-login/app-security.service";
 
 /**
  * The service for table which contains items of invoice
@@ -12,7 +12,7 @@ import {printToJson} from "../../common-services/common-services-util.service";
 })
 export class InvoiceItemsTableService {
   /** the url to the server */
-  backendUrl: string;
+  //backendUrl: string;
   /** contains items schot description for dropdown list */
   public catalogItems: DropdownDataType[];
 
@@ -22,7 +22,6 @@ export class InvoiceItemsTableService {
    * @param httpClient http client
    */
   constructor(private httpClient: HttpClient) {
-    this.backendUrl = environment.baseUrl;
   }
 
   /* downloads items from catalog items */
@@ -31,7 +30,7 @@ export class InvoiceItemsTableService {
       'Content-Type' : 'application/json',
       Accept : '*/*'
     } );
-    this.httpClient.get<DropdownDataType[]>(this.backendUrl + 'invoice/itemscatalogdropdown', {headers})
+    this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + 'invoice/itemscatalogdropdown', {headers})
      .subscribe( {
        next(response) {
          return callback(response)
@@ -55,7 +54,7 @@ export class InvoiceItemsTableService {
       Accept : '*/*'
     } );
     invoiceitem.catalogItemId = Number(idItemCatalog);
-    this.httpClient.get<ItemCatalogModel>((this.backendUrl + 'invoice/itemcatalog/' + invoiceitem.catalogItemId),
+    this.httpClient.get<ItemCatalogModel>((remoteBackendUrl() + 'invoice/itemcatalog/' + invoiceitem.catalogItemId),
       {headers})
       .subscribe( {
         next(response){
@@ -71,14 +70,6 @@ export class InvoiceItemsTableService {
           printToJson(err);
         }
       });
-  }
-
-
-  /**
-   * retrieve loaded list of catalog items for dropdown list
-   */
-  getDropdownCatalogItems(): DropdownDataType[]{
-    return this.catalogItems;
   }
 
 }

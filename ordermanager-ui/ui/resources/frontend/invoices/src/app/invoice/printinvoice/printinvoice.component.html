@@ -1,4 +1,4 @@
-<div style="margin-top: 20pt; width: 100%; height: 100%" *ngIf="securityService.isAuthenticated();" class="p-fluid p-flex-row">
+<div style="margin-top: 20pt; width: 100%; height: 100%" *ngIf="isAuthenticated();" class="p-fluid p-flex-row">
   <p-toast></p-toast>
 
   <div class="overlayProcess childElementCenter" *ngIf="processRuns">

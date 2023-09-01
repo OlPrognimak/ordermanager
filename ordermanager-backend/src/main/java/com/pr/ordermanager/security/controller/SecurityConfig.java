@@ -180,6 +180,12 @@ public class SecurityConfig {
                            }
                        }
                ))
+               .logout(logout->{
+                  logout.clearAuthentication(true);
+                  logout.invalidateHttpSession(true);
+                   logout.logoutSuccessUrl("/");
+                   logout.logoutUrl("perform_logout");
+               })
                .csrf(csrf -> csrf.disable()).cors((cors->cors.disable()))
                .sessionManagement(sessionMng -> {
                            sessionMng.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -193,13 +199,14 @@ public class SecurityConfig {
                         .anonymous()
                        .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                "/invoice/**", "/person",
-                               "/invoice", "/logout", "/persons", "/checkUser").permitAll()
+                               "/invoice", "/logout", "/persons",
+                               "/checkUser", "/perform_logout", "/logout").permitAll()
                        .requestMatchers(HttpMethod.GET, "/person/**",
                                 "/invoice/**", "/persons", "/checkUser").authenticated()
                        .requestMatchers(HttpMethod.PUT, "/person/**",
                              "/invoice/**").authenticated()
                        .requestMatchers(HttpMethod.POST,
-                               "/invoice/**", "/person/**").authenticated()
+                               "/invoice/**", "/person/**", "/perform_logout", "/logout").authenticated()
                        .requestMatchers(HttpMethod.DELETE,
                                "/invoice/**", "/person/**", "/person", "/invoice").authenticated()
 

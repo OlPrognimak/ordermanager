@@ -1,12 +1,14 @@
 package com.pr.ordermanager.common.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
 import java.time.OffsetDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestPeriodDate {
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,

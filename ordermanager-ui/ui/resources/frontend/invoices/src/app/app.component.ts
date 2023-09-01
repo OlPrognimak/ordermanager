@@ -3,6 +3,7 @@ import {AppSecurityService} from './user/user-login/app-security.service';
 import {Router} from "@angular/router";
 import {MenuItem} from "primeng/api";
 import {Menu} from "primeng/menu";
+import {isAuthenticated} from "./common-services/common-services-util.service";
 
 @Component({
   selector: 'app-root',
@@ -59,4 +60,6 @@ export class AppComponent implements OnInit{
 
 
   }
+
+  protected readonly isAuthenticated = isAuthenticated;
 }
