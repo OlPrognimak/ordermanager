@@ -5,7 +5,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
-import {environment} from "../../../environments/environment";
+import {remoteBackendUrl} from "../../user/user-login/app-security.service";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -18,7 +18,7 @@ import {environment} from "../../../environments/environment";
 })
 export class TableCellRendererComponent implements OnInit, ICellRendererAngularComp {
   private cellVale: any;
-  private backendUrl: string;
+  //private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
   constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter) { }
   parentTableComponent: any;
@@ -29,7 +29,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
    * @inheritDoc
    */
   ngOnInit(): void {
-    this.backendUrl = environment.baseUrl
+    //this.backendUrl = environment.baseUrl
     this.parentTableComponent = this.params.context.componentParent;
   }
 
@@ -72,7 +72,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
       responseType: 'blob' as 'json'
     };
 
-    const blobObserver = this.httpClient.post<Blob>(this.backendUrl + 'invoice/printreport', {invoiceNumber: this.cellVale}, options)
+    const blobObserver = this.httpClient.post<Blob>(remoteBackendUrl() + 'invoice/printreport', {invoiceNumber: this.cellVale}, options)
         .pipe(
            map(
              (response: Blob) => {

@@ -20,6 +20,7 @@ import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-servic
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
+import {isAuthenticated} from "../../common-services/common-services-util.service";
 
 @NgModule(
   {
@@ -98,7 +99,6 @@ export class InvoiceManagementComponent  implements OnInit {
   }
 
   rowDoubleClick($event: MouseEvent, invoice: InvoiceFormModel) {
-    //console.log("######## ID :"+invoice.id)
     setTimeout(() => {
       this.invoiceDialog.setInvoice(invoice)
       this.invoiceDialog.visible = true
@@ -179,4 +179,6 @@ export class InvoiceManagementComponent  implements OnInit {
   handleCancelSaveInvoice($event: boolean) {
     this.showSaveConfirmDialog = false
   }
+
+  protected readonly isAuthenticated = isAuthenticated;
 }

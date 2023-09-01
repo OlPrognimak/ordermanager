@@ -36,9 +36,9 @@ import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-rend
 import * as _moment from 'moment';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
-import {environment} from "../../../environments/environment";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {DateperiodFinderComponent} from "../../common-components/dateperiod-finder/dateperiod-finder.component";
+import {isAuthenticated} from "../../common-services/common-services-util.service";
 
 
 /**
@@ -53,7 +53,7 @@ import {DateperiodFinderComponent} from "../../common-components/dateperiod-find
 export class PrintinvoiceComponent implements OnInit {
 
   // nvoicesFormModel: any;
-  backendUrl: string;
+  //backendUrl: string;
   private gridApi;
   private gridColumnApi;
   invoicesFormModel: InvoiceFormModel[];
@@ -104,7 +104,7 @@ export class PrintinvoiceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.backendUrl = environment.baseUrl;
+    //this.backendUrl = environment.baseUrl;
     this.frameworkComponents = {
       tableCellRenderer: TableCellRendererComponent
     };
@@ -136,4 +136,5 @@ export class PrintinvoiceComponent implements OnInit {
     console.log('cellChanged: ' + event);
   }
 
+  protected readonly isAuthenticated = isAuthenticated;
 }

@@ -33,7 +33,6 @@ import {DropdownDataType, InvoiceItemModel} from '../../domain/domain.invoicefor
 import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
 import {InvoiceItemsTableService} from './invoice-items-table.service';
-import {environment} from "../../../environments/environment";
 
 @Component({
   styles: [],
@@ -54,14 +53,11 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Input() catalogItems: DropdownDataType[];
   @Input() myInputField;
 
-
-  backendUrl: string;
   idxItem: number;
   defaultItemMsg: string = "Click to select item";
 
   constructor(public itemtableService: InvoiceItemsTableService,
               private calculatorService: InvoiceItemsTableCalculatorService) {
-    this.backendUrl = environment.baseUrl;
     this.idxItem = 0;
   }
 

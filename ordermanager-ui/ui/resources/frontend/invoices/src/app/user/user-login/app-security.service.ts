@@ -8,6 +8,7 @@ import axios from 'axios'
 import {environment} from "../../../environments/environment";
 
 export  const basicAuthKey = 'basicAuthKey';
+import {isAuthenticated, setAuthenticated} from "../../common-services/common-services-util.service";
 
 /**
  *
@@ -25,14 +26,20 @@ export class Auth {
 
 }
 
+export const remoteBackendUrl = function() {
+  return localStorage.getItem("remoteBackendURL")
+}
+
 /**
  *
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+  }
+)
 export class AppSecurityService {
 
   // authenticated = false;
-  backendUrl: string;
   credentials = {username: '', password: ''};
 
   /**
@@ -40,19 +47,36 @@ export class AppSecurityService {
    * @param http http client
    */
   constructor(private http: HttpClient, private router: Router) {
-    console.log('####### Init AppSecurityService');
-    this.backendUrl = environment.baseUrl;
+    console.log('####### Init AppSecurityService :' + isAuthenticated());
+    this.getBackendBaseUrl()
     this.isServerStillAlive(this)
   }
 
   isServerStillAlive(service: AppSecurityService) {
       interval(30000).subscribe(
         () => {
-          console.log("!!!!!!!!!!! IsAuthenticated :" +service.isAuthenticated())
-          if (service.isAuthenticated()) {
+          console.log("!!!!!!!!!!! IsAuthenticated :" + isAuthenticated())
+          if (isAuthenticated()) {
             service.checkBackendAuthentication(service)
           }
         })
+  }
+
+  getBackendBaseUrl(): void {
+   // if( localStorage.getItem("remoteBackendURL") === null ) {
+      this.http.get<any>(environment.baseUrlService).subscribe(
+        {
+          next(response) {
+            console.log("##### +++++ Backend URL from Server :" + response.url)
+            localStorage.setItem("remoteBackendURL", response.url);
+          },
+          error() {
+            console.log("##### Base URL: ----Backend URL angular env:" + environment.baseUrl)
+            localStorage.setItem("remoteBackendURL", environment.baseUrl);
+          }
+        }
+      )
+    //}
   }
 
   /**
@@ -61,9 +85,7 @@ export class AppSecurityService {
    */
   authenticate = (service: AppSecurityService, credentials, callback) => {
 
-    const isAuthenticated = localStorage.getItem('authenticated');
-    console.log('######## Is authenticated? ' + isAuthenticated);
-    if ( isAuthenticated !== undefined && isAuthenticated !== '' && isAuthenticated === 'true') {
+    if ( isAuthenticated() === true) {
       return;
     }
 
@@ -77,11 +99,10 @@ export class AppSecurityService {
     const options = {
       headers : reqheaders
     };
-
-   const login  = this.http.post<LoggingCheck>(this.backendUrl + 'login', null, options ).pipe(
+   const login  = this.http.post<LoggingCheck>(remoteBackendUrl() + 'login', null, options ).pipe(
       map( response => {
         if (response.logged === true) {
-          localStorage.setItem('authenticated', 'true');
+          setAuthenticated(true);
           localStorage.setItem(basicAuthKey, basicAuth);
           console.log('authentication [is OK]');
           return true;
@@ -111,15 +132,9 @@ export class AppSecurityService {
   public clearCredentials(): void{
     this.credentials.username = ''
     this.credentials.password = ''
-    localStorage.setItem('authenticated', 'false');
-    localStorage.setItem(basicAuthKey, '');
-  }
-
-  /**
-   * checks whether the app authenticated
-   */
-  isAuthenticated() {
-    return localStorage.getItem('authenticated') === 'true';
+    setAuthenticated(false)
+    localStorage.removeItem("remoteBackendURL")
+    localStorage.setItem(basicAuthKey, '')
   }
 
 
@@ -131,7 +146,7 @@ export class AppSecurityService {
       Accept : '*/*'
     });
 
-    this.http.get<LoggingCheck>(this.backendUrl+"checkUser", {headers})
+    this.http.get<LoggingCheck>(remoteBackendUrl()+"checkUser", {headers})
       .subscribe(
         {
           next(response) {
@@ -157,13 +172,8 @@ export class AppSecurityService {
    */
   //TODO After migration to Angular-16 doesnt work more
   logout(): any {
-    this.http.post(this.backendUrl + 'logout', {}).pipe(finalize(() => {
-      // this.appSecurityService.authenticated = false;
-      localStorage.setItem('authenticated', 'false');
-      this.credentials.username = '';
-      this.credentials.password = '';
-      this.router.navigateByUrl('/');
-
+    this.http.post(remoteBackendUrl() + 'perform_logout', {}).pipe(finalize(() => {
+      this.clearCredentials()
     })).subscribe();
   }
 

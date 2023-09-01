@@ -32,7 +32,6 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} fr
 import {DropdownDataType, InvoiceItemModel} from '../../domain/domain.invoiceformmodel';
 import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from '../invoice-items-table/invoice-items-table.calculator.service';
-import {environment} from "../../../environments/environment";
 import {InvoiceItemsTableService} from "../invoice-items-table/invoice-items-table.service";
 import {TableModule} from "primeng/table";
 import {DropdownModule} from "primeng/dropdown";
@@ -78,13 +77,13 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   showDeleteConfirmDialog: boolean = false
 
 
-  backendUrl: string;
+  //backendUrl: string;
   idxItem: number;
   defaultItemMsg: string = "Click to select item";
 
   constructor(public itemtableService: InvoiceItemsTableService,
               public calculatorService: InvoiceItemsTableCalculatorService) {
-    this.backendUrl = environment.baseUrl;
+    //this.backendUrl = environment.baseUrl;
     this.idxItem = 0;
   }
 

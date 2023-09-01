@@ -17,7 +17,7 @@ import {
 import {DropdownModule} from "primeng/dropdown";
 import {DialogModule} from "primeng/dialog";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
-import {personType} from "../../common-services/common-services-util.service";
+import {isAuthenticated, personType} from "../../common-services/common-services-util.service";
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -195,4 +195,5 @@ export class EditPersonDialogComponent {
   }
 
   protected readonly personType = personType;
+  protected readonly isAuthenticated = isAuthenticated;
 }

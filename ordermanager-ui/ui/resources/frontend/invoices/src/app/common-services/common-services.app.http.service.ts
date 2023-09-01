@@ -5,8 +5,8 @@ import {Observable, of} from 'rxjs';
 import {CreatedResponse, DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
 import {CommonServicesUtilService, printToJson} from './common-services-util.service';
-import {environment} from '../../environments/environment';
 import {map} from "rxjs/operators";
+import {remoteBackendUrl} from "../user/user-login/app-security.service";
 
 
 const  handleError = function(err: any): void {
@@ -19,11 +19,11 @@ const  handleError = function(err: any): void {
 })
 export class CommonServicesAppHttpService<T> {
 
-  backendUrl: string;
+  //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
 
   constructor(private httpClient: HttpClient, public messagePrinter: MessagesPrinter) {
-    this.backendUrl = environment.baseUrl;
+    //this.backendUrl = environment.baseUrl;
   }
 
   /**
@@ -72,13 +72,13 @@ export class CommonServicesAppHttpService<T> {
 
     if (method === 'PUT') {
       return this.httpClient.put<any>(
-        this.backendUrl + endPointPath, objectToSave, options);
+        remoteBackendUrl() + endPointPath, objectToSave, options);
     } else if (method === 'POST') {
       return this.httpClient.post<any>(
-        this.backendUrl + endPointPath, objectToSave, options);
+        remoteBackendUrl() + endPointPath, objectToSave, options);
     } else if (method === 'DELETE'){
         return this.httpClient.delete<any>(
-          this.backendUrl + endPointPath, options );
+          remoteBackendUrl() + endPointPath, options );
     } else {
       throw new Error("HTTP Method '"+method+"' not supported")
     }
@@ -93,7 +93,7 @@ export class CommonServicesAppHttpService<T> {
       Accept : '*/*'
     });
 
-    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(this.backendUrl + url, {headers})
+    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + url, {headers})
       .pipe(
         map( response => {
             //console.log('Get PersonDropDown Response :' + JSON.stringify(response));

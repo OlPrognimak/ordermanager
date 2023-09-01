@@ -3,7 +3,6 @@ import {AppSecurityService} from './app-security.service';
 import {HttpClient} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
 import {MessageService} from 'primeng/api';
-import {environment} from '../../../environments/environment';
 import {Observable, of} from "rxjs";
 import {FormsModule, NgForm} from "@angular/forms";
 import {CommonModule} from "@angular/common";
@@ -25,13 +24,13 @@ export class UserLoginComponent implements OnInit {
 
   title = 'frontend';
 
-  backendUrl: string;
+  //backendUrl: string;
   observableMsgService: Observable<MessageService>;
 
   constructor(public appSecurityService: AppSecurityService,
               private http: HttpClient, public router: Router,
               private messageService: MessageService) {
-    this.backendUrl = environment.baseUrl;
+    //this.backendUrl = environment.baseUrl;
     this.observableMsgService = of(messageService);
   }
 

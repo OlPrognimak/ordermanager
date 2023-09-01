@@ -63,6 +63,10 @@ public class InvoiceUserController {
         return ResponseEntity.ok(createdResponse);
     }
 
+    @PostMapping(value = "/perform_logout")
+    public ResponseEntity<String> logout() {
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping(value = "/login")
     public ResponseEntity<String> login() {
@@ -75,6 +79,7 @@ public class InvoiceUserController {
 
     @GetMapping(value = "/checkUser")
     public ResponseEntity<String> user(Principal user) {
+        logger.info("CHECK USER = "+user);
         String result="";
         if(user!=null) {
             result = "{\"logged\": true}";

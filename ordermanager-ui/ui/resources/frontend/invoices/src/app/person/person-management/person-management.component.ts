@@ -14,6 +14,7 @@ import {ButtonModule} from "primeng/button";
 import {CommonServicesAppHttpService} from "../../common-services/common-services.app.http.service";
 import {RippleModule} from "primeng/ripple";
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+import {isAuthenticated} from "../../common-services/common-services-util.service";
 
 @Component({
   selector: 'app-person-management',
@@ -155,4 +156,6 @@ export class PersonManagementComponent implements OnInit {
       this.showConfirmDialog = false
     }
   }
+
+  protected readonly isAuthenticated = isAuthenticated;
 }

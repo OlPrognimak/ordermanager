@@ -1,8 +1,7 @@
-<div *ngIf="securityService.isAuthenticated();" class="p-fluid p-flex-row">
+<div *ngIf="isAuthenticated();" class="p-fluid p-flex-row">
   <H2>Invoice management</H2>
   <div>
     <p-toast></p-toast>
-    <p-message></p-message>
   </div>
   <app-dateperiod-finder [url]="'invoice/invoicesListPeriod'" (onFinderIsReady)="finderIsReady($event)"
                          (responseOutput)="invoices = $event" #dataFinder/>
@@ -15,16 +14,18 @@
                selectionMode="multiple"
                [metaKeySelection]=keySelection
                [(selection)]="selectedInvoice"
-               [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
+               [resizableColumns]="true"
+               sortMode="multiple"
+               styleClass="p-datatable-gridlines" editMode="row">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 10%">Invoice number</th>
-            <th style="width: 25%">Supplier</th>
-            <th style="width: 25%">Recipient</th>
-            <th style="width: 10%">Invoice date</th>
-            <th style="width: 10%">Invoice creation date</th>
-            <th style="width: 10%">Netto sum</th>
-            <th style="width: 10%">Brutto sum</th>
+            <th pSortableColumn = "invoiceNumber" style="width: 10%">Invoice number<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
+            <th pSortableColumn = "supplierFullName" style="width: 25%">Supplier<p-sortIcon field="supplierFullName"></p-sortIcon></th>
+            <th pSortableColumn = "recipientFullName" style="width: 25%">Recipient<p-sortIcon field="recipientFullName"></p-sortIcon></th>
+            <th pSortableColumn = "invoiceDate" style="width: 10%">Invoice date<p-sortIcon field="invoiceDate"></p-sortIcon></th>
+            <th pSortableColumn = "creationDate" style="width: 10%">Invoice creation date<p-sortIcon field="creationDate"></p-sortIcon></th>
+            <th pSortableColumn = "totalSumNetto" style="width: 10%">Netto sum<p-sortIcon field="totalSumNetto"></p-sortIcon></th>
+            <th pSortableColumn = "totalSumBrutto" style="width: 10%">Brutto sum<p-sortIcon field="totalSumBrutto"></p-sortIcon></th>
             <th style="width: 5%">Manage</th>
           </tr>
         </ng-template>

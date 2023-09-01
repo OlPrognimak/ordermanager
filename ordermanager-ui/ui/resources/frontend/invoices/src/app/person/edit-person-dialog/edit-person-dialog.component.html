@@ -1,5 +1,5 @@
 <p-dialog header="Edit person" [(visible)]="visible" [style]="{ width: '80vw', height: '80%' }" (onHide)="setVisible(false)">
-<div *ngIf="securityService.isAuthenticated();" class="p-fluid">
+<div *ngIf="isAuthenticated();" class="p-fluid">
   <form [formGroup]="editPersonFG">
     <div class=" p-shadow-4">
       <div style="margin-left: 2px;" class="p-grid">
