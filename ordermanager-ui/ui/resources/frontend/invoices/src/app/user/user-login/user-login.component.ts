@@ -46,16 +46,14 @@ export class UserLoginComponent implements OnInit {
    * Login to the application
    */
   login(loginForm:NgForm): any {
-    console.log('Before Login Call'+JSON.stringify(loginForm.value));
 
-    this.appSecurityService.authenticate(this.appSecurityService, this.appSecurityService.credentials, (result) => {
+    this.appSecurityService.authenticate(this.appSecurityService, this.appSecurityService.credentials,
+      (result) => {
 
       console.log('Login Result :' + result);
       if (result === true) {
         this.router.navigateByUrl('/');
       }else{
-        this.appSecurityService.credentials.username = '';
-        this.appSecurityService.credentials.password = '';
         this.appSecurityService.clearCredentials()
         loginForm.resetForm()
         console.log('Not logged :' + result);

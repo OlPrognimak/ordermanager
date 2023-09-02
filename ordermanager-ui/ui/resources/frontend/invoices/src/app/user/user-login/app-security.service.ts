@@ -26,7 +26,7 @@ export class Auth {
 
 }
 
-export const remoteBackendUrl = function() {
+export const remoteBackendUrl = () => {
   return localStorage.getItem("remoteBackendURL")
 }
 
@@ -64,7 +64,7 @@ export class AppSecurityService {
 
   getBackendBaseUrl(): void {
    // if( localStorage.getItem("remoteBackendURL") === null ) {
-      this.http.get<any>(environment.baseUrlService).subscribe(
+      this.http.get<any>("backendUrl").subscribe(
         {
           next(response) {
             console.log("##### +++++ Backend URL from Server :" + response.url)
@@ -86,7 +86,7 @@ export class AppSecurityService {
   authenticate = (service: AppSecurityService, credentials, callback) => {
 
     if ( isAuthenticated() === true) {
-      return;
+      return callback(true);
     }
 
     const basicAuth =  'Basic ' + btoa(credentials.username + ':' + credentials.password);

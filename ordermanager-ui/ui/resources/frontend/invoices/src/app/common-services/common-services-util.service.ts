@@ -60,32 +60,25 @@ export const personType: DropdownDataType[] = [
 
 /**
  * Compare equality of two objects
+ *
  * @param obj1 first object
  * @param obj2 second object
  */
 export function compareObjects(obj1: any, obj2: any): boolean {
   if (obj1 === obj2) {
-    console.log("1--The objects are equals :"+JSON.stringify(obj1))
-    console.log("2--The objects are equals :"+JSON.stringify(obj2))
     return true;
   }
 
   if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
-    console.log("1The type is not object: "+ JSON.stringify(obj1))
-    console.log("2The type is not object: "+JSON.stringify(obj2))
     if(Number(obj1)===Number(obj2)){
-      console.log('1+++The numbers are equals')
       return true
     }
     if(String(obj1)?.trim()===String(obj2)?.trim()) {
-      console.log('2+++The String are equals')
       return true
     }
     if ( new Date(obj1).getTime() === new Date(obj2).getTime()) {
-       console.log('3+++The Dates are equals')
       return true
     }
-    console.log('1The type is object FALSE')
     return false;
   }
 
@@ -93,15 +86,12 @@ export function compareObjects(obj1: any, obj2: any): boolean {
   const keys2 = Object.keys(obj2);
 
   if (keys1.length !== keys2.length) {
-    console.log("the objects attribute length is different")
     return false;
   }
 
   for (const key of keys1) {
-    console.log(" K E Y ="+key)
     if (!compareObjects(obj1[key], obj2[key])) return false;
   }
-  console.log("TRUE")
   return true;
 }
 
