@@ -60,7 +60,7 @@
 
     <!-- Hibernate -->
     <dependency>
-      <groupId>org.hibernate</groupId>
+      <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
     </dependency>
     <!-- hibernate -->
@@ -77,6 +77,18 @@
       <artifactId>hibernate-validator</artifactId>
     </dependency>
 
+    <!-- Jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+      <version>2.15.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+      <version>2.15.2</version>
+    </dependency>
+
     <!-- lombock -->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -84,6 +96,7 @@
       <version>1.18.12</version>
       <scope>provided</scope>
     </dependency>
+
 
     <!-- Jasper report-->
     <dependency>

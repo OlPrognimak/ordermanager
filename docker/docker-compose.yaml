@@ -42,7 +42,7 @@ services:
     - postgres
     - ordermanager
     hostname: ordermanager-ui
-    image: prognimak.ordermanager/frontend:001
+    image: prognimak.ordermanager/frontend:002
     networks:
       nw_prognimak: null
     ports:

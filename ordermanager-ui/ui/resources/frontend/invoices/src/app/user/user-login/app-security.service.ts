@@ -47,7 +47,6 @@ export class AppSecurityService {
    * @param http http client
    */
   constructor(private http: HttpClient, private router: Router) {
-    console.log('####### Init AppSecurityService :' + isAuthenticated());
     this.getBackendBaseUrl()
     this.isServerStillAlive(this)
   }
@@ -55,7 +54,6 @@ export class AppSecurityService {
   isServerStillAlive(service: AppSecurityService) {
       interval(30000).subscribe(
         () => {
-          console.log("!!!!!!!!!!! IsAuthenticated :" + isAuthenticated())
           if (isAuthenticated()) {
             service.checkBackendAuthentication(service)
           }
@@ -67,11 +65,9 @@ export class AppSecurityService {
       this.http.get<any>("backendUrl").subscribe(
         {
           next(response) {
-            console.log("##### +++++ Backend URL from Server :" + response.url)
             localStorage.setItem("remoteBackendURL", response.url);
           },
           error() {
-            console.log("##### Base URL: ----Backend URL angular env:" + environment.baseUrl)
             localStorage.setItem("remoteBackendURL", environment.baseUrl);
           }
         }
