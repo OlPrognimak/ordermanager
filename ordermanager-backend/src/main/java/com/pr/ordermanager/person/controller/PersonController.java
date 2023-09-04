@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +45,7 @@ import static org.springframework.http.HttpStatus.OK;
 )
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public class PersonController {
     private static final String ROOT_PATH = "/person";
 
@@ -55,8 +57,8 @@ public class PersonController {
 
     private static final String APPLICATION_JSON = "application/json";
 
-    @Autowired
-    PersonService personService;
+
+    private final PersonService personService;
 
 
     /**

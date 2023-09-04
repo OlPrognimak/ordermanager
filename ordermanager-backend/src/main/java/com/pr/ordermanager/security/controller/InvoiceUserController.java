@@ -32,6 +32,7 @@ package com.pr.ordermanager.security.controller;
 
 import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.security.service.UserService;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +49,11 @@ import java.security.Principal;
  */
 @RestController
 @CrossOrigin(origins = "*")
+@AllArgsConstructor
 public class InvoiceUserController {
  public final static Logger logger = LogManager.getLogger(InvoiceUserController.class);
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
     private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
 

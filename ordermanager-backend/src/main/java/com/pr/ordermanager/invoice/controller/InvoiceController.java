@@ -50,6 +50,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,9 +78,10 @@ import static org.springframework.http.HttpStatus.OK;
 )
 @RestController
 @CrossOrigin()
+@AllArgsConstructor
 public class InvoiceController {
 
-    Logger logger = LogManager.getLogger(InvoiceController.class);
+    private static final Logger logger = LogManager.getLogger(InvoiceController.class);
 
     private static final String PATH = "/invoice";
     private static final String PATH_INVOICE = PATH;
@@ -90,11 +92,11 @@ public class InvoiceController {
 
     private static final String PATH_ITEMSCATALOG_DROPDOWN = PATH + "/itemscatalogdropdown";
     private static final String APPLICATION_JSON = "application/json";
-    @Autowired
-    InvoiceService invoiceService;
-    @Autowired
-    InvoiceMappingService invoiceMappingService;
-    @Autowired
+
+    private final InvoiceService invoiceService;
+
+    private final InvoiceMappingService invoiceMappingService;
+
     private Environment env;
 
 

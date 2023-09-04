@@ -99,7 +99,7 @@
   </div>
 </div>
   <ng-template pTemplate="footer">
-    <p-button [disabled] = "editInvoiceFG?.invalid" icon="pi pi-check" (click)="putChangesBack()" label="Save" styleClass="p-button-text"></p-button>
+    <p-button [disabled] = "editInvoiceFG?.invalid"  (click)="putChangesBack()" label="Save" icon="pi pi-check" styleClass="p-button-text"></p-button>
     <p-button icon="pi pi-check pink-300"  (click)="setVisible(false)" label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>

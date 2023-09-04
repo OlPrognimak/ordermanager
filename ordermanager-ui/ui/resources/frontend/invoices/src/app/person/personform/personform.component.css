@@ -18,3 +18,8 @@ input[type="text"] {
 * {
   box-sizing: border-box !important;
 }
+
+.responsibleButton {
+  font-size: 5vw;
+}
+
