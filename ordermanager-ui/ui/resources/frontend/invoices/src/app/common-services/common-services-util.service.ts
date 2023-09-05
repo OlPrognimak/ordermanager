@@ -33,6 +33,7 @@ import {of} from 'rxjs';
 import {delay, map} from 'rxjs/operators';
 import {Message, MessageService} from 'primeng/api';
 import {DropdownDataType} from "../domain/domain.invoiceformmodel";
+import {CommonServicesPipesNumber} from "./common-services.pipes.number";
 
 export const printToJson = (data: any): void  => {
   console.log(JSON.stringify(data));
@@ -57,6 +58,23 @@ export const personType: DropdownDataType[] = [
   {label: 'Private person', value: 'PRIVATE'},
   {label: 'Organisation', value: 'ORGANISATION'}
 ];
+
+export const pipeNumberTransformer:CommonServicesPipesNumber = new  CommonServicesPipesNumber();
+
+/**
+ * Renders number value with 2 digits after  point
+ *
+ * @param value object with number value
+ * @return HTMLDivElement with right align of value in it
+ */
+export const numberCellRenderer = (value: any) => {
+  // Create the cell element
+  const cellElement = document.createElement('div')
+  cellElement.style.textAlign = 'right'
+  cellElement.innerText = pipeNumberTransformer.transform(Number(value.value))
+
+  return cellElement
+}
 
 /**
  * Compare equality of two objects

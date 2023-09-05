@@ -38,8 +38,8 @@ import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {GridOptions} from 'ag-grid-community';
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {DateperiodFinderComponent} from "../../common-components/dateperiod-finder/dateperiod-finder.component";
-import {isAuthenticated} from "../../common-services/common-services-util.service";
-
+import {isAuthenticated, numberCellRenderer} from "../../common-services/common-services-util.service";
+import {CommonServicesPipesNumber} from "../../common-services/common-services.pipes.number";
 
 /**
  * The component which contains table with invoices for printing in PDF format
@@ -48,7 +48,7 @@ import {isAuthenticated} from "../../common-services/common-services-util.servic
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
   styleUrls: ['./printinvoice.component.css'],
-  providers: [MessagesPrinter, AppSecurityService, HttpClient]
+  providers: [MessagesPrinter, AppSecurityService, HttpClient, CommonServicesPipesNumber]
 })
 export class PrintinvoiceComponent implements OnInit {
 
@@ -63,12 +63,23 @@ export class PrintinvoiceComponent implements OnInit {
   private readonly columnDefs:any;
   basicAuthKey = 'basicAuthKey';
   gridOptions: any;
+
+
   /**
    * the column definition for table
    */
   creationDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
   invoiceDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
   processRuns: boolean;
+
+
+  checkType = function getClassName(obj: any): string {
+    if (obj && obj.constructor) {
+      return obj.constructor.name;
+    } else {
+      return "Unknown";
+    }
+  }
 
   constructor( public securityService: AppSecurityService) {
     this.gridOptions = ({
@@ -78,7 +89,7 @@ export class PrintinvoiceComponent implements OnInit {
     } as GridOptions);
 
     this.columnDefs = [
-      { headerName: 'print', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent },
+      { headerName: 'Pdf report', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent },
       {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
         sortable: true, filter: true,  editable: true},
       {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
@@ -89,8 +100,8 @@ export class PrintinvoiceComponent implements OnInit {
         cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true},
       {headerName: 'Invoice date',  resizable: true, field: 'invoiceDate',
         cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true},
-      {headerName: 'Netto price',  resizable: true, field: 'totalSumNetto', sortable: true, filter: true, editable: true},
-      {headerName: 'Brutto price',  resizable: true, field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
+      {headerName: 'Netto price', cellRenderer: numberCellRenderer ,resizable: true, field: 'totalSumNetto', sortable: true, filter: true, editable: true},
+      {headerName: 'Brutto price', cellRenderer: numberCellRenderer, resizable: true, field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
     ];
     this.gridOptions.columnDefs = this.columnDefs;
   }
@@ -137,4 +148,6 @@ export class PrintinvoiceComponent implements OnInit {
   }
 
   protected readonly isAuthenticated = isAuthenticated;
+
+
 }

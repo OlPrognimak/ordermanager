@@ -65,10 +65,12 @@ export class AppSecurityService {
       this.http.get<any>("backendUrl").subscribe(
         {
           next(response) {
+            console.log("+++++++++ Try to get backend URL from server.")
             localStorage.setItem("remoteBackendURL", response.url);
           },
           error() {
             localStorage.setItem("remoteBackendURL", environment.baseUrl);
+            console.log("--------- Get backend URL from environment :" +remoteBackendUrl())
           }
         }
       )
