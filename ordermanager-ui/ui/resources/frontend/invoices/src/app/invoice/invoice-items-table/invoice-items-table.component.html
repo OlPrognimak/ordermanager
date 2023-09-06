@@ -1,8 +1,10 @@
 <p-toast></p-toast>
 <div class="p-card">
   <div class="p-col-12">
-    <p-table  [value]="invoiceItems"
-              [rows]="40"
+    <p-table class="p-global-table" [value]="invoiceItems"
+             [rows]="20"
+
+              [paginator] = "true"
               [autoLayout]="true"
               [resizableColumns]="true"
               sortMode="multiple"

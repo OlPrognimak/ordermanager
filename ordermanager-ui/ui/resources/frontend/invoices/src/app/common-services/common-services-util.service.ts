@@ -39,26 +39,43 @@ export const printToJson = (data: any): void  => {
   console.log(JSON.stringify(data));
 }
 
+/**
+ * Sets flag to local stage that app is authenticated
+ *
+ * @param isAuthenticated true if authenticated
+ */
 export const setAuthenticated = (isAuthenticated: boolean): void => {
   localStorage.setItem('userAuthenticated', ''+isAuthenticated)
 }
 
+/**
+ * @return true if authenticated
+ */
 export const isAuthenticated = (): boolean => {
   return localStorage.getItem('userAuthenticated') === 'true'
 }
 
+/**
+ * The list of rates
+ */
 export const invoiceRate: DropdownDataType[] = [
   //{label: '[Select rate type]', value: null},
   {label: 'Hourly rate', value: 'HOURLY'},
   {label: 'Daily rate', value: 'DAILY'}
 ];
 
+/**
+ * The list of person types
+ */
 export const personType: DropdownDataType[] = [
   // {label: '[Select person type]', value: ''},
   {label: 'Private person', value: 'PRIVATE'},
   {label: 'Organisation', value: 'ORGANISATION'}
 ];
 
+/**
+ * Instance of pipeline for number
+ */
 export const pipeNumberTransformer:CommonServicesPipesNumber = new  CommonServicesPipesNumber();
 
 /**
@@ -77,10 +94,10 @@ export const numberCellRenderer = (value: any) => {
 }
 
 /**
- * Compare equality of two objects
+ * Compare two objects for idntity
  *
- * @param obj1 first object
- * @param obj2 second object
+ * @param obj1 first object for comparison
+ * @param obj2 second object for comparison
  */
 export function compareObjects(obj1: any, obj2: any): boolean {
   if (obj1 === obj2) {

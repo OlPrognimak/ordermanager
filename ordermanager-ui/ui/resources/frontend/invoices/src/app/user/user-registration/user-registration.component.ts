@@ -36,6 +36,7 @@ import {Router} from '@angular/router';
 import {CommonServicesUtilService} from "../../common-services/common-services-util.service";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {AppSecurityService, remoteBackendUrl} from "../user-login/app-security.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-user-registration',
@@ -48,6 +49,9 @@ export class UserRegistrationComponent implements OnInit {
   public newUser: NewUser = new NewUser();
   //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
+  private isUserNameError: boolean = false
+  private isPasswordError: boolean = false
+  private isRepeatPasswordError: boolean = false
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
@@ -65,8 +69,12 @@ export class UserRegistrationComponent implements OnInit {
 
   }
 
-  registerUser(): void {
-    this.registerUserInternal(this.newUser, this.router, this.messagePrinter);
+  registerUser(form:NgForm): void {
+    if (this.newUser.userPassword !== this.newUser.userPasswordRepeat) {
+      this.messagePrinter.printUnsuccessefulMessage("The repeated password is not equals to password.", null)
+    } else {
+      this.registerUserInternal(this.newUser, this.router, this.messagePrinter);
+    }
   }
 
   /**
@@ -99,4 +107,29 @@ export class UserRegistrationComponent implements OnInit {
         }
       )
   }
+
+  haveErrors() {
+    return this.isPasswordError||this.isUserNameError||this.isRepeatPasswordError
+  }
+
+  setHasUsernameError(b: boolean) {
+    setTimeout(() => {
+      this.isUserNameError = b
+    })
+
+  }
+
+  setHasPasswordError(b: boolean) {
+    setTimeout(() => {
+      this.isPasswordError = b
+    })
+  }
+
+  setHasRepeatPasswordError(b: boolean) {
+    setTimeout(() => {
+      this.isRepeatPasswordError = b
+    })
+
+  }
+
 }
