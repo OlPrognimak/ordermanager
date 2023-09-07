@@ -38,6 +38,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
+
+
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
         "com.pr.ordermanager.person.repository","com.pr.ordermanager.security.repository"})
@@ -46,11 +48,16 @@ import org.springframework.web.client.RestTemplate;
 public class AngularBackendApplication {
 //    @Autowired
 //    InvoiceCorsFilter corsFilter;
+static {
+    System.setProperty("java.awt.headless", "true");
+}
+
     /**
      *
      * @param args parameters
      */
     public static void main(String[] args) {
+        System.setProperty("java.awt.headless", "true");
         SpringApplication
                 .run(AngularBackendApplication.class,
                         args);
