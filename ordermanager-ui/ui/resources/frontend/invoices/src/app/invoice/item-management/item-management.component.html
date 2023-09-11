@@ -1,0 +1,50 @@
+<p-toast></p-toast>
+<div class="p-card">
+  <div class="p-col-12">
+    <p-table [value]="invoiceItems" [rows]="40" [autoLayout]="true" [resizableColumns]="true" sortMode="multiple" styleClass="p-datatable-gridlines" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 40%">Item description</th>
+          <th style="width: 10%">Amount</th>
+          <th style="width: 10%">Price</th>
+          <th style="width: 10%">Vat%</th>
+          <th style="width: 10%">Sum netto</th>
+          <th style="width: 10%">Sum brutto</th>
+          <th style="width: 10%">Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn = "description" style="width: 30%">Description<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
+          <th pSortableColumn = "shortDescription" style="width: 30%">Short description<p-sortIcon field="supplierFullName"></p-sortIcon></th>
+          <th pSortableColumn = "itemPrice" style="width: 25%">Item price<p-sortIcon field="recipientFullName"></p-sortIcon></th>
+          <th pSortableColumn = "vat" style="width: 15%">Vat%<p-sortIcon field="invoiceDate"></p-sortIcon></th>
+          <th style="width: 5%">Manage</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoiceitem let-rowIndex="rowIndex">
+        <tr [ngStyle]="{'color':isInvoiceChanged(invoiceitem)}" [pSelectableRow]="invoiceitem"
+            [pSelectableRowIndex]="rowIndex"
+            (dblclick)="rowDoubleClick($event, invoiceitem)"
+            title="Double click to edit invoice item">
+          <td>
+            <div>{{invoiceitem.description}}</div>
+          </td>
+          <td>
+            <div>{{invoiceitem.shortDescription}}</div>
+          </td>
+          <td>
+            <div class="number-right-align">{{invoiceitem.itemPrice | standardFloat}}</div>
+          </td>
+          <td>
+            <div class="number-right-align">{{invoiceitem.vat | standardFloat}}</div>
+          </td>
+          <td>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                    (click)="showDeleteItemDialog(invoiceitem.id)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
