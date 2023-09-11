@@ -24,6 +24,9 @@
     <!--maven.compiler.target>1.11</maven.compiler.target-->
     <hibernate.version>6.2.3.Final</hibernate.version>
     <cassandra.driver.version>4.2.0</cassandra.driver.version>
+    <docker.image.prefix>imageresources1prognimak.azurecr.io</docker.image.prefix>
+    <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
+
     <app.baseurl>frontend</app.baseurl>
   </properties>
 
@@ -124,7 +127,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>ng</executable>
+              <executable>ui/resources/frontend/invoices/node_modules/.bin/ng</executable>
               <arguments>
                 <argument>build</argument>
                 <argument>--output-hashing=none</argument>
@@ -202,11 +205,36 @@
   </build>
   <profiles>
     <profile>
+      <id>with-docker-azure</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>jib-maven-plugin</artifactId>
+            <groupId>com.google.cloud.tools</groupId>
+            <version>${jib-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>id-create-image</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>dockerBuild</goal>
+                </goals>
+                <configuration>
+                  <from>
+                    <image>mcr.microsoft.com/java/jdk:17-zulu-alpine</image>
+                  </from>
+                  <to>
+                    <image>${docker.image.prefix}/ordermanager-ui</image>
+                  </to>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>azure-deploy-frontend</id>
-
-      <dependencies>
-
-      </dependencies>
       <build>
         <plugins>
           <plugin>
@@ -227,7 +255,6 @@
               <pricingTier>B1</pricingTier>
               <region>westeurope</region>
               <appSettings>
-
                 <property>
                   <name>JAVA_OPTS</name>
                   <value>-Dserver.port=80 -Dbackend.microservice.url=https://prognimak-ordermanager-backend.azurewebsites.net/backend/</value>
