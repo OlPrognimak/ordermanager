@@ -34,9 +34,20 @@ import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author Oleksandr Prognimak
  */
 @Repository
 public interface ItemCatalogRepository extends JpaRepository<ItemCatalog, Long> {
+    /**
+     * Search catalog items by like criteria for field {@code description} or  {@code shortDescription}
+     *
+     * @param description criteria for description field
+     * @param shortDescription criteria for shortDescription field
+     * @return the result list
+     */
+    List<ItemCatalog> findByDescriptionContainingOrShortDescriptionContaining(
+            String description, String shortDescription);
 }

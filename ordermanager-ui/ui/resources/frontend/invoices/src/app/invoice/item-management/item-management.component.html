@@ -40,6 +40,8 @@
             <div class="number-right-align">{{invoiceitem.vat | standardFloat}}</div>
           </td>
           <td>
+            <button  style = "margin-left: 2px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
+                     (click)="rowDoubleClick($event, invoiceitem)"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                     (click)="showDeleteItemDialog(invoiceitem.id)"></button>
           </td>

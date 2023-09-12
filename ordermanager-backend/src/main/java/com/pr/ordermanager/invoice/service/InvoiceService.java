@@ -42,9 +42,9 @@ import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
 import com.pr.ordermanager.security.service.UserService;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -59,19 +59,15 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
  * @author  Oleksandr Prognimak
  */
 @Service
+@AllArgsConstructor
 public class InvoiceService {
     private static final Logger logger = LogManager.getLogger(InvoiceService.class);
-    @Autowired
-    InvoiceRepository invoiceRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private ItemCatalogRepository itemCatalogRepository;
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private InvoiceMappingService invoiceMappingService;
+    private final InvoiceRepository invoiceRepository;
+    private final UserRepository userRepository;
+    private final ItemCatalogRepository itemCatalogRepository;
+    private final UserService userService;
+    private final InvoiceMappingService invoiceMappingService;
 
     /**
      *
@@ -167,7 +163,7 @@ public class InvoiceService {
      *
      * @return retrieve all items from catalog
      */
-    public List<ItemCatalog> getAllCatalogItems(){
+    public List<ItemCatalog> getCatalogItemsList(){
         return itemCatalogRepository.findAll(
                 Sort.by(Sort.Direction.ASC, "shortDescription"));
     }
@@ -195,6 +191,26 @@ public class InvoiceService {
         Optional<Invoice> invoiceOptional = invoiceRepository.findById(invoiceId);
         if (invoiceOptional.isPresent()) {
             invoiceRepository.delete(invoiceOptional.get());
+        }
+    }
+
+    /**
+     * Search catalog items my criteria
+     *
+     * @param criteria search criteria
+     * @return searach result
+     */
+    public List<ItemCatalog> getCatalogItemsList(String criteria) {
+        if( criteria == null) {
+            return itemCatalogRepository.findAll();
+        }
+        List<ItemCatalog> itemCatalogList = itemCatalogRepository
+                .findByDescriptionContainingOrShortDescriptionContaining(criteria, criteria);
+        if(!itemCatalogList.isEmpty()) {
+            return itemCatalogList;
+        } else {
+            logger.error("Can not find catalog items by criteria :{0}", criteria);
+            throw new OrderManagerException(CODE_0000, "Can not find catalog items by criteria :" + criteria);
         }
     }
 }
