@@ -1,0 +1,5 @@
+.align-right-button {
+  margin-left: auto; /* Push the button to the right */
+  padding-right: 5pt;
+  display: block;   /* Make the button a block-level element */
+}

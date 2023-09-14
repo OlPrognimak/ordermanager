@@ -1,0 +1,53 @@
+<p-dialog header="Edit catalog item" [(visible)]="visible" [style]="{ width: '40vw', height: '30vw' }"
+            (onHide)="setDialogVisible(false)">
+    <div *ngIf="isAuthenticated()" class="p-fluid">
+      <form [formGroup]="editCatalogItemFG">
+
+        <div style="margin-top: 20pt;" class="shadow-panel-color p-shadow-4">
+
+          <div class="p-grid">
+            <div class="p-col-4 input-text-align">
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              context:{controlPath: 'description',
+                   idComponent: 'id_ItemDesc',
+                   labelText: 'Item  description'}">
+              </ng-container>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div  class="p-col-4 input-text-align">
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              context:{controlPath: 'shortDescription',
+              idComponent: 'id_shortDescription',
+              labelText: 'Item short description'}">
+              </ng-container>
+            </div>
+          </div>
+          <div  class="p-grid input-text-align">
+            <div class="p-col-2">
+              <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
+               context:{controlPath: 'itemPrice',
+               idComponent: 'id_ItemPrice',
+               labelText: 'Item price'}">
+              </ng-container>
+            </div>
+          </div>
+          <div  class="p-grid input-text-align">
+            <div class="p-col-2">
+              <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
+               context:{controlPath: 'vat',
+               idComponent: 'id_ItemVat',
+               labelText: 'Vat%'}">
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button [disabled] = "editCatalogItemFG?.invalid"  (click)="putChangesBack()" label="Save" icon="pi pi-check" styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-check pink-300"  (click)="setDialogVisible(false)" label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
+    </ng-template>
+  </p-dialog>
+<app-templates-component #templatesComponent
+                         [templatesFormGroup]="editCatalogItemFG"></app-templates-component>

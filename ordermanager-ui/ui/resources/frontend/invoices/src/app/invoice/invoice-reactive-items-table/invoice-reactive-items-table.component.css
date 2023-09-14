@@ -10,7 +10,7 @@
 }
 
 input[type="text"]  {
-  margin: 5px 5px 5px 5px !important;
+  margin: 5px 5px 5px 5px;
 
   width: 100% !important;
   height: 21pt;
@@ -24,4 +24,8 @@ input[type="text"]  {
 }
 .p-field * {
   display: block;
+}
+
+.right-aligned-input {
+  text-align: right;
 }

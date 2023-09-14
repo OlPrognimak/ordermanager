@@ -30,7 +30,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
-          <tr [ngStyle]="{'color':isInvoiceChanged(invoice)}" [pSelectableRow]="invoice"
+          <tr [ngStyle]="{'color':isEditObjectChanged(invoice)}" [pSelectableRow]="invoice"
               [pSelectableRowIndex]="rowIndex"
               (dblclick)="rowDoubleClick($event, invoice)"
               title="Double click to edit person">
@@ -57,11 +57,13 @@
               <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
             </td>
             <td>
-              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+              <button title = "Delete item" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                       (click)="deleteInvoice(invoice.id)"></button>
-              <button style="margin-left: 2px;" pButton pRipple icon="pi pi-pencil"
+              <button title ="Edit item" style="margin-left: 2px;" pButton pRipple icon="pi pi-pencil"
                       class="p-button-rounded p-button-warning"
                       (click)="rowDoubleClick($event, invoice)"></button>
+              <button title = "Rollback item" pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
+                      (click)="rollbackChanges(invoice.id)"></button>
             </td>
           </tr>
 
@@ -79,7 +81,7 @@
   </div>
 </div>
 
-<app-edit-invoice-dialog (invoiceChanged)="invoiceItemChanged($event)" #invoiceDialog></app-edit-invoice-dialog>
+<app-edit-invoice-dialog (editObjectChangedChanged)="putEditDialogChanges($event)" #invoiceDialog></app-edit-invoice-dialog>
 
 <app-confirmation-dialog [display]="showDeleteConfirmDialog"
                          [message]="deleteConfirmDialogMessage"

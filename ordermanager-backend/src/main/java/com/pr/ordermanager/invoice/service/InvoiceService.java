@@ -36,15 +36,15 @@ import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
+import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
-import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
 import com.pr.ordermanager.security.service.UserService;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -59,19 +59,15 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
  * @author  Oleksandr Prognimak
  */
 @Service
+@AllArgsConstructor
 public class InvoiceService {
     private static final Logger logger = LogManager.getLogger(InvoiceService.class);
-    @Autowired
-    InvoiceRepository invoiceRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    private ItemCatalogRepository itemCatalogRepository;
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private InvoiceMappingService invoiceMappingService;
+    private final InvoiceRepository invoiceRepository;
+    private final UserRepository userRepository;
+    private final ItemCatalogRepository itemCatalogRepository;
+    private final UserService userService;
+    private final InvoiceMappingService invoiceMappingService;
 
     /**
      *
@@ -115,7 +111,8 @@ public class InvoiceService {
 
     /**
      *
-     * @param invoice the invoice to be saved
+     * @param invoice the invoice to be saved.
+     *
      * @param userName the currently logined user
      * @return result of execution
      *
@@ -135,7 +132,8 @@ public class InvoiceService {
     }
 
     /**
-     * Update {@link Person} to the database
+     * Update list of {@link Invoice} in the database.
+     *
      * @param invoices   the invoice to be saved
      * @param userName currently authenticated user name
      * @throws OrderManagerException in case if person can not be saved
@@ -155,8 +153,6 @@ public class InvoiceService {
                 }
             }
         });
-
-
     }
 
     public Invoice getInvoice(String invoiceNumber){
@@ -167,14 +163,14 @@ public class InvoiceService {
      *
      * @return retrieve all items from catalog
      */
-    public List<ItemCatalog> getAllCatalogItems(){
+    public List<ItemCatalog> getCatalogItemsList(){
         return itemCatalogRepository.findAll(
                 Sort.by(Sort.Direction.ASC, "shortDescription"));
     }
 
     /**
      *
-     * @param itemCatalog save catalod item to the database
+     * @param itemCatalog save catalog item to the database
      */
     public void saveItemCatalog(ItemCatalog itemCatalog) {
         try {
@@ -186,7 +182,7 @@ public class InvoiceService {
     }
 
     /**
-     * Delete invoice
+     * Delete invoice.
      *
      * @param invoiceId id of invoice
      * @param name user name
@@ -196,5 +192,63 @@ public class InvoiceService {
         if (invoiceOptional.isPresent()) {
             invoiceRepository.delete(invoiceOptional.get());
         }
+    }
+
+    /**
+     * Search catalog items my criteria.
+     *
+     * @param criteria search criteria
+     * @return searach result
+     */
+    public List<ItemCatalog> getCatalogItemsList(String criteria) {
+        List<ItemCatalog> itemCatalogList;
+        if( criteria == null || criteria.isBlank()) {
+            itemCatalogList = itemCatalogRepository.findAll();
+        } else {
+            itemCatalogList = itemCatalogRepository
+                    .findByDescriptionContainingOrShortDescriptionContaining(criteria, criteria);
+            if (itemCatalogList.isEmpty()) {
+                logger.error("Can not find catalog items by criteria :{0}", criteria);
+                throw new OrderManagerException(CODE_0000, "Can not find catalog items by criteria :" + criteria);
+            }
+        }
+
+        return itemCatalogList;
+    }
+
+    /**
+     * Deletes {@link ItemCatalog}.
+     *
+     * @param itemId the entity id
+     * @param name the user name
+     */
+    public void deleteCatalogItem(Long itemId, String name) {
+        try {
+            itemCatalogRepository.deleteById(itemId);
+        } catch (Exception ex){
+            throw new OrderManagerException(CODE_0000, "The item catalog can not be deleted.", ex);
+        }
+    }
+
+    /**
+     * Updates item catalogs.
+     *
+     * @param itemModels the items to be updated
+     * @param username the user name
+     */
+    public void updateItemCatalog(List<ItemCatalogModel> itemModels, String username) {
+        itemModels.forEach(i -> {
+            Optional<ItemCatalog> itemEntityOpt = itemCatalogRepository.findById(i.getId());
+            if(itemEntityOpt.isPresent()) {
+                ItemCatalog itemCatalog = itemEntityOpt.get();
+                invoiceMappingService.mapItemCatalogModelToExistedEntity(i, itemCatalog);
+                try {
+                    itemCatalogRepository.save(itemCatalog);
+                } catch (Exception ex) {
+                    logger.error(ex);
+                    throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
+                }
+            }
+        });
     }
 }

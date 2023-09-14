@@ -2,6 +2,7 @@ package com.pr.ordermanager.invoice.controller;
 
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
+import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_20007;
 import static com.pr.ordermanager.exception.ErrorCode.CODE_20009;
@@ -29,5 +30,9 @@ public class InvoiceValidator {
             throw new OrderManagerException(CODE_20009, CODE_20009.getMessage() + " Creation date can not be less then invoice date.");
         }
         return true;
+    }
+
+    public static void validateItemCatalogData(ItemCatalogModel im) {
+        //TODO
     }
 }

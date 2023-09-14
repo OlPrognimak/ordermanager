@@ -1,4 +1,4 @@
-import {Component, Input, NgModule, OnInit, ViewChild} from '@angular/core';
+import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {SharedModule} from "primeng/api";
@@ -21,6 +21,7 @@ import {ConfirmationDialogComponent} from "../../common-components/confirmation-
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
 import {isAuthenticated} from "../../common-services/common-services-util.service";
+import {CommonServicesEditService} from "../../common-services/common-services.edit.service";
 
 @NgModule(
   {
@@ -41,7 +42,7 @@ export class InvoiceManagementModule{}
   styleUrls: ['./invoice-management.component.css'],
   providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
 })
-export class InvoiceManagementComponent  implements OnInit {
+export class InvoiceManagementComponent extends  CommonServicesEditService<InvoiceFormModel> implements OnInit {
   get isInvoiceDialogVisible(): boolean {
     return this._isInvoiceDialogVisible;
   }
@@ -50,7 +51,6 @@ export class InvoiceManagementComponent  implements OnInit {
     this._isInvoiceDialogVisible = value;
   }
 
-  @Input() invoicesModel: InvoiceFormModel[]
   @ViewChild('invoiceDialog') invoiceDialog: EditInvoiceDialogComponent
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
 
@@ -59,10 +59,11 @@ export class InvoiceManagementComponent  implements OnInit {
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
   private _isInvoiceDialogVisible: boolean;
-  invoiceChangesList: InvoiceFormModel[] = []
+  //invoiceChangesList: InvoiceFormModel[] = []
 
   constructor(public securityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter ) {
+    super()
   }
 
   ngOnInit(): void {
@@ -72,11 +73,11 @@ export class InvoiceManagementComponent  implements OnInit {
   }
 
   set invoices(value){
-      this.invoicesModel = value
+      this.modelList = value
   }
 
   get invoices() {
-    return this.invoicesModel
+    return this.modelList
   }
 
 
@@ -84,8 +85,8 @@ export class InvoiceManagementComponent  implements OnInit {
     //TODO maybe will be need
   }
 
-  isInvoiceChanged(invoice: InvoiceFormModel) {
-    let obj = this.invoiceChangesList?.filter(v =>invoice.id === v.id)
+  isEditObjectChanged(invoice: InvoiceFormModel) {
+    let obj = this.changesList?.filter(v =>invoice.id === v.id)
     if( obj!==undefined && obj.length >0){
       return 'blue'
     } else {
@@ -100,7 +101,7 @@ export class InvoiceManagementComponent  implements OnInit {
 
   rowDoubleClick($event: MouseEvent, invoice: InvoiceFormModel) {
     setTimeout(() => {
-      this.invoiceDialog.setInvoice(invoice)
+      this.invoiceDialog.setEditingObject(invoice)
       this.invoiceDialog.visible = true
       this.isInvoiceDialogVisible = true
     })
@@ -116,26 +117,26 @@ export class InvoiceManagementComponent  implements OnInit {
     return new Date(date)
   }
 
-  invoiceItemChanged(invoice: InvoiceFormModel) {
-    const modelPerson = this.invoicesModel.filter(p =>p.id === invoice.id )?.at(0)
+  putEditDialogChanges(invoice: InvoiceFormModel) {
+    const modelInvoice = this.modelList.filter(i =>i.id === invoice.id )?.at(0)
     const changedInvoice =
-      this.invoiceChangesList.filter(i => i.id === invoice.id)?.at(0)
+      this.changesList.filter(i => i.id === invoice.id)?.at(0)
     //here I put original person to list of changes to keep original value
     if(changedInvoice === undefined) {
-      this.invoiceChangesList.push(modelPerson)
+      this.changesList.push(modelInvoice)
     }
 
-    this.invoicesModel.filter((i, idx) =>{
+    this.modelList.filter((i, idx) =>{
         if(i.id === invoice.id) {
-          this.invoicesModel[idx] =  invoice
+          this.modelList[idx] =  invoice
           return
         }
     })
   }
 
   saveChangedInvoices($event: MouseEvent) {
-    const changes = this.invoicesModel.filter(i =>
-      i.id ===this.invoiceChangesList?.filter(c =>c?.id == i?.id)?.at(0)?.id)
+    const changes = this.modelList.filter(i =>
+      i.id ===this.changesList?.filter(c =>c?.id == i?.id)?.at(0)?.id)
     const changesList: InvoiceFormModel[] = []
 
     changes.forEach(i =>{
@@ -143,7 +144,7 @@ export class InvoiceManagementComponent  implements OnInit {
     })
     this.httpService.putObjectToServer('POST', changesList, "invoice changes", 'invoice', callback =>{
       if(callback){
-        this.invoiceChangesList = []
+        this.changesList = []
       }
     })
   }
@@ -152,7 +153,7 @@ export class InvoiceManagementComponent  implements OnInit {
    * Indicates whether are changes in invoices
    */
   haveNoChanges() {
-    return this.invoiceChangesList == undefined || this.invoiceChangesList.length < 1;
+    return this.changesList == undefined || this.changesList.length < 1;
   }
 
   handleCancelDeleteInvoice($event: boolean) {
@@ -179,6 +180,5 @@ export class InvoiceManagementComponent  implements OnInit {
   handleCancelSaveInvoice($event: boolean) {
     this.showSaveConfirmDialog = false
   }
-
   protected readonly isAuthenticated = isAuthenticated;
 }

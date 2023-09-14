@@ -1,0 +1,108 @@
+<div class="p-fluid p-flex-row" *ngIf="isAuthenticated()">
+  <p-toast></p-toast>
+
+  <div style="margin-top: 20pt; margin-left: 5pt; margin-right: 45pt;" class="shadow-panel-color p-shadow-4 p-col-12">
+    <div style="margin-right: 0pt" class = "p-grid">
+      <div class = "p-col-4">
+        <span class="p-float-label">
+        <input [(ngModel)]="criteria"
+               class="ng-dirty p-mr-2"
+               pInputText
+               minlength="0"
+               id="Id_Search_Item"
+               type="text" />
+        <label for = "Id_Search_Item">Search criteria</label>
+        </span>
+    </div>
+      <div class = "p-col-1">
+        <p-button title = "Search items by name and description" label="Find" style = "margin-left: 2px;" (click)="getDataFromServer(criteria)"></p-button>
+      </div>
+  </div>
+
+</div>
+
+  <div class="p-col-12">
+    <p-table [value]="modelList"
+             [rows]="15"
+             [autoLayout]="true"
+             paginator = "true"
+             selectionMode="multiple"
+             [metaKeySelection] = keySelection
+             [(selection)] = "selectedItem"
+             [resizableColumns]="true" sortMode="multiple" styleClass="p-datatable-gridlines" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 40%">Item description</th>
+          <th style="width: 10%">Amount</th>
+          <th style="width: 10%">Price</th>
+          <th style="width: 10%">Vat%</th>
+          <th style="width: 10%">Sum netto</th>
+          <th style="width: 10%">Sum brutto</th>
+          <th style="width: 10%">Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn = "description" style="width: 30%">Item name<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
+          <th pSortableColumn = "shortDescription" style="width: 30%">Short description<p-sortIcon field="supplierFullName"></p-sortIcon></th>
+          <th pSortableColumn = "itemPrice" style="width: 25%">Item price<p-sortIcon field="recipientFullName"></p-sortIcon></th>
+          <th pSortableColumn = "vat" style="width: 15%">Vat%<p-sortIcon field="invoiceDate"></p-sortIcon></th>
+          <th style="width: 5%">Manage</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-catalogitem let-rowIndex="rowIndex">
+        <tr [ngStyle]="{'color':isEditObjectChanged(catalogitem)}" [pSelectableRow]="catalogitem"
+            [pSelectableRowIndex]="rowIndex"
+            (dblclick)="rowDoubleClick($event, catalogitem)"
+            title="Double click to edit invoice item">
+          <td>
+            <div>{{catalogitem.description}}</div>
+          </td>
+          <td>
+            <div>{{catalogitem.shortDescription}}</div>
+          </td>
+          <td>
+            <div class="number-right-align">{{catalogitem.itemPrice | standardFloat}}</div>
+          </td>
+          <td>
+            <div class="number-right-align">{{catalogitem.vat | standardFloat}}</div>
+          </td>
+          <td>
+            <button title = "Edit item"  style = "margin-left: 2px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
+                     (click)="rowDoubleClick($event, catalogitem)"></button>
+            <button title = "Delete item"  pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                    (click)="showDeleteItemDialog(catalogitem.id)"></button>
+            <button title = "Rollback item"  pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
+                    (click)="rollbackChanges(catalogitem.id)"></button>
+
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+
+  <div class="p-grid">
+    <div class ="p-col-11 ">
+    </div>
+    <div class ="p-col-1 ">
+      <p-button class ="align-right-button" [disabled]="haveNoChanges()" label="Save" (onClick)="saveChangesOnServer($event)"></p-button>
+    </div>
+  </div>
+</div>
+
+
+<app-edit-item-dialog (editObjectChangedChanged) = "putEditDialogChanges($event)" #itemEditCatalogDialog />
+
+
+<app-confirmation-dialog [display]="showConfirmUpdateDialog"
+                         [message]="confirmUpdateDialogMessage"
+                         (confirmed)="handleUpdateConfirmation(confirmUpdateDialog.transferObject)"
+                         (canceled) = "handleCancelUpdate()"
+                         #confirmUpdateDialog></app-confirmation-dialog>
+
+<app-confirmation-dialog [display]="showConfirmDeleteDialog"
+                         [message]="confirmDeleteDialogMessage"
+                         (confirmed)="handleDeleteConfirmation(confirmDeleteDialog.transferObject)"
+                         (canceled) = "handleCancelDelete()"
+                         #confirmDeleteDialog></app-confirmation-dialog>

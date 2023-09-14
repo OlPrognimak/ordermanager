@@ -3,12 +3,10 @@
      <H2 style="text-align: center">Create invoice item</H2>
   </div>
   <p-toast></p-toast>
-
-
   <div class="p-grid">
     <div style="margin-top: 10pt" class="p-col-4">
       <app-validatable-input-text [name] = "'description'"
-                                  [labelText]="'Item  description'"
+                                  [labelText]="'Item name'"
                                   [idComponent]="'id_ItemDesc'"
                                   [txtMinLength]="2"
                                   [(ngModel)] = "model.description">
@@ -24,7 +22,6 @@
     </div>
 
   </div>
-
   <div style="margin-top: 10pt" class="p-grid">
     <div class="p-col-2">
       <app-validatable-input-text [name] = "'itemPrice'"
@@ -46,7 +43,6 @@
       </div>
 
   </div>
-
   <div class="p-grid">
     <div class="p-col-1">
       <p-button icon="pi pi-check" styleClass="p-button-text" label="Save" (onClick)="saveItem($event)"></p-button>

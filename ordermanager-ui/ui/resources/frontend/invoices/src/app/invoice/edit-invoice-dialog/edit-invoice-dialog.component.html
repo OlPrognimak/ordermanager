@@ -3,104 +3,109 @@
           [contentStyle]="{'overflow': 'auto'}"
           (onHide)="setVisible(false)">
 
-  <div *ngIf="isAuthenticated();"  [formGroup]="editInvoiceFG">
+  <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG">
     <div>
       <p-toast></p-toast>
     </div>
-  <div class="p-fluid">
-    <div class="p-grid">
-      <div style="margin-top: 10pt" class="p-col-4">
-        <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+    <div class="p-fluid">
+      <div class ="shadow-panel-color p-shadow-4">
+        <div style = "margin-top: 10pt" class="p-grid">
+          <div style="margin-top: 25pt" class="p-col-4">
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceNumber',
                    idComponent: 'id_InvoiceNumber',
                    labelText: 'Invoice Number'
                   }">
-        </ng-container>
-      </div>
-      <div style="margin-top: 10pt" class="p-col-4">
-          <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            </ng-container>
+          </div>
+          <div style="margin-top: 25pt" class="p-col-4">
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceDescription',
                    idComponent: 'id-invoiceDescription',
                    labelText: 'Invoice description'
                   }">
-        </ng-container>
-      </div>
+            </ng-container>
+          </div>
 
-    </div>
-    <div class="p-grid">
-      <div style="margin-top: 15pt" class="p-col-3">
-        <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+        </div>
+        <div class="p-grid">
+          <div style="margin-top: 15pt" class="p-col-3">
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'rateType',
                    placeholderPar: 'Select rate Type',
                    idComponent: 'id-rateType',
                    labelText: 'Rate Type',
                    optionList: invoiceRate
                   }">
-        </ng-container>
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-3">
-        <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
+            </ng-container>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-3">
+            <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
           context:{controlPath: 'invoiceDate',
                    idComponent: 'id-InvoiceDate',
                    labelText: 'Invoice Date',
                    calendarDateFormat: 'dd.mm.yy'
                   }">
-        </ng-container>
+            </ng-container>
 
-      </div>
-      <div class="p-col-3">
+          </div>
+          <div class="p-col-3">
 
-        <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
           context:{controlPath: 'creationDate',
                    idComponent: 'id-creationDate',
                    labelText: 'Creation Date',
                    calendarDateFormat: 'dd.mm.yy'
                   }">
-        </ng-container>
-      </div>
-    </div>
+            </ng-container>
+          </div>
+        </div>
 
-    <div class="p-grid">
-      <div style="margin-top: 15pt;" class="p-col-6">
-        <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+        <div class="p-grid">
+          <div style="margin-top: 15pt;" class="p-col-6">
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'personSupplierId',
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
                    labelText: 'Invoice creator person',
                    optionList: personInvoiceSupplier
                   }">
-        </ng-container>
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-6">
-        <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-6">
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'personRecipientId',
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
                    labelText: 'Invoice recipient person',
                    optionList: personInvoiceRecipient
                   }">
-        </ng-container>
+            </ng-container>
+          </div>
+        </div>
       </div>
+
+      <app-reactive-invoice-items-table
+        (changeItemEvent)="invoiceItemsChanged($event)"
+        (totalNettoSumEvent)="tottalNettoSumChanged($event)"
+        (totalBruttoSumEvent)="tottalBruttoSumChanged($event)"
+        [invoiceReactiveItems]="invoiceReactiveDlgFormData.invoiceItems" #reactiveItemsTableComponent>
+
+      </app-reactive-invoice-items-table>
+
+
     </div>
-
-    <app-reactive-invoice-items-table
-                             (changeItemEvent)="invoiceItemsChanged($event)"
-                             (totalNettoSumEvent) = "tottalNettoSumChanged($event)"
-                             (totalBruttoSumEvent)="tottalBruttoSumChanged($event)"
-                             [invoiceReactiveItems]="invoiceReactiveDlgFormData.invoiceItems" #reactiveItemsTableComponent>
-
-    </app-reactive-invoice-items-table>
-
-
   </div>
-</div>
   <ng-template pTemplate="footer">
-    <p-button [disabled] = "editInvoiceFG?.invalid"  (click)="putChangesBack()" label="Save" icon="pi pi-check" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-check pink-300"  (click)="setVisible(false)" label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
+    <p-button [disabled]="editInvoiceFG?.invalid" (click)="putChangesBack()" label="Save" icon="pi pi-check"
+              styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-check pink-300" (click)="setVisible(false)" label="Cancel"
+              styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>
 <app-templates-component #templatesComponent

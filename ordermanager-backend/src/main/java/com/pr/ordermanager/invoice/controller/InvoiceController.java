@@ -53,13 +53,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,6 +91,8 @@ public class InvoiceController {
     private static final String PATH_ITEM_CATALOG = PATH + "/itemcatalog";
 
     private static final String PATH_ITEMSCATALOG_DROPDOWN = PATH + "/itemscatalogdropdown";
+
+    private static final String PATH_ITEMSCATALOG_LIST= PATH + "/itemsCatalogList";
     private static final String APPLICATION_JSON = "application/json";
 
     private final InvoiceService invoiceService;
@@ -163,12 +165,32 @@ public class InvoiceController {
     }
 
 
+    @PostMapping(value = PATH_ITEM_CATALOG,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> updateCatalogItem(
+            @RequestBody @Valid List<ItemCatalogModel> itemCatalogModels, Principal securityPrincipal) {
+
+        itemCatalogModels.forEach(im -> {
+            InvoiceValidator.validateItemCatalogData(im);
+        });
+
+        invoiceService.updateItemCatalog(itemCatalogModels,securityPrincipal.getName());
+        return ResponseEntity.status(OK).body(new CreatedResponse(1L));
+    }
+
     @DeleteMapping(value= PATH_INVOICE+"/{invoiceId}", produces = APPLICATION_JSON)
-    public ResponseEntity<CreatedResponse> deletePerson(
+    public ResponseEntity<CreatedResponse> deleteInvoice(
             @PathVariable @Valid Long invoiceId, Principal principal) {
         invoiceService.deleteInvoice(invoiceId, principal.getName());
 
         return ResponseEntity.status(OK).body(new CreatedResponse(invoiceId));
+    }
+
+    @DeleteMapping(value= PATH_ITEM_CATALOG+"/{itemId}", produces = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> deleteCatalogItem(
+            @PathVariable @Valid Long itemId, Principal principal) {
+        invoiceService.deleteCatalogItem(itemId, principal.getName());
+        return ResponseEntity.status(OK).body(new CreatedResponse(itemId));
     }
 
 
@@ -203,8 +225,7 @@ public class InvoiceController {
      *
      * @return response with status und created id of report
      */
-    @RequestMapping(value = PATH_ITEM_CATALOG, method = RequestMethod.PUT,
-            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @PutMapping(value = PATH_ITEM_CATALOG, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewCatalogItem(
             @RequestBody @Valid ItemCatalogModel itemCatalogModel) {
         ItemCatalog itemCatalog = invoiceMappingService.mapModelToItemCatalogEntity(itemCatalogModel);
@@ -299,14 +320,26 @@ public class InvoiceController {
                     name = "basicAuth"
             )}
     )
-    @RequestMapping(value = PATH_ITEMSCATALOG_DROPDOWN, method = RequestMethod.GET,
-            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @GetMapping(value = PATH_ITEMSCATALOG_DROPDOWN, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<List<DropdownDataType>> getCatalogItemsDropdown() {
-        List<ItemCatalog> allCatalogItems = invoiceService.getAllCatalogItems();
+        List<ItemCatalog> allCatalogItems = invoiceService.getCatalogItemsList();
         List<DropdownDataType> dropdownDataTypes =
                 EntityToModelMapperHelper.mapListCatalogItemsToDropdownType(allCatalogItems);
         return ResponseEntity.status(OK).body(dropdownDataTypes);
     }
+
+    @GetMapping(value = PATH_ITEMSCATALOG_LIST,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<List<ItemCatalog>> getItemsCatalogList(@RequestParam(name = "criteria") String criteria) {
+        List<ItemCatalog> allCatalogItems= new ArrayList<>();
+        if(criteria.isEmpty() || criteria.isBlank()) {
+            allCatalogItems = invoiceService.getCatalogItemsList();
+        } else {
+            allCatalogItems = invoiceService.getCatalogItemsList(criteria);
+        }
+        return ResponseEntity.status(OK).body(allCatalogItems);
+    }
+
 
     /**
      * @param principal injects by SpringBoot

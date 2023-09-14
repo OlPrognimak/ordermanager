@@ -88,10 +88,10 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td style="width: 10%">
+          <td style="width: 10%" class ="right-aligned-input">
             {{invoiceitem.sumNetto | standardFloat}}
           </td>
-          <td style="width: 10%">
+          <td style="width: 10%" class ="right-aligned-input">
             {{invoiceitem.sumBrutto | standardFloat}}
           </td>
           <td style="width: 10%">
@@ -109,7 +109,8 @@
 
 </div>
 
-<div class="p-grid">
+<div style="margin-top: 10pt" class ="p-shadow-4 shadow-panel-color">
+  <div class="p-grid">
   <div class="p-col-1">
 <!--    <p-button [pTooltip]="'Add new empty item'" label="AddItem" (onClick)="addNewItem()"></p-button>-->
   </div>
@@ -117,21 +118,21 @@
   <div class="p-col-2">
 
     <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
-    <input placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" class="p-field" type="text"
+    <input class = "right-aligned-input p-field" placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" type="text"
            [ngModel]="getTotalNettoSum()  | standardFloat"
            (ngModelChange)="setTotalNettoSum($event)" required/>
   </div>
 </div>
-<div class="p-grid">
+  <div class="p-grid">
   <div class="p-col-10"></div>
   <div class="p-col-2">
     <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
-    <input placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
+    <input class = "right-aligned-input p-field"placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum"  type="text"
            [ngModel]="getToltalBruttoSum() | standardFloat"
            (ngModelChange)="setTottalBruttoSum($event)" required/>
   </div>
 </div>
-
+</div>
 <app-confirmation-dialog [display]="showDeleteConfirmDialog"
                          [message]="saveDeeleteDialogMessage"
                          (confirmed)="handleDeleteConfirmation(confirmDeleteItemDialog.transferObject)"

@@ -76,6 +76,7 @@ public class PersonService {
 
     /**
      * Saves {@link Person} to the database
+     *
      * @param person   the invoice to be saved
      * @param userName currently authenticated user name
      * @throws OrderManagerException in case if person can not be saved
@@ -94,6 +95,7 @@ public class PersonService {
 
     /**
      * Update {@link Person} to the database
+     *
      * @param persons   the invoice to be saved
      * @param userName currently authenticated user name
      * @throws OrderManagerException in case if person can not be saved
@@ -119,6 +121,7 @@ public class PersonService {
 
     /**
      * Retrieves all addresses for person which is defined by {@code personId}
+     *
      * @param personId id of person
      * @return all all addresses for person which is defined by {@code personId}
      */
@@ -135,6 +138,7 @@ public class PersonService {
 
     /**
      * Retrievs all accounts of bank for person which is defined by {@code personId}
+     *
      * @param personId id of person
      * @return all all accounts for person which is defined by {@code personId}
      */
@@ -153,6 +157,7 @@ public class PersonService {
 
     /**
      * Search and retrieve the persons which belongs to the user {@code userName}
+     *
      * @param userName the user whom belongs the persons
      * @return the list of {@link Person}
      */
@@ -174,6 +179,7 @@ public class PersonService {
 
     /**
      * Search and retrieve the persons which belongs to the user {@code userName}
+     *
      * @param userName the user whom belongs the persons
      * @param periodDate the date of period
      * @return the list of {@link Person}

@@ -1,0 +1,7 @@
+.input-text-align {
+  margin-top: 15pt; margin-left: 10pt;
+}
+
+:host::ng-deep form > div > div:nth-child(1) > div {
+  margin-top: 25pt;
+}

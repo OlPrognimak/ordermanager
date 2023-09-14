@@ -5,28 +5,28 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@TestPropertySource(locations = "classpath:testapplication.properties")
+@Disabled
 class JasperReportServiceTest {
     Logger logger = LogManager.getLogger(JasperReportServiceTest.class);
     @Autowired
     JasperReportService jasperReportService;
 
-    //@Test
+    @Test
     void printReport() throws Exception {
         byte[] report = jasperReportService.createPdfReport("test-1");
         Assertions.assertNotNull(report);
@@ -45,10 +45,10 @@ class JasperReportServiceTest {
 
 
 
-    //@Test
+    @Test
     void testInputStream() throws Exception {
         //ObjectInputStream objectInputStream = new ObjectInputStream(getClass().getResourceAsStream("/invoice-items.jasper"));
-        URL resource = JasperReportServiceTest.class.getResource("/invoice-items.jasper");
+        URL resource = JasperReportServiceTest.class.getResource("/invoice-data.jasper");
 
         Assertions.assertNotNull(resource);
         //Assertions.assertNotNull(resource.openStream());

@@ -19,6 +19,29 @@
 </ng-template>
 
 
+<ng-template #inputNumberTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
+  <div style="display: table; width: 100%;">
+    <div style="display: table-row; width: 100%;">
+      <div style="display: table-cell; width: 100%;">
+               <span class="p-float-label">
+                    <p-inputNumber [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
+                                   placeholder = '0.00'
+                                   class="p-cell-editing ng-dirty"
+                                   mode="decimal"
+                                   [minFractionDigits]="2"
+                                   [maxFractionDigits]="2"
+                                    id="{{idComponent}}"/>
+                  <label for="{{idComponent}}">{{labelText}}</label>
+               </span>
+      </div>
+      <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+        <p-message severity="error"></p-message>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
 
 <!-- The combobox template for selecting person type. -->
 <ng-template #comboboxTemplate let-controlPath="controlPath"

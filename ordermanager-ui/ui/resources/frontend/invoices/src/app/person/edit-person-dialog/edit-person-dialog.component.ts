@@ -97,7 +97,7 @@ export class EditPersonDialogComponent {
     return this.editPersonFG.invalid
   }
 
-  setPerson(personFormModel: PersonFormModel) {
+  setEditingObject(personFormModel: PersonFormModel) {
     this.isNoChangesInPersonModel = true
     this.originalPersonFormModel = personFormModel
     this.getControl('personId').setValue(personFormModel.id)
