@@ -15,6 +15,7 @@ import {CommonServicesAppHttpService} from "../../common-services/common-service
 import {RippleModule} from "primeng/ripple";
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {isAuthenticated} from "../../common-services/common-services-util.service";
+import {CommonServicesEditService} from "../../common-services/common-services.edit.service";
 
 @Component({
   selector: 'app-person-management',
@@ -24,7 +25,7 @@ import {isAuthenticated} from "../../common-services/common-services-util.servic
   styleUrls: ['./person-management.component.css'],
   providers: [AppSecurityService]
 })
-export class PersonManagementComponent implements OnInit {
+export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel>  implements OnInit {
   /**Reference on dialog component for editing Person*/
   @ViewChild('personDialog') personDialog: EditPersonDialogComponent
   /**Reference on child component of data finder bei date period.*/
@@ -33,9 +34,6 @@ export class PersonManagementComponent implements OnInit {
   @ViewChild('confirmDialog') confirmDialog: ConfirmationDialogComponent
 
   isPersonDialogVisible = false;
-  _persons: PersonFormModel[];
-  /**Contains person with changes. */
-  personsChanges: PersonFormModel[];
   selectedPerson!: PersonFormModel
   keySelection: boolean = true;
   showConfirmDialog: boolean;
@@ -45,6 +43,7 @@ export class PersonManagementComponent implements OnInit {
 
   constructor(public appSecurityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel[]>) {
+    super()
   }
 
   ngOnInit(): void {
@@ -53,17 +52,6 @@ export class PersonManagementComponent implements OnInit {
     })
   }
 
-  /**
-   * Setter for output event of finder by date period component
-   * @param value result of finding
-   */
-  set persons(value) {
-    this._persons = value
-  }
-
-  get persons() {
-    return this._persons
-  }
 
   rowDoubleClick(event: MouseEvent, person: PersonFormModel) {
     setTimeout(() => {
@@ -88,20 +76,20 @@ export class PersonManagementComponent implements OnInit {
    * @param person changed person
    */
   putPersonChanges(person: PersonFormModel) {
-    if(this.personsChanges === undefined) {
-      this.personsChanges = []
+    if(this.changesList === undefined) {
+      this.changesList = []
     }
-    const modelPerson = this.persons.filter(p =>p.id === person.id )?.at(0)
+    const modelPerson = this.modelList.filter(p =>p.id === person.id )?.at(0)
     const changedPerson =
-      this.personsChanges.filter(p => p.id === person.id)?.at(0)
+      this.changesList.filter(p => p.id === person.id)?.at(0)
     //here I put original person to list of changes to keep original value
     if(changedPerson === undefined) {
-      this.personsChanges.push(modelPerson)
+      this.changesList.push(modelPerson)
     }
 
-    this.persons.filter( (p, idx) =>{
+    this.modelList.filter( (p, idx) =>{
       if(p.id === person.id) {
-        this.persons[idx] =  person
+        this.modelList[idx] =  person
         return
       }
     })
@@ -109,7 +97,7 @@ export class PersonManagementComponent implements OnInit {
 
   isPersonChanged(person: PersonFormModel): string {
    // console.log('Changes :'+person.id)
-    let obj = this.personsChanges?.filter(p =>person.id === p.id)
+    let obj = this.changesList?.filter(p =>person.id === p.id)
     //console.log('Obj :'+obj.length)
     if( obj!==undefined && obj.length >0){
       return 'blue'
@@ -120,16 +108,16 @@ export class PersonManagementComponent implements OnInit {
 
 
   haveNoChanges() {
-    return this.personsChanges == undefined || this.personsChanges.length < 1;
+    return this.changesList == undefined || this.changesList.length < 1;
   }
 
   saveChangedPersons($event: MouseEvent) {
-    const changes = this.persons.filter(p =>
-      p.id ===this.personsChanges?.filter(c =>c?.id == p?.id)?.at(0)?.id)
+    const changes = this.modelList.filter(p =>
+      p.id ===this.changesList?.filter(c =>c?.id == p?.id)?.at(0)?.id)
 
     this.httpService.putObjectToServer('POST', changes, "person changes", 'person', callback =>{
        if(callback){
-         this.personsChanges = []
+         this.changesList = []
        }
     })
 
@@ -145,7 +133,7 @@ export class PersonManagementComponent implements OnInit {
       null, "person delete", 'person/'+id, callback =>{
         if(callback){
           console.log("DELETED :"+id)
-          //this.personsChanges.
+          //this.changesList.
         }
       })
     this.showConfirmDialog = false

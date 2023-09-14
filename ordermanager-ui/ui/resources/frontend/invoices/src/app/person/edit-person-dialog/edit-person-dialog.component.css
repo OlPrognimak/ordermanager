@@ -18,3 +18,22 @@ input[type="text"] {
 * {
   box-sizing: border-box !important;
 }
+
+:host::ng-deep #id-personType > div {
+  margin-top: 30pt;
+}
+:host::ng-deep form > div:nth-child(2) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-2 > div {
+  margin-top: 20pt;
+}
+
+:host::ng-deep form > div:nth-child(2) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-3 > div {
+  margin-top: 20pt;
+}
+
+:host::ng-deep form > div:nth-child(3) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-4 > div{
+  margin-top: 20pt;
+}
+
+form > div:nth-child(3) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-2 > div {
+  margin-top: 20pt;
+}

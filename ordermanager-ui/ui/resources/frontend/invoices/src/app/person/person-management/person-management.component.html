@@ -1,13 +1,13 @@
-<div *ngIf="isAuthenticated();" class="p-fluid">
+<div *ngIf="isAuthenticated();" class="p-fluid p-flex-row">
     <H2>Person management</H2>
     <div>
       <p-toast></p-toast>
     </div>
 
   <div class="p-col-12">
-    <app-dateperiod-finder [url]="'person/personsListPeriod'" (responseOutput)="persons = $event" #dataFinder/>
+    <app-dateperiod-finder [url]="'person/personsListPeriod'" (responseOutput)="modelList = $event" #dataFinder/>
 
-    <p-table [value]="persons" [rows]="10"
+    <p-table [value]="modelList" [rows]="10"
              paginator = "true"
              [autoLayout]="true"
              selectionMode="multiple"
@@ -50,24 +50,26 @@
             <div>{{person.email}}</div>
           </td>
           <td>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+            <button title = "Delete item"  pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                     (click)="deletePerson(person.id)"></button>
-            <button  style = "margin-left: 2px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
+            <button title = "Edit item"  style = "margin-left: 2px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
                     (click)="rowDoubleClick($event, person)"></button>
+            <button title = "Rollback item"  pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
+                    (click)="rollbackChanges(person.id)"></button>
           </td>
         </tr>
 
       </ng-template>
     </p-table>
   </div>
+  <div class="p-grid">
+    <div class ="p-col-11 ">
+    </div>
+    <div class ="p-col-1 ">
+      <p-button class="align-right-button" [disabled]="haveNoChanges()" label="Save" (onClick)="saveChangedPersons($event)"></p-button>
+    </div>
   </div>
- <div class="p-grid">
-   <div class ="p-col-11 ">
-   </div>
-   <div class ="p-col-1 ">
-     <p-button class="saveButton-align" [disabled]="haveNoChanges()" label="Save" (onClick)="saveChangedPersons($event)"></p-button>
-   </div>
- </div>
+  </div>
 
 <app-edit-person-dialog [visible] = "showPersonDialog()"
                         (visibilityChanged) = "isPersonEditDialogVisible($event)"

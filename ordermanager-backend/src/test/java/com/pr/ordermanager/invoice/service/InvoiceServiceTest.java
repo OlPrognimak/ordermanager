@@ -37,7 +37,6 @@ class InvoiceServiceTest {
     private ItemCatalogRepository itemCatalogRepository;
 
     @BeforeEach
-    @Transactional
     public void setUp() {
         invoiceService.saveItemCatalog(ItemCatalog.builder().description("Test item1 description 1111.")
                 .shortDescription("Item 1111").itemPrice(100D).vat(19).build());
@@ -46,7 +45,6 @@ class InvoiceServiceTest {
     }
 
     @AfterEach
-    @Transactional
     public void tearDown() {
         invoiceRepository.deleteAll();
         itemCatalogRepository.deleteAll();

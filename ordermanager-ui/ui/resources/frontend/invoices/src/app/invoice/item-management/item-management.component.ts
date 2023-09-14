@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
@@ -14,22 +14,23 @@ import {isAuthenticated} from "../../common-services/common-services-util.servic
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {EditPersonDialogComponent} from "../../person/edit-person-dialog/edit-person-dialog.component";
 import {EditItemDialogComponent} from "../edit-item-dialog/edit-item-dialog.component";
+import {CommonServicesEditService} from "../../common-services/common-services.edit.service";
+import {InputTextModule} from "primeng/inputtext";
+import {PaginatorModule} from "primeng/paginator";
 
 @Component({
   selector: 'app-item-management',
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent],
+  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule],
   providers: [HttpClient, MessagesPrinter],
   templateUrl: './item-management.component.html',
   styleUrls: ['./item-management.component.css']
 })
-export class ItemManagementComponent implements OnInit{
+export class ItemManagementComponent extends CommonServicesEditService<ItemCatalogModel>  implements OnInit{
 
   @ViewChild('confirmUpdateDialog') confirmUpdateDialog: ConfirmationDialogComponent
   @ViewChild('confirmDeleteDialog') confirmDeleteDialog: ConfirmationDialogComponent
-
   @ViewChild('itemEditCatalogDialog') itemCatalogDialog: EditItemDialogComponent
-  @Input() invoiceItems: ItemCatalogModel[]
 
   criteria: string = ''
   protected readonly isAuthenticated = isAuthenticated;
@@ -40,16 +41,21 @@ export class ItemManagementComponent implements OnInit{
   keySelection: boolean = true;
   confirmUpdateDialogMessage: string = 'Are you sure you want to save changes permanently?';
   confirmDeleteDialogMessage: string = 'Are you sure you want to delete the catalog item?';
-  private itemChangesList: ItemCatalogModel[] = [];
 
-  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter, private  httpService: CommonServicesAppHttpService<ItemCatalogModel[]>) {
+  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter,
+              private  httpService: CommonServicesAppHttpService<ItemCatalogModel[]>) {
+    super()
   }
   ngOnInit(): void {
-    this.loadData(null, this.invoiceItems, this.messagePrinter, callback => {
+    this.getDataFromServer(null)
+  }
+
+  getDataFromServer(criteriaPar) {
+    this.loadData(criteriaPar, this.modelList, this.messagePrinter, callback => {
       if(callback !== null) {
-        this.invoiceItems = callback
+        this.modelList = callback
       }
-    } )
+    })
   }
 
   loadData = (criteria: string, invoiceItemsPar: ItemCatalogModel[], messagePrinterPar: MessagesPrinter, callback) => {
@@ -82,7 +88,7 @@ export class ItemManagementComponent implements OnInit{
   }
 
   isEditObjectChanged(item: ItemCatalogModel) {
-    let obj = this.itemChangesList?.filter(v =>item.id === v.id)
+    let obj = this.changesList?.filter(v =>item.id === v.id)
     if( obj!==undefined && obj.length >0){
       return 'blue'
     } else {
@@ -104,7 +110,7 @@ export class ItemManagementComponent implements OnInit{
       this.httpService.putObjectToServer("POST", transferObject, "item catalog", "invoice/itemcatalog",callback => {
         if(callback) {
           console.log("Item catalogs successfully updated.")
-          this.itemChangesList = []
+          this.changesList = []
         }
       })
   }
@@ -119,48 +125,31 @@ export class ItemManagementComponent implements OnInit{
 
   putEditDialogChanges(item: ItemCatalogModel) {
     //step 1: search item model list
-    const modelItem = this.invoiceItems.filter(i =>i.id === item.id )?.at(0)
+    const modelItem = this.modelList.filter(i =>i.id === item.id )?.at(0)
     //step 2: search item in list of item changes
     const changedItems =
-      this.itemChangesList.filter(i => i.id === item.id)?.at(0)
+      this.changesList.filter(i => i.id === item.id)?.at(0)
     //step 3: here I put original item to the list of changes to keep original value. The original object can be returned back
     if(changedItems === undefined) {
-      this.itemChangesList.push(modelItem)
+      this.changesList.push(modelItem)
     }
     //step 4: Put changed object to model list
-    this.invoiceItems.filter((i, idx) =>{
+    this.modelList.filter((i, idx) =>{
       if(i.id === item.id) {
-        this.invoiceItems[idx] =  item
+        this.modelList[idx] =  item
         return
       }
     })
   }
 
-  rollbackChanges(id: number) {
-    //step 1: search item in the changes list
-    const modelItem = this.itemChangesList.filter(i =>i.id === id )?.at(0)
-    //step 2: if item exists in changes list
-    if (modelItem !== undefined) {
-      //step 3: removes item from changes list
-      this.itemChangesList = this.itemChangesList.filter(i =>i.id !== id )
-        //step 4: sets original item back
-        this.invoiceItems.filter((i, idx) => {
-          if (i.id === id) {
-            this.invoiceItems[idx] = modelItem
-            return
-          }
-        })
-      }
-  }
-
 
   haveNoChanges() {
-    return !(this.itemChangesList?.length > 0)
+    return !(this.changesList?.length > 0)
   }
 
   saveChangesOnServer($event: MouseEvent) {
-    const changes = this.invoiceItems.filter(p =>
-      p.id ===this.itemChangesList?.filter(c =>c?.id == p?.id)?.at(0)?.id)
+    const changes = this.modelList.filter(p =>
+      p.id ===this.changesList?.filter(c =>c?.id == p?.id)?.at(0)?.id)
     this.confirmUpdateDialog.transferObject = changes
     this.showConfirmUpdateDialog = true
   }
@@ -170,7 +159,7 @@ export class ItemManagementComponent implements OnInit{
       null, "item catalog delete", 'invoice/itemcatalog/'+id, callback =>{
         if(callback){
           console.log("DELETED :"+id)
-          this.invoiceItems = this.invoiceItems.filter(i => i.id !== id)
+          this.modelList = this.modelList.filter(i => i.id !== id)
         }
       })
     this.showConfirmUpdateDialog = false

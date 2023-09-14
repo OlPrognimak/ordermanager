@@ -1,7 +1,28 @@
 <div class="p-fluid p-flex-row" *ngIf="isAuthenticated()">
   <p-toast></p-toast>
+
+  <div style="margin-top: 20pt; margin-left: 5pt; margin-right: 45pt;" class="shadow-panel-color p-shadow-4 p-col-12">
+    <div style="margin-right: 0pt" class = "p-grid">
+      <div class = "p-col-4">
+        <span class="p-float-label">
+        <input [(ngModel)]="criteria"
+               class="ng-dirty p-mr-2"
+               pInputText
+               minlength="0"
+               id="Id_Search_Item"
+               type="text" />
+        <label for = "Id_Search_Item">Search criteria</label>
+        </span>
+    </div>
+      <div class = "p-col-1">
+        <p-button title = "Search items by name and description" label="Find" style = "margin-left: 2px;" (click)="getDataFromServer(criteria)"></p-button>
+      </div>
+  </div>
+
+</div>
+
   <div class="p-col-12">
-    <p-table [value]="invoiceItems"
+    <p-table [value]="modelList"
              [rows]="15"
              [autoLayout]="true"
              paginator = "true"
@@ -47,11 +68,11 @@
             <div class="number-right-align">{{catalogitem.vat | standardFloat}}</div>
           </td>
           <td>
-            <button  style = "margin-left: 2px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
+            <button title = "Edit item"  style = "margin-left: 2px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
                      (click)="rowDoubleClick($event, catalogitem)"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+            <button title = "Delete item"  pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                     (click)="showDeleteItemDialog(catalogitem.id)"></button>
-            <button pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
+            <button title = "Rollback item"  pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
                     (click)="rollbackChanges(catalogitem.id)"></button>
 
           </td>
@@ -59,6 +80,8 @@
       </ng-template>
     </p-table>
   </div>
+
+
   <div class="p-grid">
     <div class ="p-col-11 ">
     </div>
