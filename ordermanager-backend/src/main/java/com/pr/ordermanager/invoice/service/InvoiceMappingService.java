@@ -177,4 +177,17 @@ public class InvoiceMappingService {
                 .build();
     }
 
+    /**
+     * Maps data from model {@link ItemCatalogModel} to entity {@link ItemCatalog}
+     *
+     * @param model the model is data source for entity
+     * @param entity the target object of mapping
+     */
+    public void mapItemCatalogModelToExistedEntity(
+            ItemCatalogModel model, ItemCatalog entity) {
+        entity.setDescription(model.getDescription());
+        entity.setShortDescription(model.getShortDescription());
+        entity.setItemPrice(model.getItemPrice());
+        entity.setVat(model.getVat());
+    }
 }

@@ -41,7 +41,7 @@ export class InvoiceManagementModule{}
   styleUrls: ['./invoice-management.component.css'],
   providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
 })
-export class InvoiceManagementComponent  implements OnInit {
+export class InvoiceManagementComponent implements OnInit {
   get isInvoiceDialogVisible(): boolean {
     return this._isInvoiceDialogVisible;
   }
@@ -84,7 +84,7 @@ export class InvoiceManagementComponent  implements OnInit {
     //TODO maybe will be need
   }
 
-  isInvoiceChanged(invoice: InvoiceFormModel) {
+  isEditObjectChanged(invoice: InvoiceFormModel) {
     let obj = this.invoiceChangesList?.filter(v =>invoice.id === v.id)
     if( obj!==undefined && obj.length >0){
       return 'blue'
@@ -100,7 +100,7 @@ export class InvoiceManagementComponent  implements OnInit {
 
   rowDoubleClick($event: MouseEvent, invoice: InvoiceFormModel) {
     setTimeout(() => {
-      this.invoiceDialog.setInvoice(invoice)
+      this.invoiceDialog.setEditingObject(invoice)
       this.invoiceDialog.visible = true
       this.isInvoiceDialogVisible = true
     })
@@ -116,13 +116,13 @@ export class InvoiceManagementComponent  implements OnInit {
     return new Date(date)
   }
 
-  invoiceItemChanged(invoice: InvoiceFormModel) {
-    const modelPerson = this.invoicesModel.filter(p =>p.id === invoice.id )?.at(0)
+  putEditDialogChanges(invoice: InvoiceFormModel) {
+    const modelInvoice = this.invoicesModel.filter(i =>i.id === invoice.id )?.at(0)
     const changedInvoice =
       this.invoiceChangesList.filter(i => i.id === invoice.id)?.at(0)
     //here I put original person to list of changes to keep original value
     if(changedInvoice === undefined) {
-      this.invoiceChangesList.push(modelPerson)
+      this.invoiceChangesList.push(modelInvoice)
     }
 
     this.invoicesModel.filter((i, idx) =>{
@@ -178,6 +178,23 @@ export class InvoiceManagementComponent  implements OnInit {
 
   handleCancelSaveInvoice($event: boolean) {
     this.showSaveConfirmDialog = false
+  }
+
+  rollbackChanges(id: number) {
+    //step 1: search item in the changes list
+    const modelItem = this.invoiceChangesList.filter(i =>i.id === id )?.at(0)
+    //step 2: if item exists in changes list
+    if (modelItem !== undefined) {
+      //step 3: removes item from changes list
+      this.invoiceChangesList = this.invoiceChangesList.filter(i =>i.id !== id )
+      //step 4: sets original item back
+      this.invoicesModel.filter((i, idx) => {
+        if (i.id === id) {
+          this.invoicesModel[idx] = modelItem
+          return
+        }
+      })
+    }
   }
 
   protected readonly isAuthenticated = isAuthenticated;

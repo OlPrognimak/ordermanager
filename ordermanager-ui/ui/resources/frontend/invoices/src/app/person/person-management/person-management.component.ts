@@ -67,7 +67,7 @@ export class PersonManagementComponent implements OnInit {
 
   rowDoubleClick(event: MouseEvent, person: PersonFormModel) {
     setTimeout(() => {
-      this.personDialog.setPerson(person)
+      this.personDialog.setEditingObject(person)
       this.isPersonDialogVisible = true
     })
 

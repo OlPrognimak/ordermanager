@@ -5,15 +5,14 @@ import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
+import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,7 +20,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 
 @ExtendWith(SpringExtension.class)
@@ -35,7 +33,11 @@ class InvoiceServiceTest {
     InvoiceService invoiceService;
     @Autowired
     InvoiceRepository invoiceRepository;
+    @Autowired
+    private ItemCatalogRepository itemCatalogRepository;
+
     @BeforeEach
+    @Transactional
     public void setUp() {
         invoiceService.saveItemCatalog(ItemCatalog.builder().description("Test item1 description 1111.")
                 .shortDescription("Item 1111").itemPrice(100D).vat(19).build());
@@ -44,8 +46,10 @@ class InvoiceServiceTest {
     }
 
     @AfterEach
+    @Transactional
     public void tearDown() {
         invoiceRepository.deleteAll();
+        itemCatalogRepository.deleteAll();
     }
 
     @Test

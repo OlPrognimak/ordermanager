@@ -5,11 +5,12 @@ import {MessageModule} from "primeng/message";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DropdownChangeEvent, DropdownModule} from "primeng/dropdown";
 import {CalendarModule} from "primeng/calendar";
+import {PaginatorModule} from "primeng/paginator";
 
 @Component({
   selector: 'app-templates-component',
   standalone: true,
-  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, CalendarModule, FormsModule],
+  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, CalendarModule, FormsModule, PaginatorModule],
   templateUrl: './templates-component.component.html',
   styleUrls: ['./templates-component.component.css']
 })
@@ -17,6 +18,7 @@ export class TemplatesComponentComponent {
 
 
   @ViewChild('inputTextTemplate', {static : true}) inputTextTemplate : TemplateRef<InputTextTemplateContext>;
+  @ViewChild('inputNumberTemplate', {static : true}) inputNumberTemplate : TemplateRef<InputTextTemplateContext>;
   @ViewChild('comboboxTemplate', {static : true}) comboboxTemplate : TemplateRef<DropDownTemplateContext>;
   @ViewChild('calendarTemplate', {static : true}) calendarTemplate : TemplateRef<CalendarTemplateContext>;
   @ViewChild('standaloneFormCalendarTemplate', {static : true}) standaloneFormCalendarTemplate: TemplateRef<StandaloneCalendarTemplateContext>;

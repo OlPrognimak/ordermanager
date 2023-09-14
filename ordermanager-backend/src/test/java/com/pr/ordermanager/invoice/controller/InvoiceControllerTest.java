@@ -8,6 +8,7 @@ import com.pr.ordermanager.common.model.CreatedResponse;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
+import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
@@ -56,6 +57,8 @@ class InvoiceControllerTest {
     TestServiceHelper testServiceHelper;
     @Autowired
     InvoiceRepository invoiceRepository;
+    @Autowired
+    ItemCatalogRepository itemCatalogRepository;
 
     @BeforeEach
     void setUp() {
@@ -63,7 +66,8 @@ class InvoiceControllerTest {
     }
     @AfterEach
     void tearDown(){
-        //personRepository.deleteAll();
+        personRepository.deleteAll();
+        itemCatalogRepository.deleteAll();
     }
 
     ObjectMapper mapper = PersonModelToEntityMapperHelper.createObjectMapper();
@@ -105,7 +109,6 @@ class InvoiceControllerTest {
         String json = mapper.writeValueAsString(invoiceFormModel);
         System.out.println(json);
         if( true ) return;
-        HttpHeaders httpHeaders = new HttpHeaders();
         RequestEntity<InvoiceFormModel> request = RequestEntity
                 .put(new URI("http://localhost:"+port+"/backend/invoice")).header("Authorization","Basic YWRtaW46dGVzdDEyMzQ1")
                 .accept( MediaType.APPLICATION_JSON)

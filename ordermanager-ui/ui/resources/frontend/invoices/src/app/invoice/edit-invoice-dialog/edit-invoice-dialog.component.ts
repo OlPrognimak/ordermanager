@@ -85,7 +85,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   @Input() personInvoiceSupplier: DropdownDataType[]
   /** Model invoice recipient for dropdown component */
   @Input() personInvoiceRecipient: DropdownDataType[]
-  @Output() invoiceChanged: EventEmitter<InvoiceFormModel> = new EventEmitter<InvoiceFormModel>();
+  @Output() editObjectChangedChanged: EventEmitter<InvoiceFormModel> = new EventEmitter<InvoiceFormModel>();
 
   invoiceReactiveDlgFormData: InvoiceFormModel;
   originalInvoice: InvoiceFormModel
@@ -148,7 +148,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setInvoice(invoice: InvoiceFormModel) {
+  setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({},invoice)
     //console.log(" SET ORIGINAL INVOICE "+JSON.stringify(this.originalInvoice))
@@ -204,7 +204,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
         "No changes in the invoice found", null)
 
     } else {
-      this.invoiceChanged.emit(this.originalInvoice)
+      this.editObjectChangedChanged.emit(this.originalInvoice)
       this.visible = false
     }
   }

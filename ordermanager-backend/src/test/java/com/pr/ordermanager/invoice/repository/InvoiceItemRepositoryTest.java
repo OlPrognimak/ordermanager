@@ -39,6 +39,7 @@ class InvoiceItemRepositoryTest {
     @AfterEach
     void tearDown() {
         invoiceItemRepository.deleteAll();
+        itemCatalogRepository.deleteAll();
     }
     @Test
     public void testGetAll() throws Exception{

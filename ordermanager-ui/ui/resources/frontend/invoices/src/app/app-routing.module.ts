@@ -7,11 +7,13 @@ import {UserRegistrationComponent} from './user/user-registration/user-registrat
 import {ItemsFormComponent} from './invoice/items-form/items-form.component';
 import {PersonManagementComponent} from "./person/person-management/person-management.component";
 import {InvoiceManagementComponent} from "./invoice/invoice-management/invoice-management.component";
+import {ItemManagementComponent} from "./invoice/item-management/item-management.component";
 
 
 const routes: Routes = [
 
   {path: 'create-invoice-item-page',  component: ItemsFormComponent},
+  {path: 'catalog-item-management-page',  component: ItemManagementComponent},
   {path: 'create-invoice-page',  component: InvoiceFormComponent},
   {path: 'create-person_page', component: PersonFormComponent},
   {path: 'invoice-list_page', component: PrintinvoiceComponent},

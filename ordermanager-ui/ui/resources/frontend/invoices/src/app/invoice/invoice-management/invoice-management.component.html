@@ -30,7 +30,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
-          <tr [ngStyle]="{'color':isInvoiceChanged(invoice)}" [pSelectableRow]="invoice"
+          <tr [ngStyle]="{'color':isEditObjectChanged(invoice)}" [pSelectableRow]="invoice"
               [pSelectableRowIndex]="rowIndex"
               (dblclick)="rowDoubleClick($event, invoice)"
               title="Double click to edit person">
@@ -79,7 +79,7 @@
   </div>
 </div>
 
-<app-edit-invoice-dialog (invoiceChanged)="invoiceItemChanged($event)" #invoiceDialog></app-edit-invoice-dialog>
+<app-edit-invoice-dialog (editObjectChangedChanged)="putEditDialogChanges($event)" #invoiceDialog></app-edit-invoice-dialog>
 
 <app-confirmation-dialog [display]="showDeleteConfirmDialog"
                          [message]="deleteConfirmDialogMessage"

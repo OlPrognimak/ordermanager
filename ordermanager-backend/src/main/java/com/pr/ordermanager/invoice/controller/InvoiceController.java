@@ -165,12 +165,32 @@ public class InvoiceController {
     }
 
 
+    @PostMapping(value = PATH_ITEM_CATALOG,
+            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> updateCatalogItem(
+            @RequestBody @Valid List<ItemCatalogModel> itemCatalogModels, Principal securityPrincipal) {
+
+        itemCatalogModels.forEach(im -> {
+            InvoiceValidator.validateItemCatalogData(im);
+        });
+
+        invoiceService.updateItemCatalog(itemCatalogModels,securityPrincipal.getName());
+        return ResponseEntity.status(OK).body(new CreatedResponse(1L));
+    }
+
     @DeleteMapping(value= PATH_INVOICE+"/{invoiceId}", produces = APPLICATION_JSON)
-    public ResponseEntity<CreatedResponse> deletePerson(
+    public ResponseEntity<CreatedResponse> deleteInvoice(
             @PathVariable @Valid Long invoiceId, Principal principal) {
         invoiceService.deleteInvoice(invoiceId, principal.getName());
 
         return ResponseEntity.status(OK).body(new CreatedResponse(invoiceId));
+    }
+
+    @DeleteMapping(value= PATH_ITEM_CATALOG+"/{itemId}", produces = APPLICATION_JSON)
+    public ResponseEntity<CreatedResponse> deleteCatalogItem(
+            @PathVariable @Valid Long itemId, Principal principal) {
+        invoiceService.deleteCatalogItem(itemId, principal.getName());
+        return ResponseEntity.status(OK).body(new CreatedResponse(itemId));
     }
 
 
@@ -205,8 +225,7 @@ public class InvoiceController {
      *
      * @return response with status und created id of report
      */
-    @RequestMapping(value = PATH_ITEM_CATALOG, method = RequestMethod.PUT,
-            produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    @PutMapping(value = PATH_ITEM_CATALOG, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewCatalogItem(
             @RequestBody @Valid ItemCatalogModel itemCatalogModel) {
         ItemCatalog itemCatalog = invoiceMappingService.mapModelToItemCatalogEntity(itemCatalogModel);

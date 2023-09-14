@@ -3,7 +3,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PrintinvoiceComponent} from './invoice/printinvoice/printinvoice.component';
@@ -42,6 +42,7 @@ import {PersonFormModule} from "./person/personform/personform.component";
 import {InvoiceFormModule} from "./invoice/invoiceform/invoiceform.component";
 import {DateperiodFinderComponent} from "./common-components/dateperiod-finder/dateperiod-finder.component";
 import {InvoicePipesModule} from "./common-services/common-services.pipes.number";
+import {TemplatesComponentComponent} from "./common-components/templates-component/templates-component.component";
 
 
 @NgModule({
@@ -85,7 +86,9 @@ import {InvoicePipesModule} from "./common-services/common-services.pipes.number
     PersonFormModule,
     InvoiceFormModule,
     DateperiodFinderComponent,
-    InvoicePipesModule
+    InvoicePipesModule,
+    ReactiveFormsModule,
+    TemplatesComponentComponent
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],

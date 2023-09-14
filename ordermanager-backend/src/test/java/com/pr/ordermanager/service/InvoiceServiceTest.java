@@ -51,6 +51,7 @@ public class InvoiceServiceTest {
     void tearDown() {
         personRepository.deleteAll();
         personRepository.deleteAll();
+        itemCatalogRepository.deleteAll();
     }
 
 
