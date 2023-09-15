@@ -22,7 +22,7 @@ export class CommonServicesAppHttpService<T> {
   //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
 
-  constructor(private httpClient: HttpClient, public messagePrinter: MessagesPrinter) {
+  constructor(public httpClient: HttpClient, public messagePrinter: MessagesPrinter) {
     //this.backendUrl = environment.baseUrl;
   }
 

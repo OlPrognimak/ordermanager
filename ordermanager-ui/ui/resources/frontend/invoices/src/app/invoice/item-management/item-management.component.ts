@@ -42,9 +42,9 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
   confirmUpdateDialogMessage: string = 'Are you sure you want to save changes permanently?';
   confirmDeleteDialogMessage: string = 'Are you sure you want to delete the catalog item?';
 
-  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter,
+  constructor(public httpClient: HttpClient, private messagePrinter: MessagesPrinter,
               private  httpService: CommonServicesAppHttpService<ItemCatalogModel[]>) {
-    super()
+    super(httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
   }
   ngOnInit(): void {
     this.getDataFromServer(null)
@@ -56,44 +56,6 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
         this.modelList = callback
       }
     })
-  }
-
-  loadData = (criteria: string, invoiceItemsPar: ItemCatalogModel[], messagePrinterPar: MessagesPrinter, callback) => {
-
-    const rsHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
-    let requestCriteria: string = ''
-    if (criteria !== null && criteria !== undefined) {
-      requestCriteria = criteria
-    }
-    let httpParams = new HttpParams().set('criteria', requestCriteria)
-
-    const options = {
-      headers: rsHeaders,
-      params: httpParams,
-    }
-    this.httpClient.get<ItemCatalogModel[]>(remoteBackendUrl()+"invoice/itemsCatalogList",options).subscribe(
-      {
-        next(response) {
-          return callback(response)
-        },
-        error (err) {
-          messagePrinterPar.printUnsuccessefulMessage(
-            'Can not load items catalog by criteria: '+criteria, err)
-        }
-      }
-    )
-  }
-
-  isEditObjectChanged(item: ItemCatalogModel) {
-    let obj = this.changesList?.filter(v =>item.id === v.id)
-    if( obj!==undefined && obj.length >0){
-      return 'blue'
-    } else {
-      return '#495057'
-    }
   }
 
   rowDoubleClick($event: MouseEvent, invoiceitem: ItemCatalogModel) {

@@ -1,8 +1,12 @@
-<p-dialog header="Edit invoice" [(visible)]="visible"
+<p-dialog [(visible)]="visible"
           [style]="{ width: '80vw', height: '80%' }"
           [contentStyle]="{'overflow': 'auto'}"
           (onHide)="setVisible(false)">
-
+  <ng-template pTemplate ="header">
+    <div class = "header-container">
+      <h2 style = "padding-left: 2vw; color: white">Edit invoice</h2>
+    </div>
+  </ng-template>
   <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG">
     <div>
       <p-toast></p-toast>

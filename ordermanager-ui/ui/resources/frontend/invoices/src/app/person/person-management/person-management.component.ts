@@ -43,7 +43,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
 
   constructor(public appSecurityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel[]>) {
-    super()
+    super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
   }
 
   ngOnInit(): void {

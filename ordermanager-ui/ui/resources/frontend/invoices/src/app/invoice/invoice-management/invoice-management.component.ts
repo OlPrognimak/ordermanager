@@ -63,7 +63,7 @@ export class InvoiceManagementComponent extends  CommonServicesEditService<Invoi
 
   constructor(public securityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter ) {
-    super()
+    super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
   }
 
   ngOnInit(): void {
