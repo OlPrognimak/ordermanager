@@ -1,9 +1,14 @@
-<p-dialog header="Edit catalog item" [(visible)]="visible" [style]="{ width: '40vw', height: '30vw' }"
+<p-dialog [(visible)]="visible" [style]="{ width: '60vw', height: '30vw' }"
             (onHide)="setDialogVisible(false)">
+  <ng-template pTemplate ="header">
+    <div class = "header-dialog-container">
+      <h2 style = "padding-left: 2vw; color: white">Edit catalog item</h2>
+    </div>
+  </ng-template>
     <div *ngIf="isAuthenticated()" class="p-fluid">
       <form [formGroup]="editCatalogItemFG">
 
-        <div style="margin-top: 20pt;" class="shadow-panel-color p-shadow-4">
+        <div class="shadow-panel-color p-shadow-4">
 
           <div class="p-grid">
             <div class="p-col-4 input-text-align">

@@ -24,3 +24,7 @@ span.p-calendar {
 .saveButton-align {
   margin: 5px 5px 5px 5px;
 }
+
+.custom-ptable-height {
+  height: 80vh;
+}

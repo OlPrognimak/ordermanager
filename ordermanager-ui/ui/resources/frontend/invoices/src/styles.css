@@ -98,7 +98,19 @@ body {
 
 .shadow-panel-color {
   background-color: #BFE0E6;
+  margin-top: 10pt;
 }
+
+div.p-dialog-header {
+  background-color: #94b4a7 !important;
+  padding: 2pt !important;
+}
+.header-dialog-container {
+  background-color: #94b4a7;
+  padding: 2pt !important;
+  width: 100%
+}
+
 
 
 

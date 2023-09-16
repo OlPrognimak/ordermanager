@@ -1,10 +1,12 @@
+/*
 :host::ng-deep div.p-dialog-header {
   background-color: #94b4a7;
   padding: 2pt !important;
 }
 
-.header-container {
+.header-dialog-container {
   background-color: #94b4a7;
   padding: 2pt !important;
   width: 100%
 }
+ */
