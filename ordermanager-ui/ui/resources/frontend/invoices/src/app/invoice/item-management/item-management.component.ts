@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {ToastModule} from "primeng/toast";
@@ -7,8 +7,7 @@ import {ItemCatalogModel} from "../../domain/domain.invoiceformmodel";
 import {InvoicePipesModule} from "../../common-services/common-services.pipes.number";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {remoteBackendUrl} from "../../user/user-login/app-security.service";
+import {HttpClient} from "@angular/common/http";
 import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {isAuthenticated} from "../../common-services/common-services-util.service";
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
@@ -51,7 +50,7 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
   }
 
   getDataFromServer(criteriaPar) {
-    this.loadData(criteriaPar, this.modelList, this.messagePrinter, callback => {
+    this.loadData(criteriaPar, this.messagePrinter, callback => {
       if(callback !== null) {
         this.modelList = callback
       }

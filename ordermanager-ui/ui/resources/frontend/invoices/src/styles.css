@@ -110,6 +110,9 @@ div.p-dialog-header {
   padding: 2pt !important;
   width: 100%
 }
+#appConfigId > app-root > app-item-management {
+  height: 100%;
+}
 
 
 

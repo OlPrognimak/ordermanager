@@ -1,18 +1,36 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ItemCatalogModel} from '../../domain/domain.invoiceformmodel';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
 import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
 import {isAuthenticated} from "../../common-services/common-services-util.service";
+import {FormsModule, NgForm} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {MessageModule} from "primeng/message";
+import {MessagesModule} from "primeng/messages";
+import {ToastModule} from "primeng/toast";
+import {InputTextModule} from "primeng/inputtext";
+import {InputNumberModule} from "primeng/inputnumber";
+import {
+  ValidatableInputTextModule
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
+import {ButtonModule} from "primeng/button";
 
 @Component({
   selector: 'app-items-form',
   templateUrl: './items-form.component.html',
   styleUrls: ['./items-form.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ValidatableInputTextModule, ButtonModule],
   providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>]
 })
 export class ItemsFormComponent implements OnInit {
 
+  @ViewChild('itemCatalogForm') itemCatalogForm: NgForm
+
   model: ItemCatalogModel;
+  private hasNameError: boolean;
+  private hasPriceError: boolean;
+  private hasVatError: boolean;
 
   constructor(public appSecurityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<ItemCatalogModel>) { }
@@ -26,13 +44,31 @@ export class ItemsFormComponent implements OnInit {
    * @param item the item for saving
    */
   saveItem(item: any): void {
-   this.httpService.putObjectToServer('PUT', this.model, 'Invoice Item',
-      'invoice/itemcatalog', (callback) => {
-       if (callback){
-         this.model = new ItemCatalogModel();
-       }
-    });
+   if(!this.haveErrors()) {
+     this.httpService.putObjectToServer('PUT', this.model, 'Invoice Item',
+       'invoice/itemcatalog', (callback) => {
+         if (callback) {
+           this.model = new ItemCatalogModel();
+         }
+       });
+   }
   }
 
   protected readonly isAuthenticated = isAuthenticated;
+
+  haveErrors() {
+    return this.hasNameError || this.hasPriceError || this.hasVatError
+  }
+
+  setHasVatError(isError: boolean) {
+    this.hasVatError = isError
+  }
+
+  setHasPriceError(isError: boolean) {
+    this.hasPriceError = isError
+  }
+
+  setHasNameError(isError: boolean) {
+    this.hasNameError = isError
+  }
 }

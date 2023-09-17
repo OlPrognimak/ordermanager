@@ -53,6 +53,7 @@ public class Person  extends AbstractEntity {
     private String personFirstName;
     private String companyName;
     private String taxNumber;
+    @Column(unique=true)
     private String email;
     @Enumerated(EnumType.STRING)
     private PersonType personType;

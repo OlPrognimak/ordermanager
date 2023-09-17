@@ -1,52 +1,58 @@
 <div *ngIf="isAuthenticated" class="p-fluid">
   <div style="text-align: center" class="p-grid">
-     <H2 style="text-align: center">Create invoice item</H2>
+    <H2 style="text-align: center">Create catalog item</H2>
   </div>
   <p-toast></p-toast>
-  <div class="p-grid">
-    <div style="margin-top: 10pt" class="p-col-4">
-      <app-validatable-input-text [name] = "'description'"
-                                  [labelText]="'Item name'"
-                                  [idComponent]="'id_ItemDesc'"
-                                  [txtMinLength]="2"
-                                  [(ngModel)] = "model.description">
-      </app-validatable-input-text>
+  <form (submit) = "saveItem($event)" #itemCatalogForm="ngForm">
+    <div class="p-grid">
+      <div style="margin-top: 10pt" class="p-col-4">
+        <app-validatable-input-text name="description"
+                                    [labelText]="'Item name'"
+                                    [idComponent]="'id_ItemDesc'"
+                                    [txtMinLength]="2"
+                                    (componentHasErrorEvent) = "setHasNameError($event)"
+                                    [(ngModel)]="model.description">
+        </app-validatable-input-text>
+      </div>
     </div>
-  </div>
-  <div class="p-grid">
-    <div style="margin-top: 10pt" class="p-col-4">
+    <div class="p-grid">
+      <div style="margin-top: 10pt" class="p-col-4">
        <span class="p-float-label">
-       <input style="width:100%;" id="id-shortDescription" type="text" [(ngModel)]="model.shortDescription" pInputText/>
-       <label  for="id-shortDescription">Item short description</label>
+       <input style="width:100%;" name ="shortDescription" id="id-shortDescription" type="text" [(ngModel)]="model.shortDescription" pInputText/>
+       <label for="id-shortDescription">Item short description</label>
        </span>
-    </div>
+      </div>
 
-  </div>
-  <div style="margin-top: 10pt" class="p-grid">
-    <div class="p-col-2">
-      <app-validatable-input-text [name] = "'itemPrice'"
-                                  [labelText]="'Item  price'"
-                                  [idComponent]="'id_ItemPrice'"
-                                  [txtMinLength]="1"
-                                  [(ngModel)] = "model.itemPrice">
-      </app-validatable-input-text>
     </div>
-  </div>
-  <div style="margin-top: 10pt" class="p-grid">
+    <div style="margin-top: 10pt" class="p-grid">
       <div class="p-col-2">
-        <app-validatable-input-text [name]="'vat'"
+        <app-validatable-input-text name="itemPrice"
+                                    [labelText]="'Item  price'"
+                                    [idComponent]="'id_ItemPrice'"
+                                    [txtMinLength]="1"
+                                    (componentHasErrorEvent) = "setHasPriceError($event)"
+                                    [(ngModel)]="model.itemPrice">
+        </app-validatable-input-text>
+      </div>
+    </div>
+    <div style="margin-top: 10pt" class="p-grid">
+      <div class="p-col-2">
+        <app-validatable-input-text name="vat"
                                     [labelText]="'Vat%'"
                                     [idComponent]="'id_ItemVat'"
                                     [txtMinLength]="1"
-                                    [(ngModel)] = "model.vat">
+                                    (componentHasErrorEvent) = "setHasVatError($event)"
+                                    [(ngModel)]="model.vat">
         </app-validatable-input-text>
       </div>
 
-  </div>
-  <div class="p-grid">
-    <div class="p-col-1">
-      <p-button icon="pi pi-check" styleClass="p-button-text" label="Save" (onClick)="saveItem($event)"></p-button>
     </div>
-  </div>
+    <div class="p-grid">
+      <div class="p-col-1">
+        <p-button type="submit" [disabled] = "haveErrors()" label="Save" styleClass="submit-button"></p-button>
+      </div>
+      <div class="p-col-9"></div>
+    </div>
+  </form>
 </div>
 

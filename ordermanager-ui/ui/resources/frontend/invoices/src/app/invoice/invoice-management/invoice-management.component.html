@@ -6,7 +6,7 @@
   <app-dateperiod-finder [url]="'invoice/invoicesListPeriod'" (onFinderIsReady)="finderIsReady($event)"
                          (responseOutput)="invoices = $event" #dataFinder/>
   <div style="height: 100%" class="p-grid p-card">
-    <div class="p-col-12">
+    <div style="height: 100%" class="p-col-12">
       <p-table [value]="invoices"
                [rows]="20"
                paginator="true"

@@ -1,12 +1,11 @@
 import {Directive, Input} from "@angular/core";
-import {ItemCatalogModel} from "../domain/domain.invoiceformmodel";
 import {MessagesPrinter} from "./common-services.app.http.service";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {remoteBackendUrl} from "../user/user-login/app-security.service";
 
 
 const SELECTION_COLOR  ="blue"
-const DE_SELECTION_COLOR = '#495057'
+const DESELECTION_COLOR = '#495057'
 @Directive()
 export class CommonServicesEditService<T> {
 
@@ -65,11 +64,11 @@ export class CommonServicesEditService<T> {
     if( obj!==undefined && obj.length > 0){
       return SELECTION_COLOR
     } else {
-      return DE_SELECTION_COLOR
+      return DESELECTION_COLOR
     }
   }
 
-  loadData = (criteria: string, invoiceItemsPar: T[], messagePrinterPar: MessagesPrinter, callback) => {
+  loadData = (criteria: string, messagePrinterPar: MessagesPrinter, callback) => {
 
     const rsHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',

@@ -22,7 +22,6 @@ import {UserRegistrationComponent} from './user/user-registration/user-registrat
 import {CommonServicesUtilService} from './common-services/common-services-util.service';
 import {MessageService} from 'primeng/api';
 import {EditableInputCellComponent} from './common-components/editable-input-cell/editable-input-cell.component';
-import {ItemsFormComponent} from './invoice/items-form/items-form.component';
 import {CommonServicesAppHttpService} from './common-services/common-services.app.http.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DialogModule} from 'primeng/dialog';
@@ -51,8 +50,7 @@ import {TemplatesComponentComponent} from "./common-components/templates-compone
     PrintinvoiceComponent,
     TableCellRendererComponent,
     UserRegistrationComponent,
-    EditableInputCellComponent,
-    ItemsFormComponent
+    EditableInputCellComponent
   ],
   imports: [
     BrowserModule,
