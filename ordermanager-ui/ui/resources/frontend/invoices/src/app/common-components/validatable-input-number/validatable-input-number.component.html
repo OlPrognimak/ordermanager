@@ -1,0 +1,44 @@
+<!--
+*This component is required and require one the next parameters
+*@param the text of the label
+*@param txtMinLength the minimal length of text in the input html control
+*@param idComponent the id of component
+*@param onChange($event) callback method on the parent component which sends changed value in child (this) component
+-->
+<div style ="display: table; width: 100%;">
+  <div style ="display: table-row; width: 100%;">
+    <div style ="display: table-cell; width: 100%;">
+               <span class="p-float-label">
+                    <p-inputNumber  class="ng-dirty p-mr-2"
+                           name="{{inputName}}"
+                            [pattern]="inputPattern"
+                           minlength="{{txtMinLength}}"
+                           id="{{idComponent}}"
+                           [(ngModel)]="value"
+                           required
+                           placeholder = '0.00'
+                           class="p-cell-editing ng-dirty"
+                           mode="decimal"
+                           [minFractionDigits]="2"
+                           [maxFractionDigits]="2"
+                           #modelRef="ngModel"/>
+                  <label for="{{idComponent}}">{{labelText}}</label>
+               </span>
+    </div>
+    <div *ngIf=
+           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
+        <p-message severity="error"></p-message>
+    </div>
+    <div *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)" style ="display: table-cell; width: 10%;">
+      <p-message severity="error"></p-message>
+    </div>
+    <div *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)" style ="display: table-cell; width: 10%;">
+      <div *ngIf="modelRef.errors?.minlength===undefined">
+        <p-message severity="error"></p-message>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="modelRef.errors?.pattern" class="alert alert-danger">
+    {{patternErrorText}}
+  </div>
+</div>

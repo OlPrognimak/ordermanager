@@ -26,24 +26,22 @@
     </div>
     <div style="margin-top: 10pt" class="p-grid">
       <div class="p-col-2">
-        <app-validatable-input-text name="itemPrice"
+        <app-validatable-input-number name="itemPrice"
                                     [labelText]="'Item  price'"
                                     [idComponent]="'id_ItemPrice'"
-                                    [txtMinLength]="1"
                                     (componentHasErrorEvent) = "setHasPriceError($event)"
                                     [(ngModel)]="model.itemPrice">
-        </app-validatable-input-text>
+        </app-validatable-input-number>
       </div>
     </div>
     <div style="margin-top: 10pt" class="p-grid">
       <div class="p-col-2">
-        <app-validatable-input-text name="vat"
+        <app-validatable-input-number name="vat"
                                     [labelText]="'Vat%'"
                                     [idComponent]="'id_ItemVat'"
-                                    [txtMinLength]="1"
                                     (componentHasErrorEvent) = "setHasVatError($event)"
                                     [(ngModel)]="model.vat">
-        </app-validatable-input-text>
+        </app-validatable-input-number>
       </div>
 
     </div>

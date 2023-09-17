@@ -10,17 +10,20 @@ import {MessagesModule} from "primeng/messages";
 import {ToastModule} from "primeng/toast";
 import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
+import {ButtonModule} from "primeng/button";
+import {
+  ValidatableInputNumberModule
+} from "../../common-components/validatable-input-number/validatable-input-number.component";
 import {
   ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {ButtonModule} from "primeng/button";
 
 @Component({
   selector: 'app-items-form',
   templateUrl: './items-form.component.html',
   styleUrls: ['./items-form.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ValidatableInputTextModule, ButtonModule],
+  imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextModule],
   providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>]
 })
 export class ItemsFormComponent implements OnInit {
