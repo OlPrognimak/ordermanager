@@ -111,7 +111,7 @@ public class EntityToModelMapperHelper {
 
     public static List<DropdownDataType> mapListCatalogItemsToDropdownType(List<ItemCatalog> itemCatalogs){
         return itemCatalogs.stream().map(c->new DropdownDataType(
-                c.getShortDescription()+ " : Price :"+c.getItemPrice()+ " " ,
+                c.getDescription()+ " : Price :"+c.getItemPrice()+ " " ,
                 String.valueOf(c.getId()))).collect(Collectors.toList());
     }
 
