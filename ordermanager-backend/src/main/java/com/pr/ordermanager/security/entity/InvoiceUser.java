@@ -47,22 +47,23 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-@SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
+@SequenceGenerator(name = "invoice_seq_gen", sequenceName = "invoice_seq", initialValue = 1, allocationSize = 100)
 public class InvoiceUser extends AbstractEntity implements UserDetails {
     /**
-     *
      * @param userName the name of user
      * @param password the password of user
      */
-     public InvoiceUser(String userName, String password){
-         this.username =userName;
-         this.password = password;
-     }
+    public InvoiceUser(String userName, String password) {
+        this.username = userName;
+        this.password = password;
+    }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="invoice_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_seq_gen")
     private Long id;
+    @Column(unique = true, nullable = false)
     private String username;
+    @Column(nullable = false)
     private String password;
     private String roles;
     private boolean accountNonExpired;

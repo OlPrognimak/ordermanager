@@ -14,9 +14,7 @@ import com.pr.ordermanager.person.model.PersonAddressFormModel;
 import com.pr.ordermanager.person.model.PersonFormModel;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
 
 import static com.pr.ordermanager.invoice.entity.RateType.DAILY;
 
@@ -30,13 +28,13 @@ public class RepositoryTestHelper {
                 .personFirstName("Oleksandr")
                 .personLastName("Prognimak")
                 .personType(personType)
-                .personAddress(Arrays.asList(personAddress))
-                .bankAccount(Arrays.asList(bankAccount))
-                .taxNumber("" + System.currentTimeMillis())
-                .email("test@test.de")
+                .personAddress(Collections.singletonList(personAddress))
+                .bankAccount(Collections.singletonList(bankAccount))
+                .taxNumber(String.valueOf(System.currentTimeMillis()))
+                .email("test"+(new Random().nextInt() )+"@test.de")
                 .build();
-        personAddress.setPersons(Arrays.asList(person));
-        personAddress.setPersons(Arrays.asList(person));
+        personAddress.setPersons(Collections.singletonList(person));
+        personAddress.setPersons(Collections.singletonList(person));
         return person;
 
     }
@@ -51,8 +49,8 @@ public class RepositoryTestHelper {
         invoice.setInvoiceRecipientPerson(personRecipient);
         invoice.setRateType(DAILY);
 
-        personSupplier.setInvoiceSuppliers(Arrays.asList(invoice));
-        personRecipient.setInvoiceRecipient(Arrays.asList(invoice));
+        personSupplier.setInvoiceSuppliers(List.of(invoice));
+        personRecipient.setInvoiceRecipient(List.of(invoice));
 
         return invoice;
     }
@@ -110,7 +108,7 @@ public class RepositoryTestHelper {
                 .creationDate(OffsetDateTime.now().withMinute(0).withHour(0).withSecond(0).withNano(0))
                 .invoiceDate(OffsetDateTime.now().withMinute(0).withHour(0).withSecond(0).withNano(0))
                 .rateType("HOURLY")
-                .invoiceItems(Arrays.asList(createInvoiceItemModel())).build();
+                .invoiceItems(Collections.singletonList(createInvoiceItemModel())).build();
 
     }
 
@@ -151,7 +149,7 @@ public class RepositoryTestHelper {
                 .personType(PersonType.PRIVATE.name())
                 .personAddressFormModel(personAddressFormModel)
                 .bankAccountFormModel(bankAccountFormModel)
-                .taxNumber("" + System.currentTimeMillis())
+                .taxNumber(String.valueOf(System.currentTimeMillis()))
                 .email("test@test.com")
                 .build();
         return personFormModel;
