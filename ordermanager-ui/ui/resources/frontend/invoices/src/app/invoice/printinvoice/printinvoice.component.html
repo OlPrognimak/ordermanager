@@ -5,7 +5,7 @@
     <mat-progress-spinner  mode="indeterminate" *ngIf="processRuns"> </mat-progress-spinner>
   </div>
   <div style="height: 15%">
-  <app-dateperiod-finder #dataFinder [url]="'invoice/invoicesListPeriod'" (responseOutput)="invoicesFormModel = $event"/>
+  <app-dateperiod-finder #dataFinder [url]="'invoice/invoicesListPeriod'" (responseOutput)="setDataModel($event)"/>
   </div>
   <div style="margin-top: 20pt; width: 100%; height: 85%">
   <ag-grid-angular

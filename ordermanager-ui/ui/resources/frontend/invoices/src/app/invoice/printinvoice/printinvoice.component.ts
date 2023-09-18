@@ -68,8 +68,8 @@ export class PrintinvoiceComponent implements OnInit {
   /**
    * the column definition for table
    */
-  creationDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
-  invoiceDateCell: any = (invoiceDate)=>{ return _moment(invoiceDate).format('MM.DD.yyyy')};
+  creationDateCell: any = (params)=>{ return _moment(params.data.creationDate).format('MM.DD.yyyy')};
+  invoiceDateCell: any = (params)=>{ return _moment(params.data.invoiceDate).format('MM.yyyy')};
   processRuns: boolean;
 
 
@@ -150,4 +150,9 @@ export class PrintinvoiceComponent implements OnInit {
   protected readonly isAuthenticated = isAuthenticated;
 
 
+  setDataModel(model: InvoiceFormModel[]) {
+
+    this.invoicesFormModel = model
+    console.log("MODEL :"+JSON.stringify(this.invoicesFormModel))
+  }
 }
