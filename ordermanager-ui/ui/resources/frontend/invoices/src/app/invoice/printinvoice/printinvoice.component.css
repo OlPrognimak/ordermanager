@@ -33,3 +33,14 @@
   height: calc(100vh - 20px);
   background-color: rgba(0,0,0,0);
 }
+
+:host::ng-deep app-table-cell-renderer > div > p-button > button > span.p-button-label.ng-star-inserted {
+  color: indianred;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: smaller !important;
+}
+
+:host::ng-deep app-table-cell-renderer > div > p-button > button > span.pi.pi-download.p-button-icon.p-button-icon-left.ng-star-inserted {
+  height: 10px;
+  width: 11px;
+}

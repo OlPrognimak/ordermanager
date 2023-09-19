@@ -1,6 +1,8 @@
 <div class="p-fluid p-flex-row" *ngIf="isAuthenticated()">
   <p-toast></p-toast>
-
+  <div class="overlayProcess childElementCenter" *ngIf="dataLoading">
+    <mat-progress-spinner mode="indeterminate" *ngIf="dataLoading"></mat-progress-spinner>
+  </div>
   <h2 style = "margin-left: 10pt">Manage with catalog items</h2>
   <div style="margin-top: 20pt; margin-left: 5pt; margin-right: 45pt;" class="shadow-panel-color p-shadow-4 p-col-12">
     <div style="margin-right: 0pt" class = "p-grid">

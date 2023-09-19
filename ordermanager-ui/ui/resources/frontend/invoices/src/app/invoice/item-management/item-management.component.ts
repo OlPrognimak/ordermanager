@@ -16,11 +16,12 @@ import {EditItemDialogComponent} from "../edit-item-dialog/edit-item-dialog.comp
 import {CommonServicesEditService} from "../../common-services/common-services.edit.service";
 import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-item-management',
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule],
+  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule],
   providers: [HttpClient, MessagesPrinter],
   templateUrl: './item-management.component.html',
   styleUrls: ['./item-management.component.css']
@@ -40,19 +41,23 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
   keySelection: boolean = true;
   confirmUpdateDialogMessage: string = 'Are you sure you want to save changes permanently?';
   confirmDeleteDialogMessage: string = 'Are you sure you want to delete the catalog item?';
+  dataLoading: boolean = false
 
   constructor(public httpClient: HttpClient, private messagePrinter: MessagesPrinter,
               private  httpService: CommonServicesAppHttpService<ItemCatalogModel[]>) {
     super(httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
   }
   ngOnInit(): void {
+
     this.getDataFromServer(null)
   }
 
   getDataFromServer(criteriaPar) {
+    this.dataLoading = true
     this.loadData(criteriaPar, this.messagePrinter, callback => {
       if(callback !== null) {
         this.modelList = callback
+        this.dataLoading = false
       }
     })
   }
