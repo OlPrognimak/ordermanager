@@ -13,3 +13,78 @@ align-right-button {
   padding-right: 5pt;
   display: block;   /* Make the button a block-level element */
 }
+
+/*
+
+#appConfigId > app-root > app-person-management {
+  display: flex;
+  height: 100%;
+  width: 100% !important;
+}
+
+#appConfigId > app-root > app-person-management > div {
+  width: 100%;
+}
+*/
+/** Move button save to bottom*/
+/*
+#appConfigId > app-root > app-person-management > div > div.p-col-12 {
+  height: 90%;
+  width: 100%
+}
+
+#appConfigId > app-root > app-person-management > div > div.p-col-12 > p-table {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  height: 90%;
+}
+*/
+
+
+:host::ng-deep div.p-datatable-gridlines.p-datatable.p-component.p-datatable-hoverable-rows {
+  width: 100%;
+  background-color: aliceblue;
+}
+
+/*
+:host::ng-deep p-table > div {
+  display: grid;
+  grid-template-columns: 100%;
+  height: 100%;
+}
+*/
+:host::ng-deep div.p-datatable-wrapper {
+  box-sizing: border-box;
+  height: 100%;
+}
+/*
+.root-page-style {
+  display: flex;
+  height: 70%;
+}
+*/
+
+.custom-ptable-height {
+  height: 80vh;
+}
+
+.management-page-style {
+  height: 100%
+}
+
+.top-container-table-area {
+  height: 100%;
+}
+
+.table-area {
+  width: 100%;
+  height: 100%;
+  background-color: aliceblue;
+}
+
+.base-top-grid-area {
+  height: 72%
+}
+
+

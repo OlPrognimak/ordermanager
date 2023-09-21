@@ -25,6 +25,25 @@ span.p-calendar {
   margin: 5px 5px 5px 5px;
 }
 
+
 .custom-ptable-height {
   height: 80vh;
+}
+
+.management-page-style {
+  height: 100%
+}
+
+.top-container-table-area {
+  height: 100%;
+}
+
+.table-area {
+  width: 100%;
+  height: 100%;
+  background-color: aliceblue;
+}
+
+.base-top-grid-area {
+  height: 72%
 }

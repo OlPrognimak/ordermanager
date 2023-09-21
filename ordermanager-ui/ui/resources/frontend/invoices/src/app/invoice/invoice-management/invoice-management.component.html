@@ -1,83 +1,88 @@
-<div *ngIf="isAuthenticated();" class="p-fluid p-flex-row">
-  <H2>Invoice management</H2>
+<div *ngIf="isAuthenticated();" class="p-fluid p-flex-row management-page-style">
   <div>
+    <H2>Invoice management</H2>
     <p-toast></p-toast>
   </div>
-  <app-dateperiod-finder [url]="'invoice/invoicesListPeriod'" (onFinderIsReady)="finderIsReady($event)"
-                         (responseOutput)="invoices = $event" #dataFinder/>
-  <div style="height: 100%" class="p-grid p-card">
-    <div style="height: 100%" class="p-col-12">
-      <p-table [value]="invoices"
-               [rows]="20"
-               paginator="true"
-               [autoLayout]="true"
-               selectionMode="multiple"
-               [metaKeySelection]=keySelection
-               [(selection)]="selectedInvoice"
-               [resizableColumns]="true"
-               sortMode="multiple"
-               class="custom-ptable-height"
-               styleClass="p-datatable-gridlines" editMode="row">
-        <ng-template pTemplate="header">
-          <tr>
-            <th pSortableColumn = "invoiceNumber" style="width: 10%">Invoice number<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
-            <th pSortableColumn = "supplierFullName" style="width: 25%">Supplier<p-sortIcon field="supplierFullName"></p-sortIcon></th>
-            <th pSortableColumn = "recipientFullName" style="width: 25%">Recipient<p-sortIcon field="recipientFullName"></p-sortIcon></th>
-            <th pSortableColumn = "invoiceDate" style="width: 10%">Invoice date<p-sortIcon field="invoiceDate"></p-sortIcon></th>
-            <th pSortableColumn = "creationDate" style="width: 10%">Invoice creation date<p-sortIcon field="creationDate"></p-sortIcon></th>
-            <th pSortableColumn = "totalSumNetto" style="width: 10%">Netto sum<p-sortIcon field="totalSumNetto"></p-sortIcon></th>
-            <th pSortableColumn = "totalSumBrutto" style="width: 10%">Brutto sum<p-sortIcon field="totalSumBrutto"></p-sortIcon></th>
-            <th style="width: 5%">Manage</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
-          <tr [ngStyle]="{'color':isEditObjectChanged(invoice)}" [pSelectableRow]="invoice"
-              [pSelectableRowIndex]="rowIndex"
-              (dblclick)="rowDoubleClick($event, invoice)"
-              title="Double click to edit person">
-            <td>
-              <div>{{invoice.invoiceNumber}}</div>
-            </td>
-            <td>
-              <div>{{invoice.supplierFullName}}</div>
-            </td>
-            <td>
-              <div>{{invoice.recipientFullName}}</div>
-            </td>
-
-            <td>
-              <div>{{invoice.invoiceDate | dateType: 'DD.MM.YYYY'}}</div>
-            </td>
-            <td>
-              <div>{{convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY'}}</div>
-            </td>
-            <td>
-              <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
-            </td>
-            <td>
-              <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
-            </td>
-            <td>
-              <button title = "Delete item" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                      (click)="deleteInvoice(invoice.id)"></button>
-              <button title ="Edit item" style="margin-left: 2px;" pButton pRipple icon="pi pi-pencil"
-                      class="p-button-rounded p-button-warning"
-                      (click)="rowDoubleClick($event, invoice)"></button>
-              <button title = "Rollback item" pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
-                      (click)="rollbackChanges(invoice.id)"></button>
-            </td>
-          </tr>
-
-        </ng-template>
-      </p-table>
+  <div class="p-grid base-top-grid-area">
+    <div style="height: 15%" class = "p-col-12">
+        <app-dateperiod-finder [url]="'invoice/invoicesListPeriod'" (onFinderIsReady)="finderIsReady($event)"
+                           (responseOutput)="invoices = $event" #dataFinder/>
     </div>
-  </div>
-  <div class="p-grid">
-    <div class="p-col-11 ">
+    <div  class = "p-col-12 p-shadow-4 top-container-table-area">
+      <div class = "table-area"></div>
+          <p-table [value]="invoices"
+                   [rows]="20"
+                   paginator="true"
+                   [autoLayout]="true"
+                   selectionMode="multiple"
+                   [metaKeySelection]=keySelection
+                   [(selection)]="selectedInvoice"
+                   [resizableColumns]="true"
+                   sortMode="multiple"
+                   class="custom-ptable-height"
+                   styleClass="p-datatable-gridlines" editMode="row">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn = "invoiceNumber" style="width: 10%">Invoice number<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
+                <th pSortableColumn = "supplierFullName" style="width: 25%">Supplier<p-sortIcon field="supplierFullName"></p-sortIcon></th>
+                <th pSortableColumn = "recipientFullName" style="width: 25%">Recipient<p-sortIcon field="recipientFullName"></p-sortIcon></th>
+                <th pSortableColumn = "invoiceDate" style="width: 10%">Invoice date<p-sortIcon field="invoiceDate"></p-sortIcon></th>
+                <th pSortableColumn = "creationDate" style="width: 10%">Invoice creation date<p-sortIcon field="creationDate"></p-sortIcon></th>
+                <th pSortableColumn = "totalSumNetto" style="width: 10%">Netto sum<p-sortIcon field="totalSumNetto"></p-sortIcon></th>
+                <th pSortableColumn = "totalSumBrutto" style="width: 10%">Brutto sum<p-sortIcon field="totalSumBrutto"></p-sortIcon></th>
+                <th style="width: 5%">Manage</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
+              <tr [ngStyle]="{'color':isEditObjectChanged(invoice)}" [pSelectableRow]="invoice"
+                  [pSelectableRowIndex]="rowIndex"
+                  (dblclick)="rowDoubleClick($event, invoice)"
+                  title="Double click to edit person">
+                <td>
+                  <div>{{invoice.invoiceNumber}}</div>
+                </td>
+                <td>
+                  <div>{{invoice.supplierFullName}}</div>
+                </td>
+                <td>
+                  <div>{{invoice.recipientFullName}}</div>
+                </td>
+
+                <td>
+                  <div>{{invoice.invoiceDate | dateType: 'DD.MM.YYYY'}}</div>
+                </td>
+                <td>
+                  <div>{{convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY'}}</div>
+                </td>
+                <td>
+                  <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
+                </td>
+                <td>
+                  <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
+                </td>
+                <td>
+                  <button title = "Delete item" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                          (click)="deleteInvoice(invoice.id)"></button>
+                  <button title ="Edit item" style="margin-left: 2px;" pButton pRipple icon="pi pi-pencil"
+                          class="p-button-rounded p-button-warning"
+                          (click)="rowDoubleClick($event, invoice)"></button>
+                  <button title = "Rollback item" pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
+                          (click)="rollbackChanges(invoice.id)"></button>
+                </td>
+              </tr>
+
+            </ng-template>
+          </p-table>
     </div>
-    <div style="margin-top: 10px;" class="p-col-1 ">
-      <p-button icon="pi pi-check" styleClass="p-button-text saveButton-align" [disabled]="haveNoChanges()" label="Save"
-                (onClick)="showSaveConfirmDialog = true"></p-button>
+    <div style = "height: 5%" class = "p-col-12">
+      <div class="p-grid">
+      <div class="p-col-11 ">
+      </div>
+      <div style="margin-top: 10px;" class="p-col-1 ">
+        <p-button styleClass="saveButton-align" [disabled]="haveNoChanges()" label="Save"
+                  (onClick)="showSaveConfirmDialog = true"></p-button>
+      </div>
+    </div>
     </div>
   </div>
 </div>
