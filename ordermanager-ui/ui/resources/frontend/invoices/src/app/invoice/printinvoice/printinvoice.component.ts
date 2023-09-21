@@ -151,8 +151,6 @@ export class PrintinvoiceComponent implements OnInit {
 
 
   setDataModel(model: InvoiceFormModel[]) {
-
     this.invoicesFormModel = model
-    console.log("MODEL :"+JSON.stringify(this.invoicesFormModel))
   }
 }

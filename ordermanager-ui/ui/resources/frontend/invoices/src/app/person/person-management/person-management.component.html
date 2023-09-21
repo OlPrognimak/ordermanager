@@ -1,7 +1,7 @@
 <div *ngIf="isAuthenticated();" class="p-fluid p-flex-row management-page-style">
     <p-toast></p-toast>
   <div class="p-grid base-top-grid-area">
-    <H2>Person management</H2>
+    <H2 style = "margin-left: 10pt;">Person management</H2>
     <div class="p-col-12">
       <app-dateperiod-finder [url]="'person/personsListPeriod'" (responseOutput)="modelList = $event" #dataFinder/>
     </div>
