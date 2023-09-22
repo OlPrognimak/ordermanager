@@ -65,9 +65,6 @@ align-right-button {
 }
 */
 
-.custom-ptable-height {
-  height: 80vh;
-}
 
 .management-page-style {
   height: 100%
@@ -85,6 +82,10 @@ align-right-button {
 
 .base-top-grid-area {
   height: 72%
+}
+
+.data-cell-style {
+  padding: 2pt 2pt 2pt 2pt;
 }
 
 
