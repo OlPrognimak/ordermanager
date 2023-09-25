@@ -1,7 +1,10 @@
 target
+buildSrc
 static
+gradle
 pom.xml.releaseBackup
 release.properties
+.gradle
 .classpath
 .project
 .settings
