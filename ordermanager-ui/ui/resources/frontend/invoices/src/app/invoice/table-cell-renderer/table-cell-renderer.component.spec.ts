@@ -5,6 +5,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {MessageModule} from "primeng/message";
 import {MessageService} from "primeng/api";
 import {AgGridModule} from "ag-grid-angular";
+import {ButtonModule} from "primeng/button";
 
 describe('TableCellRendererComponent', () => {
   let component: TableCellRendererComponent;
@@ -13,7 +14,7 @@ describe('TableCellRendererComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TableCellRendererComponent],
-      imports: [HttpClientModule, MessageModule, AgGridModule],
+      imports: [HttpClientModule, MessageModule, AgGridModule, ButtonModule],
       providers: [MessageService]
     })
     .compileComponents();

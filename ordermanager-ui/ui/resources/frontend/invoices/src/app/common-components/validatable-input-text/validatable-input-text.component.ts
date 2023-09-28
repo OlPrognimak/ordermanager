@@ -79,7 +79,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   hasMinLengthError: boolean =  false
   hasPatternError: boolean = false
 
-  lastEmitedValue: boolean = undefined
+  lastEmitedValue: boolean | undefined = undefined
   disabled: boolean = false
 
   setHasRequiredError(val: boolean, origin: any) {

@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ItemsFormComponent} from './items-form.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule, HttpHandler} from "@angular/common/http";
 import {MessageModule} from "primeng/message";
 import {MessageService} from "primeng/api";
 import {ToastModule} from "primeng/toast";
@@ -15,9 +15,8 @@ describe('ItemsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ItemsFormComponent ],
       imports: [HttpClientModule, MessageModule, ToastModule, FormsModule, ValidatableInputTextModule, ButtonModule],
-      providers: [MessageService]
+      providers: [MessageService, HttpClient, HttpHandler]
     })
     .compileComponents();
   });

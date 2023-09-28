@@ -7,9 +7,7 @@ import {MessagesModule} from "primeng/messages";
 import {MessageService} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
-import {CommonServicesPipesNumber} from "../../common-services/common-services.pipes.number";
 import {Tooltip, TooltipModule} from "primeng/tooltip";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {NgModel} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
@@ -21,11 +19,10 @@ describe('InvoiceItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InvoiceItemsTableComponent, Toast, CommonServicesPipesNumber, Tooltip, NgModel ],
+      declarations: [  Toast, Tooltip, NgModel ],
       imports: [HttpClientModule, ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule,
         InputTextModule, InputNumberModule, DropdownModule],
-      providers: [MessageService],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      providers: [MessageService]
     })
     .compileComponents();
   });

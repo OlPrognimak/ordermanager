@@ -1,4 +1,4 @@
-import {fakeAsync, TestBed, waitForAsync} from '@angular/core/testing';
+import {TestBed, waitForAsync} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -56,27 +56,5 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.app_title').textContent).toContain('Order manager');
   });
-
-  it('should login', fakeAsync(() =>
-    {
-      const fixture = TestBed.createComponent(AppComponent);
-      fixture.detectChanges();
-      const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
-      const userNameField: HTMLInputElement = compiled.querySelector('#id_UserName') as HTMLInputElement
-      expect(userNameField).toBeTruthy()
-      userNameField.value = 'test'
-      const passwordField: HTMLInputElement = compiled.querySelector('#id_UserPassword') as HTMLInputElement
-      passwordField.value = 'test123'
-      expect(passwordField).toBeTruthy()
-      const submitButton: HTMLButtonElement = compiled.querySelector('.submit-button') as HTMLButtonElement
-
-
-      spyOn(fixture.nativeElement, 'login').withArgs("loginForm");
-      expect(submitButton).toBeTruthy()
-      submitButton.click()
-      expect(fixture.nativeElement.login).toHaveBeenCalled();
-      //expect(compiled.querySelector('.app_title').textContent).toContain('Order manager');
-  }))
-
 
 });

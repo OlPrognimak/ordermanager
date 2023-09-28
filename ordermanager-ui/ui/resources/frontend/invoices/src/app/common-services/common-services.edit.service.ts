@@ -75,6 +75,7 @@ export class CommonServicesEditService<T> {
       Accept : '*/*'
     } );
     let requestCriteria: string = ''
+    const errorBaseMsg = this.loadingDataError
     if (criteria !== null && criteria !== undefined) {
       requestCriteria = criteria
     }
@@ -84,17 +85,23 @@ export class CommonServicesEditService<T> {
       headers: rsHeaders,
       params: httpParams,
     }
-    this.httpClient.get<T[]>(remoteBackendUrl()+this.endPointUrl,options).subscribe(
-      {
-        next(response) {
-          return callback(response)
-        },
-        error (err) {
-          messagePrinterPar.printUnsuccessefulMessage(
-            this.loadingDataError+': '+criteria, err)
+
+    const backendUrl = remoteBackendUrl()
+    if( backendUrl !== null) {
+      this.httpClient.get<T[]>(backendUrl + this.endPointUrl, options).subscribe(
+        {
+          next(response) {
+            return callback(response)
+          },
+          error(err) {
+            messagePrinterPar.printUnsuccessefulMessage(
+              errorBaseMsg + ': ' + criteria, err)
+          }
         }
-      }
-    )
+      )
+    } else {
+      throw new Error('Backend URL can not be null')
+    }
   }
 }
 

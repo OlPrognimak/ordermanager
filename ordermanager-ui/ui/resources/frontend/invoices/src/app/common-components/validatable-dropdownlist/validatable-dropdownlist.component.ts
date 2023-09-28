@@ -73,7 +73,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Output() valueChanged = new EventEmitter<any>
   hasRequiredError: boolean =  false
   hasMinLengthError: boolean =  false
-  lastEmitedValue: boolean = undefined
+  lastEmitedValue: boolean | undefined= undefined
   onChange: (val) => void;
   onTouched: () => void;
 

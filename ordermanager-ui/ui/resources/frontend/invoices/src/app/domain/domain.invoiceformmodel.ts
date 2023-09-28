@@ -86,7 +86,7 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   invoiceItems: InvoiceItemModel[] = [];
   invoiceNumber: string;
   supplierFullName: string;
-  recipientFullName: string ;
+  recipientFullName: string;
   invoiceDescription = 'N/A';
   personRecipientId: number;
   personSupplierId: number;

@@ -196,8 +196,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       this.personInvoiceSupplier.filter((p, idx) =>
         Number(p.value) ===Number(this.originalInvoice.personRecipientId))?.at(0)
     //
-    this.originalInvoice.supplierFullName = supplier?.label
-    this.originalInvoice.recipientFullName = recipient?.label
+    this.originalInvoice.supplierFullName = supplier?.label!
+    this.originalInvoice.recipientFullName = recipient?.label!
     if( compareObjects(keepOriginalInvoice,this.originalInvoice) &&
       this.validateInvoiceItems(keepOriginalInvoice.invoiceItems,this.originalInvoice.invoiceItems)) {
       this.messagePrinter.printUnsuccessefulMessage(

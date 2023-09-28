@@ -5,6 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {ToastModule} from "primeng/toast";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
+import {InputNumberModule} from "primeng/inputnumber";
 
 describe('ValidableInputTextComponent', () => {
   let component: ValidatableInputNumberComponent;
@@ -13,7 +14,7 @@ describe('ValidableInputTextComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ValidatableInputNumberComponent ],
-      imports:[FormsModule, ToastModule, MessagesModule, MessageModule]
+      imports:[FormsModule, ToastModule, MessagesModule, MessageModule, InputNumberModule]
     })
     .compileComponents();
   });

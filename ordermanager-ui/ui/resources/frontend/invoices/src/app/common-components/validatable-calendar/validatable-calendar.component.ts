@@ -76,7 +76,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   @Output() controlModel: EventEmitter<NgModel> = new EventEmitter<NgModel>()
   hasRequiredError: boolean =  false
   hasMinLengthError: boolean =  false
-  lastEmitedValue: boolean = undefined
+  lastEmitedValue: boolean | undefined = undefined
   @Output() componentHasError = new EventEmitter<boolean>
   onChange: (val) => void;
   onTouched: () => void;

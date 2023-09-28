@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SharedModule} from "primeng/api";
+import {MessageService, SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {ToastModule} from "primeng/toast";
 import {ItemCatalogModel} from "../../domain/domain.invoiceformmodel";
@@ -22,7 +22,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   selector: 'app-item-management',
   standalone: true,
   imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule],
-  providers: [HttpClient, MessagesPrinter],
+  providers: [HttpClient, MessagesPrinter, MessageService],
   templateUrl: './item-management.component.html',
   styleUrls: ['./item-management.component.css']
 })
@@ -43,9 +43,9 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
   confirmDeleteDialogMessage: string = 'Are you sure you want to delete the catalog item?';
   dataLoading: boolean = false
 
-  constructor(public httpClient: HttpClient, private messagePrinter: MessagesPrinter,
+  constructor(private messagePrinter: MessagesPrinter,
               private  httpService: CommonServicesAppHttpService<ItemCatalogModel[]>) {
-    super(httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
+    super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
   }
   ngOnInit(): void {
 
@@ -96,7 +96,7 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
     const changedItems =
       this.changesList.filter(i => i.id === item.id)?.at(0)
     //step 3: here I put original item to the list of changes to keep original value. The original object can be returned back
-    if(changedItems === undefined) {
+    if(changedItems === undefined && modelItem !== undefined) {
       this.changesList.push(modelItem)
     }
     //step 4: Put changed object to model list

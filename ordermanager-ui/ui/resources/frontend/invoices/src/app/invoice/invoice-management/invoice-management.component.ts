@@ -85,15 +85,6 @@ export class InvoiceManagementComponent extends  CommonServicesEditService<Invoi
     //TODO maybe will be need
   }
 
-  isEditObjectChanged(invoice: InvoiceFormModel) {
-    let obj = this.changesList?.filter(v =>invoice.id === v.id)
-    if( obj!==undefined && obj.length >0){
-      return 'blue'
-    } else {
-      return '#495057'
-    }
-  }
-
   deleteInvoice(id) {
       this.confirmDeleteInvoiceDialog.transferObject = id
       this.showDeleteConfirmDialog = true
@@ -122,7 +113,7 @@ export class InvoiceManagementComponent extends  CommonServicesEditService<Invoi
     const changedInvoice =
       this.changesList.filter(i => i.id === invoice.id)?.at(0)
     //here I put original person to list of changes to keep original value
-    if(changedInvoice === undefined) {
+    if(changedInvoice === undefined && modelInvoice !== undefined) {
       this.changesList.push(modelInvoice)
     }
 
@@ -134,7 +125,7 @@ export class InvoiceManagementComponent extends  CommonServicesEditService<Invoi
     })
   }
 
-  saveChangedInvoices($event: MouseEvent) {
+  saveChangedInvoices() {
     const changes = this.modelList.filter(i =>
       i.id ===this.changesList?.filter(c =>c?.id == i?.id)?.at(0)?.id)
     const changesList: InvoiceFormModel[] = []
@@ -173,7 +164,7 @@ export class InvoiceManagementComponent extends  CommonServicesEditService<Invoi
   }
 
   handleConfirmationSaveInvoice(transferObject: any) {
-    this.saveChangedInvoices(null)
+    this.saveChangedInvoices()
     this.showSaveConfirmDialog = false
   }
 

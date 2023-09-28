@@ -30,7 +30,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
    */
   ngOnInit(): void {
     //this.backendUrl = environment.baseUrl
-    this.parentTableComponent = this.params.context.componentParent;
+    //this.parentTableComponent = this.params.context.componentParent;
   }
 
 
@@ -40,6 +40,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   agInit(params: ICellRendererParams): void {
     this.params = params;
     this.cellVale = params.value;
+    this.parentTableComponent = this.params.context.componentParent;
   }
 
   /**

@@ -17,6 +17,7 @@ import {
 import {
   ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-items-form',
@@ -24,7 +25,7 @@ import {
   styleUrls: ['./items-form.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextModule],
-  providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>]
+  providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>, HttpClient]
 })
 export class ItemsFormComponent implements OnInit {
 

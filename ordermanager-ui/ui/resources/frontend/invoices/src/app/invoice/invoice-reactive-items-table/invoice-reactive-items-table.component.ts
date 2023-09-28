@@ -41,6 +41,7 @@ import {ButtonModule} from "primeng/button";
 import {TooltipModule} from "primeng/tooltip";
 import {ToastModule} from "primeng/toast";
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   styles: [],
@@ -58,7 +59,7 @@ import {ConfirmationDialogComponent} from "../../common-components/confirmation-
     ToastModule,
     ConfirmationDialogComponent
   ],
-  providers: [InvoiceItemsTableCalculatorService]
+  providers: [InvoiceItemsTableCalculatorService, HttpClient]
 })
 export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   @ViewChild('confirmDeleteItemDialog') confirmDeleteItemDialog: ConfirmationDialogComponent

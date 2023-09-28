@@ -35,7 +35,7 @@ export class CommonServicesAppHttpService<T> {
    * @param endPointPath rest API end point path
    * @param callback the callback object
    */
-  putObjectToServer = (httpMethod: string, objectToSave: T, objectName: string, endPointPath: string, callback) => {
+  putObjectToServer = (httpMethod: string, objectToSave: T | null, objectName: string, endPointPath: string, callback) => {
 
      const msgObservable = of(this.messagePrinter);
     this.handleHttpRequest(objectToSave, endPointPath, httpMethod).subscribe({
@@ -62,7 +62,7 @@ export class CommonServicesAppHttpService<T> {
   /**
    * Creates PUT Observer  for saving invoice on server
    */
-  private handleHttpRequest(objectToSave: T, endPointPath: string, method: string): Observable<CreatedResponse> {
+  private handleHttpRequest(objectToSave: T | null, endPointPath: string, method: string): Observable<CreatedResponse> {
     const reqheaders = new HttpHeaders({
       Authorization: localStorage.getItem(this.basicAuthKey) as string,
       'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export class MessagesPrinter {
    * @param messagePart object name
    * @param error error which occures
    */
-  public printUnsuccessefulMessage(messagePart: any, error): void{
+  public printUnsuccessefulMessage(messagePart: string, error): void{
 
     let errorText: string
 

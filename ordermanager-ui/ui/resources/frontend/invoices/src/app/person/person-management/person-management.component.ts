@@ -16,6 +16,7 @@ import {RippleModule} from "primeng/ripple";
 import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {isAuthenticated} from "../../common-services/common-services-util.service";
 import {CommonServicesEditService} from "../../common-services/common-services.edit.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-person-management',
@@ -23,7 +24,7 @@ import {CommonServicesEditService} from "../../common-services/common-services.e
   imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule, ConfirmationDialogComponent],
   templateUrl: './person-management.component.html',
   styleUrls: ['./person-management.component.css'],
-  providers: [AppSecurityService]
+  providers: [AppSecurityService, HttpClient]
 })
 export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel>  implements OnInit {
   /**Reference on dialog component for editing Person*/
@@ -83,7 +84,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
     const changedPerson =
       this.changesList.filter(p => p.id === person.id)?.at(0)
     //here I put original person to list of changes to keep original value
-    if(changedPerson === undefined) {
+    if(changedPerson === undefined && modelPerson !== undefined) {
       this.changesList.push(modelPerson)
     }
 
@@ -105,7 +106,6 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       return '#495057'
     }
   }
-
 
   haveNoChanges() {
     return this.changesList == undefined || this.changesList.length < 1;

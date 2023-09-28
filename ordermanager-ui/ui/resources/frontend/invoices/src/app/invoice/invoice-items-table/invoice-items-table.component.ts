@@ -33,13 +33,14 @@ import {DropdownDataType, InvoiceItemModel} from '../../domain/domain.invoicefor
 import {Observable, of, Subscription} from 'rxjs';
 import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
 import {InvoiceItemsTableService} from './invoice-items-table.service';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   styles: [],
   styleUrls: ['./invoice-items-table.component.css'],
   selector: 'app-invoice-items-table',
   templateUrl: './invoice-items-table.component.html',
-  providers:  [InvoiceItemsTableCalculatorService]
+  providers:  [InvoiceItemsTableCalculatorService, HttpClient],
 })
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Input() invoiceItems: InvoiceItemModel[];

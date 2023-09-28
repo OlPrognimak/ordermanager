@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ValidatableCalendarModule} from "../validatable-calendar/validatable-calendar.component";
-import {FormsModule, NgForm, NgModel} from "@angular/forms";
+import {FormsModule, NgModel} from "@angular/forms";
 import {RequestDatePriod} from "../../domain/domain.invoiceformmodel";
 import {RequestPeriodDateService} from "./datenperiod-finder.service";
 import {ButtonModule} from "primeng/button";
@@ -32,8 +32,8 @@ export class DateperiodFinderComponent implements OnInit, AfterViewInit{
   @Input() url: string = ''
   @Output() responseOutput = new EventEmitter<any>()
   @Output() onFinderIsReady = new EventEmitter<boolean>
-  startDateControlModel: NgModel
-  endDateControlModel: NgModel
+  startDateControlModel: NgModel | undefined
+  endDateControlModel: NgModel | undefined
 
   loadData() {
     this.service.findData(this.url, this.requestDatePeriod.toJSON(), callback =>{
@@ -70,8 +70,8 @@ export class DateperiodFinderComponent implements OnInit, AfterViewInit{
           this.endDateControlModel?.control.updateValueAndValidity()
         }
     }
-    return (this.startDateControlModel !== undefined && this.startDateControlModel.invalid) ||
-        (this.endDateControlModel !== undefined && this.endDateControlModel.invalid);
+    return (this.startDateControlModel !== undefined && this.startDateControlModel.invalid!) ||
+        (this.endDateControlModel !== undefined && this.endDateControlModel.invalid!);
 
   }
 
