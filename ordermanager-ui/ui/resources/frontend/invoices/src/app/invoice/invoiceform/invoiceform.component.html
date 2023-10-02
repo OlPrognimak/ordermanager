@@ -101,10 +101,11 @@
   </app-invoice-items-table>
 
   <div class="p-grid">
-    <div class="p-col-1">
-      <p-button [disabled] = "haveErrors()" icon="pi pi-check" styleClass="p-button-text" [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
+    <div class="p-col-12 save-button-col-size" >
+      <div class="save-button-container-size">
+         <p-button [disabled] = "haveErrors()" [pTooltip]="'Save invoice to the data base'" label="Save" (onClick)="saveInvoice($event)"></p-button>
+      </div>
     </div>
-
   </div>
 </div>
 </form>

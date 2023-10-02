@@ -72,6 +72,7 @@ align-right-button {
 
 .top-container-table-area {
   height: 100%;
+  overflow: auto;
 }
 
 .table-area {

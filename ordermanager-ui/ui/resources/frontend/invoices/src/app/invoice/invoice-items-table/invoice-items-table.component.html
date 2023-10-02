@@ -123,7 +123,7 @@
   <div class="p-col-9"></div>
   <div class="p-col-2">
 
-    <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
+    <label style="margin: 5px" for="id-tottalNettoSun">Total netto</label>
     <input placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" class="p-field" type="text"
            [ngModel]="getTotalNettoSum()  | standardFloat"
            (ngModelChange)="setTotalNettoSum($event)" required/>
@@ -132,7 +132,7 @@
 <div class="p-grid">
   <div class="p-col-10"></div>
   <div class="p-col-2">
-    <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
+    <label style="margin: 5px" for="id-tottalBruttoSun">Total brutto</label>
     <input placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
            [ngModel]="getToltalBruttoSum() | standardFloat"
            (ngModelChange)="setTottalBruttoSum($event)" required/>

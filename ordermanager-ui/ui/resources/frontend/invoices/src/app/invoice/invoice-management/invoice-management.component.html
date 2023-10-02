@@ -72,15 +72,11 @@
           </p-table>
       </div>
     </div>
-    <div class = "p-col-12" style = "height: 5%">
-      <div class="p-grid">
-        <div class="p-col-11 "></div>
-        <div style="margin-top: 10px;" class="p-col-1 ">
-          <p-button styleClass="saveButton-align" [disabled]="haveNoChanges()" label="Save"
+    <div class = "p-col-12 save-button-col-size">
+        <div class="save-button-container-size">
+          <p-button [disabled]="haveNoChanges()" label="Save"
                     (onClick)="showSaveConfirmDialog = true"></p-button>
         </div>
-    </div>
-    </div>
   </div>
 </div>
 

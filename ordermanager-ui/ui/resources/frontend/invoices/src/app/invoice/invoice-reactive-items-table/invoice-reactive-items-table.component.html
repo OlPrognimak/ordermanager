@@ -104,32 +104,32 @@
   </div>
 
   <div class="p-col-2">
-    <p-button [pTooltip]="'Add new empty item'" class="p-button-secondary" label="AddItem" (onClick)="addNewItem()"></p-button>
+    <p-button [pTooltip]="'Add new empty item'" class="p-button-secondary" label="Add item" (onClick)="addNewItem()"></p-button>
   </div>
 
 </div>
 
 <div style="margin-top: 10pt" class ="p-shadow-4 shadow-panel-color">
   <div class="p-grid">
-  <div class="p-col-1">
-<!--    <p-button [pTooltip]="'Add new empty item'" label="AddItem" (onClick)="addNewItem()"></p-button>-->
-  </div>
   <div class="p-col-9"></div>
-  <div class="p-col-2">
-
-    <label style="margin: 5px" for="id-tottalNettoSun">Tottal netto</label>
-    <input class = "right-aligned-input p-field" placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" type="text"
-           [ngModel]="getTotalNettoSum()  | standardFloat"
-           (ngModelChange)="setTotalNettoSum($event)" required/>
+  <div class="p-col-3">
+    <div style="display: block; padding-left: 10%">
+      <label style="max-width: 50%; text-align: right">Total netto (Euro): </label>
+      <input class = "right-aligned-totals input-label-like p-field" placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" type="text"
+             [ngModel]="getTotalNettoSum()  | standardFloat"
+             (ngModelChange)="setTotalNettoSum($event)" required/>
+    </div>
   </div>
 </div>
   <div class="p-grid">
-  <div class="p-col-10"></div>
-  <div class="p-col-2">
-    <label style="margin: 5px" for="id-tottalBruttoSun">Tottal brutto</label>
-    <input class = "right-aligned-input p-field"placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum"  type="text"
-           [ngModel]="getToltalBruttoSum() | standardFloat"
-           (ngModelChange)="setTottalBruttoSum($event)" required/>
+  <div class="p-col-9"></div>
+  <div class="p-col-3">
+      <div style="display: block">
+          <label style="max-width: 50%; padding-left: 10%" >Total brutto (Euro): </label>
+          <input class = "right-aligned-totals input-label-like p-field" placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" type="text"
+                 [ngModel]="getToltalBruttoSum() | standardFloat"
+                 (ngModelChange)="setTottalBruttoSum($event)" required/>
+      </div>
   </div>
 </div>
 </div>

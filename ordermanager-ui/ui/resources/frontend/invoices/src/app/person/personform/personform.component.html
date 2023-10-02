@@ -210,8 +210,10 @@
     </div>
   </div>
   <div style="margin-top:5px;" class="p-grid">
-    <div class="p-col-1">
-      <p-button class="responsibleButton" [disabled]="haveErrors()" label="Save" (onClick)="savePerson($event)"></p-button>
+    <div class="p-col-12 save-button-col-size">
+      <div>
+        <p-button class="save-button-col-size save-button-container-size" [disabled]="haveErrors()" label="Save" (onClick)="savePerson($event)"></p-button>
+      </div>
 <!--      <p-button [disabled]="personForm.invalid" label="Save" (onClick)="savePerson($event)"></p-button>-->
     </div>
   </div>

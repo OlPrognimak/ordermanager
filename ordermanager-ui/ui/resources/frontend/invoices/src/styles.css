@@ -136,6 +136,16 @@ div.p-dialog-header {
   background-color: rgba(0,0,0,0);
 }
 
+.save-button-container-size {
+  max-width: 50%;
+  min-width:10%;
+  float: right;
+}
+
+.save-button-col-size {
+  padding-right: 3pt;
+}
+
 
 
 
