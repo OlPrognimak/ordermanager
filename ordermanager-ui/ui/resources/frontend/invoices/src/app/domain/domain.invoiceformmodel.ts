@@ -119,7 +119,7 @@ export class RequestDatePriod implements RequestPeriodDateInterface {
 
 export class InvoiceItemModel implements InvoiceItemModelInterface{
   id: number;
-  idxItem: number;
+  idxItem: number=0;
   catalogItemId: number;
   description = '';
   itemPrice = 0;

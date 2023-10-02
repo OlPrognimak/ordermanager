@@ -96,7 +96,7 @@
                    (changeItemEvent)="this.invoiceFormData.invoiceItems=$event"
                    (totalNettoSumEvent) = "invoiceFormData.totalSumNetto=$event"
                    (totalBruttoSumEvent)="this.invoiceFormData.totalSumBrutto=$event"
-                   [invoiceItems]="invoiceFormData.invoiceItems">
+                   [invoiceItems]="invoiceFormData.invoiceItems" #itemsTableRef>
 
   </app-invoice-items-table>
 

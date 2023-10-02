@@ -95,7 +95,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   @Output() personInvoiceSupplierEvent = new EventEmitter<DropdownDataType[]>();
   /** Event for updating input variable 'personInvoiceRecipient'*/
   @Output() personInvoiceRecipientEvent = new EventEmitter<DropdownDataType[]>();
-  @ViewChild(InvoiceItemsTableComponent) itemsTableComponent: InvoiceItemsTableComponent;
+  @ViewChild("itemsTableRef") itemsTableComponent: InvoiceItemsTableComponent;
   private hasInvoiceNumberError: boolean = true;
   private hasInvoiceCreatesError: boolean = true;
   private hasCreatorError: boolean = true;
@@ -215,12 +215,14 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   }
 
   haveErrors(): boolean{
-    return (this.hasInvoiceNumberError||
+   return (this.hasInvoiceNumberError||
             this.hasCreatorError||
             this.hasRecipientError||
             this.hasInvoiceCreatesError||
             this.hasCreationDateError||
-            this.hasInvoiceDateError)
+            this.hasInvoiceDateError) ||
+           this.itemsTableComponent?.invoiceItems.length === 0 ||
+           this.itemsTableComponent?.invoiceItems.filter(i=>(i.amountItems<=0 || i.amountItems === undefined)).length > 0
   }
 
   setHasCreationDateError(event: boolean) {
