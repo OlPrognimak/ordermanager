@@ -160,8 +160,6 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
    * @param event the item for saving
    */
   saveInvoice(event: any): void {
-   console.log("SEND NEW INVOICE :"+JSON.stringify(this.invoiceFormData));
-
     this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback){
