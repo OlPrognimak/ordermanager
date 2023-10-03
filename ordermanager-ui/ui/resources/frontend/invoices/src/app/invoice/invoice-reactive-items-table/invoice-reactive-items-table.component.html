@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<div class="p-card">
+<div class="p-fluid p-grid">
   <div class="p-col-12">
     <p-table [value]="invoiceReactiveItems" [rows]="40" [autoLayout]="true" [resizableColumns]="true" sortMode="multiple" styleClass="p-datatable-gridlines" editMode="row">
       <ng-template pTemplate="header">
@@ -103,8 +103,8 @@
     </p-table>
   </div>
 
-  <div class="p-col-2">
-    <p-button [pTooltip]="'Add new empty item'" class="p-button-secondary" label="Add item" (onClick)="addNewItem()"></p-button>
+  <div style="display: block" class="p-col-12">
+    <p-button style = "float: left; width: 10%;" [pTooltip]="'Add new empty item'" class="p-button-secondary" label="Add item" (onClick)="addNewItem()"></p-button>
   </div>
 
 </div>

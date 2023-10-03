@@ -16,12 +16,12 @@
                [resizableColumns]="true" styleClass="p-datatable-gridlines" editMode="row">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 20%">Person last name</th>
-            <th style="width: 20%">Person first name</th>
-            <th style="width: 25%">Company name</th>
-            <th style="width: 10%">Person type</th>
-            <th style="width: 10%">Tax number</th>
-            <th style="width: 15%">E-mail</th>
+            <th pSortableColumn = "personLastName" style="width: 20%">Person last name<p-sortIcon field="personLastName"></p-sortIcon></th>
+            <th pSortableColumn = "personFirstName" style="width: 20%">Person first name<p-sortIcon field="personLastName"></p-sortIcon></th>
+            <th pSortableColumn = "companyName" style="width: 25%">Company name<p-sortIcon field="companyName"></p-sortIcon></th>
+            <th pSortableColumn = "personType" style="width: 10%">Person type<p-sortIcon field="personType"></p-sortIcon></th>
+            <th pSortableColumn = "taxNumber" style="width: 10%">Tax number<p-sortIcon field="taxNumber"></p-sortIcon></th>
+            <th pSortableColumn = "email" style="width: 15%">E-mail<p-sortIcon field="email"></p-sortIcon></th>
             <th style="width: 5%">Manage</th>
           </tr>
         </ng-template>
