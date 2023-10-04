@@ -129,6 +129,9 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.loadFormData()
   }
 
+  /**
+   * Loads initial person data from the server.
+   */
   loadFormData() {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
       if(callback !=null) {
@@ -138,6 +141,10 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     })
   }
 
+  /**
+   * Resets data model.
+   * @private
+   */
   private resetModel(): void{
     this.invoiceReactiveDlgFormData = new InvoiceFormModel();
     this.invoiceReactiveDlgFormData.invoiceItems.push(new InvoiceItemModel());
@@ -148,6 +155,11 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Sets object to be edited in dialog.
+   *
+   * @param invoice
+   */
   setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({},invoice)
@@ -167,6 +179,9 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * @return true if model has errors.
+   */
   haveErrors(): boolean {
     //this.itemsTableComponent.
     const model: InvoiceFormModel = this.editInvoiceFG.value
@@ -176,6 +191,11 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * Clones {@code }
+   * @param source
+   * @private
+   */
   private cloneInvoiceItems(source:InvoiceItemModel[]) : InvoiceItemModel[]{
     const result: InvoiceItemModel[] = []
 
