@@ -46,3 +46,8 @@ input[type="text"]  {
   cursor: pointer;
   color: inherit;
 }
+
+.save-button-style {
+  float: left;
+  width: 10%;
+}

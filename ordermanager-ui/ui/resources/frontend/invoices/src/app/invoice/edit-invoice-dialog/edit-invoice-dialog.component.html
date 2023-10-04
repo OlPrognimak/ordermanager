@@ -96,8 +96,8 @@
 
       <app-reactive-invoice-items-table
         (changeItemEvent)="invoiceItemsChanged($event)"
-        (totalNettoSumEvent)="tottalNettoSumChanged($event)"
-        (totalBruttoSumEvent)="tottalBruttoSumChanged($event)"
+        (totalNettoSumEvent)="totalNettoSumChanged($event)"
+        (totalBruttoSumEvent)="totalBruttoSumChanged($event)"
         [invoiceReactiveItems]="invoiceReactiveDlgFormData.invoiceItems" #reactiveItemsTableComponent>
 
       </app-reactive-invoice-items-table>
@@ -106,7 +106,7 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button [disabled]="editInvoiceFG?.invalid" (click)="putChangesBack()" label="Save" icon="pi pi-check"
+    <p-button [disabled]="haveErrors()" (click)="putChangesBack()" label="Save" icon="pi pi-check"
               styleClass="p-button-text"></p-button>
     <p-button icon="pi pi-check pink-300" (click)="setVisible(false)" label="Cancel"
               styleClass="p-button-text p-button-secondary"></p-button>

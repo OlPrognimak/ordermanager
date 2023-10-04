@@ -89,7 +89,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 
   invoiceReactiveDlgFormData: InvoiceFormModel;
   originalInvoice: InvoiceFormModel
-   invoiceItems: InvoiceItemModel[]
+  invoiceItems: InvoiceItemModel[]
   eventsModelIsReset: Subject<void> = new Subject<void>();
   private isViewInitialized = false;
   protected readonly invoiceRate = invoiceRate;
@@ -167,6 +167,13 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
 
+  haveErrors(): boolean {
+    //this.itemsTableComponent.
+    const model: InvoiceFormModel = this.editInvoiceFG.value
+    return  this.editInvoiceFG.invalid ||
+    model?.invoiceItems.length === 0 ||
+    model?.invoiceItems.filter(i=>(i.amountItems<=0 || i.amountItems === undefined)).length > 0
+  }
 
 
   private cloneInvoiceItems(source:InvoiceItemModel[]) : InvoiceItemModel[]{
@@ -183,29 +190,31 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
    * Puts changes in dialog back to the invoice management component
    */
   putChangesBack() {
-    const keepOriginalInvoice = this.originalInvoice
-    this.originalInvoice  = this.editInvoiceFG.value
-    this.originalInvoice.totalSumNetto = this.invoiceReactiveDlgFormData.totalSumNetto
-    this.originalInvoice.totalSumBrutto = this.invoiceReactiveDlgFormData.totalSumBrutto
-    this.originalInvoice.invoiceItems = this.invoiceReactiveDlgFormData.invoiceItems
+    if(this.haveErrors() === false) {
+      const keepOriginalInvoice = this.originalInvoice
+      this.originalInvoice = this.editInvoiceFG.value
+      this.originalInvoice.totalSumNetto = this.invoiceReactiveDlgFormData.totalSumNetto
+      this.originalInvoice.totalSumBrutto = this.invoiceReactiveDlgFormData.totalSumBrutto
+      this.originalInvoice.invoiceItems = this.invoiceReactiveDlgFormData.invoiceItems
 
-    const supplier =
-      this.personInvoiceSupplier.filter((p, idx) =>
-        Number(p.value) ===Number(this.originalInvoice.personSupplierId))?.at(0)
-    const recipient =
-      this.personInvoiceSupplier.filter((p, idx) =>
-        Number(p.value) ===Number(this.originalInvoice.personRecipientId))?.at(0)
-    //
-    this.originalInvoice.supplierFullName = supplier?.label!
-    this.originalInvoice.recipientFullName = recipient?.label!
-    if( compareObjects(keepOriginalInvoice,this.originalInvoice) &&
-      this.validateInvoiceItems(keepOriginalInvoice.invoiceItems,this.originalInvoice.invoiceItems)) {
-      this.messagePrinter.printUnsuccessefulMessage(
-        "No changes in the invoice found", null)
+      const supplier =
+        this.personInvoiceSupplier.filter((p, idx) =>
+          Number(p.value) === Number(this.originalInvoice.personSupplierId))?.at(0)
+      const recipient =
+        this.personInvoiceSupplier.filter((p, idx) =>
+          Number(p.value) === Number(this.originalInvoice.personRecipientId))?.at(0)
+      //
+      this.originalInvoice.supplierFullName = supplier?.label!
+      this.originalInvoice.recipientFullName = recipient?.label!
+      if (compareObjects(keepOriginalInvoice, this.originalInvoice) &&
+        this.validateInvoiceItems(keepOriginalInvoice.invoiceItems, this.originalInvoice.invoiceItems)) {
+        this.messagePrinter.printUnsuccessefulMessage(
+          "No changes in the invoice found", null)
 
-    } else {
-      this.editObjectChangedChanged.emit(this.originalInvoice)
-      this.visible = false
+      } else {
+        this.editObjectChangedChanged.emit(this.originalInvoice)
+        this.visible = false
+      }
     }
   }
 
@@ -240,15 +249,14 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   invoiceItemsChanged(event: InvoiceItemModel[]) {
-    this.invoiceItems = event
+    this.getControl('invoiceItems').setValue(event)
   }
 
-  tottalNettoSumChanged(event: number) {
-
+  totalNettoSumChanged(event: number) {
     this.invoiceReactiveDlgFormData.totalSumNetto=event
   }
 
-  tottalBruttoSumChanged(event: number) {
+  totalBruttoSumChanged(event: number) {
     this.invoiceReactiveDlgFormData.totalSumBrutto=event
   }
 
