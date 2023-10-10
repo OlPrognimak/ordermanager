@@ -51,6 +51,13 @@ export class AppComponent implements OnInit{
           ]
         },
         {
+          label: 'Workflows',
+          icon: 'pi pi-fw pi-book',
+          items: [
+            {label: 'Create invoice', icon: 'pi pi-fw pi-plus', routerLink: '/workflow-create-invoice'},
+          ]
+        },
+        {
           label: 'Logout',
           icon: 'pi pi-fw pi-sign-out',
           command: () => this.appSecurityService.logout()

@@ -100,7 +100,7 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
       creationDate: _moment(this.creationDate).format( 'yyyy-MM-DDTHH:mm:ss.SSSZZ'),
       invoiceDate: _moment(this.invoiceDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ' )
     });
-    console.log("INVOICE FORM TRANSFORMED MODEL :"+JSON.stringify(withDateTransform))
+    //console.log("INVOICE FORM TRANSFORMED MODEL :"+JSON.stringify(withDateTransform))
     return withDateTransform;
   }
 }

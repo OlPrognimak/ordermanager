@@ -42,9 +42,12 @@ import {InvoiceFormModule} from "./invoice/invoiceform/invoiceform.component";
 import {DateperiodFinderComponent} from "./common-components/dateperiod-finder/dateperiod-finder.component";
 import {InvoicePipesModule} from "./common-services/common-services.pipes.number";
 import {TemplatesComponentComponent} from "./common-components/templates-component/templates-component.component";
+import {StoreModule} from "@ngrx/store";
+import {WorkflowModule} from "./workflows/invoice-workflow/workflow.module";
 
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     PrintinvoiceComponent,
@@ -86,11 +89,12 @@ import {TemplatesComponentComponent} from "./common-components/templates-compone
     DateperiodFinderComponent,
     InvoicePipesModule,
     ReactiveFormsModule,
-    TemplatesComponentComponent
+    TemplatesComponentComponent,
+    StoreModule.forRoot({}),
+    WorkflowModule
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],
-  bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

@@ -1,7 +1,9 @@
 <p-toast></p-toast>
-<div class="p-card">
+<div class="p-fluid p-grid">
   <div class="p-col-12">
-    <p-table class="p-global-table" [value]="invoiceItems"
+    <div style="background-color: white" class ="p-grid">
+      <div class="p-col-12">
+        <p-table class="p-global-table" [value]="invoiceItems"
              [rows]="20"
 
               [paginator] = "true"
@@ -108,34 +110,36 @@
         </tr>
       </ng-template>
     </p-table>
+      </div>
+      <div style="background-color: white" class="p-col-12">
+      <div style="display: block; background-color: white" class="add-button-container-size">
+        <p-button [pTooltip]="'Add new empty item'"  styleClass="p-button-secondary" label="Add item" (onClick)="addNewItem()"></p-button>
+      </div>
+    </div>
+    </div>
   </div>
+  <div style="padding-top: 0pt !important; padding-bottom: 0pt !important;" class ="p-col-12">
+     <div class="p-grid">
+    <div class="p-col-10"></div>
+    <div style="padding-top: 0pt !important; padding-bottom: 0pt !important;" class="p-col-2">
 
-  <div class="p-col-1">
-    <p-button [pTooltip]="'Add new empty item'" icon="pi pi-check" styleClass="p-button-text p-button-secondary" label="AddItem" (onClick)="addNewItem()"></p-button>
+      <label style="margin: 5px" for="id-tottalNettoSun">Total netto</label>
+      <input placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" class="p-field" type="text"
+             [ngModel]="getTotalNettoSum()  | standardFloat"
+             (ngModelChange)="setTotalNettoSum($event)" required/>
+    </div>
   </div>
-
-</div>
-
-<div class="p-grid">
-  <div class="p-col-1">
-<!--    <p-button [pTooltip]="'Add new empty item'" label="AddItem" (onClick)="addNewItem()"></p-button>-->
   </div>
-  <div class="p-col-9"></div>
-  <div class="p-col-2">
-
-    <label style="margin: 5px" for="id-tottalNettoSun">Total netto</label>
-    <input placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" class="p-field" type="text"
-           [ngModel]="getTotalNettoSum()  | standardFloat"
-           (ngModelChange)="setTotalNettoSum($event)" required/>
+  <div style="padding-top: 0pt !important; padding-bottom: 0pt !important;" class ="p-col-12">
+    <div class="p-grid">
+    <div style="padding-top: 0pt !important; padding-bottom: 0pt !important;" class="p-col-10"></div>
+    <div style="padding-top: 0pt !important; padding-bottom: 0pt !important;" class="p-col-2">
+      <label style="margin: 5px" for="id-tottalBruttoSun">Total brutto</label>
+      <input placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
+             [ngModel]="getToltalBruttoSum() | standardFloat"
+             (ngModelChange)="setTottalBruttoSum($event)" required/>
+    </div>
   </div>
-</div>
-<div class="p-grid">
-  <div class="p-col-10"></div>
-  <div class="p-col-2">
-    <label style="margin: 5px" for="id-tottalBruttoSun">Total brutto</label>
-    <input placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" class="p-cell-editing" type="text"
-           [ngModel]="getToltalBruttoSum() | standardFloat"
-           (ngModelChange)="setTottalBruttoSum($event)" required/>
   </div>
 </div>
 

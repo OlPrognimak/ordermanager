@@ -8,6 +8,7 @@ import {ItemsFormComponent} from './invoice/items-form/items-form.component';
 import {PersonManagementComponent} from "./person/person-management/person-management.component";
 import {InvoiceManagementComponent} from "./invoice/invoice-management/invoice-management.component";
 import {ItemManagementComponent} from "./invoice/item-management/item-management.component";
+import {InvoiceWorkflowComponent} from "./workflows/invoice-workflow/invoice-workflow.component";
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'invoice-management_page', component: InvoiceManagementComponent},
   {path: 'user-registration-page', component: UserRegistrationComponent },
   {path: 'person-management-page', component: PersonManagementComponent },
+  {path: 'workflow-create-invoice', component: InvoiceWorkflowComponent },
 
 ];
 
