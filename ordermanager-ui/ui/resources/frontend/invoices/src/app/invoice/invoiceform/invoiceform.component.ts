@@ -66,6 +66,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {DropdownModule} from "primeng/dropdown";
 import {RippleModule} from "primeng/ripple";
 import {MessagesModule} from "primeng/messages";
+import {InvoiceFormValidator} from "./invoice.form.validator";
 
 
 registerLocaleData(localede, 'de');
@@ -79,7 +80,7 @@ registerLocaleData(localede, 'de');
   providers:  [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
-export class InvoiceFormComponent implements OnInit, AfterViewInit{
+export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit, AfterViewInit{
 
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
@@ -96,12 +97,6 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
   /** Event for updating input variable 'personInvoiceRecipient'*/
   @Output() personInvoiceRecipientEvent = new EventEmitter<DropdownDataType[]>();
   @ViewChild("itemsTableRef") itemsTableComponent: InvoiceItemsTableComponent;
-  private hasInvoiceNumberError: boolean = true;
-  private hasInvoiceCreatesError: boolean = true;
-  private hasCreatorError: boolean = true;
-  private hasRecipientError: boolean = true;
-  private hasCreationDateError: boolean;
-  private hasInvoiceDateError: boolean;
 
   /**
    * Constructor
@@ -118,7 +113,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
                private utilService: CommonServicesUtilService,
                private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
      //this.backendUrl = environment.baseUrl;
-
+    super()
   }
 
   /**
@@ -185,56 +180,6 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit{
        this.itemsTableComponent.resetTotalValues();
     }
   }
-
-  setHasInvoiceNumberError(val: boolean) {
-    setTimeout( () =>{
-      if(this.hasInvoiceNumberError !== val) {
-        this.hasInvoiceNumberError = val
-      }
-    })
-  }
-
-  setHasInvoiceratesError(event: boolean) {
-    setTimeout( () => {
-      this.hasInvoiceCreatesError = event
-    })
-  }
-
-  setHasCreatorError(event: boolean) {
-    setTimeout( () => {
-      this.hasCreatorError = event
-    })
-  }
-
-  setHasRecipientError(event: boolean) {
-    setTimeout( () => {
-      this.hasRecipientError = event
-    })
-  }
-
-  haveErrors(): boolean{
-   return (this.hasInvoiceNumberError||
-            this.hasCreatorError||
-            this.hasRecipientError||
-            this.hasInvoiceCreatesError||
-            this.hasCreationDateError||
-            this.hasInvoiceDateError) ||
-           this.itemsTableComponent?.invoiceItems.length === 0 ||
-           this.itemsTableComponent?.invoiceItems.filter(i=>(i.amountItems<=0 || i.amountItems === undefined)).length > 0
-  }
-
-  setHasCreationDateError(event: boolean) {
-    setTimeout( () => {
-      this.hasCreationDateError = event
-    })
-  }
-
-  setHasInvoiceDateError(event: boolean) {
-    setTimeout( () => {
-      this.hasInvoiceDateError = event
-    })
-  }
-
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
 }

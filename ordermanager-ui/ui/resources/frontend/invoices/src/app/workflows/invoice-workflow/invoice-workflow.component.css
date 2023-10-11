@@ -1,0 +1,26 @@
+:host::ng-deep div.p-timeline-event-content {
+  height: 150px;
+  max-width: 200px;
+}
+:host::ng-deep div.p-timeline-event-opposite {
+  max-width: 300px;
+}
+
+:host::ng-deep div > p-timeline > div {
+  /*width: 300px;*/
+}
+
+.flow-button-unselected {
+ background-color: #969fa9;
+}
+
+.flow-button-selected {
+  background-color: #2196F3;
+  padding: 8pt 8pt 8pt 8pt;
+}
+
+
+:host::ng-deep div.p-timeline-event-content > p-button.p-element > button{
+  padding: 0 0 0 0;
+  background-color: #969fa9;
+}

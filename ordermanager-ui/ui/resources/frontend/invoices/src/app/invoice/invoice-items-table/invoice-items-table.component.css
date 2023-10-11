@@ -26,4 +26,11 @@ input[type="text"]  {
   display: block;
 }
 
+.add-button-container-size {
+  max-width: 20%;
+  min-width:10%;
+  background-color: white;
+  float: left;
+}
+
 

@@ -1,0 +1,145 @@
+<p-splitter *ngIf="isAuthenticated();" [panelSizes]="[25, 75]" [style]="{ height: '100%' }" styleClass="mb-5">
+  <ng-template pTemplate>
+    <div style="background-color: #BFE0E6;" class="p-grid">
+      <div style="height: 5%" class="p-col-12">
+        <h2>Workflow steps</h2>
+      </div>
+      <div style="height: 95%" class="p-col-12">
+        <div style="height: 100%;" class="card flex flex-wrap gap-6">
+          <p-timeline [value]="createInvoiceFlowEvents" class="w-full md:w-20rem" align="right">
+            <ng-template pTemplate="content" let-flowEvent>
+              <p-button  (onClick)="setWorkflowStep(flowEvent)" class="p-button-link flow-button-unselected">
+                <div class="flow-button-unselected"  [ngStyle]="flowButtonStyle(flowEvent)" style="padding: 8pt 8pt 8pt 8pt;">
+                   {{ flowEvent.statusDesc }}
+                </div>
+              </p-button>
+            </ng-template>
+          </p-timeline>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template  pTemplate>
+    <div  style="height: fit-content; margin-left: 10pt;" class="p-grid p-fluid">
+      <div style="height: 5%;" class="p-col-12">
+        <div >
+          <h2>Create invoice panel</h2>
+        </div>
+        <div style="width: 20%">
+          <p-button label="Reset" (onClick)="resetModel(); resetErrors();"></p-button>
+        </div>
+      </div>
+      <div [ngStyle]="editStyle(0)" class="p-col-12">
+        <div class = "p-grid">
+          <div class = "p-col-12">
+            <div class="p-grid">
+          <div style="margin-top: 10pt" class="p-col-4">
+            <app-validatable-input-text [name]="'invoiceNumber'"
+                                        [labelText]="'Invoice Number'"
+                                        [idComponent]="'id_InvoiceNumber'"
+                                        (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
+                                        [txtMinLength]="5"
+                                        [(ngModel)]="invoice.invoiceNumber">
+            </app-validatable-input-text>
+          </div>
+          <div style="margin-top: 10pt" class="p-col-4">
+             <span class="p-float-label">
+               <input name="'invoiceDescription'" style="width:100%;" id="id-invoiceDescription" type="text"
+                      [(ngModel)]="invoice.invoiceDescription" pInputText/>
+               <label for="id-invoiceDescription">Invoice description</label>
+             </span>
+          </div>
+        </div>
+          </div>
+          <div class = "p-col-12">
+            <div class="p-grid">
+          <div style="margin-top: 15pt" class="p-col-3">
+            <app-validatable-dropdownlist [name]="'invoiceRatesList'"
+                                          [optionList]="invoiceRate"
+                                          [labelText]="'Rate Type'"
+                                          [idComponent]="'id-rateType'"
+                                          [txtMinLength]="1"
+                                          (componentHasError)="setHasInvoiceratesError($event)"
+                                          [(ngModel)]="invoice.rateType">
+            </app-validatable-dropdownlist>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="currentStatus.level > 0" class="p-col-12">
+        <div [ngStyle]="editStyle(1)" class="p-grid">
+          <div class="p-col-3">
+            <app-validatable-calendar [name] = "'creationDate'"
+                                      [idComponent]="'id-creationDate'"
+                                      [labelText]="'Creation Date'"
+                                      [(ngModel)]="invoice.creationDate"
+                                      calendarDateFormat="dd.mm.yy"
+                                      maxlength="10"
+                                      (componentHasError) = "setHasCreationDateError($event)"
+                                      [dateFormat]="'dd.mm.yy'">
+            </app-validatable-calendar>
+          </div>
+
+          <div class="p-col-3">
+            <app-validatable-calendar [name] = "'invoiceDate'"
+                                      [idComponent]="'id-InvoiceDate'"
+                                      [labelText]="'Invoice Date'"
+                                      [(ngModel)]="invoice.invoiceDate"
+                                      calendarDateFormat="dd.mm.yy"
+                                      maxlength="10"
+                                      (componentHasError) = "setHasInvoiceDateError($event)"
+                                      [dateFormat]="'dd.mm.yy'">
+            </app-validatable-calendar>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="currentStatus.level > 1" class="p-col-12">
+        <div [ngStyle]="editStyle(2)" class="p-grid">
+            <div style="margin-top: 15pt;" class="p-col-6">
+              <app-validatable-dropdownlist [name] = "'creator'"
+                                            [optionList]="personInvoiceSupplier"
+                                            [labelText]="'Invoice creator person'"
+                                            [idComponent]="'id-invoiceCreator'"
+                                            [placeholder]="'Select person'"
+                                            [txtMinLength]="-1"
+                                            (componentHasError) = "setHasCreatorError($event)"
+                                            [(ngModel)] ="invoice.personSupplierId">
+              </app-validatable-dropdownlist>
+
+            </div>
+        </div>
+      </div>
+      <div *ngIf="currentStatus.level > 2" class="p-col-12">
+         <div [ngStyle]="editStyle(3)" class="p-grid">
+            <div class="p-col-6">
+              <app-validatable-dropdownlist [name] = "'recipient'"
+                                            [optionList]="personInvoiceRecipient"
+                                            [labelText]="'Invoice recipient person'"
+                                            [idComponent]="'id-invoiceRecipient'"
+                                            [placeholder]="'Select person'"
+                                            [txtMinLength]="0"
+                                            (componentHasError) = "setHasRecipientError($event)"
+                                            [(ngModel)] ="invoice.personRecipientId">
+              </app-validatable-dropdownlist>
+            </div>
+        </div>
+      </div>
+      <div *ngIf="currentStatus.level > 3" [ngStyle]="editStyle(4)" class="p-col-12">
+        <app-invoice-items-table [modelChangedEvent] = "eventsModelIsReset.asObservable()"
+                                 (changeItemEvent)="invoice.invoiceItems=$event"
+                                 (totalNettoSumEvent) = "invoice.totalSumNetto=$event"
+                                 (totalBruttoSumEvent)="invoice.totalSumBrutto=$event"
+                                 [invoiceItems]="invoice.invoiceItems" #itemsTableRef>
+
+        </app-invoice-items-table>
+      </div>
+      <div *ngIf="currentStatus.level > 4" [ngStyle]="editStyle(5)" class="p-col-2">
+        <p-button [disabled] ="haveErrors(invoice.invoiceItems)" label="Persist invoice" (onClick)="saveInvoice($event)"></p-button>
+      </div>
+      <div *ngIf="currentStatus.level < 5"  class="p-col-2">
+        <p-button label="Next step" (onClick)="saveAndNext(currentStatus)"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-splitter>

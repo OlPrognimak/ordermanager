@@ -142,9 +142,9 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   getCatalogDescription(idItemCatalog: string): any {
    if (idItemCatalog !== undefined) {
       // tslint:disable-next-line:triple-equals
-      const rez = this.catalogItems.filter(
+      const rez = this.catalogItems?.filter(
         val => Number(val.value) === Number(idItemCatalog));
-      const labelTxt = rez[0].label
+      const labelTxt = rez?.at(0).label
       return labelTxt;
    } else {
      return '[Please select item]';
