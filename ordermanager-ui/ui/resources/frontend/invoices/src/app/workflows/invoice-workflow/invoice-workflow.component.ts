@@ -28,6 +28,7 @@ import {InvoiceFormModule} from "../../invoice/invoiceform/invoiceform.component
 import {Subject} from "rxjs";
 import {InvoiceItemsTableComponent} from "../../invoice/invoice-items-table/invoice-items-table.component";
 import {InvoiceFormValidator} from "../../invoice/invoiceform/invoice.form.validator";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-invoice-workflow',
@@ -49,7 +50,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
 
-  constructor(private store: Store<any>, private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>){
+  constructor(private store: Store<any>, private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>, private router:Router){
     super()
   }
 
@@ -63,24 +64,27 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       new WorkflowEventsModel({statusDesc: 'Save invoice', status: WorkflowStatuses.SAVE_INVOICE, level: 5}),
     ];
     this.currentStatus = this.createInvoiceFlowEvents[0]
-    console.log('CUR STATUS =:' +this.currentStatus.status)
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
     this.store.subscribe(state =>{
       this.invoice = Object.assign(new InvoiceFormModel(),state?.invoiceWorkflow.data)
       this.invoice.invoiceItems = Object.assign([] , state.invoiceWorkflow.data.invoiceItems)
-      //console.log(" LOAD STATE = :"+ JSON.stringify(this.invoice))
     })
 
   }
 
-  setWorkflowStep(status: WorkflowEventsModel) {
-   this.saveOldStatus(new WorkflowEventsModel(this.currentStatus),
+  /**
+   * Set current selected workflow step
+   *
+   * @param selectedModel the selected model on workflow step
+   */
+  setWorkflowStep(selectedModel: WorkflowEventsModel) {
+   this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
       Object.assign(new InvoiceFormModel(), this.invoice))
 
-    if(status.level === 2 || status.level === 3) {
+    if(selectedModel.level === 2 || selectedModel.level === 3) {
       this.loadPersons()
     }
-    this.currentStatus = status
+    this.currentStatus = selectedModel
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
     this.store.subscribe(s =>{
       this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
@@ -88,8 +92,14 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     })
   }
 
-  saveOldStatus(stat: WorkflowEventsModel, model: InvoiceFormModelInterface ) {
-    this.store.dispatch({type: stat.status, data: model})
+  /**
+   * Saves previous status after changing a flow step
+   *
+   * @param prevWorkflowModel previous selected workflow model before changing to a new workflow step
+   * @param invoiceFormModel the currecnt invoice model
+   */
+  savePreviousStatus(prevWorkflowModel: WorkflowEventsModel, invoiceFormModel: InvoiceFormModelInterface ) {
+    this.store.dispatch({type: prevWorkflowModel.status, data: invoiceFormModel})
     this.store.subscribe(s =>{
       this.invoice =  Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
       this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
@@ -97,6 +107,9 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
 
+  /**
+   * Loads persons from server
+   */
   loadPersons() {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
       if(callback !=null) {
@@ -120,6 +133,11 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
 
+  /**
+   * Resets ngrx store and data model
+   *
+   * @private
+   */
   private resetModel() {
     this.currentStatus = this.createInvoiceFlowEvents[0]
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type} )
@@ -129,6 +147,13 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     })
 
   }
+
+
+  /**
+   * Make available for editing of components in view for currently selected workflow step and disable the rest of steps.
+   *
+   * @param level the level of selected workflow step
+   */
   editStyle(level: number): any {
     if (this.currentStatus.level === level){
       return {}
@@ -150,7 +175,12 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
 
-
+  /**
+   * Define the style of workflow buttons.
+   * - In case if button is selected than the color of this button will be blue
+   *
+   * @param flowEvent the flow event object from currently processed workflow step
+   */
   flowButtonStyle(flowEvent: WorkflowEventsModel): any {
     let style = {}
 
@@ -162,6 +192,14 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     return style;
   }
 
+  /**
+   * Defines the font color.
+   *
+   *   - in case if the components in step will contain errors than the font color will be red
+   *   - in case if the components in step will not have errors than the font color will be white
+   *
+   * @param flowEvent the flow event object from currently processed workflow step
+   */
   getColor(flowEvent: WorkflowEventsModel) : string {
      let fontColor: string = 'white'
      switch (flowEvent.status ){

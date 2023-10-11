@@ -5,8 +5,17 @@ export class InvoiceFormValidator {
    hasInvoiceCreatesError: boolean = true;
    hasCreatorError: boolean = true;
    hasRecipientError: boolean = true;
-   hasCreationDateError: boolean;
-   hasInvoiceDateError: boolean;
+   hasCreationDateError: boolean = true;
+   hasInvoiceDateError: boolean = true;
+
+   resetErrors() {
+     this.hasInvoiceNumberError = true;
+     this.hasInvoiceCreatesError = true;
+     this.hasCreatorError = true;
+     this.hasRecipientError = true;
+     this.hasCreationDateError = true;
+     this.hasInvoiceDateError = true;
+   }
 
 
   setHasInvoiceNumberError(val: boolean) {

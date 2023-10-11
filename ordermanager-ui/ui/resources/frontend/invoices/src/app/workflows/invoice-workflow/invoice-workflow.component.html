@@ -22,7 +22,12 @@
   <ng-template  pTemplate>
     <div  style="height: fit-content; margin-left: 10pt;" class="p-grid p-fluid">
       <div style="height: 5%;" class="p-col-12">
-        <div><h2>Create invoice panel</h2></div>
+        <div >
+          <h2>Create invoice panel</h2>
+        </div>
+        <div style="width: 20%">
+          <p-button label="Reset" (onClick)="resetModel(); resetErrors();"></p-button>
+        </div>
       </div>
       <div [ngStyle]="editStyle(0)" class="p-col-12">
         <div class = "p-grid">
