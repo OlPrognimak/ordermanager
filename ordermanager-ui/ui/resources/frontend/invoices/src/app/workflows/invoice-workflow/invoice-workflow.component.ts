@@ -239,4 +239,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
 
+  saveAndNext(currentStatus: WorkflowEventsModel) {
+    this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level+1])
+  }
 }

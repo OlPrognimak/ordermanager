@@ -135,7 +135,10 @@
         </app-invoice-items-table>
       </div>
       <div *ngIf="currentStatus.level > 4" [ngStyle]="editStyle(5)" class="p-col-2">
-        <p-button [disabled] ="haveErrors(invoice.invoiceItems)" label="Save invoice" (onClick)="saveInvoice($event)"></p-button>
+        <p-button [disabled] ="haveErrors(invoice.invoiceItems)" label="Persist invoice" (onClick)="saveInvoice($event)"></p-button>
+      </div>
+      <div *ngIf="currentStatus.level < 5"  class="p-col-2">
+        <p-button label="Next step" (onClick)="saveAndNext(currentStatus)"></p-button>
       </div>
     </div>
   </ng-template>
