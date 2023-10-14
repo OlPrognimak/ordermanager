@@ -219,10 +219,10 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 
       const supplier =
         this.personInvoiceSupplier.filter((p, idx) =>
-          Number(p.value) === Number(this.originalInvoice.personSupplierId))?.at(0)
+          p.value === this.originalInvoice.personSupplierId)?.at(0)
       const recipient =
         this.personInvoiceSupplier.filter((p, idx) =>
-          Number(p.value) === Number(this.originalInvoice.personRecipientId))?.at(0)
+          p.value === this.originalInvoice.personRecipientId)?.at(0)
       //
       this.originalInvoice.supplierFullName = supplier?.label!
       this.originalInvoice.recipientFullName = recipient?.label!

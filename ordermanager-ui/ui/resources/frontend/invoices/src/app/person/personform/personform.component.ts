@@ -28,8 +28,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, NgModule, OnInit, ViewChild} from '@angular/core';
-import {DropdownDataType} from '../../domain/domain.invoiceformmodel';
+import {Component, NgModule, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
+import {DropdownDataType, InvoiceFormModel, InvoiceFormModelInterface} from '../../domain/domain.invoiceformmodel';
 import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../../domain/domain.personformmodel';
 import {MessageService} from 'primeng/api';
 import {AppSecurityService} from '../../user/user-login/app-security.service';
@@ -50,6 +50,11 @@ import {ValidatableDropdownlistModule} from "../../common-components/validatable
 import {InputTextModule} from "primeng/inputtext";
 import {AngularIbanModule} from "angular-iban";
 import {InvoicePipesModule} from "../../common-services/common-services.pipes.number";
+import {WorkflowModule} from "../../workflows/invoice-workflow/workflow.module";
+import {ActivatedRoute, Router} from "@angular/router";
+import {of, Subscriber} from "rxjs";
+import {Store} from "@ngrx/store";
+import {InvoiceActions} from "../../workflows/invoice-workflow/state/invoice.actions";
 
 /**
  * The component which contains form component for creation of person
@@ -60,7 +65,7 @@ import {InvoicePipesModule} from "../../common-services/common-services.pipes.nu
   templateUrl: './personform.component.html',
   providers: [MessageService, FormGroupDirective, MessagesPrinter]
 })
-export class PersonFormComponent implements OnInit {
+export class PersonFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('modelRef') ibanModelRef: NgModel
   @ViewChild('personForm') personForm: NgForm
@@ -90,6 +95,9 @@ export class PersonFormComponent implements OnInit {
   ibanValidationAtts =  {
     ibanValidator: true
   }
+  createPersonType: string
+  routeSubscribe: Subscriber<any>
+  flowInvoiceModel: InvoiceFormModelInterface
 
   /**
    * The constructor
@@ -104,14 +112,34 @@ export class PersonFormComponent implements OnInit {
               private messagePrinter: MessagesPrinter,
               private utilService: CommonServicesUtilService,
               public securityService: AppSecurityService,
-              private httpService: CommonServicesAppHttpService<PersonFormModel>) {
+              private httpService: CommonServicesAppHttpService<PersonFormModel>,
+              private route: ActivatedRoute,
+              private router: Router,
+              private store: Store<any>) {
 
   }
+
+  ngOnDestroy(): void {
+     // if(this.routeSubscribe !== undefined) {
+     //   this.routeSubscribe?.unsubscribe()
+     // }
+    }
 
   /**
    * Init component
    */
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.routeSubscribe = this.createPersonType = params['createPerson'];
+      if(this.routeSubscribe !== undefined) {
+        this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
+        this.store.subscribe(s => {
+          this.flowInvoiceModel = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
+          //this.flowInvoiceModel.invoiceItems = Object.assign([] , s.invoiceWorkflow.data.invoiceItems)
+        })
+      }
+      console.log("Create Person Type :"+this.createPersonType)
+    });
     this.personFormModel = new PersonFormModel();
     this.personBankAccountModel = this.personFormModel.bankAccountFormModel;
     this.personAddressModel = this.personFormModel.personAddressFormModel;
@@ -122,7 +150,7 @@ export class PersonFormComponent implements OnInit {
    * Saves person to the database on server
    * @param event the event object
    */
-  savePerson(event: any): void {
+  savePerson(returnCallBack: boolean): void {
 
     this.httpService.putObjectToServer('PUT', this.personFormModel, 'Person',
       'person', (callback) => {
@@ -130,6 +158,15 @@ export class PersonFormComponent implements OnInit {
           setTimeout(() =>{
             this.messagePrinter.printSuccessMessage('Person')
           })
+          if(returnCallBack) {
+              if(this.createPersonType === 'creator') {
+                this.flowInvoiceModel.personSupplierId = ''+callback.toString()
+              } else if (this.createPersonType === 'recipient') {
+                this.flowInvoiceModel.personRecipientId = ''+callback.toString()
+              }
+            this.store.dispatch({type: InvoiceActions.setInvoiceCreatorAction.type, data: this.flowInvoiceModel})
+            this.router.navigate(["/workflow-create-invoice"],{queryParams: {createPerson: this.createPersonType}})
+          }
           this.personFormModel = new PersonFormModel();
         }else {
           setTimeout(() =>{
@@ -137,6 +174,10 @@ export class PersonFormComponent implements OnInit {
           })
         }
       });
+  }
+
+  private storeDate(data) {
+    of(data).subscribe(data=>this.store.dispatch({type: InvoiceActions.setInvoiceCreatorAction.type, data: data}))
   }
 
   setHasPersonTypeError(val: boolean) {
@@ -280,7 +321,7 @@ export class PersonFormComponent implements OnInit {
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule],
+      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule],
     declarations: [PersonFormComponent],
     exports: [PersonFormComponent],
   }

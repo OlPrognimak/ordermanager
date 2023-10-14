@@ -43,17 +43,17 @@ export class CommonServicesAppHttpService<T> {
           if (response.createdId > 0) {
             msgObservable.subscribe(
               msgService => msgService.printSuccessMessage(objectName));
-            return callback(true);
+            return callback(response.createdId);
           }else{
             console.log('Unexpected error: ' + response);
-            return callback && callback(false);
+            //return callback && callback(false);
           }
         },
         error (err) {
           console.log("Handle HTTP Request Error :" + JSON.stringify(err))
           msgObservable.subscribe(
             msgService => msgService.printUnsuccessefulMessage(objectName, err));
-          return callback && callback(false);
+          //return callback && callback(false);
         }
       })
 

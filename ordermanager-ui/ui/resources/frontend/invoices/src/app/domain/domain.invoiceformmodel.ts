@@ -32,8 +32,8 @@ import * as _moment from 'moment';
 
 export interface InvoiceFormModelInterface {
   id: number;
-  personSupplierId: number;
-  personRecipientId: number;
+  personSupplierId: string;
+  personRecipientId: string;
   invoiceNumber: string;
   invoiceDescription: string;
   supplierFullName: string;
@@ -88,8 +88,8 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   supplierFullName: string;
   recipientFullName: string;
   invoiceDescription = 'N/A';
-  personRecipientId: number;
-  personSupplierId: number;
+  personRecipientId: string;
+  personSupplierId: string;
   rateType: string;
   totalSumNetto: number;
   totalSumBrutto: number;
