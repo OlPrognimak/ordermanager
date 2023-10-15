@@ -107,6 +107,9 @@ export class PersonFormComponent implements OnInit, OnDestroy {
    * and not success messages
    * @param securityService injects the security service module
    * @param httpService injects the http service module
+   * @param route the active route. Uses to read parameters
+   * @param router the router. Use for navigate back to workflow
+   * @param store the ngrx store. Uses for keeping invoice workflow data
    */
   constructor(private messageService: MessageService,
               private messagePrinter: MessagesPrinter,
@@ -135,10 +138,8 @@ export class PersonFormComponent implements OnInit, OnDestroy {
         this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
         this.store.subscribe(s => {
           this.flowInvoiceModel = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
-          //this.flowInvoiceModel.invoiceItems = Object.assign([] , s.invoiceWorkflow.data.invoiceItems)
         })
       }
-      console.log("Create Person Type :"+this.createPersonType)
     });
     this.personFormModel = new PersonFormModel();
     this.personBankAccountModel = this.personFormModel.bankAccountFormModel;

@@ -256,6 +256,10 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level+1])
   }
 
+  movePreviousStep(currentStatus: WorkflowEventsModel) {
+    this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level-1])
+  }
+
   createInvoiceCreator() {
     this.router.navigate(["/create-person_page"],{queryParams: {createPerson: 'creator'}})
   }
@@ -271,4 +275,5 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       this.invoice.personSupplierId = event
     }
   }
+
 }
