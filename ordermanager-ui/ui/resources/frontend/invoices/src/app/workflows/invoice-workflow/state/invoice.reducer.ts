@@ -32,11 +32,7 @@ export const invoiceReducer = createReducer (
       error: null,
     };
   }),
-  on( InvoiceActions.setInvoiceType
-            /*  InvoiceActions.setInvoiceDateAction ||
-              InvoiceActions.setInvoiceRecipientAction ||
-              InvoiceActions.setInvoiceCreatorAction ||
-              InvoiceActions.setInvoiceItemsAction*/,
+  on( InvoiceActions.setInvoiceType,
     (state, {data}) => {
     return {
       ...state,

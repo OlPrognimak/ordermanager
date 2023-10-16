@@ -94,9 +94,9 @@
           </div>
         </div>
       </div>
-      <div *ngIf="currentStatus.level > 1" class="p-col-12">
+      <div *ngIf="currentStatus.level > 1" style="margin-top: 15pt;" class="p-col-12">
         <div [ngStyle]="editStyle(2)" class="p-grid">
-            <div style="margin-top: 15pt;" class="p-col-6">
+            <div  class="p-col-6">
               <app-validatable-dropdownlist [name] = "'creator'"
                                             [optionList]="personInvoiceSupplier"
                                             [labelText]="'Invoice creator person'"
@@ -104,10 +104,13 @@
                                             [placeholder]="'Select person'"
                                             [txtMinLength]="-1"
                                             (componentHasError) = "setHasCreatorError($event)"
-                                            [(ngModel)] ="invoice.personSupplierId">
+                                            (ngModelChange)="onSupplierChanged($event)"
+                                            [ngModel] ="invoice.personSupplierId">
               </app-validatable-dropdownlist>
-
             </div>
+          <div style="max-width: 50%;" class="p-col-2">
+            <p-button (onClick)="createInvoiceCreator()" label="Create"></p-button>
+          </div>
         </div>
       </div>
       <div *ngIf="currentStatus.level > 2" class="p-col-12">
@@ -123,6 +126,9 @@
                                             [(ngModel)] ="invoice.personRecipientId">
               </app-validatable-dropdownlist>
             </div>
+           <div style="max-width: 50%;" class="p-col-2">
+             <p-button (onClick)="createInvoiceRecipient()" label="Create"></p-button>
+           </div>
         </div>
       </div>
       <div *ngIf="currentStatus.level > 3" [ngStyle]="editStyle(4)" class="p-col-12">
@@ -134,11 +140,16 @@
 
         </app-invoice-items-table>
       </div>
-      <div *ngIf="currentStatus.level > 4" [ngStyle]="editStyle(5)" class="p-col-2">
-        <p-button [disabled] ="haveErrors(invoice.invoiceItems)" label="Persist invoice" (onClick)="saveInvoice($event)"></p-button>
+      <div class="p-col-12">
+        <div class="p-grid">
+          <div *ngIf="currentStatus.level > 4" [ngStyle]="editStyle(5)" class="p-col-2">
+            <p-button [disabled] ="haveErrors(invoice.invoiceItems)" label="Persist invoice" (onClick)="saveInvoice($event)"></p-button>
+          </div>
+        </div>
       </div>
-      <div *ngIf="currentStatus.level < 5"  class="p-col-2">
-        <p-button label="Next step" (onClick)="saveAndNext(currentStatus)"></p-button>
+      <div class="p-col-3">
+        <p-button [disabled] ="currentStatus.level < 1" title="Previous step" icon="pi pi-fw pi-angle-double-left" (onClick)="movePreviousStep(currentStatus)"></p-button>
+        <p-button [disabled] ="currentStatus.level > 4" title="Next step" icon="pi pi-fw pi-angle-double-right" (onClick)="saveAndNext(currentStatus)"></p-button>
       </div>
     </div>
   </ng-template>

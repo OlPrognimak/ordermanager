@@ -211,10 +211,12 @@
   </div>
   <div style="margin-top:5px;" class="p-grid">
     <div class="p-col-12 save-button-col-size">
-      <div>
-        <p-button class="save-button-col-size save-button-container-size" [disabled]="haveErrors()" label="Save" (onClick)="savePerson($event)"></p-button>
+      <div *ngIf=" createPersonType === undefined; else elseBlock" >
+        <p-button class="save-button-col-size save-button-container-size" [disabled]="haveErrors()" label="Save" (onClick)="savePerson(false)"></p-button>
       </div>
-<!--      <p-button [disabled]="personForm.invalid" label="Save" (onClick)="savePerson($event)"></p-button>-->
+      <ng-template #elseBlock>
+        <p-button class="save-button-col-size save-button-container-size" [disabled]="haveErrors()" label="Save and return" (onClick)="savePerson(true)"></p-button>
+      </ng-template>
     </div>
   </div>
   </form>

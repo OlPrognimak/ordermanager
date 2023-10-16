@@ -28,7 +28,7 @@ import {InvoiceFormModule} from "../../invoice/invoiceform/invoiceform.component
 import {Subject} from "rxjs";
 import {InvoiceItemsTableComponent} from "../../invoice/invoice-items-table/invoice-items-table.component";
 import {InvoiceFormValidator} from "../../invoice/invoiceform/invoice.form.validator";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-invoice-workflow',
@@ -50,11 +50,16 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
 
-  constructor(private store: Store<any>, private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>, private router:Router){
+  constructor(private store: Store<any>,
+              private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
+              private router:Router,
+              private route: ActivatedRoute){
     super()
   }
 
   ngOnInit(): void {
+    this.loadPersons()
+
     this.createInvoiceFlowEvents = [
       new WorkflowEventsModel({statusDesc: 'Set Invoice Type/Number', status: WorkflowStatuses.SET_INVOICE_TYPE,level: 0}),
       new WorkflowEventsModel({statusDesc: 'Set Invoice date', status: WorkflowStatuses.SET_INVOICE_DATE, level: 1}),
@@ -63,7 +68,20 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       new WorkflowEventsModel({statusDesc: 'Set invoice Items', status: WorkflowStatuses.SET_INVOICE_ITEMS, level: 4}),
       new WorkflowEventsModel({statusDesc: 'Save invoice', status: WorkflowStatuses.SAVE_INVOICE, level: 5}),
     ];
-    this.currentStatus = this.createInvoiceFlowEvents[0]
+
+    this.route.queryParams.subscribe(params => {
+      const createPersonType = params['createPerson'];
+      if(createPersonType === 'creator') {
+        this.currentStatus = this.createInvoiceFlowEvents[2]
+      } else if(createPersonType === 'recipient'){
+        this.currentStatus = this.createInvoiceFlowEvents[3]
+      } else {
+        this.currentStatus = this.createInvoiceFlowEvents[0]
+      }
+
+    });
+
+   // this.currentStatus = this.createInvoiceFlowEvents[0]
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
     this.store.subscribe(state =>{
       this.invoice = Object.assign(new InvoiceFormModel(),state?.invoiceWorkflow.data)
@@ -81,15 +99,12 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
       Object.assign(new InvoiceFormModel(), this.invoice))
 
-    if(selectedModel.level === 2 || selectedModel.level === 3) {
-      this.loadPersons()
-    }
-    this.currentStatus = selectedModel
-    this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
-    this.store.subscribe(s =>{
-      this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
-      this.invoice.invoiceItems = Object.assign([] , s.invoiceWorkflow.data.invoiceItems)
-    })
+      this.currentStatus = selectedModel
+      this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
+      this.store.subscribe(s => {
+        this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
+        this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
+      })
   }
 
   /**
@@ -112,7 +127,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    */
   loadPersons() {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
-      if(callback !=null) {
+      if(callback !== null) {
         this.personInvoiceRecipient = callback;
         this.personInvoiceSupplier = callback;
       }
@@ -132,7 +147,6 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       });
   }
 
-
   /**
    * Resets ngrx store and data model
    *
@@ -147,7 +161,6 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     })
 
   }
-
 
   /**
    * Make available for editing of components in view for currently selected workflow step and disable the rest of steps.
@@ -242,4 +255,25 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   saveAndNext(currentStatus: WorkflowEventsModel) {
     this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level+1])
   }
+
+  movePreviousStep(currentStatus: WorkflowEventsModel) {
+    this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level-1])
+  }
+
+  createInvoiceCreator() {
+    this.router.navigate(["/create-person_page"],{queryParams: {createPerson: 'creator'}})
+  }
+
+  createInvoiceRecipient() {
+    this.router.navigate(["/create-person_page"],{queryParams: {createPerson: 'recipient'}})
+  }
+
+
+  onSupplierChanged(event: any) {
+    console.log("set value:"+event)
+    if(event !== null) {
+      this.invoice.personSupplierId = event
+    }
+  }
+
 }
