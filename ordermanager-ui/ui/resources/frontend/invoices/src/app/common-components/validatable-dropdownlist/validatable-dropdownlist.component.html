@@ -3,15 +3,15 @@
     <div style="display: table-cell; width: 100%;">
       <div style="margin-bottom: 15pt">
                 <span class="p-float-label">
-                <p-dropdown  #modelRef="ngModel"
-                             placeholder="{{placeholder}}"
-                             [name] = "inputName"
-                             required
-                             minlength="{{txtMinLength}}"
-                             id="{{idComponent}}"
-                             [options]="optionList"
-                             [(ngModel)]="controlValue"
-                             (ngModelChange)="onChange($event); setValueChanged($event)">
+                <p-dropdown #modelRef="ngModel"
+                            (ngModelChange)="onChange($event); setValueChanged($event)"
+                            [(ngModel)]="controlValue"
+                            [name]="inputName"
+                            [options]="optionList"
+                            id="{{idComponent}}"
+                            minlength="{{txtMinLength}}"
+                            placeholder="{{placeholder}}"
+                            required>
                 </p-dropdown>
                 <label for="{{idComponent}}">{{labelText}}</label>
                 </span>
@@ -19,14 +19,14 @@
     </div>
 
     <div *ngIf="setHasMinLengthError(modelRef.errors?.minlength !== null,
-                                          modelRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
+                                          modelRef.errors?.minlength)" style="display: table-cell; width: 10%;">
       <div style="margin-top: 15pt !important;">
         <p-message severity="error"></p-message>
       </div>
     </div>
     <div *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined &&
                                         modelRef.errors?.required !== null,
-                                        modelRef.errors?.required)" style ="display: table-cell; width: 10%;">
+                                        modelRef.errors?.required)" style="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
     </div>
   </div>

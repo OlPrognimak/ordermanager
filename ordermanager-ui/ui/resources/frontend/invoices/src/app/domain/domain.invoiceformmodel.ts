@@ -37,7 +37,7 @@ export interface InvoiceFormModelInterface {
   invoiceNumber: string;
   invoiceDescription: string;
   supplierFullName: string;
-  recipientFullName: string ;
+  recipientFullName: string;
   creationDate: Date;
   invoiceDate: Date;
   rateType: string;
@@ -65,21 +65,21 @@ export interface InvoiceItemModelInterface {
 
 
 export class ItemCatalogModel {
-    id: number;
-    description: string;
-    shortDescription: string;
-    itemPrice: number ;
-    vat: number;
+  id: number;
+  description: string;
+  shortDescription: string;
+  itemPrice: number;
+  vat: number;
 
 }
 
 
-export interface DropdownDataType{
+export interface DropdownDataType {
   label: string;
   value: string;
 }
 
-export class InvoiceFormModel implements InvoiceFormModelInterface{
+export class InvoiceFormModel implements InvoiceFormModelInterface {
   id: number;
   creationDate: Date;
   invoiceDate: Date;
@@ -97,8 +97,8 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
   public toJSON(): InvoiceFormModel {
     const withDateTransform = Object.assign({}, this, {
 
-      creationDate: _moment(this.creationDate).format( 'yyyy-MM-DDTHH:mm:ss.SSSZZ'),
-      invoiceDate: _moment(this.invoiceDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ' )
+      creationDate: _moment(this.creationDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ'),
+      invoiceDate: _moment(this.invoiceDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ')
     });
     //console.log("INVOICE FORM TRANSFORMED MODEL :"+JSON.stringify(withDateTransform))
     return withDateTransform;
@@ -109,17 +109,18 @@ export class InvoiceFormModel implements InvoiceFormModelInterface{
 export class RequestDatePriod implements RequestPeriodDateInterface {
   startDate: Date = _moment().startOf('year').toDate();
   endDate: Date = new Date();
+
   public toJSON(): RequestPeriodDateInterface {
     return Object.assign({}, this, {
-      startDate: _moment(this.startDate).format( 'YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ' )
+      startDate: _moment(this.startDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ')
     });
   }
 }
 
-export class InvoiceItemModel implements InvoiceItemModelInterface{
+export class InvoiceItemModel implements InvoiceItemModelInterface {
   id: number;
-  idxItem: number=0;
+  idxItem: number = 0;
   catalogItemId: number;
   description = '';
   itemPrice = 0;
@@ -130,7 +131,7 @@ export class InvoiceItemModel implements InvoiceItemModelInterface{
 }
 
 
-export class CalculatorParameters{
+export class CalculatorParameters {
   invoiceItemsTableModel: InvoiceItemModel[];
   invoiceItemEvent: InvoiceItemModel;
   nettoSum = 0;
@@ -139,18 +140,18 @@ export class CalculatorParameters{
 /**
  * Object for checking login
  */
-export class LoggingCheck{
+export class LoggingCheck {
   logged = false;
 }
 
 export class CreatedResponse {
- createdId: number;
+  createdId: number;
 }
 
 /**
  * The object for registration of new user in the system
  */
-export class NewUser{
+export class NewUser {
   userName: string;
   userPassword: string;
   userPasswordRepeat: string;

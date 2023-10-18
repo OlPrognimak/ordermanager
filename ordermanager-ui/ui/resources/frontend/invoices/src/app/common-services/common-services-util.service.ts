@@ -28,14 +28,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Injectable} from '@angular/core';
-import {of} from 'rxjs';
-import {delay, map} from 'rxjs/operators';
-import {Message, MessageService} from 'primeng/api';
-import {DropdownDataType} from "../domain/domain.invoiceformmodel";
-import {CommonServicesPipesNumber} from "./common-services.pipes.number";
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+import { Message, MessageService } from 'primeng/api';
+import { DropdownDataType } from "../domain/domain.invoiceformmodel";
+import { CommonServicesPipesNumber } from "./common-services.pipes.number";
 
-export const printToJson = (data: any): void  => {
+export const printToJson = (data: any): void => {
   console.log(JSON.stringify(data));
 }
 
@@ -45,7 +45,7 @@ export const printToJson = (data: any): void  => {
  * @param isAuthenticated true if authenticated
  */
 export const setAuthenticated = (isAuthenticated: boolean): void => {
-  localStorage.setItem('userAuthenticated', ''+isAuthenticated)
+  localStorage.setItem('userAuthenticated', '' + isAuthenticated)
 }
 
 /**
@@ -76,7 +76,7 @@ export const personType: DropdownDataType[] = [
 /**
  * Instance of pipeline for number
  */
-export const pipeNumberTransformer:CommonServicesPipesNumber = new  CommonServicesPipesNumber();
+export const pipeNumberTransformer: CommonServicesPipesNumber = new CommonServicesPipesNumber();
 
 /**
  * Renders number value with 2 digits after  point
@@ -105,13 +105,13 @@ export function compareObjects(obj1: any, obj2: any): boolean {
   }
 
   if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
-    if(Number(obj1)===Number(obj2)){
+    if (Number(obj1) === Number(obj2)) {
       return true
     }
-    if(String(obj1)?.trim()===String(obj2)?.trim()) {
+    if (String(obj1)?.trim() === String(obj2)?.trim()) {
       return true
     }
-    if ( new Date(obj1).getTime() === new Date(obj2).getTime()) {
+    if (new Date(obj1).getTime() === new Date(obj2).getTime()) {
       return true
     }
     return false;
@@ -136,22 +136,22 @@ export function compareObjects(obj1: any, obj2: any): boolean {
 @Injectable({
   providedIn: 'root'
 })
-export class CommonServicesUtilService{
+export class CommonServicesUtilService {
 
-  constructor( private messageService: MessageService) {
+  constructor(private messageService: MessageService) {
   }
 
   /**
    * Hide message after delay time
    */
-  public hideMassage(message: Message, delayTimeMs: number): void{
+  public hideMassage(message: Message, delayTimeMs: number): void {
     const observable = of(message).pipe(delay(delayTimeMs));
     const operatorFunction = map((msg: Message) => {
       this.messageService.clear(msg.key);
       return true;
-    } );
+    });
     const messageFunction = operatorFunction(observable);
-    messageFunction.subscribe(data=>console.log('Message clear'))
+    messageFunction.subscribe(data => console.log('Message clear'))
   }
 
   /**
@@ -160,15 +160,15 @@ export class CommonServicesUtilService{
    * @param objectName
    * @param errorText
    */
-  printUnSuccessMessage(objectName: any, errorText): void{
-    const msg: Message = {severity: 'error', summary: 'Error',
-      detail: errorText};
+  printUnSuccessMessage(objectName: any, errorText): void {
+    const msg: Message = {
+      severity: 'error', summary: 'Error',
+      detail: errorText
+    };
     this.messageService.add(msg);
 
     this.hideMassage(msg, 10000);
   }
-
-
 
 
 }

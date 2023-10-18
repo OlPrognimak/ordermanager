@@ -35,8 +35,8 @@ export class PersonFormModel {
   id: number;
   personLastName: string;
   personFirstName: string;
-  companyName: string ;
-  personType: string ;
+  companyName: string;
+  personType: string;
   taxNumber: string;
   email: string;
   personAddressFormModel: PersonAddressFormModel = new PersonAddressFormModel();
@@ -47,12 +47,12 @@ export class PersonFormModel {
 /**
  * The model class which represents the person address in person model
  */
-export class  PersonAddressFormModel {
+export class PersonAddressFormModel {
   id: number;
   city: string;
   street: string;
   zipCode: string;
-  postBoxCode: string ;
+  postBoxCode: string;
 }
 
 /**
@@ -62,8 +62,9 @@ export class BankAccountFormModel {
   id: number;
   accountNumber: string;
   iban: string;
-  bicSwift: string ;
-  bankName; string ;
+  bicSwift: string;
+  bankName;
+  string;
 }
 
 export class IdWrapper {

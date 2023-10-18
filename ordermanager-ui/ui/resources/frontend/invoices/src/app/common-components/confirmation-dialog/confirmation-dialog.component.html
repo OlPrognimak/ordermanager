@@ -1,25 +1,26 @@
-<p-dialog header="Confirm" [(visible)]="display" [modal]="true" (onHide)="onCancel()" [style]="{ width: '50vw', height: '30%' }" >
+<p-dialog (onHide)="onCancel()" [(visible)]="display" [modal]="true" [style]="{ width: '50vw', height: '30%' }"
+          header="Confirm">
 
   <p-header>
     <h2>Confirm</h2>
   </p-header>
 
-    <div class = "p-grid">
-      <div class = "p-col-12">
-       <h2>{{ message }}</h2>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <h2>{{ message }}</h2>
+    </div>
+  </div>
+
+  <p-footer>
+    <div class="p-grid">
+      <div class="p-col-8"></div>
+      <div class="p-col-2">
+        <button (click)="onConfirm()" class="p-button-danger" label="Yes" pButton type="button"></button>
+      </div>
+      <div class="p-col-2">
+        <button (click)="onCancel()" class="p-button-secondary" label="No" pButton type="button"></button>
       </div>
     </div>
-
-    <p-footer>
-      <div class = "p-grid">
-        <div class = "p-col-8"></div>
-        <div class = "p-col-2">
-           <button pButton type="button" label="Yes" class="p-button-danger" (click)="onConfirm()"></button>
-        </div>
-        <div class = "p-col-2">
-        <button pButton type="button" label="No" class="p-button-secondary" (click)="onCancel()"></button>
-        </div>
-      </div>
-    </p-footer>
+  </p-footer>
 
 </p-dialog>

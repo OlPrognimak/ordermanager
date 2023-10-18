@@ -1,14 +1,13 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {LoggingCheck} from '../../domain/domain.invoiceformmodel';
-import {Router} from '@angular/router';
-import {map} from "rxjs/operators";
-import {finalize, interval, Subject, takeUntil} from "rxjs";
-import axios from 'axios'
-import {environment} from "../../../environments/environment";
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoggingCheck } from '../../domain/domain.invoiceformmodel';
+import { Router } from '@angular/router';
+import { map } from "rxjs/operators";
+import { finalize, interval, Subject, takeUntil } from "rxjs";
+import { environment } from "../../../environments/environment";
+import { isAuthenticated, setAuthenticated } from "../../common-services/common-services-util.service";
 
-export  const basicAuthKey = 'basicAuthKey';
-import {isAuthenticated, setAuthenticated} from "../../common-services/common-services-util.service";
+export const basicAuthKey = 'basicAuthKey';
 
 /**
  *
@@ -16,12 +15,12 @@ import {isAuthenticated, setAuthenticated} from "../../common-services/common-se
 export class Auth {
   private _authenticated: boolean
 
-  set authenticated(value: boolean) {
-    this._authenticated = value
+  get authenticated(): boolean {
+    return this._authenticated
   }
 
-  get authenticated() : boolean {
-    return this._authenticated
+  set authenticated(value: boolean) {
+    this._authenticated = value
   }
 
 }
@@ -34,10 +33,10 @@ export const remoteBackendUrl = () => {
  *
  */
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
   }
 )
-export class AppSecurityService implements OnDestroy{
+export class AppSecurityService implements OnDestroy {
 
   // authenticated = false;
   credentials = {username: '', password: ''};
@@ -54,28 +53,28 @@ export class AppSecurityService implements OnDestroy{
   }
 
   isServerStillAlive(service: AppSecurityService) {
-      interval(30000).subscribe(
-        () => {
-          if (isAuthenticated()) {
-            service.checkBackendAuthentication(service)
-          }
-        })
+    interval(30000).subscribe(
+      () => {
+        if (isAuthenticated()) {
+          service.checkBackendAuthentication(service)
+        }
+      })
   }
 
   getBackendBaseUrl(): void {
-   // if( localStorage.getItem("remoteBackendURL") === null ) {
-      this.http.get<any>("backendUrl").pipe(takeUntil(this.notifier)).subscribe(
-        {
-          next(response) {
-            console.log("+++++++++ Try to get backend URL from server.")
-            localStorage.setItem("remoteBackendURL", response.url);
-          },
-          error() {
-            localStorage.setItem("remoteBackendURL", environment.baseUrl);
-            console.log("--------- Get backend URL from environment :" +remoteBackendUrl())
-          }
+    // if( localStorage.getItem("remoteBackendURL") === null ) {
+    this.http.get<any>("backendUrl").pipe(takeUntil(this.notifier)).subscribe(
+      {
+        next(response) {
+          console.log("+++++++++ Try to get backend URL from server.")
+          localStorage.setItem("remoteBackendURL", response.url);
+        },
+        error() {
+          localStorage.setItem("remoteBackendURL", environment.baseUrl);
+          console.log("--------- Get backend URL from environment :" + remoteBackendUrl())
         }
-      )
+      }
+    )
     //}
   }
 
@@ -85,22 +84,22 @@ export class AppSecurityService implements OnDestroy{
    */
   authenticate = (service: AppSecurityService, credentials, callback) => {
 
-    if ( isAuthenticated() === true) {
+    if (isAuthenticated() === true) {
       return callback(true);
     }
 
-    const basicAuth =  'Basic ' + btoa(credentials.username + ':' + credentials.password);
+    const basicAuth = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
     const reqheaders = new HttpHeaders(credentials ? {
-      Authorization : basicAuth,
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
+      Authorization: basicAuth,
+      'Content-Type': 'application/json',
+      Accept: '*/*'
     } : {});
 
     const options = {
-      headers : reqheaders
+      headers: reqheaders
     };
-   const login  = this.http.post<LoggingCheck>(remoteBackendUrl() + 'login', null, options ).pipe(
-      map( response => {
+    const login = this.http.post<LoggingCheck>(remoteBackendUrl() + 'login', null, options).pipe(
+      map(response => {
         if (response.logged === true) {
           setAuthenticated(true);
           localStorage.setItem(basicAuthKey, basicAuth);
@@ -111,25 +110,25 @@ export class AppSecurityService implements OnDestroy{
           return false;
         }
       }));
-   login.pipe(takeUntil(this.notifier)).subscribe(
-     {
-       next(data) {
-         if(data) {
-           return callback(true);
-         } else {
-           return callback(false);
-         }
+    login.pipe(takeUntil(this.notifier)).subscribe(
+      {
+        next(data) {
+          if (data) {
+            return callback(true);
+          } else {
+            return callback(false);
+          }
 
-       },
-       error(err) {
-         return callback(false);
-       }
-     }
-   )
+        },
+        error(err) {
+          return callback(false);
+        }
+      }
+    )
   }
 
   /** clear credentials for logging */
-  public clearCredentials(): void{
+  public clearCredentials(): void {
     this.credentials.username = ''
     this.credentials.password = ''
     setAuthenticated(false)
@@ -138,15 +137,15 @@ export class AppSecurityService implements OnDestroy{
   }
 
 
-  checkBackendAuthentication (service: AppSecurityService) {
+  checkBackendAuthentication(service: AppSecurityService) {
     const auth = new Auth();
     const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
+      'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      Accept : '*/*'
+      Accept: '*/*'
     });
 
-    this.http.get<LoggingCheck>(remoteBackendUrl()+"checkUser", {headers})
+    this.http.get<LoggingCheck>(remoteBackendUrl() + "checkUser", {headers})
       .pipe(takeUntil(this.notifier))
       .subscribe(
         {

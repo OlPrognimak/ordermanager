@@ -28,18 +28,18 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {InvoiceFormModel} from '../../domain/domain.invoiceformmodel';
-import {AgGridAngular} from 'ag-grid-angular';
-import {TableCellRendererComponent} from '../table-cell-renderer/table-cell-renderer.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { InvoiceFormModel } from '../../domain/domain.invoiceformmodel';
+import { AgGridAngular } from 'ag-grid-angular';
+import { TableCellRendererComponent } from '../table-cell-renderer/table-cell-renderer.component';
 import * as _moment from 'moment';
-import {AppSecurityService} from '../../user/user-login/app-security.service';
-import {GridOptions} from 'ag-grid-community';
-import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
-import {DateperiodFinderComponent} from "../../common-components/dateperiod-finder/dateperiod-finder.component";
-import {isAuthenticated, numberCellRenderer} from "../../common-services/common-services-util.service";
-import {CommonServicesPipesNumber} from "../../common-services/common-services.pipes.number";
+import { AppSecurityService } from '../../user/user-login/app-security.service';
+import { GridOptions } from 'ag-grid-community';
+import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
+import { DateperiodFinderComponent } from "../../common-components/dateperiod-finder/dateperiod-finder.component";
+import { isAuthenticated, numberCellRenderer } from "../../common-services/common-services-util.service";
+import { CommonServicesPipesNumber } from "../../common-services/common-services.pipes.number";
 
 /**
  * The component which contains table with invoices for printing in PDF format
@@ -53,25 +53,103 @@ import {CommonServicesPipesNumber} from "../../common-services/common-services.p
 export class PrintinvoiceComponent implements OnInit {
 
   // nvoicesFormModel: any;
+  invoicesFormModel: InvoiceFormModel[];
+  frameworkComponents;
+  @ViewChild('agGrid', {static: false}) agGrid: AgGridAngular;
+  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+  basicAuthKey = 'basicAuthKey';
+  gridOptions: any;
+  processRuns: boolean;
+  protected readonly isAuthenticated = isAuthenticated;
   //backendUrl: string;
   private gridApi;
   private gridColumnApi;
-  invoicesFormModel: InvoiceFormModel[];
-  frameworkComponents;
-  @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
-  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
-  private readonly columnDefs:any;
-  basicAuthKey = 'basicAuthKey';
-  gridOptions: any;
+  private readonly columnDefs: any;
 
+  constructor(public securityService: AppSecurityService) {
+    this.gridOptions = ({
+      context: {
+        componentParent: this
+      }
+    } as GridOptions);
+
+    this.columnDefs = [
+      {
+        headerName: 'Pdf report',
+        flex: 2,
+        resizable: true,
+        field: 'invoiceNumber',
+        cellRenderer: TableCellRendererComponent
+      },
+      {
+        headerName: 'Invoice Number', resizable: true, field: 'invoiceNumber',
+        sortable: true, filter: true, editable: true
+      },
+      {
+        headerName: 'Description',
+        resizable: true,
+        field: 'invoiceDescription',
+        sortable: true,
+        filter: true,
+        editable: true
+      },
+      {
+        headerName: 'Invoice creator',
+        resizable: true,
+        field: 'supplierFullName',
+        sortable: true,
+        filter: true,
+        editable: true
+      },
+      {
+        headerName: 'Invoice recipient',
+        resizable: true,
+        field: 'recipientFullName',
+        sortable: true,
+        filter: true,
+        editable: true
+      },
+      {headerName: 'Rate type', field: 'rateType', sortable: true, filter: true, editable: true},
+      {
+        headerName: 'Creation date', resizable: true, field: 'creationDate',
+        cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true
+      },
+      {
+        headerName: 'Invoice date', resizable: true, field: 'invoiceDate',
+        cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true
+      },
+      {
+        headerName: 'Netto price',
+        cellRenderer: numberCellRenderer,
+        resizable: true,
+        field: 'totalSumNetto',
+        sortable: true,
+        filter: true,
+        editable: true
+      },
+      {
+        headerName: 'Brutto price',
+        cellRenderer: numberCellRenderer,
+        resizable: true,
+        field: 'totalSumBrutto',
+        sortable: true,
+        filter: true,
+        editable: true
+      }
+    ];
+    this.gridOptions.columnDefs = this.columnDefs;
+  }
 
   /**
    * the column definition for table
    */
-  creationDateCell: any = (params)=>{ return _moment(params.data.creationDate).format('MM.DD.yyyy')};
-  invoiceDateCell: any = (params)=>{ return _moment(params.data.invoiceDate).format('MM.yyyy')};
-  processRuns: boolean;
+  creationDateCell: any = (params) => {
+    return _moment(params.data.creationDate).format('MM.DD.yyyy')
+  };
 
+  invoiceDateCell: any = (params) => {
+    return _moment(params.data.invoiceDate).format('MM.yyyy')
+  };
 
   checkType = function getClassName(obj: any): string {
     if (obj && obj.constructor) {
@@ -81,37 +159,12 @@ export class PrintinvoiceComponent implements OnInit {
     }
   }
 
-  constructor( public securityService: AppSecurityService) {
-    this.gridOptions = ({
-      context: {
-        componentParent: this
-      }
-    } as GridOptions);
-
-    this.columnDefs = [
-      { headerName: 'Pdf report', flex: 2, resizable: true, field: 'invoiceNumber', cellRenderer: TableCellRendererComponent },
-      {headerName: 'Invoice Number',  resizable: true, field: 'invoiceNumber',
-        sortable: true, filter: true,  editable: true},
-      {headerName: 'Description', resizable: true, field: 'invoiceDescription', sortable: true, filter: true, editable: true},
-      {headerName: 'Invoice creator', resizable: true, field: 'supplierFullName', sortable: true, filter: true, editable: true},
-      {headerName: 'Invoice recipient', resizable: true, field: 'recipientFullName', sortable: true, filter: true, editable: true},
-      {headerName: 'Rate type',  field: 'rateType', sortable: true, filter: true, editable: true},
-      {headerName: 'Creation date', resizable: true, field: 'creationDate',
-        cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true},
-      {headerName: 'Invoice date',  resizable: true, field: 'invoiceDate',
-        cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true},
-      {headerName: 'Netto price', cellRenderer: numberCellRenderer ,resizable: true, field: 'totalSumNetto', sortable: true, filter: true, editable: true},
-      {headerName: 'Brutto price', cellRenderer: numberCellRenderer, resizable: true, field: 'totalSumBrutto', sortable: true, filter: true, editable: true}
-    ];
-    this.gridOptions.columnDefs = this.columnDefs;
-  }
-
   /**
    *
    * @param isRun
    */
   public isProcessRunned(isRun: boolean): void {
-      this.processRuns = isRun;
+    this.processRuns = isRun;
   }
 
   ngOnInit(): void {
@@ -132,23 +185,20 @@ export class PrintinvoiceComponent implements OnInit {
    * sets to components the api objects from
    * @param params the event from grid
    */
-  onGridReady(params): any{
+  onGridReady(params): any {
     this.gridApi = params.api;
     this.gridColumnApi = params.gridColumnApi;
     params.api.sizeColumnsToFit();
     this.loadInvoices();
   }
 
-  onRowValueChanged(event: any): any{
+  onRowValueChanged(event: any): any {
     console.log('onRowValueChanged: ' + event);
   }
 
-  cellChanged(event: any): any{
+  cellChanged(event: any): any {
     console.log('cellChanged: ' + event);
   }
-
-  protected readonly isAuthenticated = isAuthenticated;
-
 
   setDataModel(model: InvoiceFormModel[]) {
     this.invoicesFormModel = model

@@ -28,33 +28,37 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, NgModule, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
-import {DropdownDataType, InvoiceFormModel, InvoiceFormModelInterface} from '../../domain/domain.invoiceformmodel';
-import {BankAccountFormModel, PersonAddressFormModel, PersonFormModel} from '../../domain/domain.personformmodel';
-import {MessageService} from 'primeng/api';
-import {AppSecurityService} from '../../user/user-login/app-security.service';
+import { Component, NgModule, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DropdownDataType, InvoiceFormModel, InvoiceFormModelInterface } from '../../domain/domain.invoiceformmodel';
+import { BankAccountFormModel, PersonAddressFormModel, PersonFormModel } from '../../domain/domain.personformmodel';
+import { MessageService } from 'primeng/api';
+import { AppSecurityService } from '../../user/user-login/app-security.service';
 import {
   CommonServicesUtilService,
   isAuthenticated,
   personType
 } from '../../common-services/common-services-util.service';
-import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
-import {CommonModule} from "@angular/common";
-import {FormGroupDirective, FormsModule, NgForm, NgModel} from "@angular/forms";
-import {ButtonModule} from "primeng/button";
-import {ValidatableInputTextModule} from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {MessagesModule} from "primeng/messages";
-import {MessageModule} from "primeng/message";
-import {ToastModule} from "primeng/toast";
-import {ValidatableDropdownlistModule} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import {InputTextModule} from "primeng/inputtext";
-import {AngularIbanModule} from "angular-iban";
-import {InvoicePipesModule} from "../../common-services/common-services.pipes.number";
-import {WorkflowModule} from "../../workflows/invoice-workflow/workflow.module";
-import {ActivatedRoute, Router} from "@angular/router";
-import {of, Subscriber} from "rxjs";
-import {Store} from "@ngrx/store";
-import {InvoiceActions} from "../../workflows/invoice-workflow/state/invoice.actions";
+import { CommonServicesAppHttpService, MessagesPrinter } from '../../common-services/common-services.app.http.service';
+import { CommonModule } from "@angular/common";
+import { FormGroupDirective, FormsModule, NgForm, NgModel } from "@angular/forms";
+import { ButtonModule } from "primeng/button";
+import {
+  ValidatableInputTextModule
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
+import { MessagesModule } from "primeng/messages";
+import { MessageModule } from "primeng/message";
+import { ToastModule } from "primeng/toast";
+import {
+  ValidatableDropdownlistModule
+} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
+import { InputTextModule } from "primeng/inputtext";
+import { AngularIbanModule } from "angular-iban";
+import { InvoicePipesModule } from "../../common-services/common-services.pipes.number";
+import { WorkflowModule } from "../../workflows/invoice-workflow/workflow.module";
+import { ActivatedRoute, Router } from "@angular/router";
+import { of, Subscriber } from "rxjs";
+import { Store } from "@ngrx/store";
+import { InvoiceActions } from "../../workflows/invoice-workflow/state/invoice.actions";
 
 /**
  * The component which contains form component for creation of person
@@ -78,6 +82,16 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   /** Model invoice supplier for dropdown component */
   personInvoiceSupplier: DropdownDataType[];
   basicAuthKey = 'basicAuthKey';
+  ibanContolModel: NgModel;
+  emailPattern = '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}'
+  ibanValidationAtts = {
+    ibanValidator: true
+  }
+  createPersonType: string
+  routeSubscribe: Subscriber<any>
+  flowInvoiceModel: InvoiceFormModelInterface
+  protected readonly personType = personType;
+  protected readonly isAuthenticated = isAuthenticated;
   private hasPersonTypeError: boolean;
   private hasFirstNameError: boolean;
   private hasLastNameError: boolean;
@@ -90,14 +104,6 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   private hasBankNameError: boolean;
   private hasIbahError: boolean = true;
   private hasBicError: boolean;
-  ibanContolModel: NgModel;
-  emailPattern =  '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}'
-  ibanValidationAtts =  {
-    ibanValidator: true
-  }
-  createPersonType: string
-  routeSubscribe: Subscriber<any>
-  flowInvoiceModel: InvoiceFormModelInterface
 
   /**
    * The constructor
@@ -123,10 +129,10 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-     // if(this.routeSubscribe !== undefined) {
-     //   this.routeSubscribe?.unsubscribe()
-     // }
-    }
+    // if(this.routeSubscribe !== undefined) {
+    //   this.routeSubscribe?.unsubscribe()
+    // }
+  }
 
   /**
    * Init component
@@ -134,7 +140,7 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.routeSubscribe = this.createPersonType = params['createPerson'];
-      if(this.routeSubscribe !== undefined) {
+      if (this.routeSubscribe !== undefined) {
         this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
         this.store.subscribe(s => {
           this.flowInvoiceModel = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
@@ -146,7 +152,6 @@ export class PersonFormComponent implements OnInit, OnDestroy {
     this.personAddressModel = this.personFormModel.personAddressFormModel;
   }
 
-
   /**
    * Saves person to the database on server
    * @param event the event object
@@ -156,34 +161,30 @@ export class PersonFormComponent implements OnInit, OnDestroy {
     this.httpService.putObjectToServer('PUT', this.personFormModel, 'Person',
       'person', (callback) => {
         if (callback) {
-          setTimeout(() =>{
+          setTimeout(() => {
             this.messagePrinter.printSuccessMessage('Person')
           })
-          if(returnCallBack) {
-              if(this.createPersonType === 'creator') {
-                this.flowInvoiceModel.personSupplierId = ''+callback.toString()
-              } else if (this.createPersonType === 'recipient') {
-                this.flowInvoiceModel.personRecipientId = ''+callback.toString()
-              }
+          if (returnCallBack) {
+            if (this.createPersonType === 'creator') {
+              this.flowInvoiceModel.personSupplierId = '' + callback.toString()
+            } else if (this.createPersonType === 'recipient') {
+              this.flowInvoiceModel.personRecipientId = '' + callback.toString()
+            }
             this.store.dispatch({type: InvoiceActions.setInvoiceCreatorAction.type, data: this.flowInvoiceModel})
-            this.router.navigate(["/workflow-create-invoice"],{queryParams: {createPerson: this.createPersonType}})
+            this.router.navigate(["/workflow-create-invoice"], {queryParams: {createPerson: this.createPersonType}})
           }
           this.personFormModel = new PersonFormModel();
-        }else {
-          setTimeout(() =>{
+        } else {
+          setTimeout(() => {
             this.messagePrinter.printUnsuccessefulMessage('The person can not be saved', null)
           })
         }
       });
   }
 
-  private storeDate(data) {
-    of(data).subscribe(data=>this.store.dispatch({type: InvoiceActions.setInvoiceCreatorAction.type, data: data}))
-  }
-
   setHasPersonTypeError(val: boolean) {
-    setTimeout( () => {
-      if(this.hasPersonTypeError !== val) {
+    setTimeout(() => {
+      if (this.hasPersonTypeError !== val) {
         this.hasPersonTypeError = val
       }
     })
@@ -265,13 +266,12 @@ export class PersonFormComponent implements OnInit, OnDestroy {
 
     if (this.hasIbahError !== val) {
       setTimeout(() => {
-          this.hasIbahError = val
-        })
+        this.hasIbahError = val
+      })
     }
 
     return origin;
   }
-
 
   setHasBicError(val: boolean) {
     setTimeout(() => {
@@ -283,21 +283,21 @@ export class PersonFormComponent implements OnInit, OnDestroy {
 
   haveErrors() {
     let hasSomeError = false
-    if(this.hasPersonTypeError) {
+    if (this.hasPersonTypeError) {
       return true;
-    } else if(this.personFormModel.personType==='PRIVATE'){
+    } else if (this.personFormModel.personType === 'PRIVATE') {
       hasSomeError = this.hasFirstNameError || this.hasLastNameError || this.hasTaxNumberError
-    } else if(this.personFormModel.personType==='ORGANISATION'){
+    } else if (this.personFormModel.personType === 'ORGANISATION') {
       hasSomeError = this.hasCompanyNameError
     }
     const commonResult = hasSomeError ||
-             this.hasEmailError ||
-             this.hasZipCodeError ||
-             this.hasCityError ||
-             this.hasStreetError ||
-             this.hasBankNameError ||
-             this.hasIbahError ||
-             this.hasBicError
+      this.hasEmailError ||
+      this.hasZipCodeError ||
+      this.hasCityError ||
+      this.hasStreetError ||
+      this.hasBankNameError ||
+      this.hasIbahError ||
+      this.hasBicError
     return commonResult
   }
 
@@ -315,8 +315,9 @@ export class PersonFormComponent implements OnInit, OnDestroy {
     //this.formGroupDirective.form.updateValueAndValidity()
   }
 
-  protected readonly personType = personType;
-  protected readonly isAuthenticated = isAuthenticated;
+  private storeDate(data) {
+    of(data).subscribe(data => this.store.dispatch({type: InvoiceActions.setInvoiceCreatorAction.type, data: data}))
+  }
 }
 
 @NgModule(
@@ -327,4 +328,5 @@ export class PersonFormComponent implements OnInit, OnDestroy {
     exports: [PersonFormComponent],
   }
 )
-export class PersonFormModule{}
+export class PersonFormModule {
+}

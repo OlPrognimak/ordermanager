@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {InputTextModule} from "primeng/inputtext";
-import {MessageModule} from "primeng/message";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {DropdownChangeEvent, DropdownModule} from "primeng/dropdown";
-import {CalendarModule} from "primeng/calendar";
-import {PaginatorModule} from "primeng/paginator";
+import { InputTextModule } from "primeng/inputtext";
+import { MessageModule } from "primeng/message";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { DropdownChangeEvent, DropdownModule } from "primeng/dropdown";
+import { CalendarModule } from "primeng/calendar";
+import { PaginatorModule } from "primeng/paginator";
 
 @Component({
   selector: 'app-templates-component',
@@ -17,11 +17,11 @@ import {PaginatorModule} from "primeng/paginator";
 export class TemplatesComponentComponent {
 
 
-  @ViewChild('inputTextTemplate', {static : true}) inputTextTemplate : TemplateRef<InputTextTemplateContext>;
-  @ViewChild('inputNumberTemplate', {static : true}) inputNumberTemplate : TemplateRef<InputTextTemplateContext>;
-  @ViewChild('comboboxTemplate', {static : true}) comboboxTemplate : TemplateRef<DropDownTemplateContext>;
-  @ViewChild('calendarTemplate', {static : true}) calendarTemplate : TemplateRef<CalendarTemplateContext>;
-  @ViewChild('standaloneFormCalendarTemplate', {static : true}) standaloneFormCalendarTemplate: TemplateRef<StandaloneCalendarTemplateContext>;
+  @ViewChild('inputTextTemplate', {static: true}) inputTextTemplate: TemplateRef<InputTextTemplateContext>;
+  @ViewChild('inputNumberTemplate', {static: true}) inputNumberTemplate: TemplateRef<InputTextTemplateContext>;
+  @ViewChild('comboboxTemplate', {static: true}) comboboxTemplate: TemplateRef<DropDownTemplateContext>;
+  @ViewChild('calendarTemplate', {static: true}) calendarTemplate: TemplateRef<CalendarTemplateContext>;
+  @ViewChild('standaloneFormCalendarTemplate', {static: true}) standaloneFormCalendarTemplate: TemplateRef<StandaloneCalendarTemplateContext>;
 
   @Input() templatesFormGroup: FormGroup
   @Output() dropdownValueChanged: EventEmitter<DropdownChangeEvent> = new EventEmitter<DropdownChangeEvent>()
@@ -40,7 +40,7 @@ export class TemplatesComponentComponent {
   }
 
   onCalendarChange(date: Date, name: string) {
-    this.calendarValueChanged.emit({calendarName: name, date: date} )
+    this.calendarValueChanged.emit({calendarName: name, date: date})
   }
 
 

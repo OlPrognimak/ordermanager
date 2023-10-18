@@ -1,10 +1,10 @@
-<p-dialog [(visible)]="visible"
-          [style]="{ width: '80vw', height: '65vw' }"
+<p-dialog (onHide)="setVisible(false)"
+          [(visible)]="visible"
           [contentStyle]="{'overflow': 'auto'}"
-          (onHide)="setVisible(false)">
-  <ng-template pTemplate ="header">
-    <div class = "header-dialog-container">
-      <h2 style = "padding-left: 2vw; color: white">Edit invoice</h2>
+          [style]="{ width: '80vw', height: '65vw' }">
+  <ng-template pTemplate="header">
+    <div class="header-dialog-container">
+      <h2 style="padding-left: 2vw; color: white">Edit invoice</h2>
     </div>
   </ng-template>
   <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG">
@@ -12,9 +12,9 @@
       <p-toast></p-toast>
     </div>
     <div class="p-fluid">
-      <div class ="shadow-panel-color p-shadow-4">
-        <div style = "margin-top: 10pt" class="p-grid">
-          <div style="margin-top: 25pt" class="p-col-4">
+      <div class="shadow-panel-color p-shadow-4">
+        <div class="p-grid" style="margin-top: 10pt">
+          <div class="p-col-4" style="margin-top: 25pt">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceNumber',
                    idComponent: 'id_InvoiceNumber',
@@ -22,7 +22,7 @@
                   }">
             </ng-container>
           </div>
-          <div style="margin-top: 25pt" class="p-col-4">
+          <div class="p-col-4" style="margin-top: 25pt">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceDescription',
                    idComponent: 'id-invoiceDescription',
@@ -33,7 +33,7 @@
 
         </div>
         <div class="p-grid">
-          <div style="margin-top: 15pt" class="p-col-3">
+          <div class="p-col-3" style="margin-top: 15pt">
             <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'rateType',
                    placeholderPar: 'Select rate Type',
@@ -68,7 +68,7 @@
         </div>
 
         <div class="p-grid">
-          <div style="margin-top: 15pt;" class="p-col-6">
+          <div class="p-col-6" style="margin-top: 15pt;">
             <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'personSupplierId',
                    placeholderPar: 'Select person',
@@ -95,10 +95,11 @@
       </div>
 
       <app-reactive-invoice-items-table
+        #reactiveItemsTableComponent
         (changeItemEvent)="invoiceItemsChanged($event)"
-        (totalNettoSumEvent)="totalNettoSumChanged($event)"
         (totalBruttoSumEvent)="totalBruttoSumChanged($event)"
-        [invoiceReactiveItems]="invoiceReactiveDlgFormData.invoiceItems" #reactiveItemsTableComponent>
+        (totalNettoSumEvent)="totalNettoSumChanged($event)"
+        [invoiceReactiveItems]="invoiceReactiveDlgFormData.invoiceItems">
 
       </app-reactive-invoice-items-table>
 
@@ -106,9 +107,9 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button [disabled]="haveErrors()" (click)="putChangesBack()" label="Save" icon="pi pi-check"
+    <p-button (click)="putChangesBack()" [disabled]="haveErrors()" icon="pi pi-check" label="Save"
               styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-check pink-300" (click)="setVisible(false)" label="Cancel"
+    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="Cancel"
               styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>

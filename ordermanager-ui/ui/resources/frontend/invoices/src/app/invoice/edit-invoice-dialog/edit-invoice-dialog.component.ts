@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ButtonModule} from "primeng/button";
-import {InputTextModule} from "primeng/inputtext";
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
 import {
   AbstractControl,
   FormBuilder,
@@ -11,43 +11,46 @@ import {
   ReactiveFormsModule,
   Validators
 } from "@angular/forms";
-import {ToastModule} from "primeng/toast";
+import { ToastModule } from "primeng/toast";
 import {
-    ValidatableInputTextModule
+  ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {InvoiceFormModule} from "../invoiceform/invoiceform.component";
-import {ValidatableCalendarModule} from "../../common-components/validatable-calendar/validatable-calendar.component";
+import { InvoiceFormModule } from "../invoiceform/invoiceform.component";
+import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import {HttpClient} from "@angular/common/http";
-import {AppSecurityService} from "../../user/user-login/app-security.service";
-import {MessageService} from "primeng/api";
+import { HttpClient } from "@angular/common/http";
+import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { MessageService } from "primeng/api";
 import {
   CommonServicesUtilService,
   compareObjects,
-  invoiceRate, isAuthenticated
+  invoiceRate,
+  isAuthenticated
 } from "../../common-services/common-services-util.service";
-import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
+import { CommonServicesAppHttpService, MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import {
   DropdownDataType,
   InvoiceFormModel,
-  InvoiceFormModelInterface, InvoiceItemModel
+  InvoiceFormModelInterface,
+  InvoiceItemModel
 } from "../../domain/domain.invoiceformmodel";
 import {
   CalendarValueWrapper,
   TemplatesComponentComponent
 } from "../../common-components/templates-component/templates-component.component";
-import {TooltipModule} from "primeng/tooltip";
-import {DialogModule} from "primeng/dialog";
-import {CalendarModule} from "primeng/calendar";
+import { TooltipModule } from "primeng/tooltip";
+import { DialogModule } from "primeng/dialog";
+import { CalendarModule } from "primeng/calendar";
 import {
   InvoiceReactiveItemsTableComponent
 } from "../invoice-reactive-items-table/invoice-reactive-items-table.component";
-import {Subject} from "rxjs";
-import {MessageModule} from "primeng/message";
-import {MessagesModule} from "primeng/messages";
-import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+import { Subject } from "rxjs";
+import { MessageModule } from "primeng/message";
+import { MessagesModule } from "primeng/messages";
+import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+
 export type InvoiceControls = { [key in keyof InvoiceFormModelInterface]: AbstractControl }
 type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: InvoiceControls }
 
@@ -67,7 +70,7 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
     TemplatesComponentComponent,
     TooltipModule, MessageModule, MessagesModule,
     DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, ConfirmationDialogComponent],
-  providers:  [
+  providers: [
     MessageService, MessagesPrinter, CommonServicesUtilService
   ],
   templateUrl: './edit-invoice-dialog.component.html',
@@ -75,8 +78,8 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
 })
 export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('templatesComponent') templatesComponentComponent : TemplatesComponentComponent
-  @ViewChild('templatesComponentForInvoiceDate') templatesComponentForInvoiceDate : TemplatesComponentComponent
+  @ViewChild('templatesComponent') templatesComponentComponent: TemplatesComponentComponent
+  @ViewChild('templatesComponentForInvoiceDate') templatesComponentForInvoiceDate: TemplatesComponentComponent
   @ViewChild('reactiveItemsTableComponent') itemsTableComponent: InvoiceReactiveItemsTableComponent
 
   editInvoiceFG: InvoiceFormGroup
@@ -91,8 +94,9 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   originalInvoice: InvoiceFormModel
   invoiceItems: InvoiceItemModel[]
   eventsModelIsReset: Subject<void> = new Subject<void>();
-  private isViewInitialized = false;
   protected readonly invoiceRate = invoiceRate;
+  protected readonly isAuthenticated = isAuthenticated;
+  private isViewInitialized = false;
 
   constructor(private httpClient: HttpClient,
               public appSecurityService: AppSecurityService,
@@ -103,26 +107,25 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
               private formBuilder: FormBuilder) {
 
     this.editInvoiceFG = this.formBuilder.group({
-        id: this.formBuilder.nonNullable.control(0),
-        invoiceNumber: this.formBuilder.nonNullable.control('', [Validators.required]),
-        invoiceDescription: this.formBuilder.nonNullable.control('', [Validators.required]),
-        creationDate: this.formBuilder.nonNullable.control(null, [Validators.required]),
-        invoiceDate: this.formBuilder.nonNullable.control(null, [Validators.required]),
-        invoiceItems: this.formBuilder.nonNullable.control([]),
-        supplierFullName: this.formBuilder.nonNullable.control(''),
-        recipientFullName: this.formBuilder.nonNullable.control('', [Validators.required]),
-        personRecipientId: this.formBuilder.nonNullable.control(null,[Validators.required]),
-        personSupplierId: this.formBuilder.nonNullable.control(null, [Validators.required]),
-        rateType:  this.formBuilder.nonNullable.control(null, [Validators.required]),
-        totalSumNetto: this.formBuilder.nonNullable.control(0),
-        totalSumBrutto: this.formBuilder.nonNullable.control(0)
-      } as InvoiceControls) as InvoiceFormGroup
+      id: this.formBuilder.nonNullable.control(0),
+      invoiceNumber: this.formBuilder.nonNullable.control('', [Validators.required]),
+      invoiceDescription: this.formBuilder.nonNullable.control('', [Validators.required]),
+      creationDate: this.formBuilder.nonNullable.control(null, [Validators.required]),
+      invoiceDate: this.formBuilder.nonNullable.control(null, [Validators.required]),
+      invoiceItems: this.formBuilder.nonNullable.control([]),
+      supplierFullName: this.formBuilder.nonNullable.control(''),
+      recipientFullName: this.formBuilder.nonNullable.control('', [Validators.required]),
+      personRecipientId: this.formBuilder.nonNullable.control(null, [Validators.required]),
+      personSupplierId: this.formBuilder.nonNullable.control(null, [Validators.required]),
+      rateType: this.formBuilder.nonNullable.control(null, [Validators.required]),
+      totalSumNetto: this.formBuilder.nonNullable.control(0),
+      totalSumBrutto: this.formBuilder.nonNullable.control(0)
+    } as InvoiceControls) as InvoiceFormGroup
   }
 
   ngAfterViewInit(): void {
     //TODO reserved
-    }
-
+  }
 
   ngOnInit(): void {
     this.resetModel();
@@ -134,25 +137,11 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
    */
   loadFormData() {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
-      if(callback !=null) {
+      if (callback != null) {
         this.personInvoiceRecipient = callback;
         this.personInvoiceSupplier = callback;
       }
     })
-  }
-
-  /**
-   * Resets data model.
-   * @private
-   */
-  private resetModel(): void{
-    this.invoiceReactiveDlgFormData = new InvoiceFormModel();
-    this.invoiceReactiveDlgFormData.invoiceItems.push(new InvoiceItemModel());
-    // this.eventsModelIsReset.next();
-
-    if (this.isViewInitialized) {
-      this.itemsTableComponent.resetTotalValues();
-    }
   }
 
   /**
@@ -162,14 +151,14 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
    */
   setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
-    this.invoiceReactiveDlgFormData = Object.assign({},invoice)
+    this.invoiceReactiveDlgFormData = Object.assign({}, invoice)
     //console.log(" SET ORIGINAL INVOICE "+JSON.stringify(this.originalInvoice))
 
     this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)
     //FIXME need to fix Issue.  see Issue #16 in  Github project ordermanager
-    this.getControl('personRecipientId').setValue(''+this.invoiceReactiveDlgFormData.personRecipientId)
-    this.getControl('personSupplierId').setValue(''+this.invoiceReactiveDlgFormData.personSupplierId)
+    this.getControl('personRecipientId').setValue('' + this.invoiceReactiveDlgFormData.personRecipientId)
+    this.getControl('personSupplierId').setValue('' + this.invoiceReactiveDlgFormData.personSupplierId)
     this.getControl('creationDate').setValue(new Date(this.invoiceReactiveDlgFormData.creationDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
     ///end to fix
@@ -185,32 +174,16 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   haveErrors(): boolean {
     //this.itemsTableComponent.
     const model: InvoiceFormModel = this.editInvoiceFG.value
-    return  this.editInvoiceFG.invalid ||
-    model?.invoiceItems.length === 0 ||
-    model?.invoiceItems.filter(i=>(i.amountItems<=0 || i.amountItems === undefined)).length > 0
-  }
-
-
-  /**
-   * Clones {@code }
-   * @param source
-   * @private
-   */
-  private cloneInvoiceItems(source:InvoiceItemModel[]) : InvoiceItemModel[]{
-    const result: InvoiceItemModel[] = []
-
-    source.forEach((item, idx) =>{
-      result.push(Object.assign({}, item))
-    })
-
-    return result
+    return this.editInvoiceFG.invalid ||
+      model?.invoiceItems.length === 0 ||
+      model?.invoiceItems.filter(i => (i.amountItems <= 0 || i.amountItems === undefined)).length > 0
   }
 
   /**
    * Puts changes in dialog back to the invoice management component
    */
   putChangesBack() {
-    if(this.haveErrors() === false) {
+    if (this.haveErrors() === false) {
       const keepOriginalInvoice = this.originalInvoice
       this.originalInvoice = this.editInvoiceFG.value
       this.originalInvoice.totalSumNetto = this.invoiceReactiveDlgFormData.totalSumNetto
@@ -238,23 +211,22 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   validateInvoiceItems(originalItems: InvoiceItemModel[], changedItems: InvoiceItemModel[]): boolean {
-    if( !compareObjects(originalItems,changedItems) ) return false
+    if (!compareObjects(originalItems, changedItems)) return false
     let isValid: boolean = true
-    originalItems.forEach((o, idx) =>{
-      const changed = changedItems.filter(c =>c.id === o.id)?.at(0)
-      if(changed !== undefined) {
-          isValid = isValid&&compareObjects(o, changed)
+    originalItems.forEach((o, idx) => {
+      const changed = changedItems.filter(c => c.id === o.id)?.at(0)
+      if (changed !== undefined) {
+        isValid = isValid && compareObjects(o, changed)
       } else {
-          isValid = false
+        isValid = false
       }
     })
     return isValid
   }
 
   setVisible(isVisible: boolean) {
-   // console.log("Set visible ="+isVisible)
+    // console.log("Set visible ="+isVisible)
     this.visible = isVisible
   }
 
@@ -263,7 +235,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   setCalendarValue(event: CalendarValueWrapper) {
-    console.log('Set Value: Name:'+event.calendarName+ ': Date :'+event.date.toDateString())
+    console.log('Set Value: Name:' + event.calendarName + ': Date :' + event.date.toDateString())
     this.getControl(event.calendarName).setValue(event.date)
 
   }
@@ -273,12 +245,39 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   totalNettoSumChanged(event: number) {
-    this.invoiceReactiveDlgFormData.totalSumNetto=event
+    this.invoiceReactiveDlgFormData.totalSumNetto = event
   }
 
   totalBruttoSumChanged(event: number) {
-    this.invoiceReactiveDlgFormData.totalSumBrutto=event
+    this.invoiceReactiveDlgFormData.totalSumBrutto = event
   }
 
-  protected readonly isAuthenticated = isAuthenticated;
+  /**
+   * Resets data model.
+   * @private
+   */
+  private resetModel(): void {
+    this.invoiceReactiveDlgFormData = new InvoiceFormModel();
+    this.invoiceReactiveDlgFormData.invoiceItems.push(new InvoiceItemModel());
+    // this.eventsModelIsReset.next();
+
+    if (this.isViewInitialized) {
+      this.itemsTableComponent.resetTotalValues();
+    }
+  }
+
+  /**
+   * Clones {@code }
+   * @param source
+   * @private
+   */
+  private cloneInvoiceItems(source: InvoiceItemModel[]): InvoiceItemModel[] {
+    const result: InvoiceItemModel[] = []
+
+    source.forEach((item, idx) => {
+      result.push(Object.assign({}, item))
+    })
+
+    return result
+  }
 }

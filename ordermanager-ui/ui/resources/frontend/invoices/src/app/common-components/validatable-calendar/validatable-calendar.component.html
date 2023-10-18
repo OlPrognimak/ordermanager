@@ -5,33 +5,33 @@
 *@param idComponent the id of component
 *@param onChange($event) callback method on the parent component which sends changed value in child (this) component
 -->
-<div style ="display: table; width: 100%;">
-  <div style ="display: table-row; width: 100%;">
-    <div style ="display: table-cell; width: 100%;">
+<div style="display: table; width: 100%;">
+  <div style="display: table-row; width: 100%;">
+    <div style="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                    <p-calendar [dateFormat]="calendarDateFormat"
-                                required
-                                minlength="txtMinLength"
-                                id="{{idComponent}}"
-                                [(ngModel)]="controlValue"
+                    <p-calendar #modelCalenderRef="ngModel"
                                 (ngModelChange)="onChange($event)"
-                                #modelCalenderRef="ngModel">
+                                [(ngModel)]="controlValue"
+                                [dateFormat]="calendarDateFormat"
+                                id="{{idComponent}}"
+                                minlength="txtMinLength"
+                                required>
                     </p-calendar>
-                    <label  for="{{idComponent}}">{{labelText}}</label>
+                    <label for="{{idComponent}}">{{labelText}}</label>
                </span>
     </div>
     <div *ngIf="setHasMinLengthError(modelCalenderRef.errors?.minlength !== null,
-                                          modelCalenderRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
+                                          modelCalenderRef.errors?.minlength)" style="display: table-cell; width: 10%;">
       <div style="margin-top: 15pt !important;">
         <p-message severity="error"></p-message>
       </div>
     </div>
     <div *ngIf="setHasRequiredError(modelCalenderRef.errors?.required !== undefined &&
                                         modelCalenderRef.errors?.required !== null,
-                                        modelCalenderRef.errors?.required)" style ="display: table-cell; width: 10%;">
+                                        modelCalenderRef.errors?.required)" style="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
     </div>
-    <div *ngIf = "modelCalenderRef.errors?.startDateMoreEndDate">
+    <div *ngIf="modelCalenderRef.errors?.startDateMoreEndDate">
       <p-message severity="error"></p-message>
     </div>
 

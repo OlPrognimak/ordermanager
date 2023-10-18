@@ -1,9 +1,9 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../../domain/domain.invoiceformmodel';
-import {printToJson} from "../../common-services/common-services-util.service";
-import {remoteBackendUrl} from "../../user/user-login/app-security.service";
-import {Subject, takeUntil} from "rxjs";
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DropdownDataType, InvoiceItemModel, ItemCatalogModel } from '../../domain/domain.invoiceformmodel';
+import { printToJson } from "../../common-services/common-services-util.service";
+import { remoteBackendUrl } from "../../user/user-login/app-security.service";
+import { Subject, takeUntil } from "rxjs";
 
 /**
  * The service for table which contains items of invoice
@@ -11,7 +11,7 @@ import {Subject, takeUntil} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class InvoiceItemsTableService implements OnDestroy{
+export class InvoiceItemsTableService implements OnDestroy {
   /** the url to the server */
   //backendUrl: string;
   /** contains items schot description for dropdown list */
@@ -19,6 +19,7 @@ export class InvoiceItemsTableService implements OnDestroy{
 
   basicAuthKey = 'basicAuthKey';
   notifier = new Subject()
+
   /**
    * The constructor of service
    * @param httpClient http client
@@ -27,20 +28,20 @@ export class InvoiceItemsTableService implements OnDestroy{
   }
 
   /* downloads items from catalog items */
-  downloadCatalogItemsDropdownList = (callback) =>{
+  downloadCatalogItemsDropdownList = (callback) => {
     const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    });
     this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + 'invoice/itemscatalogdropdown', {headers}).pipe(takeUntil(this.notifier),)
-     .subscribe( {
-       next(response) {
-         return callback(response)
-       },
-       error(err) {
-         console.log("Can not load item list for invoice. " + JSON.stringify(err))
-       }
-    })
+      .subscribe({
+        next(response) {
+          return callback(response)
+        },
+        error(err) {
+          console.log("Can not load item list for invoice. " + JSON.stringify(err))
+        }
+      })
   };
 
   /**
@@ -49,17 +50,17 @@ export class InvoiceItemsTableService implements OnDestroy{
    * @param idItemCatalog id catalog item
    * @param callback result call back object
    */
-  loadCatalogItemDetails = (invoiceitem: InvoiceItemModel, idItemCatalog: any, callback): void =>{
+  loadCatalogItemDetails = (invoiceitem: InvoiceItemModel, idItemCatalog: any, callback): void => {
     const headers = new HttpHeaders({
-      Authorization : localStorage.getItem(this.basicAuthKey) as string,
-      'Content-Type' : 'application/json',
-      Accept : '*/*'
-    } );
+      Authorization: localStorage.getItem(this.basicAuthKey) as string,
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    });
     invoiceitem.catalogItemId = Number(idItemCatalog);
     this.httpClient.get<ItemCatalogModel>((remoteBackendUrl() + 'invoice/itemcatalog/' + invoiceitem.catalogItemId),
       {headers}).pipe(takeUntil(this.notifier),)
-      .subscribe( {
-        next(response){
+      .subscribe({
+        next(response) {
           invoiceitem.amountItems = 0
           invoiceitem.sumNetto = 0
           invoiceitem.sumBrutto = 0

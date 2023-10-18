@@ -38,16 +38,17 @@ import {
   NgModule,
   OnInit,
   Output,
-  Renderer2, ViewChild
+  Renderer2,
+  ViewChild
 } from '@angular/core';
-import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from "@angular/forms";
-import {CalendarModule} from 'primeng/calendar';
-import {CommonModule} from "@angular/common";
-import {MessagesModule} from "primeng/messages";
-import {MessageModule} from "primeng/message";
-import {ToastModule} from "primeng/toast";
-import {InputTextModule} from "primeng/inputtext";
-import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvider";
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from "@angular/forms";
+import { CalendarModule } from 'primeng/calendar';
+import { CommonModule } from "@angular/common";
+import { MessagesModule } from "primeng/messages";
+import { MessageModule } from "primeng/message";
+import { ToastModule } from "primeng/toast";
+import { InputTextModule } from "primeng/inputtext";
+import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProvider";
 
 
 @Component({
@@ -66,7 +67,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
   /** minimal length of text */
   @ViewChild('modelCalenderRef') modelCalenderRef: NgModel;
-  @Input()  public txtMinLength = 1;
+  @Input() public txtMinLength = 1;
   @Input() public idComponent = '';
   @Input() public labelText = '';
   @Input() dateFormat;
@@ -74,39 +75,15 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   @Input() controlValue = '';
   @Input() calendarDateFormat: string;
   @Output() controlModel: EventEmitter<NgModel> = new EventEmitter<NgModel>()
-  hasRequiredError: boolean =  false
-  hasMinLengthError: boolean =  false
+  hasRequiredError: boolean = false
+  hasMinLengthError: boolean = false
   lastEmitedValue: boolean | undefined = undefined
   @Output() componentHasError = new EventEmitter<boolean>
   onChange: (val) => void;
   onTouched: () => void;
+  protected readonly dateTimestampProvider = dateTimestampProvider;
 
-
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
-
-  setHasRequiredError(val: boolean, origin: any) {
-    if(this.hasRequiredError === undefined || this.hasRequiredError !==val) {
-      this.hasRequiredError = val
-      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
-      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
-        this.lastEmitedValue = emitVal
-        this.componentHasError.emit(emitVal)
-      }
-    }
-    return origin
-  }
-
-  setHasMinLengthError(val: boolean, origin: any) {
-    if(this.hasMinLengthError === undefined || this.hasMinLengthError !==val) {
-      this.hasMinLengthError = val
-      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
-      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
-        this.lastEmitedValue = emitVal
-        this.componentHasError.emit(emitVal)
-      }
-    }
-
-    return origin;
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {
   }
 
   // get accessor
@@ -122,9 +99,33 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
     }
   }
 
-  ngOnInit(): void {
+  setHasRequiredError(val: boolean, origin: any) {
+    if (this.hasRequiredError === undefined || this.hasRequiredError !== val) {
+      this.hasRequiredError = val
+      const emitVal = (this.hasRequiredError === true || this.hasMinLengthError === true)
+      if (this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+    return origin
   }
 
+  setHasMinLengthError(val: boolean, origin: any) {
+    if (this.hasMinLengthError === undefined || this.hasMinLengthError !== val) {
+      this.hasMinLengthError = val
+      const emitVal = (this.hasRequiredError === true || this.hasMinLengthError === true)
+      if (this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+
+    return origin;
+  }
+
+  ngOnInit(): void {
+  }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -141,12 +142,11 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
    *
    */
   writeValue(value: any): void {
-      this.controlValue = value;
+    this.controlValue = value;
   }
-  protected readonly dateTimestampProvider = dateTimestampProvider;
 
   ngAfterViewInit(): void {
-    setTimeout(() =>{
+    setTimeout(() => {
       this.controlModel.emit(this.modelCalenderRef)
     })
 
@@ -160,4 +160,5 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
     exports: [ValidatableCalendarComponent]
   }
 )
-export class ValidatableCalendarModule{}
+export class ValidatableCalendarModule {
+}

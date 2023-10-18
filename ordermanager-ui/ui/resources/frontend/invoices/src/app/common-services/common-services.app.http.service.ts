@@ -1,15 +1,15 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {MessageService} from 'primeng/api';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, of, Subject, takeUntil} from 'rxjs';
-import {CreatedResponse, DropdownDataType} from '../domain/domain.invoiceformmodel';
-import {Message} from 'primeng/api/message';
-import {CommonServicesUtilService, printToJson} from './common-services-util.service';
-import {map} from "rxjs/operators";
-import {remoteBackendUrl} from "../user/user-login/app-security.service";
+import { Injectable, OnDestroy } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, of, Subject, takeUntil } from 'rxjs';
+import { CreatedResponse, DropdownDataType } from '../domain/domain.invoiceformmodel';
+import { Message } from 'primeng/api/message';
+import { CommonServicesUtilService, printToJson } from './common-services-util.service';
+import { map } from "rxjs/operators";
+import { remoteBackendUrl } from "../user/user-login/app-security.service";
 
 
-const  handleError = function(err: any): void {
+const handleError = function (err: any): void {
   console.log('Error: ' + JSON.stringify(err));
 }
 
@@ -17,7 +17,7 @@ const  handleError = function(err: any): void {
 @Injectable({
   providedIn: 'root'
 })
-export class CommonServicesAppHttpService<T> implements OnDestroy{
+export class CommonServicesAppHttpService<T> implements OnDestroy {
 
   //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
@@ -38,27 +38,59 @@ export class CommonServicesAppHttpService<T> implements OnDestroy{
    */
   putObjectToServer = (httpMethod: string, objectToSave: T | null, objectName: string, endPointPath: string, callback) => {
 
-     const msgObservable = of(this.messagePrinter);
+    const msgObservable = of(this.messagePrinter);
     this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe({
-        next (response) {
-          if (response.createdId > 0) {
-            msgObservable.subscribe(
-              msgService => msgService.printSuccessMessage(objectName));
-            return callback(response.createdId);
-          }else{
-            console.log('Unexpected error: ' + response);
-            //return callback && callback(false);
-          }
-        },
-        error (err) {
-          console.log("Handle HTTP Request Error :" + JSON.stringify(err))
+      next(response) {
+        if (response.createdId > 0) {
           msgObservable.subscribe(
-            msgService => msgService.printUnsuccessefulMessage(objectName, err));
+            msgService => msgService.printSuccessMessage(objectName));
+          return callback(response.createdId);
+        } else {
+          console.log('Unexpected error: ' + response);
           //return callback && callback(false);
         }
-      })
+      },
+      error(err) {
+        console.log("Handle HTTP Request Error :" + JSON.stringify(err))
+        msgObservable.subscribe(
+          msgService => msgService.printUnsuccessefulMessage(objectName, err));
+        //return callback && callback(false);
+      }
+    })
 
   };
+
+  loadDropdownData = (url: string, callback) => {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      Accept: '*/*'
+    });
+
+    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + url, {headers})
+      .pipe(takeUntil(this.notifier),).pipe(
+        map(response => {
+            //console.log('Get PersonDropDown Response :' + JSON.stringify(response));
+            return response;
+          },
+        ),
+      );
+
+    observableHttpRequest.subscribe({
+      next(response) {
+        return callback(response)
+      },
+      error(err) {
+        console.log("Error loading dropdown data: " + printToJson(err))
+      }
+    });
+
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next('')
+    this.notifier.complete()
+  }
 
   /**
    * Creates PUT Observer  for saving invoice on server
@@ -77,46 +109,13 @@ export class CommonServicesAppHttpService<T> implements OnDestroy{
     } else if (method === 'POST') {
       return this.httpClient.post<any>(
         remoteBackendUrl() + endPointPath, objectToSave, options);
-    } else if (method === 'DELETE'){
-        return this.httpClient.delete<any>(
-          remoteBackendUrl() + endPointPath, options );
+    } else if (method === 'DELETE') {
+      return this.httpClient.delete<any>(
+        remoteBackendUrl() + endPointPath, options);
     } else {
-      throw new Error("HTTP Method '"+method+"' not supported")
+      throw new Error("HTTP Method '" + method + "' not supported")
     }
 
-  }
-
-
-  loadDropdownData = (url: string, callback) => {
-    const headers = new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      Accept : '*/*'
-    });
-
-    const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + url, {headers})
-      .pipe(takeUntil(this.notifier),).pipe(
-        map( response => {
-            //console.log('Get PersonDropDown Response :' + JSON.stringify(response));
-            return response;
-          },
-        ),
-      );
-
-      observableHttpRequest.subscribe({
-        next(response) {
-          return callback(response)
-        },
-        error(err) {
-          console.log("Error loading dropdown data: "+printToJson(err))
-        }
-      });
-
-  }
-
-  ngOnDestroy(): void {
-    this.notifier.next('')
-    this.notifier.complete()
   }
 
 }
@@ -127,10 +126,11 @@ export class CommonServicesAppHttpService<T> implements OnDestroy{
 })
 export class MessagesPrinter {
   constructor(public messageService: MessageService,
-              public utilService: CommonServicesUtilService) {}
+              public utilService: CommonServicesUtilService) {
+  }
 
   /*  prints success message  */
-  public printSuccessMessage(objectName: any): void{
+  public printSuccessMessage(objectName: any): void {
     const msg: Message = {
       severity: 'success', summary: 'Congratulation!',
       detail: 'The ' + objectName + ' is saved successfully.'
@@ -146,7 +146,7 @@ export class MessagesPrinter {
    * @param messagePart object name
    * @param error error which occures
    */
-  public printUnsuccessefulMessage(messagePart: string, error): void{
+  public printUnsuccessefulMessage(messagePart: string, error): void {
 
     let errorText: string
 
@@ -164,8 +164,10 @@ export class MessagesPrinter {
       errorText = messagePart;
       console.log('Error: ' + errorText);
     }
-    const msg: Message = {severity: 'error', summary: 'Error',
-      detail: errorText};
+    const msg: Message = {
+      severity: 'error', summary: 'Error',
+      detail: errorText
+    };
     this.messageService.add(msg);
     this.utilService.hideMassage(msg, 10000);
   }

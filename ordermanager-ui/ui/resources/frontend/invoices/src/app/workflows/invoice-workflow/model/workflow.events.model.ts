@@ -1,4 +1,4 @@
-import {WorkflowStatuses} from "../state/invoice.state";
+import { WorkflowStatuses } from "../state/invoice.state";
 
 
 export class WorkflowEventsModel {
@@ -10,7 +10,7 @@ export class WorkflowEventsModel {
   color: string | undefined
   image: string | undefined
 
-  constructor (data: Partial<WorkflowEventsModel>) {
+  constructor(data: Partial<WorkflowEventsModel>) {
     Object.assign(this, data)
   }
 }

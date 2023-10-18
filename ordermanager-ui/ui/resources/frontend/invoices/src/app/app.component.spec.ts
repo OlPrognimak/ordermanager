@@ -1,15 +1,17 @@
-import {TestBed, waitForAsync} from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {AppComponent} from './app.component';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {UserLoginComponent} from "./user/user-login/user-login.component";
-import {NO_ERRORS_SCHEMA} from "@angular/compiler";
-import {MessageService} from "primeng/api";
-import {TooltipModule} from "primeng/tooltip";
-import {FormsModule} from "@angular/forms";
-import {ToastModule} from "primeng/toast";
-import {ButtonModule} from "primeng/button";
-import {ValidatableInputTextModule} from "./common-components/validatable-input-text/validatable-input-text.component";
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { UserLoginComponent } from "./user/user-login/user-login.component";
+import { NO_ERRORS_SCHEMA } from "@angular/compiler";
+import { MessageService } from "primeng/api";
+import { TooltipModule } from "primeng/tooltip";
+import { FormsModule } from "@angular/forms";
+import { ToastModule } from "primeng/toast";
+import { ButtonModule } from "primeng/button";
+import {
+  ValidatableInputTextModule
+} from "./common-components/validatable-input-text/validatable-input-text.component";
 
 describe('AppComponent', () => {
 

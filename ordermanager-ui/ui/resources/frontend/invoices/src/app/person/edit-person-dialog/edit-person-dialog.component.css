@@ -3,15 +3,15 @@ input[type="text"] {
   width: 100% !important;
 }
 
-:host::ng-deep div#id_Iban_Iban_err > p-message > .p-inline-message.p-component.p-inline-message-error.p-inline-message-icon-only{
+:host::ng-deep div#id_Iban_Iban_err > p-message > .p-inline-message.p-component.p-inline-message-error.p-inline-message-icon-only {
   margin-left: 2px !important;
 }
 
-:host::ng-deep div#id_Iban_Required_err > p-message > .p-inline-message.p-component.p-inline-message-error.p-inline-message-icon-only{
+:host::ng-deep div#id_Iban_Required_err > p-message > .p-inline-message.p-component.p-inline-message-error.p-inline-message-icon-only {
   margin-left: 2px !important;
 }
 
-.p-menubar .p-menubar-root-list{
+.p-menubar .p-menubar-root-list {
   width: 300pt !important;
 }
 
@@ -22,6 +22,7 @@ input[type="text"] {
 :host::ng-deep #id-personType > div {
   margin-top: 30pt;
 }
+
 :host::ng-deep form > div:nth-child(2) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-2 > div {
   margin-top: 20pt;
 }
@@ -30,7 +31,7 @@ input[type="text"] {
   margin-top: 20pt;
 }
 
-:host::ng-deep form > div:nth-child(3) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-4 > div{
+:host::ng-deep form > div:nth-child(3) > div.shadow-panel-color.p-shadow-4 > div:nth-child(1) > div.p-col-4 > div {
   margin-top: 20pt;
 }
 

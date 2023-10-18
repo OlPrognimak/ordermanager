@@ -21,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
   z-index: 2;
   cursor: pointer;
 }
@@ -31,7 +31,7 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 20px);
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 :host::ng-deep app-table-cell-renderer > div > p-button > button > span.p-button-label.ng-star-inserted {

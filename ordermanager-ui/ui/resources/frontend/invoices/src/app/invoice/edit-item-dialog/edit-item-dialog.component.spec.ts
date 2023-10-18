@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditItemDialogComponent } from './edit-item-dialog.component';
-import {MessageService} from "primeng/api";
-import {HttpClient, HttpHandler} from "@angular/common/http";
+import { MessageService } from "primeng/api";
+import { HttpClient, HttpHandler } from "@angular/common/http";
 
 describe('EditIdemDialogComponent', () => {
   let component: EditItemDialogComponent;

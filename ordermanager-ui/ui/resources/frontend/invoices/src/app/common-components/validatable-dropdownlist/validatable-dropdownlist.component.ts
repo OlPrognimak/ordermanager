@@ -32,19 +32,22 @@ import {
   AfterViewInit,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   forwardRef,
   Input,
   NgModule,
-  OnInit, Output,
-  Renderer2, ViewChild
+  OnInit,
+  Output,
+  Renderer2,
+  ViewChild
 } from '@angular/core';
-import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {MessagesModule} from "primeng/messages";
-import {MessageModule} from "primeng/message";
-import {ToastModule} from "primeng/toast";
-import {DropdownModule} from "primeng/dropdown";
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { MessagesModule } from "primeng/messages";
+import { MessageModule } from "primeng/message";
+import { ToastModule } from "primeng/toast";
+import { DropdownModule } from "primeng/dropdown";
 
 @Component({
   selector: 'app-validatable-dropdownlist',
@@ -71,47 +74,13 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   @Output() componentHasError = new EventEmitter<boolean>
   @Output() controlModelEvent = new EventEmitter<NgModel>
   @Output() valueChanged = new EventEmitter<any>
-  hasRequiredError: boolean =  false
-  hasMinLengthError: boolean =  false
-  lastEmitedValue: boolean | undefined= undefined
+  hasRequiredError: boolean = false
+  hasMinLengthError: boolean = false
+  lastEmitedValue: boolean | undefined = undefined
   onChange: (val) => void;
   onTouched: () => void;
 
-  constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
-
-  ngAfterViewInit(): void {
-    this.controlModelEvent.emit(this.modelRef)
-    }
-
-  setHasRequiredError(val: boolean, origin: any) {
-    if(this.hasRequiredError === undefined || this.hasRequiredError !==val) {
-      this.hasRequiredError = val
-      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
-      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
-        this.lastEmitedValue = emitVal
-        this.componentHasError.emit(emitVal)
-      }
-    }
-    return origin
-  }
-
-  setHasMinLengthError(val: boolean, origin: any) {
-    if(this.hasMinLengthError === undefined || this.hasMinLengthError !==val) {
-      this.hasMinLengthError = val
-      const emitVal = (this.hasRequiredError===true||this.hasMinLengthError===true)
-      if(this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
-        this.lastEmitedValue = emitVal
-        this.componentHasError.emit(emitVal)
-      }
-    }
-
-    return origin;
-  }
-
-  setValueChanged(val) {
-    this.valueChanged.emit(val)
-  }
-  ngOnInit(): void {
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {
   }
 
   // get accessor
@@ -125,6 +94,42 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
       this.controlValue = v;
       this.onChange(v);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.controlModelEvent.emit(this.modelRef)
+  }
+
+  setHasRequiredError(val: boolean, origin: any) {
+    if (this.hasRequiredError === undefined || this.hasRequiredError !== val) {
+      this.hasRequiredError = val
+      const emitVal = (this.hasRequiredError === true || this.hasMinLengthError === true)
+      if (this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+    return origin
+  }
+
+  setHasMinLengthError(val: boolean, origin: any) {
+    if (this.hasMinLengthError === undefined || this.hasMinLengthError !== val) {
+      this.hasMinLengthError = val
+      const emitVal = (this.hasRequiredError === true || this.hasMinLengthError === true)
+      if (this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
+        this.lastEmitedValue = emitVal
+        this.componentHasError.emit(emitVal)
+      }
+    }
+
+    return origin;
+  }
+
+  setValueChanged(val) {
+    this.valueChanged.emit(val)
+  }
+
+  ngOnInit(): void {
   }
 
   registerOnChange(fn: any): void {
@@ -142,7 +147,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
    *
    */
   writeValue(value: any): void {
-      this.controlValue = value;
+    this.controlValue = value;
   }
 }
 
@@ -154,4 +159,5 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
   }
 )
-export class ValidatableDropdownlistModule{}
+export class ValidatableDropdownlistModule {
+}

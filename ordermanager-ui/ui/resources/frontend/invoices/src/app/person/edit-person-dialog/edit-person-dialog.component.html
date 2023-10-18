@@ -1,184 +1,186 @@
-<p-dialog [(visible)]="visible" [style]="{ width: '60vw', height: '70%' }" (onHide)="setVisible(false)">
-  <ng-template pTemplate ="header">
-    <div class = "header-dialog-container">
-      <h2 style = "padding-left: 2vw; color: white">Edit person</h2>
+<p-dialog (onHide)="setVisible(false)" [(visible)]="visible" [style]="{ width: '60vw', height: '70%' }">
+  <ng-template pTemplate="header">
+    <div class="header-dialog-container">
+      <h2 style="padding-left: 2vw; color: white">Edit person</h2>
     </div>
   </ng-template>
   <div *ngIf="isAuthenticated();" class="p-fluid">
-  <form [formGroup]="editPersonFG">
-    <div class="shadow-panel-color p-shadow-4">
-      <div style="margin-left: 2px;" class="p-grid">
-        <div class="p-col-6">
-          <ng-container *ngTemplateOutlet="comboboxTemplate;
+    <form [formGroup]="editPersonFG">
+      <div class="shadow-panel-color p-shadow-4">
+        <div class="p-grid" style="margin-left: 2px;">
+          <div class="p-col-6">
+            <ng-container *ngTemplateOutlet="comboboxTemplate;
           context:{controlPath: 'personType',
                    placeholderPar: 'Select person type',
                    idComponent: 'id-personType',
                    labelText: 'Person Type',
                    optionList: personType
                   }">
-          </ng-container>
+            </ng-container>
+          </div>
         </div>
-      </div>
-      <div style="margin-bottom: 10pt;" *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid">
-        <div style="margin-left: 6px" class="p-col-3">
-          <ng-container *ngTemplateOutlet="inputTextTemplate;
+        <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid" style="margin-bottom: 10pt;">
+          <div class="p-col-3" style="margin-left: 6px">
+            <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personFirstName',
                    idComponent: 'id_firstName',
                    labelText: 'First name'
                   }">
-          </ng-container>
-        </div>
-        <div class="p-col-3">
-          <ng-container *ngTemplateOutlet="inputTextTemplate;
+            </ng-container>
+          </div>
+          <div class="p-col-3">
+            <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personLastName',
                    idComponent: 'id_lastName',
                    labelText: 'Last name'
                   }">
-          </ng-container>
+            </ng-container>
+          </div>
         </div>
-      </div>
 
-      <div style="margin-bottom: 10pt" *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid">
-        <div class="p-col-3">
-          <ng-container *ngTemplateOutlet="inputTextTemplate;
+        <div *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid" style="margin-bottom: 10pt">
+          <div class="p-col-3">
+            <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'companyName',
                    idComponent: 'id_companyNme',
                    labelText: 'Company name'
                   }">
-          </ng-container>
+            </ng-container>
+          </div>
         </div>
-      </div>
-      <div style="margin-bottom: 10pt;  margin-left: 2px" class="p-grid">
-        <div style="padding-left: 5px" class="p-col-3">
-          <ng-container *ngTemplateOutlet="inputTextTemplate;
+        <div class="p-grid" style="margin-bottom: 10pt;  margin-left: 2px">
+          <div class="p-col-3" style="padding-left: 5px">
+            <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'email',
                    idComponent: 'id_email',
                    labelText: 'E-mail'
                   }">
-          </ng-container>
+            </ng-container>
+          </div>
         </div>
-      </div>
-      <div style="margin-left: 0px !important; padding-left: 0px !important;"
-           *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid">
-        <div style="padding-left: 5px" class="p-col-2">
-          <ng-container *ngTemplateOutlet="inputTextTemplate;
+        <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'"
+             class="p-grid" style="margin-left: 0px !important; padding-left: 0px !important;">
+          <div class="p-col-2" style="padding-left: 5px">
+            <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'taxNumber',
                    idComponent: 'id_taxNumber',
                    labelText: 'Tax number'
                   }">
-          </ng-container>
+            </ng-container>
+          </div>
         </div>
       </div>
-    </div>
 
 
-    <!--  ADDRESS FORM  -->
-    <div formGroupName="personAddressFormModel">
-      <div class="p-grid p-col-6">
-        <H2>Person address</H2>
-      </div>
-      <div class=" shadow-panel-color p-shadow-4">
+      <!--  ADDRESS FORM  -->
+      <div formGroupName="personAddressFormModel">
+        <div class="p-grid p-col-6">
+          <H2>Person address</H2>
+        </div>
+        <div class=" shadow-panel-color p-shadow-4">
 
-        <div class="p-grid">
-          <div style="margin-left: 5pt" class="p-col-2">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
+          <div class="p-grid">
+            <div class="p-col-2" style="margin-left: 5pt">
+              <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.zipCode',
                    idComponent: 'id_zipCode',
                    labelText: 'Zip code'
                   }">
-            </ng-container>
-          </div>
-          <div style="margin-left: 5pt" class="p-col-3">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
+              </ng-container>
+            </div>
+            <div class="p-col-3" style="margin-left: 5pt">
+              <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.city',
                    idComponent: 'id_city',
                    labelText: 'City'
                   }">
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
-        </div>
-        <div style="margin-left: 0px" class="p-grid">
-          <div style="padding-left: 6px !important;" class="p-col-2">
-            <div style="margin-top: 15pt">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
+          <div class="p-grid" style="margin-left: 0px">
+            <div class="p-col-2" style="padding-left: 6px !important;">
+              <div style="margin-top: 15pt">
+                <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.postBoxCode',
                    idComponent: 'id_postBoxCode',
                    labelText: 'Post Box'
                   }">
-            </ng-container>
+                </ng-container>
+              </div>
             </div>
-          </div>
-          <div style="margin-left: 5pt" class="p-col-3">
-            <div style="margin-top: 15pt">
-              <ng-container *ngTemplateOutlet="inputTextTemplate;
+            <div class="p-col-3" style="margin-left: 5pt">
+              <div style="margin-top: 15pt">
+                <ng-container *ngTemplateOutlet="inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.street',
                    idComponent: 'id_street',
                    labelText: 'Street'
+                  }">
+                </ng-container>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- END ADDRESS FORM -->
+
+      <!--  BANK FORM  -->
+      <div formGroupName="bankAccountFormModel">
+        <div class="p-grid">
+          <div class="p-col-6">
+            <H2>Person bank account</H2>
+          </div>
+        </div>
+        <div class="shadow-panel-color p-shadow-4">
+          <div class="p-grid">
+            <div class="p-col-4" style="margin-top: 5pt; margin-left: 5pt">
+              <ng-container *ngTemplateOutlet="inputTextTemplate;
+          context:{controlPath: 'bankAccountFormModel.bankName',
+                   idComponent: 'id_BankName',
+                   labelText: 'Bank name'
+                  }">
+              </ng-container>
+            </div>
+
+            <div class="p-col-2" style="margin-top: 5pt;">
+              <ng-container *ngTemplateOutlet="inputTextTemplate;
+            context:{controlPath: 'bankAccountFormModel.accountNumber',
+                     idComponent: 'id_AccountNumber',
+                     labelText: 'Account number'
                   }">
               </ng-container>
             </div>
           </div>
 
-        </div>
-      </div>
-    </div>
-    <!-- END ADDRESS FORM -->
-
-    <!--  BANK FORM  -->
-    <div formGroupName="bankAccountFormModel">
-      <div class="p-grid">
-        <div class="p-col-6">
-          <H2>Person bank account</H2>
-        </div>
-      </div>
-      <div class="shadow-panel-color p-shadow-4">
-        <div class="p-grid">
-          <div style="margin-top: 5pt; margin-left: 5pt" class="p-col-4">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
-          context:{controlPath: 'bankAccountFormModel.bankName',
-                   idComponent: 'id_BankName',
-                   labelText: 'Bank name'
-                  }">
-            </ng-container>
-          </div>
-
-          <div style="margin-top: 5pt;" class="p-col-2">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
-            context:{controlPath: 'bankAccountFormModel.accountNumber',
-                     idComponent: 'id_AccountNumber',
-                     labelText: 'Account number'
-                  }">
-            </ng-container>
-          </div>
-        </div>
-
-        <div class="p-grid">
-          <div style="margin-left: 4pt; margin-top: 12pt" class="p-col-4">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
+          <div class="p-grid">
+            <div class="p-col-4" style="margin-left: 4pt; margin-top: 12pt">
+              <ng-container *ngTemplateOutlet="inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.iban',
                      idComponent: 'id_iban',
                      labelText: 'IBAN'
                   }">
-            </ng-container>
-          </div>
-          <div style="margin-left: 5pt; margin-top: 12pt" class="p-col-2">
-            <ng-container *ngTemplateOutlet="inputTextTemplate;
+              </ng-container>
+            </div>
+            <div class="p-col-2" style="margin-left: 5pt; margin-top: 12pt">
+              <ng-container *ngTemplateOutlet="inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.bicSwift',
                      idComponent: 'id-acc-bicSwift',
                      labelText: 'BIC/SWIFT'
                   }">
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- END BANK FORM -->
-  </form>
+      <!-- END BANK FORM -->
+    </form>
 
-</div>
+  </div>
   <ng-template pTemplate="footer">
-    <p-button [disabled] = "haveErrors()" icon="pi pi-check" (click)="sendChanges()" label="Save" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-check pink-300"  (click)="setVisible(false)" label="Cancel" styleClass="p-button-text p-button-secondary"></p-button>
+    <p-button (click)="sendChanges()" [disabled]="haveErrors()" icon="pi pi-check" label="Save"
+              styleClass="p-button-text"></p-button>
+    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="Cancel"
+              styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>
 
@@ -190,14 +192,14 @@
       <div style="display: table-cell; width: 100%;">
                <span class="p-float-label">
                     <input [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
-                           pInputText
-                           minlength="0"
                            id="{{idComponent}}"
-                           type="text" />
+                           minlength="0"
+                           pInputText
+                           type="text"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
       </div>
-      <div *ngIf= "getControl(controlPath).invalid" style ="display: table-cell; width: 10%;">
+      <div *ngIf="getControl(controlPath).invalid" style="display: table-cell; width: 10%;">
         <p-message severity="error"></p-message>
       </div>
     </div>
@@ -209,21 +211,21 @@
 <ng-template #comboboxTemplate let-controlPath="controlPath"
              let-idComponent="idComponent"
              let-labelText="labelText"
-             let-placeholderPar="placeholderPar"
-             let-optionList="optionList">
+             let-optionList="optionList"
+             let-placeholderPar="placeholderPar">
 
   <div style="display: table; width: 100%;">
     <div style="display: table-row; width: 100%;">
       <div style="display: table-cell; width: 100%;">
         <div style="margin-bottom: 15pt">
                 <span class="p-float-label">
-                <p-dropdown [formControl]="getControl(controlPath)"
-                            (onChange)="personTypeChanged($event)"
-                            placeholder="{{placeholderPar}}"
-                            required
-                            minlength="1"
+                <p-dropdown (onChange)="personTypeChanged($event)"
+                            [formControl]="getControl(controlPath)"
+                            [options]="optionList"
                             id="{{idComponent}}"
-                            [options]="optionList">
+                            minlength="1"
+                            placeholder="{{placeholderPar}}"
+                            required>
                 </p-dropdown>
                 <label for="{{idComponent}}">{{labelText}}</label>
                 </span>

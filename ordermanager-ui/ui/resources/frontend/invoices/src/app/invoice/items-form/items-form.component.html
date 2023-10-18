@@ -1,53 +1,54 @@
 <div *ngIf="isAuthenticated();" class="p-fluid">
-  <div style="text-align: center" class="p-grid">
+  <div class="p-grid" style="text-align: center">
     <H2 style="text-align: center">Create catalog item</H2>
   </div>
   <p-toast></p-toast>
-  <form (submit) = "saveItem($event)" #itemCatalogForm="ngForm">
+  <form #itemCatalogForm="ngForm" (submit)="saveItem($event)">
     <div class="p-grid">
-      <div style="margin-top: 10pt" class="p-col-4">
-        <app-validatable-input-text name="description"
-                                    [labelText]="'Item name'"
+      <div class="p-col-4" style="margin-top: 10pt">
+        <app-validatable-input-text (componentHasErrorEvent)="setHasNameError($event)"
+                                    [(ngModel)]="model.description"
                                     [idComponent]="'id_ItemDesc'"
+                                    [labelText]="'Item name'"
                                     [txtMinLength]="2"
-                                    (componentHasErrorEvent) = "setHasNameError($event)"
-                                    [(ngModel)]="model.description">
+                                    name="description">
         </app-validatable-input-text>
       </div>
     </div>
     <div class="p-grid">
-      <div style="margin-top: 10pt" class="p-col-4">
+      <div class="p-col-4" style="margin-top: 10pt">
        <span class="p-float-label">
-       <input style="width:100%;" name ="shortDescription" id="id-shortDescription" type="text" [(ngModel)]="model.shortDescription" pInputText/>
+       <input [(ngModel)]="model.shortDescription" id="id-shortDescription" name="shortDescription" pInputText
+              style="width:100%;" type="text"/>
        <label for="id-shortDescription">Item short description</label>
        </span>
       </div>
 
     </div>
-    <div style="margin-top: 10pt" class="p-grid">
+    <div class="p-grid" style="margin-top: 10pt">
       <div class="p-col-2">
-        <app-validatable-input-number name="itemPrice"
-                                    [labelText]="'Item  price'"
-                                    [idComponent]="'id_ItemPrice'"
-                                    (componentHasErrorEvent) = "setHasPriceError($event)"
-                                    [(ngModel)]="model.itemPrice">
+        <app-validatable-input-number (componentHasErrorEvent)="setHasPriceError($event)"
+                                      [(ngModel)]="model.itemPrice"
+                                      [idComponent]="'id_ItemPrice'"
+                                      [labelText]="'Item  price'"
+                                      name="itemPrice">
         </app-validatable-input-number>
       </div>
     </div>
-    <div style="margin-top: 10pt" class="p-grid">
+    <div class="p-grid" style="margin-top: 10pt">
       <div class="p-col-2">
-        <app-validatable-input-number name="vat"
-                                    [labelText]="'Vat%'"
-                                    [idComponent]="'id_ItemVat'"
-                                    (componentHasErrorEvent) = "setHasVatError($event)"
-                                    [(ngModel)]="model.vat">
+        <app-validatable-input-number (componentHasErrorEvent)="setHasVatError($event)"
+                                      [(ngModel)]="model.vat"
+                                      [idComponent]="'id_ItemVat'"
+                                      [labelText]="'Vat%'"
+                                      name="vat">
         </app-validatable-input-number>
       </div>
 
     </div>
     <div class="p-grid">
       <div class="p-col-1">
-        <p-button type="submit" [disabled] = "haveErrors()" label="Save" styleClass="submit-button"></p-button>
+        <p-button [disabled]="haveErrors()" label="Save" styleClass="submit-button" type="submit"></p-button>
       </div>
       <div class="p-col-9"></div>
     </div>

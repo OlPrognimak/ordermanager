@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditInvoiceDialogComponent } from './edit-invoice-dialog.component';
-import {MessageService} from "primeng/api";
-import {HttpClient, HttpHandler} from "@angular/common/http";
-import {InputNumberModule} from "primeng/inputnumber";
+import { MessageService } from "primeng/api";
+import { HttpClient, HttpHandler } from "@angular/common/http";
+import { InputNumberModule } from "primeng/inputnumber";
 
 describe('EditInvoiceDialogComponent', () => {
   let component: EditInvoiceDialogComponent;

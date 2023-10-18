@@ -1,23 +1,23 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {PersonFormModel} from "../../domain/domain.personformmodel";
-import {AppSecurityService} from "../../user/user-login/app-security.service";
-import {AngularIbanModule, ValidatorService} from "angular-iban";
-import {ButtonModule} from "primeng/button";
-import {InputTextModule} from "primeng/inputtext";
-import {MessageModule} from "primeng/message";
-import {ToastModule} from "primeng/toast";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { PersonFormModel } from "../../domain/domain.personformmodel";
+import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { AngularIbanModule, ValidatorService } from "angular-iban";
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
+import { MessageModule } from "primeng/message";
+import { ToastModule } from "primeng/toast";
 import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import {
   ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {DropdownModule} from "primeng/dropdown";
-import {DialogModule} from "primeng/dialog";
-import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
-import {isAuthenticated, personType} from "../../common-services/common-services-util.service";
+import { DropdownModule } from "primeng/dropdown";
+import { DialogModule } from "primeng/dialog";
+import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
+import { isAuthenticated, personType } from "../../common-services/common-services-util.service";
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -28,7 +28,7 @@ import {isAuthenticated, personType} from "../../common-services/common-services
 })
 export class EditPersonDialogComponent {
   /** person model */
-  //personFormModel: PersonFormModel = new PersonFormModel();ƒ
+    //personFormModel: PersonFormModel = new PersonFormModel();ƒ
   originalPersonFormModel: PersonFormModel = new PersonFormModel();
   /**true if no changes in edited person happens*/
   isNoChangesInPersonModel: boolean = true
@@ -37,6 +37,8 @@ export class EditPersonDialogComponent {
   @Input() visible: boolean = false
   @Output() visibilityChanged = new EventEmitter<boolean>
   @Output() personModelChanges = new EventEmitter<PersonFormModel>
+  protected readonly personType = personType;
+  protected readonly isAuthenticated = isAuthenticated;
 
   /**
    * Constructor
@@ -71,8 +73,6 @@ export class EditPersonDialogComponent {
       })
     })
   }
-
-
 
   setVisible(val: boolean) {
     this.visibilityChanged.emit(val)
@@ -172,9 +172,8 @@ export class EditPersonDialogComponent {
   }
 
   validateChanges(isEquals: boolean) {
-    this.isNoChangesInPersonModel = this.isNoChangesInPersonModel&&isEquals
+    this.isNoChangesInPersonModel = this.isNoChangesInPersonModel && isEquals
   }
-
 
   /**
    * Sends the changes back to the person management form after successful changes of person
@@ -185,7 +184,7 @@ export class EditPersonDialogComponent {
       const model = this.mapFromGroupToPersonModel();
       //console.log(" Result: "+JSON.stringify(model))
       //console.log('is no changes? :'+this.isNoChangesInPersonModel)
-      if(this.isNoChangesInPersonModel === true) {
+      if (this.isNoChangesInPersonModel === true) {
         this.messagePrinter.printUnsuccessefulMessage("The person data has no changes.", null)
       } else {
         this.personModelChanges.emit(model)
@@ -193,7 +192,4 @@ export class EditPersonDialogComponent {
       }
     }
   }
-
-  protected readonly personType = personType;
-  protected readonly isAuthenticated = isAuthenticated;
 }

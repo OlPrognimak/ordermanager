@@ -1,23 +1,23 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ItemCatalogModel} from '../../domain/domain.invoiceformmodel';
-import {AppSecurityService} from '../../user/user-login/app-security.service';
-import {CommonServicesAppHttpService} from '../../common-services/common-services.app.http.service';
-import {isAuthenticated} from "../../common-services/common-services-util.service";
-import {FormsModule, NgForm} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {MessageModule} from "primeng/message";
-import {MessagesModule} from "primeng/messages";
-import {ToastModule} from "primeng/toast";
-import {InputTextModule} from "primeng/inputtext";
-import {InputNumberModule} from "primeng/inputnumber";
-import {ButtonModule} from "primeng/button";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ItemCatalogModel } from '../../domain/domain.invoiceformmodel';
+import { AppSecurityService } from '../../user/user-login/app-security.service';
+import { CommonServicesAppHttpService } from '../../common-services/common-services.app.http.service';
+import { isAuthenticated } from "../../common-services/common-services-util.service";
+import { FormsModule, NgForm } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { MessageModule } from "primeng/message";
+import { MessagesModule } from "primeng/messages";
+import { ToastModule } from "primeng/toast";
+import { InputTextModule } from "primeng/inputtext";
+import { InputNumberModule } from "primeng/inputnumber";
+import { ButtonModule } from "primeng/button";
 import {
   ValidatableInputNumberModule
 } from "../../common-components/validatable-input-number/validatable-input-number.component";
 import {
   ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-items-form',
@@ -32,12 +32,14 @@ export class ItemsFormComponent implements OnInit {
   @ViewChild('itemCatalogForm') itemCatalogForm: NgForm
 
   model: ItemCatalogModel;
+  protected readonly isAuthenticated = isAuthenticated;
   private hasNameError: boolean;
   private hasPriceError: boolean;
   private hasVatError: boolean;
 
   constructor(public appSecurityService: AppSecurityService,
-              private httpService: CommonServicesAppHttpService<ItemCatalogModel>) { }
+              private httpService: CommonServicesAppHttpService<ItemCatalogModel>) {
+  }
 
   ngOnInit(): void {
     this.model = new ItemCatalogModel();
@@ -48,17 +50,15 @@ export class ItemsFormComponent implements OnInit {
    * @param item the item for saving
    */
   saveItem(item: any): void {
-   if(!this.haveErrors()) {
-     this.httpService.putObjectToServer('PUT', this.model, 'Invoice Item',
-       'invoice/itemcatalog', (callback) => {
-         if (callback) {
-           this.model = new ItemCatalogModel();
-         }
-       });
-   }
+    if (!this.haveErrors()) {
+      this.httpService.putObjectToServer('PUT', this.model, 'Invoice Item',
+        'invoice/itemcatalog', (callback) => {
+          if (callback) {
+            this.model = new ItemCatalogModel();
+          }
+        });
+    }
   }
-
-  protected readonly isAuthenticated = isAuthenticated;
 
   haveErrors() {
     return this.hasNameError || this.hasPriceError || this.hasVatError

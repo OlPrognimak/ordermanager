@@ -1,11 +1,11 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {PrintinvoiceComponent} from './printinvoice.component';
-import {HttpClientModule} from "@angular/common/http";
-import {MessageService} from "primeng/api";
-import {MessageModule} from "primeng/message";
-import {ToastModule} from "primeng/toast";
-import {AgGridModule} from "ag-grid-angular";
+import { PrintinvoiceComponent } from './printinvoice.component';
+import { HttpClientModule } from "@angular/common/http";
+import { MessageService } from "primeng/api";
+import { MessageModule } from "primeng/message";
+import { ToastModule } from "primeng/toast";
+import { AgGridModule } from "ag-grid-angular";
 
 describe('PrintinvoiceComponent', () => {
   let component: PrintinvoiceComponent;
@@ -13,11 +13,11 @@ describe('PrintinvoiceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrintinvoiceComponent ],
+      declarations: [PrintinvoiceComponent],
       imports: [HttpClientModule, MessageModule, ToastModule, AgGridModule],
       providers: [MessageService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

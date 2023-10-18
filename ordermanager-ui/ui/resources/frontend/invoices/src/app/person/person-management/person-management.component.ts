@@ -1,22 +1,22 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {TableModule} from "primeng/table";
-import {ToastModule} from "primeng/toast";
-import {PersonFormModel} from "../../domain/domain.personformmodel";
-import {AppSecurityService} from "../../user/user-login/app-security.service";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {DateperiodFinderComponent} from "../../common-components/dateperiod-finder/dateperiod-finder.component";
-import {EditPersonDialogComponent} from "../edit-person-dialog/edit-person-dialog.component";
-import {ReactiveFormsModule} from "@angular/forms";
-import {DialogModule} from "primeng/dialog";
-import {InputTextModule} from "primeng/inputtext";
-import {ButtonModule} from "primeng/button";
-import {CommonServicesAppHttpService} from "../../common-services/common-services.app.http.service";
-import {RippleModule} from "primeng/ripple";
-import {ConfirmationDialogComponent} from "../../common-components/confirmation-dialog/confirmation-dialog.component";
-import {isAuthenticated} from "../../common-services/common-services-util.service";
-import {CommonServicesEditService} from "../../common-services/common-services.edit.service";
-import {HttpClient} from "@angular/common/http";
+import { TableModule } from "primeng/table";
+import { ToastModule } from "primeng/toast";
+import { PersonFormModel } from "../../domain/domain.personformmodel";
+import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { DateperiodFinderComponent } from "../../common-components/dateperiod-finder/dateperiod-finder.component";
+import { EditPersonDialogComponent } from "../edit-person-dialog/edit-person-dialog.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { DialogModule } from "primeng/dialog";
+import { InputTextModule } from "primeng/inputtext";
+import { ButtonModule } from "primeng/button";
+import { CommonServicesAppHttpService } from "../../common-services/common-services.app.http.service";
+import { RippleModule } from "primeng/ripple";
+import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+import { isAuthenticated } from "../../common-services/common-services-util.service";
+import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-person-management',
@@ -26,7 +26,7 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./person-management.component.css'],
   providers: [AppSecurityService, HttpClient]
 })
-export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel>  implements OnInit {
+export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel> implements OnInit {
   /**Reference on dialog component for editing Person*/
   @ViewChild('personDialog') personDialog: EditPersonDialogComponent
   /**Reference on child component of data finder bei date period.*/
@@ -39,8 +39,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   keySelection: boolean = true;
   showConfirmDialog: boolean;
   confirmDialogMessage: string = 'Are you sure you want to delete the person?';
-
-
+  protected readonly isAuthenticated = isAuthenticated;
 
   constructor(public appSecurityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel[]>) {
@@ -48,11 +47,10 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   }
 
   ngOnInit(): void {
-    setTimeout(() =>{
+    setTimeout(() => {
       this.dataFinder.loadData()
     })
   }
-
 
   rowDoubleClick(event: MouseEvent, person: PersonFormModel) {
     setTimeout(() => {
@@ -62,7 +60,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
 
   }
 
-  isPersonEditDialogVisible( val: boolean) {
+  isPersonEditDialogVisible(val: boolean) {
     setTimeout(() => {
       this.isPersonDialogVisible = val
     })
@@ -77,30 +75,30 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
    * @param person changed person
    */
   putPersonChanges(person: PersonFormModel) {
-    if(this.changesList === undefined) {
+    if (this.changesList === undefined) {
       this.changesList = []
     }
-    const modelPerson = this.modelList.filter(p =>p.id === person.id )?.at(0)
+    const modelPerson = this.modelList.filter(p => p.id === person.id)?.at(0)
     const changedPerson =
       this.changesList.filter(p => p.id === person.id)?.at(0)
     //here I put original person to list of changes to keep original value
-    if(changedPerson === undefined && modelPerson !== undefined) {
+    if (changedPerson === undefined && modelPerson !== undefined) {
       this.changesList.push(modelPerson)
     }
 
-    this.modelList.filter( (p, idx) =>{
-      if(p.id === person.id) {
-        this.modelList[idx] =  person
+    this.modelList.filter((p, idx) => {
+      if (p.id === person.id) {
+        this.modelList[idx] = person
         return
       }
     })
   }
 
   isPersonChanged(person: PersonFormModel): string {
-   // console.log('Changes :'+person.id)
-    let obj = this.changesList?.filter(p =>person.id === p.id)
+    // console.log('Changes :'+person.id)
+    let obj = this.changesList?.filter(p => person.id === p.id)
     //console.log('Obj :'+obj.length)
-    if( obj!==undefined && obj.length >0){
+    if (obj !== undefined && obj.length > 0) {
       return 'blue'
     } else {
       return '#495057'
@@ -113,12 +111,12 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
 
   saveChangedPersons($event: MouseEvent) {
     const changes = this.modelList.filter(p =>
-      p.id ===this.changesList?.filter(c =>c?.id == p?.id)?.at(0)?.id)
+      p.id === this.changesList?.filter(c => c?.id == p?.id)?.at(0)?.id)
 
-    this.httpService.putObjectToServer('POST', changes, "person changes", 'person', callback =>{
-       if(callback){
-         this.changesList = []
-       }
+    this.httpService.putObjectToServer('POST', changes, "person changes", 'person', callback => {
+      if (callback) {
+        this.changesList = []
+      }
     })
 
   }
@@ -130,9 +128,9 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
 
   handleConfirmation(id: any) {
     this.httpService.putObjectToServer('DELETE',
-      null, "person delete", 'person/'+id, callback =>{
-        if(callback){
-          console.log("DELETED :"+id)
+      null, "person delete", 'person/' + id, callback => {
+        if (callback) {
+          console.log("DELETED :" + id)
           //this.changesList.
         }
       })
@@ -144,6 +142,4 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       this.showConfirmDialog = false
     }
   }
-
-  protected readonly isAuthenticated = isAuthenticated;
 }

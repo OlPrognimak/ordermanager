@@ -28,14 +28,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import * as _moment from "moment/moment";
 
 @Pipe({
   name: 'dateType',
 })
 export class CommonServicesPipesDate implements PipeTransform {
-  transform( val: Date, format): any{
-        return _moment(val).format(format);
-   }
+  transform(val: Date, format): any {
+    return _moment(val).format(format);
+  }
 }

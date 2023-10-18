@@ -28,16 +28,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CreatedResponse, NewUser} from '../../domain/domain.invoiceformmodel';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {MessageService} from 'primeng/api';
-import {Router} from '@angular/router';
-import {CommonServicesUtilService} from "../../common-services/common-services-util.service";
-import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
-import {AppSecurityService, remoteBackendUrl} from "../user-login/app-security.service";
-import {NgForm} from "@angular/forms";
-import {Subject, takeUntil} from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CreatedResponse, NewUser } from '../../domain/domain.invoiceformmodel';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { CommonServicesUtilService } from "../../common-services/common-services-util.service";
+import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
+import { AppSecurityService, remoteBackendUrl } from "../user-login/app-security.service";
+import { NgForm } from "@angular/forms";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
   selector: 'app-user-registration',
@@ -50,10 +50,10 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   public newUser: NewUser = new NewUser();
   //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
+  notifier = new Subject()
   private isUserNameError: boolean = false
   private isPasswordError: boolean = false
   private isRepeatPasswordError: boolean = false
-  notifier = new Subject()
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
@@ -76,7 +76,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
 
   }
 
-  registerUser(form:NgForm): void {
+  registerUser(form: NgForm): void {
     if (this.newUser.userPassword !== this.newUser.userPasswordRepeat) {
       this.messagePrinter.printUnsuccessefulMessage("The repeated password is not equals to password.", null)
     } else {
@@ -87,7 +87,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   /**
    * save new user in the database
    */
-  registerUserInternal(intNewUser: NewUser, intRouter: Router, intMsgPrinter:  MessagesPrinter) {
+  registerUserInternal(intNewUser: NewUser, intRouter: Router, intMsgPrinter: MessagesPrinter) {
 
     const headers = new HttpHeaders({
       'User-Name': this.newUser.userName,
@@ -107,7 +107,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
             intNewUser.userPassword = ''
             intNewUser.userPasswordRepeat = ''
             intMsgPrinter.printSuccessMessage('You are successfully registered.')
-            },
+          },
           error(err) {
             console.log(JSON.stringify(err));
             intMsgPrinter.printUnsuccessefulMessage('You are not registered. Some error occurs. Please inform administrator.', err)
@@ -117,7 +117,7 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   }
 
   haveErrors() {
-    return this.isPasswordError||this.isUserNameError||this.isRepeatPasswordError
+    return this.isPasswordError || this.isUserNameError || this.isRepeatPasswordError
   }
 
   setHasUsernameError(b: boolean) {

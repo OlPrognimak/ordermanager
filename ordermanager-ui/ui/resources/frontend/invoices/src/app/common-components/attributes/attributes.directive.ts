@@ -1,4 +1,4 @@
-import {Directive, OnChanges, Input, Renderer2, ElementRef, SimpleChanges, NgModule} from '@angular/core';
+import { Directive, ElementRef, Input, NgModule, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[attributes]'
@@ -11,7 +11,8 @@ export class AttributeDirective implements OnChanges {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
-  ) { }
+  ) {
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['attributes']) {
@@ -27,9 +28,11 @@ export class AttributeDirective implements OnChanges {
     }
   }
 }
+
 @NgModule({
     declarations: [AttributeDirective],
-     exports: [AttributeDirective]
+    exports: [AttributeDirective]
   }
 )
-export class AttributeDirectiveModule{}
+export class AttributeDirectiveModule {
+}

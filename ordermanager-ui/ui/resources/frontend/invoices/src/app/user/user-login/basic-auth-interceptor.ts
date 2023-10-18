@@ -1,12 +1,13 @@
-import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {basicAuthKey} from './app-security.service';
-import {isAuthenticated} from "../../common-services/common-services-util.service";
+import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { basicAuthKey } from './app-security.service';
+import { isAuthenticated } from "../../common-services/common-services-util.service";
 
 @Injectable()
 export class BasicInterceptor {
-  constructor() { }
+  constructor() {
+  }
 
   /**
    * Injects Authorization header to request, if the system authorised
@@ -16,9 +17,9 @@ export class BasicInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add auth header
-    if ( isAuthenticated() === true) {
+    if (isAuthenticated() === true) {
       request = request.clone({
-        setHeaders: { Authorization: localStorage.getItem(basicAuthKey) as string }
+        setHeaders: {Authorization: localStorage.getItem(basicAuthKey) as string}
       });
     }
 

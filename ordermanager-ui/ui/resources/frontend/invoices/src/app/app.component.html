@@ -1,23 +1,26 @@
-<div  class="p-grid  app_title p-shadow-4" *ngIf="!isAuthenticated();">
-<!--  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
-  <a [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
+<div *ngIf="!isAuthenticated();" class="p-grid  app_title p-shadow-4">
+  <!--  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
+  <a (click)="router.navigateByUrl('/')" [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'"><img
+    src="assets/home-small.png"></a>
   <h3 style="margin-left: 5pt;">Order manager</h3>
 
 </div>
 
 <div *ngIf="isAuthenticated(); else elseBlock">
-<div class="nav_app_cls p-grid p-shadow-4" >
-  <nav style="margin-bottom: 10pt;">
-    <div class="p-grid" >
-    <a style="margin-right: 10pt; margin-top: 8pt;margin-left: 10pt;"  [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'" (click)="router.navigateByUrl('/')"><img src="assets/home-small.png"></a>
-    <p-menubar  [model] = "menuItems"></p-menubar>
-    </div>
-  </nav>
-</div>
-  <div style = "margin: 10pt 10pt 10pt 10pt;" *ngIf="this.router.url ==='/'">
+  <div class="nav_app_cls p-grid p-shadow-4">
+    <nav style="margin-bottom: 10pt;">
+      <div class="p-grid">
+        <a (click)="router.navigateByUrl('/')" [pTooltip]="'Navigate to home page'"
+           [tooltipPosition]="'right'" style="margin-right: 10pt; margin-top: 8pt;margin-left: 10pt;"><img
+          src="assets/home-small.png"></a>
+        <p-menubar [model]="menuItems"></p-menubar>
+      </div>
+    </nav>
+  </div>
+  <div *ngIf="this.router.url ==='/'" style="margin: 10pt 10pt 10pt 10pt;">
     <h2>Homepage of Ordermanager Application</h2>
   </div>
-<br/>
+  <br/>
 </div>
 <ng-template #elseBlock>
   <app-user-login></app-user-login>

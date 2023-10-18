@@ -1,7 +1,8 @@
 <p-toast></p-toast>
 <div class="p-fluid p-grid">
   <div class="p-col-12">
-    <p-table [value]="invoiceReactiveItems" [rows]="40" [autoLayout]="true" [resizableColumns]="true" sortMode="multiple" styleClass="p-datatable-gridlines" editMode="row">
+    <p-table [autoLayout]="true" [resizableColumns]="true" [rows]="40" [value]="invoiceReactiveItems"
+             editMode="row" sortMode="multiple" styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 40%">Item description</th>
@@ -13,130 +14,140 @@
           <th style="width: 10%">Delete</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-invoiceitem>
+      <ng-template let-invoiceitem pTemplate="body">
         <tr>
-          <td style="width: 40%" pEditableColumn>
+          <td pEditableColumn style="width: 40%">
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown #itemsRef appendTo = "body" [options]="catalogItems"
-                            [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
+                <p-dropdown #itemsRef (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
                             [ngModel]="invoiceitem?.catalogItemId"
-                            (ngModelChange)="catalogItemSlected(invoiceitem, $event)"></p-dropdown>
+                            [options]="catalogItems"
+                            [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
+                            appendTo="body"></p-dropdown>
               </ng-template>
               <ng-template pTemplate="output">
                 {{getCatalogDescription(invoiceitem?.catalogItemId) }}
               </ng-template>
             </p-cellEditor>
           </td>
-          <td style="width: 10%" pEditableColumn>
+          <td pEditableColumn style="width: 10%">
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-inputNumber [disabled] ="invoiceitem?.catalogItemId===undefined" name ="amountItems" (onInput)="inputBoxChanged(invoiceitem, $event)"
-                               placeholder = '0.00'
+                <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.amountItems"
+                               [disabled]="invoiceitem?.catalogItemId===undefined"
+                               [maxFractionDigits]="2"
+                               [minFractionDigits]="2"
                                class="p-cell-editing ng-dirty"
                                mode="decimal"
-                               [minFractionDigits]="2"
-                               [maxFractionDigits]="2"
-                       [(ngModel)]="invoiceitem.amountItems"
-                       required />
+                               name="amountItems"
+                               placeholder='0.00'
+                               required/>
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.amountItems | standardFloat}}
               </ng-template>
             </p-cellEditor>
           </td>
-          <td style="width: 10%" pEditableColumn>
-<!--            <app-editable-input-cell-->
-<!--              [rowModel]="invoiceitem"-->
-<!--              (changeItemEvent)="inputBoxChanged(invoiceitem, $event)"-->
-<!--              [(ngModel)]="invoiceitem.itemPrice">-->
-<!--            </app-editable-input-cell>-->
+          <td pEditableColumn style="width: 10%">
+            <!--            <app-editable-input-cell-->
+            <!--              [rowModel]="invoiceitem"-->
+            <!--              (changeItemEvent)="inputBoxChanged(invoiceitem, $event)"-->
+            <!--              [(ngModel)]="invoiceitem.itemPrice">-->
+            <!--            </app-editable-input-cell>-->
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-inputNumber [disabled] ="invoiceitem?.catalogItemId===undefined" name = "price" (onInput)="inputBoxChanged(invoiceitem, $event)"
-                               placeholder = '0.00'
+                <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.itemPrice"
+                               [disabled]="invoiceitem?.catalogItemId===undefined"
+                               [maxFractionDigits]="2"
+                               [minFractionDigits]="2"
                                class="p-cell-editing ng-dirty"
                                mode="decimal"
-                               [minFractionDigits]="2"
-                               [maxFractionDigits]="2"
-                       [(ngModel)]="invoiceitem.itemPrice"
-                       required/>
+                               name="price"
+                               placeholder='0.00'
+                               required/>
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.itemPrice | standardFloat}}
               </ng-template>
             </p-cellEditor>
           </td>
-          <td style="width: 10%" pEditableColumn>
+          <td pEditableColumn style="width: 10%">
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <!--
                 <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
                        (ngModelChange)="invoiceitem.vat=$event" required/>
                 -->
-                <p-inputNumber [disabled] ="invoiceitem?.catalogItemId===undefined" name = "vat" (onInput)="inputBoxChanged(invoiceitem, $event)"
-                       placeholder = '0.00'
-                       class="p-cell-editing ng-dirty"
-                       mode="decimal"
-                       [(ngModel)]="invoiceitem.vat"
-                       [minFractionDigits]="2"
-                       [maxFractionDigits]="2"
-                       required/>
+                <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.vat"
+                               [disabled]="invoiceitem?.catalogItemId===undefined"
+                               [maxFractionDigits]="2"
+                               [minFractionDigits]="2"
+                               class="p-cell-editing ng-dirty"
+                               mode="decimal"
+                               name="vat"
+                               placeholder='0.00'
+                               required/>
               </ng-template>
               <ng-template pTemplate="output">
                 {{invoiceitem.vat | standardFloat}}
               </ng-template>
             </p-cellEditor>
           </td>
-          <td style="width: 10%" class ="right-aligned-input">
+          <td class="right-aligned-input" style="width: 10%">
             {{invoiceitem.sumNetto | standardFloat}}
           </td>
-          <td style="width: 10%" class ="right-aligned-input">
+          <td class="right-aligned-input" style="width: 10%">
             {{invoiceitem.sumBrutto | standardFloat}}
           </td>
           <td style="width: 10%">
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                    (click)="showDeleteItemDialog(invoiceitem.id, invoiceitem.idxItem)"></button>
+            <button (click)="showDeleteItemDialog(invoiceitem.id, invoiceitem.idxItem)"
+                    class="p-button-rounded p-button-warning" icon="pi pi-trash" pButton
+                    pRipple></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 
-  <div style="display: block" class="p-col-12">
-    <p-button [pTooltip]="'Add new empty item'" class="p-button-secondary save-button-style" label="Add item" (onClick)="addNewItem()"></p-button>
+  <div class="p-col-12" style="display: block">
+    <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" class="p-button-secondary save-button-style"
+              label="Add item"></p-button>
   </div>
 
 </div>
 
-<div style="margin-top: 10pt" class ="p-shadow-4 shadow-panel-color">
+<div class="p-shadow-4 shadow-panel-color" style="margin-top: 10pt">
   <div class="p-grid">
-  <div class="p-col-9"></div>
-  <div class="p-col-3">
-    <div style="display: block; padding-left: 10%">
-      <label style="max-width: 50%; text-align: right">Total netto (Euro): </label>
-      <input class = "right-aligned-totals input-label-like p-field" placeholder="0.00" readonly id="id-tottalNettoSun" name="tottalNettoSum" type="text"
-             [ngModel]="getTotalNettoSum()  | standardFloat"
-             (ngModelChange)="setTotalNettoSum($event)" required/>
+    <div class="p-col-9"></div>
+    <div class="p-col-3">
+      <div style="display: block; padding-left: 10%">
+        <label style="max-width: 50%; text-align: right">Total netto (Euro): </label>
+        <input (ngModelChange)="setTotalNettoSum($event)" [ngModel]="getTotalNettoSum()  | standardFloat"
+               class="right-aligned-totals input-label-like p-field" id="id-tottalNettoSun"
+               name="tottalNettoSum" placeholder="0.00"
+               readonly
+               required type="text"/>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-9"></div>
+    <div class="p-col-3">
+      <div style="display: block">
+        <label style="max-width: 50%; padding-left: 10%">Total brutto (Euro): </label>
+        <input (ngModelChange)="setTottalBruttoSum($event)" [ngModel]="getToltalBruttoSum() | standardFloat"
+               class="right-aligned-totals input-label-like p-field" id="id-tottalBruttoSun"
+               name="tottalBruttoSum" placeholder="0.00"
+               readonly
+               required type="text"/>
+      </div>
     </div>
   </div>
 </div>
-  <div class="p-grid">
-  <div class="p-col-9"></div>
-  <div class="p-col-3">
-      <div style="display: block">
-          <label style="max-width: 50%; padding-left: 10%" >Total brutto (Euro): </label>
-          <input class = "right-aligned-totals input-label-like p-field" placeholder="0.00" readonly id="id-tottalBruttoSun" name="tottalBruttoSum" type="text"
-                 [ngModel]="getToltalBruttoSum() | standardFloat"
-                 (ngModelChange)="setTottalBruttoSum($event)" required/>
-      </div>
-  </div>
-</div>
-</div>
-<app-confirmation-dialog [display]="showDeleteConfirmDialog"
-                         [message]="saveDeeleteDialogMessage"
+<app-confirmation-dialog #confirmDeleteItemDialog
+                         (canceled)="showDeleteConfirmDialog=false"
                          (confirmed)="handleDeleteConfirmation(confirmDeleteItemDialog.transferObject)"
-                         (canceled) = "showDeleteConfirmDialog=false"
-                         #confirmDeleteItemDialog></app-confirmation-dialog>
+                         [display]="showDeleteConfirmDialog"
+                         [message]="saveDeeleteDialogMessage"></app-confirmation-dialog>
 
 

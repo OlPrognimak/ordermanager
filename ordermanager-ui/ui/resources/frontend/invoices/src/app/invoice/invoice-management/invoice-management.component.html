@@ -1,97 +1,116 @@
 <div *ngIf="isAuthenticated();" class="p-fluid p-flex-row management-page-style">
   <p-toast></p-toast>
   <div class="p-grid base-top-grid-area">
-    <H2 style = "margin-left: 10pt;">Invoice management</H2>
-    <div style="height: 15%" class = "p-col-12">
-        <app-dateperiod-finder [url]="'invoice/invoicesListPeriod'" (onFinderIsReady)="finderIsReady($event)"
-                           (responseOutput)="invoices = $event" #dataFinder/>
+    <H2 style="margin-left: 10pt;">Invoice management</H2>
+    <div class="p-col-12" style="height: 15%">
+      <app-dateperiod-finder #dataFinder (onFinderIsReady)="finderIsReady($event)"
+                             (responseOutput)="invoices = $event" [url]="'invoice/invoicesListPeriod'"/>
     </div>
-    <div  class = "p-col-12 p-shadow-4 top-container-table-area">
-      <div class = "table-area">
-          <p-table [value]="invoices"
-                   [rows]="20"
-                   paginator="true"
-                   [autoLayout]="true"
-                   selectionMode="multiple"
-                   [metaKeySelection]=keySelection
-                   [(selection)]="selectedInvoice"
-                   [resizableColumns]="true"
-                   sortMode="multiple"
-                   styleClass="p-datatable-gridlines" editMode="row">
-            <ng-template pTemplate="header">
-              <tr>
-                <th pSortableColumn = "invoiceNumber" style="width: 10%">Invoice number<p-sortIcon field="invoiceNumber"></p-sortIcon></th>
-                <th pSortableColumn = "supplierFullName" style="width: 25%">Supplier<p-sortIcon field="supplierFullName"></p-sortIcon></th>
-                <th pSortableColumn = "recipientFullName" style="width: 25%">Recipient<p-sortIcon field="recipientFullName"></p-sortIcon></th>
-                <th pSortableColumn = "invoiceDate" style="width: 10%">Invoice date<p-sortIcon field="invoiceDate"></p-sortIcon></th>
-                <th pSortableColumn = "creationDate" style="width: 10%">Invoice creation date<p-sortIcon field="creationDate"></p-sortIcon></th>
-                <th pSortableColumn = "totalSumNetto" style="width: 10%">Netto sum<p-sortIcon field="totalSumNetto"></p-sortIcon></th>
-                <th pSortableColumn = "totalSumBrutto" style="width: 10%">Brutto sum<p-sortIcon field="totalSumBrutto"></p-sortIcon></th>
-                <th style="width: 5%">Manage</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-invoice let-rowIndex="rowIndex">
-              <tr [ngStyle]="{'color':isEditObjectChanged(invoice)}" [pSelectableRow]="invoice"
-                  [pSelectableRowIndex]="rowIndex"
-                  (dblclick)="rowDoubleClick($event, invoice)"
-                  title="Double click to edit person">
-                <td>
-                  <div>{{invoice.invoiceNumber}}</div>
-                </td>
-                <td>
-                  <div>{{invoice.supplierFullName}}</div>
-                </td>
-                <td>
-                  <div>{{invoice.recipientFullName}}</div>
-                </td>
+    <div class="p-col-12 p-shadow-4 top-container-table-area">
+      <div class="table-area">
+        <p-table [(selection)]="selectedInvoice"
+                 [autoLayout]="true"
+                 [metaKeySelection]=keySelection
+                 [resizableColumns]="true"
+                 [rows]="20"
+                 [value]="invoices"
+                 editMode="row"
+                 paginator="true"
+                 selectionMode="multiple"
+                 sortMode="multiple" styleClass="p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="invoiceNumber" style="width: 10%">Invoice number
+                <p-sortIcon field="invoiceNumber"></p-sortIcon>
+              </th>
+              <th pSortableColumn="supplierFullName" style="width: 25%">Supplier
+                <p-sortIcon field="supplierFullName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="recipientFullName" style="width: 25%">Recipient
+                <p-sortIcon field="recipientFullName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="invoiceDate" style="width: 10%">Invoice date
+                <p-sortIcon field="invoiceDate"></p-sortIcon>
+              </th>
+              <th pSortableColumn="creationDate" style="width: 10%">Invoice creation date
+                <p-sortIcon field="creationDate"></p-sortIcon>
+              </th>
+              <th pSortableColumn="totalSumNetto" style="width: 10%">Netto sum
+                <p-sortIcon field="totalSumNetto"></p-sortIcon>
+              </th>
+              <th pSortableColumn="totalSumBrutto" style="width: 10%">Brutto sum
+                <p-sortIcon field="totalSumBrutto"></p-sortIcon>
+              </th>
+              <th style="width: 5%">Manage</th>
+            </tr>
+          </ng-template>
+          <ng-template let-invoice let-rowIndex="rowIndex" pTemplate="body">
+            <tr (dblclick)="rowDoubleClick($event, invoice)" [ngStyle]="{'color':isEditObjectChanged(invoice)}"
+                [pSelectableRowIndex]="rowIndex"
+                [pSelectableRow]="invoice"
+                title="Double click to edit person">
+              <td>
+                <div>{{invoice.invoiceNumber}}</div>
+              </td>
+              <td>
+                <div>{{invoice.supplierFullName}}</div>
+              </td>
+              <td>
+                <div>{{invoice.recipientFullName}}</div>
+              </td>
 
-                <td>
-                  <div>{{invoice.invoiceDate | dateType: 'DD.MM.YYYY'}}</div>
-                </td>
-                <td>
-                  <div>{{convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY'}}</div>
-                </td>
-                <td>
-                  <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
-                </td>
-                <td>
-                  <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
-                </td>
-                <td>
-                  <button title = "Delete item" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                          (click)="deleteInvoice(invoice.id)"></button>
-                  <button title ="Edit item" style="margin-left: 2px;" pButton pRipple icon="pi pi-pencil"
-                          class="p-button-rounded p-button-warning"
-                          (click)="rowDoubleClick($event, invoice)"></button>
-                  <button title = "Rollback item" pButton pRipple icon="pi pi-undo" class="p-button-rounded p-button-warning"
-                          (click)="rollbackChanges(invoice.id)"></button>
-                </td>
-              </tr>
+              <td>
+                <div>{{invoice.invoiceDate | dateType: 'DD.MM.YYYY'}}</div>
+              </td>
+              <td>
+                <div>{{convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY'}}</div>
+              </td>
+              <td>
+                <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
+              </td>
+              <td>
+                <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
+              </td>
+              <td>
+                <button (click)="deleteInvoice(invoice.id)" class="p-button-rounded p-button-warning" icon="pi pi-trash"
+                        pButton pRipple
+                        title="Delete item"></button>
+                <button (click)="rowDoubleClick($event, invoice)" class="p-button-rounded p-button-warning"
+                        icon="pi pi-pencil" pButton pRipple
+                        style="margin-left: 2px;"
+                        title="Edit item"></button>
+                <button (click)="rollbackChanges(invoice.id)" class="p-button-rounded p-button-warning"
+                        icon="pi pi-undo" pButton
+                        pRipple
+                        title="Rollback item"></button>
+              </td>
+            </tr>
 
-            </ng-template>
-          </p-table>
+          </ng-template>
+        </p-table>
       </div>
     </div>
-    <div class = "p-col-12 save-button-col-size">
-        <div class="save-button-container-size">
-          <p-button [disabled]="haveNoChanges()" label="Save"
-                    (onClick)="showSaveConfirmDialog = true"></p-button>
-        </div>
+    <div class="p-col-12 save-button-col-size">
+      <div class="save-button-container-size">
+        <p-button (onClick)="showSaveConfirmDialog = true" [disabled]="haveNoChanges()"
+                  label="Save"></p-button>
+      </div>
+    </div>
   </div>
-</div>
 
-<app-edit-invoice-dialog (editObjectChangedChanged)="putEditDialogChanges($event)" #invoiceDialog></app-edit-invoice-dialog>
+  <app-edit-invoice-dialog #invoiceDialog
+                           (editObjectChangedChanged)="putEditDialogChanges($event)"></app-edit-invoice-dialog>
 
-<app-confirmation-dialog [display]="showDeleteConfirmDialog"
-                         [message]="deleteConfirmDialogMessage"
-                         (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
-                         (canceled) = "handleCancelDeleteInvoice($event)"
-                         #confirmDeleteInvoiceDialog></app-confirmation-dialog>
+  <app-confirmation-dialog #confirmDeleteInvoiceDialog
+                           (canceled)="handleCancelDeleteInvoice($event)"
+                           (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
+                           [display]="showDeleteConfirmDialog"
+                           [message]="deleteConfirmDialogMessage"></app-confirmation-dialog>
 
-<app-confirmation-dialog [display]="showSaveConfirmDialog"
-                         [message]="saveConfirmDialogMessage"
-                         (confirmed)="handleConfirmationSaveInvoice(confirmDeleteInvoiceDialog.transferObject)"
-                         (canceled) = "handleCancelSaveInvoice($event)"
-                         #confirmDeleteInvoiceDialog></app-confirmation-dialog>
+  <app-confirmation-dialog #confirmDeleteInvoiceDialog
+                           (canceled)="handleCancelSaveInvoice($event)"
+                           (confirmed)="handleConfirmationSaveInvoice(confirmDeleteInvoiceDialog.transferObject)"
+                           [display]="showSaveConfirmDialog"
+                           [message]="saveConfirmDialogMessage"></app-confirmation-dialog>
 
 

@@ -1,18 +1,18 @@
-import {Component, NgModule, OnInit,} from '@angular/core';
-import {AppSecurityService} from './app-security.service';
-import {HttpClient} from '@angular/common/http';
-import {Router, RouterModule} from '@angular/router';
-import {MessageService} from 'primeng/api';
-import {Observable, of} from "rxjs";
-import {FormsModule, NgForm} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {ButtonModule} from "primeng/button";
+import { Component, NgModule, OnInit, } from '@angular/core';
+import { AppSecurityService } from './app-security.service';
+import { HttpClient } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { Observable, of } from "rxjs";
+import { FormsModule, NgForm } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ButtonModule } from "primeng/button";
 import {
   ValidatableInputTextModule
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {MessagesModule} from "primeng/messages";
-import {MessageModule} from "primeng/message";
-import {ToastModule} from "primeng/toast";
+import { MessagesModule } from "primeng/messages";
+import { MessageModule } from "primeng/message";
+import { ToastModule } from "primeng/toast";
 
 @Component({
   selector: 'app-user-login',
@@ -38,32 +38,34 @@ export class UserLoginComponent implements OnInit {
 
   }
 
-  public navigateCreateNewUser(): void{
+  public navigateCreateNewUser(): void {
     this.router.navigateByUrl('/user-registration-page');
   }
 
   /**
    * Login to the application
    */
-  login(loginForm:NgForm): any {
+  login(loginForm: NgForm): any {
 
     this.appSecurityService.authenticate(this.appSecurityService, this.appSecurityService.credentials,
       (result) => {
 
-      console.log('Login Result :' + result);
-      if (result === true) {
-        this.router.navigateByUrl('/');
-      }else{
-        this.appSecurityService.clearCredentials()
-        loginForm.resetForm()
-        console.log('Not logged :' + result);
-        this.observableMsgService.subscribe(m =>{
-          m.add({severity: 'error', summary: 'Loging error',
-            detail: 'Please enter correct user name and password.'});
-        })
+        console.log('Login Result :' + result);
+        if (result === true) {
+          this.router.navigateByUrl('/');
+        } else {
+          this.appSecurityService.clearCredentials()
+          loginForm.resetForm()
+          console.log('Not logged :' + result);
+          this.observableMsgService.subscribe(m => {
+            m.add({
+              severity: 'error', summary: 'Loging error',
+              detail: 'Please enter correct user name and password.'
+            });
+          })
 
-      }
-    });
+        }
+      });
   }
 }
 
@@ -76,6 +78,6 @@ export class UserLoginComponent implements OnInit {
     exports: [UserLoginComponent]
   }
 )
-export class UserLoginModule{
+export class UserLoginModule {
 
 }

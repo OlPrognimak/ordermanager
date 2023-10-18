@@ -7,74 +7,75 @@
       </div>
       <div class="p-col-3"></div>
     </div>
-    <form  (submit)="registerUser(userRegistrationForm)" #userRegistrationForm = "ngForm">
-    <div class="p-grid">
-      <div class="p-col-1">
+    <form #userRegistrationForm="ngForm" (submit)="registerUser(userRegistrationForm)">
+      <div class="p-grid">
+        <div class="p-col-1">
+
+        </div>
+
+        <div class="p-col-2"></div>
+        <div class="p-col-6 p-shadow-4" style="margin-right: 20pt;">
+          <div class="p-grid">
+            <div class="p-col-2">
+              <!--            <p-button label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
+            </div>
+            <div class="p-col-3" style="text-align: center"></div>
+            <H2>User registration</H2>
+            <div class="p-col-7"></div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-3"></div>
+            <div class="p-col-6">
+              <app-validatable-input-text (componentHasErrorEvent)="setHasUsernameError($event)"
+                                          [(ngModel)]="newUser.userName"
+                                          [idComponent]="'id_UserName'"
+                                          [labelText]="'User name'"
+                                          [name]="'username'"
+                                          [txtMinLength]="2">
+              </app-validatable-input-text>
+            </div>
+            <div class="p-col-3"></div>
+          </div>
+          <div class="p-grid" style="margin-top: 15pt">
+            <div class="p-col-3"></div>
+            <div class="p-col-6">
+              <app-validatable-input-text (componentHasErrorEvent)="setHasPasswordError($event)"
+                                          [(ngModel)]="newUser.userPassword"
+                                          [idComponent]="'id_UserPassword'"
+                                          [inputType]="'password'"
+                                          [labelText]="'Password'"
+                                          [name]="'password'"
+                                          [txtMinLength]="5">
+              </app-validatable-input-text>
+            </div>
+            <div class="p-col-3"></div>
+          </div>
+          <div class="p-grid" style="margin-top: 15pt">
+            <div class="p-col-3"></div>
+            <div class="p-col-6">
+              <app-validatable-input-text (componentHasErrorEvent)="setHasRepeatPasswordError($event)"
+                                          [(ngModel)]="newUser.userPasswordRepeat"
+                                          [idComponent]="'id_UserPasswordRepeat'"
+                                          [inputType]="'password'"
+                                          [labelText]="'Repeat password'"
+                                          [name]="'repeatPassword'"
+                                          [txtMinLength]="5">
+              </app-validatable-input-text>
+            </div>
+            <div class="p-col-3"></div>
+          </div>
+
+          <div class="p-grid" style="margin-top: 10px;">
+            <div class="p-col-4"></div>
+            <div class="p-col-3" style="margin-left: 2vw">
+              <p-button [disabled]="haveErrors()" icon="pi pi-check" label="Register user" styleClass="p-button-text"
+                        type="submit"></p-button>
+            </div>
+            <div class="p-col-4"></div>
+          </div>
+        </div>
 
       </div>
-
-      <div class="p-col-2"></div>
-        <div style="margin-right: 20pt;" class="p-col-6 p-shadow-4">
-        <div class="p-grid">
-          <div class="p-col-2">
-<!--            <p-button label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
-          </div>
-          <div style="text-align: center" class="p-col-3"></div>
-          <H2>User registration</H2>
-          <div class="p-col-7"></div>
-        </div>
-        <div class="p-grid">
-          <div class="p-col-3"></div>
-          <div class="p-col-6">
-            <app-validatable-input-text [name]="'username'"
-                                        [labelText]="'User name'"
-                                        [idComponent]="'id_UserName'"
-                                        [txtMinLength]="2"
-                                        (componentHasErrorEvent) = "setHasUsernameError($event)"
-                                        [(ngModel)]="newUser.userName">
-            </app-validatable-input-text>
-          </div>
-          <div class="p-col-3"></div>
-        </div>
-        <div style="margin-top: 15pt" class="p-grid">
-          <div class="p-col-3"></div>
-          <div class="p-col-6">
-            <app-validatable-input-text [name]="'password'"
-                                        [labelText]="'Password'"
-                                        [idComponent]="'id_UserPassword'"
-                                        [inputType]="'password'"
-                                        [txtMinLength]="5"
-                                        (componentHasErrorEvent) = "setHasPasswordError($event)"
-                                        [(ngModel)]="newUser.userPassword">
-            </app-validatable-input-text>
-          </div>
-          <div class="p-col-3"></div>
-        </div>
-        <div style="margin-top: 15pt" class="p-grid">
-          <div class="p-col-3"></div>
-          <div class="p-col-6">
-            <app-validatable-input-text [name]="'repeatPassword'"
-                                        [labelText]="'Repeat password'"
-                                        [idComponent]="'id_UserPasswordRepeat'"
-                                        [inputType]="'password'"
-                                        (componentHasErrorEvent) = "setHasRepeatPasswordError($event)"
-                                        [txtMinLength]="5"
-                                        [(ngModel)]="newUser.userPasswordRepeat">
-            </app-validatable-input-text>
-          </div>
-          <div class="p-col-3"></div>
-        </div>
-
-        <div style="margin-top: 10px;" class="p-grid">
-          <div class="p-col-4"></div>
-          <div style="margin-left: 2vw" class="p-col-3">
-            <p-button [disabled] = "haveErrors()" icon="pi pi-check" type="submit"   styleClass="p-button-text" label="Register user"></p-button>
-          </div>
-          <div class="p-col-4"></div>
-        </div>
-      </div>
-
-    </div>
     </form>
   </div>
 </div>

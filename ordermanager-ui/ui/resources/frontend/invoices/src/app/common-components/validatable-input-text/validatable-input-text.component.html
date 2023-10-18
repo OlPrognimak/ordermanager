@@ -5,32 +5,36 @@
 *@param idComponent the id of component
 *@param onChange($event) callback method on the parent component which sends changed value in child (this) component
 -->
-<div style ="display: table; width: 100%;">
-  <div style ="display: table-row; width: 100%;">
-    <div style ="display: table-cell; width: 100%;">
+<div style="display: table; width: 100%;">
+  <div style="display: table-row; width: 100%;">
+    <div style="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                    <input  class="ng-dirty p-mr-2"
+                    <input #modelRef="ngModel"
+                           [(ngModel)]="value"
+                           [pattern]="inputPattern"
+                           class="ng-dirty p-mr-2"
+                           id="{{idComponent}}"
+                           minlength="{{txtMinLength}}"
                            name="{{inputName}}"
                            pInputText
                            required
-                            [pattern]="inputPattern"
-                           minlength="{{txtMinLength}}"
-                           id="{{idComponent}}"
-                           type="{{inputType}}"
-                           [(ngModel)]="value"
 
-                           #modelRef="ngModel"/>
+                           type="{{inputType}}"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
     </div>
     <div *ngIf=
-           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)" style ="display: table-cell; width: 10%;">
-        <p-message severity="error"></p-message>
-    </div>
-    <div *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)" style ="display: table-cell; width: 10%;">
+           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)"
+         style="display: table-cell; width: 10%;">
       <p-message severity="error"></p-message>
     </div>
-    <div *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)" style ="display: table-cell; width: 10%;">
+    <div
+      *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)"
+      style="display: table-cell; width: 10%;">
+      <p-message severity="error"></p-message>
+    </div>
+    <div *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)"
+         style="display: table-cell; width: 10%;">
       <div *ngIf="modelRef.errors?.minlength===undefined">
         <p-message severity="error"></p-message>
       </div>

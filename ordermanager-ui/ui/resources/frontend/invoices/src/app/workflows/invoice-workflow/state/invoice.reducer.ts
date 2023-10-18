@@ -1,6 +1,6 @@
-import {InvoiceFormModel, InvoiceFormModelInterface} from "../../../domain/domain.invoiceformmodel";
-import {Action, createReducer, on} from "@ngrx/store";
-import {InvoiceActions} from "./invoice.actions";
+import { InvoiceFormModel, InvoiceFormModelInterface } from "../../../domain/domain.invoiceformmodel";
+import { Action, createReducer, on } from "@ngrx/store";
+import { InvoiceActions } from "./invoice.actions";
 
 export interface InvoiceState {
   data: InvoiceFormModelInterface | null
@@ -8,13 +8,13 @@ export interface InvoiceState {
   error: any | null
 }
 
-export const initialInvoiceStale :InvoiceState = {
+export const initialInvoiceStale: InvoiceState = {
   data: new InvoiceFormModel(),
   status: 'loading',
   error: null
 }
 
-export const invoiceReducer = createReducer (
+export const invoiceReducer = createReducer(
   initialInvoiceStale,
   on(InvoiceActions.loadInvoiceAction || InvoiceActions.saveInvoiceAction, (state) => {
     return {
@@ -32,15 +32,15 @@ export const invoiceReducer = createReducer (
       error: null,
     };
   }),
-  on( InvoiceActions.setInvoiceType,
+  on(InvoiceActions.setInvoiceType,
     (state, {data}) => {
-    return {
-      ...state,
-      data: data,
-      status: 'success',
-      error: null,
-    };
-  }),
+      return {
+        ...state,
+        data: data,
+        status: 'success',
+        error: null,
+      };
+    }),
   on(
     InvoiceActions.setInvoiceDateAction,
     (state, {data}) => {
@@ -60,7 +60,7 @@ export const invoiceReducer = createReducer (
         error: null,
       };
     }),
-  on( InvoiceActions.setInvoiceCreatorAction,
+  on(InvoiceActions.setInvoiceCreatorAction,
     (state, {data}) => {
       return {
         ...state,
@@ -78,7 +78,7 @@ export const invoiceReducer = createReducer (
         error: null,
       };
     }),
-  on(InvoiceActions.actionFailure, (state, { error }) => {
+  on(InvoiceActions.actionFailure, (state, {error}) => {
     return {
       ...state,
       status: 'error',

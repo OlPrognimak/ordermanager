@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-  @import '../node_modules/ag-grid-community/styles/ag-grid.css';
-  @import '../node_modules/ag-grid-community/styles/ag-theme-balham.css';
-  @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
- /* @import "../node_modules/primeng/resources/themes/nova/theme.css"; */
-  @import "../node_modules/primeng/resources/primeng.min.css";
-  @import "../node_modules/primeicons/primeicons.css";
-  @import "../node_modules/primeflex/primeflex.css";
-  @import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
+@import '../node_modules/ag-grid-community/styles/ag-grid.css';
+@import '../node_modules/ag-grid-community/styles/ag-theme-balham.css';
+@import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* @import "../node_modules/primeng/resources/themes/nova/theme.css"; */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/primeflex/primeflex.css";
+@import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
 
 /* Global Styles */
 h1 {
@@ -15,23 +15,28 @@ h1 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
+
 h2, h3 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
+
 body {
   margin: 2em;
   margin-left: 10pt !important;
 }
+
 body, input[text], button {
   color: #333;
   font-family: Cambria, Georgia;
 }
+
 a {
   cursor: pointer;
   cursor: hand;
 }
+
 button {
   font-family: Arial;
   background-color: #eee;
@@ -41,9 +46,11 @@ button {
   cursor: pointer;
   cursor: hand;
 }
+
 button:hover {
   background-color: #cfd8dc;
 }
+
 button:disabled {
   background-color: #eee;
   color: #aaa;
@@ -60,9 +67,11 @@ nav a {
   background-color: #eee;
   border-radius: 4px;
 }
+
 nav a:visited, a:link {
   color: #607D8B;
 }
+
 nav a:hover {
   color: #039be5;
   background-color: #CFD8DC;
@@ -87,7 +96,10 @@ nav a.active {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-html { height: 100%; }
+html {
+  height: 100%;
+}
+
 body {
   height: 100%;
   margin: 0;
@@ -105,11 +117,13 @@ div.p-dialog-header {
   background-color: #94b4a7 !important;
   padding: 2pt !important;
 }
+
 .header-dialog-container {
   background-color: #94b4a7;
   padding: 2pt !important;
   width: 100%
 }
+
 #appConfigId > app-root > app-item-management {
   height: 100%;
 }
@@ -123,7 +137,7 @@ div.p-dialog-header {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
   z-index: 2;
   cursor: pointer;
 }
@@ -133,12 +147,12 @@ div.p-dialog-header {
   justify-content: center;
   align-items: center;
   height: calc(100vh - 20px);
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .save-button-container-size {
   max-width: 50%;
-  min-width:10%;
+  min-width: 10%;
   float: right;
 }
 

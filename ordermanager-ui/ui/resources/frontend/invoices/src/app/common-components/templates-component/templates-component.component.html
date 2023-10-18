@@ -4,14 +4,14 @@
       <div style="display: table-cell; width: 100%;">
                <span class="p-float-label">
                     <input [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
-                           pInputText
-                           minlength="0"
                            id="{{idComponent}}"
-                           type="text" />
+                           minlength="0"
+                           pInputText
+                           type="text"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
       </div>
-      <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
         <p-message severity="error"></p-message>
       </div>
     </div>
@@ -24,17 +24,17 @@
     <div style="display: table-row; width: 100%;">
       <div style="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                    <p-inputNumber [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
-                                   placeholder = '0.00'
-                                   class="p-cell-editing ng-dirty"
-                                   mode="decimal"
+                    <p-inputNumber [formControl]="getControl(controlPath)" [maxFractionDigits]="2"
                                    [minFractionDigits]="2"
-                                   [maxFractionDigits]="2"
-                                    id="{{idComponent}}"/>
+                                   class="ng-dirty p-mr-2"
+                                   class="p-cell-editing ng-dirty"
+                                   id="{{idComponent}}"
+                                   mode="decimal"
+                                   placeholder='0.00'/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
       </div>
-      <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
         <p-message severity="error"></p-message>
       </div>
     </div>
@@ -42,30 +42,29 @@
 </ng-template>
 
 
-
 <!-- The combobox template for selecting person type. -->
 <ng-template #comboboxTemplate let-controlPath="controlPath"
              let-idComponent="idComponent"
              let-labelText="labelText"
-             let-placeholderPar="placeholderPar"
-             let-optionList="optionList">
+             let-optionList="optionList"
+             let-placeholderPar="placeholderPar">
 
   <div style="display: table; width: 100%;">
     <div style="display: table-row; width: 100%;">
       <div style="display: table-cell; width: 100%;">
         <div style="margin-bottom: 15pt">
                 <span class="p-float-label">
-                <p-dropdown [formControl]="getControl(controlPath)"
-                            (onChange)="onDropdownValueChanged($event)"
-                            placeholder="{{placeholderPar}}"
-                            required
-                            minlength="1"
+                <p-dropdown (onChange)="onDropdownValueChanged($event)"
+                            [formControl]="getControl(controlPath)"
+                            [options]="optionList"
                             id="{{idComponent}}"
-                            [options]="optionList">
+                            minlength="1"
+                            placeholder="{{placeholderPar}}"
+                            required>
                 </p-dropdown>
                 <label for="{{idComponent}}">{{labelText}}</label>
                 </span>
-          <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+          <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
             <p-message severity="error"></p-message>
           </div>
         </div>
@@ -75,54 +74,54 @@
 </ng-template>
 
 
-<ng-template  #calendarTemplate let-controlPath="controlPath"
-              let-idComponent="idComponent"
-              let-labelText="labelText"
-              let-calendarDateFormat="calendarDateFormat">
-  <div style ="display: table; width: 100%;">
-    <div style ="display: table-row; width: 100%;">
-      <div style ="display: table-cell; width: 100%;">
+<ng-template #calendarTemplate let-calendarDateFormat="calendarDateFormat"
+             let-controlPath="controlPath"
+             let-idComponent="idComponent"
+             let-labelText="labelText">
+  <div style="display: table; width: 100%;">
+    <div style="display: table-row; width: 100%;">
+      <div style="display: table-cell; width: 100%;">
                <span class="p-float-label">
-                    <p-calendar [formControl]="getControl(controlPath)"
-                                dateFormat="{{calendarDateFormat}}"
-                                required
+                    <p-calendar (onSelect)="onCalendarChange($event, controlPath)"
+                                [formControl]="getControl(controlPath)"
                                 [showIcon]="true"
-                                minlength="1"
+                                dateFormat="{{calendarDateFormat}}"
                                 id="{{idComponent}}"
-                                (onSelect)="onCalendarChange($event, controlPath)">
+                                minlength="1"
+                                required>
                     </p-calendar>
-                    <label  for="{{idComponent}}">{{labelText}}</label>
+                    <label for="{{idComponent}}">{{labelText}}</label>
                </span>
       </div>
-      <div *ngIf= "getControl(controlPath)?.invalid" style ="display: table-cell; width: 10%;">
+      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
         <p-message severity="error"></p-message>
       </div>
     </div>
   </div>
 </ng-template>
 
-<ng-template  #standaloneFormCalendarTemplate let-controlName="controlName"
-              let-idComponent="idComponent"
-              let-labelText="labelText"
-              let-calendarDateFormat="calendarDateFormat">
+<ng-template #standaloneFormCalendarTemplate let-calendarDateFormat="calendarDateFormat"
+             let-controlName="controlName"
+             let-idComponent="idComponent"
+             let-labelText="labelText">
   <form>
-    <div style ="display: table; width: 100%;">
-      <div style ="display: table-row; width: 100%;">
-        <div style ="display: table-cell; width: 100%;">
+    <div style="display: table; width: 100%;">
+      <div style="display: table-row; width: 100%;">
+        <div style="display: table-cell; width: 100%;">
                  <span class="p-float-label">
-                      <p-calendar name="{{controlName}}"
-                                  dateFormat="{{calendarDateFormat}}"
-                                  required
-                                  [showIcon]="true"
-                                  minlength="1"
+                      <p-calendar #pCalendarRef="ngModel"
+                                  (onSelect)="onCalendarChange($event, controlName)"
                                   [(ngModel)]="dateTemplateModel"
+                                  [showIcon]="true"
+                                  dateFormat="{{calendarDateFormat}}"
                                   id="{{idComponent}}"
-                                  (onSelect)="onCalendarChange($event, controlName)" #pCalendarRef = "ngModel">
+                                  minlength="1"
+                                  name="{{controlName}}" required>
                       </p-calendar>
-                      <label  for="{{idComponent}}">{{labelText}}</label>
+                      <label for="{{idComponent}}">{{labelText}}</label>
                  </span>
         </div>
-        <div *ngIf= "pCalendarRef.control?.invalid" style ="display: table-cell; width: 10%;">
+        <div *ngIf="pCalendarRef.control?.invalid" style="display: table-cell; width: 10%;">
           <p-message severity="error"></p-message>
         </div>
       </div>

@@ -1,6 +1,6 @@
-import {createAction, props} from "@ngrx/store";
-import {InvoiceFormModelInterface} from "../../../domain/domain.invoiceformmodel";
-import {WorkflowStatuses} from "./invoice.state";
+import { createAction, props } from "@ngrx/store";
+import { InvoiceFormModelInterface } from "../../../domain/domain.invoiceformmodel";
+import { WorkflowStatuses } from "./invoice.state";
 
 const loadInvoiceAction = createAction('LOAD_INVOICE')
 const loadInvoiceSuccessAction =

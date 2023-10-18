@@ -1,34 +1,35 @@
-<div style="height: 100%" class="p-shadow-4">
+<div class="p-shadow-4" style="height: 100%">
   <p-toast></p-toast>
-  <form (submit)="loadData()" #finderPeriodForm="ngForm">
-    <div class="overlayProcess childElementCenter" *ngIf="service.processRuns">
-      <mat-progress-spinner mode="indeterminate" *ngIf="service.processRuns"></mat-progress-spinner>
+  <form #finderPeriodForm="ngForm" (submit)="loadData()">
+    <div *ngIf="service.processRuns" class="overlayProcess childElementCenter">
+      <mat-progress-spinner *ngIf="service.processRuns" mode="indeterminate"></mat-progress-spinner>
     </div>
     <h3 style="margin-left: 5pt">Select date period</h3>
     <div class="p-grid">
 
       <div class="p-col-3 justifyPanel">
-        <app-validatable-calendar [name]="'startDate'"
+        <app-validatable-calendar (controlModel)="startDateControlModel = $event"
+                                  [(ngModel)]="requestDatePeriod.startDate"
                                   [idComponent]="'id-StartDate'"
                                   [labelText]="'Start Date'"
-                                  [(ngModel)]="requestDatePeriod.startDate"
-                                  calendarDateFormat="dd.mm.yy"
-                                  (controlModel)="startDateControlModel = $event">
+                                  [name]="'startDate'"
+                                  calendarDateFormat="dd.mm.yy">
         </app-validatable-calendar>
       </div>
 
       <div class="p-col-3 justifyPanel">
-        <app-validatable-calendar [name]="'endDate'"
+        <app-validatable-calendar (controlModel)="endDateControlModel = $event"
+                                  [(ngModel)]="requestDatePeriod.endDate"
                                   [idComponent]="'id-EndDate'"
                                   [labelText]="'End Date'"
-                                  [(ngModel)]="requestDatePeriod.endDate"
-                                  (controlModel)="endDateControlModel = $event"
+                                  [name]="'endDate'"
                                   calendarDateFormat="dd.mm.yy">
         </app-validatable-calendar>
       </div>
 
       <div class="p-col-1 justifyPanel">
-        <p-button type="submit"  icon="pi pi-check" styleClass="p-button-text submit-button" [disabled]="isSubmitButtonDisabled()" label="Find"></p-button>
+        <p-button [disabled]="isSubmitButtonDisabled()" icon="pi pi-check" label="Find"
+                  styleClass="p-button-text submit-button" type="submit"></p-button>
       </div>
 
     </div>

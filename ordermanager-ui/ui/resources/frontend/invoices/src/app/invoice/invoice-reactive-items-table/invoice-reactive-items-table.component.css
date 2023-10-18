@@ -9,19 +9,22 @@
   /*width: 100% !important;*/
 }
 
-input[type="text"]  {
+input[type="text"] {
   margin: 5px 5px 5px 5px;
 
   width: 100% !important;
   height: 21pt;
 }
+
 .sizes .p-inputtext {
   display: block;
   margin-bottom: 0.5rem;
 }
+
 .sizes .p-inputtext:last-child {
   margin-bottom: 0;
 }
+
 .p-field * {
   display: block;
 }

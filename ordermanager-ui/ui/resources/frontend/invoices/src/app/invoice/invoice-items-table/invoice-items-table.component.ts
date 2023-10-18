@@ -28,34 +28,33 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {DropdownDataType, InvoiceItemModel} from '../../domain/domain.invoiceformmodel';
-import {Observable, of, Subscription} from 'rxjs';
-import {InvoiceItemsTableCalculatorService} from './invoice-items-table.calculator.service';
-import {InvoiceItemsTableService} from './invoice-items-table.service';
-import {HttpClient} from "@angular/common/http";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { DropdownDataType, InvoiceItemModel } from '../../domain/domain.invoiceformmodel';
+import { Observable, of, Subscription } from 'rxjs';
+import { InvoiceItemsTableCalculatorService } from './invoice-items-table.calculator.service';
+import { InvoiceItemsTableService } from './invoice-items-table.service';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   styles: [],
   styleUrls: ['./invoice-items-table.component.css'],
   selector: 'app-invoice-items-table',
   templateUrl: './invoice-items-table.component.html',
-  providers:  [InvoiceItemsTableCalculatorService, HttpClient],
+  providers: [InvoiceItemsTableCalculatorService, HttpClient],
 })
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   @Input() invoiceItems: InvoiceItemModel[];
   /** The observer for observation model changing event in parent component */
   @Input() modelChangedEvent: Observable<void> = of();
-  /** The subscription for observer of model changing event in parent component */
-  private modelChangedSubscription: Subscription;
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
   @Input() catalogItems: DropdownDataType[];
   @Input() myInputField;
-
   idxItem: number;
   defaultItemMsg: string = "Click to select item";
+  /** The subscription for observer of model changing event in parent component */
+  private modelChangedSubscription: Subscription;
 
   constructor(public itemtableService: InvoiceItemsTableService,
               private calculatorService: InvoiceItemsTableCalculatorService) {
@@ -74,7 +73,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
     return this.calculatorService.totalBruttoSum;
   }
 
-  public setTottalBruttoSum(value: any){
+  public setTottalBruttoSum(value: any) {
 
   }
 
@@ -84,7 +83,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
     });
 
     this.itemtableService.downloadCatalogItemsDropdownList(callback => {
-      if(callback) {
+      if (callback) {
         this.catalogItems = callback;
       }
     })
@@ -94,8 +93,9 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.modelChangedSubscription.unsubscribe();
   }
+
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
-  public resetTotalValues(): void{
+  public resetTotalValues(): void {
     this.calculatorService.totalNettoSum = 0;
     this.calculatorService.totalBruttoSum = 0;
   }
@@ -106,11 +106,11 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    * @param event id catalog item
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
-     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback =>{
+    this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
       this.changeItemEvent.emit(this.invoiceItems);
       // console.log("###### Item.Amount =:"+callback.amountItems)
-       this.inputBoxChanged(callback, null)
-     });
+      this.inputBoxChanged(callback, null)
+    });
 
   }
 
@@ -140,14 +140,14 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    * @param idItemCatalog the id of item in catalog of items
    */
   getCatalogDescription(idItemCatalog: string): any {
-   if (idItemCatalog !== undefined) {
+    if (idItemCatalog !== undefined) {
       // tslint:disable-next-line:triple-equals
       const rez = this.catalogItems?.filter(
         val => Number(val.value) === Number(idItemCatalog));
       const labelTxt = rez?.at(0).label
       return labelTxt;
-   } else {
-     return '[Please select item]';
+    } else {
+      return '[Please select item]';
     }
   }
 
@@ -165,14 +165,14 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** emits events with changed total netto and brutto sums */
-  private emitTotalChanged(): void{
-    this.totalNettoSumEvent.emit(this.calculatorService.totalNettoSum);
-    this.totalBruttoSumEvent.emit(this.calculatorService.totalBruttoSum);
-  }
-
   printToJson(data: any): void {
     console.log(JSON.stringify(data));
+  }
+
+  /** emits events with changed total netto and brutto sums */
+  private emitTotalChanged(): void {
+    this.totalNettoSumEvent.emit(this.calculatorService.totalNettoSum);
+    this.totalBruttoSumEvent.emit(this.calculatorService.totalBruttoSum);
   }
 
 }

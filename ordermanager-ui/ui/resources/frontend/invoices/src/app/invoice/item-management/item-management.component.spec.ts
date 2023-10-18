@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemManagementComponent } from './item-management.component';
-import {MessageService} from "primeng/api";
-import {HttpClient, HttpHandler} from "@angular/common/http";
+import { MessageService } from "primeng/api";
+import { HttpClient, HttpHandler } from "@angular/common/http";
 
 describe('ItemManagementComponent', () => {
   let component: ItemManagementComponent;
