@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggingCheck} from '../../domain/domain.invoiceformmodel';
 import {Router} from '@angular/router';
 import {map} from "rxjs/operators";
-import {finalize, interval} from "rxjs";
+import {finalize, interval, Subject, takeUntil} from "rxjs";
 import axios from 'axios'
 import {environment} from "../../../environments/environment";
 
@@ -37,10 +37,12 @@ export const remoteBackendUrl = () => {
   providedIn: 'root'
   }
 )
-export class AppSecurityService {
+export class AppSecurityService implements OnDestroy{
 
   // authenticated = false;
   credentials = {username: '', password: ''};
+
+  notifier = new Subject()
 
   /**
    *
@@ -62,7 +64,7 @@ export class AppSecurityService {
 
   getBackendBaseUrl(): void {
    // if( localStorage.getItem("remoteBackendURL") === null ) {
-      this.http.get<any>("backendUrl").subscribe(
+      this.http.get<any>("backendUrl").pipe(takeUntil(this.notifier)).subscribe(
         {
           next(response) {
             console.log("+++++++++ Try to get backend URL from server.")
@@ -109,7 +111,7 @@ export class AppSecurityService {
           return false;
         }
       }));
-   login.subscribe(
+   login.pipe(takeUntil(this.notifier)).subscribe(
      {
        next(data) {
          if(data) {
@@ -145,6 +147,7 @@ export class AppSecurityService {
     });
 
     this.http.get<LoggingCheck>(remoteBackendUrl()+"checkUser", {headers})
+      .pipe(takeUntil(this.notifier))
       .subscribe(
         {
           next(response) {
@@ -173,6 +176,11 @@ export class AppSecurityService {
     this.http.post(remoteBackendUrl() + 'perform_logout', {}).pipe(finalize(() => {
       this.clearCredentials()
     })).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next('')
+    this.notifier.complete()
   }
 
 }

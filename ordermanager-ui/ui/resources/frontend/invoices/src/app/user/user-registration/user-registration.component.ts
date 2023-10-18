@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CreatedResponse, NewUser} from '../../domain/domain.invoiceformmodel';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MessageService} from 'primeng/api';
@@ -37,6 +37,7 @@ import {CommonServicesUtilService} from "../../common-services/common-services-u
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {AppSecurityService, remoteBackendUrl} from "../user-login/app-security.service";
 import {NgForm} from "@angular/forms";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-user-registration',
@@ -44,7 +45,7 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./user-registration.component.css'],
   providers: [HttpClient, MessageService, CommonServicesUtilService, AppSecurityService, MessagesPrinter],
 })
-export class UserRegistrationComponent implements OnInit {
+export class UserRegistrationComponent implements OnInit, OnDestroy {
 
   public newUser: NewUser = new NewUser();
   //backendUrl: string;
@@ -52,6 +53,7 @@ export class UserRegistrationComponent implements OnInit {
   private isUserNameError: boolean = false
   private isPasswordError: boolean = false
   private isRepeatPasswordError: boolean = false
+  notifier = new Subject()
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService,
@@ -60,6 +62,11 @@ export class UserRegistrationComponent implements OnInit {
               public router: Router, private messagePrinter: MessagesPrinter) {
     //this.backendUrl = environment.baseUrl;
 
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next('')
+    this.notifier.complete()
   }
 
   /**
@@ -91,6 +98,7 @@ export class UserRegistrationComponent implements OnInit {
 
     this.httpClient
       .post<CreatedResponse>(remoteBackendUrl() + 'registration', {}, {headers})
+      .pipe(takeUntil(this.notifier))
       .subscribe(
         {
           next(response) {

@@ -1,8 +1,9 @@
-import {Injectable} from "@angular/core";
+import {Injectable, OnDestroy} from "@angular/core";
 import {HttpClient, HttpEvent, HttpHeaders, HttpRequest, HttpResponse} from "@angular/common/http";
 import {RequestPeriodDateInterface} from "../../domain/domain.invoiceformmodel";
 import {MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import {remoteBackendUrl} from "../../user/user-login/app-security.service";
+import {Subject, takeUntil} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,10 @@ import {remoteBackendUrl} from "../../user/user-login/app-security.service";
 /**
  *
  */
-export class RequestPeriodDateService {
+export class RequestPeriodDateService  implements OnDestroy{
 
   processRuns: boolean;
+  notifier = new Subject();
   constructor(private http: HttpClient, private msgPrinter: MessagesPrinter) {
   }
 
@@ -26,7 +28,8 @@ export class RequestPeriodDateService {
      const reguest: HttpRequest<RequestPeriodDateInterface> =
        new HttpRequest('POST', remoteBackendUrl()+url, period,{headers: headersReq})
      const messagePrinter = this.msgPrinter
-     this.http.request<any>(reguest).subscribe(
+     this.http.request<any>(reguest).pipe(
+       takeUntil(this.notifier),).subscribe(
        {
          next(responseEv: HttpEvent<any> ) {
            const response = responseEv as HttpResponse<any>
@@ -48,5 +51,10 @@ export class RequestPeriodDateService {
 
   public setProcessRun(isRun: boolean): void {
     this.processRuns = isRun;
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next('');
+    this.notifier.complete();
   }
 }

@@ -1,13 +1,14 @@
-import {Directive, Input} from "@angular/core";
+import {Directive, Input, OnDestroy} from "@angular/core";
 import {MessagesPrinter} from "./common-services.app.http.service";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {remoteBackendUrl} from "../user/user-login/app-security.service";
+import {Subject, takeUntil} from "rxjs";
 
 
 const SELECTION_COLOR  ="blue"
 const DESELECTION_COLOR = '#495057'
 @Directive()
-export class CommonServicesEditService<T> {
+export class CommonServicesEditService<T> implements OnDestroy {
 
   /**
    * Contains original objects instead changed objects in model list
@@ -23,6 +24,7 @@ export class CommonServicesEditService<T> {
   endPointUrl: String
 
   httpClient: HttpClient
+  notifier = new Subject();
 
   constructor(httpClient: HttpClient,  loadingDataError: string, endPointUrl: String) {
     this.httpClient = httpClient
@@ -88,7 +90,7 @@ export class CommonServicesEditService<T> {
 
     const backendUrl = remoteBackendUrl()
     if( backendUrl !== null) {
-      this.httpClient.get<T[]>(backendUrl + this.endPointUrl, options).subscribe(
+      this.httpClient.get<T[]>(backendUrl + this.endPointUrl, options).pipe(takeUntil(this.notifier),).subscribe(
         {
           next(response) {
             return callback(response)
@@ -102,6 +104,11 @@ export class CommonServicesEditService<T> {
     } else {
       throw new Error('Backend URL can not be null')
     }
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next('')
+    this.notifier.complete()
   }
 }
 

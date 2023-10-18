@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {DropdownDataType, InvoiceItemModel, ItemCatalogModel} from '../../domain/domain.invoiceformmodel';
 import {printToJson} from "../../common-services/common-services-util.service";
 import {remoteBackendUrl} from "../../user/user-login/app-security.service";
+import {Subject, takeUntil} from "rxjs";
 
 /**
  * The service for table which contains items of invoice
@@ -10,13 +11,14 @@ import {remoteBackendUrl} from "../../user/user-login/app-security.service";
 @Injectable({
   providedIn: 'root',
 })
-export class InvoiceItemsTableService {
+export class InvoiceItemsTableService implements OnDestroy{
   /** the url to the server */
   //backendUrl: string;
   /** contains items schot description for dropdown list */
   public catalogItems: DropdownDataType[];
 
   basicAuthKey = 'basicAuthKey';
+  notifier = new Subject()
   /**
    * The constructor of service
    * @param httpClient http client
@@ -30,7 +32,7 @@ export class InvoiceItemsTableService {
       'Content-Type' : 'application/json',
       Accept : '*/*'
     } );
-    this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + 'invoice/itemscatalogdropdown', {headers})
+    this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + 'invoice/itemscatalogdropdown', {headers}).pipe(takeUntil(this.notifier),)
      .subscribe( {
        next(response) {
          return callback(response)
@@ -55,7 +57,7 @@ export class InvoiceItemsTableService {
     } );
     invoiceitem.catalogItemId = Number(idItemCatalog);
     this.httpClient.get<ItemCatalogModel>((remoteBackendUrl() + 'invoice/itemcatalog/' + invoiceitem.catalogItemId),
-      {headers})
+      {headers}).pipe(takeUntil(this.notifier),)
       .subscribe( {
         next(response){
           invoiceitem.amountItems = 0
@@ -72,4 +74,8 @@ export class InvoiceItemsTableService {
       });
   }
 
+  ngOnDestroy(): void {
+    this.notifier.next('')
+    this.notifier.complete()
+  }
 }

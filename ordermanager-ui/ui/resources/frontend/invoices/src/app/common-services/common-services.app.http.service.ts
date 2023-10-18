@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {MessageService} from 'primeng/api';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subject, takeUntil} from 'rxjs';
 import {CreatedResponse, DropdownDataType} from '../domain/domain.invoiceformmodel';
 import {Message} from 'primeng/api/message';
 import {CommonServicesUtilService, printToJson} from './common-services-util.service';
@@ -17,10 +17,11 @@ const  handleError = function(err: any): void {
 @Injectable({
   providedIn: 'root'
 })
-export class CommonServicesAppHttpService<T> {
+export class CommonServicesAppHttpService<T> implements OnDestroy{
 
   //backendUrl: string;
   basicAuthKey = 'basicAuthKey';
+  notifier = new Subject();
 
   constructor(public httpClient: HttpClient, public messagePrinter: MessagesPrinter) {
     //this.backendUrl = environment.baseUrl;
@@ -38,7 +39,7 @@ export class CommonServicesAppHttpService<T> {
   putObjectToServer = (httpMethod: string, objectToSave: T | null, objectName: string, endPointPath: string, callback) => {
 
      const msgObservable = of(this.messagePrinter);
-    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).subscribe({
+    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe({
         next (response) {
           if (response.createdId > 0) {
             msgObservable.subscribe(
@@ -94,7 +95,7 @@ export class CommonServicesAppHttpService<T> {
     });
 
     const observableHttpRequest = this.httpClient.get<DropdownDataType[]>(remoteBackendUrl() + url, {headers})
-      .pipe(
+      .pipe(takeUntil(this.notifier),).pipe(
         map( response => {
             //console.log('Get PersonDropDown Response :' + JSON.stringify(response));
             return response;
@@ -111,6 +112,11 @@ export class CommonServicesAppHttpService<T> {
         }
       });
 
+  }
+
+  ngOnDestroy(): void {
+    this.notifier.next('')
+    this.notifier.complete()
   }
 
 }
