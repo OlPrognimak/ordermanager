@@ -4,6 +4,7 @@ import { RequestPeriodDateInterface } from "../../domain/domain.invoiceformmodel
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { remoteBackendUrl } from "../../user/user-login/app-security.service";
 import { Subject, takeUntil } from "rxjs";
+import { AutoUnsubscribe } from "ngx-auto-unsubscribe-decorator";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class RequestPeriodDateService implements OnDestroy {
   constructor(private http: HttpClient, private msgPrinter: MessagesPrinter) {
   }
 
+  @AutoUnsubscribe()
   findData = (url: string, period: RequestPeriodDateInterface, callback) => {
     const service: RequestPeriodDateService = this;
     service.setProcessRun(true)
