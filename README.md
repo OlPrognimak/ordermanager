@@ -1,3 +1,5 @@
+* THE DOCUMENATION IS OLD AND IN MANY CASES FIT NOT TO CURRENT STATE OF CODE*
+* 
 ##### Table of contents
  1. [Short description](#Short-description)
  2. [Backend](#Backend)
