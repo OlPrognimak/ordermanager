@@ -135,6 +135,10 @@ export class CalculatorParameters {
   invoiceItemsTableModel: InvoiceItemModel[];
   invoiceItemEvent: InvoiceItemModel;
   nettoSum = 0;
+  constructor(invoiceItemsTableModel: InvoiceItemModel[], invoiceItemEvent: InvoiceItemModel) {
+    this.invoiceItemsTableModel = invoiceItemsTableModel
+    this.invoiceItemEvent = invoiceItemEvent
+  }
 }
 
 /**

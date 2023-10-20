@@ -31,8 +31,7 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import {
   CalculatorParameters, InvoiceFormModel, InvoiceFormModelInterface,
-  InvoiceItemModel,
-  InvoiceItemModelInterface
+  InvoiceItemModel
 } from '../../domain/domain.invoiceformmodel';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -63,41 +62,19 @@ export class InvoiceItemsTableCalculatorService {
    * @param modelItem the item from currently selected row where was changed the item price, amount of items or vat.
    */
   public async calculateAllSum(invoiceItems: InvoiceItemModel[], modelItem: InvoiceItemModel): Promise<void> {
-    const params = new CalculatorParameters();
 
-    params.invoiceItemEvent = modelItem;
-    params.invoiceItemsTableModel = invoiceItems;
-    /*Creates Observable from  parameters.*/
-    const nettoSumParamsObservable = of(params);
-    /*Creates operator function which uses for the calculation of the netto sum for selected row*/
-    const nettoSumOperator = map((itemsModel: CalculatorParameters) =>
-      this.calculateNettoSum(itemsModel));
-    /**/
-    const observableNettoParams = nettoSumOperator(nettoSumParamsObservable);
-
-    const numberPromise = observableNettoParams
-      .pipe(map(data => {
-        /*Calculate brutto sum for selected item row.*/
-        return this.calculateBruttoSum(data);
-      })
-    ).pipe(
-      map(data => {
-        /*Calculates total netto sum.*/
-        return this.calculateTotalNettoSum(data)
-      })
-    ).pipe(
-      map(data => {
-        /*Calculate total brutto sum.*/
-        return this.calculateTotalBruttoSum(data)
-      })
-    )
+    const numberPromise = of(new CalculatorParameters(invoiceItems, modelItem))
+      /*Calculate netto sum for setected item row*/
+      .pipe(map(data =>this.calculateNettoSum(data)))
+      /*Calculate brutto sum for selected item row.*/
+      .pipe(map(data => this.calculateBruttoSum(data)))
+      /*Calculates total netto sum.*/
+      .pipe(map(data => this.calculateTotalNettoSum(data)))
+      /*Calculate total brutto sum.*/
+      .pipe(map(data => this.calculateTotalBruttoSum(data)))
     numberPromise.subscribe();
 
     await numberPromise;
-  }
-
-  printToJson(data: any): void {
-    console.log(JSON.stringify(data));
   }
 
   /*Calculate the total netto price for whole report*/
@@ -121,7 +98,7 @@ export class InvoiceItemsTableCalculatorService {
   private calculateNettoSum(params: CalculatorParameters): CalculatorParameters {
     params.invoiceItemEvent.sumNetto = Number((
       params.invoiceItemEvent.amountItems * params.invoiceItemEvent.itemPrice).toFixed(2));
-    console.log('Calculated sum netto ' + params.invoiceItemEvent.sumNetto);
+    // console.log('Calculated sum netto ' + params.invoiceItemEvent.sumNetto);
     return params;
   }
 
@@ -133,20 +110,18 @@ export class InvoiceItemsTableCalculatorService {
     params.invoiceItemEvent.sumBrutto = Number((
       params.invoiceItemEvent.sumNetto + (params.invoiceItemEvent.sumNetto / 100)
       * params.invoiceItemEvent.vat).toFixed(2));
-    console.log('Calculated sum brutto ' + params.invoiceItemEvent.sumBrutto);
+    //console.log('Calculated sum brutto ' + params.invoiceItemEvent.sumBrutto);
     return params;
   }
 
   /*Summarize the netto price from one item to total netto price of whole invoice */
   private calculateNettoTottal(item: InvoiceItemModel): void {
-    //this.printToJson(item);
     this.totalNettoSum.update(value => value+ item.sumNetto)
     //console.log('Calculated Total Netto sum: ' + this.totalNettoSum());
   }
 
   /*Summarize the brutto price from one item to total brutto price of whole invoice */
   private calculateBruttoTottal(item: InvoiceItemModel): void {
-    //this.printToJson(item);
     this.totalBruttoSum.update(value => Number( (value+item.sumBrutto).toFixed(2)))
     //console.log('Calculated Total Brutto sum: ' + this.totalBruttoSum);
   }
