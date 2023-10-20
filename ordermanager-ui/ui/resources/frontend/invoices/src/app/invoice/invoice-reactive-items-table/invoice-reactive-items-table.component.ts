@@ -87,7 +87,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   }
 
   public getTotalNettoSum(): any {
-    return this.calculatorService.totalNettoSum;
+    return this.calculatorService.totalNettoSum();
   }
 
   setTotalNettoSum(value: any) {
@@ -95,7 +95,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   }
 
   public getToltalBruttoSum(): any {
-    return this.calculatorService.totalBruttoSum;
+    return this.calculatorService.totalBruttoSum();
   }
 
   public setTottalBruttoSum(value: any) {
@@ -212,7 +212,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
 
   /** emits events with changed total netto and brutto sums */
   private emitTotalChanged(): void {
-    this.calculatorService.totalNettoSum.update(value =>this.calculatorService.invoiceFormData.totalSumNetto = value)
-    this.calculatorService.totalNettoSum.update(value =>this.calculatorService.invoiceFormData.totalSumBrutto = value)
+    this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
+    this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
   }
 }
