@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { DropdownDataType, InvoiceItemModel } from '../../domain/domain.invoiceformmodel';
+import { DropdownDataType, InvoiceItemModel, InvoiceItemModelInterface } from '../../domain/domain.invoiceformmodel';
 import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from './invoice-items-table.calculator.service';
 import { InvoiceItemsTableService } from './invoice-items-table.service';
@@ -57,25 +57,10 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   private modelChangedSubscription: Subscription;
 
   constructor(public itemtableService: InvoiceItemsTableService,
-              private calculatorService: InvoiceItemsTableCalculatorService) {
+              public calculatorService: InvoiceItemsTableCalculatorService) {
     this.idxItem = 0;
   }
 
-  public getTotalNettoSum(): any {
-    return this.calculatorService.totalNettoSum;
-  }
-
-  setTotalNettoSum(value: any) {
-
-  }
-
-  public getToltalBruttoSum(): any {
-    return this.calculatorService.totalBruttoSum;
-  }
-
-  public setTottalBruttoSum(value: any) {
-
-  }
 
   ngOnInit(): void {
     this.modelChangedSubscription = this.modelChangedEvent.subscribe(() => {
@@ -96,8 +81,8 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
 
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
   public resetTotalValues(): void {
-    this.calculatorService.totalNettoSum = 0;
-    this.calculatorService.totalBruttoSum = 0;
+    this.calculatorService.totalNettoSum.set(0)
+    this.calculatorService.totalBruttoSum.set(0)
   }
 
   /**
@@ -171,8 +156,14 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
 
   /** emits events with changed total netto and brutto sums */
   private emitTotalChanged(): void {
-    this.totalNettoSumEvent.emit(this.calculatorService.totalNettoSum);
-    this.totalBruttoSumEvent.emit(this.calculatorService.totalBruttoSum);
+    // console.log("CALK TOTTALS START")
+    try {
+      this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
+      this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
+    }catch (err) {
+      console.log("Error :"+err)
+    }
+    // console.log("CALK TOTTALS =:"+this.calculatorService.invoiceFormData.totalSumNetto+ " : "+ this.calculatorService.invoiceFormData.totalSumBrutto)
   }
 
 }

@@ -121,8 +121,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
 
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
   public resetTotalValues(): void {
-    this.calculatorService.totalNettoSum = 0;
-    this.calculatorService.totalBruttoSum = 0;
+    this.calculatorService.totalNettoSum.set(0)
+    this.calculatorService.totalBruttoSum.set(0)
   }
 
   /**
@@ -212,7 +212,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
 
   /** emits events with changed total netto and brutto sums */
   private emitTotalChanged(): void {
-    this.totalNettoSumEvent.emit(this.calculatorService.totalNettoSum);
-    this.totalBruttoSumEvent.emit(this.calculatorService.totalBruttoSum);
+    this.calculatorService.totalNettoSum.update(value =>this.calculatorService.invoiceFormData.totalSumNetto = value)
+    this.calculatorService.totalNettoSum.update(value =>this.calculatorService.invoiceFormData.totalSumBrutto = value)
   }
 }

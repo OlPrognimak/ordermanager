@@ -71,6 +71,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
 import { InvoiceFormValidator } from "./invoice.form.validator";
+import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoice-items-table.calculator.service";
 
 
 registerLocaleData(localede, 'de');
@@ -89,7 +90,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
   /** The invoice data model */
-  invoiceFormData: InvoiceFormModelInterface;
+  //invoiceFormData: InvoiceFormModelInterface;
   /** Model invoice supplier for dropdown component */
   @Input() personInvoiceSupplier: DropdownDataType[];
   /** Model invoice recipient for dropdown component */
@@ -116,10 +117,12 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
               public appSecurityService: AppSecurityService,
               private messageService: MessagesPrinter,
               private utilService: CommonServicesUtilService,
+              public calculatorService: InvoiceItemsTableCalculatorService,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
     //this.backendUrl = environment.baseUrl;
     super()
   }
+
 
   /**
    * @override
@@ -153,7 +156,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @param event the item for saving
    */
   saveInvoice(event: any): void {
-    this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
+    this.httpService.putObjectToServer('PUT', this.calculatorService.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
           this.resetModel();
@@ -175,8 +178,8 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @private
    */
   private resetModel(): void {
-    this.invoiceFormData = new InvoiceFormModel();
-    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
+    this.calculatorService.invoiceFormData = new InvoiceFormModel();
+    this.calculatorService.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {

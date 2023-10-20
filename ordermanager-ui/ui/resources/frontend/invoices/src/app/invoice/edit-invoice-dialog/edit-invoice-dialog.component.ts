@@ -162,8 +162,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.getControl('creationDate').setValue(new Date(this.invoiceReactiveDlgFormData.creationDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
     ///end to fix
-    this.itemsTableComponent.calculatorService.totalNettoSum = this.invoiceReactiveDlgFormData.totalSumNetto
-    this.itemsTableComponent.calculatorService.totalBruttoSum = this.invoiceReactiveDlgFormData.totalSumBrutto
+    this.itemsTableComponent.calculatorService.totalNettoSum.set(this.invoiceReactiveDlgFormData.totalSumNetto)
+    this.itemsTableComponent.calculatorService.totalBruttoSum.set(this.invoiceReactiveDlgFormData.totalSumBrutto)
 
   }
 

@@ -58,11 +58,6 @@
                 </p-cellEditor>
               </td>
               <td pEditableColumn style="width: 10%">
-                <!--            <app-editable-input-cell-->
-                <!--              [rowModel]="invoiceitem"-->
-                <!--              (changeItemEvent)="inputBoxChanged(invoiceitem, $event)"-->
-                <!--              [(ngModel)]="invoiceitem.itemPrice">-->
-                <!--            </app-editable-input-cell>-->
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.itemPrice"
@@ -83,10 +78,6 @@
               <td pEditableColumn style="width: 10%">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <!--
-                    <input class="p-cell-editing" type="text" (change)="inputBoxChanged(invoiceitem, $event)" ) [(ngModel)]="invoiceitem.vat"
-                           (ngModelChange)="invoiceitem.vat=$event" required/>
-                    -->
                     <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.vat"
                                    [disabled]="invoiceitem?.catalogItemId===undefined"
                                    [maxFractionDigits]="2"
@@ -131,7 +122,7 @@
       <div class="p-col-2" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
 
         <label for="id-tottalNettoSun" style="margin: 5px">Total netto</label>
-        <input (ngModelChange)="setTotalNettoSum($event)" [ngModel]="getTotalNettoSum()  | standardFloat"
+        <input [ngModel]="calculatorService.invoiceFormData?.totalSumNetto  | standardFloat"
                class="p-field" id="id-tottalNettoSun" name="tottalNettoSum" placeholder="0.00"
                readonly
                required type="text"/>
@@ -143,7 +134,7 @@
       <div class="p-col-10" style="padding-top: 0pt !important; padding-bottom: 0pt !important;"></div>
       <div class="p-col-2" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
         <label for="id-tottalBruttoSun" style="margin: 5px">Total brutto</label>
-        <input (ngModelChange)="setTottalBruttoSum($event)" [ngModel]="getToltalBruttoSum() | standardFloat"
+        <input [ngModel]="calculatorService.invoiceFormData?.totalSumBrutto | standardFloat"
                class="p-cell-editing" id="id-tottalBruttoSun" name="tottalBruttoSum"
                placeholder="0.00"
                readonly
