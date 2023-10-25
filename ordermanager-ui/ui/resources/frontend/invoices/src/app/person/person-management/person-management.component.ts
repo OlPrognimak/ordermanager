@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
@@ -17,6 +17,9 @@ import { ConfirmationDialogComponent } from "../../common-components/confirmatio
 import { isAuthenticated } from "../../common-services/common-services-util.service";
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import { of } from "rxjs";
+import { CommonServiceEventBus, CommonServiceEventListener } from "../../common-services/common-service.event.bus";
 
 @Component({
   selector: 'app-person-management',
@@ -40,13 +43,20 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   showConfirmDialog: boolean;
   confirmDialogMessage: string = 'Are you sure you want to delete the person?';
   protected readonly isAuthenticated = isAuthenticated;
+  @Input() eventBusVal: any
 
   constructor(public appSecurityService: AppSecurityService,
-              private httpService: CommonServicesAppHttpService<PersonFormModel[]>) {
+              private httpService: CommonServicesAppHttpService<PersonFormModel[]>, private eventListener: CommonServiceEventBus<any>) {
     super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
+
   }
 
   ngOnInit(): void {
+    if (environment.debugMode) {
+      this.eventListener.onEvent().subscribe(val =>{
+        this.eventBusVal= JSON.stringify(val)
+      });
+    }
     setTimeout(() => {
       this.dataFinder.loadData()
     })
@@ -131,7 +141,8 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       null, "person delete", 'person/' + id, callback => {
         if (callback) {
           console.log("DELETED :" + id)
-          //this.changesList.
+          this.confirmDialog.display = false
+          this.ngOnInit()
         }
       })
     this.showConfirmDialog = false
@@ -142,4 +153,6 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       this.showConfirmDialog = false
     }
   }
+
+  protected readonly environment = environment;
 }

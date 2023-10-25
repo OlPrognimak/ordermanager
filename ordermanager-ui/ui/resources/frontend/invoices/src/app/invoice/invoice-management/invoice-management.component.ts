@@ -22,6 +22,8 @@ import { MessageModule } from "primeng/message";
 import { MessagesModule } from "primeng/messages";
 import { isAuthenticated } from "../../common-services/common-services-util.service";
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
+import { environment } from "../../../environments/environment";
+import { CommonServiceEventListener } from "../../common-services/common-service.event.bus";
 
 @NgModule(
   {
@@ -58,10 +60,14 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
   saveConfirmDialogMessage: string = 'Are you really want to permanently save changes in invoices'
   protected readonly Date = Date;
   protected readonly isAuthenticated = isAuthenticated;
+  eventBusVal: any
 
   constructor(public securityService: AppSecurityService,
-              private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter) {
+              private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter, private eventListener: CommonServiceEventListener<any>) {
     super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
+    if (environment.debugMode) {
+       of(eventListener).subscribe(l =>this.eventBusVal=l.busEvent);
+    }
   }
 
   private _isInvoiceDialogVisible: boolean;
