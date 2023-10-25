@@ -7,6 +7,8 @@ import { Message } from 'primeng/api/message';
 import { CommonServicesUtilService, printToJson } from './common-services-util.service';
 import { map } from "rxjs/operators";
 import { remoteBackendUrl } from "../user/user-login/app-security.service";
+import { CommonServiceEventBus } from "./common-service.event.bus";
+import { environment } from "../../environments/environment";
 
 
 const handleError = function (err: any): void {
@@ -23,7 +25,7 @@ export class CommonServicesAppHttpService<T> implements OnDestroy {
   basicAuthKey = 'basicAuthKey';
   notifier = new Subject();
 
-  constructor(public httpClient: HttpClient, public messagePrinter: MessagesPrinter) {
+  constructor(public httpClient: HttpClient, public messagePrinter: MessagesPrinter, private eventBus: CommonServiceEventBus<any>) {
     //this.backendUrl = environment.baseUrl;
   }
 
@@ -39,11 +41,19 @@ export class CommonServicesAppHttpService<T> implements OnDestroy {
   putObjectToServer = (httpMethod: string, objectToSave: T | null, objectName: string, endPointPath: string, callback) => {
 
     const msgObservable = of(this.messagePrinter);
+    let eventBusObservable
+    if(environment.debugMode) {
+      eventBusObservable = of(this.eventBus).pipe(takeUntil(this.notifier))
+    }
+
+    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe()
+
     this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe({
       next(response) {
         if (response.createdId > 0) {
           msgObservable.subscribe(
             msgService => msgService.printSuccessMessage(objectName));
+
           return callback(response.createdId);
         } else {
           console.log('Unexpected error: ' + response);
@@ -54,7 +64,9 @@ export class CommonServicesAppHttpService<T> implements OnDestroy {
         console.log("Handle HTTP Request Error :" + JSON.stringify(err))
         msgObservable.subscribe(
           msgService => msgService.printUnsuccessefulMessage(objectName, err));
-        //return callback && callback(false);
+        if(environment.debugMode) {
+          eventBusObservable.subscribe(eb => eb.emitEvent(err))
+        }
       }
     })
 

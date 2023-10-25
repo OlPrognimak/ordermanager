@@ -276,12 +276,52 @@ Here  ``` app-items-table ``` is child component.
  </ng-template>
    
 ```
+- EventBus. Implementation and usage of the event bus like GWT event bus
+The implementation of located in the class ```CommonServiceEventBus<T>``` of the file *common-service.event.bus.ts*
+  - The Usage. Here we consider then case of emitting an error message in one component and than print this message in another component.
+  
+*Step1* place the event bus in place where will emit event and subscribe message emitting. In Our case we consider the case when occurs an error when we try to delete the person which already somewhere already uses.
+   Check the function : ```CommonServiceEventBus<T>.putObjectToServer```
+
+  ```typescript
+    let eventBusObservable
+    if(environment.debugMode) {
+      eventBusObservable = of(this.eventBus).pipe(takeUntil(this.notifier))
+    }
+  
+     .......
+  
+      if(environment.debugMode) {
+          eventBusObservable.subscribe(eb => eb.emitEvent(err))
+        }
+  ```
+
+*Step2* subscribe the event listener in a component where will be listened an error. In our case we will listen an error at the ```PersonManagementComponent```
+
+```typescript
+ ngOnInit(): void {
+    if (environment.debugMode) {
+      this.eventListener.onEvent().subscribe(val =>{
+        this.eventBusVal= JSON.stringify(val)
+      });
+    }
+```
+
+*Step3* print error message in HTML template in debug mode. In our case we print the error message in template *tsperson-management.component.html*
+````html
+  <div class="p-col-12" *ngIf="environment.debugMode">
+    <p>
+        Error Message: {{eventBusVal}}
+    </p>
+  </div>
+````
+
+
 - Download and open PDF  
 Example of usage is located in the class ```TableCellRendererComponent``` which is defined in the ts file 
 ``` html
 
 ```
- 
 
 # PDF Documents
 - PDF document for printing of invoices and other documents based on JasperReport. 
