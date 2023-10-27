@@ -55,4 +55,8 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     List<Invoice> findByInvoiceUser(InvoiceUser invoiceUser);
 
     List<Invoice> findByInvoiceUserAndCreationDateBetween(InvoiceUser invoiceUser, OffsetDateTime startDate, OffsetDateTime endDate);
+
+    Invoice findInvoiceByInvoiceUserIdAndInvoiceNumber(Long invoiceUserId, String invoiceNumber);
+
+    Invoice findInvoiceByInvoiceUserUsernameAndInvoiceNumber(String invoiceUserUsername, String invoiceNumber);
 }

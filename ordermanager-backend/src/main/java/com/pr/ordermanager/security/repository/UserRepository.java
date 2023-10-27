@@ -32,6 +32,7 @@ package com.pr.ordermanager.security.repository;
 
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * The JPA repository for <code>User</code>
@@ -39,6 +40,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Oleksandr Prognimak
  * @since  21.09.2020 - 22:03
  */
+@Repository
 public interface UserRepository extends JpaRepository<InvoiceUser, Long> {
     /**
      *

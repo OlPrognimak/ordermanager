@@ -31,7 +31,13 @@
 package com.pr.ordermanager.report.service;
 
 import com.pr.ordermanager.exception.OrderManagerException;
+import com.pr.ordermanager.invoice.entity.Invoice;
+import com.pr.ordermanager.invoice.repository.InvoiceRepository;
+import com.pr.ordermanager.security.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -61,17 +67,15 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_10002;
  * @author  Oleksandr Prognimak
  */
 @Service
+@RequiredArgsConstructor
 public class JasperReportService {
     private static final Logger logger = LogManager.getLogger();
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
+    private final Environment env;
+    private final InvoiceRepository invoiceRepository;
 
     @Value("${jasper.reports.directory.path:reports}")
     private String jasperRepDirPath;
-
-    @Autowired
-    private Environment env;
-
     private JasperReport jasperReport;
 
     @PostConstruct
@@ -94,11 +98,17 @@ public class JasperReportService {
      * @param invoiceNumber tne number of invoice
      * @return the pdf report as array of bytes
      */
-    public byte[] createPdfReport(String invoiceNumber)  {
+    public byte[] createPdfReport(String invoiceNumber, String userName)  {
+
+
+        Invoice invoice = invoiceRepository.findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);
         System.out.println("Path to dir:" + jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);
+        parameters.put("invoice", invoice);
+
+
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
