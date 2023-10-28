@@ -36,15 +36,13 @@ import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.model.PersonFormModel;
-import com.pr.ordermanager.person.repository.BankAccountRepository;
-import com.pr.ordermanager.person.repository.PersonAddressRepository;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.service.UserService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,17 +59,12 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
  */
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PersonService {
     private static final Logger logger = LogManager.getLogger(PersonService.class);
 
-    @Autowired
-    PersonRepository personRepository;
-    @Autowired
-    PersonAddressRepository personAddressRepository;
-    @Autowired
-    BankAccountRepository bankAccountRepository;
-    @Autowired
-    UserService userService;
+    private final PersonRepository personRepository;
+    private final UserService userService;
 
 
     /**

@@ -90,12 +90,13 @@ public class JasperReportService {
     }
 
     /**
-     * Creates configurable pdf report for invoice with number {@code invoiceNumber}
+     * Creates configurable pdf report for invoice with number {@code invoiceNumber}.
+     *
      * @param invoiceNumber tne number of invoice
+     * @param userName the name of connected user
      * @return the pdf report as array of bytes
      */
     public byte[] createPdfReport(String invoiceNumber, String userName)  {
-
 
         Invoice invoice = invoiceRepository.findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);
         System.out.println("Path to dir:" + jasperRepDirPath);
@@ -103,8 +104,6 @@ public class JasperReportService {
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);
         parameters.put("invoice", invoice);
-
-
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
