@@ -40,6 +40,7 @@ class EntityToReportMapperUtilTest {
 
         List<InvoiceItem> itemCatalogs = new ArrayList<>();
         InvoiceItem itemCatalog = InvoiceItem.builder()
+
                 .itemPrice(100d)
                 .vat(19)
                 .amountItems(5d)
@@ -107,6 +108,8 @@ class EntityToReportMapperUtilTest {
                 .invoiceItems(itemCatalogs)
                 .build();
 
+        testInvoice.getInvoiceItems().get(0).setInvoice(testInvoice);
+
         InvoiceReportModel invoiceReportModel =
                 EntityToReportMapperUtil.mapInvoiceEntityToReportModel(testInvoice);
 
@@ -142,6 +145,8 @@ class EntityToReportMapperUtilTest {
         assertNotNull(invoiceReportModel.getSupplierZipCode());
         assertNotNull(invoiceReportModel.getSupplierTaxNumber());
         assertNotNull(invoiceReportModel.getSupplierPostBoxCode());
+
+        assertNotNull(invoiceReportModel.getItems().get(0).getInvoiceId());
 
     }
 }

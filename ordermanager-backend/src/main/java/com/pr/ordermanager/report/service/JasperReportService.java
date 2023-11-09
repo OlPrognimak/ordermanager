@@ -33,9 +33,13 @@ package com.pr.ordermanager.report.service;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
+import com.pr.ordermanager.report.model.InvoiceReportItem;
+import com.pr.ordermanager.report.model.InvoiceReportModel;
+import com.pr.ordermanager.report.utils.EntityToReportMapperUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -47,14 +51,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_10001;
 import static com.pr.ordermanager.exception.ErrorCode.CODE_10002;
@@ -74,13 +76,19 @@ public class JasperReportService {
     private String jasperRepDirPath;
     private JasperReport jasperReport;
 
+    private JasperReport jasperSubReport;
+
     @PostConstruct
     public void initService(){
         ClassPathResource classPathResource = new ClassPathResource("/invoice.jrxml") ;
-        InputStream invoiceReportStream = null;
-        try {
-            invoiceReportStream = classPathResource.getInputStream();
+        ClassPathResource classPathSubreportResource = new ClassPathResource("/invoice-data.jrxml") ;
+
+        try (InputStream invoiceReportStream = classPathResource.getInputStream();
+             InputStream subreportReportStream = classPathSubreportResource.getInputStream();
+        ){
+
             jasperReport= JasperCompileManager.compileReport(invoiceReportStream);
+            jasperSubReport = JasperCompileManager.compileReport(subreportReportStream);
         } catch (IOException e) {
             logger.error(e);
         } catch(JRException e){
@@ -98,16 +106,24 @@ public class JasperReportService {
      */
     public byte[] createPdfReport(String invoiceNumber, String userName)  {
 
-        Invoice invoice = invoiceRepository.findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);
+        Invoice invoice = invoiceRepository
+                .findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);
+        InvoiceReportModel reportModel = EntityToReportMapperUtil.mapInvoiceEntityToReportModel(invoice);
+        List<InvoiceReportModel> reportModelDataList = Collections.singletonList(reportModel);
+        JRBeanCollectionDataSource reportDataSource = new JRBeanCollectionDataSource(reportModelDataList);
+
+
         System.out.println("Path to dir:" + jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);
-        parameters.put("invoice", invoice);
+        parameters.put("itemsDs", createSubreportParameter(reportModel.getItems()));
+        parameters.put("invoiceDataSubreport", jasperSubReport);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
+            JasperPrint jasperPrint = JasperFillManager
+                    .fillReport(jasperReport, parameters, reportDataSource);
             JRPdfExporter exporter = new JRPdfExporter();
 
             SimpleOutputStreamExporterOutput exporterOutput =
@@ -136,12 +152,19 @@ public class JasperReportService {
             logger.error(ex);
             throw new OrderManagerException(CODE_10001,
                     "Report generation exception in service method createPdfReport");
-        }catch( SQLException ex) {
+        }catch(Exception ex) {
             logger.error(ex);
             throw new OrderManagerException(CODE_10002,
                     "Can not read data from database in service method createPdfReport");
         }
 
+    }
+
+    private static Map createSubreportParameter(  List<InvoiceReportItem> items ) {
+        Map<String,Object> params= new HashMap<String, Object>();
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(items);
+        params.put("invoiceItemsDataSet", dataSource);
+        return params;
     }
 
     /**

@@ -1,87 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5d5e4af-a9f1-43a3-948c-61e1196e3fb4">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TESTDB"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="234"/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="757"/>
 	<parameter name="invoiceNumber" class="java.lang.String"/>
 	<parameter name="reportsDirPath" class="java.lang.String" isForPrompting="false"/>
-	<queryString>
-		<![CDATA[SELECT invoice.id invoice_id,
-       person_supplier.person_type,
-       invoice.creation_date,
-       invoice.invoice_date,
-       invoice.invoice_number,
-       invoice.invoice_description,
-       invoice.rate_type,
-       person_supplier.person_first_name supplier_first_name,
-       person_supplier.person_last_name supplier_last_name,
-       person_supplier.company_name supplier_company_name,
-       person_supplier.tax_number supplier_tax_numder,
-       supplier_pas.city supplier_city,
-       supplier_pas.street supplier_street,
-       supplier_pas.zip_code  supplier_zip_code,
-       supplier_pas.post_box_code supplier_post_box_code,
-       supplier_bank.account_number supplier_account_number,
-       supplier_bank.bank_name supplier_bank_name,
-       supplier_bank.bic_swift supplier_bic_swift,
-       supplier_bank.iban supplier_iban,
-       person_recipient.person_first_name recipient_first_name,
-       person_recipient.person_last_name recipient_last_name,
-       person_recipient.company_name recipient_company_name,
-       person_recipient.tax_number recipient_tax_numderid,
-       recipient_pas.city recipient_city,
-       recipient_pas.street recipient_street,
-       recipient_pas.zip_code  recipient_zip_code,
-       recipient_pas.post_box_code recipient_post_box_code,
-       recipient_bank.account_number recipient_account_number,
-       recipient_bank.bank_name recipient_bank_name,
-       recipient_bank.bic_swift recipient_bic_swift,
-       recipient_bank.iban recipient_iban
-FROM invoice
-       INNER JOIN  person person_supplier ON
-                invoice.invoice_supplier = person_supplier.id
-            INNER JOIN person_to_address p_to_as on person_supplier.id = p_to_as.persons_id
-                INNER JOIN person_address supplier_pas on  supplier_pas.id = p_to_as.address_id
-         INNER JOIN person_to_account p_to_accsup on person_supplier.id = p_to_accsup.persons_id
-                INNER JOIN bank_account supplier_bank on  supplier_bank.id = p_to_accsup.bank_account_id
-
-         INNER JOIN  person person_recipient ON
-                invoice.invoice_recipient = person_recipient.id
-            INNER JOIN person_to_address p_to_as_recipient on person_recipient.id = p_to_as_recipient.persons_id
-              INNER JOIN person_address recipient_pas on  recipient_pas.id = p_to_as_recipient.address_id
-            INNER JOIN person_to_account p_to_accrecip on person_recipient.id = p_to_accrecip.persons_id
-               INNER JOIN bank_account recipient_bank on  recipient_bank.id = p_to_accrecip.bank_account_id
-WHERE
-        invoice.invoice_number =  $P{invoiceNumber}]]>
-	</queryString>
-	<field name="supplier_first_name" class="java.lang.String"/>
-	<field name="supplier_last_name" class="java.lang.String"/>
-	<field name="supplier_company_name" class="java.lang.String"/>
-	<field name="supplier_tax_numder" class="java.lang.String"/>
-	<field name="supplier_city" class="java.lang.String"/>
-	<field name="supplier_street" class="java.lang.String"/>
-	<field name="supplier_zip_code" class="java.lang.String"/>
-	<field name="supplier_post_box_code" class="java.lang.String"/>
-	<field name="supplier_account_number" class="java.lang.String"/>
-	<field name="supplier_bank_name" class="java.lang.String"/>
-	<field name="supplier_bic_swift" class="java.lang.String"/>
-	<field name="supplier_iban" class="java.lang.String"/>
-	<field name="recipient_first_name" class="java.lang.String"/>
-	<field name="recipient_last_name" class="java.lang.String"/>
-	<field name="recipient_company_name" class="java.lang.String"/>
-	<field name="recipient_city" class="java.lang.String"/>
-	<field name="recipient_street" class="java.lang.String"/>
-	<field name="recipient_zip_code" class="java.lang.String"/>
-	<field name="recipient_post_box_code" class="java.lang.String"/>
-	<field name="person_type" class="java.lang.String"/>
-	<field name="creation_date" class="java.util.Date"/>
-	<field name="invoice_date" class="java.util.Date"/>
-	<field name="invoice_number" class="java.lang.String"/>
-	<field name="invoice_id" class="java.lang.Long"/>
-	<field name="invoice_description" class="java.lang.String"/>
-	<field name="rate_type" class="java.lang.String"/>
+	<parameter name="itemsDs" class="java.util.Map"/>
+	<parameter name="invoiceDataSubreport" class="net.sf.jasperreports.engine.JRReport"/>
+	<field name="supplierFirstName" class="java.lang.String"/>
+	<field name="supplierLastName" class="java.lang.String"/>
+	<field name="supplierCompanyName" class="java.lang.String"/>
+	<field name="supplierTaxNumber" class="java.lang.String"/>
+	<field name="supplierCity" class="java.lang.String"/>
+	<field name="supplierStreet" class="java.lang.String"/>
+	<field name="supplierZipCode" class="java.lang.String"/>
+	<field name="supplierPostBoxCode" class="java.lang.String"/>
+	<field name="supplierAccountNumber" class="java.lang.String"/>
+	<field name="supplierBankName" class="java.lang.String"/>
+	<field name="supplierBicSwift" class="java.lang.String"/>
+	<field name="supplierIban" class="java.lang.String"/>
+	<field name="recipientFirstName" class="java.lang.String"/>
+	<field name="recipientLastName" class="java.lang.String"/>
+	<field name="recipientCompanyName" class="java.lang.String"/>
+	<field name="recipientCity" class="java.lang.String"/>
+	<field name="recipientStreet" class="java.lang.String"/>
+	<field name="recipientZipCode" class="java.lang.String"/>
+	<field name="recipientPostBoxCode" class="java.lang.String"/>
+	<field name="personType" class="java.lang.String"/>
+	<field name="creationDate" class="java.util.Date"/>
+	<field name="invoiceDate" class="java.util.Date"/>
+	<field name="invoiceNumber" class="java.lang.String"/>
+	<field name="invoiceId" class="java.lang.Long"/>
+	<field name="invoiceDescription" class="java.lang.String"/>
+	<field name="rateType" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -104,41 +53,35 @@ WHERE
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $F{supplier_first_name} !=null? $F{supplier_first_name} :"").concat( " " )
-.concat( 	($F{supplier_last_name}!=null?$F{supplier_last_name}:"" ))
-	.concat( " " ).concat(    $F{recipient_company_name} !=null? $F{recipient_company_name} :""  )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $F{supplierFirstName} !=null? $F{supplierFirstName} :"").concat( " " )
+.concat( 	($F{supplierLastName}!=null?$F{supplierLastName}:"" ))
+	.concat( " " ).concat(    $F{recipientCompanyName} !=null? $F{recipientCompanyName} :""  )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="41" width="100" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<textFieldExpression><![CDATA["Rechnung-Nr."]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="279" y="60" width="100" height="14" uuid="e57825e5-7680-4abb-a02b-152ff9c1e230">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<textFieldExpression><![CDATA["Rechnungsdatum:"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="385" y="41" width="101" height="14" uuid="b2f2b0ad-0e83-4da2-85cd-d7161d830d23">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{invoice_number}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd.MM.YYYY">
 				<reportElement x="385" y="61" width="101" height="14" uuid="003c3efe-86e5-4077-9740-bdb71b7bd975">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{creation_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="MMMM y">
 				<reportElement x="312" y="-30" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -146,7 +89,7 @@ WHERE
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[DATEFORMAT($F{invoice_date},"MMMM y")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceDate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="60" width="210" height="14" uuid="a301c4c6-6f01-4adb-a791-2f4591b19a53">
@@ -155,20 +98,20 @@ WHERE
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{supplier_street}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierStreet}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="42" y="80" width="41" height="14" uuid="3930aafc-6958-45e4-9c27-b300480f11fa">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{supplier_zip_code}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierZipCode}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="118" y="80" width="180" height="14" uuid="9aa3d063-288f-4dd7-9f0b-cbe0373c63ed">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{supplier_city}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierCity}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="106" width="210" height="20" uuid="ea992cbb-febe-4a54-83a5-f72d07cb2cbc">
@@ -181,43 +124,40 @@ WHERE
 					<font size="12"/>
 					<paragraph leftIndent="2" rightIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $F{recipient_first_name} !=null? $F{recipient_first_name} :"").concat( " " )
-.concat( 	($F{recipient_last_name}!=null?$F{recipient_last_name}:"" ))
-	.concat( " " ).concat(    $F{recipient_company_name} !=null? $F{recipient_company_name} :""  )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $F{recipientFirstName} !=null? $F{recipientFirstName} :"").concat( " " )
+.concat( 	($F{recipientLastName}!=null?$F{recipientLastName}:"" ))
+	.concat( " " ).concat(    $F{recipientCompanyName} !=null? $F{recipientCompanyName} :""  )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="130" width="210" height="14" uuid="db3bea15-979f-4d8b-82a9-316bd50b02a2">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{recipient_street}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{recipientStreet}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="42" y="150" width="41" height="14" uuid="f05eb2a7-8536-48cb-bf23-f3d729d8040b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{recipient_zip_code}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{recipientZipCode}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="118" y="150" width="180" height="14" uuid="640615b1-1769-49ef-ac3e-461a7a87b673">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{recipient_city}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{recipientCity}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="171" width="40" height="14" uuid="48b1c005-98ed-4b9d-8ad1-b09f85c962da">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[Projekt:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="46" y="171" width="334" height="14" uuid="8b84e958-3fc6-4820-b9f0-3252ef723e24">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{invoice_description}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceDescription}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="1" y="103" width="519" height="1" uuid="8e62d3e5-771e-4ce1-bf3e-816f4a4789f0"/>
@@ -230,7 +170,7 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="false"/>
+					<font size="12"/>
 					<paragraph rightIndent="2"/>
 				</textElement>
 				<text><![CDATA[Name:]]></text>
@@ -240,9 +180,6 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[Strasse:]]></text>
 			</staticText>
 			<staticText>
@@ -250,9 +187,6 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[PLZ:]]></text>
 			</staticText>
 			<staticText>
@@ -261,9 +195,6 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[Ort:]]></text>
 			</staticText>
 			<staticText>
@@ -272,9 +203,6 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[Ort:]]></text>
 			</staticText>
 			<staticText>
@@ -282,9 +210,6 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[PLZ:]]></text>
 			</staticText>
 			<staticText>
@@ -292,9 +217,6 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
 				<text><![CDATA[Strasse:]]></text>
 			</staticText>
 			<staticText>
@@ -305,7 +227,7 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="12"/>
 					<paragraph rightIndent="2"/>
 				</textElement>
 				<text><![CDATA[Name:]]></text>
@@ -319,17 +241,20 @@ WHERE
 		<band height="47" splitType="Stretch">
 			<subreport>
 				<reportElement key="" isPrintRepeatedValues="false" x="-20" y="0" width="595" height="47" uuid="d032e6e1-2fec-4598-80c2-ad4a300a7a00"/>
+				<subreportParameter name="itemsDs">
+					<subreportParameterExpression><![CDATA[$P{itemsDs}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="invoiceNumber">
 					<subreportParameterExpression><![CDATA[$P{invoiceNumber}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="invoiceId">
-					<subreportParameterExpression><![CDATA[$F{invoice_id}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{invoiceId}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="rateType">
-					<subreportParameterExpression><![CDATA[$F{rate_type}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{rateType}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["/invoice-data.jasper"]]></subreportExpression>
+				<dataSourceExpression><![CDATA[new JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{invoiceDataSubreport}]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -371,21 +296,21 @@ WHERE
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{supplier_bank_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierBankName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="83" y="100" width="147" height="21" uuid="569c8a45-778e-4edb-8835-b867571f62a1"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{supplier_iban}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierIban}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="82" y="120" width="158" height="21" uuid="b8e24e62-3e2b-493f-aba2-9b72494b293d"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{supplier_bic_swift}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierBicSwift}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="350" y="96" width="151" height="21" uuid="edd3d6bd-1f3f-4b38-93fb-5f4273163930">
@@ -394,7 +319,7 @@ WHERE
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{supplier_tax_numder}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierTaxNumber}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

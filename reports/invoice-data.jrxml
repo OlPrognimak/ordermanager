@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice-details" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96155e65-6218-4260-8237-984947a9b936">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TESTDB"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -29,85 +28,33 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="Dataset1" uuid="23c36be6-d164-444a-a88c-64982d38feaf">
-		<property name="com.jaspersoft.studio.data.sql.tables">
-			<![CDATA[aW52b2ljZV9pdGVtIEFTICwxOTksMTI1LDg3NjdmNDEyLTE2YjctNDgyMy1iZmI1LWFkYWZiZjY0
-NTgzNDtpdGVtX2NhdGFsb2cgQVMgLDE3LDMwLDhkMTUwOWExLWI0OTQtNGMxMy05ZDNiLThmMTcz
-ZjJlY2U0Njs=]]>
-		</property>
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="TESTDB"/>
+	<subDataset name="invoiceItemsDataSet" uuid="23c36be6-d164-444a-a88c-64982d38feaf">
 		<parameter name="invoiceId" class="java.lang.Long"/>
 		<parameter name="rateType" class="java.lang.String"/>
-		<queryString language="SQL">
-			<![CDATA[SELECT item_catalog.description,
-	invoice_item.item_price,
-	invoice_item.amount_items,
-	invoice_item.sum_brutto,
-	invoice_item.sum_netto,
-	invoice_item.vat,
-	invoice_item.invoice_id
-FROM invoice_item
-	INNER JOIN item_catalog ON 
-	 invoice_item.item_catalog_id = item_catalog.id
-	 WHERE invoice_item.invoice_id = $P{invoiceId}]]>
-		</queryString>
-		<field name="description" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="description"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="item_catalog"/>
-		</field>
-		<field name="item_price" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="item_price"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="invoice_item"/>
-		</field>
-		<field name="amount_items" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="amount_items"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="invoice_item"/>
-		</field>
-		<field name="sum_netto" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="sum_netto"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="invoice_item"/>
-		</field>
-		<field name="vat" class="java.lang.Integer">
-			<property name="com.jaspersoft.studio.field.label" value="vat"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="invoice_item"/>
-		</field>
-		<field name="sum_brutto" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="sum_brutto"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="invoice_item"/>
-		</field>
-		<field name="invoice_id" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="invoice_id"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="invoice_item"/>
-		</field>
+		<field name="description" class="java.lang.String"/>
+		<field name="itemPrice" class="java.lang.Double"/>
+		<field name="amountItems" class="java.lang.Double"/>
+		<field name="sumNetto" class="java.lang.Double"/>
+		<field name="vat" class="java.lang.Integer"/>
+		<field name="sumBrutto" class="java.lang.Double"/>
+		<field name="invoiceId" class="java.lang.Long"/>
 		<variable name="TOTAL_NETTO_SUM" class="java.lang.Double" calculation="Sum">
-			<variableExpression><![CDATA[$F{sum_netto}]]></variableExpression>
+			<variableExpression><![CDATA[$F{sumNetto}]]></variableExpression>
 		</variable>
 		<variable name="TOTAL_BRUTTO_SUM" class="java.lang.Double" calculation="Sum">
-			<variableExpression><![CDATA[$F{sum_brutto}]]></variableExpression>
+			<variableExpression><![CDATA[$F{sumBrutto}]]></variableExpression>
 		</variable>
 		<variable name="TOTAL_VAT_SUM" class="java.lang.Double">
 			<variableExpression><![CDATA[$V{TOTAL_BRUTTO_SUM}-$V{TOTAL_NETTO_SUM}]]></variableExpression>
 		</variable>
 		<group name="Group1">
-			<groupExpression><![CDATA[$F{invoice_id}]]></groupExpression>
+			<groupExpression><![CDATA[$F{invoiceId}]]></groupExpression>
 		</group>
 	</subDataset>
+	<parameter name="invoiceItemsDataSet" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="invoiceNumber" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="invoiceId" class="java.lang.Long"/>
 	<parameter name="rateType" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[SELECT item_catalog.description,
-	invoice_item.item_price,
-	invoice_item.amount_items,
-	invoice_item.sum_brutto,
-	invoice_item.sum_netto,
-	invoice_item.vat,
-	invoice_item.invoice_id
-FROM invoice_item
-	INNER JOIN item_catalog ON 
-	 invoice_item.item_catalog_id = item_catalog.id
-	 WHERE invoice_item.invoice_id = $P{invoiceId}]]>
-	</queryString>
 	<variable name="tottalNettoSum" class="java.lang.Double" calculation="System"/>
 	<variable name="totalBruttoSum" class="java.lang.Double" calculation="System"/>
 	<variable name="totalVat" class="java.lang.Double" calculation="System"/>
@@ -121,14 +68,8 @@ FROM invoice_item
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Dataset1" uuid="a349884f-cfce-48a7-988d-33120a957aba">
-						<datasetParameter name="invoiceId">
-							<datasetParameterExpression><![CDATA[$P{invoiceId}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="rateType">
-							<datasetParameterExpression><![CDATA[$P{rateType}]]></datasetParameterExpression>
-						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<datasetRun subDataset="invoiceItemsDataSet" uuid="a349884f-cfce-48a7-988d-33120a957aba">
+						<dataSourceExpression><![CDATA[$P{invoiceItemsDataSet}]]></dataSourceExpression>
 						<returnValue fromVariable="TOTAL_NETTO_SUM" toVariable="tottalNettoSum"/>
 						<returnValue fromVariable="TOTAL_BRUTTO_SUM" toVariable="totalBruttoSum"/>
 						<returnValue fromVariable="TOTAL_VAT_SUM" toVariable="totalVat"/>
@@ -176,7 +117,7 @@ FROM invoice_item
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<paragraph rightIndent="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{item_price}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{itemPrice}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -199,7 +140,7 @@ FROM invoice_item
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<paragraph rightIndent="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{amount_items}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{amountItems}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -222,7 +163,7 @@ FROM invoice_item
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<paragraph rightIndent="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{sum_netto}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{sumNetto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -269,7 +210,7 @@ FROM invoice_item
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<paragraph leftIndent="0" rightIndent="10"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{sum_brutto}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{sumBrutto}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

@@ -118,6 +118,7 @@ public class EntityToReportMapperUtil {
      */
     private static InvoiceReportItem mapEntityToInvoiceReportItem(InvoiceItem source) {
         return InvoiceReportItem.builder()
+                .invoiceId(source.getInvoice().getId())
                 .itemPrice(source.getItemPrice())
                 .description(source.getItemCatalog().getDescription())
                 .amountItems(source.getAmountItems())

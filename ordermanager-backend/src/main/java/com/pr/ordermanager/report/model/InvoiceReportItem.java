@@ -6,6 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class InvoiceReportItem {
+    private Long invoiceId;
     private String description;
     private Double amountItems;
     private Double itemPrice;
