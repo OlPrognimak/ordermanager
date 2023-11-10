@@ -70,6 +70,9 @@
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="invoiceItemsDataSet" uuid="a349884f-cfce-48a7-988d-33120a957aba">
 						<dataSourceExpression><![CDATA[$P{invoiceItemsDataSet}]]></dataSourceExpression>
+						<datasetParameter name="rateType">
+							<datasetParameterExpression><![CDATA[$P{rateType}]]></datasetParameterExpression>
+						</datasetParameter>
 						<returnValue fromVariable="TOTAL_NETTO_SUM" toVariable="tottalNettoSum"/>
 						<returnValue fromVariable="TOTAL_BRUTTO_SUM" toVariable="totalBruttoSum"/>
 						<returnValue fromVariable="TOTAL_VAT_SUM" toVariable="totalVat"/>
