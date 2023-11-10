@@ -37,7 +37,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Oleksandr Prognimak
@@ -55,4 +54,8 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     List<Invoice> findByInvoiceUser(InvoiceUser invoiceUser);
 
     List<Invoice> findByInvoiceUserAndCreationDateBetween(InvoiceUser invoiceUser, OffsetDateTime startDate, OffsetDateTime endDate);
+
+    Invoice findInvoiceByInvoiceUserIdAndInvoiceNumber(Long invoiceUserId, String invoiceNumber);
+
+    Invoice findInvoiceByInvoiceUserUsernameAndInvoiceNumber(String invoiceUserUsername, String invoiceNumber);
 }

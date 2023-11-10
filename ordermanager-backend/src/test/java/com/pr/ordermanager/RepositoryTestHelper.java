@@ -12,6 +12,7 @@ import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.person.model.BankAccountFormModel;
 import com.pr.ordermanager.person.model.PersonAddressFormModel;
 import com.pr.ordermanager.person.model.PersonFormModel;
+import com.pr.ordermanager.security.entity.InvoiceUser;
 
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -39,7 +40,7 @@ public class RepositoryTestHelper {
 
     }
 
-    public static Invoice createInvoice(InvoiceItem item, Person personSupplier, Person personRecipient) {
+    public static Invoice createInvoice(InvoiceItem item, Person personSupplier, Person personRecipient, InvoiceUser invoiceUser) {
         var invoice = new Invoice();
         invoice.setInvoiceItems(new ArrayList<>());
         invoice.getInvoiceItems().add(item);
@@ -47,6 +48,7 @@ public class RepositoryTestHelper {
         invoice.setCreationDate(OffsetDateTime.now());
         invoice.setInvoiceSupplierPerson(personSupplier);
         invoice.setInvoiceRecipientPerson(personRecipient);
+        invoice.setInvoiceUser(invoiceUser);
         invoice.setRateType(DAILY);
 
         personSupplier.setInvoiceSuppliers(List.of(invoice));

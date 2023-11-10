@@ -11,6 +11,8 @@ import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.invoice.service.InvoiceService;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
+import com.pr.ordermanager.security.entity.InvoiceUser;
+import com.pr.ordermanager.security.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +41,8 @@ public class InvoiceServiceTest {
     private ItemCatalogRepository itemCatalogRepository;
     @Autowired
     private TestServiceHelper testServiceHelper;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
@@ -62,7 +66,9 @@ public class InvoiceServiceTest {
         InvoiceItem item = RepositoryTestHelper.createItem(itemCatalog);
         Person personSupplier = testServiceHelper.personSupplier();
         Person personRecipient = testServiceHelper.personRecipient();
-        Invoice invoice = RepositoryTestHelper.createInvoice ( item, personSupplier, personRecipient );
+        InvoiceUser invoiceUser = InvoiceUser.builder().username("test").password("test12345").build();
+        userRepository.save(invoiceUser);
+        Invoice invoice = RepositoryTestHelper.createInvoice ( item, personSupplier, personRecipient, invoiceUser );
         invoiceService.saveInvoice (invoice, "admin");
         Assertions.assertNotNull (invoice);
 

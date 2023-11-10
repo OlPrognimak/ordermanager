@@ -43,16 +43,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -70,7 +71,7 @@ import static org.springframework.http.HttpStatus.OK;
 )
 @RestController
 @CrossOrigin
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JasperReportController {
     private static final Logger logger = LogManager.getLogger(InvoiceController.class);
 
@@ -114,10 +115,10 @@ public class JasperReportController {
     @PostMapping(value = "/invoice/printreport", produces="application/pdf")
     //@ResponseBody
     public ResponseEntity<byte[]> printReport(@Parameter(description = "the request with invoice number")
-                                              @RequestBody() PdfRequest pdfRequest) {
+                                              @RequestBody() PdfRequest pdfRequest, Principal principal) {
         logger.info("Request Body: "+pdfRequest.getInvoiceNumber());
         logger.debug("invoiceNumber: " + pdfRequest.getInvoiceNumber());
-        byte[] report = jasperReportService.createPdfReport(pdfRequest.getInvoiceNumber());
+        byte[] report = jasperReportService.createPdfReport(pdfRequest.getInvoiceNumber(), principal.getName());
         logger.debug("Report size: " + report.length);
        return ResponseEntity.status(OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=invoice_" + pdfRequest.getInvoiceNumber() + ".pdf")
