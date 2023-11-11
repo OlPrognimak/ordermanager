@@ -51,10 +51,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import javax.sql.DataSource;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -74,6 +75,13 @@ public class JasperReportService {
 
     @Value("${jasper.reports.directory.path:reports}")
     private String jasperRepDirPath;
+
+    @Value("${app.ordermanager.report.counry}")
+    private String reportLanguage;
+
+    @Value("${app.ordermanager.report.language}")
+    private String reportCountry;
+
     private JasperReport jasperReport;
 
     private JasperReport jasperSubReport;
@@ -115,6 +123,7 @@ public class JasperReportService {
 
         System.out.println("Path to dir:" + jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
+        parameters.put(JRParameter.REPORT_LOCALE, new Locale(reportLanguage, reportCountry));
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);
         parameters.put("itemsDs", createSubreportParameter(reportModel.getItems()));
