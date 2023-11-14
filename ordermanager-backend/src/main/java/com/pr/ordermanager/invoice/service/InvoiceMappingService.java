@@ -41,7 +41,7 @@ import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,12 +57,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class InvoiceMappingService {
 
-     @Autowired
-     private PersonRepository personRepository;
-     @Autowired
-     private ItemCatalogRepository itemCatalogRepository;
+     private final PersonRepository personRepository;
+
+     private final ItemCatalogRepository itemCatalogRepository;
 
 
     /**

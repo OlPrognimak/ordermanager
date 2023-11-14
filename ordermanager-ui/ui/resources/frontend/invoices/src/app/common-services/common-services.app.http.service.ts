@@ -6,7 +6,7 @@ import { CreatedResponse, DropdownDataType } from '../domain/domain.invoiceformm
 import { Message } from 'primeng/api/message';
 import { CommonServicesUtilService, printToJson } from './common-services-util.service';
 import { map } from "rxjs/operators";
-import { remoteBackendUrl } from "../user/user-login/app-security.service";
+import { remoteBackendUrl } from "../common-auth/app-security.service";
 import { CommonServiceEventBus } from "./common-service.event.bus";
 import { environment } from "../../environments/environment";
 

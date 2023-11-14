@@ -33,7 +33,7 @@ import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { Message, MessageService } from 'primeng/api';
 import { DropdownDataType } from "../domain/domain.invoiceformmodel";
-import { CommonServicesPipesNumber } from "./common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../common-pipes/common-services.pipes.number";
 
 export const printToJson = (data: any): void => {
   console.log(JSON.stringify(data));

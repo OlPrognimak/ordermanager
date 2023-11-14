@@ -43,7 +43,7 @@ import {
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { AppSecurityService } from '../../user/user-login/app-security.service';
+import { AppSecurityService } from '../../common-auth/app-security.service';
 import { InvoiceItemsTableComponent } from '../invoice-items-table/invoice-items-table.component';
 import {
   CommonServicesUtilService,
@@ -64,7 +64,7 @@ import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
 import { TooltipModule } from "primeng/tooltip";
-import { InvoicePipesModule } from "../../common-services/common-services.pipes.number";
+import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
 import { DropdownModule } from "primeng/dropdown";

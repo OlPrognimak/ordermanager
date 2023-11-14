@@ -35,7 +35,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CommonServicesUtilService } from "../../common-services/common-services-util.service";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
-import { AppSecurityService, remoteBackendUrl } from "../user-login/app-security.service";
+import { AppSecurityService, remoteBackendUrl } from "../../common-auth/app-security.service";
 import { NgForm } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 

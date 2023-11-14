@@ -21,7 +21,7 @@ import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import { HttpClient } from "@angular/common/http";
-import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { AppSecurityService } from "../../common-auth/app-security.service";
 import { MessageService } from "primeng/api";
 import {
   CommonServicesUtilService,

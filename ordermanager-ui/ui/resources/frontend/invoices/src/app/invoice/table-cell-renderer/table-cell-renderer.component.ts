@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
-import { remoteBackendUrl } from "../../user/user-login/app-security.service";
+import { remoteBackendUrl } from "../../common-auth/app-security.service";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server

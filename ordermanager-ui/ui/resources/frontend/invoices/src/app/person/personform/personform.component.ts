@@ -32,7 +32,7 @@ import { Component, NgModule, OnDestroy, OnInit, ViewChild } from '@angular/core
 import { DropdownDataType, InvoiceFormModel, InvoiceFormModelInterface } from '../../domain/domain.invoiceformmodel';
 import { BankAccountFormModel, PersonAddressFormModel, PersonFormModel } from '../../domain/domain.personformmodel';
 import { MessageService } from 'primeng/api';
-import { AppSecurityService } from '../../user/user-login/app-security.service';
+import { AppSecurityService } from '../../common-auth/app-security.service';
 import {
   CommonServicesUtilService,
   isAuthenticated,
@@ -53,7 +53,7 @@ import {
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import { InputTextModule } from "primeng/inputtext";
 import { AngularIbanModule } from "angular-iban";
-import { InvoicePipesModule } from "../../common-services/common-services.pipes.number";
+import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 import { WorkflowModule } from "../../workflows/invoice-workflow/workflow.module";
 import { ActivatedRoute, Router } from "@angular/router";
 import { of, Subscriber } from "rxjs";

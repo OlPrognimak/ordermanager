@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DropdownDataType, InvoiceItemModel, ItemCatalogModel } from '../../domain/domain.invoiceformmodel';
 import { printToJson } from "../../common-services/common-services-util.service";
-import { remoteBackendUrl } from "../../user/user-login/app-security.service";
+import { remoteBackendUrl } from "../../common-auth/app-security.service";
 import { Subject, takeUntil } from "rxjs";
 
 /**

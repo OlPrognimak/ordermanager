@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from "@angular/core";
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
 import { RequestPeriodDateInterface } from "../../domain/domain.invoiceformmodel";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
-import { remoteBackendUrl } from "../../user/user-login/app-security.service";
+import { remoteBackendUrl } from "../../common-auth/app-security.service";
 import { Subject, takeUntil } from "rxjs";
 import { AutoUnsubscribe } from "ngx-auto-unsubscribe-decorator";
 

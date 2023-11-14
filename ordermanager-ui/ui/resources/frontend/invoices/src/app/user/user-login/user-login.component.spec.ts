@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 
 import { UserLoginComponent } from './user-login.component';
 import { NO_ERRORS_SCHEMA } from "@angular/compiler";
-import { AppSecurityService } from "./app-security.service";
+import { AppSecurityService } from "../../common-auth/app-security.service";
 import { HttpClient, HttpHandler } from "@angular/common/http";
 import { MessageService } from "primeng/api";
 import { FormsModule, NgForm } from "@angular/forms";

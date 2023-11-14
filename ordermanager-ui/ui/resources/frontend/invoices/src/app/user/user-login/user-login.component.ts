@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit, } from '@angular/core';
-import { AppSecurityService } from './app-security.service';
+import { AppSecurityService } from '../../common-auth/app-security.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';

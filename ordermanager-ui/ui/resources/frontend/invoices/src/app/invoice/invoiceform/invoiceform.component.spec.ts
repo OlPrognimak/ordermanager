@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from "@angular/forms";
 import { MessageModule } from "primeng/message";
 import { MessageService } from "primeng/api";
-import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { AppSecurityService } from "../../common-auth/app-security.service";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import {
@@ -13,7 +13,7 @@ import {
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import { DropdownModule } from "primeng/dropdown";
 import { InvoiceFormComponent } from "./invoiceform.component";
-import { InvoicePipesModule } from "../../common-services/common-services.pipes.number";
+import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 
 describe('InvoiceFormComponent', () => {
   let component: InvoiceFormComponent;

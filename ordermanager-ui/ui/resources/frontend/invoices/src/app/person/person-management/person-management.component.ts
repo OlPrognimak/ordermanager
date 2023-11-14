@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
 import { PersonFormModel } from "../../domain/domain.personformmodel";
-import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { AppSecurityService } from "../../common-auth/app-security.service";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { DateperiodFinderComponent } from "../../common-components/dateperiod-finder/dateperiod-finder.component";
 import { EditPersonDialogComponent } from "../edit-person-dialog/edit-person-dialog.component";

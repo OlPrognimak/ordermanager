@@ -4,7 +4,7 @@ import { MessageService, SharedModule } from "primeng/api";
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
 import { ItemCatalogModel } from "../../domain/domain.invoiceformmodel";
-import { InvoicePipesModule } from "../../common-services/common-services.pipes.number";
+import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { HttpClient } from "@angular/common/http";

@@ -3,7 +3,7 @@ import { PersonFormComponent } from "./personform.component";
 import { FormsModule } from "@angular/forms";
 import { MessageModule } from "primeng/message";
 import { MessageService } from "primeng/api";
-import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { AppSecurityService } from "../../common-auth/app-security.service";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import {

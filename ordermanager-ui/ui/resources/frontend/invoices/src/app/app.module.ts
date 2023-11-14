@@ -31,7 +31,7 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 import { RouterModule } from "@angular/router";
-import { BasicInterceptor } from "./user/user-login/basic-auth-interceptor";
+import { BasicInterceptor } from "./common-auth/basic-auth-interceptor";
 import { InputMaskModule } from "primeng/inputmask";
 import { InputNumberModule } from "primeng/inputnumber";
 import { CommonModule } from "@angular/common";
@@ -44,7 +44,7 @@ import {
 import { PersonFormModule } from "./person/personform/personform.component";
 import { InvoiceFormModule } from "./invoice/invoiceform/invoiceform.component";
 import { DateperiodFinderComponent } from "./common-components/dateperiod-finder/dateperiod-finder.component";
-import { InvoicePipesModule } from "./common-services/common-services.pipes.number";
+import { InvoicePipesModule } from "./common-pipes/common-services.pipes.number";
 import { TemplatesComponentComponent } from "./common-components/templates-component/templates-component.component";
 import { StoreModule } from "@ngrx/store";
 import { WorkflowModule } from "./workflows/invoice-workflow/workflow.module";

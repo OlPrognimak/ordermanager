@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ItemCatalogModel } from '../../domain/domain.invoiceformmodel';
-import { AppSecurityService } from '../../user/user-login/app-security.service';
+import { AppSecurityService } from '../../common-auth/app-security.service';
 import { CommonServicesAppHttpService } from '../../common-services/common-services.app.http.service';
 import { isAuthenticated } from "../../common-services/common-services-util.service";
 import { FormsModule, NgForm } from "@angular/forms";

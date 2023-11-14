@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LoggingCheck } from '../../domain/domain.invoiceformmodel';
+import { LoggingCheck } from '../domain/domain.invoiceformmodel';
 import { Router } from '@angular/router';
 import { map } from "rxjs/operators";
 import { finalize, interval, Subject, takeUntil } from "rxjs";
-import { environment } from "../../../environments/environment";
-import { isAuthenticated, setAuthenticated } from "../../common-services/common-services-util.service";
+import { environment } from "../../environments/environment";
+import { isAuthenticated, setAuthenticated } from "../common-services/common-services-util.service";
 
 export const basicAuthKey = 'basicAuthKey';
 

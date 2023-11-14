@@ -36,7 +36,7 @@ import { InvoiceItemsTableService } from "../invoice-items-table/invoice-items-t
 import { TableModule } from "primeng/table";
 import { DropdownModule } from "primeng/dropdown";
 import { PaginatorModule } from "primeng/paginator";
-import { InvoicePipesModule } from "../../common-services/common-services.pipes.number";
+import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { ToastModule } from "primeng/toast";

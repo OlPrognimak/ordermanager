@@ -1,7 +1,7 @@
 import { Directive, Input, OnDestroy } from "@angular/core";
 import { MessagesPrinter } from "./common-services.app.http.service";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { remoteBackendUrl } from "../user/user-login/app-security.service";
+import { remoteBackendUrl } from "../common-auth/app-security.service";
 import { Subject, takeUntil } from "rxjs";
 
 

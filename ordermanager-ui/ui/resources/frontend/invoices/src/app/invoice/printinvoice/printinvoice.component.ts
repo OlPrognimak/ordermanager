@@ -34,12 +34,12 @@ import { InvoiceFormModel } from '../../domain/domain.invoiceformmodel';
 import { AgGridAngular } from 'ag-grid-angular';
 import { TableCellRendererComponent } from '../table-cell-renderer/table-cell-renderer.component';
 import * as _moment from 'moment';
-import { AppSecurityService } from '../../user/user-login/app-security.service';
+import { AppSecurityService } from '../../common-auth/app-security.service';
 import { GridOptions } from 'ag-grid-community';
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { DateperiodFinderComponent } from "../../common-components/dateperiod-finder/dateperiod-finder.component";
 import { isAuthenticated, numberCellRenderer } from "../../common-services/common-services-util.service";
-import { CommonServicesPipesNumber } from "../../common-services/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 
 /**
  * The component which contains table with invoices for printing in PDF format

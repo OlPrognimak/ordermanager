@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PersonFormModel } from "../../domain/domain.personformmodel";
-import { AppSecurityService } from "../../user/user-login/app-security.service";
+import { AppSecurityService } from "../../common-auth/app-security.service";
 import { AngularIbanModule, ValidatorService } from "angular-iban";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
