@@ -63,7 +63,6 @@
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
     </dependency>
-    <!-- hibernate -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
@@ -120,10 +119,10 @@
       <version>1.70</version>
     </dependency>
     <!--  JWT -->
-<!--    <dependency>-->
-<!--      <groupId>com.auth0</groupId>-->
-<!--      <artifactId>java-jwt</artifactId>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+    </dependency>
 <!--    <dependency>-->
 <!--      <groupId>org.apache.logging.log4j</groupId>-->
 <!--      <artifactId>log4j-api</artifactId>-->

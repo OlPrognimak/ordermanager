@@ -5,6 +5,7 @@ import com.pr.ordermanager.RepositoryTestHelper;
 import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.common.model.CreatedResponse;
+import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
@@ -12,6 +13,10 @@ import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
+import com.pr.ordermanager.security.entity.InvoiceUser;
+import com.pr.ordermanager.security.repository.UserRepository;
+import com.pr.ordermanager.security.service.UserAuthProvider;
+import com.pr.ordermanager.security.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +45,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 /**
  * @author Oleksandr Prognimak
- * @created 21.09.2020 - 15:23
+ * @since 21.09.2020 - 15:23
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -62,6 +67,12 @@ class InvoiceControllerTest {
     InvoiceRepository invoiceRepository;
     @Autowired
     ItemCatalogRepository itemCatalogRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    UserAuthProvider authProvider;
 
     @BeforeEach
     void setUp() {
@@ -71,6 +82,9 @@ class InvoiceControllerTest {
     void tearDown(){
         personRepository.deleteAll();
         itemCatalogRepository.deleteAll();
+        userRepository.deleteAll();
+        invoiceRepository.deleteAll();
+
     }
 
     ObjectMapper mapper = PersonModelToEntityMapperHelper.createObjectMapper();
@@ -95,31 +109,39 @@ class InvoiceControllerTest {
                 invoiceController.putNewInvoice ( invoiceFormModel, principal);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertTrue (responseEntity.getBody ().getCreatedId ()>0);
+        assertTrue (responseEntity.getBody ().getCreatedId () > 0);
     }
 
     @Test
     void putNewInvoiceHttp()  throws Exception{
 
         assertNotNull(invoiceController);
+
         Person personSupplier = testServiceHelper.personSupplier();
         Person personRecipient = testServiceHelper.personRecipient();
         ItemCatalog itemCatalog = testServiceHelper.createItemCatalog();
+        InvoiceUser invoiceUser = userService.createUserLogin("test123", "test12345");
+        String token = authProvider.createToken(invoiceUser);
 
         InvoiceFormModel invoiceFormModel =
                 RepositoryTestHelper.createInvoiceFormModel(personSupplier.getId (), personRecipient.getId());
+
         invoiceFormModel.getInvoiceItems().get(0).setCatalogItemId(itemCatalog.getId());
         String json = mapper.writeValueAsString(invoiceFormModel);
         System.out.println(json);
-        if( true ) return;
+       // if( true ) return;
         RequestEntity<InvoiceFormModel> request = RequestEntity
-                .put(new URI("http://localhost:"+port+"/backend/invoice")).header("Authorization","Basic YWRtaW46dGVzdDEyMzQ1")
+                .put(new URI("http://localhost:"+port+"/backend/invoice"))
+                .header("Authorization","Bearer " + token)
+                .header("Content-Type", "application/json")
                 .accept( MediaType.APPLICATION_JSON)
                 .body(invoiceFormModel);
 
         ResponseEntity<CreatedResponse> responseEntity = restClient.exchange(request,CreatedResponse.class);
         assertEquals(HttpStatus.CREATED,responseEntity.getStatusCode());
         assertTrue (responseEntity.getBody ().getCreatedId ()>0);
+        Invoice invoice = invoiceRepository.findById(responseEntity.getBody().getCreatedId()).get();
+        assertNotNull(invoice);
     }
 
     @Test

@@ -32,10 +32,10 @@ package com.pr.ordermanager.security.service;
 
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.security.entity.InvoiceUser;
+import com.pr.ordermanager.security.model.LoginResultResponse;
 import com.pr.ordermanager.security.repository.RoleRepository;
 import com.pr.ordermanager.security.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +44,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
@@ -55,7 +56,6 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0007;
  */
 @Service
 @AllArgsConstructor
-@Transactional
 public class UserService {
     private static final Logger logger = LogManager.getLogger();
 
@@ -63,6 +63,24 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final InvoiceUserDetailsManager invoiceUserDetailsManager;
     private final RoleRepository roleRepository;
+    private final UserAuthProvider authProvider;
+
+
+    public LoginResultResponse validatePasswordAndReturnToken(String loginCredential) {
+        String decodedLoginHeader = new String(Base64.getDecoder().decode(loginCredential));
+        String[] items = decodedLoginHeader.split(":");
+        String userName = items[0];
+        String password = items[1];
+
+        InvoiceUser user = this.getInvoiceUserInternal(userName);
+
+        if (BCrypt.checkpw(password, user.getPassword())) {
+            String token = authProvider.createToken(user);
+            return new LoginResultResponse(true, token);
+        } else {
+            return new LoginResultResponse(false, null);
+        }
+    }
 
     /**
      *
@@ -70,16 +88,20 @@ public class UserService {
      * @return the user which is found or exception
      */
     public InvoiceUser getUserOrException(String userName){
+        return getInvoiceUserInternal(userName);
+    }
+
+    private InvoiceUser getInvoiceUserInternal(String userName) {
         try {
          //InvoiceUser user = userRepository.findByUsername(userName);
-         return userRepository.findByUsername(userName);
+            return userRepository.findByUsername(userName);
          //return user;
         }catch (EntityNotFoundException | DataAccessException ex){
             logger.error("User is not Found",ex);
-            throw new OrderManagerException(CODE_0007,"Can not find user with user name: "+userName);
+            throw new OrderManagerException(CODE_0007,"Can not find user with user name: "+ userName);
         }catch(Exception e){
             logger.error("Unexpected error",e);
-            throw new OrderManagerException(CODE_0000,"Unexpected error in searching user wit name: "+userName);
+            throw new OrderManagerException(CODE_0000,"Unexpected error in searching user with name: "+ userName);
         }
     }
 
@@ -89,7 +111,8 @@ public class UserService {
      * @param password not encoded password
      * @return encoded password
      */
-    public Long createUserLogin(String userName, String password) {
+    //@Transactional
+    public InvoiceUser createUserLogin(String userName, String password) {
         String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
         user.setAccountNonExpired(true);
@@ -99,7 +122,7 @@ public class UserService {
         user.setAuthorities(List.of(roleRepository.findByAuthority("ROLE_USER")));
         //userRepository.save(user);
         invoiceUserDetailsManager.createUser(user);
-        return user.getId();
+        return user;
 
     }
 }

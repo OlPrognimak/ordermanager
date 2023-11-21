@@ -144,8 +144,9 @@ export class CalculatorParameters {
 /**
  * Object for checking login
  */
-export class LoggingCheck {
-  logged = false;
+export class LoggingResult {
+  logged = false
+  token: string | null
 }
 
 export class CreatedResponse {

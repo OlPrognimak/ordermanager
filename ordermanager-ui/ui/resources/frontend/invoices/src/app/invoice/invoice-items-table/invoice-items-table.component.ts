@@ -158,8 +158,8 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
   private emitTotalChanged(): void {
     // console.log("CALK TOTTALS START")
     try {
-      this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
-      this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
+      //this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
+      //this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
     }catch (err) {
       console.log("Error :"+err)
     }

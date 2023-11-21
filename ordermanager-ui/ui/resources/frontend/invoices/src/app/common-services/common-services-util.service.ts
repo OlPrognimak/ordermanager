@@ -34,6 +34,7 @@ import { delay, map } from 'rxjs/operators';
 import { Message, MessageService } from 'primeng/api';
 import { DropdownDataType } from "../domain/domain.invoiceformmodel";
 import { CommonServicesPipesNumber } from "../common-pipes/common-services.pipes.number";
+import { AUTH_TOKEN_KEY } from "../common-utils/common-utils.constants";
 
 export const printToJson = (data: any): void => {
   console.log(JSON.stringify(data));
@@ -44,15 +45,20 @@ export const printToJson = (data: any): void => {
  *
  * @param isAuthenticated true if authenticated
  */
-export const setAuthenticated = (isAuthenticated: boolean): void => {
-  localStorage.setItem('userAuthenticated', '' + isAuthenticated)
+export const setAuthenticated = (token: string | null): void => {
+  if( token !== null) {
+     localStorage.setItem(AUTH_TOKEN_KEY, token)
+  } else {
+    localStorage.removeItem(AUTH_TOKEN_KEY)
+    console.log('Login canceled.')
+  }
 }
 
 /**
  * @return true if authenticated
  */
 export const isAuthenticated = (): boolean => {
-  return localStorage.getItem('userAuthenticated') === 'true'
+  return localStorage.getItem(AUTH_TOKEN_KEY) !== null
 }
 
 /**

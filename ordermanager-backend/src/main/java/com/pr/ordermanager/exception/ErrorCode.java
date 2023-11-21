@@ -60,7 +60,10 @@ public enum ErrorCode {
     CODE_20009(20009, "Validation error. invoiceFormData.creationDate can not be less as invoiceFormData.invoiceDate."),
     CODE_20021(20021, "Validation error. Person.personFirstName can not be blank."),
     CODE_20022(20022, "Validation error. Person.personLastName can not be blank."),
-    CODE_20023(20023, "Validation error. Person.companyName can not be blank.");
+    CODE_20023(20023, "Validation error. Person.companyName can not be blank."),
+
+    CODE_20100(20100, "Security error. Token is not valid."),
+    CODE_20101(20101, "Security error. Wrong password.");
 
     private final String message;
     private final int errorCode;

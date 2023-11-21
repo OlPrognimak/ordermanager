@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { basicAuthKey } from './app-security.service';
-import { isAuthenticated } from "../common-services/common-services-util.service";
+import { AUTH_TOKEN_KEY } from "../common-utils/common-utils.constants";
 
 @Injectable()
 export class BasicInterceptor {
@@ -17,9 +16,10 @@ export class BasicInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add auth header
-    if (isAuthenticated() === true) {
+    const authToken = 'Bearer '+localStorage.getItem(AUTH_TOKEN_KEY)
+    if (authToken != null) {
       request = request.clone({
-        setHeaders: {Authorization: localStorage.getItem(basicAuthKey) as string}
+        setHeaders: {Authorization: authToken as string}
       });
     }
 

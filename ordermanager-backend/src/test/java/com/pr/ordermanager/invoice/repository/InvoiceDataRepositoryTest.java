@@ -109,7 +109,7 @@ class InvoiceDataRepositoryTest {
         itemCatalogRepository.save(itemCatalog);
         InvoiceItem item = RepositoryTestHelper.createItem(itemCatalog);
         Person person = RepositoryTestHelper.createPerson(PersonType.PRIVATE, new PersonAddress(), new BankAccount());
-        Long userId = userService.createUserLogin("test", "test12345");
+        Long userId = userService.createUserLogin("test", "test12345").getId();
         InvoiceUser invoiceUser = userRepository.findById(userId).get();
         person.setInvoiceUser(invoiceUser);
         personService.savePerson(person, "test");

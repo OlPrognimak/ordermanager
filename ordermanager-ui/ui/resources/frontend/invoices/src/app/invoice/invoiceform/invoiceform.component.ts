@@ -37,7 +37,7 @@ import {
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface,
-  InvoiceItemModel
+  InvoiceItemModel, InvoiceItemModelInterface
 } from '../../domain/domain.invoiceformmodel';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -48,7 +48,7 @@ import { InvoiceItemsTableComponent } from '../invoice-items-table/invoice-items
 import {
   CommonServicesUtilService,
   invoiceRate,
-  isAuthenticated
+  isAuthenticated, printToJson
 } from '../../common-services/common-services-util.service';
 import { CommonServicesAppHttpService, MessagesPrinter } from '../../common-services/common-services.app.http.service';
 import { FormsModule } from "@angular/forms";
@@ -117,7 +117,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
               public appSecurityService: AppSecurityService,
               private messageService: MessagesPrinter,
               private utilService: CommonServicesUtilService,
-              public calculatorService: InvoiceItemsTableCalculatorService,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
     //this.backendUrl = environment.baseUrl;
     super()
@@ -129,13 +128,17 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    */
   ngAfterViewInit(): void {
     this.isViewInitialized = true;
+    setTimeout( () => {
+      this.resetModel();
+    })
+
   }
 
   /**
    * Initialisation of the class
    */
   ngOnInit(): void {
-    this.resetModel();
+    //this.resetModel();
     this.loadFormData();
   }
 
@@ -152,11 +155,14 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   }
 
   /**
-   * Saves person to the database on server
+   * Saves invoice to the database on server
    * @param event the item for saving
    */
   saveInvoice(event: any): void {
-    this.httpService.putObjectToServer('PUT', this.calculatorService.invoiceFormData, 'Invoice',
+    console.log("S A V E   I N V O I C E TOTAL SUM NETTO 1::::" + this.itemsTableComponent.calculatorService.totalNettoSum())
+    console.log("S A V E   I N V O I C E TOTAL SUM BRUTTO 2::::" + this.itemsTableComponent.calculatorService.totalBruttoSum())
+    printToJson(this.itemsTableComponent.calculatorService.invoiceFormData)
+    this.httpService.putObjectToServer('PUT', this.itemsTableComponent?.calculatorService.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
           this.resetModel();
@@ -178,13 +184,17 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @private
    */
   private resetModel(): void {
-    this.calculatorService.invoiceFormData = new InvoiceFormModel();
-    this.calculatorService.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
+    this.itemsTableComponent.calculatorService.invoiceFormData = new InvoiceFormModel();
+    this.itemsTableComponent.calculatorService.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {
       this.itemsTableComponent.resetTotalValues();
     }
+  }
+
+  setInvoiceItems(items: InvoiceItemModel[]) {
+    this.itemsTableComponent?.calculatorService.setInvoiceItems(items)
   }
 }
 

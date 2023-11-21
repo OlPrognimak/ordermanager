@@ -41,10 +41,6 @@ import org.springframework.web.client.RestTemplate;
 
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"com.pr.ordermanager.invoice.repository",
-        "com.pr.ordermanager.person.repository","com.pr.ordermanager.security.repository"})
-@ComponentScan(basePackages = { "com.pr.ordermanager.*" })
-@EntityScan(basePackages = {"com.pr.ordermanager.*"})
 public class AngularBackendApplication {
 //    @Autowired
 //    InvoiceCorsFilter corsFilter;
