@@ -9,7 +9,7 @@
     <div class="p-grid">
       <div class="p-col-4" style="margin-top: 10pt">
         <app-validatable-input-text (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
-                                    [(ngModel)]="calculatorService.invoiceFormData.invoiceNumber"
+                                    [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.invoiceNumber"
                                     [idComponent]="'id_InvoiceNumber'"
                                     [labelText]="'Invoice Number'"
                                     [name]="'invoiceNumber'"
@@ -18,7 +18,7 @@
       </div>
       <div class="p-col-4" style="margin-top: 10pt">
        <span class="p-float-label">
-       <input [(ngModel)]="calculatorService.invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
+       <input [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
               pInputText
               style="width:100%;" type="text"/>
        <label for="id-invoiceDescription">Invoice description</label>
@@ -29,7 +29,7 @@
     <div class="p-grid">
       <div class="p-col-3" style="margin-top: 15pt">
         <app-validatable-dropdownlist (componentHasError)="setHasInvoiceratesError($event)"
-                                      [(ngModel)]="calculatorService.invoiceFormData.rateType"
+                                      [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.rateType"
                                       [idComponent]="'id-rateType'"
                                       [labelText]="'Rate Type'"
                                       [name]="'invoiceRatesList'"
@@ -42,7 +42,7 @@
       <div class="p-col-3">
 
         <app-validatable-calendar (componentHasError)="setHasCreationDateError($event)"
-                                  [(ngModel)]="calculatorService.invoiceFormData.creationDate"
+                                  [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.creationDate"
                                   [dateFormat]="'dd.mm.yy'"
                                   [idComponent]="'id-creationDate'"
                                   [labelText]="'Creation Date'"
@@ -54,7 +54,7 @@
 
       <div class="p-col-3">
         <app-validatable-calendar (componentHasError)="setHasInvoiceDateError($event)"
-                                  [(ngModel)]="calculatorService.invoiceFormData.invoiceDate"
+                                  [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.invoiceDate"
                                   [dateFormat]="'dd.mm.yy'"
                                   [idComponent]="'id-InvoiceDate'"
                                   [labelText]="'Invoice Date'"
@@ -68,7 +68,7 @@
     <div class="p-grid">
       <div class="p-col-6" style="margin-top: 15pt;">
         <app-validatable-dropdownlist (componentHasError)="setHasCreatorError($event)"
-                                      [(ngModel)]="calculatorService.invoiceFormData.personSupplierId"
+                                      [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.personSupplierId"
                                       [idComponent]="'id-invoiceCreator'"
                                       [labelText]="'Invoice creator person'"
                                       [name]="'creator'"
@@ -82,7 +82,7 @@
     <div class="p-grid">
       <div class="p-col-6">
         <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
-                                      [(ngModel)]="calculatorService.invoiceFormData.personRecipientId"
+                                      [(ngModel)]="itemsTableRef?.calculatorService.invoiceFormData.personRecipientId"
                                       [idComponent]="'id-invoiceRecipient'"
                                       [labelText]="'Invoice recipient person'"
                                       [name]="'recipient'"
@@ -94,8 +94,8 @@
     </div>
 
     <app-invoice-items-table #itemsTableRef
-                             (changeItemEvent)="calculatorService.invoiceFormData.invoiceItems=$event"
-                             [invoiceItems]="calculatorService.invoiceFormData.invoiceItems"
+                             (changeItemEvent)="setInvoiceItems($event)"
+                             [invoiceItems]="itemsTableRef?.calculatorService.invoiceFormData.invoiceItems"
                              [modelChangedEvent]="eventsModelIsReset.asObservable()">
 
     </app-invoice-items-table>

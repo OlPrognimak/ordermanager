@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +45,7 @@ import static org.springframework.http.HttpStatus.OK;
 )
 @RestController
 @CrossOrigin
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PersonController {
     private static final String ROOT_PATH = "/person";
 
@@ -106,8 +106,7 @@ public class PersonController {
     @PostMapping(value= PATH_PERSON, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> updatePersons(
             @RequestBody @Valid List<PersonFormModel> persons, Principal principal) {
-        persons.forEach(PersonValidator::validate
-        );
+        persons.forEach(PersonValidator::validate);
         personService.updatePersons(persons, principal.getName());
 
         return ResponseEntity.status(CREATED).body(new CreatedResponse(1L));

@@ -39,10 +39,11 @@ import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
+import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
-import com.pr.ordermanager.security.service.UserService;
-import lombok.AllArgsConstructor;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Sort;
@@ -59,15 +60,16 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
  * @author  Oleksandr Prognimak
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class InvoiceService {
     private static final Logger logger = LogManager.getLogger(InvoiceService.class);
 
     private final InvoiceRepository invoiceRepository;
     private final UserRepository userRepository;
     private final ItemCatalogRepository itemCatalogRepository;
-    private final UserService userService;
     private final InvoiceMappingService invoiceMappingService;
+    private final PersonRepository personRepository;
 
     /**
      *
@@ -111,24 +113,47 @@ public class InvoiceService {
 
     /**
      *
+     * @param invoiceFormModel the invoice data model from the client request.
+     *
+     * @param userName the currently logged user
+     * @return id of created invoice
+     *
+     * @exception  OrderManagerException in case if invoice can not be saved
+     */
+    public Long saveInvoice(InvoiceFormModel invoiceFormModel, String userName){
+        Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
+        InvoiceUser user = userRepository.findByUsername(userName);
+        invoice.setInvoiceUser(user);
+        try {
+            invoiceRepository.save(invoice);
+            return invoice.getId();
+        }catch(Throwable ex) {
+            throw new OrderManagerException(CODE_0000,ex.getMessage(),ex);
+        }
+    }
+
+    /**
+     *
      * @param invoice the invoice to be saved.
      *
-     * @param userName the currently logined user
+     * @param userName the currently logged user
      * @return result of execution
      *
      * @exception  OrderManagerException in case if invoice can not be saved
      */
+    //@Transactional
     public String saveInvoice(Invoice invoice, String userName){
-            String invoiceNumder=null;
-            InvoiceUser user = userService.getUserOrException(userName);
+
+            InvoiceUser user = userRepository.findByUsername(userName);
+            invoice.setInvoiceUser(user);
             try {
-                invoice.setInvoiceUser(user);
                 invoiceRepository.save(invoice);
-                invoiceNumder = invoice.getInvoiceNumber();
-            }catch(Exception ex) {
-                throw new OrderManagerException(CODE_0000,"Unexpected exception",ex);
+               // InvoiceUser user = userService.getUserOrException(userName);
+                invoice.setInvoiceUser(user);
+                return invoice.getInvoiceNumber();
+            }catch(Throwable ex) {
+                throw new OrderManagerException(CODE_0000,ex.getMessage(),ex);
             }
-        return invoiceNumder;
     }
 
     /**
@@ -139,20 +164,19 @@ public class InvoiceService {
      * @throws OrderManagerException in case if person can not be saved
      */
     public void updateInvoices(final List<InvoiceFormModel> invoices, final String userName) {
+          invoices.forEach(i -> {
+              Optional<Invoice> invoiceEntityOpt = invoiceRepository.findById(i.getId());
+              if (invoiceEntityOpt.isPresent()) {
+                  Invoice invoice = invoiceEntityOpt.get();
+                  try {
+                    invoiceMappingService.mapInvoiceModelToExistedEntity(i, invoice);
+                  } catch (Exception ex) {
+                      logger.error(ex);
+                      throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
+                  }
+              }
+          });
 
-        invoices.forEach(i -> {
-            Optional<Invoice> invoiceEntityOpt = invoiceRepository.findById(i.getId());
-            if(invoiceEntityOpt.isPresent()) {
-                Invoice invoice = invoiceEntityOpt.get();
-                invoiceMappingService.mapInvoiceModelToExistedEntity(i, invoice);
-                try {
-                    invoiceRepository.save(invoice);
-                } catch (Exception ex) {
-                    logger.error(ex);
-                    throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
-                }
-            }
-        });
     }
 
     public Invoice getInvoice(String invoiceNumber){

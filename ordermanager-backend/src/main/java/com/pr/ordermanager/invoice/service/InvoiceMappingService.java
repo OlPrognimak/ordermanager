@@ -45,9 +45,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The helper class for mapping rest service model objects as source objects to
@@ -61,8 +61,8 @@ import java.util.stream.Collectors;
 public class InvoiceMappingService {
 
      private final PersonRepository personRepository;
-
      private final ItemCatalogRepository itemCatalogRepository;
+
 
 
     /**
@@ -73,18 +73,35 @@ public class InvoiceMappingService {
      */
     public void mapInvoiceModelToExistedEntity(InvoiceFormModel invoiceFormModel, Invoice invoice){
 
-        if(invoice.getInvoiceSupplierPerson().getId() != invoiceFormModel.getPersonSupplierId()) {
-            Optional<Person> supplierPerson = personRepository.findById(invoiceFormModel.getPersonSupplierId());
-            invoice.setInvoiceSupplierPerson(supplierPerson.get());
-            supplierPerson.get().setInvoiceSuppliers(List.of(invoice));
-        }
-        if(invoice.getInvoiceRecipientPerson().getId() != invoiceFormModel.getPersonSupplierId()) {
-            Optional<Person> recipientPerson = personRepository.
-                    findById(invoiceFormModel.getPersonRecipientId());
-            invoice.setInvoiceRecipientPerson(recipientPerson.get());
-            recipientPerson.get().setInvoiceRecipient(List.of(invoice));
-        }
+        Person oldSupplier = invoice.getInvoiceSupplierPerson();
+        Person oldRecipient = invoice.getInvoiceRecipientPerson();
 
+        if(oldSupplier.getId() != invoiceFormModel.getPersonSupplierId()) {
+            //search new person
+            Optional<Person> supplierPerson = personRepository.findById(invoiceFormModel.getPersonSupplierId());
+            //new person set to invoice
+            invoice.setInvoiceSupplierPerson(supplierPerson.get());
+            //Add invoice reference to new person
+            if(supplierPerson.get().getInvoiceSuppliers()==null) {
+                supplierPerson.get().setInvoiceSuppliers(new ArrayList<>());
+            }
+            if ( supplierPerson.get().getInvoiceSuppliers().stream().anyMatch(is -> is.getId() != invoice.getId())) {
+                supplierPerson.get().getInvoiceSuppliers().add(invoice);
+            }
+        }
+        if(oldRecipient.getId() != invoiceFormModel.getPersonRecipientId()) {
+            //search new person
+            Optional<Person> recipientPerson = personRepository.findById(invoiceFormModel.getPersonRecipientId());
+            //new person set to invoice
+            invoice.setInvoiceRecipientPerson(recipientPerson.get());
+            //Add invoice reference to new person
+            if(recipientPerson.get().getInvoiceRecipient()==null) {
+                recipientPerson.get().setInvoiceRecipient(new ArrayList<>());
+            }
+            if ( recipientPerson.get().getInvoiceRecipient().stream().anyMatch(is -> is.getId() != invoice.getId())) {
+                recipientPerson.get().getInvoiceSuppliers().add(invoice);
+            }
+        }
         invoice.setInvoiceDate(invoiceFormModel.getInvoiceDate());
         invoice.setInvoiceNumber(invoiceFormModel.getInvoiceNumber());
         invoice.setInvoiceDescription(invoiceFormModel.getInvoiceDescription());
@@ -93,14 +110,12 @@ public class InvoiceMappingService {
         invoice.setTotalSumBrutto(invoiceFormModel.getTotalSumBrutto());
         invoice.setTotalSumNetto(invoiceFormModel.getTotalSumNetto());
         invoice.getInvoiceItems().clear();
-        List<InvoiceItem> invoiceItems = invoiceFormModel.getInvoiceItems()
-                .stream()
-                .map(i -> mapInvoiceItemModelToEntity(
-                        i, invoice, itemCatalogRepository.findById(
-                                i.getCatalogItemId()).orElseThrow()))
-                .collect(Collectors.toList());
-        invoice.getInvoiceItems().addAll(invoiceItems);
+        invoiceFormModel.getInvoiceItems().stream().forEach( item -> {
+            Optional<ItemCatalog> itemCatalog = itemCatalogRepository.findById(item.getCatalogItemId());
+            MappingUtils.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get());
+        });
     }
+
 
     /**
      * Maps rest service model object {@link InvoiceFormModel} to
@@ -108,20 +123,48 @@ public class InvoiceMappingService {
      * @param invoiceFormModel the source object for mapping
      * @return the target object for mapping
      */
-    public Invoice mapInvoiceModelToEntity(InvoiceFormModel invoiceFormModel){
-        Optional<Person> supplierPerson = personRepository.findById(invoiceFormModel.getPersonSupplierId());
-        Optional<Person> recipientPerson = personRepository.findById(invoiceFormModel.getPersonRecipientId());
+    public Invoice mapInvoiceModelToEntity(InvoiceFormModel invoiceFormModel) {
+        Person supplierPerson = personRepository.
+                findById(invoiceFormModel.getPersonSupplierId()).get();
+        Person recipientPerson = personRepository.
+                findById(invoiceFormModel.getPersonRecipientId()).get();
 
-        Invoice invoice = mapInvoiceFormModelToEntity(
-            invoiceFormModel, supplierPerson.get(), recipientPerson.get());
+
+        Invoice invoice = Invoice.builder()
+                .invoiceSupplierPerson(supplierPerson)
+                .invoiceRecipientPerson(recipientPerson)
+                .invoiceItems(new ArrayList<>())
+                .invoiceDate(invoiceFormModel.getInvoiceDate())
+                .invoiceNumber(invoiceFormModel.getInvoiceNumber())
+                .invoiceDescription(invoiceFormModel.getInvoiceDescription())
+                .creationDate(invoiceFormModel.getCreationDate())
+                .rateType( RateType.valueOf(invoiceFormModel.getRateType()) )
+                .totalSumBrutto(invoiceFormModel.getTotalSumBrutto())
+                .totalSumNetto(invoiceFormModel.getTotalSumNetto())
+                .build();
+        if (supplierPerson.getInvoiceSuppliers() == null) {
+            supplierPerson.setInvoiceSuppliers(new ArrayList<>());
+        }
+        if (supplierPerson.getInvoiceRecipient() == null) {
+            supplierPerson.setInvoiceRecipient(new ArrayList<>());
+        }
+        supplierPerson.getInvoiceSuppliers().add(invoice);
+        recipientPerson.getInvoiceRecipient().add(invoice);
+
+        invoiceFormModel.getInvoiceItems().stream().forEach( item -> {
+            Optional<ItemCatalog> itemCatalog = itemCatalogRepository.findById(item.getCatalogItemId());
+            MappingUtils.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get());
+        });
 
         return invoice;
 
     }
 
+
     private  Invoice mapInvoiceFormModelToEntity(InvoiceFormModel invoiceFormModel,
             Person personInvoiceSupplier,
             Person personInvoiceRecipient){
+
             Invoice invoice = Invoice.builder()
                 .invoiceDate(invoiceFormModel.getInvoiceDate())
                 .invoiceNumber(invoiceFormModel.getInvoiceNumber())
@@ -133,14 +176,20 @@ public class InvoiceMappingService {
                     .totalSumBrutto(invoiceFormModel.getTotalSumBrutto())
                     .totalSumNetto(invoiceFormModel.getTotalSumNetto())
                 .build();
-            invoice.setInvoiceItems(
-                invoiceFormModel.getInvoiceItems()
-                    .stream()
-                    .map(i-> mapInvoiceItemModelToEntity(
-                         i, invoice, itemCatalogRepository.findById (
-                             i.getCatalogItemId ()).orElseThrow()))
-                            .collect( Collectors.toList())
-            );
+
+        invoiceFormModel.getInvoiceItems().stream().forEach( item -> {
+            Optional<ItemCatalog> itemCatalog = itemCatalogRepository.findById(item.getCatalogItemId());
+            MappingUtils.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get());
+        });
+
+//            invoice.setInvoiceItems(
+//                invoiceFormModel.getInvoiceItems()
+//                    .stream()
+//                    .map(i-> mapInvoiceItemModelToEntity(
+//                         i, invoice, itemCatalogRepository.findById (
+//                             i.getCatalogItemId ()).orElseThrow()))
+//                            .collect( Collectors.toList())
+//            );
             personInvoiceSupplier.setInvoiceSuppliers(List.of(invoice));
             personInvoiceRecipient.setInvoiceRecipient(List.of(invoice));
             return invoice;

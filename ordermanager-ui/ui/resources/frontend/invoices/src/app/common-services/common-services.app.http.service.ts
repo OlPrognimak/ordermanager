@@ -46,8 +46,6 @@ export class CommonServicesAppHttpService<T> implements OnDestroy {
       eventBusObservable = of(this.eventBus).pipe(takeUntil(this.notifier))
     }
 
-    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe()
-
     this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe({
       next(response) {
         if (response.createdId > 0) {

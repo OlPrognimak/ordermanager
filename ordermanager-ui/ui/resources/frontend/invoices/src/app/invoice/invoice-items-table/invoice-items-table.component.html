@@ -122,8 +122,8 @@
       <div class="p-col-2" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
 
         <label for="id-tottalNettoSun" style="margin: 5px">Total netto</label>
-        <input [ngModel]="calculatorService.invoiceFormData?.totalSumNetto  | standardFloat"
-               class="p-field" id="id-tottalNettoSun" name="tottalNettoSum" placeholder="0.00"
+        <input [ngModel]="calculatorService.totalNettoSum()  | standardFloat"
+               class="p-field" id="id-tottalNettoSun" name="totalNettoSum" placeholder="0.00"
                readonly
                required type="text"/>
       </div>
@@ -134,8 +134,8 @@
       <div class="p-col-10" style="padding-top: 0pt !important; padding-bottom: 0pt !important;"></div>
       <div class="p-col-2" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
         <label for="id-tottalBruttoSun" style="margin: 5px">Total brutto</label>
-        <input [ngModel]="calculatorService.invoiceFormData?.totalSumBrutto | standardFloat"
-               class="p-cell-editing" id="id-tottalBruttoSun" name="tottalBruttoSum"
+        <input [ngModel]="calculatorService.totalBruttoSum() | standardFloat"
+               class="p-cell-editing" id="id-tottalBruttoSun" name="totalBruttoSum"
                placeholder="0.00"
                readonly
                required type="text"/>

@@ -18,8 +18,7 @@ import { isAuthenticated } from "../../common-services/common-services-util.serv
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
-import { of } from "rxjs";
-import { CommonServiceEventBus, CommonServiceEventListener } from "../../common-services/common-service.event.bus";
+import { CommonServiceEventBus } from "../../common-services/common-service.event.bus";
 
 @Component({
   selector: 'app-person-management',

@@ -23,8 +23,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
 		<maven.compiler.release>17</maven.compiler.release>
-		<outputFolder>${project.build.directory}/${project.artifactId}
-		</outputFolder>
 		<docker.image.prefix>myproject</docker.image.prefix>
 		<outputFolder>${project.build.directory}/${project.artifactId}
 		</outputFolder>
@@ -46,7 +44,7 @@
 		<springdoc.openapi.version>1.7.0</springdoc.openapi.version>
 		<mockito.version>5.3.1</mockito.version>
 		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
-		<java.jwt.version>4.3.0</java.jwt.version>
+		<java.jwt.version>4.4.0</java.jwt.version>
 	</properties>
 
 

@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pr.ordermanager.RepositoryTestHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.common.model.CreatedResponse;
+import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
+import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
+import com.pr.ordermanager.security.service.UserAuthProvider;
 import com.pr.ordermanager.security.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,17 +61,23 @@ class PersonControllerTest {
     PersonRepository personRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserAuthProvider authProvider;
+    @Autowired
+    InvoiceRepository invoiceRepository;
 
 
     @BeforeEach
     void setUp() {
         personRepository.deleteAll();
         userRepository.deleteAll();
+        invoiceRepository.deleteAll();
     }
     @AfterEach
     void tearDown(){
         personRepository.deleteAll();
         userRepository.deleteAll();
+        invoiceRepository.deleteAll();
     }
 
     ObjectMapper mapper = PersonModelToEntityMapperHelper.createObjectMapper();
@@ -102,10 +111,13 @@ class PersonControllerTest {
     @Test
     void putNewPersonHttp()  throws Exception{
         PersonFormModel personFormModel = RepositoryTestHelper.createTestPersonFormModel();
+        InvoiceUser invoiceUser = userService.createUserLogin("test123", "test12345");
+        String token = authProvider.createToken(invoiceUser);
+
         userService.createUserLogin("admin","test12345");
         RequestEntity<PersonFormModel> request = RequestEntity
                 .put(new URI("http://localhost:"+port+"/backend/person"))
-                .header("Authorization","Basic YWRtaW46dGVzdDEyMzQ1")
+                .header("Authorization","Bearer " + token)
                 .header("Content-Type", "application/json")
                 .accept( MediaType.APPLICATION_JSON)
                 .body(personFormModel);

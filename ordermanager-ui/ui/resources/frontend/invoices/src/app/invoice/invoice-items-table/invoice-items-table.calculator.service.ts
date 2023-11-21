@@ -54,6 +54,9 @@ export class InvoiceItemsTableCalculatorService {
 
   }
 
+  setInvoiceItems( items: InvoiceItemModel[]) {
+    this.invoiceFormData.invoiceItems = items
+  }
 
   /**
    * This method calculates first of netto and brutto for selected item {@code modelItem} of
@@ -72,6 +75,10 @@ export class InvoiceItemsTableCalculatorService {
       .pipe(map(data => this.calculateTotalNettoSum(data)))
       /*Calculate total brutto sum.*/
       .pipe(map(data => this.calculateTotalBruttoSum(data)))
+      .pipe(map(data =>{
+        this.invoiceFormData.totalSumNetto = this.totalNettoSum()
+        this.invoiceFormData.totalSumBrutto = this.totalBruttoSum()
+      }))
     numberPromise.subscribe();
 
     await numberPromise;

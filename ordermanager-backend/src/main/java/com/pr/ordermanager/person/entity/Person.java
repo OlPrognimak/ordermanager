@@ -57,9 +57,9 @@ public class Person  extends AbstractEntity {
     private String email;
     @Enumerated(EnumType.STRING)
     private PersonType personType;
-    @OneToMany(mappedBy="invoiceSupplierPerson", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="invoiceSupplierPerson", cascade = CascadeType.PERSIST)
     private List<Invoice>  invoiceSuppliers;
-    @OneToMany(mappedBy="invoiceRecipientPerson", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="invoiceRecipientPerson", cascade = CascadeType.PERSIST)
     private List<Invoice>  invoiceRecipient;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
@@ -71,7 +71,7 @@ public class Person  extends AbstractEntity {
         joinColumns = @JoinColumn(name = "persons_id"),
         inverseJoinColumns = @JoinColumn(name = "address_id"))
     private List<PersonAddress> personAddress;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
         name = "person_to_account",
         joinColumns = @JoinColumn(name = "persons_id"),

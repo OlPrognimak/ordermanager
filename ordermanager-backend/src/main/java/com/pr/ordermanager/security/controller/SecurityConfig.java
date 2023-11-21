@@ -30,12 +30,10 @@
  */
 package com.pr.ordermanager.security.controller;
 
-import com.pr.ordermanager.security.service.InvoiceUserDetailsManager;
-import org.aopalliance.intercept.MethodInvocation;
+import com.pr.ordermanager.security.service.UserAuthProvider;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.aop.Advisor;
-import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -43,30 +41,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.authorization.AuthorizationManager;
-import org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor;
-import org.springframework.security.authorization.method.SecuredAuthorizationManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 /**
@@ -75,6 +64,7 @@ import java.util.Arrays;
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 //@EnableMethodSecurity
 @Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
 public class SecurityConfig {
@@ -82,46 +72,7 @@ public class SecurityConfig {
 
     private static final boolean debugSecurity = false;
 
-
-    @Bean
-    public AuthenticationManager authenticationManager(InvoiceUserDetailsManager invoiceUserDetailsManager,
-            HttpSecurity httpSecurity, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder
-               .userDetailsService(invoiceUserDetailsManager)
-                .passwordEncoder(bCryptPasswordEncoder);
-        AuthenticationManager auth = authenticationManagerBuilder.build();
-        return auth;
-    }
-
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(InvoiceUserDetailsManager invoiceUserDetailsManager,
-                                                           BCryptPasswordEncoder bCryptPasswordEncoder) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(invoiceUserDetailsManager);
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
-
-        return authProvider;
-    }
-
-
-
-    @Bean
-    public AuthorizationManager<MethodInvocation> authorizationManager() {
-        return new SecuredAuthorizationManager();
-    }
-
-  //  @Bean
-  //  @Role(ROLE_INFRASTRUCTURE)
-    public Advisor authorizationManagerBeforeMethodInterception(AuthorizationManager<MethodInvocation> authorizationManager) {
-        JdkRegexpMethodPointcut pattern = new JdkRegexpMethodPointcut();
-        pattern.setPatterns("com.pr.ordermanager.security.service.*",
-                "com.pr.ordermanager.invoice.service.*",
-                "com.pr.ordermanager.person.service.*");
-        return new AuthorizationManagerBeforeMethodInterceptor(pattern, authorizationManager);
-    }
+    private final UserAuthProvider userAuthProvider;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -150,7 +101,8 @@ public class SecurityConfig {
                 HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS,
                 HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS,
                 "user-password",
-                "user-name"
+                "user-name",
+                "Login-Credentials"
         ));
 
         corsConfiguration.setAllowedMethods(Arrays.asList(
@@ -170,49 +122,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-       return http.httpBasic(httBasic -> httBasic.addObjectPostProcessor(
-                       new ObjectPostProcessor<BasicAuthenticationFilter>() {
-                           @Override
-                           public <O extends BasicAuthenticationFilter> O postProcess(O filter) {
-                               filter.setSecurityContextRepository(new HttpSessionSecurityContextRepository());
-                               return filter;
-                           }
-                       }
-               ))
-               .logout(logout->{
-                  logout.clearAuthentication(true);
-                  logout.invalidateHttpSession(true);
-                   logout.logoutSuccessUrl("/");
-                   logout.logoutUrl("perform_logout");
-               })
-               .csrf(csrf -> csrf.disable()).cors((cors->cors.disable()))
-               .sessionManagement(sessionMng -> {
-                           sessionMng.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                           sessionMng.sessionFixation().newSession();
-                       }
-               )
-               .authorizeHttpRequests( (authorize) -> authorize
+        return http.csrf(AbstractHttpConfigurer::disable)
+                //Set JWT filter before BasicAuth filter
+                .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
+                .sessionManagement( customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests( (authorize) -> authorize
                         .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico",
                                 "/polyfills.js")
                         .anonymous()
-                       .requestMatchers(HttpMethod.OPTIONS,"/person/**",
-                               "/invoice/**", "/person",
-                               "/invoice", "/logout", "/persons",
-                               "/checkUser", "/perform_logout", "/logout").permitAll()
-                       .requestMatchers(HttpMethod.GET, "/person/**",
+                        .requestMatchers(HttpMethod.OPTIONS,"/person/**",
+                                "/invoice/**", "/person",
+                                "/invoice", "/logout", "/persons",
+                                "/checkUser", "/perform_logout", "/logout").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/person/**",
                                 "/invoice/**", "/persons", "/checkUser").authenticated()
-                       .requestMatchers(HttpMethod.PUT, "/person/**",
-                             "/invoice/**").authenticated()
-                       .requestMatchers(HttpMethod.POST,
-                               "/invoice/**", "/person/**", "/perform_logout", "/logout").authenticated()
-                       .requestMatchers(HttpMethod.DELETE,
-                               "/invoice/**", "/person/**", "/person", "/invoice").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/person/**",
+                                "/invoice/**").authenticated()
+                        .requestMatchers(HttpMethod.POST,
+                                "/invoice/**", "/person/**", "/perform_logout", "/logout").authenticated()
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/invoice/**", "/person/**", "/person", "/invoice").authenticated()
 
-                )
-               //.httpBasic(Customizer.withDefaults())
-               .build();
+                ).build();
     }
 
     @Bean
@@ -233,24 +165,6 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
-    }
-
-    @Bean
-    public UsernamePasswordAuthenticationFilter
-            usernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-                                                 AuthenticationSuccessHandler authenticationSuccessHandler) {
-        InvoiceUsernamePasswordAuthenticationFilter filter =
-                new InvoiceUsernamePasswordAuthenticationFilter(authenticationManager);
-        try {
-            Class abstractSuccessHandler = filter.getClass().getSuperclass().getSuperclass();
-            Field successHandlerField = abstractSuccessHandler.getDeclaredField("successHandler");
-            successHandlerField.setAccessible(true);
-            successHandlerField.set(filter, authenticationSuccessHandler);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return filter;
     }
 
     @Bean

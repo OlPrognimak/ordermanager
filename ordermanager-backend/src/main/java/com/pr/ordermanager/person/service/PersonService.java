@@ -39,11 +39,12 @@ import com.pr.ordermanager.person.model.PersonFormModel;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@ToString
 public class PersonService {
     private static final Logger logger = LogManager.getLogger(PersonService.class);
 
@@ -94,17 +96,15 @@ public class PersonService {
      * @throws OrderManagerException in case if person can not be saved
      */
     public void updatePersons(final List<PersonFormModel> persons, final String userName) {
-
         persons.forEach(p -> {
             Optional<Person> personEntityOpt = personRepository.findById(p.getId());
             if(personEntityOpt.isPresent()) {
                 Person person = personEntityOpt.get();
-                PersonModelToEntityMapperHelper.mapPersonFomModelToAttachedEntity(p, person);
                 try {
-                    personRepository.save(person);
+                    PersonModelToEntityMapperHelper.mapPersonFomModelToAttachedEntity(p, person);
                 } catch (Exception ex) {
                     logger.error(ex);
-                    throw new OrderManagerException(CODE_0000, "Unexpected exception", ex);
+                    throw new OrderManagerException(CODE_0000, "Can not update the person with id :" + p.getId(), ex);
                 }
             }
         });

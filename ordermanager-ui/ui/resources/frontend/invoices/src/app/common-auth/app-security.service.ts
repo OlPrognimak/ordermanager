@@ -1,11 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LoggingCheck } from '../domain/domain.invoiceformmodel';
+import { LoggingResult } from '../domain/domain.invoiceformmodel';
 import { Router } from '@angular/router';
 import { map } from "rxjs/operators";
 import { finalize, interval, Subject, takeUntil } from "rxjs";
 import { environment } from "../../environments/environment";
 import { isAuthenticated, setAuthenticated } from "../common-services/common-services-util.service";
+import { AUTH_TOKEN_KEY } from "../common-utils/common-utils.constants";
 
 export const basicAuthKey = 'basicAuthKey';
 
@@ -42,6 +43,18 @@ export class AppSecurityService implements OnDestroy {
   credentials = {username: '', password: ''};
 
   notifier = new Subject()
+
+  getAuthToken() {
+    localStorage.getItem(AUTH_TOKEN_KEY)
+  }
+
+  setAuthToken(token: string | null) {
+    if(token != null) {
+      localStorage.setItem(AUTH_TOKEN_KEY, token)
+    } else {
+      localStorage.removeItem(AUTH_TOKEN_KEY)
+    }
+  }
 
   /**
    *
@@ -88,9 +101,9 @@ export class AppSecurityService implements OnDestroy {
       return callback(true);
     }
 
-    const basicAuth = 'Basic ' + btoa(credentials.username + ':' + credentials.password);
+    const basicAuth = btoa(credentials.username + ':' + credentials.password);
     const reqheaders = new HttpHeaders(credentials ? {
-      Authorization: basicAuth,
+      'Login-Credentials': basicAuth,
       'Content-Type': 'application/json',
       Accept: '*/*'
     } : {});
@@ -98,11 +111,10 @@ export class AppSecurityService implements OnDestroy {
     const options = {
       headers: reqheaders
     };
-    const login = this.http.post<LoggingCheck>(remoteBackendUrl() + 'login', null, options).pipe(
+    const login = this.http.post<LoggingResult>(remoteBackendUrl() + 'login', null, options).pipe(
       map(response => {
         if (response.logged === true) {
-          setAuthenticated(true);
-          localStorage.setItem(basicAuthKey, basicAuth);
+          setAuthenticated(response.token);
           console.log('authentication [is OK]');
           return true;
         } else {
@@ -131,8 +143,8 @@ export class AppSecurityService implements OnDestroy {
   public clearCredentials(): void {
     this.credentials.username = ''
     this.credentials.password = ''
-    setAuthenticated(false)
-    localStorage.removeItem("remoteBackendURL")
+    setAuthenticated(null)
+    //localStorage.removeItem("remoteBackendURL")
     localStorage.setItem(basicAuthKey, '')
   }
 
@@ -145,7 +157,7 @@ export class AppSecurityService implements OnDestroy {
       Accept: '*/*'
     });
 
-    this.http.get<LoggingCheck>(remoteBackendUrl() + "checkUser", {headers})
+    this.http.get<LoggingResult>(remoteBackendUrl() + "checkUser", {headers})
       .pipe(takeUntil(this.notifier))
       .subscribe(
         {

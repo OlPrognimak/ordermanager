@@ -31,13 +31,12 @@
 package com.pr.ordermanager.security.controller;
 
 import com.pr.ordermanager.common.model.CreatedResponse;
+import com.pr.ordermanager.security.model.LoginResultResponse;
 import com.pr.ordermanager.security.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -48,18 +47,17 @@ import java.security.Principal;
  */
 @RestController
 @CrossOrigin(origins = "*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InvoiceUserController {
  public final static Logger logger = LogManager.getLogger(InvoiceUserController.class);
 
     private final UserService userService;
-    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
 
     @PostMapping(value = "/registration")
     public ResponseEntity<CreatedResponse> createUser(@RequestHeader(name = "User-Name") String userName,
                                              @RequestHeader(name = "User-Password") String userPassword){
-        Long userLogin = userService.createUserLogin(userName, userPassword);
+        Long userLogin = userService.createUserLogin(userName, userPassword).getId();
         CreatedResponse createdResponse = new CreatedResponse(userLogin);
         return ResponseEntity.ok(createdResponse);
     }
@@ -70,17 +68,13 @@ public class InvoiceUserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<String> login() {
-        String result="";
-
-        result = "{\"logged\": true}";
-        return ResponseEntity.ok(result);
+    public ResponseEntity<LoginResultResponse> login(
+            @RequestHeader(name = "Login-Credentials") String loginCredential) {
+        return ResponseEntity.ok(userService.validatePasswordAndReturnToken(loginCredential));
     }
-
 
     @GetMapping(value = "/checkUser")
     public ResponseEntity<String> user(Principal user) {
-        logger.info("CHECK USER = "+user);
         String result="";
         if(user!=null) {
             result = "{\"logged\": true}";

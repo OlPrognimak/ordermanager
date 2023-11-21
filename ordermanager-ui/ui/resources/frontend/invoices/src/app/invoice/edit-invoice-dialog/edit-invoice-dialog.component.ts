@@ -188,7 +188,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       this.originalInvoice = this.editInvoiceFG.value
       this.originalInvoice.totalSumNetto = this.invoiceReactiveDlgFormData.totalSumNetto
       this.originalInvoice.totalSumBrutto = this.invoiceReactiveDlgFormData.totalSumBrutto
-      this.originalInvoice.invoiceItems = this.invoiceReactiveDlgFormData.invoiceItems
+      //this.originalInvoice.invoiceItems = this.invoiceReactiveDlgFormData.invoiceItems
 
       const supplier =
         this.personInvoiceSupplier.filter((p, idx) =>
@@ -199,6 +199,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       //
       this.originalInvoice.supplierFullName = supplier?.label!
       this.originalInvoice.recipientFullName = recipient?.label!
+
       if (compareObjects(keepOriginalInvoice, this.originalInvoice) &&
         this.validateInvoiceItems(keepOriginalInvoice.invoiceItems, this.originalInvoice.invoiceItems)) {
         this.messagePrinter.printUnsuccessefulMessage(
@@ -212,6 +213,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   validateInvoiceItems(originalItems: InvoiceItemModel[], changedItems: InvoiceItemModel[]): boolean {
+    if (originalItems.length !== changedItems.length) return false;
     if (!compareObjects(originalItems, changedItems)) return false
     let isValid: boolean = true
     originalItems.forEach((o, idx) => {

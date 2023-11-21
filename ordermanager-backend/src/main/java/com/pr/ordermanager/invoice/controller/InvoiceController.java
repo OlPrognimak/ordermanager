@@ -42,6 +42,7 @@ import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 import com.pr.ordermanager.invoice.service.EntityToModelMapperHelper;
 import com.pr.ordermanager.invoice.service.InvoiceMappingService;
 import com.pr.ordermanager.invoice.service.InvoiceService;
+import com.pr.ordermanager.person.service.PersonService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -50,7 +51,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.env.Environment;
@@ -78,7 +79,7 @@ import static org.springframework.http.HttpStatus.OK;
 )
 @RestController
 @CrossOrigin()
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InvoiceController {
 
     private static final Logger logger = LogManager.getLogger(InvoiceController.class);
@@ -98,6 +99,9 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
 
     private final InvoiceMappingService invoiceMappingService;
+
+    private final PersonService personService;
+
 
     private Environment env;
 
@@ -135,12 +139,15 @@ public class InvoiceController {
      * @return response with status und created id of report
      */
     @PutMapping(value = PATH_INVOICE, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
+    //@Transactional
     public ResponseEntity<CreatedResponse> putNewInvoice(
             @RequestBody @Valid InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
         InvoiceValidator.validateInvoiceData(invoiceFormModel);
-        Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
-        invoiceService.saveInvoice(invoice,securityPrincipal.getName());
-        return ResponseEntity.status(CREATED).body(new CreatedResponse(invoice.getId()));
+        //Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
+        invoiceService.saveInvoice(invoiceFormModel, securityPrincipal.getName());
+
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(555L));
+
     }
 
 
@@ -228,6 +235,7 @@ public class InvoiceController {
     @PutMapping(value = PATH_ITEM_CATALOG, produces = APPLICATION_JSON, consumes = APPLICATION_JSON)
     public ResponseEntity<CreatedResponse> putNewCatalogItem(
             @RequestBody @Valid ItemCatalogModel itemCatalogModel) {
+
         ItemCatalog itemCatalog = invoiceMappingService.mapModelToItemCatalogEntity(itemCatalogModel);
         invoiceService.saveItemCatalog(itemCatalog);
         return ResponseEntity.status(CREATED).body(new CreatedResponse(itemCatalog.getId()));
@@ -241,7 +249,7 @@ public class InvoiceController {
      * @param idItemCatalog the id of item in catalog of items
      * @return model object which represents catalog item
      */
-    @Operation(description = "Puts new person to the database",
+    @Operation(description = "Retrieves item catalog",
             method = "get",
             operationId = "getItemCatalog",
             responses = {
