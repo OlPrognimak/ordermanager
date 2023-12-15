@@ -43,6 +43,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.List;
@@ -111,7 +112,7 @@ public class UserService {
      * @param password not encoded password
      * @return encoded password
      */
-    //@Transactional
+    @Transactional
     public InvoiceUser createUserLogin(String userName, String password) {
         String encriptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         InvoiceUser user = new InvoiceUser(userName, encriptedPassword);
