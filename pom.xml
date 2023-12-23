@@ -45,6 +45,7 @@
 		<mockito.version>5.3.1</mockito.version>
 		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
 		<java.jwt.version>4.4.0</java.jwt.version>
+		<cucumber.version>7.14.0</cucumber.version>
 	</properties>
 
 
@@ -208,8 +209,27 @@
 				<artifactId>jakarta.annotation-api</artifactId>
 				<version>${jakarta.annotation.version}</version>
 			</dependency>
+			<!-- Cucumber -->
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-java</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-junit</artifactId>
+				<version>${cucumber.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-spring</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
 
 		</dependencies>
+
 	</dependencyManagement>
 	
 
