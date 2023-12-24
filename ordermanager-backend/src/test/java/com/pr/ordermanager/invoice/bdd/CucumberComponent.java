@@ -5,6 +5,7 @@ import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.repository.PersonRepository;
+import com.pr.ordermanager.security.repository.UserRepository;
 import com.pr.ordermanager.security.service.UserAuthProvider;
 import com.pr.ordermanager.security.service.UserService;
 import lombok.Getter;
@@ -27,7 +28,8 @@ public class CucumberComponent {
 
     @Autowired
     PersonRepository personRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired

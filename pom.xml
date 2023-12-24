@@ -46,6 +46,7 @@
 		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
 		<java.jwt.version>4.4.0</java.jwt.version>
 		<cucumber.version>7.14.0</cucumber.version>
+		<selenium.version>4.16.1</selenium.version>
 	</properties>
 
 
@@ -226,6 +227,13 @@
 				<artifactId>cucumber-spring</artifactId>
 				<version>${cucumber.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<!-- Java Selenium -->
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${selenium.version}</version>
 			</dependency>
 
 		</dependencies>

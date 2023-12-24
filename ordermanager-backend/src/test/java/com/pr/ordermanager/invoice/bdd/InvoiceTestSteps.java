@@ -10,6 +10,7 @@ import com.pr.ordermanager.person.entity.PersonAddress;
 import com.pr.ordermanager.person.entity.PersonType;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,12 +22,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.DecimalFormat;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +52,17 @@ public class InvoiceTestSteps {
 
     private ResponseEntity<CreatedResponse>  response;
 
-
-
-
-    DecimalFormat decimalFormat = new DecimalFormat("##.00");
-
     @LocalServerPort
     private int backendPort;
+    @After
+    @Transactional
+    public void tearDown() {
+        cucumberComponent.getInvoiceRepository().deleteAll();
+        cucumberComponent.getCatalogRepository().deleteAll();
+        cucumberComponent.getPersonRepository().deleteAll();
+        cucumberComponent.getUserRepository().deleteAll();
+        log.log(Level.FINE, "Delete all data after tests.");
+    }
 
     @DataTableType
     public ItemCatalog itemCatalogEntry(Map<String, String> entry) {
