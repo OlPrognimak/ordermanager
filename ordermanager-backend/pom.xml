@@ -20,7 +20,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -92,8 +93,6 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.12</version>
-      <scope>provided</scope>
     </dependency>
 
 
@@ -156,15 +155,15 @@
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.13.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>3.2.5</version>
         </plugin>
 <!--        <plugin>-->
 <!--          <artifactId>maven-war-plugin</artifactId>-->
@@ -197,11 +196,11 @@
                 <goal>run</goal>
               </goals>
               <configuration>
-                <tasks>
+                <target>
                   <delete>
                     <fileset dir="../docker/backend" includes="*.jar"/>
                   </delete>
-                </tasks>
+                </target>
               </configuration>
             </execution>
             <execution>
