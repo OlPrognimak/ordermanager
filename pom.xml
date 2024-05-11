@@ -109,13 +109,6 @@
 				<version>${h2.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- JUnit 4 -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit4version}</version>
-				<scope>test</scope>
-			</dependency>
            <!-- JUnit-5 -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -453,7 +446,7 @@
 									<goal>exec</goal>
 								</goals>
 								<configuration>
-									<executable>${basedir}/docker/delete-start.sh</executable>
+									<executable>${basedir}/docker/delete-start.bat</executable>
 								</configuration>
 							</execution>
 						</executions>

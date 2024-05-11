@@ -21,7 +21,16 @@ This document mostly describes the code.
 The user manual about usage of application is located 
 
 The user manual for the application is located in the project path ```ordermanager/doc```.
-
+# System requirements
+  - OS 
+      Linux, Windows 10 or 11
+  - Java: 
+      Currently default version of java for compile and target is 21
+  - Docker Images:
+     - JDK openjdk:21-jdk
+If you want to use another java then you need to change java versions in both pom.xm (backend and frontend modules) and
+in docker files need also change the version of JDK image.
+      
 # Start application in docker container
  - please go to folder ./docker and follow with description in README_DOCKER.md) file
  - 1\. create backend image with correspondent version

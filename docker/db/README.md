@@ -1,0 +1,1 @@
+Use this Dockerfile if you wants to create own database image for special needs
