@@ -27,6 +27,10 @@ public class AngularFrontendApplication {
                         args);
     }
 
+    /**
+     * Provides url for backend service.
+     * @return url wrapper
+     */
     @GetMapping(value = "/backendUrl")
     public UrlTransfer getBaseUrl(){
         return UrlTransfer.builder().url(backendBaseUrl).build();

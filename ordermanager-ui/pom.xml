@@ -25,7 +25,7 @@
     <maven.compiler.target>21</maven.compiler.target>
     <docker.image.prefix>imageresources1prognimak.azurecr.io</docker.image.prefix>
     <jib-maven-plugin.version>3.3.2</jib-maven-plugin.version>
-
+    <ng.executor>ng</ng.executor>
     <app.baseurl>frontend</app.baseurl>
   </properties>
 
@@ -109,30 +109,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>3.3.1</version>
-        <executions>
-          <execution>
-            <id>copy-angular2-dir</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${basedir}/src/main/resources</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${basedir}/ui/resources/frontend/invoices/dist</directory>
-                  <excludes>
-                     <exclude>/node_modules/**</exclude>
-                  </excludes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
@@ -143,11 +119,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <delete>
                   <fileset dir="../docker/frontend" includes="*.jar"/>
                 </delete>
-              </tasks>
+              </target>
             </configuration>
           </execution>
           <execution>
@@ -180,50 +156,20 @@
   </build>
   <profiles>
     <profile>
-      <id>Windows</id>
+      <id>clean-windows</id>
       <activation>
         <os>
           <family>Windows</family>
         </os>
       </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>exec-maven-plugin</artifactId>
-            <groupId>org.codehaus.mojo</groupId>
-            <version>1.6.0</version>
-            <executions>
-              <execution>
-                <id>angular-cli build</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>ui/resources/frontend/invoices/node_modules/.bin/ng.cmd</executable>
-                  <arguments>
-                    <argument>build</argument>
-                    <argument>--output-hashing=none</argument>
-                    <!--                <argument>&#45;&#45;prod</argument>-->
-                    <!--<argument>&#45;&#45;aot</argument>-->
-                    <argument>--build-optimizer</argument>
-                    <argument>--base-href=/${app.baseurl}/</argument>
-                  </arguments>
-                  <workingDirectory>ui/resources/frontend/invoices</workingDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-
+      <properties>
+        <ng.executor>ng.cmd</ng.executor>
+      </properties>
     </profile>
     <profile>
-      <id>Unix</id>
+      <id>build-angular</id>
       <activation>
-        <os>
-          <family>Unix</family>
-        </os>
+       <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <plugins>
@@ -239,7 +185,7 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>ui/resources/frontend/invoices/node_modules/.bin/ng</executable>
+                  <executable>${basedir}/ui/resources/frontend/invoices/node_modules/.bin/${ng.executor}</executable>
                   <arguments>
                     <argument>build</argument>
                     <argument>--output-hashing=none</argument>
@@ -253,9 +199,32 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.3.1</version>
+            <executions>
+              <execution>
+                <id>copy-angular2-dir</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${basedir}/ui/resources/frontend/invoices/dist</directory>
+                      <excludes>
+                        <exclude>/node_modules/**</exclude>
+                      </excludes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
       </build>
-
     </profile>
     <profile>
       <id>with-docker-azure</id>
