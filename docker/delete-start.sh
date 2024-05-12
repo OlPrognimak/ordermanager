@@ -13,6 +13,9 @@ docker image rm prognimak.ordermanager/frontend:002
 docker build -t prognimak.ordermanager/backend:001 ./backend
 # creates frontend image
 docker build -t prognimak.ordermanager/frontend:002 ./frontend
+# creates eureke image
+docker build -t prognimak.ordermanager/discovery:002 ./discovery
+
 # creates postgres image
 #docker build -t prognimak.ordermanager/postgres:14 ./db
 #------

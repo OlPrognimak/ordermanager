@@ -127,14 +127,14 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
                 .sessionManagement( customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests( (authorize) -> authorize
-                        .requestMatchers("/registration", "/login", "/error", "/user").anonymous()
+                        .requestMatchers("/registration", "/login", "/error", "/user", "/management").anonymous()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico",
                                 "/polyfills.js")
                         .anonymous()
                         .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                 "/invoice/**", "/person",
                                 "/invoice", "/logout", "/persons",
-                                "/checkUser", "/perform_logout", "/logout").permitAll()
+                                "/checkUser", "/perform_logout", "/logout","/polyfills.js").permitAll()
                         .requestMatchers(HttpMethod.GET, "/person/**",
                                 "/invoice/**", "/persons", "/checkUser").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/person/**",
@@ -151,7 +151,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.debug(debugSecurity)
                 .ignoring()
-                .requestMatchers("/registration", "/login", "/invoice/report");
+                .requestMatchers("/registration", "/login", "/invoice/report", "/management","/polyfills.js");
 
                 //.requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
                 //.antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");

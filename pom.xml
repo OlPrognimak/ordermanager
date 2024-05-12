@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.4</version>
+		<version>3.2.5</version>
 		<relativePath/>
 	</parent>
 
@@ -46,11 +46,20 @@
 		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
 		<java.jwt.version>4.4.0</java.jwt.version>
 		<cucumber.version>7.14.0</cucumber.version>
+		<spring-cloud.version>2023.0.1</spring-cloud.version>
 	</properties>
 
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- Spring Cloud -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<!-- Jackson-->
 			<dependency>
 				<groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -484,5 +493,6 @@
 	<modules>
 		<module>ordermanager-backend</module>
 		<module>ordermanager-ui</module>
-	</modules>
+        <module>service-discovery</module>
+    </modules>
 </project>

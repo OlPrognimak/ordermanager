@@ -20,10 +20,21 @@ services:
     volumes:
     - vol-postgres2:/var/lib/postgresql-ftu/data/pgdata:rw
     - ./backend/opt/sql/create-db:/docker-entrypoint-initdb.d:rw
+### Discovery
+  discovery:
+    depends_on:
+      - postgres
+    hostname: discovery
+    image: prognimak.ordermanager/discovery:002
+    networks:
+      nw_prognimak: null
+    ports:
+      - 8761:8761
 ### Backend
   ordermanager:
     depends_on:
     - postgres
+    - discovery
     environment:
       DB_NAME: test_db
       DB_PORT: 5432
@@ -40,6 +51,7 @@ services:
   ordermanager-ui:
     depends_on:
     - postgres
+    - discovery
     - ordermanager
     hostname: ordermanager-ui
     image: prognimak.ordermanager/frontend:002
