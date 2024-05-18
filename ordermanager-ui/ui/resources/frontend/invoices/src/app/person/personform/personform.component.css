@@ -23,3 +23,8 @@ input[type="text"] {
   font-size: 5vw;
 }
 
+.item-left {
+  margin-bottom: 10pt;
+  margin-left: 2px;
+}
+
