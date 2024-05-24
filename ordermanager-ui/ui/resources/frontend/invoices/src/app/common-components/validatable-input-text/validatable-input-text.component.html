@@ -5,9 +5,9 @@
 *@param idComponent the id of component
 *@param onChange($event) callback method on the parent component which sends changed value in child (this) component
 -->
-<div style="display: table; width: 100%;">
-  <div style="display: table-row; width: 100%;">
-    <div style="display: table-cell; width: 100%;">
+<div class = "full-width-display-table">
+  <div class = "full-width-display-row">
+    <div class = "full-width-display-cell">
                <span class="p-float-label">
                     <input #modelRef="ngModel"
                            [(ngModel)]="value"
@@ -23,18 +23,15 @@
                   <label for="{{idComponent}}">{{labelText}}</label>
                </span>
     </div>
-    <div *ngIf=
-           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)"
-         style="display: table-cell; width: 10%;">
+    <div class = "error-message-cmp" *ngIf=
+           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)">
       <p-message severity="error"></p-message>
     </div>
-    <div
-      *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)"
-      style="display: table-cell; width: 10%;">
+    <div class = "error-message-cmp"
+      *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)">
       <p-message severity="error"></p-message>
     </div>
-    <div *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)"
-         style="display: table-cell; width: 10%;">
+    <div  class = "error-message-cmp" *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)">
       <div *ngIf="modelRef.errors?.minlength===undefined">
         <p-message severity="error"></p-message>
       </div>

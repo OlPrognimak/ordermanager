@@ -87,7 +87,7 @@
     <div class=" p-shadow-4">
 
       <div class="p-grid item-left">
-        <div class="p-col-2">
+        <div class="p-col-2 zip-container">
           <app-validatable-input-text (componentHasErrorEvent)="setHasZipCodeError($event)"
                                       [(ngModel)]="personFormModel.personAddressFormModel.zipCode"
                                       [idComponent]="'id_Zip'"
@@ -97,7 +97,7 @@
                                       name="zipCode">
           </app-validatable-input-text>
         </div>
-        <div class="p-col-3" style="margin-left: 5pt">
+        <div class="p-col-3 city-container">
           <app-validatable-input-text (componentHasErrorEvent)="setHasCityError($event)"
                                       [(ngModel)]="personFormModel.personAddressFormModel.city"
                                       [idComponent]="'id_City'"
@@ -110,7 +110,7 @@
       </div>
       <div class="p-grid item-left">
         <div class="p-col-2">
-          <span class="p-float-label" style="margin-top: 10pt">
+          <span class="p-float-label">
             <input [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode" id="id-add-postBoxCode"
                    name="postBoxCode" pInputText
                    style="margin-left: 0px !Important"
@@ -118,8 +118,8 @@
             <label for="id-add-postBoxCode">Post Box</label>
           </span>
         </div>
-        <div class="p-col-3" style="margin-left: 5pt">
-          <div style="margin-top: 15pt">
+        <div class="p-col-3 street-container">
+
             <app-validatable-input-text (componentHasErrorEvent)="setHasStreetError($event)"
                                         [(ngModel)]="personFormModel.personAddressFormModel.street"
                                         [idComponent]="'id_Street'"
@@ -128,7 +128,6 @@
                                         inputName="street"
                                         name="street">
             </app-validatable-input-text>
-          </div>
         </div>
 
       </div>
@@ -140,7 +139,7 @@
     </div>
     <div class=" p-shadow-4">
       <div class="p-grid item-left">
-        <div class="p-col-4" style="margin-top: 5pt;">
+        <div class="p-col-4 bank-name-container">
           <app-validatable-input-text (componentHasErrorEvent)="setHasBankNameError($event)"
                                       [(ngModel)]="personFormModel.bankAccountFormModel.bankName"
                                       [idComponent]="'id_BankName'"
@@ -152,21 +151,21 @@
         </div>
 
         <div class="p-col-2">
-      <span class="p-float-label">
-        <input [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber" id="id_AccountNumber"
-               name="accountNumber"
-               pInputText
-               type="text"/>
-        <label for="id_AccountNumber">Account number</label>
-      </span>
+          <span class="p-float-label">
+            <input [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber" id="id_AccountNumber"
+                   name="accountNumber"
+                   pInputText
+                   type="text"/>
+            <label for="id_AccountNumber">Account number</label>
+          </span>
         </div>
       </div>
 
       <div class="p-grid item-left">
-        <div class="p-col-4" style="margin-top: 8pt">
-          <div style="display: table; width: 100%;">
-            <div style="display: table-row; width: 100%;">
-              <div style="display: table-cell; width: 100%;">
+        <div class="p-col-4 iban-container">
+          <div class = "full-width-display-table">
+            <div class = "full-width-display-row">
+              <div class = "full-width-display-cell">
                <span class="p-float-label">
                     <input #modelRef="ngModel"
                            (ngModelChange)="personFormModel.bankAccountFormModel.iban = $event"
@@ -181,12 +180,10 @@
                   <label for="id_IBAN">IBAN</label>
                </span>
               </div>
-              <div *ngIf="modelRef.errors?.required" id="id_Iban_Required_err"
-                   style="display: table-cell; width: 10%; margin-left: 2px;">
+              <div class = "error-message-cmp" *ngIf="modelRef.errors?.required" id="id_Iban_Required_err">
                 <p-message severity="error"></p-message>
               </div>
-              <div *ngIf="setHasIbahError(modelRef.errors?.iban!==null, modelRef.errors?.iban)" id="id_Iban_Iban_err"
-                   style="display: table-cell; width: 10%; margin-left: 2px">
+              <div class = "error-message-cmp" *ngIf="setHasIbahError(modelRef.errors?.iban!==null, modelRef.errors?.iban)" id="id_Iban_Iban_err">
                 <p-message severity="error"></p-message>
               </div>
               <ng-template *ngIf="modelRef?.valid">
@@ -199,7 +196,7 @@
           </div>
         </div>
 
-        <div class="p-col-2" style="margin-left: 5pt; margin-top: 12pt">
+        <div class="p-col-2 swift-style">
           <app-validatable-input-text (componentHasErrorEvent)="setHasBicError($event)"
                                       [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"
                                       [idComponent]="'id-acc-bicSwift'"
@@ -211,7 +208,7 @@
         </div>
       </div>
     </div>
-    <div class="p-grid" style="margin-top:5px;">
+    <div class="p-grid buttons-container">
       <div class="p-col-12 save-button-col-size">
         <div *ngIf=" createPersonType === undefined; else elseBlock">
           <p-button (onClick)="savePerson(false)" [disabled]="haveErrors()"
