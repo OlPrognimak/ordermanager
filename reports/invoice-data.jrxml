@@ -29,7 +29,6 @@
 		</box>
 	</style>
 	<subDataset name="invoiceItemsDataSet" uuid="23c36be6-d164-444a-a88c-64982d38feaf">
-		<parameter name="invoiceId" class="java.lang.Long"/>
 		<parameter name="rateType" class="java.lang.String"/>
 		<field name="description" class="java.lang.String"/>
 		<field name="itemPrice" class="java.lang.Double"/>
@@ -47,14 +46,16 @@
 		<variable name="TOTAL_VAT_SUM" class="java.lang.Double">
 			<variableExpression><![CDATA[$V{TOTAL_BRUTTO_SUM}-$V{TOTAL_NETTO_SUM}]]></variableExpression>
 		</variable>
+		<variable name="MEASURE_ITEM" class="java.lang.String">
+			<variableExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stunden":(($P{rateType}).equals("DAILY")?"Tages":"Menge")]]></variableExpression>
+		</variable>
 		<group name="Group1">
 			<groupExpression><![CDATA[$F{invoiceId}]]></groupExpression>
 		</group>
 	</subDataset>
 	<parameter name="invoiceItemsDataSet" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
-	<parameter name="invoiceNumber" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="invoiceId" class="java.lang.Long"/>
 	<parameter name="rateType" class="java.lang.String"/>
+	<variable name="itemMeasure" class="java.lang.String" calculation="System"/>
 	<variable name="tottalNettoSum" class="java.lang.Double" calculation="System"/>
 	<variable name="totalBruttoSum" class="java.lang.Double" calculation="System"/>
 	<variable name="totalVat" class="java.lang.Double" calculation="System"/>
@@ -69,10 +70,10 @@
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="invoiceItemsDataSet" uuid="a349884f-cfce-48a7-988d-33120a957aba">
-						<dataSourceExpression><![CDATA[$P{invoiceItemsDataSet}]]></dataSourceExpression>
 						<datasetParameter name="rateType">
 							<datasetParameterExpression><![CDATA[$P{rateType}]]></datasetParameterExpression>
 						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{invoiceItemsDataSet}]]></dataSourceExpression>
 						<returnValue fromVariable="TOTAL_NETTO_SUM" toVariable="tottalNettoSum"/>
 						<returnValue fromVariable="TOTAL_BRUTTO_SUM" toVariable="totalBruttoSum"/>
 						<returnValue fromVariable="TOTAL_VAT_SUM" toVariable="totalVat"/>
@@ -132,7 +133,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="11" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stundensatz (Euro)":(($P{rateType}).equals("DAILY")?"Tagessatz (Euro)":"")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stundensatz (Euro)":(($P{rateType}).equals("DAILY")?"Tagessatz (Euro)":"Preis")]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">

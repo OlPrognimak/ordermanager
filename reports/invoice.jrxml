@@ -241,9 +241,7 @@
 		<band height="47" splitType="Stretch">
 			<subreport>
 				<reportElement key="" isPrintRepeatedValues="false" x="-20" y="0" width="595" height="47" uuid="d032e6e1-2fec-4598-80c2-ad4a300a7a00"/>
-				<subreportParameter name="itemsDs">
-					<subreportParameterExpression><![CDATA[$P{itemsDs}]]></subreportParameterExpression>
-				</subreportParameter>
+				<parametersMapExpression><![CDATA[$P{itemsDs}]]></parametersMapExpression>
 				<subreportParameter name="invoiceNumber">
 					<subreportParameterExpression><![CDATA[$P{invoiceNumber}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -254,7 +252,7 @@
 					<subreportParameterExpression><![CDATA[$F{rateType}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new JREmptyDataSource()]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{invoiceDataSubreport}]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{invoiceDataSubreport}]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -282,7 +280,9 @@
 				<text><![CDATA[BIC/SWIFT:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="350" y="71" width="122" height="30" uuid="41d4f5bd-7868-4753-8011-3404ac8034b1"/>
+				<reportElement x="350" y="71" width="122" height="30" uuid="41d4f5bd-7868-4753-8011-3404ac8034b1">
+					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
+				</reportElement>
 				<box>
 					<pen lineColor="#FCF7F7"/>
 				</box>
@@ -315,6 +315,7 @@
 			<textField>
 				<reportElement x="350" y="96" width="151" height="21" uuid="edd3d6bd-1f3f-4b38-93fb-5f4273163930">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
 					<font size="10"/>
