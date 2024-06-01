@@ -9,7 +9,7 @@ import { InvoiceWorkflowComponent } from "./invoice-workflow.component";
   {
     imports: [CommonModule, InvoiceWorkflowComponent,
       StoreModule.forFeature("invoiceWorkflow", invoiceReducer),
-      StoreDevtoolsModule.instrument()]
+      StoreDevtoolsModule.instrument({connectInZone: true})]
   }
 )
 export class WorkflowModule {

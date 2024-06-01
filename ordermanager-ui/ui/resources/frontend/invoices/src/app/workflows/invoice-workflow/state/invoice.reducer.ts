@@ -4,13 +4,15 @@ import { InvoiceActions } from "./invoice.actions";
 
 export interface InvoiceState {
   data: InvoiceFormModelInterface | null
-  status: 'loading' | 'loaded' | 'success' | 'error'
+  status: "loading" | "loaded" | "success" | "error"
+  errors: any | null
   error: any | null
 }
 
 export const initialInvoiceStale: InvoiceState = {
   data: new InvoiceFormModel(),
   status: 'loading',
+  errors: null,
   error: null
 }
 
@@ -20,15 +22,14 @@ export const invoiceReducer = createReducer(
     return {
       ...state,
       data: state.data,
-      status: 'loading',
-      errors: null
+      errors: null,
+      error: null
     };
   }),
   on(InvoiceActions.loadInvoiceSuccessAction, (state, {data}) => {
     return {
       ...state,
       data: data,
-      status: 'success',
       error: null,
     };
   }),
@@ -37,7 +38,6 @@ export const invoiceReducer = createReducer(
       return {
         ...state,
         data: data,
-        status: 'success',
         error: null,
       };
     }),
@@ -47,7 +47,6 @@ export const invoiceReducer = createReducer(
       return {
         ...state,
         data: data,
-        status: 'success',
         error: null,
       };
     }),
@@ -56,7 +55,6 @@ export const invoiceReducer = createReducer(
       return {
         ...state,
         data: data,
-        status: 'success',
         error: null,
       };
     }),
@@ -65,7 +63,6 @@ export const invoiceReducer = createReducer(
       return {
         ...state,
         data: data,
-        status: 'success',
         error: null,
       };
     }),
@@ -74,14 +71,12 @@ export const invoiceReducer = createReducer(
       return {
         ...state,
         data: data,
-        status: 'success',
         error: null,
       };
     }),
   on(InvoiceActions.actionFailure, (state, {error}) => {
     return {
       ...state,
-      status: 'error',
       error: error,
     };
   })

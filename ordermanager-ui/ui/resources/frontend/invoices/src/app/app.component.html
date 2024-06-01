@@ -1,12 +1,16 @@
-<div *ngIf="!isAuthenticated();" class="p-grid  app_title p-shadow-4">
+@if (!isAuthenticated()) {
+<div  class="p-grid  app_title p-shadow-4">
   <!--  <p-button  label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
   <a (click)="router.navigateByUrl('/')" [pTooltip]="'Navigate to home page'" [tooltipPosition]="'right'"><img
     src="assets/home-small.png"></a>
   <h3 style="margin-left: 5pt;">Order manager</h3>
 
 </div>
+  <app-user-login></app-user-login>
 
-<div *ngIf="isAuthenticated(); else elseBlock">
+} @else {
+
+<div>
   <div class="nav_app_cls p-grid p-shadow-4">
     <nav style="margin-bottom: 10pt;">
       <div class="p-grid">
@@ -22,8 +26,7 @@
   </div>
   <br/>
 </div>
-<ng-template #elseBlock>
-  <app-user-login></app-user-login>
-</ng-template>
+}
+
 
 <router-outlet></router-outlet>

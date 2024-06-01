@@ -22,9 +22,10 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   private cellVale: any;
   //private backendUrl: string;
   private basicAuthKey = 'basicAuthKey';
-  private msgObservable = of(this.messagePrinter);
+  private msgObservable: Observable<MessagesPrinter>;
 
   constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter) {
+    this.msgObservable = of(this.messagePrinter);
   }
 
   /**
