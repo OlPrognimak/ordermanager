@@ -47,7 +47,6 @@ import { DateperiodFinderComponent } from "./common-components/dateperiod-finder
 import { InvoicePipesModule } from "./common-pipes/common-services.pipes.number";
 import { TemplatesComponentComponent } from "./common-components/templates-component/templates-component.component";
 import { StoreModule } from "@ngrx/store";
-import { WorkflowModule } from "./workflows/invoice-workflow/workflow.module";
 
 
 @NgModule({
@@ -95,7 +94,7 @@ import { WorkflowModule } from "./workflows/invoice-workflow/workflow.module";
     ReactiveFormsModule,
     TemplatesComponentComponent,
     StoreModule.forRoot({}),
-    WorkflowModule
+   // WorkflowModule
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
     {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],

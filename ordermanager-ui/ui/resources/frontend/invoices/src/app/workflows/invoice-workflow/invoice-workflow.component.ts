@@ -202,7 +202,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     const curColor: string = this.getColor(flowEvent);
     flowEvent.isDataFilled = (curColor === 'red'? false: true)
     if (flowEvent.level === this.currentStatus.level) {
-      style = {'background-color': '#2196F3', color: curColor}
+      style = {'background-color': '#1D537EFF', color: curColor}
     } else {
       style = {color: this.getColor(flowEvent)}
     }

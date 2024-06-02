@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import { AppSecurityService } from './common-auth/app-security.service';
 import { Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
@@ -12,18 +12,20 @@ import { isAuthenticated } from "./common-services/common-services-util.service"
   providers: [AppSecurityService]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'frontend';
   menuItems: MenuItem[];
   @ViewChild('bigMenu') bigMenu: Menu;
   @ViewChild('smallMenu') smallMenu: Menu;
   protected readonly isAuthenticated = isAuthenticated;
+  notLoaded: boolean = true;
 
   constructor(public appSecurityService: AppSecurityService, public router: Router) {
 
   }
 
   ngOnInit(): void {
+
     this.menuItems = [
       {
         label: 'User management',
@@ -66,5 +68,8 @@ export class AppComponent implements OnInit {
     ];
 
 
+  }
+
+  ngAfterViewInit(): void {
   }
 }

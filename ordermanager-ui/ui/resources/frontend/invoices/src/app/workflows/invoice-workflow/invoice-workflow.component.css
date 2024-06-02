@@ -18,11 +18,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px
+  border-radius: 30px
 }
 
 .flow-button-selected {
-  background-color: #2196F3;
+  background-color: #1D537EFF;
   padding: 8pt 8pt 8pt 8pt;
 }
 
@@ -30,6 +30,7 @@
 :host::ng-deep div.p-timeline-event-content > p-button.p-element > button {
   padding: 0 0 0 0;
   background-color: #969fa9;
+  border-radius: 30px
 }
 
 :host::ng-deep div > div.p-col-3 > p-button:nth-child(2) > button {
