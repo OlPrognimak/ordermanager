@@ -1,7 +1,13 @@
 
 ##### Table of contents
- [Overview](#Overview)
- 1. [Short description](#Short-description)
+ - [Overview](#Overview) 
+ - [System requirements](#System requirements)
+   - [OS](#OS)
+   - [Java](#Java)
+   - [Docker Images](#Docker Images)
+ 1. [Build project](#Build project)
+ 2. [Short description](#Short-description)
+ 3. [Deploy to docker](#Deploy to docker)
  2. [Backend](#Backend)
     - [Backend frameworks](#Backend-frameworks)
     - [Packages structure](#Packages-structure)
@@ -18,9 +24,8 @@
 
 # Overview
 This document mostly describes the code.
-The user manual about usage of application is located 
-
 The user manual for the application is located in the project path ```ordermanager/doc```.
+
 # System requirements
   - OS 
       Linux, Windows 10 or 11
@@ -30,8 +35,25 @@ The user manual for the application is located in the project path ```ordermanag
      - JDK openjdk:21-jdk
 If you want to use another java then you need to change java versions in both pom.xm (backend and frontend modules) and
 in docker files need also change the version of JDK image.
+
+# Build project
+For building project uses ```Maven``` build tool.
+Go to the parent maven project ````/ordermanager```` and run maven command
+
+```mvn clean install```
+
+After successful finishing this commands will be crated two executable jars and copied to the docker folder:
+
+```[ordermanager-backend.jar]``` to the location
+````/ordermanager/docker/backend````
+
+and 
+
+```[ordermanager-ui.jar]``` to the location
+````/ordermanager/docker/frontend````
+
       
-# Start application in docker container
+# Deploy to docker
  - please go to folder ./docker and follow with description in README_DOCKER.md) file
  - 1\. create backend image with correspondent version
  - 2\. create frontend image with correspondent version  
