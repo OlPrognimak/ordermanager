@@ -1,108 +1,111 @@
-<div *ngIf="isAuthenticated();" class="p-fluid p-flex-row management-page-style">
-  <p-toast></p-toast>
-  <div class="p-grid base-top-grid-area">
-    <div class="p-col-12">
-      <H2 style="margin-left: 10pt;">Person management</H2>
-    </div>
-    <div class="p-col-12" *ngIf="environment.debugMode">
-      <p>
-         Error Message: {{eventBusVal}}
-      </p>
-    </div>
-    <div class="p-col-12">
-      <app-dateperiod-finder #dataFinder (responseOutput)="modelList = $event" [url]="'person/personsListPeriod'"/>
-    </div>
-    <div class="p-col-12 p-shadow-4 top-container-table-area">
-      <div class="table-area" id="Id_Management_Table">
-        <p-table [(selection)]="selectedPerson" [autoLayout]="true" [metaKeySelection]=keySelection
-                 [resizableColumns]="true"
-                 [rows]="10"
-                 [value]="modelList"
-                 class="person-data-table"
-                 editMode="row"
-                 paginator="true" selectionMode="multiple" styleClass="p-datatable-gridlines">
-          <ng-template pTemplate="header">
-            <tr>
-              <th pSortableColumn="personLastName" style="width: 20%">Person last name
-                <p-sortIcon field="personLastName"></p-sortIcon>
-              </th>
-              <th pSortableColumn="personFirstName" style="width: 20%">Person first name
-                <p-sortIcon field="personLastName"></p-sortIcon>
-              </th>
-              <th pSortableColumn="companyName" style="width: 25%">Company name
-                <p-sortIcon field="companyName"></p-sortIcon>
-              </th>
-              <th pSortableColumn="personType" style="width: 10%">Person type
-                <p-sortIcon field="personType"></p-sortIcon>
-              </th>
-              <th pSortableColumn="taxNumber" style="width: 10%">Tax number
-                <p-sortIcon field="taxNumber"></p-sortIcon>
-              </th>
-              <th pSortableColumn="email" style="width: 15%">E-mail
-                <p-sortIcon field="email"></p-sortIcon>
-              </th>
-              <th style="width: 5%">Manage</th>
-            </tr>
-          </ng-template>
+@if (isAuthenticated()) {
+  <div class="p-fluid p-flex-row management-page-style">
+    <p-toast></p-toast>
+    <div class="p-grid base-top-grid-area">
+      <div class="p-col-12">
+        <H2 style="margin-left: 10pt;">Person management</H2>
+      </div>
+      <div class="p-col-12" *ngIf="environment.debugMode">
+        <p>
+           Error Message: {{eventBusVal}}
+        </p>
+      </div>
+      <div class="p-col-12">
+        <app-dateperiod-finder #dataFinder (responseOutput)="modelList = $event" [url]="'person/personsListPeriod'"/>
+      </div>
+      <div class="p-col-12 p-shadow-4 top-container-table-area">
+        <div class="table-area" id="Id_Management_Table">
+          <p-table [(selection)]="selectedPerson" [autoLayout]="true" [metaKeySelection]=keySelection
+                   [resizableColumns]="true"
+                   [rows]="10"
+                   [value]="modelList"
+                   class="person-data-table"
+                   editMode="row"
+                   paginator="true" selectionMode="multiple" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="personLastName" style="width: 20%">Person last name
+                  <p-sortIcon field="personLastName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="personFirstName" style="width: 20%">Person first name
+                  <p-sortIcon field="personLastName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="companyName" style="width: 25%">Company name
+                  <p-sortIcon field="companyName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="personType" style="width: 10%">Person type
+                  <p-sortIcon field="personType"></p-sortIcon>
+                </th>
+                <th pSortableColumn="taxNumber" style="width: 10%">Tax number
+                  <p-sortIcon field="taxNumber"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email" style="width: 15%">E-mail
+                  <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th style="width: 5%">Manage</th>
+              </tr>
+            </ng-template>
 
-          <ng-template let-person let-rowIndex="rowIndex" pTemplate="body">
-            <tr (dblclick)="rowDoubleClick($event, person)" [ngStyle]="{'color':isPersonChanged(person)}"
-                [pSelectableRowIndex]="rowIndex"
-                [pSelectableRow]="person"
-                title="Double click to edit person">
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <div>{{person.personLastName}}</div>
-              </td>
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <div>{{person.personFirstName}}</div>
-              </td>
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <div>{{person.companyName}}</div>
-              </td>
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <div>{{person.personType}}</div>
-              </td>
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <div>{{person.taxNumber}}</div>
-              </td>
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <div>{{person.email}}</div>
-              </td>
-              <td style="padding: 5pt 2pt 2pt 2pt;">
-                <button (click)="deletePerson(person.id)" class="p-button-rounded p-button-warning" icon="pi pi-trash"
-                        pButton pRipple
-                        title="Delete item"></button>
-                <button (click)="rowDoubleClick($event, person)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-pencil" pButton pRipple
-                        style="margin-left: 2px;"
-                        title="Edit item"></button>
-                <button (click)="rollbackChanges(person.id)" class="p-button-rounded p-button-warning" icon="pi pi-undo"
-                        pButton
-                        pRipple
-                        title="Rollback item"></button>
-              </td>
-            </tr>
+            <ng-template let-person let-rowIndex="rowIndex" pTemplate="body">
+              <tr (dblclick)="rowDoubleClick($event, person)" [ngStyle]="{'color':isPersonChanged(person)}"
+                  [pSelectableRowIndex]="rowIndex"
+                  [pSelectableRow]="person"
+                  title="Double click to edit person">
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <div>{{person.personLastName}}</div>
+                </td>
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <div>{{person.personFirstName}}</div>
+                </td>
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <div>{{person.companyName}}</div>
+                </td>
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <div>{{person.personType}}</div>
+                </td>
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <div>{{person.taxNumber}}</div>
+                </td>
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <div>{{person.email}}</div>
+                </td>
+                <td style="padding: 5pt 2pt 2pt 2pt;">
+                  <button (click)="deletePerson(person.id)" class="p-button-rounded p-button-warning" icon="pi pi-trash"
+                          pButton pRipple
+                          title="Delete item"></button>
+                  <button (click)="rowDoubleClick($event, person)" class="p-button-rounded p-button-warning"
+                          icon="pi pi-pencil" pButton pRipple
+                          style="margin-left: 2px;"
+                          title="Edit item"></button>
+                  <button (click)="rollbackChanges(person.id)" class="p-button-rounded p-button-warning" icon="pi pi-undo"
+                          pButton
+                          pRipple
+                          title="Rollback item"></button>
+                </td>
+              </tr>
 
-          </ng-template>
-        </p-table>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="p-col-12 save-button-col-size">
+        <div class="save-button-container-size">
+          <p-button (onClick)="saveChangedPersons($event)" [disabled]="haveNoChanges()" label="Save"/>
+        </div>
       </div>
     </div>
-    <div class="p-col-12 save-button-col-size">
-      <div class="save-button-container-size">
-        <p-button (onClick)="saveChangedPersons($event)" [disabled]="haveNoChanges()" label="Save"/>
-      </div>
-    </div>
+
+    <app-edit-person-dialog #personDialog
+                            (personModelChanges)="putPersonChanges($event)"
+                            (visibilityChanged)="isPersonEditDialogVisible($event)"
+                            [visible]="showPersonDialog()">
+    </app-edit-person-dialog>
+
+    <app-confirmation-dialog #confirmDialog
+                             (canceled)="handleCancel($event)"
+                             (confirmed)="handleConfirmation(confirmDialog.transferObject)"
+                             [display]="showConfirmDialog"
+                             [message]="confirmDialogMessage"></app-confirmation-dialog>
+
   </div>
-
-  <app-edit-person-dialog #personDialog
-                          (personModelChanges)="putPersonChanges($event)"
-                          (visibilityChanged)="isPersonEditDialogVisible($event)"
-                          [visible]="showPersonDialog()">
-  </app-edit-person-dialog>
-
-  <app-confirmation-dialog #confirmDialog
-                           (canceled)="handleCancel($event)"
-                           (confirmed)="handleConfirmation(confirmDialog.transferObject)"
-                           [display]="showConfirmDialog"
-                           [message]="confirmDialogMessage"></app-confirmation-dialog>
-
+}

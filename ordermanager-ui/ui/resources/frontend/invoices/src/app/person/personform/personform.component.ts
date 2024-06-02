@@ -262,6 +262,18 @@ export class PersonFormComponent implements OnInit, OnDestroy {
     })
   }
 
+  checkOrSetIbahNoError(modelRef: NgModel) {
+    const val: boolean = modelRef.errors?.iban!==null;
+    if (this.hasIbahError !== val) {
+      setTimeout(() => {
+        this.hasIbahError = val
+      })
+      return modelRef.errors?.iban;
+    } else if (modelRef?.valid){
+      return false;
+    }
+  }
+
   setHasIbahError(val: boolean, origin: any) {
 
     if (this.hasIbahError !== val) {

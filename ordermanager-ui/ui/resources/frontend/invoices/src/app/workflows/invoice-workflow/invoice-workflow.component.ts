@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitterModule } from "primeng/splitter";
 import { TimelineModule } from "primeng/timeline";
@@ -13,7 +13,7 @@ import {
   InvoiceItemModel
 } from "../../domain/domain.invoiceformmodel";
 import { invoiceRate, isAuthenticated } from "../../common-services/common-services-util.service";
-import { FormsModule } from "@angular/forms";
+import {FormsModule, NgForm} from "@angular/forms";
 import { InputTextModule } from "primeng/inputtext";
 import {
   ValidatableDropdownlistModule
@@ -25,10 +25,14 @@ import { ButtonModule } from "primeng/button";
 import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import { CommonServicesAppHttpService } from "../../common-services/common-services.app.http.service";
 import { InvoiceFormModule } from "../../invoice/invoiceform/invoiceform.component";
-import { Subject } from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import { InvoiceItemsTableComponent } from "../../invoice/invoice-items-table/invoice-items-table.component";
 import { InvoiceFormValidator } from "../../invoice/invoiceform/invoice.form.validator";
 import { ActivatedRoute, Router } from "@angular/router";
+
+
+const CHECK_CIRCLE:string = "pi pi-check-circle"
+const OFF_CIRCLE:string = "pi pi-circle-off"
 
 @Component({
   selector: 'app-invoice-workflow',
@@ -37,9 +41,10 @@ import { ActivatedRoute, Router } from "@angular/router";
   templateUrl: './invoice-workflow.component.html',
   styleUrls: ['./invoice-workflow.component.css']
 })
-export class InvoiceWorkflowComponent extends InvoiceFormValidator implements OnInit {
+export class InvoiceWorkflowComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
   createInvoiceFlowEvents: any[];
   invoice: InvoiceFormModelInterface
+  @ViewChild('workflowFrm') workflowFrm: NgForm
   /** Model invoice supplier for dropdown component */
   @Input() personInvoiceSupplier: DropdownDataType[];
   /** Model invoice recipient for dropdown component */
@@ -50,16 +55,18 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
 
+
   constructor(private store: Store<any>,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef) {
     super()
   }
 
+
   ngOnInit(): void {
     this.loadPersons()
-
     this.createInvoiceFlowEvents = [
       new WorkflowEventsModel({
         statusDesc: 'Set Invoice Type/Number',
@@ -192,13 +199,34 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    */
   flowButtonStyle(flowEvent: WorkflowEventsModel): any {
     let style = {}
-
+    const curColor: string = this.getColor(flowEvent);
+    flowEvent.isDataFilled = (curColor === 'red'? false: true)
     if (flowEvent.level === this.currentStatus.level) {
-      style = {'background-color': '#2196F3', color: this.getColor(flowEvent)}
+      style = {'background-color': '#2196F3', color: curColor}
     } else {
       style = {color: this.getColor(flowEvent)}
     }
-    return style;
+    return style
+  }
+
+  /**
+   * Provides icon for steps in flow. In case if items of step are filled then will be provided checked circle
+   * in another case will be provided simple circle item.
+   *
+   * @param flowEvent the event of flow
+   */
+  getTimelineIcon(flowEvent: WorkflowEventsModel) : boolean {
+    if((flowEvent.isDataFilled&&flowEvent.clsName !== CHECK_CIRCLE) ||
+      (flowEvent.isDataFilled===false&&flowEvent.clsName !== OFF_CIRCLE)) {
+      setTimeout(() => {
+        if (flowEvent.isDataFilled) {
+          flowEvent.clsName = CHECK_CIRCLE
+        } else {
+          flowEvent.clsName = OFF_CIRCLE
+        }
+      })
+    }
+    return true;
   }
 
   /**
@@ -275,7 +303,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    *
    * @private
    */
-  private resetModel() {
+  protected resetModel() {
     this.currentStatus = this.createInvoiceFlowEvents[0]
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
     this.store.subscribe(state => {
@@ -283,6 +311,16 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       this.invoice.invoiceItems = Object.assign([], [])
     })
 
+  }
+
+  private formInit() {
+    this.workflowFrm?.valueChanges.subscribe(value => {
+        this.cdr.detectChanges();
+    });
+  }
+
+  ngAfterViewInit(): void {
+   this.formInit();
   }
 
 }

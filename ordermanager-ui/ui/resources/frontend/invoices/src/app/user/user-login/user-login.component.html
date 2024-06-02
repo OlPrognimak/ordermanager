@@ -1,4 +1,5 @@
-<div *ngIf="router.url!=='/user-registration-page'" class="p-fluid p-flex-row p-justify-center"
+@if (router.url!=='/user-registration-page') {
+ <div class="p-fluid p-flex-row p-justify-center"
      style="margin-top: 5pt;">
   <form #loginForm="ngForm" (submit)="login(loginForm)">
     <div class="p-grid">
@@ -58,4 +59,5 @@
     </div>
   </form>
 </div>
+}
 

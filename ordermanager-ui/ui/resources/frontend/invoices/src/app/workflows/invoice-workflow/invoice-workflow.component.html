@@ -4,7 +4,7 @@
       <div class="p-col-12" style="height: 5%">
         <h2>Workflow steps</h2>
       </div>
-      <div class="p-col-12" style="height: 95%">
+      <div class="p-col-12" style=" height: 95%">
         <div class="card flex flex-wrap gap-6" style="height: 100%;">
           <p-timeline [value]="createInvoiceFlowEvents" align="right" class="w-full md:w-20rem">
             <ng-template let-flowEvent pTemplate="content">
@@ -15,12 +15,19 @@
                 </div>
               </p-button>
             </ng-template>
+            <ng-template let-flowEvent  pTemplate="marker">
+                       <span *ngIf="getTimelineIcon(flowEvent)" class="custom-marker">
+                          <i [ngClass]="flowEvent.clsName"></i>
+                       </span>
+            </ng-template>
+
           </p-timeline>
         </div>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate>
+    <form   #workflowFrm = "ngForm" >
     <div class="p-grid p-fluid" style="height: fit-content; margin-left: 10pt;">
       <div class="p-col-12" style="height: 5%;">
         <div>
@@ -160,5 +167,6 @@
                   title="Next step"></p-button>
       </div>
     </div>
+    </form>
   </ng-template>
 </p-splitter>

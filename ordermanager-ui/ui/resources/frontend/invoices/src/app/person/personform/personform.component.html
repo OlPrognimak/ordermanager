@@ -20,8 +20,8 @@
           </app-validatable-dropdownlist>
         </div>
       </div>
-
-      <div *ngIf="personFormModel.personType==='PRIVATE'" class="p-grid item-left">
+      @if (personFormModel.personType==='PRIVATE') {
+        <div class="p-grid item-left">
         <div class="p-col-3">
           <app-validatable-input-text (componentHasErrorEvent)="setHasFirstNameError($event)"
                                       [(ngModel)]="personFormModel.personFirstName"
@@ -43,19 +43,20 @@
           </app-validatable-input-text>
         </div>
       </div>
-
-      <div *ngIf="personFormModel.personType==='ORGANISATION'" class="p-grid item-left">
-        <div class="p-col-3">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasCompanyNameError($event)"
-                                      [(ngModel)]="personFormModel.companyName"
-                                      [idComponent]="'id_company_Name'"
-                                      [labelText]="'Company name'"
-                                      [txtMinLength]="2"
-                                      inputName="companyName"
-                                      name="companyName">
-          </app-validatable-input-text>
+      } @else if (personFormModel.personType==='ORGANISATION') {
+        <div class="p-grid item-left">
+          <div class="p-col-3">
+            <app-validatable-input-text (componentHasErrorEvent)="setHasCompanyNameError($event)"
+                                        [(ngModel)]="personFormModel.companyName"
+                                        [idComponent]="'id_company_Name'"
+                                        [labelText]="'Company name'"
+                                        [txtMinLength]="2"
+                                        inputName="companyName"
+                                        name="companyName">
+            </app-validatable-input-text>
+          </div>
         </div>
-      </div>
+      }
       <div class="p-grid item-left">
         <div class="p-col-3">
           <app-validatable-input-text (componentHasErrorEvent)="setHasEmailError($event)"
@@ -70,8 +71,8 @@
           </app-validatable-input-text>
         </div>
       </div>
-
-        <div *ngIf="personFormModel.personType==='PRIVATE'" class="p-col-2  item-left">
+@if(personFormModel.personType==='PRIVATE'){
+        <div class = "p-col-2  item-left">
           <app-validatable-input-text (componentHasErrorEvent)="setHasTaxNumberError($event)"
                                       [(ngModel)]="personFormModel.taxNumber"
                                       [idComponent]="'id_tax_Number'"
@@ -81,6 +82,7 @@
                                       name="taxNumber">
           </app-validatable-input-text>
         </div>
+}
     </div>
     <div class="p-grid p-col-6">
       <H2>Person address</H2>
@@ -181,19 +183,20 @@
                   <label for="id_IBAN">IBAN</label>
                </span>
               </div>
-              <div class = "error-message-cmp" *ngIf="modelRef.errors?.required" id="id_Iban_Required_err">
-                <p-message severity="error"></p-message>
-              </div>
-              <div class = "error-message-cmp" *ngIf="setHasIbahError(modelRef.errors?.iban!==null, modelRef.errors?.iban)" id="id_Iban_Iban_err">
-                <p-message severity="error"></p-message>
-              </div>
-              <ng-template *ngIf="modelRef?.valid">
-                <ng-template *ngIf="setHasIbahError(false, modelRef.errors?.iban)"/>
-              </ng-template>
+              @if (modelRef.errors?.required) {
+                <div class = "error-message-cmp" id="id_Iban_Required_err">
+                  <p-message severity="error"></p-message>
+                </div>
+              }
+              @if (checkOrSetIbahNoError(modelRef)) {
+                <div class = "error-message-cmp" id="id_Iban_Iban_err">
+                  <p-message severity="error"></p-message>
+                </div>
+              }
             </div>
-            <div *ngIf="modelRef.errors?.iban" class="alert alert-danger">
-              Wrong IBAN
-            </div>
+            @if(modelRef.errors?.iban) {
+              <p-message severity="error" text="Wrong IBAN"></p-message>
+            }
           </div>
         </div>
 

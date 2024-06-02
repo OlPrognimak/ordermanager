@@ -9,6 +9,8 @@ export class WorkflowEventsModel {
   icon: string | undefined
   color: string | undefined
   image: string | undefined
+  isDataFilled: boolean = false
+  clsName: string
 
   constructor(data: Partial<WorkflowEventsModel>) {
     Object.assign(this, data)

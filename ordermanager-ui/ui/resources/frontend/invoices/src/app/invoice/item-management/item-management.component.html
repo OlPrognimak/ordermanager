@@ -1,4 +1,5 @@
-<div *ngIf="isAuthenticated()" class="p-fluid p-flex-row management-page-style">
+@if (isAuthenticated()) {
+ <div class="p-fluid p-flex-row management-page-style">
   <p-toast></p-toast>
   <div *ngIf="dataLoading" class="overlayProcess childElementCenter">
     <mat-progress-spinner *ngIf="dataLoading" mode="indeterminate"></mat-progress-spinner>
@@ -110,6 +111,7 @@
     </div>
   </div>
 </div>
+}
 
 
 <app-edit-item-dialog #itemEditCatalogDialog (editObjectChangedChanged)="putEditDialogChanges($event)"/>
