@@ -116,10 +116,11 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   constructor(private httpClient: HttpClient,
               public appSecurityService: AppSecurityService,
               private messageService: MessagesPrinter,
-              private utilService: CommonServicesUtilService,
+              public calculatorService: InvoiceItemsTableCalculatorService,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
     //this.backendUrl = environment.baseUrl;
     super()
+    console.log("INIT :"+calculatorService.invoiceFormData)
   }
 
 
@@ -162,7 +163,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
     console.log("S A V E   I N V O I C E TOTAL SUM NETTO 1::::" + this.itemsTableComponent.calculatorService.totalNettoSum())
     console.log("S A V E   I N V O I C E TOTAL SUM BRUTTO 2::::" + this.itemsTableComponent.calculatorService.totalBruttoSum())
     printToJson(this.itemsTableComponent.calculatorService.invoiceFormData)
-    this.httpService.putObjectToServer('PUT', this.itemsTableComponent?.calculatorService.invoiceFormData, 'Invoice',
+    this.httpService.putObjectToServer('PUT', this.calculatorService.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
           this.resetModel();
