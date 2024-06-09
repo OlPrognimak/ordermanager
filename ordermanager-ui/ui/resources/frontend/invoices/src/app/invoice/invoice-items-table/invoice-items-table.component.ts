@@ -28,12 +28,23 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  model,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { DropdownDataType, InvoiceItemModel, InvoiceItemModelInterface } from '../../domain/domain.invoiceformmodel';
 import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from './invoice-items-table.calculator.service';
 import { InvoiceItemsTableService } from './invoice-items-table.service';
 import { HttpClient } from "@angular/common/http";
+import {NgForm} from "@angular/forms";
 
 @Component({
   styles: [],
@@ -42,15 +53,17 @@ import { HttpClient } from "@angular/common/http";
   templateUrl: './invoice-items-table.component.html',
   providers: [InvoiceItemsTableCalculatorService, HttpClient],
 })
-export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
+export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() invoiceItems: InvoiceItemModel[];
   /** The observer for observation model changing event in parent component */
   @Input() modelChangedEvent: Observable<void> = of();
-  @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
+  @Output() changeItemsEvent = new EventEmitter<InvoiceItemModel[]>();
+  @Output() changeItemEvent = new EventEmitter<InvoiceItemModelInterface>()
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
   @Input() catalogItems: DropdownDataType[];
   @Input() myInputField;
+  @ViewChild("itemsForm") itemsForm: NgForm
   idxItem: number;
   defaultItemMsg: string = "Click to select item";
   /** The subscription for observer of model changing event in parent component */
@@ -92,8 +105,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
-      this.changeItemEvent.emit(this.invoiceItems);
-      // console.log("###### Item.Amount =:"+callback.amountItems)
+      this.changeItemsEvent.emit(this.invoiceItems);
       this.inputBoxChanged(callback, null)
     });
 
@@ -107,7 +119,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
     this.idxItem = ++this.idxItem;
     newItem.idxItem = this.idxItem;
     this.invoiceItems.push(newItem);
-    this.changeItemEvent.emit(this.invoiceItems);
+    this.changeItemsEvent.emit(this.invoiceItems);
   }
 
   /**
@@ -116,7 +128,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
    */
   deleteItem(idxItem: any): void {
     this.invoiceItems = this.invoiceItems.filter(val => val.idxItem !== idxItem);
-    this.changeItemEvent.emit(this.invoiceItems);
+    this.changeItemsEvent.emit(this.invoiceItems);
     this.inputBoxChanged(new InvoiceItemModel(), 0);
   }
 
@@ -164,6 +176,16 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy {
       console.log("Error :"+err)
     }
     // console.log("CALK TOTTALS =:"+this.calculatorService.invoiceFormData.totalSumNetto+ " : "+ this.calculatorService.invoiceFormData.totalSumBrutto)
+  }
+
+  ngAfterViewInit(): void {
+    this.itemsForm.valueChanges.subscribe(value => {
+
+      setTimeout( () => {
+        console.log("VALU CHANGED :"+JSON.stringify(value))
+        this.changeItemEvent.emit(value)
+      }, 0)
+    })
   }
 
 }

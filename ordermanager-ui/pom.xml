@@ -179,15 +179,20 @@
     </profile>
     <profile>
       <id>build-angular</id>
+<!--      <activation>-->
+<!--        <activeByDefault>true</activeByDefault>-->
+<!--      </activation>-->
       <activation>
-       <activeByDefault>true</activeByDefault>
+        <property>
+          <name>!skipMe</name>
+        </property>
       </activation>
       <build>
         <plugins>
           <plugin>
             <artifactId>exec-maven-plugin</artifactId>
             <groupId>org.codehaus.mojo</groupId>
-            <version>1.6.0</version>
+            <version>3.3.0</version>
             <executions>
               <execution>
                 <id>angular-cli build</id>

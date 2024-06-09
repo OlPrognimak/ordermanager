@@ -94,7 +94,7 @@
     </div>
 
     <app-invoice-items-table #itemsTableRef
-                             (changeItemEvent)="setInvoiceItems($event)"
+                             (changeItemsEvent)="setInvoiceItems($event)"
                              [invoiceItems]="calculatorService.invoiceFormData.invoiceItems"
                              [modelChangedEvent]="eventsModelIsReset.asObservable()">
 

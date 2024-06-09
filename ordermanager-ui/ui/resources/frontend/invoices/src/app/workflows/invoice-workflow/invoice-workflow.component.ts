@@ -44,6 +44,8 @@ const OFF_CIRCLE:string = "pi pi-circle-off"
 export class InvoiceWorkflowComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
   createInvoiceFlowEvents: any[];
   invoice: InvoiceFormModelInterface
+  //TODO Use as source for items
+  workflowInvoiceItems: InvoiceItemModel[]
   @ViewChild('workflowFrm') workflowFrm: NgForm
   /** Model invoice supplier for dropdown component */
   @Input() personInvoiceSupplier: DropdownDataType[];
@@ -113,16 +115,21 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    * Set current selected workflow step
    *
    * @param selectedModel the selected model on workflow step
-   */
+   */Action
   setWorkflowStep(selectedModel: WorkflowEventsModel) {
-    this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
+
+     this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
       Object.assign(new InvoiceFormModel(), this.invoice))
 
     this.currentStatus = selectedModel
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
     this.store.subscribe(s => {
-      this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
-      this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
+      if( s.invoiceWorkflow.data !== null) {
+        this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
+        this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
+      }else if( s.invoiceWorkflow.items !== null) {
+        //this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.items)
+      }
     })
   }
 
@@ -135,8 +142,12 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   savePreviousStatus(prevWorkflowModel: WorkflowEventsModel, invoiceFormModel: InvoiceFormModelInterface) {
     this.store.dispatch({type: prevWorkflowModel.status, data: invoiceFormModel})
     this.store.subscribe(s => {
-      this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
-      this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
+      if( s.invoiceWorkflow.data !== null) {
+        this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
+        this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
+      }else if( s.invoiceWorkflow.items !== null) {
+        //this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.items)
+      }
     })
   }
 
@@ -175,7 +186,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     if (this.currentStatus.level === level) {
       return {}
     } else {
-      return {'pointer-events': 'none', opacity: '50%'}
+      return {'pointer-events': 'none', opacity: '65%'}
     }
   }
 
@@ -272,6 +283,13 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
         return fontColor
       }
 
+      case WorkflowStatuses.SAVE_INVOICE: {
+        if (this.haveErrors(this.invoice?.invoiceItems) === true) {
+          fontColor = 'red'
+        }
+        return fontColor
+      }
+
     }
   }
 
@@ -321,6 +339,21 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
 
   ngAfterViewInit(): void {
    this.formInit();
+  }
+
+  /**
+   *
+   * @param $event the model
+   */
+  itemValueChanged($event: any) {
+    //TODO may be need to implement changes in invoice item
+
+    // this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
+    //   Object.assign(new InvoiceFormModel(), this.invoice))
+    //
+    // console.log("######  I N V O C E   E V E N T:" + JSON.stringify( $event))
+    //
+    // this.store.dispatch({type: WorkflowStatuses.SAVE_INVOICE_ITEM, data: this.invoice})
   }
 
 }

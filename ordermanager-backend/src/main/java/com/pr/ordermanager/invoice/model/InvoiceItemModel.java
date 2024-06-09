@@ -32,8 +32,8 @@ package com.pr.ordermanager.invoice.model;
 
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 /**
  * @author Oleksandr Prognimak

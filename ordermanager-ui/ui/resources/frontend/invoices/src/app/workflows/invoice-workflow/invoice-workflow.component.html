@@ -142,7 +142,8 @@
       </div>
       <div *ngIf="currentStatus.level > 3" [ngStyle]="editStyle(4)" class="p-col-12">
         <app-invoice-items-table #itemsTableRef
-                                 (changeItemEvent)="invoice.invoiceItems=$event"
+                                 (changeItemsEvent)="invoice.invoiceItems=$event"
+                                 (changeItemEvent)="itemValueChanged($event)"
                                  (totalBruttoSumEvent)="invoice.totalSumBrutto=$event"
                                  (totalNettoSumEvent)="invoice.totalSumNetto=$event"
                                  [invoiceItems]="invoice.invoiceItems"
