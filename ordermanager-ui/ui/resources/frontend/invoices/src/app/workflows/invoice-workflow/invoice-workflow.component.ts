@@ -169,8 +169,8 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.httpService.putObjectToServer('PUT', this.invoice, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
+          this.messagePrinter.printSuccessMessage("Invoice")
           this.resetModel();
-         this.messagePrinter.printSuccessMessage("Invoice")
         }
       });
   }
@@ -324,6 +324,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.store.subscribe(state => {
       this.invoice = Object.assign(new InvoiceFormModel(), new InvoiceItemModel())
       this.invoice.invoiceItems = Object.assign([], [])
+      this.workflowInvoiceItems = Object.assign([], [])
     })
 
   }
