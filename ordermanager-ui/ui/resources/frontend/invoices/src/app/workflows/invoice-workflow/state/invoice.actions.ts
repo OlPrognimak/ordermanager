@@ -20,7 +20,7 @@ const setInvoiceRecipientAction =
 const setInvoiceItemsAction =
   createAction(WorkflowStatuses.SET_INVOICE_ITEMS, props<{ data: InvoiceFormModelInterface }>())
 const saveInvoiceItemAction =
-  createAction(WorkflowStatuses.SAVE_INVOICE_ITEM, props<{data: InvoiceFormModelInterface}>())
+  createAction(WorkflowStatuses.SAVE_INVOICE_ITEM, props<{data: InvoiceItemModel[]}>())
 const saveInvoiceAction = createAction(WorkflowStatuses.SAVE_INVOICE)
 const actionFailure =
   createAction('INVOICE_FAILURE', props<{ error: string }>())

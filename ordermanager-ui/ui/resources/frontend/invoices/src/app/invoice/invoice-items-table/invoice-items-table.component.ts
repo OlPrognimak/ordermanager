@@ -33,13 +33,16 @@ import {
   Component,
   EventEmitter,
   Input,
-  model,
   OnDestroy,
   OnInit,
   Output,
   ViewChild
 } from '@angular/core';
-import { DropdownDataType, InvoiceItemModel, InvoiceItemModelInterface } from '../../domain/domain.invoiceformmodel';
+import {
+  DropdownDataType,
+  InvoiceItemModel,
+  InvoiceItemModelInterface
+} from '../../domain/domain.invoiceformmodel';
 import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from './invoice-items-table.calculator.service';
 import { InvoiceItemsTableService } from './invoice-items-table.service';
@@ -51,7 +54,7 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./invoice-items-table.component.css'],
   selector: 'app-invoice-items-table',
   templateUrl: './invoice-items-table.component.html',
-  providers: [InvoiceItemsTableCalculatorService, HttpClient],
+  providers: [HttpClient],
 })
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() invoiceItems: InvoiceItemModel[];
@@ -168,24 +171,20 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
 
   /** emits events with changed total netto and brutto sums */
   private emitTotalChanged(): void {
-    // console.log("CALK TOTTALS START")
     try {
       //this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
       //this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
     }catch (err) {
       console.log("Error :"+err)
     }
-    // console.log("CALK TOTTALS =:"+this.calculatorService.invoiceFormData.totalSumNetto+ " : "+ this.calculatorService.invoiceFormData.totalSumBrutto)
-  }
+   }
 
   ngAfterViewInit(): void {
     this.itemsForm.valueChanges.subscribe(value => {
 
       setTimeout( () => {
-        console.log("VALU CHANGED :"+JSON.stringify(value))
-        this.changeItemEvent.emit(value)
+       //TODO
       }, 0)
     })
   }
-
 }

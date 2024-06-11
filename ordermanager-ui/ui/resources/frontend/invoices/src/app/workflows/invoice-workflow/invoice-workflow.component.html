@@ -142,11 +142,11 @@
       </div>
       <div *ngIf="currentStatus.level > 3" [ngStyle]="editStyle(4)" class="p-col-12">
         <app-invoice-items-table #itemsTableRef
-                                 (changeItemsEvent)="invoice.invoiceItems=$event"
+                                 (changeItemsEvent)="invoiceItemsChanges($event)"
                                  (changeItemEvent)="itemValueChanged($event)"
                                  (totalBruttoSumEvent)="invoice.totalSumBrutto=$event"
                                  (totalNettoSumEvent)="invoice.totalSumNetto=$event"
-                                 [invoiceItems]="invoice.invoiceItems"
+                                 [invoiceItems]="workflowInvoiceItems"
                                  [modelChangedEvent]="eventsModelIsReset.asObservable()">
 
         </app-invoice-items-table>
@@ -154,7 +154,7 @@
       <div class="p-col-12">
         <div class="p-grid">
           <div *ngIf="currentStatus.level > 4" [ngStyle]="editStyle(5)" class="p-col-2">
-            <p-button (onClick)="saveInvoice($event)" [disabled]="haveErrors(invoice.invoiceItems)"
+            <p-button (onClick)="saveInvoice($event)" [disabled]="haveErrors(workflowInvoiceItems)"
                       label="Persist invoice"></p-button>
           </div>
         </div>

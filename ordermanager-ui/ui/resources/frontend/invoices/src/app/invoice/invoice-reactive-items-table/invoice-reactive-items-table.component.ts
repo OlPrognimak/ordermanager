@@ -59,7 +59,7 @@ import { HttpClient } from "@angular/common/http";
     ToastModule,
     ConfirmationDialogComponent
   ],
-  providers: [InvoiceItemsTableCalculatorService, HttpClient]
+  providers: [HttpClient]
 })
 export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   @ViewChild('confirmDeleteItemDialog') confirmDeleteItemDialog: ConfirmationDialogComponent
@@ -212,7 +212,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
 
   /** emits events with changed total netto and brutto sums */
   private emitTotalChanged(): void {
-    this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
-    this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
+    // this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
+    // this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
   }
 }

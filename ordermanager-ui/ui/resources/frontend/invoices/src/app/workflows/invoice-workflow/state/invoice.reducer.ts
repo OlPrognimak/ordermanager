@@ -1,7 +1,6 @@
 import {
   InvoiceFormModel,
   InvoiceFormModelInterface,
-  InvoiceItemModel,
   InvoiceItemModelInterface
 } from "../../../domain/domain.invoiceformmodel";
 import { Action, createReducer, on } from "@ngrx/store";
@@ -58,10 +57,10 @@ export const invoiceReducer = createReducer(
       };
     }),
   on(InvoiceActions.saveInvoiceItemAction, (state, {data}) => {
-     console.log("&&&&&&&&&&&&& STATE"+JSON.stringify(state))
+    console.log("--- Reducer Save Items : "+ JSON.stringify(data))
     return {
       ...state,
-      data: data,
+      items: Object.assign([],data),
       error: null,
     }
   }),

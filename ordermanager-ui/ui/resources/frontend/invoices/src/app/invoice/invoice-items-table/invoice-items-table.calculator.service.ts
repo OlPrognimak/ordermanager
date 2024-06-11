@@ -31,9 +31,9 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import {
   CalculatorParameters, InvoiceFormModel, InvoiceFormModelInterface,
-  InvoiceItemModel
+  InvoiceItemModel, InvoiceItemModelInterface
 } from '../../domain/domain.invoiceformmodel';
-import { of } from 'rxjs';
+import {lastValueFrom, of} from 'rxjs';
 import { map } from 'rxjs/operators';
 
 /**
@@ -45,17 +45,16 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class InvoiceItemsTableCalculatorService {
-
+  invoiceItems: InvoiceItemModelInterface[] = []
   totalNettoSum: WritableSignal<number> = signal(0);
   totalBruttoSum: WritableSignal<number> =  signal(0);
-  invoiceFormData: InvoiceFormModelInterface = new InvoiceFormModel()
 
   constructor() {
 
   }
 
   setInvoiceItems( items: InvoiceItemModel[]) {
-    this.invoiceFormData.invoiceItems = items
+    this.invoiceItems = items
   }
 
   /**
@@ -75,10 +74,7 @@ export class InvoiceItemsTableCalculatorService {
       .pipe(map(data => this.calculateTotalNettoSum(data)))
       /*Calculate total brutto sum.*/
       .pipe(map(data => this.calculateTotalBruttoSum(data)))
-      .pipe(map(data =>{
-        this.invoiceFormData.totalSumNetto = this.totalNettoSum()
-        this.invoiceFormData.totalSumBrutto = this.totalBruttoSum()
-      }))
+
     numberPromise.subscribe();
 
     await numberPromise;
@@ -124,12 +120,10 @@ export class InvoiceItemsTableCalculatorService {
   /*Summarize the netto price from one item to total netto price of whole invoice */
   private calculateNettoTottal(item: InvoiceItemModel): void {
     this.totalNettoSum.update(value => value+ item.sumNetto)
-    //console.log('Calculated Total Netto sum: ' + this.totalNettoSum());
   }
 
   /*Summarize the brutto price from one item to total brutto price of whole invoice */
   private calculateBruttoTottal(item: InvoiceItemModel): void {
     this.totalBruttoSum.update(value => Number( (value+item.sumBrutto).toFixed(2)))
-    //console.log('Calculated Total Brutto sum: ' + this.totalBruttoSum);
   }
 }

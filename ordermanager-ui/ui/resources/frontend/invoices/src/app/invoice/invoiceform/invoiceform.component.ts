@@ -90,7 +90,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
   /** The invoice data model */
-  //invoiceFormData: InvoiceFormModelInterface;
+  @Input() invoiceFormData: InvoiceFormModelInterface = new InvoiceFormModel()
   /** Model invoice supplier for dropdown component */
   @Input() personInvoiceSupplier: DropdownDataType[];
   /** Model invoice recipient for dropdown component */
@@ -120,7 +120,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
     //this.backendUrl = environment.baseUrl;
     super()
-    console.log("INIT :"+calculatorService.invoiceFormData)
   }
 
 
@@ -160,10 +159,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @param event the item for saving
    */
   saveInvoice(event: any): void {
-    console.log("S A V E   I N V O I C E TOTAL SUM NETTO 1::::" + this.itemsTableComponent.calculatorService.totalNettoSum())
-    console.log("S A V E   I N V O I C E TOTAL SUM BRUTTO 2::::" + this.itemsTableComponent.calculatorService.totalBruttoSum())
-    printToJson(this.itemsTableComponent.calculatorService.invoiceFormData)
-    this.httpService.putObjectToServer('PUT', this.calculatorService.invoiceFormData, 'Invoice',
+    this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
           this.resetModel();
@@ -185,8 +181,8 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @private
    */
   private resetModel(): void {
-    this.itemsTableComponent.calculatorService.invoiceFormData = new InvoiceFormModel();
-    this.itemsTableComponent.calculatorService.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
+    this.invoiceFormData = new InvoiceFormModel();
+    this.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {

@@ -152,7 +152,6 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({}, invoice)
-    //console.log(" SET ORIGINAL INVOICE "+JSON.stringify(this.originalInvoice))
 
     this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)
@@ -186,9 +185,9 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     if (this.haveErrors() === false) {
       const keepOriginalInvoice = this.originalInvoice
       this.originalInvoice = this.editInvoiceFG.value
-      this.originalInvoice.totalSumNetto = this.invoiceReactiveDlgFormData.totalSumNetto
-      this.originalInvoice.totalSumBrutto = this.invoiceReactiveDlgFormData.totalSumBrutto
-      //this.originalInvoice.invoiceItems = this.invoiceReactiveDlgFormData.invoiceItems
+
+      this.originalInvoice.totalSumNetto = this.itemsTableComponent.calculatorService.totalNettoSum()
+      this.originalInvoice.totalSumBrutto =  this.itemsTableComponent.calculatorService.totalBruttoSum()
 
       const supplier =
         this.personInvoiceSupplier.filter((p, idx) =>
@@ -228,7 +227,6 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   setVisible(isVisible: boolean) {
-    // console.log("Set visible ="+isVisible)
     this.visible = isVisible
   }
 
@@ -237,7 +235,6 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   }
 
   setCalendarValue(event: CalendarValueWrapper) {
-    console.log('Set Value: Name:' + event.calendarName + ': Date :' + event.date.toDateString())
     this.getControl(event.calendarName).setValue(event.date)
 
   }
