@@ -169,8 +169,10 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.httpService.putObjectToServer('PUT', this.invoice, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
-          this.messagePrinter.printSuccessMessage("Invoice")
-          this.resetModel();
+          setTimeout(() => {
+            this.resetModel();
+          }, 4000);
+
         }
       });
   }
