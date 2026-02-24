@@ -54,11 +54,11 @@ export class InvoiceItemsTableCalculatorService {
   }
 
   getInvoiceFormData() {
-    return this.invoiceFormData
+   // return this.invoiceFormData
   }
 
   setInvoiceFormData (model) {
-    this.invoiceFormData = model
+   // this.invoiceFormData = model
   }
 
   setInvoiceItems( items: InvoiceItemModel[]) {
