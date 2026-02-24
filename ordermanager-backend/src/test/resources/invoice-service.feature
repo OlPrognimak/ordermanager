@@ -28,6 +28,6 @@ Feature: Testing a REST API
         |1234567890|Invoice Description|300.0|357.0|2023-11-25T15:00:00+01:00|2023-11-25T15:00:00+01:00|HOURLY|
     And select creator and recipient persons
     And fills invoice items 'Test item1' with 1.0 amount and 'Item 2222' with 1.0 amount
-    And creates user 'userName' and password 'password' and JWT token
+    And creates user 'userName' and password 'password' and JWT tokeFn
     When user click save button
     Then the server should have 1 invoice in the database and return http status 201

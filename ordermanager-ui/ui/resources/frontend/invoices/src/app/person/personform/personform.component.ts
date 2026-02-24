@@ -92,18 +92,18 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   flowInvoiceModel: InvoiceFormModelInterface
   protected readonly personType = personType;
   protected readonly isAuthenticated = isAuthenticated;
-  private hasPersonTypeError: boolean;
-  private hasFirstNameError: boolean;
-  private hasLastNameError: boolean;
-  private hasCompanyNameError: boolean;
-  private hasEmailError: boolean;
-  private hasTaxNumberError: boolean;
-  private hasZipCodeError: boolean;
-  private hasCityError: boolean;
-  private hasStreetError: boolean;
-  private hasBankNameError: boolean;
-  private hasIbahError: boolean = true;
-  private hasBicError: boolean;
+  private hasPersonTypeError: boolean = false;
+  private hasFirstNameError: boolean = false;
+  private hasLastNameError: boolean = false;
+  private hasCompanyNameError: boolean = false;
+  private hasEmailError: boolean = false;
+  private hasTaxNumberError: boolean = false;
+  private hasZipCodeError: boolean = false;
+  private hasCityError: boolean = false;
+  private hasStreetError: boolean = false;
+  private hasBankNameError: boolean = false;
+  private hasIbahError: boolean = false;
+  private hasBicError: boolean = false;
 
   /**
    * The constructor
@@ -263,12 +263,12 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   }
 
   checkOrSetIbahNoError(modelRef: NgModel) {
-    const val: boolean = modelRef.errors?.iban!==null;
+    const val: boolean = modelRef.errors?.["iban"]!==null;
     if (this.hasIbahError !== val) {
       setTimeout(() => {
         this.hasIbahError = val
       })
-      return modelRef.errors?.iban;
+      return modelRef.errors?.["iban"];
     } else if (modelRef?.valid){
       return false;
     }
@@ -292,26 +292,7 @@ export class PersonFormComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-  haveErrors() {
-    let hasSomeError = false
-    if (this.hasPersonTypeError) {
-      return true;
-    } else if (this.personFormModel.personType === 'PRIVATE') {
-      hasSomeError = this.hasFirstNameError || this.hasLastNameError || this.hasTaxNumberError
-    } else if (this.personFormModel.personType === 'ORGANISATION') {
-      hasSomeError = this.hasCompanyNameError
-    }
-    const commonResult = hasSomeError ||
-      this.hasEmailError ||
-      this.hasZipCodeError ||
-      this.hasCityError ||
-      this.hasStreetError ||
-      this.hasBankNameError ||
-      this.hasIbahError ||
-      this.hasBicError
-    return commonResult
-  }
+  //
 
   setIbanControlModel(val: NgModel) {
     setTimeout(() => {

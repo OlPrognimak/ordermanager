@@ -161,6 +161,8 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   saveInvoice(event: any): void {
     console.log("S A V E   I N V O I C E TOTAL SUM NETTO 1::::" + this.itemsTableComponent.calculatorService.totalNettoSum())
     console.log("S A V E   I N V O I C E TOTAL SUM BRUTTO 2::::" + this.itemsTableComponent.calculatorService.totalBruttoSum())
+    console.log("S A V E   I N V O I C E :" + JSON.stringify(this.itemsTableComponent.calculatorService.invoiceFormData))
+
     printToJson(this.itemsTableComponent.calculatorService.invoiceFormData)
     this.httpService.putObjectToServer('PUT', this.itemsTableComponent?.calculatorService.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
@@ -184,7 +186,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @private
    */
   private resetModel(): void {
-    this.itemsTableComponent.calculatorService.invoiceFormData = new InvoiceFormModel();
+    this.itemsTableComponent.calculatorService.setInvoiceFormData(new InvoiceFormModel());
     this.itemsTableComponent.calculatorService.invoiceFormData.invoiceItems.push(new InvoiceItemModel());
     // this.eventsModelIsReset.next();
 

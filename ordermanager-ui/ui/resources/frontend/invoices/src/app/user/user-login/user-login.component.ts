@@ -3,7 +3,7 @@ import { AppSecurityService } from '../../common-auth/app-security.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Observable, of } from "rxjs";
+import {Observable, of, share} from "rxjs";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
@@ -13,6 +13,7 @@ import {
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
+
 
 @Component({
   selector: 'app-user-login',
@@ -35,7 +36,28 @@ export class UserLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // const source$ = new Observable<number>((observer) => {
+    //   console.log('Source Observable created');
+    //   let count = 0;
+    //   setInterval(() => {
+    //     observer.next(count++);
+    //   }, 1000);
+    // }).pipe(share());
+    const source$ = of(1,2,3,4,5)
 
+    source$.subscribe((value) => {
+      console.log(`Subscriber 1: ${value}`);
+    });
+
+    source$.subscribe((value) => {
+      console.log(`Subscriber 2: ${value}`);
+    });
+
+    // setTimeout(() => {
+    //   source$.subscribe((value) => {
+    //     console.log(`Subscriber 2: ${value}`);
+    //   });
+    // }, 3000);
   }
 
   public navigateCreateNewUser(): void {

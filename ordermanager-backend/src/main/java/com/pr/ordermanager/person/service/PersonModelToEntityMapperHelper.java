@@ -78,12 +78,15 @@ public class PersonModelToEntityMapperHelper {
        person.setCompanyName(source.getCompanyName());
        person.setEmail(source.getEmail());
        person.setTaxNumber (source.getTaxNumber ());
-       if(person.getBankAccount() !=null&& person.getBankAccount().size() > 0) {
+       if(person.getBankAccount() !=null&& !person.getBankAccount().isEmpty()) {
            mapBankAccountFormModelToAttachedEntity(source.getBankAccountFormModel(), person.getBankAccount().get(0));
        }
 
-       if(person.getPersonAddress() !=null&& person.getBankAccount().size() > 0) {
-           mapPersonAddressFormModelToAttachedEntity(source.getPersonAddressFormModel(), person.getPersonAddress().get(0));
+       if(person.getPersonAddress() != null) {
+           assert person.getBankAccount() != null;
+           if (!person.getBankAccount().isEmpty()) {
+               mapPersonAddressFormModelToAttachedEntity(source.getPersonAddressFormModel(), person.getPersonAddress().get(0));
+           }
        }
 
    }

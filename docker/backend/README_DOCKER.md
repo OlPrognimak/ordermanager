@@ -1,4 +1,4 @@
-### Build backend docker image
+  ### Build backend docker image
 To build docker image runs this script from location of Dockerfile
 ````
 docker build -t prognimak.ordermanager/backend:<version> .

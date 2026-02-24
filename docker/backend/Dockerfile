@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk
+FROM eclipse-temurin:21-jdk
 ARG JAR_FILE=ordermanager-backend.jar
 COPY ${JAR_FILE} app.jar
 #That's need only on Mac
