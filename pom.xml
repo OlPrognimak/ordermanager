@@ -37,13 +37,13 @@
 		<h2.version>2.1.214</h2.version>
 		<log4j2.version>2.20.0</log4j2.version>
 		<hibernate.version>6.2.3.Final</hibernate.version>
-		<javax.validator.api.version>2.0.1.Final</javax.validator.api.version>
-		<javax.hibernate.validator.version>6.2.3.Final</javax.hibernate.validator.version>
+		<jakarta.validator.api.version>3.1.0</jakarta.validator.api.version>
+		<jakarta.hibernate.validator.version>8.0.1.Final</jakarta.hibernate.validator.version>
 		<jasper.report.version>6.20.5</jasper.report.version>
 		<lombok.version>1.18.32</lombok.version>
 		<springdoc.openapi.version>1.7.0</springdoc.openapi.version>
 		<mockito.version>5.3.1</mockito.version>
-		<jakarta.annotation.version>2.1.1</jakarta.annotation.version>
+		<jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 		<java.jwt.version>4.4.0</java.jwt.version>
 		<cucumber.version>7.14.0</cucumber.version>
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
@@ -84,14 +84,14 @@
 				<version>5.4.2.Final</version>
 			</dependency>
 			<dependency>
-				<groupId>javax.validation</groupId>
-				<artifactId>validation-api</artifactId>
-				<version>${javax.validator.api.version}</version>
+				<groupId>jakarta.validation</groupId>
+				<artifactId>jakarta.validation-api</artifactId>
+				<version>${jakarta.validator.api.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.validator</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${javax.hibernate.validator.version}</version>
+				<version>${jakarta.hibernate.validator.version}</version>
 			</dependency>
 
 			<!-- log4j2 -->
@@ -249,8 +249,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 
 		<!-- Spring Boot Admin -->

@@ -47,6 +47,7 @@ import { DateperiodFinderComponent } from "./common-components/dateperiod-finder
 import { InvoicePipesModule } from "./common-pipes/common-services.pipes.number";
 import { TemplatesComponentComponent } from "./common-components/templates-component/templates-component.component";
 import { StoreModule } from "@ngrx/store";
+import {InvoiceItemsTableCalculatorService} from "./invoice/invoice-items-table/invoice-items-table.calculator.service";
 
 
 @NgModule({
@@ -96,7 +97,7 @@ import { StoreModule } from "@ngrx/store";
     StoreModule.forRoot({}),
    // WorkflowModule
   ],
-  providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,
+  providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,InvoiceItemsTableCalculatorService,
     {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

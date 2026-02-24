@@ -11,7 +11,7 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_20009;
 /**
  * Need to be fixed empty collection in Bean Validation and than this validator can be removed
  */
-//TODO need to be implemented via javax.validation
+//TODO need to be implemented via jakarta.validation
 public class InvoiceValidator {
     private InvoiceValidator() {
 

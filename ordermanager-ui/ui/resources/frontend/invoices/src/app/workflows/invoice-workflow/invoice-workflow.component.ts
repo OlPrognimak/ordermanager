@@ -10,9 +10,9 @@ import {
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface,
-  InvoiceItemModel
+  InvoiceItemModel, InvoiceItemModelInterface
 } from "../../domain/domain.invoiceformmodel";
-import { invoiceRate, isAuthenticated } from "../../common-services/common-services-util.service";
+import {invoiceRate, isAuthenticated, printToJson} from "../../common-services/common-services-util.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import { InputTextModule } from "primeng/inputtext";
 import {
@@ -23,12 +23,15 @@ import {
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { ButtonModule } from "primeng/button";
 import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
-import { CommonServicesAppHttpService } from "../../common-services/common-services.app.http.service";
+import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import { InvoiceFormModule } from "../../invoice/invoiceform/invoiceform.component";
 import {Observable, of, Subject} from "rxjs";
 import { InvoiceItemsTableComponent } from "../../invoice/invoice-items-table/invoice-items-table.component";
 import { InvoiceFormValidator } from "../../invoice/invoiceform/invoice.form.validator";
 import { ActivatedRoute, Router } from "@angular/router";
+import {
+  InvoiceItemsTableCalculatorService
+} from "../../invoice/invoice-items-table/invoice-items-table.calculator.service";
 
 
 const CHECK_CIRCLE:string = "pi pi-check-circle"
@@ -42,8 +45,10 @@ const OFF_CIRCLE:string = "pi pi-circle-off"
   styleUrls: ['./invoice-workflow.component.css']
 })
 export class InvoiceWorkflowComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
-  createInvoiceFlowEvents: any[];
-  invoice: InvoiceFormModelInterface
+  createInvoiceFlowEvents: any[]
+  @Input() invoice: InvoiceFormModelInterface
+  //TODO Use as source for items
+  workflowInvoiceItems: InvoiceItemModelInterface[] = []
   @ViewChild('workflowFrm') workflowFrm: NgForm
   /** Model invoice supplier for dropdown component */
   @Input() personInvoiceSupplier: DropdownDataType[];
@@ -58,6 +63,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
 
   constructor(private store: Store<any>,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
+              private messagePrinter: MessagesPrinter,
               private router: Router,
               private route: ActivatedRoute,
               private cdr: ChangeDetectorRef) {
@@ -100,44 +106,46 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
 
     });
 
-    // this.currentStatus = this.createInvoiceFlowEvents[0]
     this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
     this.store.subscribe(state => {
       this.invoice = Object.assign(new InvoiceFormModel(), state?.invoiceWorkflow.data)
       this.invoice.invoiceItems = Object.assign([], state.invoiceWorkflow.data.invoiceItems)
+      this.workflowInvoiceItems = []
+      //Fill with data from stage
+      state.invoiceWorkflow.data.invoiceItems.map(item => {
+        this.workflowInvoiceItems.push( {...item})
+      })
+
     })
 
   }
+
 
   /**
    * Set current selected workflow step
    *
    * @param selectedModel the selected model on workflow step
-   */
+   */Action
   setWorkflowStep(selectedModel: WorkflowEventsModel) {
-    this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
-      Object.assign(new InvoiceFormModel(), this.invoice))
 
+     const clonedItems = Object.assign([],this.workflowInvoiceItems)
+     this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
+      Object.assign(new InvoiceFormModel(), this.invoice))
     this.currentStatus = selectedModel
-    this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
-    this.store.subscribe(s => {
-      this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
-      this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
-    })
   }
 
   /**
    * Saves previous status after changing a flow step
    *
    * @param prevWorkflowModel previous selected workflow model before changing to a new workflow step
-   * @param invoiceFormModel the currecnt invoice model
+   * @param invoiceFormModel the current invoice model
    */
   savePreviousStatus(prevWorkflowModel: WorkflowEventsModel, invoiceFormModel: InvoiceFormModelInterface) {
-    this.store.dispatch({type: prevWorkflowModel.status, data: invoiceFormModel})
-    this.store.subscribe(s => {
-      this.invoice = Object.assign(new InvoiceFormModel(), s.invoiceWorkflow.data)
-      this.invoice.invoiceItems = Object.assign([], s.invoiceWorkflow.data.invoiceItems)
+    this.invoice.invoiceItems = []
+    this.workflowInvoiceItems.map( item => {
+      this.invoice.invoiceItems.push({...item})
     })
+    this.store.dispatch({type: prevWorkflowModel.status, data: this.invoice})
   }
 
 
@@ -161,7 +169,10 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.httpService.putObjectToServer('PUT', this.invoice, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
-          this.resetModel();
+          setTimeout(() => {
+            this.resetModel();
+          }, 4000);
+
         }
       });
   }
@@ -175,7 +186,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     if (this.currentStatus.level === level) {
       return {}
     } else {
-      return {'pointer-events': 'none', opacity: '50%'}
+      return {'pointer-events': 'none', opacity: '65%'}
     }
   }
 
@@ -266,7 +277,14 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
         return fontColor
       }
       case WorkflowStatuses.SET_INVOICE_ITEMS: {
-        if (this.haveInvoiceItemsError(this.invoice?.invoiceItems) === true) {
+        if (this.haveInvoiceItemsError(this.workflowInvoiceItems) === true) {
+          fontColor = 'red'
+        }
+        return fontColor
+      }
+
+      case WorkflowStatuses.SAVE_INVOICE: {
+        if (this.haveErrors(this.workflowInvoiceItems) === true) {
           fontColor = 'red'
         }
         return fontColor
@@ -292,7 +310,6 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
   onSupplierChanged(event: any) {
-    console.log("set value:" + event)
     if (event !== null) {
       this.invoice.personSupplierId = event
     }
@@ -309,6 +326,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.store.subscribe(state => {
       this.invoice = Object.assign(new InvoiceFormModel(), new InvoiceItemModel())
       this.invoice.invoiceItems = Object.assign([], [])
+      this.workflowInvoiceItems = Object.assign([], [])
     })
 
   }
@@ -323,4 +341,22 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    this.formInit();
   }
 
+  /**
+   *
+   * @param $event the model
+   */
+  itemValueChanged($event: any) {
+    //TODO may be need to implement changes in invoice item
+
+    // this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
+    //   Object.assign(new InvoiceFormModel(), this.invoice))
+    //
+    // console.log("######  I N V O C E   E V E N T:" + JSON.stringify( $event))
+    //
+    // this.store.dispatch({type: WorkflowStatuses.SAVE_INVOICE_ITEM, data: this.invoice})
+  }
+
+  invoiceItemsChanges($event: InvoiceItemModel[]) {
+    this.workflowInvoiceItems = Object.assign([], $event)
+  }
 }

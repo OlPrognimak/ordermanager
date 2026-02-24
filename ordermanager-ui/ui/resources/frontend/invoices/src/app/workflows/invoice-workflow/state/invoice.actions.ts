@@ -1,5 +1,9 @@
 import { createAction, props } from "@ngrx/store";
-import { InvoiceFormModelInterface } from "../../../domain/domain.invoiceformmodel";
+import {
+  InvoiceFormModelInterface,
+  InvoiceItemModel,
+  InvoiceItemModelInterface
+} from "../../../domain/domain.invoiceformmodel";
 import { WorkflowStatuses } from "./invoice.state";
 
 const loadInvoiceAction = createAction('LOAD_INVOICE')
@@ -15,6 +19,8 @@ const setInvoiceRecipientAction =
   createAction(WorkflowStatuses.SET_INVOICE_RECIPIENT, props<{ data: InvoiceFormModelInterface }>())
 const setInvoiceItemsAction =
   createAction(WorkflowStatuses.SET_INVOICE_ITEMS, props<{ data: InvoiceFormModelInterface }>())
+const saveInvoiceItemAction =
+  createAction(WorkflowStatuses.SAVE_INVOICE_ITEM, props<{data: InvoiceItemModel[]}>())
 const saveInvoiceAction = createAction(WorkflowStatuses.SAVE_INVOICE)
 const actionFailure =
   createAction('INVOICE_FAILURE', props<{ error: string }>())
@@ -30,6 +36,7 @@ export class InvoiceActions {
   static setInvoiceRecipientAction = setInvoiceRecipientAction
   static setInvoiceItemsAction = setInvoiceItemsAction
   static saveInvoiceAction = saveInvoiceAction
+  static saveInvoiceItemAction = saveInvoiceItemAction
 }
 
 

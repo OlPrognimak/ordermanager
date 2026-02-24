@@ -1,9 +1,14 @@
-import { InvoiceFormModel, InvoiceFormModelInterface } from "../../../domain/domain.invoiceformmodel";
+import {
+  InvoiceFormModel,
+  InvoiceFormModelInterface,
+  InvoiceItemModelInterface
+} from "../../../domain/domain.invoiceformmodel";
 import { Action, createReducer, on } from "@ngrx/store";
 import { InvoiceActions } from "./invoice.actions";
 
 export interface InvoiceState {
   data: InvoiceFormModelInterface | null
+  items: InvoiceItemModelInterface[]
   status: "loading" | "loaded" | "success" | "error"
   errors: any | null
   error: any | null
@@ -11,6 +16,7 @@ export interface InvoiceState {
 
 export const initialInvoiceStale: InvoiceState = {
   data: new InvoiceFormModel(),
+  items: null,
   status: 'loading',
   errors: null,
   error: null
@@ -50,6 +56,14 @@ export const invoiceReducer = createReducer(
         error: null,
       };
     }),
+  on(InvoiceActions.saveInvoiceItemAction, (state, {data}) => {
+    console.log("--- Reducer Save Items : "+ JSON.stringify(data))
+    return {
+      ...state,
+      items: Object.assign([],data),
+      error: null,
+    }
+  }),
   on(InvoiceActions.setInvoiceRecipientAction,
     (state, {data}) => {
       return {

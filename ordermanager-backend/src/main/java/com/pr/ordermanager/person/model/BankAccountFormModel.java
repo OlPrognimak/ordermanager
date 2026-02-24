@@ -32,7 +32,7 @@ package com.pr.ordermanager.person.model;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author Oleksandr Prognimak

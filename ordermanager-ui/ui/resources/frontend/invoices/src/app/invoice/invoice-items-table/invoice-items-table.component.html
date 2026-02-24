@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<form #itemsForm = "ngForm">
 <div class="p-fluid p-grid">
   <div class="p-col-12">
     <div class="p-grid" style="background-color: white">
@@ -30,6 +31,7 @@
                     <p-dropdown #itemsRef (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
                                 [ngModel]="invoiceitem?.catalogItemId"
                                 [options]="catalogItems"
+                                name="catalogItemId"
                                 [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
                                 appendTo="body"></p-dropdown>
                   </ng-template>
@@ -143,6 +145,7 @@
     </div>
   </div>
 </div>
+</form>
 
 
 

@@ -1,6 +1,6 @@
 ##### Table of contents
  - [Overview](#Overview) 
- - [System requirements](#System requirements)
+ - [System requirements](#System-requirements)
    - [OS](#OS)
    - [Java](#Java)
    - [Docker Images](#Docker-Images)
