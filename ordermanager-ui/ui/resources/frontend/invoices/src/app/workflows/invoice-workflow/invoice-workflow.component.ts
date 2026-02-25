@@ -66,7 +66,8 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
               private messagePrinter: MessagesPrinter,
               private router: Router,
               private route: ActivatedRoute,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef,
+              private invoiceItemsTableCalculatorService: InvoiceItemsTableCalculatorService) {
     super()
   }
 
@@ -166,6 +167,9 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    * @param event the item for saving
    */
   saveInvoice(event: any): void {
+   this.invoice.totalSumNetto = this.invoiceItemsTableCalculatorService.totalNettoSum()
+    this.invoice.totalSumBrutto =  this.invoiceItemsTableCalculatorService.totalBruttoSum()
+    printToJson(this.invoice)
     this.httpService.putObjectToServer('PUT', this.invoice, 'Invoice',
       'invoice', (callback) => {
         if (callback) {
@@ -211,7 +215,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   flowButtonStyle(flowEvent: WorkflowEventsModel): any {
     let style = {}
     const curColor: string = this.getColor(flowEvent);
-    flowEvent.isDataFilled = (curColor === 'red'? false: true)
+    flowEvent.isDataFilled = (curColor !== 'red')
     if (flowEvent.level === this.currentStatus.level) {
       style = {'background-color': '#1D537EFF', color: curColor}
     } else {
@@ -228,7 +232,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
    */
   getTimelineIcon(flowEvent: WorkflowEventsModel) : boolean {
     if((flowEvent.isDataFilled&&flowEvent.clsName !== CHECK_CIRCLE) ||
-      (flowEvent.isDataFilled===false&&flowEvent.clsName !== OFF_CIRCLE)) {
+      (!flowEvent.isDataFilled && flowEvent.clsName !== OFF_CIRCLE)) {
       setTimeout(() => {
         if (flowEvent.isDataFilled) {
           flowEvent.clsName = CHECK_CIRCLE
@@ -252,41 +256,45 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     let fontColor: string = 'white'
     switch (flowEvent.status) {
       case WorkflowStatuses.SET_INVOICE_TYPE: {
-        if (this.hasErrorsInvoiceType() === true) {
+        if (this.hasErrorsInvoiceType()) {
           fontColor = 'red'
         }
         return fontColor
       }
       case WorkflowStatuses.SET_INVOICE_DATE: {
-        if (this.hasErrorsDates() === true || this.hasErrorsDates() === undefined) {
+        if (this.hasErrorsDates() || this.hasErrorsDates() === undefined) {
           fontColor = 'red'
         }
         return fontColor
       }
       case WorkflowStatuses.SET_INVOICE_CREATOR: {
-        if (this.hasCreatorError === true) {
+        if (this.hasCreatorError) {
           fontColor = 'red'
         }
         return fontColor
       }
       case WorkflowStatuses.SET_INVOICE_RECIPIENT: {
-        if (this.hasRecipientError === true) {
+        if (this.hasRecipientError) {
           fontColor = 'red'
         }
 
         return fontColor
       }
       case WorkflowStatuses.SET_INVOICE_ITEMS: {
-        if (this.haveInvoiceItemsError(this.workflowInvoiceItems) === true) {
+        if (this.haveInvoiceItemsError(this.workflowInvoiceItems)) {
           fontColor = 'red'
         }
         return fontColor
       }
 
       case WorkflowStatuses.SAVE_INVOICE: {
-        if (this.haveErrors(this.workflowInvoiceItems) === true) {
+        if (this.haveErrors(this.workflowInvoiceItems)) {
           fontColor = 'red'
         }
+        return fontColor
+      }
+
+      default: {
         return fontColor
       }
 
@@ -332,7 +340,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
   private formInit() {
-    this.workflowFrm?.valueChanges.subscribe(value => {
+    this.workflowFrm?.valueChanges?.subscribe(value => {
         this.cdr.detectChanges();
     });
   }

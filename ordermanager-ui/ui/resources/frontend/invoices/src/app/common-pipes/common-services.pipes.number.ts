@@ -35,6 +35,7 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 })
 export class CommonServicesPipesNumber implements PipeTransform {
   transform(val: number): string {
+    console.log('val ' + val)
     return Number(val).toFixed(2);
   }
 }

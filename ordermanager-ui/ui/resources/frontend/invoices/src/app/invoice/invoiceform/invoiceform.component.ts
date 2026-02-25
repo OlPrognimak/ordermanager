@@ -159,6 +159,9 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * @param event the item for saving
    */
   saveInvoice(event: any): void {
+    this.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum();
+    this.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum();
+    printToJson(this.invoiceFormData);
     this.httpService.putObjectToServer('PUT', this.invoiceFormData, 'Invoice',
       'invoice', (callback) => {
         if (callback) {

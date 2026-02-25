@@ -69,7 +69,7 @@
                 <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
               </td>
               <td>
-                <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
+                <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
               </td>
               <td>
                 <button (click)="deleteInvoice(invoice.id)" class="p-button-rounded p-button-warning" icon="pi pi-trash"

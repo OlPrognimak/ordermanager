@@ -20,7 +20,7 @@ import { CommonServicesAppHttpService, MessagesPrinter } from "../../common-serv
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import { MessageModule } from "primeng/message";
 import { MessagesModule } from "primeng/messages";
-import { isAuthenticated } from "../../common-services/common-services-util.service";
+import {isAuthenticated, printToJson} from "../../common-services/common-services-util.service";
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
 import { environment } from "../../../environments/environment";
 import { CommonServiceEventListener } from "../../common-services/common-service.event.bus";
@@ -178,4 +178,7 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
   handleCancelSaveInvoice($event: boolean) {
     this.showSaveConfirmDialog = false
   }
+
+  protected readonly JSON = JSON;
+  protected readonly printToJson = printToJson;
 }
