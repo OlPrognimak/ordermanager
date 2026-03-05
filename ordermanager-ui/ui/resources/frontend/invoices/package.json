@@ -42,7 +42,7 @@
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.27",
     "primeflex": "^2.0.0",
-    "primeicons": "^4.0.0",
+    "primeicons": "^4.1.0",
     "primeng": "^17.18.0",
     "rimraf": "^4.4.1",
     "rxjs": "~7.8.1",

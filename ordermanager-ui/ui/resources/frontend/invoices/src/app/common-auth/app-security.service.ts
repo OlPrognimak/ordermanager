@@ -26,9 +26,10 @@ export class Auth {
 
 }
 
-export const remoteBackendUrl = () => {
-  return localStorage.getItem("remoteBackendURL")
-}
+export const remoteBackendUrl = (): string => {
+  if (typeof window === 'undefined') return '';
+  return window.localStorage?.getItem('remoteBackendURL') ?? '';
+};
 
 /**
  *

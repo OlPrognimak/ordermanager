@@ -139,16 +139,15 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    * Retrieve the label of item in dropdown to set in editable set component
    * @param idItemCatalog the id of item in catalog of items
    */
-  getCatalogDescription(idItemCatalog: string): any {
-    if (idItemCatalog !== undefined) {
-      // tslint:disable-next-line:triple-equals
-      const rez = this.catalogItems?.filter(
-        val => Number(val.value) === Number(idItemCatalog));
-      const labelTxt = rez?.at(0).label
-      return labelTxt;
-    } else {
-      return '[Please select item]';
-    }
+  getCatalogDescription(idItemCatalog?: string): string {
+    const FALLBACK = '[Please select item]';
+    if (!idItemCatalog) return FALLBACK;
+
+    const found = this.catalogItems?.find(
+      item => Number(item.value) === Number(idItemCatalog)
+    );
+
+    return found?.label ?? FALLBACK;
   }
 
   /**
@@ -180,7 +179,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    }
 
   ngAfterViewInit(): void {
-    this.itemsForm.valueChanges.subscribe(value => {
+    this.itemsForm?.valueChanges?.subscribe(value => {
 
       setTimeout( () => {
        //TODO

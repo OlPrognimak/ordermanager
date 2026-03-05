@@ -34,9 +34,19 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
   name: 'standardFloat',
 })
 export class CommonServicesPipesNumber implements PipeTransform {
-  transform(val: number): string {
-    console.log('val ' + val)
-    return Number(val).toFixed(2);
+
+  transform(val: number | string | null | undefined): string {
+    if (val === null || val === undefined || val === '') {
+      return '';
+    }
+
+    const num = Number(val);
+
+    if (isNaN(num)) {
+      return '';
+    }
+
+    return num.toFixed(2);
   }
 }
 

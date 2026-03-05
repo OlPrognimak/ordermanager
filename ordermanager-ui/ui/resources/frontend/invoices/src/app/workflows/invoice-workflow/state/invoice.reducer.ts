@@ -16,7 +16,7 @@ export interface InvoiceState {
 
 export const initialInvoiceStale: InvoiceState = {
   data: new InvoiceFormModel(),
-  items: null,
+  items: [],
   status: 'loading',
   errors: null,
   error: null

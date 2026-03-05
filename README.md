@@ -235,7 +235,7 @@ In project is the component  ```templates-component``` which collect the several
                </span>
             </div>
             <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
-                <p-message severity="error"></p-message>
+                <p-message severity="danger" icon="pi pi-times-circle"></p-message>
             </div>
         </div>
     </div>
