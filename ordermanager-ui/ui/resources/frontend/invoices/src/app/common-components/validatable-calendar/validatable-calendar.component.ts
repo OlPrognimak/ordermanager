@@ -125,6 +125,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   }
 
   ngOnInit(): void {
+
   }
 
   registerOnChange(fn: any): void {

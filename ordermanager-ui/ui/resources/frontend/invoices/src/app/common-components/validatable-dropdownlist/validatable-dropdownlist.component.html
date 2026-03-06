@@ -11,6 +11,10 @@
                             id="{{idComponent}}"
                             minlength="{{txtMinLength}}"
                             placeholder="{{placeholder}}"
+                            [ngClass]="{
+                                'ng-invalid': modelRef?.invalid,
+                                'ng-dirty': modelRef?.dirty || modelRef?.touched
+                            }"
                             required>
                 </p-dropdown>
                 <label for="{{idComponent}}">{{labelText}}</label>

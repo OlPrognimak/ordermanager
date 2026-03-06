@@ -15,6 +15,10 @@
                                 [dateFormat]="calendarDateFormat"
                                 id="{{idComponent}}"
                                 minlength="txtMinLength"
+                                [ngClass]="{
+                                  'ng-invalid': modelCalenderRef?.invalid,
+                                  'ng-dirty': modelCalenderRef?.dirty || modelCalenderRef?.touched
+                                }"
                                 required>
                     </p-calendar>
                     <label for="{{idComponent}}">{{labelText}}</label>
