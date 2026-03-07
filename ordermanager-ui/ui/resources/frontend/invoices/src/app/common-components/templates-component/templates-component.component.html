@@ -61,9 +61,10 @@
                             id="{{idComponent}}"
                             minlength="1"
                             placeholder="{{placeholderPar}}"
-                            class="p-invalid"
-                            [class.ng-invalid]="getControl(controlPath)?.invalid"
-                            [class.ng-dirty]="getControl(controlPath)?.dirty || getControl(controlPath)?.touched"
+                            [ngClass]="{
+                                'ng-invalid': getControl(controlPath)?.invalid,
+                                'ng-dirty': getControl(controlPath)?.dirty || getControl(controlPath)?.touched
+                            }"
                             required>
                 </p-dropdown>
                 <label for="{{idComponent}}">{{labelText}}</label>
@@ -93,8 +94,10 @@
                                 id="{{idComponent}}"
                                 minlength="1"
                                 class="p-invalid"
-                                [class.ng-invalid]="getControl(controlPath)?.invalid"
-                                [class.ng-dirty]="getControl(controlPath)?.dirty || getControl(controlPath)?.touched"
+                                [ngClass]="{
+                                  'ng-invalid': getControl(controlPath)?.invalid,
+                                  'ng-dirty': getControl(controlPath)?.dirty || getControl(controlPath)?.touched
+                                }"
                                 required>
                     </p-calendar>
                     <label for="{{idComponent}}">{{labelText}}</label>
@@ -125,7 +128,10 @@
                                   minlength="1"
                                   class="p-invalid"
                                   name="{{controlName}}" required
-                                  [class.p-invalid]="pCalendarRef.invalid && pCalendarRef.touched">
+                                   [ngClass]="{
+                                      'ng-invalid': pCalendarRef?.invalid,
+                                      'ng-dirty': pCalendarRef?.dirty || pCalendarRef?.touched
+                                  }">
                       </p-calendar>
                       <label for="{{idComponent}}">{{labelText}}</label>
                  </span>
