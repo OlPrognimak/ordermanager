@@ -38,9 +38,6 @@ import { CommonModule } from "@angular/common";
 import { InvoiceManagementModule } from "./invoice/invoice-management/invoice-management.component";
 import { RippleModule } from "primeng/ripple";
 import { UserLoginModule } from "./user/user-login/user-login.component";
-import {
-  ValidatableInputTextModule
-} from "./common-components/validatable-input-text/validatable-input-text.component";
 import { PersonFormModule } from "./person/personform/personform.component";
 import { InvoiceFormModule } from "./invoice/invoiceform/invoiceform.component";
 import { DateperiodFinderComponent } from "./common-components/dateperiod-finder/dateperiod-finder.component";
@@ -48,6 +45,9 @@ import { InvoicePipesModule } from "./common-pipes/common-services.pipes.number"
 import { TemplatesComponentComponent } from "./common-components/templates-component/templates-component.component";
 import { StoreModule } from "@ngrx/store";
 import {InvoiceItemsTableCalculatorService} from "./invoice/invoice-items-table/invoice-items-table.calculator.service";
+import {
+  ValidatableInputTextComponent
+} from "./common-components/validatable-input-text/validatable-input-text.component";
 
 
 @NgModule({
@@ -86,7 +86,6 @@ import {InvoiceItemsTableCalculatorService} from "./invoice/invoice-items-table/
     RippleModule,
     UserLoginModule,
     ValidatableCalendarModule,
-    ValidatableInputTextModule,
     ValidatableDropdownlistModule,
     PersonFormModule,
     InvoiceFormModule,
@@ -95,7 +94,8 @@ import {InvoiceItemsTableCalculatorService} from "./invoice/invoice-items-table/
     ReactiveFormsModule,
     TemplatesComponentComponent,
     StoreModule.forRoot({}),
-   // WorkflowModule
+    ValidatableInputTextComponent,
+    // WorkflowModule
   ],
   providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,InvoiceItemsTableCalculatorService,
     {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],

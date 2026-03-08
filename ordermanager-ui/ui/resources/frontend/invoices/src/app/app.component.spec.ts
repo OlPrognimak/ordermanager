@@ -9,9 +9,6 @@ import { TooltipModule } from "primeng/tooltip";
 import { FormsModule } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
-import {
-  ValidatableInputTextModule
-} from "./common-components/validatable-input-text/validatable-input-text.component";
 
 describe('AppComponent', () => {
 
@@ -19,7 +16,7 @@ describe('AppComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
-          RouterTestingModule, HttpClientTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule, ValidatableInputTextModule
+          RouterTestingModule, HttpClientTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule
         ],
         declarations: [
           AppComponent, UserLoginComponent

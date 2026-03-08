@@ -12,9 +12,6 @@ import {
   Validators
 } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { InvoiceFormModule } from "../invoiceform/invoiceform.component";
 import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import {
@@ -62,7 +59,6 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
     InputTextModule,
     ReactiveFormsModule,
     ToastModule,
-    ValidatableInputTextModule,
     FormsModule,
     InvoiceFormModule,
     ValidatableCalendarModule,

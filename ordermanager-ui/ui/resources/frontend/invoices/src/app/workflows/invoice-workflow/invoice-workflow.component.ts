@@ -18,9 +18,6 @@ import { InputTextModule } from "primeng/inputtext";
 import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { ButtonModule } from "primeng/button";
 import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
@@ -32,6 +29,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import {
   InvoiceItemsTableCalculatorService
 } from "../../invoice/invoice-items-table/invoice-items-table.calculator.service";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 
 const CHECK_CIRCLE:string = "pi pi-check-circle"
@@ -40,7 +40,7 @@ const OFF_CIRCLE:string = "pi pi-circle-off"
 @Component({
   selector: 'app-invoice-workflow',
   standalone: true,
-  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ValidatableInputTextModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule],
+  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule, ValidatableInputTextComponent],
   templateUrl: './invoice-workflow.component.html',
   styleUrls: ['./invoice-workflow.component.css']
 })

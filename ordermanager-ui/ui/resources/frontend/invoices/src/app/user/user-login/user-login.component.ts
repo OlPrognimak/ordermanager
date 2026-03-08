@@ -7,12 +7,12 @@ import {Observable, of, share} from "rxjs";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 
 @Component({
@@ -94,8 +94,8 @@ export class UserLoginComponent implements OnInit {
 
 @NgModule(
   {
-    imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, MessagesModule,
-      MessageModule, ToastModule, RouterModule],
+    imports: [CommonModule, FormsModule, ButtonModule, MessagesModule,
+      MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent],
     declarations: [UserLoginComponent],
     exports: [UserLoginComponent]
   }

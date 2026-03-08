@@ -55,9 +55,6 @@ import { FormsModule } from "@angular/forms";
 import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
@@ -72,6 +69,9 @@ import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
 import { InvoiceFormValidator } from "./invoice.form.validator";
 import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoice-items-table.calculator.service";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 
 registerLocaleData(localede, 'de');
@@ -200,9 +200,9 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
 
 @NgModule(
   {
-    imports: [CommonModule, FormsModule, ValidatableDropdownlistModule, ValidatableInputTextModule,
+    imports: [CommonModule, FormsModule, ValidatableDropdownlistModule,
       ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule, MessagesModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule],
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent],
     declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
     exports: [InvoiceFormComponent, InvoiceItemsTableComponent]
   }

@@ -11,9 +11,6 @@ import { ToastModule } from "primeng/toast";
 import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { DropdownModule } from "primeng/dropdown";
 import { DialogModule } from "primeng/dialog";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
@@ -22,7 +19,7 @@ import { isAuthenticated, personType } from "../../common-services/common-servic
 @Component({
   selector: 'app-edit-person-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, ValidatableInputTextModule, DropdownModule, DialogModule],
+  imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, DropdownModule, DialogModule],
   templateUrl: './edit-person-dialog.component.html',
   styleUrls: ['./edit-person-dialog.component.css']
 })

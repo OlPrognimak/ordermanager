@@ -14,17 +14,17 @@ import { ButtonModule } from "primeng/button";
 import {
   ValidatableInputNumberModule
 } from "../../common-components/validatable-input-number/validatable-input-number.component";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { HttpClient } from "@angular/common/http";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 @Component({
   selector: 'app-items-form',
   templateUrl: './items-form.component.html',
   styleUrls: ['./items-form.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextModule],
+  imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextComponent],
   providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>, HttpClient]
 })
 export class ItemsFormComponent implements OnInit {

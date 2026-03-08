@@ -42,9 +42,6 @@ import { CommonServicesAppHttpService, MessagesPrinter } from '../../common-serv
 import { CommonModule } from "@angular/common";
 import { FormGroupDirective, FormsModule, NgForm, NgModel } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
-import {
-  ValidatableInputTextModule
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
@@ -59,6 +56,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { of, Subscriber } from "rxjs";
 import { Store } from "@ngrx/store";
 import { InvoiceActions } from "../../workflows/invoice-workflow/state/invoice.actions";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 /**
  * The component which contains form component for creation of person
@@ -315,8 +315,8 @@ export class PersonFormComponent implements OnInit, OnDestroy {
 
 @NgModule(
   {
-    imports: [CommonModule, FormsModule, ButtonModule, ValidatableInputTextModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule],
+    imports: [CommonModule, FormsModule, ButtonModule, ValidatableDropdownlistModule,
+      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent],
     declarations: [PersonFormComponent],
     exports: [PersonFormComponent],
   }

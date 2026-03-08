@@ -51,6 +51,7 @@ import { InputTextModule } from "primeng/inputtext";
 
 @Component({
   selector: 'app-validatable-input-text',
+  standalone: true,
   templateUrl: './validatable-input-text.component.html',
   styleUrls: ['./validatable-input-text.component.css'],
   providers: [
@@ -59,7 +60,10 @@ import { InputTextModule } from "primeng/inputtext";
       useExisting: forwardRef(() => ValidatableInputTextComponent),
       multi: true
     }
-  ]
+  ],
+  imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor {
   /** minimal length of text */
@@ -169,14 +173,4 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
 
 }
 
-@NgModule(
-  {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule],
-    declarations: [ValidatableInputTextComponent],
-    exports: [ValidatableInputTextComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  }
-)
-export class ValidatableInputTextModule {
 
-}
