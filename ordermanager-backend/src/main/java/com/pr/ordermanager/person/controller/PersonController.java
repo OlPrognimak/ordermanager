@@ -7,7 +7,7 @@ import com.pr.ordermanager.common.model.RequestPeriodDate;
 import com.pr.ordermanager.exception.OrderManagerException;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.model.PersonFormModel;
-import com.pr.ordermanager.person.service.PersonModelToEntityMapperHelper;
+import com.pr.ordermanager.person.service.PersonMapper;
 import com.pr.ordermanager.person.service.PersonService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,6 +59,7 @@ public class PersonController {
 
 
     private final PersonService personService;
+    private final PersonMapper personMapper;
 
 
     /**
@@ -98,7 +99,7 @@ public class PersonController {
     public ResponseEntity<CreatedResponse> putNewPerson(
             @RequestBody @Valid PersonFormModel personFormModel, Principal principal) {
         PersonValidator.validate(personFormModel);
-        Person person = PersonModelToEntityMapperHelper.mapPersonFormModelToEntity(personFormModel);
+        Person person = personMapper.mapPersonFormModelToEntity(personFormModel);
         personService.savePerson(person, principal.getName());
         return ResponseEntity.status(CREATED).body(new CreatedResponse(person.getId()));
     }
@@ -157,7 +158,7 @@ public class PersonController {
     public ResponseEntity<List<DropdownDataType>> getPersonsDropdown(Principal principal) {
         List<Person> allPersons = personService.getAllUserPersons(principal.getName());
         List<DropdownDataType> dropdownDataTypes =
-                PersonModelToEntityMapperHelper.mapPersonToDropdownType(allPersons);
+                personMapper.mapPersonToDropdownType(allPersons);
         return ResponseEntity.status(OK).body(dropdownDataTypes);
     }
 
@@ -166,7 +167,7 @@ public class PersonController {
     public ResponseEntity<List<PersonFormModel>> getUserPersons(Principal principal) {
         List<Person> allPersons = personService.getAllUserPersons(principal.getName());
         List<PersonFormModel> personFormModels = allPersons.stream().map(
-                PersonModelToEntityMapperHelper::mapPersonEntityToModel).collect(Collectors.toList());
+                personMapper::mapPersonEntityToModel).collect(Collectors.toList());
 
         return ResponseEntity.status(OK).body(personFormModels);
     }
@@ -177,7 +178,7 @@ public class PersonController {
                                                                     @RequestBody RequestPeriodDate periodDate) {
         List<Person> allPersons = personService.getAllUserPersons(principal.getName(), periodDate);
         List<PersonFormModel> personFormModels = allPersons.stream().map(
-                PersonModelToEntityMapperHelper::mapPersonEntityToModel).collect(Collectors.toList());
+                personMapper::mapPersonEntityToModel).collect(Collectors.toList());
 
         return ResponseEntity.status(OK).body(personFormModels);
     }

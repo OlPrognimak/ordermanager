@@ -35,7 +35,7 @@ import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.report.model.InvoiceReportItem;
 import com.pr.ordermanager.report.model.InvoiceReportModel;
-import com.pr.ordermanager.report.utils.EntityToReportMapperUtil;
+import com.pr.ordermanager.report.utils.InvoiceReportMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
@@ -72,6 +72,7 @@ public class JasperReportService {
     private final DataSource dataSource;
     private final Environment env;
     private final InvoiceRepository invoiceRepository;
+    private final InvoiceReportMapper invoiceReportMapper;
 
     @Value("${jasper.reports.directory.path:reports}")
     private String jasperRepDirPath;
@@ -116,7 +117,7 @@ public class JasperReportService {
 
         Invoice invoice = invoiceRepository
                 .findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);
-        InvoiceReportModel reportModel = EntityToReportMapperUtil.mapInvoiceEntityToReportModel(invoice);
+        InvoiceReportModel reportModel = invoiceReportMapper.mapInvoiceEntityToReportModel(invoice);
         List<InvoiceReportModel> reportModelDataList = Collections.singletonList(reportModel);
         JRBeanCollectionDataSource reportDataSource = new JRBeanCollectionDataSource(reportModelDataList);
 

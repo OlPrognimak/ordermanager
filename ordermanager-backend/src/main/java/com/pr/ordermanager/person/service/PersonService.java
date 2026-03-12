@@ -67,6 +67,7 @@ public class PersonService {
 
     private final PersonRepository personRepository;
     private final UserService userService;
+    private final PersonMapper personMapper;
 
 
     /**
@@ -101,7 +102,7 @@ public class PersonService {
             if(personEntityOpt.isPresent()) {
                 Person person = personEntityOpt.get();
                 try {
-                    PersonModelToEntityMapperHelper.mapPersonFomModelToAttachedEntity(p, person);
+                    personMapper.mapPersonFomModelToAttachedEntity(p, person);
                 } catch (Exception ex) {
                     logger.error(ex);
                     throw new OrderManagerException(CODE_0000, "Can not update the person with id :" + p.getId(), ex);

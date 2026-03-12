@@ -39,7 +39,7 @@ import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
 import com.pr.ordermanager.invoice.model.ItemCatalogModel;
-import com.pr.ordermanager.invoice.service.EntityToModelMapperHelper;
+import com.pr.ordermanager.invoice.service.InvoiceMapper;
 import com.pr.ordermanager.invoice.service.InvoiceMappingService;
 import com.pr.ordermanager.invoice.service.InvoiceService;
 import com.pr.ordermanager.person.service.PersonService;
@@ -99,6 +99,7 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
 
     private final InvoiceMappingService invoiceMappingService;
+    private final InvoiceMapper invoiceMapper;
 
     private final PersonService personService;
 
@@ -236,7 +237,7 @@ public class InvoiceController {
     public ResponseEntity<CreatedResponse> putNewCatalogItem(
             @RequestBody @Valid ItemCatalogModel itemCatalogModel) {
 
-        ItemCatalog itemCatalog = invoiceMappingService.mapModelToItemCatalogEntity(itemCatalogModel);
+        ItemCatalog itemCatalog = invoiceMapper.mapModelToItemCatalogEntity(itemCatalogModel);
         invoiceService.saveItemCatalog(itemCatalog);
         return ResponseEntity.status(CREATED).body(new CreatedResponse(itemCatalog.getId()));
     }
@@ -278,7 +279,7 @@ public class InvoiceController {
     public ResponseEntity<ItemCatalogModel> getItemCatalog(
             @PathVariable() Long idItemCatalog){
         ItemCatalog itemCatalog = invoiceService.getItemCatalog(idItemCatalog);
-        ItemCatalogModel itemCatalogModel = EntityToModelMapperHelper.mapEntityToItemCatalogModel(itemCatalog);
+        ItemCatalogModel itemCatalogModel = invoiceMapper.mapEntityToItemCatalogModel(itemCatalog);
         return ResponseEntity.ok(itemCatalogModel);
     }
 
@@ -289,7 +290,7 @@ public class InvoiceController {
      */
     public ResponseEntity<InvoiceFormModel> getInvoice(String invoiceNumber) {
         Invoice invoice = invoiceService.getInvoice(invoiceNumber);
-        InvoiceFormModel invoiceFormModel = EntityToModelMapperHelper.mapInvoiceEntityToFormModel(invoice);
+        InvoiceFormModel invoiceFormModel = invoiceMapper.mapInvoiceEntityToFormModel(invoice);
 
         return ResponseEntity.ok(invoiceFormModel);
     }
@@ -332,7 +333,7 @@ public class InvoiceController {
     public ResponseEntity<List<DropdownDataType>> getCatalogItemsDropdown() {
         List<ItemCatalog> allCatalogItems = invoiceService.getCatalogItemsList();
         List<DropdownDataType> dropdownDataTypes =
-                EntityToModelMapperHelper.mapListCatalogItemsToDropdownType(allCatalogItems);
+                invoiceMapper.mapListCatalogItemsToDropdownType(allCatalogItems);
         return ResponseEntity.status(OK).body(dropdownDataTypes);
     }
 
@@ -385,7 +386,7 @@ public class InvoiceController {
         List<Invoice> invoices = invoiceService.getAllUserInvoices(principal.getName());
         List<InvoiceFormModel> invoiceFormModels =
                 invoices.stream().map(i ->
-                        EntityToModelMapperHelper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());
+                        invoiceMapper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());
         return ResponseEntity.status(OK).body(invoiceFormModels);
     }
 
@@ -396,7 +397,7 @@ public class InvoiceController {
         List<Invoice> invoices = invoiceService.getAllUserInvoices(principal.getName(), periodDate);
         List<InvoiceFormModel> invoiceFormModels =
                 invoices.stream().map(i ->
-                        EntityToModelMapperHelper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());
+                        invoiceMapper.mapInvoiceEntityToFormModel(i)).collect(Collectors.toList());
         return ResponseEntity.status(OK).body(invoiceFormModels);
     }
 

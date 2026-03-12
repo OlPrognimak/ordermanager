@@ -19,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EntityToReportMapperUtilTest {
 
+    private final InvoiceReportMapper invoiceReportMapper = org.mapstruct.factory.Mappers.getMapper(InvoiceReportMapper.class);
+
     @Test
     void mapInvoiceEntityToReportModel() {
 
@@ -111,7 +113,7 @@ class EntityToReportMapperUtilTest {
         testInvoice.getInvoiceItems().get(0).setInvoice(testInvoice);
 
         InvoiceReportModel invoiceReportModel =
-                EntityToReportMapperUtil.mapInvoiceEntityToReportModel(testInvoice);
+                invoiceReportMapper.mapInvoiceEntityToReportModel(testInvoice);
 
         assertNotNull(invoiceReportModel.getInvoiceDate());
         assertNotNull(invoiceReportModel.getInvoiceDescription());
