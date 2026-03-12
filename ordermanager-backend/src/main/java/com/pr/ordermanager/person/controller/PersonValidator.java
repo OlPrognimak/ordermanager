@@ -15,7 +15,10 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
  * @see PersonType#PRIVATE
  * @see PersonType#ORGANISATION
  */
-public class PersonValidator {
+public final class PersonValidator {
+
+    private PersonValidator() {
+    }
 
     public static boolean validate(PersonFormModel person){
         if(person.getPersonType().equals(PersonType.PRIVATE.name())){

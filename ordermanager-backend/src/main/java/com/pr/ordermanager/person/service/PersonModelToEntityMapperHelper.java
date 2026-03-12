@@ -55,7 +55,10 @@ import java.util.stream.Collectors;
  *
  * @author  Oleksandr Prognimak
  */
-public class PersonModelToEntityMapperHelper {
+public final class PersonModelToEntityMapperHelper {
+
+    private PersonModelToEntityMapperHelper() {
+    }
 
 
 
@@ -83,8 +86,7 @@ public class PersonModelToEntityMapperHelper {
        }
 
        if(person.getPersonAddress() != null) {
-           assert person.getBankAccount() != null;
-           if (!person.getBankAccount().isEmpty()) {
+           if (!person.getPersonAddress().isEmpty()) {
                mapPersonAddressFormModelToAttachedEntity(source.getPersonAddressFormModel(), person.getPersonAddress().get(0));
            }
        }
