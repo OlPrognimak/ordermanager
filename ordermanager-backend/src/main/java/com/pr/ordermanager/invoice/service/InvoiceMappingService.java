@@ -32,11 +32,11 @@ package com.pr.ordermanager.invoice.service;
 
 
 import com.pr.ordermanager.invoice.entity.Invoice;
-import com.pr.ordermanager.invoice.entity.InvoiceItem;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
 import com.pr.ordermanager.invoice.entity.RateType;
+import com.pr.ordermanager.invoice.mapper.InvoiceItemMapper;
+import com.pr.ordermanager.invoice.mapper.ItemCatalogMapper;
 import com.pr.ordermanager.invoice.model.InvoiceFormModel;
-import com.pr.ordermanager.invoice.model.InvoiceItemModel;
 import com.pr.ordermanager.invoice.model.ItemCatalogModel;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.entity.Person;
@@ -62,6 +62,8 @@ public class InvoiceMappingService {
 
      private final PersonRepository personRepository;
      private final ItemCatalogRepository itemCatalogRepository;
+     private final InvoiceItemMapper invoiceItemMapper;
+     private final ItemCatalogMapper itemCatalogMapper;
 
 
 
@@ -112,7 +114,7 @@ public class InvoiceMappingService {
         invoice.getInvoiceItems().clear();
         invoiceFormModel.getInvoiceItems().stream().forEach( item -> {
             Optional<ItemCatalog> itemCatalog = itemCatalogRepository.findById(item.getCatalogItemId());
-            MappingUtils.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get());
+            invoice.getInvoiceItems().add(invoiceItemMapper.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get()));
         });
     }
 
@@ -153,7 +155,7 @@ public class InvoiceMappingService {
 
         invoiceFormModel.getInvoiceItems().stream().forEach( item -> {
             Optional<ItemCatalog> itemCatalog = itemCatalogRepository.findById(item.getCatalogItemId());
-            MappingUtils.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get());
+            invoice.getInvoiceItems().add(invoiceItemMapper.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get()));
         });
 
         return invoice;
@@ -161,69 +163,13 @@ public class InvoiceMappingService {
     }
 
 
-    private  Invoice mapInvoiceFormModelToEntity(InvoiceFormModel invoiceFormModel,
-            Person personInvoiceSupplier,
-            Person personInvoiceRecipient){
-
-            Invoice invoice = Invoice.builder()
-                .invoiceDate(invoiceFormModel.getInvoiceDate())
-                .invoiceNumber(invoiceFormModel.getInvoiceNumber())
-                .invoiceDescription(invoiceFormModel.getInvoiceDescription())
-                .creationDate(invoiceFormModel.getCreationDate())
-                .rateType( RateType.valueOf(invoiceFormModel.getRateType()) )
-                .invoiceSupplierPerson(personInvoiceSupplier)
-                .invoiceRecipientPerson(personInvoiceRecipient)
-                    .totalSumBrutto(invoiceFormModel.getTotalSumBrutto())
-                    .totalSumNetto(invoiceFormModel.getTotalSumNetto())
-                .build();
-
-        invoiceFormModel.getInvoiceItems().stream().forEach( item -> {
-            Optional<ItemCatalog> itemCatalog = itemCatalogRepository.findById(item.getCatalogItemId());
-            MappingUtils.mapInvoiceItemModelToEntity(item, invoice, itemCatalog.get());
-        });
-
-//            invoice.setInvoiceItems(
-//                invoiceFormModel.getInvoiceItems()
-//                    .stream()
-//                    .map(i-> mapInvoiceItemModelToEntity(
-//                         i, invoice, itemCatalogRepository.findById (
-//                             i.getCatalogItemId ()).orElseThrow()))
-//                            .collect( Collectors.toList())
-//            );
-            personInvoiceSupplier.setInvoiceSuppliers(List.of(invoice));
-            personInvoiceRecipient.setInvoiceRecipient(List.of(invoice));
-            return invoice;
-
-    }
-
-    public  InvoiceItem mapInvoiceItemModelToEntity(
-            InvoiceItemModel invoiceFormModel, Invoice invoice, ItemCatalog itemCatalog){
-
-        InvoiceItem invoiceItem = InvoiceItem.builder()
-                .itemPrice(invoiceFormModel.getItemPrice())
-                .amountItems(invoiceFormModel.getAmountItems())
-                .itemCatalog(itemCatalog)
-                .vat(invoiceFormModel.getVat())
-                .sumNetto(invoiceFormModel.getSumNetto())
-                .sumBrutto(invoiceFormModel.getSumBrutto())
-                .invoice(invoice)
-                .build();
-        return invoiceItem;
-    }
-
     /**
      * Maps the data from source Model object {@link ItemCatalogModel} to the entity  object {@link ItemCatalog}
      * @param source the source Entity object {@link InvoiceItem} with data for mapping to the target
      * @return the target entity object {@link ItemCatalog}
      */
     public  ItemCatalog mapModelToItemCatalogEntity(ItemCatalogModel source){
-        return ItemCatalog.builder()
-                .id(source.getId())
-                .description(source.getDescription())
-                .shortDescription(source.getShortDescription())
-                .itemPrice(source.getItemPrice())
-                .vat(source.getVat())
-                .build();
+        return itemCatalogMapper.mapModelToItemCatalogEntity(source);
     }
 
     /**
@@ -234,9 +180,6 @@ public class InvoiceMappingService {
      */
     public void mapItemCatalogModelToExistedEntity(
             ItemCatalogModel model, ItemCatalog entity) {
-        entity.setDescription(model.getDescription());
-        entity.setShortDescription(model.getShortDescription());
-        entity.setItemPrice(model.getItemPrice());
-        entity.setVat(model.getVat());
+        itemCatalogMapper.mapItemCatalogModelToExistedEntity(model, entity);
     }
 }
