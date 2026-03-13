@@ -31,6 +31,13 @@
 	<field name="invoiceId" class="java.lang.Long"/>
 	<field name="invoiceDescription" class="java.lang.String"/>
 	<field name="rateType" class="java.lang.String"/>
+	<style name="Base" isDefault="true" fontName="DejaVu Sans" fontSize="10" pdfEncoding="Identity-H" isPdfEmbedded="true" forecolor="#1F2937"/>
+	<style name="Heading" style="Base" fontSize="22" isBold="true" forecolor="#0F172A"/>
+	<style name="SectionLabel" style="Base" fontSize="9" isBold="true" forecolor="#475569"/>
+	<style name="Value" style="Base" fontSize="10"/>
+	<style name="MetaLabel" style="Base" fontSize="9" isBold="true" forecolor="#64748B"/>
+	<style name="MetaValue" style="Base" fontSize="10" isBold="true" forecolor="#0F172A"/>
+
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -38,14 +45,26 @@
 		<band height="33" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="207" splitType="Stretch">
+		<band height="215" splitType="Stretch">
 			<staticText>
-				<reportElement x="120" y="-30" width="188" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
+				<reportElement style="Heading" x="20" y="0" width="220" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Honorarabrechnung ]]></text>
+				<text><![CDATA[RECHNUNG]]></text>
 			</staticText>
+			<rectangle>
+				<reportElement x="0" y="24" width="280" height="78" uuid="f7f9ec1f-662c-4f11-83de-f0fdbb31f6b7" backcolor="#F8FAFC" mode="Opaque"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CBD5E1"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="106" width="320" height="62" uuid="7e07cb88-6ed1-4d99-a66e-d4ee987312b7" backcolor="#F8FAFC" mode="Opaque"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#CBD5E1"/>
+				</graphicElement>
+			</rectangle>
 			<textField>
 				<reportElement key="" x="42" y="30" width="210" height="25" uuid="1531119b-8e3b-4470-82c4-b28a5c502fbd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -58,31 +77,31 @@
 	.concat( " " ).concat(    $F{supplierCompanyName} !=null? $F{supplierCompanyName} :""  )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="41" width="100" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
+				<reportElement style="MetaLabel" x="315" y="34" width="100" height="14" uuid="018414ba-9986-49e3-9cc5-3e2bb7b1ad50">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA["Rechnung-Nr."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="279" y="60" width="100" height="14" uuid="e57825e5-7680-4abb-a02b-152ff9c1e230">
+				<reportElement style="MetaLabel" x="315" y="52" width="100" height="14" uuid="e57825e5-7680-4abb-a02b-152ff9c1e230">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA["Rechnungsdatum:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="385" y="41" width="101" height="14" uuid="b2f2b0ad-0e83-4da2-85cd-d7161d830d23">
+				<reportElement style="MetaValue" x="420" y="34" width="130" height="14" uuid="b2f2b0ad-0e83-4da2-85cd-d7161d830d23">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd.MM.YYYY">
-				<reportElement x="385" y="61" width="101" height="14" uuid="003c3efe-86e5-4077-9740-bdb71b7bd975">
+			<textField pattern="dd.MM.yyyy">
+				<reportElement style="MetaValue" x="420" y="52" width="130" height="14" uuid="003c3efe-86e5-4077-9740-bdb71b7bd975">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMM y">
-				<reportElement x="312" y="-30" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
+				<reportElement style="MetaValue" x="385" y="0" width="160" height="20" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -151,7 +170,7 @@
 				<reportElement x="0" y="171" width="40" height="14" uuid="48b1c005-98ed-4b9d-8ad1-b09f85c962da">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<text><![CDATA[Projekt:]]></text>
+				<text><![CDATA[Leistung/Projekt:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="46" y="171" width="334" height="14" uuid="8b84e958-3fc6-4820-b9f0-3252ef723e24">
@@ -258,6 +277,12 @@
 	</detail>
 	<summary>
 		<band height="188" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="58" width="555" height="1" uuid="7ac8d21d-a973-47a7-b0ec-4e3846d4ad89"/>
+				<graphicElement>
+					<pen lineWidth="0.75" lineColor="#CBD5E1"/>
+				</graphicElement>
+			</line>
 			<staticText>
 				<reportElement x="1" y="74" width="139" height="30" uuid="1716e357-e044-4485-bf5b-3efaf7cc6aab"/>
 				<textElement>
