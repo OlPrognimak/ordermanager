@@ -17,24 +17,30 @@ import static com.pr.ordermanager.exception.ErrorCode.*;
  */
 public class PersonValidator {
 
-    public static boolean validate(PersonFormModel person){
-        if(person.getPersonType().equals(PersonType.PRIVATE.name())){
-            if(Strings.isBlank(person.getPersonFirstName())){
-                throw new OrderManagerException(CODE_20021, CODE_20021.getMessage());
-            }else if(Strings.isBlank(person.getPersonLastName())){
-                throw new OrderManagerException(CODE_20022, CODE_20022.getMessage());
-            }else if(Strings.isBlank(person.getTaxNumber())){
-                throw new OrderManagerException(CODE_20022, CODE_20022.getMessage());
-            }
-            return true;
-        }else if(person.getPersonType().equals(PersonType.ORGANISATION.name())){
-            if(Strings.isBlank(person.getCompanyName())) {
-                throw new OrderManagerException(CODE_20023, CODE_20023.getMessage());
-            }
-            return true;
-        }else{
-            return true;
-        }
+    public static boolean validate(PersonFormModel person) {
 
+        PersonType type = PersonType.valueOf(person.getPersonType());
+
+        return switch (type) {
+            case PRIVATE -> {
+                if (Strings.isBlank(person.getPersonFirstName())) {
+                    throw new OrderManagerException(CODE_20021, CODE_20021.getMessage());
+                }
+                if (Strings.isBlank(person.getPersonLastName())) {
+                    throw new OrderManagerException(CODE_20022, CODE_20022.getMessage());
+                }
+                if (Strings.isBlank(person.getTaxNumber())) {
+                    throw new OrderManagerException(CODE_20022, CODE_20022.getMessage());
+                }
+                yield true;
+            }
+
+            case ORGANISATION -> {
+                if (Strings.isBlank(person.getCompanyName())) {
+                    throw new OrderManagerException(CODE_20023, CODE_20023.getMessage());
+                }
+                yield true;
+            }
+        };
     }
 }

@@ -68,7 +68,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
- * This controller provides the rest services for UI and  for management invoices on UI side
+ * Controller for managing operations related to invoices and item catalogs in the application.
+ * Provides endpoints for creating, updating, deleting, and retrieving invoices and catalog items.
  */
 @OpenAPIDefinition(
         info = @Info(
@@ -145,9 +146,9 @@ public class InvoiceController {
             @RequestBody @Valid InvoiceFormModel invoiceFormModel, Principal securityPrincipal) {
         InvoiceValidator.validateInvoiceData(invoiceFormModel);
         //Invoice invoice = invoiceMappingService.mapInvoiceModelToEntity(invoiceFormModel);
-        invoiceService.saveInvoice(invoiceFormModel, securityPrincipal.getName());
+        Long id = invoiceService.saveInvoice(invoiceFormModel, securityPrincipal.getName());
 
-        return ResponseEntity.status(CREATED).body(new CreatedResponse(555L));
+        return ResponseEntity.status(CREATED).body(new CreatedResponse(id));
 
     }
 

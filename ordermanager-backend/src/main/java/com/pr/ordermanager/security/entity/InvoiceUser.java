@@ -44,7 +44,8 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @SequenceGenerator(name = "invoice_seq_gen", sequenceName = "invoice_seq", initialValue = 1, allocationSize = 100)
@@ -75,5 +76,6 @@ public class InvoiceUser extends AbstractEntity implements UserDetails {
             name = "user_to_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ToString.Exclude
     private List<GrantedRole> authorities;
 }

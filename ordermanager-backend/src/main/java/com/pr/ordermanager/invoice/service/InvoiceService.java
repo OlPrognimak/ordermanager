@@ -42,12 +42,12 @@ import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.person.repository.PersonRepository;
 import com.pr.ordermanager.security.entity.InvoiceUser;
 import com.pr.ordermanager.security.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.OffsetDateTime;
@@ -87,8 +87,7 @@ public class InvoiceService {
      */
     public List<Invoice> getAllUserInvoices(String userName){
         InvoiceUser user = userRepository.findByUsername(userName);
-        List<Invoice> invoices = invoiceRepository.findByInvoiceUser(user);
-        return invoices;
+        return invoiceRepository.findByInvoiceUser(user);
     }
 
     /**

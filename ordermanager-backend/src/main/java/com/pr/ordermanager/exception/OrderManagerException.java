@@ -39,7 +39,8 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 public class OrderManagerException extends RuntimeException {
    private ErrorCode errorCode;

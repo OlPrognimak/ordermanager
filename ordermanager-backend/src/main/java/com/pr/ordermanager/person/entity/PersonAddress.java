@@ -39,7 +39,8 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
@@ -52,6 +53,7 @@ public class PersonAddress extends AbstractEntity {
     private String zipCode;
     private String postBoxCode;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},mappedBy = "personAddress")
+    @ToString.Exclude
     private List<Person> persons;
 
 }
