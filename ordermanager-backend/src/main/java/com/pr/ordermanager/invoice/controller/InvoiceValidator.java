@@ -23,7 +23,7 @@ public class InvoiceValidator {
      * @return true if successful validated
      */
     public static boolean validateInvoiceData(InvoiceFormModel invoiceData) {
-        if (invoiceData.getInvoiceItems() == null || invoiceData.getInvoiceItems().size() == 0) {
+        if (invoiceData.getInvoiceItems() == null || invoiceData.getInvoiceItems().isEmpty()) {
             throw new OrderManagerException(CODE_20007, CODE_20007.getMessage() + " At least one Item should be selected.");
         }
         if(invoiceData.getCreationDate().isBefore(invoiceData.getInvoiceDate())){

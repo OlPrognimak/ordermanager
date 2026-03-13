@@ -41,7 +41,8 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
@@ -58,11 +59,14 @@ public class Person  extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private PersonType personType;
     @OneToMany(fetch = FetchType.LAZY, mappedBy="invoiceSupplierPerson", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
     private List<Invoice>  invoiceSuppliers;
     @OneToMany(fetch = FetchType.LAZY, mappedBy="invoiceRecipientPerson", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
     private List<Invoice>  invoiceRecipient;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
+    @ToString.Exclude
     private InvoiceUser invoiceUser;
     @ManyToMany (cascade = CascadeType.ALL)
     @OrderColumn(name = "id")
@@ -70,6 +74,7 @@ public class Person  extends AbstractEntity {
         name = "person_to_address",
         joinColumns = @JoinColumn(name = "persons_id"),
         inverseJoinColumns = @JoinColumn(name = "address_id"))
+    @ToString.Exclude
     private List<PersonAddress> personAddress;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -77,6 +82,7 @@ public class Person  extends AbstractEntity {
         joinColumns = @JoinColumn(name = "persons_id"),
         inverseJoinColumns = @JoinColumn(name = "bank_account_id"))
     @OrderColumn(name = "id")
+    @ToString.Exclude
     private List<BankAccount> bankAccount;
 
 }

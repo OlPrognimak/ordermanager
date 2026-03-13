@@ -43,7 +43,8 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @SequenceGenerator(name ="invoice_seq_gen",sequenceName="invoice_seq", initialValue=1, allocationSize=100)
@@ -59,17 +60,21 @@ public class Invoice extends AbstractEntity {
             mappedBy = "invoice",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @ToString.Exclude
     private List<InvoiceItem> invoiceItems;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
+    @ToString.Exclude
     private InvoiceUser invoiceUser;
     /**The person which  made and supply an invoice */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="invoice_supplier")
+    @ToString.Exclude
     private Person invoiceSupplierPerson;
     /**The person which receive an invoice */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="invoice_recipient")
+    @ToString.Exclude
     private Person invoiceRecipientPerson;
     /**The date of creation of invoice*/
     private OffsetDateTime creationDate;
