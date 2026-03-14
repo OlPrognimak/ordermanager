@@ -130,17 +130,22 @@ Maven module ```ordermanager-backend```.
   * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
  
 # Frontend
-The frontend application has implemented with using springboot framework as a runner of web application and
-UI-Framework Angular of version 16.
+The frontend application has implemented with using springboot framework as a runner of web application.
+Now the repository contains two UI modules:
+- **ordermanager-ui** - original Angular 16 implementation
+- **ordermanager-ui-vue** - new Vue.js implementation
+
 ## Frontend frameworks and libraries
-- Angular 16
+- Angular 16 (legacy module `ordermanager-ui`)
+- Vue 3 + Vue Router + Vite (new module `ordermanager-ui-vue`)
 - PrimeNG https://www.primefaces.org/primeng/
 - Ag-Grid https://www.ag-grid.com/
 - moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
+
 ## Project structure
-- maven module **ordermanager-ui**. Contains springboot microservice for running generated web application. 
-The pom.xml contains an  plugins for compilation and building angular application and packaging produced content to the war/jar file.
-- **ordermanager-ui** contains a folder **ui** with angular project. 
+- maven module **ordermanager-ui**. Contains springboot microservice for running generated Angular web application.
+- maven module **ordermanager-ui-vue**. Contains springboot microservice for running generated Vue web application.
+- both UI modules contain a folder **ui** with the corresponding frontend project.
 
 ## Frontend components
 | Nr.  | Component name                 | Description                                                                                                                                                                                                                        |

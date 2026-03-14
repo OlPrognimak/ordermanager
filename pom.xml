@@ -423,6 +423,7 @@
 	<modules>
 		<module>ordermanager-backend</module>
 		<module>ordermanager-ui</module>
+		<module>ordermanager-ui-vue</module>
         <module>service-discovery</module>
         <module>docker</module>
     </modules>
