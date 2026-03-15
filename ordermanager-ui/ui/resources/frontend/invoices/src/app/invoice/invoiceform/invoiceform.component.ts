@@ -181,7 +181,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * child component.
    * 1) With using subject eventsModelIsReset.next() or
    * 2) By using @ChildView reference Object this.itemsTableComponent.resetTotalValues()
-   * @private
    */
   private resetModel(): void {
     this.invoiceFormData = new InvoiceFormModel();

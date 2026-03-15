@@ -35,7 +35,7 @@
                               <p-dropdown #itemsRef
                                           #modelRef="ngModel"
                                           id="{{invoiceitem?.catalogItemId}}"
-                                          (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
+                                          (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
                                           [ngModel]="invoiceitem?.catalogItemId"
                                           [options]="catalogItems"
                                           name="catalogItemId"

@@ -121,8 +121,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
 
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
   public resetTotalValues(): void {
-    this.calculatorService.totalNettoSum.set(0)
-    this.calculatorService.totalBruttoSum.set(0)
+    // this.calculatorService.totalNettoSum.set(0)
+    // this.calculatorService.totalBruttoSum.set(0)
   }
 
   /**
@@ -188,13 +188,14 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    const promise = this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
-    promise.then(() => {
-        this.emitTotalChanged();
-      }
-    ).catch(error => {
-      this.printToJson(JSON.stringify(error));
-    });
+    this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
+    // const promise = this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
+    // promise.then(() => {
+    //     this.emitTotalChanged();
+    //   }
+    // ).catch(error => {
+    //   this.printToJson(JSON.stringify(error));
+    // });
   }
 
   printToJson(data: any): void {
