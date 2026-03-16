@@ -40,7 +40,7 @@ import {
   InvoiceItemModel, InvoiceItemModelInterface
 } from '../../domain/domain.invoiceformmodel';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { AppSecurityService } from '../../common-auth/app-security.service';
@@ -72,6 +72,7 @@ import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoi
 import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
+import {FloatLabel} from "primeng/floatlabel";
 
 
 registerLocaleData(localede, 'de');
@@ -198,13 +199,11 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
 }
 
 @NgModule(
-  {
+  { declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
+    exports: [InvoiceFormComponent, InvoiceItemsTableComponent],
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule,
-      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule, MessagesModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent],
-    declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
-    exports: [InvoiceFormComponent, InvoiceItemsTableComponent]
-  }
+      ValidatableCalendarModule, InputTextModule, MessageModule, ToastModule, MessagesModule,
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent, FloatLabel], providers: [provideHttpClient(withInterceptorsFromDi())] }
 )
 export class InvoiceFormModule {
 }

@@ -3,7 +3,7 @@ import { FormsModule } from "@angular/forms";
 import { MessageModule } from "primeng/message";
 import { MessageService } from "primeng/api";
 import { AppSecurityService } from "../../common-auth/app-security.service";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import {
   ValidatableInputTextComponent
@@ -21,10 +21,10 @@ describe('InvoiceFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ValidatableInputTextComponent, ValidatableDropdownlistComponent],
-      imports: [CommonModule, FormsModule, MessageModule, HttpClientModule, DropdownModule, InvoicePipesModule],
-      providers: [MessageService, AppSecurityService, HttpClient]
-    });
+    declarations: [ValidatableInputTextComponent, ValidatableDropdownlistComponent],
+    imports: [CommonModule, FormsModule, MessageModule, DropdownModule, InvoicePipesModule],
+    providers: [MessageService, AppSecurityService, HttpClient, provideHttpClient(withInterceptorsFromDi())]
+});
     fixture = TestBed.createComponent(InvoiceFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

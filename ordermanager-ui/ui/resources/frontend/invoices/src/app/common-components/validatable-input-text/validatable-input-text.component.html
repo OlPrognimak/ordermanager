@@ -5,44 +5,48 @@
 *@param idComponent the id of component
 *@param onChange($event) callback method on the parent component which sends changed value in child (this) component
 -->
-<div class = "full-width-display-table">
-  <div class = "full-width-display-row">
-    <div class = "full-width-display-cell">
-               <span class="p-float-label">
-                    <input #modelRef="ngModel"
-                           [(ngModel)]="value"
-                           [pattern]="inputPattern"
-                           class="ng-dirty p-mr-2"
-                           id="{{idComponent}}"
-                           minlength="{{txtMinLength}}"
-                           name="{{inputName}}"
-                           pInputText
-                           required
+<div class="input-wrapper">
+  <div class="field-row">
+    <p-floatlabel class="w-100">
+      <input
+        #modelRef="ngModel"
+        pInputText
+        class="w-100"
+        [(ngModel)]="value"
+        [id]="idComponent"
+        [name]="inputName"
+        [type]="inputType || 'text'"
+        [pattern]="inputPattern"
+        [minlength]="txtMinLength"
+        [required]="true"
+        [ngClass]="{
+          'ng-invalid ng-dirty': modelRef.invalid && (modelRef.dirty || modelRef.touched)
+        }"
+        autocomplete="off"
+      />
+      <label [for]="idComponent">{{ labelText }}</label>
+    </p-floatlabel>
 
-                           type="{{inputType}}"/>
-                  <label for="{{idComponent}}">{{labelText}}</label>
-               </span>
-    </div>
-    @if (setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)) {
-      <div class = "error-message-cmp">
-        <p-message severity="error"></p-message>
+    @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
+      <div class="error-icon-box">
+        <p-message severity="error" icon="pi pi-times-circle"></p-message>
       </div>
     }
-    @if (setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)) {
-      <div class = "error-message-cmp">
-        <p-message severity="error"></p-message>
-      </div>
-    }
-    @if (setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)) {
-      <div  class = "error-message-cmp">
-        @if (modelRef.errors?.minlength===undefined) {
-            <p-message severity="error"></p-message>
-        }
-      </div>
-    }
-
   </div>
-  @if (modelRef.errors?.pattern) {
-      <p-message severity="error" text="{{patternErrorText}}"></p-message>
+  @if (setHasRequiredError(modelRef.errors?.['required'] !== undefined &&
+    modelRef.errors?.['required'] !== null, modelRef.errors?.['required']) && (modelRef.dirty || modelRef.touched)) {
+    <small class="validation-text">Field is required.</small>
+  }
+
+  @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null, modelRef.errors?.['minlength'])) {
+    <div class = "error-message-cmp">
+          <small class="validation-text">
+            Minimum length is {{ txtMinLength }}.
+          </small>
+    </div>
+  }
+
+  @if (modelRef.errors?.['pattern'] && !modelRef.errors?.['minlength'] && (modelRef.dirty || modelRef.touched)) {
+    <small class="validation-text">{{ patternErrorText }}</small>
   }
 </div>

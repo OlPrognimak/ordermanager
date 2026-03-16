@@ -31,7 +31,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { Message, MessageService } from 'primeng/api';
+import { ToastMessageOptions, MessageService } from 'primeng/api';
 import { DropdownDataType } from "../domain/domain.invoiceformmodel";
 import { CommonServicesPipesNumber } from "../common-pipes/common-services.pipes.number";
 import { AUTH_TOKEN_KEY } from "../common-utils/common-utils.constants";
@@ -150,9 +150,9 @@ export class CommonServicesUtilService {
   /**
    * Hide message after delay time
    */
-  public hideMassage(message: Message, delayTimeMs: number): void {
+  public hideMassage(message: ToastMessageOptions, delayTimeMs: number): void {
     const observable = of(message).pipe(delay(delayTimeMs));
-    const operatorFunction = map((msg: Message) => {
+    const operatorFunction = map((msg: ToastMessageOptions) => {
       this.messageService.clear(msg.key);
       return true;
     });
@@ -167,7 +167,7 @@ export class CommonServicesUtilService {
    * @param errorText
    */
   printUnSuccessMessage(objectName: any, errorText): void {
-    const msg: Message = {
+    const msg: ToastMessageOptions = {
       severity: 'error', summary: 'Error',
       detail: errorText
     };

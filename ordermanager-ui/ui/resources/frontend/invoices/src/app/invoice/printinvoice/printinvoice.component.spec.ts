@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PrintinvoiceComponent } from './printinvoice.component';
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MessageService } from "primeng/api";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
@@ -13,10 +13,10 @@ describe('PrintinvoiceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PrintinvoiceComponent],
-      imports: [HttpClientModule, MessageModule, ToastModule, AgGridModule],
-      providers: [MessageService]
-    })
+    declarations: [PrintinvoiceComponent],
+    imports: [MessageModule, ToastModule, AgGridModule],
+    providers: [MessageService, provideHttpClient(withInterceptorsFromDi())]
+})
       .compileComponents();
   }));
 

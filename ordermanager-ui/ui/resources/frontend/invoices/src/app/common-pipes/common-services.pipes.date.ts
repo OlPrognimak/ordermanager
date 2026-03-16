@@ -29,13 +29,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 import { Pipe, PipeTransform } from '@angular/core';
-import * as _moment from "moment/moment";
+import moment from 'moment';
 
 @Pipe({
   name: 'dateType',
 })
 export class CommonServicesPipesDate implements PipeTransform {
   transform(val: Date, format): any {
-    return _moment(val).format(format);
+    return moment(val).format(format);
   }
 }

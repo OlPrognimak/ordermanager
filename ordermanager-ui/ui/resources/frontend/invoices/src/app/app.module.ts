@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrintinvoiceComponent } from './invoice/printinvoice/printinvoice.component';
 import { AgGridModule } from 'ag-grid-angular';
@@ -48,58 +48,62 @@ import {InvoiceItemsTableCalculatorService} from "./invoice/invoice-items-table/
 import {
   ValidatableInputTextComponent
 } from "./common-components/validatable-input-text/validatable-input-text.component";
+import Lara from '@primeng/themes/lara';
+import {providePrimeNG} from "primeng/config";
 
-
-@NgModule({
-  bootstrap: [AppComponent],
-  declarations: [
-    AppComponent,
-    PrintinvoiceComponent,
-    TableCellRendererComponent,
-    UserRegistrationComponent,
-    EditableInputCellComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ButtonModule,
-    DropdownModule,
-    TableModule,
-    InputTextModule,
-    AgGridModule,
-    MessagesModule,
-    MessageModule,
-    MatProgressSpinnerModule,
-    DialogModule,
-    ToastModule,
-    TooltipModule,
-    MenubarModule,
-    RouterModule,
-    MatButtonModule,
-    InputMaskModule,
-    InputNumberModule,
-    CommonModule,
-    InvoiceManagementModule,
-    RippleModule,
-    UserLoginModule,
-    ValidatableCalendarModule,
-    ValidatableDropdownlistModule,
-    PersonFormModule,
-    InvoiceFormModule,
-    DateperiodFinderComponent,
-    InvoicePipesModule,
-    ReactiveFormsModule,
-    TemplatesComponentComponent,
-    StoreModule.forRoot({}),
-    ValidatableInputTextComponent,
-    // WorkflowModule
-  ],
-  providers: [CommonServicesAppHttpService, CommonServicesUtilService, MessageService,InvoiceItemsTableCalculatorService,
-    {provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true}, HttpClient],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-})
+@NgModule({ bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        PrintinvoiceComponent,
+        TableCellRendererComponent,
+        UserRegistrationComponent,
+        EditableInputCellComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        FormsModule,
+        ButtonModule,
+        DropdownModule,
+        TableModule,
+        InputTextModule,
+        AgGridModule,
+        MessagesModule,
+        MessageModule,
+        MatProgressSpinnerModule,
+        DialogModule,
+        ToastModule,
+        TooltipModule,
+        MenubarModule,
+        RouterModule,
+        MatButtonModule,
+        InputMaskModule,
+        InputNumberModule,
+        CommonModule,
+        InvoiceManagementModule,
+        RippleModule,
+        UserLoginModule,
+        ValidatableCalendarModule,
+        ValidatableDropdownlistModule,
+        PersonFormModule,
+        InvoiceFormModule,
+        DateperiodFinderComponent,
+        InvoicePipesModule,
+        ReactiveFormsModule,
+        TemplatesComponentComponent,
+        StoreModule.forRoot({}),
+        ValidatableInputTextComponent],
+        providers:
+          [
+            providePrimeNG({
+              theme: {
+                preset: Lara
+              }
+            }),
+            CommonServicesAppHttpService,
+            CommonServicesUtilService,
+            MessageService,
+            InvoiceItemsTableCalculatorService,
+        { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }, HttpClient, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 }
