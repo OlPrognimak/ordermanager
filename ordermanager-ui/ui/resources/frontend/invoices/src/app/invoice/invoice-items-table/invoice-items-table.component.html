@@ -43,7 +43,6 @@
                                             'ng-invalid': modelRef?.invalid,
                                             'ng-dirty': modelRef?.dirty || modelRef?.touched
                                            }"
-                                          [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
                                           appendTo="body">
                                   <label for="{{invoiceitem?.catalogItemId}}">Select Item</label>
                               </p-dropdown>

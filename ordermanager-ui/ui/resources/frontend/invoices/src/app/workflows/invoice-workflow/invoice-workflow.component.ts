@@ -32,6 +32,7 @@ import {
 import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
+import {FloatLabel} from "primeng/floatlabel";
 
 
 const CHECK_CIRCLE:string = "pi pi-check-circle"
@@ -40,7 +41,7 @@ const OFF_CIRCLE:string = "pi pi-circle-off"
 @Component({
   selector: 'app-invoice-workflow',
   standalone: true,
-  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule, ValidatableInputTextComponent],
+  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule, ValidatableInputTextComponent, FloatLabel],
   templateUrl: './invoice-workflow.component.html',
   styleUrls: ['./invoice-workflow.component.css']
 })

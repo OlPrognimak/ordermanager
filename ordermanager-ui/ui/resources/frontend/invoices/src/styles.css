@@ -179,6 +179,10 @@ div.p-dialog-header {
   margin-left: 2px;
 }
 
+.w-100 {
+  width: 100%;
+}
+
 /* =========================
    GLOBAL PAGE BACKGROUND
    ========================= */

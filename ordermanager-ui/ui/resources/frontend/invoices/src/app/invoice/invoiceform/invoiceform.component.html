@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-3">
+      <div class="p-col-3" style="margin-top: 15pt">
 
         <app-validatable-calendar (componentHasError)="setHasCreationDateError($event)"
                                   [(ngModel)]="invoiceFormData.creationDate"
@@ -52,7 +52,7 @@
         </app-validatable-calendar>
       </div>
 
-      <div class="p-col-3">
+      <div class="p-col-3" style="margin-top: 15pt">
         <app-validatable-calendar (componentHasError)="setHasInvoiceDateError($event)"
                                   [(ngModel)]="invoiceFormData.invoiceDate"
                                   [dateFormat]="'dd.mm.yy'"
@@ -80,7 +80,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-6">
+      <div class="p-col-6" style="margin-top: 15pt;">
         <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
                                       [(ngModel)]="invoiceFormData.personRecipientId"
                                       [idComponent]="'id-invoiceRecipient'"
@@ -93,12 +93,14 @@
       </div>
     </div>
 
-    <app-invoice-items-table #itemsTableRef
-                             (changeItemsEvent)="setInvoiceItems($event)"
-                             [invoiceItems]="invoiceFormData.invoiceItems"
-                             [modelChangedEvent]="eventsModelIsReset.asObservable()">
+    <div class="p-grid" style="margin-top: 10pt">
+      <app-invoice-items-table #itemsTableRef
+                               (changeItemsEvent)="setInvoiceItems($event)"
+                               [invoiceItems]="invoiceFormData.invoiceItems"
+                               [modelChangedEvent]="eventsModelIsReset.asObservable()">
 
-    </app-invoice-items-table>
+      </app-invoice-items-table>
+    </div>
 
     <div class="p-grid">
       <div class="p-col-12 save-button-col-size">

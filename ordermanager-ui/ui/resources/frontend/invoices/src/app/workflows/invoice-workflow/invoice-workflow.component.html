@@ -1,4 +1,5 @@
-<p-splitter *ngIf="isAuthenticated();" [panelSizes]="[25, 75]" [style]="{ height: '100%' }" styleClass="mb-5">
+<p-splitter *ngIf="isAuthenticated();" [panelSizes]="[25, 75]" [minSizes]="[20, 50]"
+            [style]="{ height: '100%' }" styleClass="app-splitter">
   <ng-template pTemplate>
     <div class="p-grid" style="background-color: #f6f9fb;">
       <div class="p-col-12" style="height: 5%">
@@ -8,7 +9,7 @@
         <div class="card flex flex-wrap gap-6" style="height: 100%;">
           <p-timeline [value]="createInvoiceFlowEvents" align="right" class="w-full md:w-20rem">
             <ng-template let-flowEvent pTemplate="content">
-              <p-button (onClick)="setWorkflowStep(flowEvent)" class="p-button-link flow-button-unselected">
+              <p-button (onClick)="setWorkflowStep(flowEvent)" class="p-button-link flow-button-unselected timeline-button-style" >
                 <div [ngStyle]="flowButtonStyle(flowEvent)" class="flow-button-unselected"
                      style="padding: 8pt 8pt 8pt 8pt;">
                   {{ flowEvent.statusDesc }}
@@ -27,7 +28,7 @@
     </div>
   </ng-template>
   <ng-template pTemplate>
-    <form   #workflowFrm = "ngForm" >
+    <form   #workflowFrm = "ngForm" class="w-100">
     <div class="p-grid p-fluid" style="height: fit-content; margin-left: 10pt;">
       <div class="p-col-12" style="height: 5%;">
         <div>
