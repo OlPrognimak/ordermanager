@@ -150,8 +150,7 @@ div.p-dialog-header {
 }
 
 .save-button-container-size {
-  max-width: 50%;
-  min-width: 10%;
+  width: 100%;
   float: right;
 }
 

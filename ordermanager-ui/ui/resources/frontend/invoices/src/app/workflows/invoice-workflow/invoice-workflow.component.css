@@ -1,10 +1,10 @@
-:host::ng-deep div.p-timeline-event-content {
+:host::ng-deep div.p-timeline-event-opposite{
   height: 150px;
   max-width: 200px;
 }
 
 :host::ng-deep div.p-timeline-event-opposite {
-  max-width: 300px;
+  max-width: 200px;
 }
 
 :host::ng-deep div > p-timeline > div {
@@ -58,7 +58,7 @@ form[workflowFrm] {
   font-size: 3rem;
 }
 
-:host::ng-deep div.p-timeline-event-content > p-button > button {
+:host::ng-deep div.p-timeline-event-opposite > p-button > button {
   background-color: white !important;
   border: white !important;
 }
@@ -120,4 +120,12 @@ form[workflowFrm] {
 .app-splitter .p-splitter-panel {
   min-width: 0;
   overflow: auto;
+}
+
+.timeline-content-cls{
+  width: 100%;
+  text-align: right;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  color: #6b7280;
 }

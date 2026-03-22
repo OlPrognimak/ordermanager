@@ -82,6 +82,7 @@ registerLocaleData(localede, 'de');
  */
 @Component({
   selector: 'app-invoice',
+  styleUrls: ['./invoiceform.component.css'],
   templateUrl: './invoiceform.component.html',
   providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]

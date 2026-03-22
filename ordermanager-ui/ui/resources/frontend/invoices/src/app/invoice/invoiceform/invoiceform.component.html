@@ -93,17 +93,18 @@
       </div>
     </div>
 
-    <div class="p-grid" style="margin-top: 10pt">
+    <div class="p-grid invoice-item-table-cls">
       <app-invoice-items-table #itemsTableRef
                                (changeItemsEvent)="setInvoiceItems($event)"
                                [invoiceItems]="invoiceFormData.invoiceItems"
+                               style="width: 100%;"
                                [modelChangedEvent]="eventsModelIsReset.asObservable()">
 
       </app-invoice-items-table>
     </div>
 
-    <div class="p-grid">
-      <div class="p-col-12 save-button-col-size">
+    <div class="p-grid p-col-12">
+      <div class="p-col-3 save-button-col-size">
         <div class="save-button-container-size">
           <p-button (onClick)="saveInvoice($event)" [disabled]="haveErrors(itemsTableRef.invoiceItems)"
                     [pTooltip]="'Save invoice to the data base'" label="Save"></p-button>
