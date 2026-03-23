@@ -40,11 +40,11 @@
 	<pageHeader>
 		<band height="207" splitType="Stretch">
 			<staticText>
-				<reportElement x="180" y="-30" width="99" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
+				<reportElement x="160" y="-30" width="127" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reachnung]]></text>
+				<text><![CDATA[Rechnung für]]></text>
 			</staticText>
 			<textField>
 				<reportElement key="" x="51" y="30" width="210" height="25" uuid="1531119b-8e3b-4470-82c4-b28a5c502fbd">

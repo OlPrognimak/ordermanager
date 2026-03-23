@@ -39,34 +39,21 @@ export class CommonServicesAppHttpService<T> implements OnDestroy {
    */
   putObjectToServer = (httpMethod: string, objectToSave: T | null, objectName: string, endPointPath: string, callback) => {
 
-    const msgObservable = of(this.messagePrinter);
-    let eventBusObservable
-    if(environment.debugMode) {
-      eventBusObservable = of(this.eventBus).pipe(takeUntil(this.notifier))
-    }
-
-    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe({
-      next(response) {
-        if (response.createdId > 0) {
-          msgObservable.subscribe(
-            msgService => msgService.printSuccessMessage(objectName));
-
+    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe(
+      {
+        next: (response) => {
+          this.messagePrinter.printSuccessMessage(objectName);
           return callback(response.createdId);
-        } else {
-          console.log('Unexpected error: ' + response);
-          //return callback && callback(false);
-        }
-      },
-      error(err) {
-        console.log("Handle HTTP Request Error :" + JSON.stringify(err))
-        msgObservable.subscribe(
-          msgService => msgService.printUnsuccessefulMessage(objectName, err));
-        if(environment.debugMode) {
-          eventBusObservable.subscribe(eb => eb.emitEvent(err))
+        },
+        error: (err)=> {
+          console.log("Handle HTTP Request Error :" + JSON.stringify(err));
+          this.messagePrinter.printUnsuccessefulMessage(objectName, err);
+          if(environment.debugMode) {
+            this.eventBus.emitEvent(err);
+          }
         }
       }
-    })
-
+    )
   };
 
   loadDropdownData = (url: string, callback) => {
