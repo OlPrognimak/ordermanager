@@ -87,16 +87,27 @@
               </td>
               <td>
                 <button (click)="rowDoubleClick($event, catalogitem)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-pencil" pButton pRipple
-                        style="margin-left: 2px;"
-                        title="Edit item"></button>
-                <button (click)="showDeleteItemDialog(catalogitem.id)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-trash" pButton pRipple
-                        title="Delete item"></button>
-                <button (click)="rollbackChanges(catalogitem.id)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-undo" pButton
+                        pButton
                         pRipple
-                        title="Rollback item"></button>
+                        style="margin-left: 2px;"
+                        title="Edit item">
+                  <i class="pi pi-pencil"></i>
+                </button>
+                <button (click)="showDeleteItemDialog(catalogitem.id)"
+                        class="p-button-rounded p-button-warning"
+                        style="margin-left: 2px;"
+                        pButton pRipple
+                        title="Delete item">
+                          <i class="pi pi-trash"></i>
+                </button>
+                <button (click)="rollbackChanges(catalogitem.id)"
+                        class="p-button-rounded p-button-warning"
+                        style="margin-left: 2px;"
+                        pButton
+                        pRipple
+                        title="Rollback item">
+                          <i class="pi pi-undo"></i>
+                </button>
 
               </td>
             </tr>

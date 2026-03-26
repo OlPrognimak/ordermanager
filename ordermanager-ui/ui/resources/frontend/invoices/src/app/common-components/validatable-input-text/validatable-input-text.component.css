@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.input-wrapper {
+  width: 100%;
+}
+
+.error-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+}
+
+.validation-text {
+  display: block;
+  margin-top: 0.35rem;
+  color: #dc2626;
+  font-size: 0.875rem;
+}

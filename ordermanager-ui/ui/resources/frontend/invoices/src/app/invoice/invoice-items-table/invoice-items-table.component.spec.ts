@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvoiceItemsTableComponent } from './invoice-items-table.component';
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { Toast, ToastModule } from "primeng/toast";
 import { MessagesModule } from "primeng/messages";
 import { MessageService } from "primeng/api";
@@ -19,11 +19,11 @@ describe('InvoiceItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [Toast, Tooltip, NgModel],
-      imports: [HttpClientModule, ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule,
+    declarations: [Toast, Tooltip, NgModel],
+    imports: [ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule,
         InputTextModule, InputNumberModule, DropdownModule],
-      providers: [MessageService]
-    })
+    providers: [MessageService, provideHttpClient(withInterceptorsFromDi())]
+})
       .compileComponents();
   });
 

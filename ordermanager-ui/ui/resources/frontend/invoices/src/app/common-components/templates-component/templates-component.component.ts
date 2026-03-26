@@ -6,11 +6,13 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angul
 import { DropdownChangeEvent, DropdownModule } from "primeng/dropdown";
 import { CalendarModule } from "primeng/calendar";
 import { PaginatorModule } from "primeng/paginator";
+import {FloatLabel} from "primeng/floatlabel";
+import {InputNumber} from "primeng/inputnumber";
 
 @Component({
   selector: 'app-templates-component',
   standalone: true,
-  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, CalendarModule, FormsModule, PaginatorModule],
+  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, CalendarModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
   templateUrl: './templates-component.component.html',
   styleUrls: ['./templates-component.component.css']
 })

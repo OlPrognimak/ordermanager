@@ -17,12 +17,12 @@
         </app-validatable-input-text>
       </div>
       <div class="p-col-4" style="margin-top: 10pt">
-       <span class="p-float-label">
-       <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
-              pInputText
-              style="width:100%;" type="text"/>
-       <label for="id-invoiceDescription">Invoice description</label>
-       </span>
+       <p-floatlabel class="w-100">
+         <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
+                pInputText
+                style="width:100%;" type="text"/>
+         <label for="id-invoiceDescription">Invoice description</label>
+       </p-floatlabel>
       </div>
 
     </div>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-3">
+      <div class="p-col-3" style="margin-top: 15pt">
 
         <app-validatable-calendar (componentHasError)="setHasCreationDateError($event)"
                                   [(ngModel)]="invoiceFormData.creationDate"
@@ -52,7 +52,7 @@
         </app-validatable-calendar>
       </div>
 
-      <div class="p-col-3">
+      <div class="p-col-3" style="margin-top: 15pt">
         <app-validatable-calendar (componentHasError)="setHasInvoiceDateError($event)"
                                   [(ngModel)]="invoiceFormData.invoiceDate"
                                   [dateFormat]="'dd.mm.yy'"
@@ -80,7 +80,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-6">
+      <div class="p-col-6" style="margin-top: 15pt;">
         <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
                                       [(ngModel)]="invoiceFormData.personRecipientId"
                                       [idComponent]="'id-invoiceRecipient'"
@@ -93,15 +93,18 @@
       </div>
     </div>
 
-    <app-invoice-items-table #itemsTableRef
-                             (changeItemsEvent)="setInvoiceItems($event)"
-                             [invoiceItems]="invoiceFormData.invoiceItems"
-                             [modelChangedEvent]="eventsModelIsReset.asObservable()">
+    <div class="p-grid invoice-item-table-cls">
+      <app-invoice-items-table #itemsTableRef
+                               (changeItemsEvent)="setInvoiceItems($event)"
+                               [invoiceItems]="invoiceFormData.invoiceItems"
+                               class="w-100"
+                               [modelChangedEvent]="eventsModelIsReset.asObservable()">
 
-    </app-invoice-items-table>
+      </app-invoice-items-table>
+    </div>
 
-    <div class="p-grid">
-      <div class="p-col-12 save-button-col-size">
+    <div class="p-grid p-col-12">
+      <div class="p-col-3 save-button-col-size">
         <div class="save-button-container-size">
           <p-button (onClick)="saveInvoice($event)" [disabled]="haveErrors(itemsTableRef.invoiceItems)"
                     [pTooltip]="'Save invoice to the data base'" label="Save"></p-button>

@@ -28,3 +28,7 @@
 .base-top-grid-area {
   height: 83%
 }
+
+.p-button .pi.pi-undo {
+  margin-left: 2px;
+}

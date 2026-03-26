@@ -36,4 +36,11 @@ input[type="text"] {
   float: left;
 }
 
+.error-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+}
+
 

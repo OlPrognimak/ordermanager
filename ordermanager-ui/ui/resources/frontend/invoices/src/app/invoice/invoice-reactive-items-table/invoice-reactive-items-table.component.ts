@@ -42,6 +42,8 @@ import { TooltipModule } from "primeng/tooltip";
 import { ToastModule } from "primeng/toast";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import { HttpClient } from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {InputNumber} from "primeng/inputnumber";
 
 @Component({
   styles: [],
@@ -50,6 +52,8 @@ import { HttpClient } from "@angular/common/http";
   selector: 'app-reactive-invoice-items-table',
   templateUrl: './invoice-reactive-items-table.component.html',
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     TableModule,
     DropdownModule,
     PaginatorModule,
@@ -57,7 +61,8 @@ import { HttpClient } from "@angular/common/http";
     ButtonModule,
     TooltipModule,
     ToastModule,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    InputNumber
   ],
   providers: [HttpClient]
 })

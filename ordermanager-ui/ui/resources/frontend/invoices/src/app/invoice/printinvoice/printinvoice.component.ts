@@ -33,7 +33,7 @@ import { HttpClient } from '@angular/common/http';
 import { InvoiceFormModel } from '../../domain/domain.invoiceformmodel';
 import { AgGridAngular } from 'ag-grid-angular';
 import { TableCellRendererComponent } from '../table-cell-renderer/table-cell-renderer.component';
-import * as _moment from 'moment';
+import moment from 'moment';
 import { AppSecurityService } from '../../common-auth/app-security.service';
 import { GridOptions } from 'ag-grid-community';
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
@@ -144,11 +144,11 @@ export class PrintinvoiceComponent implements OnInit {
    * the column definition for table
    */
   creationDateCell: any = (params) => {
-    return _moment(params.data.creationDate).format('MM.DD.yyyy')
+    return moment(params.data.creationDate).format('MM.DD.yyyy')
   };
 
   invoiceDateCell: any = (params) => {
-    return _moment(params.data.invoiceDate).format('MM.yyyy')
+    return moment(params.data.invoiceDate).format('MM.yyyy')
   };
 
   checkType = function getClassName(obj: any): string {

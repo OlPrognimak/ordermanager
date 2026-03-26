@@ -1,37 +1,42 @@
-<div style="display: table; width: 100%;">
-  <div style="display: table-row; width: 100%;">
-    <div style="display: table-cell; width: 100%;">
-      <div style="margin-bottom: 15pt">
-                <span class="p-float-label">
-                <p-dropdown #modelRef="ngModel"
-                            (ngModelChange)="onChange($event); setValueChanged($event)"
-                            [(ngModel)]="controlValue"
-                            [name]="inputName"
-                            [options]="optionList"
-                            id="{{idComponent}}"
-                            minlength="{{txtMinLength}}"
-                            placeholder="{{placeholder}}"
-                            [ngClass]="{
-                                'ng-invalid': modelRef?.invalid,
-                                'ng-dirty': modelRef?.dirty || modelRef?.touched
-                            }"
-                            required>
-                </p-dropdown>
-                <label for="{{idComponent}}">{{labelText}}</label>
-                </span>
+<div class="w-100">
+  <div class="field-row">
+    <p-floatlabel class="w-100">
+      <p-dropdown #modelRef="ngModel"
+                  (ngModelChange)="onChange($event); setValueChanged($event)"
+                  [(ngModel)]="controlValue"
+                  class="w-100"
+                  [name]="inputName"
+                  [options]="optionList"
+                  [inputId]="idComponent"
+                  minlength="{{txtMinLength}}"
+
+                  [ngClass]="{
+                                'ng-invalid ng-dirty': modelRef.invalid && (modelRef.dirty || modelRef.touched),
+                                'p-inputwrapper-filled': controlValue !== null && controlValue !== undefined && controlValue !== ''
+                              }"
+                  required>
+      </p-dropdown>
+      <label [for]="idComponent">{{ labelText }}</label>
+    </p-floatlabel>
+    @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
+      <div class="error-icon-box">
+        <p-message severity="error" icon="pi pi-times-circle"></p-message>
       </div>
+    }
+  </div>
+  @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null,
+    modelRef.errors?.['minlength']) && (modelRef.dirty || modelRef.touched)) {
+    <div class="error-icon-box">
+      <small class="validation-text">Field is required.</small>
     </div>
 
-    <div *ngIf="setHasMinLengthError(modelRef.errors?.minlength !== null,
-                                          modelRef.errors?.minlength)" style="display: table-cell; width: 10%;">
-      <div style="margin-top: 15pt !important;">
-        <p-message severity="error"></p-message>
-      </div>
+  }
+  @if (setHasRequiredError(modelRef.errors?.['required'] !== undefined &&
+    modelRef.errors?.['required'] !== null,
+    modelRef.errors?.['required']) && (modelRef.dirty || modelRef.touched)) {
+    <div class="error-icon-box">
+      <small class="validation-text">Field is required.</small>
     </div>
-    <div *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined &&
-                                        modelRef.errors?.required !== null,
-                                        modelRef.errors?.required)" style="display: table-cell; width: 10%;">
-      <p-message severity="error"></p-message>
-    </div>
-  </div>
+  }
+
 </div>
