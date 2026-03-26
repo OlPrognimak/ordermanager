@@ -72,17 +72,23 @@
                 <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
               </td>
               <td>
-                <button (click)="deleteInvoice(invoice.id)" class="p-button-rounded p-button-warning" icon="pi pi-trash"
+                <button (click)="deleteInvoice(invoice.id)" class="p-button-rounded p-button-warning"
                         pButton pRipple
-                        title="Delete item"></button>
-                <button (click)="rowDoubleClick($event, invoice)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-pencil" pButton pRipple
-                        style="margin-left: 2px;"
-                        title="Edit item"></button>
-                <button (click)="rollbackChanges(invoice.id)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-undo" pButton
+                        title="Delete item">
+                  <i class="pi pi-trash"></i>
+                </button>
+                <button (click)="rowDoubleClick($event, invoice)" class="p-button-rounded p-button-warning undo-button"
+                        pButton pRipple
+                        title="Edit item">
+                  <i class="pi pi-pencil"></i>
+                </button>
+                <button (click)="rollbackChanges(invoice.id)" class="p-button-rounded p-button-warning undo-button"
+                        pButton
+                        style=""
                         pRipple
-                        title="Rollback item"></button>
+                        title="Rollback item">
+                           <i class="pi pi-undo"></i>
+                </button>
               </td>
             </tr>
 

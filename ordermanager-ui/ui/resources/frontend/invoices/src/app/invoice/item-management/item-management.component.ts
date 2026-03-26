@@ -17,11 +17,12 @@ import { CommonServicesEditService } from "../../common-services/common-services
 import { InputTextModule } from "primeng/inputtext";
 import { PaginatorModule } from "primeng/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-item-management',
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule],
+  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule],
   providers: [HttpClient, MessagesPrinter, MessageService],
   templateUrl: './item-management.component.html',
   styleUrls: ['./item-management.component.css']

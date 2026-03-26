@@ -18,10 +18,10 @@
       </div>
       <div class="p-col-4" style="margin-top: 10pt">
        <p-floatlabel class="w-100">
-       <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
-              pInputText
-              style="width:100%;" type="text"/>
-       <label for="id-invoiceDescription">Invoice description</label>
+         <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
+                pInputText
+                style="width:100%;" type="text"/>
+         <label for="id-invoiceDescription">Invoice description</label>
        </p-floatlabel>
       </div>
 
@@ -97,7 +97,7 @@
       <app-invoice-items-table #itemsTableRef
                                (changeItemsEvent)="setInvoiceItems($event)"
                                [invoiceItems]="invoiceFormData.invoiceItems"
-                               style="width: 100%;"
+                               class="w-100"
                                [modelChangedEvent]="eventsModelIsReset.asObservable()">
 
       </app-invoice-items-table>

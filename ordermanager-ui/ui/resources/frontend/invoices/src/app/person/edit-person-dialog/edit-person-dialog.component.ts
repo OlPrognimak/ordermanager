@@ -15,11 +15,12 @@ import { DropdownModule } from "primeng/dropdown";
 import { DialogModule } from "primeng/dialog";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { isAuthenticated, personType } from "../../common-services/common-services-util.service";
+import {FloatLabel} from "primeng/floatlabel";
 
 @Component({
   selector: 'app-edit-person-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, DropdownModule, DialogModule],
+  imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, DropdownModule, DialogModule, FloatLabel],
   templateUrl: './edit-person-dialog.component.html',
   styleUrls: ['./edit-person-dialog.component.css']
 })

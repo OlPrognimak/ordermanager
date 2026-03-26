@@ -1,10 +1,11 @@
 <p-dialog (onHide)="setVisible(false)"
           [(visible)]="visible"
           [contentStyle]="{'overflow': 'auto'}"
-          [style]="{ width: '80vw', height: '65vw' }">
+          [style]="{ width: '80vw', height: '65vw' }"
+          styleClass="invoice-edit-dialog">
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 style="padding-left: 2vw; color: white">Edit invoice</h2>
+      <h2  style="padding-left: 2vw; color: white">Edit invoice</h2>
     </div>
   </ng-template>
   <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG">
@@ -12,7 +13,7 @@
       <p-toast></p-toast>
     </div>
     <div class="p-fluid">
-      <div class="shadow-panel-color p-shadow-4">
+      <div class="shadow-panel-color p-shadow-4 invoice-edit-panel">
         <div class="p-grid" style="margin-top: 10pt">
           <div class="p-col-4" style="margin-top: 25pt">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
@@ -33,7 +34,7 @@
 
         </div>
         <div class="p-grid">
-          <div class="p-col-3" style="margin-top: 15pt">
+          <div class="p-col-3 margin-top-20">
             <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'rateType',
                    placeholderPar: 'Select rate Type',
@@ -45,7 +46,7 @@
           </div>
         </div>
         <div class="p-grid">
-          <div class="p-col-3">
+          <div class="p-col-3 margin-top-20">
             <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
           context:{controlPath: 'invoiceDate',
                    idComponent: 'id-InvoiceDate',
@@ -55,7 +56,7 @@
             </ng-container>
 
           </div>
-          <div class="p-col-3">
+          <div class="p-col-3 margin-top-20">
 
             <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
           context:{controlPath: 'creationDate',
@@ -68,7 +69,7 @@
         </div>
 
         <div class="p-grid">
-          <div class="p-col-6" style="margin-top: 15pt;">
+          <div class="p-col-6 margin-top-20">
             <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'personSupplierId',
                    placeholderPar: 'Select person',
@@ -81,7 +82,7 @@
         </div>
 
         <div class="p-grid">
-          <div class="p-col-6">
+          <div class="p-col-6 margin-top-20">
             <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
           context:{controlPath: 'personRecipientId',
                    placeholderPar: 'Select person',

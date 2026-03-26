@@ -70,17 +70,22 @@
                   <div>{{person.email}}</div>
                 </td>
                 <td style="padding: 5pt 2pt 2pt 2pt;">
-                  <button (click)="deletePerson(person.id)" class="p-button-rounded p-button-warning" icon="pi pi-trash"
+                  <button (click)="deletePerson(person.id)" class="p-button-rounded p-button-warning"
                           pButton pRipple
-                          title="Delete item"></button>
-                  <button (click)="rowDoubleClick($event, person)" class="p-button-rounded p-button-warning"
-                          icon="pi pi-pencil" pButton pRipple
-                          style="margin-left: 2px;"
-                          title="Edit item"></button>
-                  <button (click)="rollbackChanges(person.id)" class="p-button-rounded p-button-warning" icon="pi pi-undo"
+                          title="Delete item">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                  <button (click)="rowDoubleClick($event, person)" class="p-button-rounded p-button-warning undo-button"
+                          pButton pRipple
+                          title="Edit item">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button (click)="rollbackChanges(person.id)" class="p-button-rounded p-button-warning undo-button"
                           pButton
                           pRipple
-                          title="Rollback item"></button>
+                          title="Rollback item">
+                    <i class="pi pi-undo"></i>
+                  </button>
                 </td>
               </tr>
 

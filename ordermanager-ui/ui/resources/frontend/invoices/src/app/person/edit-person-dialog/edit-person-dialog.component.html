@@ -8,7 +8,8 @@
     <form [formGroup]="editPersonFG">
       <div class="shadow-panel-color p-shadow-4">
         <div class="p-grid" style="margin-left: 2px;">
-          <div class="p-col-6">
+          <div class="p-col-6 margin-top-20">
+
             <ng-container *ngTemplateOutlet="comboboxTemplate;
           context:{controlPath: 'personType',
                    placeholderPar: 'Select person type',
@@ -187,21 +188,25 @@
 
 <!-- the input template for input texts-->
 <ng-template #inputTextTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
-  <div style="display: table; width: 100%;">
-    <div style="display: table-row; width: 100%;">
-      <div style="display: table-cell; width: 100%;">
-               <span class="p-float-label">
+  <div class="w-100">
+    <div class = "field-row">
+               <p-floatlabel class="w-100">
                     <input [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
                            id="{{idComponent}}"
                            minlength="0"
                            pInputText
                            type="text"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
-               </span>
-      </div>
-      <div *ngIf="getControl(controlPath).invalid" style="display: table-cell; width: 10%;">
-        <p-message severity="error"></p-message>
-      </div>
+               </p-floatlabel>
+
+      @if (getControl(controlPath).invalid && (getControl(controlPath).dirty || getControl(controlPath).touched)) {
+        <div class="error-icon-box">
+          <p-message severity="error" icon="pi pi-times-circle"></p-message>
+        </div>
+      }
+<!--      <div *ngIf="getControl(controlPath).invalid" style="display: table-cell; width: 10%;">-->
+<!--        <p-message severity="error"></p-message>-->
+<!--      </div>-->
     </div>
   </div>
 </ng-template>
@@ -214,24 +219,26 @@
              let-optionList="optionList"
              let-placeholderPar="placeholderPar">
 
-  <div style="display: table; width: 100%;">
-    <div style="display: table-row; width: 100%;">
-      <div style="display: table-cell; width: 100%;">
-        <div style="margin-bottom: 15pt">
-                <span class="p-float-label">
+    <div class="w-100">
+        <div class="field-row">
+            <p-floatlabel class="w-100">
                 <p-dropdown (onChange)="personTypeChanged($event)"
                             [formControl]="getControl(controlPath)"
                             [options]="optionList"
                             id="{{idComponent}}"
+                            class="p-dropdown-template-cls"
                             minlength="1"
                             placeholder="{{placeholderPar}}"
                             required>
                 </p-dropdown>
-                <label for="{{idComponent}}">{{labelText}}</label>
-                </span>
+              <label [for]="idComponent">{{ labelText }}</label>
+            </p-floatlabel>
+          @if (getControl(controlPath).invalid && (getControl(controlPath).dirty || getControl(controlPath).touched)) {
+            <div class="error-icon-box">
+              <p-message severity="error" icon="pi pi-times-circle"></p-message>
+            </div>
+          }
         </div>
-      </div>
     </div>
-  </div>
 </ng-template>
 

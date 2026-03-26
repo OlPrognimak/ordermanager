@@ -52,3 +52,7 @@ span.p-calendar {
 .base-top-grid-area {
   height: 78%
 }
+
+.undo-button {
+  margin-left: 2px;
+}
