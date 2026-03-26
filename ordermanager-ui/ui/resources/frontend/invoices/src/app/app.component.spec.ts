@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { UserLoginComponent } from "./user/user-login/user-login.component";
 import { NO_ERRORS_SCHEMA } from "@angular/compiler";
 import { MessageService } from "primeng/api";
@@ -9,21 +9,20 @@ import { TooltipModule } from "primeng/tooltip";
 import { FormsModule } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AppComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule, HttpClientTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule
-        ],
-        declarations: [
-          AppComponent, UserLoginComponent
-        ],
-        providers: [MessageService],
-        schemas: [NO_ERRORS_SCHEMA]
-      }).compileComponents();
+    declarations: [
+        AppComponent, UserLoginComponent
+    ],
+    schemas: [NO_ERRORS_SCHEMA],
+    imports: [RouterTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule],
+    providers: [MessageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
     })
   );
 

@@ -16,7 +16,6 @@ export class CommonServiceEventBus<T> {
    * @param event
    */
   emitEvent(event: T) {
-    console.log("++++++ EMIT EVENT ="+event)
     this.events.next(event)
   }
 

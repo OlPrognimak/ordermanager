@@ -1,9 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, Subject, takeUntil } from 'rxjs';
 import { CreatedResponse, DropdownDataType } from '../domain/domain.invoiceformmodel';
-import { Message } from 'primeng/api/message';
 import { CommonServicesUtilService, printToJson } from './common-services-util.service';
 import { map } from "rxjs/operators";
 import { remoteBackendUrl } from "../common-auth/app-security.service";
@@ -40,34 +39,21 @@ export class CommonServicesAppHttpService<T> implements OnDestroy {
    */
   putObjectToServer = (httpMethod: string, objectToSave: T | null, objectName: string, endPointPath: string, callback) => {
 
-    const msgObservable = of(this.messagePrinter);
-    let eventBusObservable
-    if(environment.debugMode) {
-      eventBusObservable = of(this.eventBus).pipe(takeUntil(this.notifier))
-    }
-
-    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe({
-      next(response) {
-        if (response.createdId > 0) {
-          msgObservable.subscribe(
-            msgService => msgService.printSuccessMessage(objectName));
-
+    this.handleHttpRequest(objectToSave, endPointPath, httpMethod).pipe(takeUntil(this.notifier),).subscribe(
+      {
+        next: (response) => {
+          this.messagePrinter.printSuccessMessage(objectName);
           return callback(response.createdId);
-        } else {
-          console.log('Unexpected error: ' + response);
-          //return callback && callback(false);
-        }
-      },
-      error(err) {
-        console.log("Handle HTTP Request Error :" + JSON.stringify(err))
-        msgObservable.subscribe(
-          msgService => msgService.printUnsuccessefulMessage(objectName, err));
-        if(environment.debugMode) {
-          eventBusObservable.subscribe(eb => eb.emitEvent(err))
+        },
+        error: (err)=> {
+          console.log("Handle HTTP Request Error :" + JSON.stringify(err));
+          this.messagePrinter.printUnsuccessefulMessage(objectName, err);
+          if(environment.debugMode) {
+            this.eventBus.emitEvent(err);
+          }
         }
       }
-    })
-
+    )
   };
 
   loadDropdownData = (url: string, callback) => {
@@ -141,7 +127,7 @@ export class MessagesPrinter {
 
   /*  prints success message  */
   public printSuccessMessage(objectName: any): void {
-    const msg: Message = {
+    const msg: ToastMessageOptions = {
       severity: 'success', summary: 'Congratulation!',
       detail: 'The ' + objectName + ' is saved successfully.'
     };
@@ -174,7 +160,7 @@ export class MessagesPrinter {
       errorText = messagePart;
       console.log('Error: ' + errorText);
     }
-    const msg: Message = {
+    const msg: ToastMessageOptions = {
       severity: 'error', summary: 'Error',
       detail: errorText
     };

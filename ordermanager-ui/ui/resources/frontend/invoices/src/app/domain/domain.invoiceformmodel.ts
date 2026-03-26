@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import * as _moment from 'moment';
+import moment from 'moment';
 
 export interface InvoiceFormModelInterface {
   id: number;
@@ -97,8 +97,8 @@ export class InvoiceFormModel implements InvoiceFormModelInterface {
   public toJSON(): InvoiceFormModel {
     const withDateTransform = Object.assign({}, this, {
 
-      creationDate: _moment(this.creationDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ'),
-      invoiceDate: _moment(this.invoiceDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ')
+      creationDate: moment(this.creationDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ'),
+      invoiceDate: moment(this.invoiceDate).format('yyyy-MM-DDTHH:mm:ss.SSSZZ')
     });
     //console.log("INVOICE FORM TRANSFORMED MODEL :"+JSON.stringify(withDateTransform))
     return withDateTransform;
@@ -107,13 +107,13 @@ export class InvoiceFormModel implements InvoiceFormModelInterface {
 
 
 export class RequestDatePriod implements RequestPeriodDateInterface {
-  startDate: Date = _moment().startOf('year').toDate();
+  startDate: Date = moment().startOf('year').toDate();
   endDate: Date = new Date();
 
   public toJSON(): RequestPeriodDateInterface {
     return Object.assign({}, this, {
-      startDate: _moment(this.startDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-      endDate: _moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ')
+      startDate: moment(this.startDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
+      endDate: moment(this.endDate).format('YYYY-MM-DDTHH:mm:ss.SSSZZ')
     });
   }
 }

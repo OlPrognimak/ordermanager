@@ -1,10 +1,10 @@
-:host::ng-deep div.p-timeline-event-content {
+:host::ng-deep div.p-timeline-event-opposite{
   height: 150px;
   max-width: 200px;
 }
 
 :host::ng-deep div.p-timeline-event-opposite {
-  max-width: 300px;
+  max-width: 200px;
 }
 
 :host::ng-deep div > p-timeline > div {
@@ -26,6 +26,11 @@
   padding: 8pt 8pt 8pt 8pt;
 }
 
+form[workflowFrm] {
+  width: 100%;
+  display: block;
+}
+
 
 :host::ng-deep div.p-timeline-event-content > p-button.p-element > button {
   padding: 0 0 0 0;
@@ -35,4 +40,92 @@
 
 :host::ng-deep div > div.p-col-3 > p-button:nth-child(2) > button {
   margin-left: 5pt;
+}
+
+.custom-marker {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 100%;
+  background: #2563eb;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-marker i {
+  color: #ffffff;
+  font-size: 3rem;
+}
+
+:host::ng-deep div.p-timeline-event-opposite > p-button > button {
+  background-color: white !important;
+  border: white !important;
+}
+
+.workflow-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #f6f9fb;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.workflow-header {
+  flex: 0 0 auto;
+}
+
+.workflow-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+.workflow-timeline {
+  width: 100%;
+  height: 100%;
+}
+
+.workflow-timeline .p-timeline {
+  height: 100%;
+}
+
+.workflow-timeline .p-timeline-event {
+  flex: 1 1 0;
+  min-height: 4rem;
+}
+
+.workflow-timeline .p-timeline-event-separator {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.workflow-timeline .p-timeline-event-marker {
+  flex: 0 0 auto;
+}
+
+.workflow-timeline .p-timeline-event-connector {
+  flex: 1 1 auto;
+  width: 2px;
+}
+
+.app-splitter {
+  height: calc(100vh - 120px);
+}
+
+.app-splitter .p-splitter-panel {
+  min-width: 0;
+  overflow: auto;
+}
+
+.timeline-content-cls{
+  width: 100%;
+  text-align: right;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  color: #6b7280;
 }

@@ -113,13 +113,13 @@
       </div>
       <div class="p-grid item-left">
         <div class="p-col-2">
-          <span class="p-float-label">
+          <p-floatlabel class="w-100">
             <input [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode" id="id-add-postBoxCode"
                    name="postBoxCode" pInputText
                    style="margin-left: 0px !Important"
                    type="text"/>
             <label for="id-add-postBoxCode">Post Box</label>
-          </span>
+          </p-floatlabel>
         </div>
         <div class="p-col-3 street-container">
 
@@ -154,13 +154,13 @@
         </div>
 
         <div class="p-col-2">
-          <span class="p-float-label">
+          <p-floatlabel>
             <input [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber" id="id_AccountNumber"
                    name="accountNumber"
                    pInputText
                    type="text"/>
             <label for="id_AccountNumber">Account number</label>
-          </span>
+          </p-floatlabel>
         </div>
       </div>
 
@@ -169,7 +169,7 @@
           <div class = "full-width-display-table">
             <div class = "full-width-display-row">
               <div class = "full-width-display-cell">
-               <span class="p-float-label">
+               <p-floatlabel class="w-100">
                     <input #modelRef="ngModel"
                            (ngModelChange)="personFormModel.bankAccountFormModel.iban = $event"
                            [ngModel]="personFormModel.bankAccountFormModel.iban | ibanFormatter"
@@ -181,20 +181,20 @@
                            required
                            type="text"/>
                   <label for="id_IBAN">IBAN</label>
-               </span>
+               </p-floatlabel>
               </div>
-              @if (modelRef.errors?.required) {
+              @if (modelRef.errors?.['required']) {
                 <div class = "error-message-cmp" id="id_Iban_Required_err">
-                  <p-message severity="error"></p-message>
+                  <p-message severity="error" icon="pi pi-times-circle"></p-message>
                 </div>
               }
               @if (checkOrSetIbahNoError(modelRef)) {
                 <div class = "error-message-cmp" id="id_Iban_Iban_err">
-                  <p-message severity="error"></p-message>
+                  <p-message severity="error" icon="pi pi-times-circle"></p-message>
                 </div>
               }
             </div>
-            @if(modelRef.errors?.iban) {
+            @if(modelRef.errors?.['iban']) {
               <p-message severity="error" text="Wrong IBAN"></p-message>
             }
           </div>

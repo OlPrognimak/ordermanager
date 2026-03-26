@@ -13,3 +13,19 @@
 .result-value-input {
   margin-right: 0 !important;
 }
+:host ::ng-deep .invoice-edit-dialog {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+:host ::ng-deep .p-fluid > app-reactive-invoice-items-table > div.p-fluid.p-grid {
+  margin-top: 5px;
+}
+
+:host ::ng-deep .p-fluid > app-reactive-invoice-items-table > div.p-shadow-4.shadow-panel-color {
+  border-radius: 5px;
+}
+
+.invoice-edit-panel {
+  border-radius: 5px;
+}

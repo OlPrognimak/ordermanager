@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemsFormComponent } from './items-form.component';
-import { HttpClient, HttpClientModule, HttpHandler } from "@angular/common/http";
+import { HttpClient, HttpHandler, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MessageModule } from "primeng/message";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
@@ -14,9 +14,9 @@ describe('ItemsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule, MessageModule, ToastModule, FormsModule, ButtonModule],
-      providers: [MessageService, HttpClient, HttpHandler]
-    })
+    imports: [MessageModule, ToastModule, FormsModule, ButtonModule],
+    providers: [MessageService, HttpClient, HttpHandler, provideHttpClient(withInterceptorsFromDi())]
+})
       .compileComponents();
   });
 

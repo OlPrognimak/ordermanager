@@ -49,6 +49,7 @@ import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
 import { dateTimestampProvider } from "rxjs/internal/scheduler/dateTimestampProvider";
+import {FloatLabel} from "primeng/floatlabel";
 
 
 @Component({
@@ -156,7 +157,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
 @NgModule(
   {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, CalendarModule,],
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, CalendarModule, FloatLabel,],
     declarations: [ValidatableCalendarComponent],
     exports: [ValidatableCalendarComponent]
   }

@@ -47,6 +47,8 @@ import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
+import { FloatLabelModule } from 'primeng/floatlabel';
+
 
 
 @Component({
@@ -61,7 +63,7 @@ import { InputTextModule } from "primeng/inputtext";
       multi: true
     }
   ],
-  imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule],
+  imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })

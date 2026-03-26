@@ -59,6 +59,7 @@ import { InvoiceActions } from "../../workflows/invoice-workflow/state/invoice.a
 import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
+import {FloatLabel} from "primeng/floatlabel";
 
 /**
  * The component which contains form component for creation of person
@@ -316,7 +317,7 @@ export class PersonFormComponent implements OnInit, OnDestroy {
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent],
+      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent, FloatLabel],
     declarations: [PersonFormComponent],
     exports: [PersonFormComponent],
   }

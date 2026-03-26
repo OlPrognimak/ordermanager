@@ -16,3 +16,13 @@
 .p-field * {
   display: block;
 }
+
+:host::ng-deep  form > div > div.p-grid.p-col-12 > div > div > p-button > button{
+  width: 100%;
+}
+
+.invoice-item-table-cls{
+  margin-top: 10pt;
+  margin-left: 10pt;
+  width: 100%;
+}

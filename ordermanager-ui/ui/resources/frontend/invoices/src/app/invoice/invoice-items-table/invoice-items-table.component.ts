@@ -97,8 +97,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
 
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
   public resetTotalValues(): void {
-    this.calculatorService.totalNettoSum.set(0)
-    this.calculatorService.totalBruttoSum.set(0)
+    this.calculatorService.invoiceItems.set([]);
   }
 
   /**
@@ -106,7 +105,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    * @param invoiceitem the item which belong to table row
    * @param event id catalog item
    */
-  catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
+  catalogItemSelected(invoiceitem: InvoiceItemModel, event: any): void {
     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
       this.changeItemsEvent.emit(this.invoiceItems);
       this.inputBoxChanged(callback, null)
@@ -155,17 +154,14 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
-    promise.then(() => {
-        this.emitTotalChanged();
-      }
-    ).catch(error => {
-      this.printToJson(JSON.stringify(error));
-    });
-  }
-
-  printToJson(data: any): void {
-    console.log(JSON.stringify(data));
+    this.calculatorService.calculateAllSum(this.invoiceItems, model);
+    // const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
+    // promise.then(() => {
+    //     this.emitTotalChanged();
+    //   }
+    // ).catch(error => {
+    //   this.printToJson(JSON.stringify(error));
+    // });
   }
 
   /** emits events with changed total netto and brutto sums */

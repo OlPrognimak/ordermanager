@@ -14,32 +14,9 @@ align-right-button {
   display: block; /* Make the button a block-level element */
 }
 
-/*
-
-#appConfigId > app-root > app-person-management {
-  display: flex;
-  height: 100%;
-  width: 100% !important;
+.undo-button {
+  margin-left: 2px;
 }
-
-#appConfigId > app-root > app-person-management > div {
-  width: 100%;
-}
-*/
-/** Move button save to bottom*/
-/*
-#appConfigId > app-root > app-person-management > div > div.p-col-12 {
-  height: 90%;
-  width: 100%
-}
-
-#appConfigId > app-root > app-person-management > div > div.p-col-12 > p-table {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  height: 90%;
-}
-*/
 
 
 :host::ng-deep div.p-datatable-gridlines.p-datatable.p-component.p-datatable-hoverable-rows {
@@ -88,6 +65,10 @@ align-right-button {
 
 .data-cell-style {
   padding: 2pt 2pt 2pt 2pt;
+}
+
+.undo-button {
+  margin-left: 2px;
 }
 
 

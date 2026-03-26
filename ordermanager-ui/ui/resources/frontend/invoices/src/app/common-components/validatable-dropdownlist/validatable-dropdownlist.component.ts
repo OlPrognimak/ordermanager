@@ -48,6 +48,7 @@ import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { DropdownModule } from "primeng/dropdown";
+import {FloatLabel} from "primeng/floatlabel";
 
 @Component({
   selector: 'app-validatable-dropdownlist',
@@ -153,7 +154,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
 
 @NgModule(
   {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, DropdownModule],
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, DropdownModule, FloatLabel],
     declarations: [ValidatableDropdownlistComponent],
     exports: [ValidatableDropdownlistComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

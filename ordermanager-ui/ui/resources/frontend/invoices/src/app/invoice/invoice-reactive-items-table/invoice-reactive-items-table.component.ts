@@ -42,6 +42,8 @@ import { TooltipModule } from "primeng/tooltip";
 import { ToastModule } from "primeng/toast";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import { HttpClient } from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {InputNumber} from "primeng/inputnumber";
 
 @Component({
   styles: [],
@@ -50,6 +52,8 @@ import { HttpClient } from "@angular/common/http";
   selector: 'app-reactive-invoice-items-table',
   templateUrl: './invoice-reactive-items-table.component.html',
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     TableModule,
     DropdownModule,
     PaginatorModule,
@@ -57,7 +61,8 @@ import { HttpClient } from "@angular/common/http";
     ButtonModule,
     TooltipModule,
     ToastModule,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    InputNumber
   ],
   providers: [HttpClient]
 })
@@ -121,8 +126,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
 
   /** sets to 0 the values of total netto and total bruto sum price of invoice */
   public resetTotalValues(): void {
-    this.calculatorService.totalNettoSum.set(0)
-    this.calculatorService.totalBruttoSum.set(0)
+    // this.calculatorService.totalNettoSum.set(0)
+    // this.calculatorService.totalBruttoSum.set(0)
   }
 
   /**
@@ -188,13 +193,14 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    const promise = this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
-    promise.then(() => {
-        this.emitTotalChanged();
-      }
-    ).catch(error => {
-      this.printToJson(JSON.stringify(error));
-    });
+    this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
+    // const promise = this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
+    // promise.then(() => {
+    //     this.emitTotalChanged();
+    //   }
+    // ).catch(error => {
+    //   this.printToJson(JSON.stringify(error));
+    // });
   }
 
   printToJson(data: any): void {

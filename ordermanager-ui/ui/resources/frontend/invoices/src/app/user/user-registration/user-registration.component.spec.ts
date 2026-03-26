@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserRegistrationComponent } from './user-registration.component';
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MessageModule } from "primeng/message";
 import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
@@ -14,11 +14,10 @@ describe('UserRegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserRegistrationComponent],
-      imports: [HttpClientModule, FormsModule, MessageModule, ToastModule, ButtonModule],
-      providers: [HttpClient, MessageService]
-
-    })
+    declarations: [UserRegistrationComponent],
+    imports: [FormsModule, MessageModule, ToastModule, ButtonModule],
+    providers: [HttpClient, MessageService, provideHttpClient(withInterceptorsFromDi())]
+})
       .compileComponents();
   });
 

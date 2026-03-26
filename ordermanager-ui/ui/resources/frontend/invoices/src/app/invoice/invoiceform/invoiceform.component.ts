@@ -40,7 +40,7 @@ import {
   InvoiceItemModel, InvoiceItemModelInterface
 } from '../../domain/domain.invoiceformmodel';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { AppSecurityService } from '../../common-auth/app-security.service';
@@ -72,6 +72,7 @@ import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoi
 import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
+import {FloatLabel} from "primeng/floatlabel";
 
 
 registerLocaleData(localede, 'de');
@@ -81,6 +82,7 @@ registerLocaleData(localede, 'de');
  */
 @Component({
   selector: 'app-invoice',
+  styleUrls: ['./invoiceform.component.css'],
   templateUrl: './invoiceform.component.html',
   providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
@@ -181,7 +183,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * child component.
    * 1) With using subject eventsModelIsReset.next() or
    * 2) By using @ChildView reference Object this.itemsTableComponent.resetTotalValues()
-   * @private
    */
   private resetModel(): void {
     this.invoiceFormData = new InvoiceFormModel();
@@ -199,13 +200,11 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
 }
 
 @NgModule(
-  {
+  { declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
+    exports: [InvoiceFormComponent, InvoiceItemsTableComponent],
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule,
-      ValidatableCalendarModule, InputTextModule, MessageModule, HttpClientModule, ToastModule, MessagesModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent],
-    declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
-    exports: [InvoiceFormComponent, InvoiceItemsTableComponent]
-  }
+      ValidatableCalendarModule, InputTextModule, MessageModule, ToastModule, MessagesModule,
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent, FloatLabel], providers: [provideHttpClient(withInterceptorsFromDi())] }
 )
 export class InvoiceFormModule {
 }
