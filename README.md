@@ -131,7 +131,7 @@ Maven module ```ordermanager-backend```.
  
 # Frontend
 The frontend application has implemented with using springboot framework as a runner of web application and
-UI-Framework Angular of version 16.
+UI-Framework Angular of version 18.
 ## Frontend frameworks and libraries
 - Angular 16
 - PrimeNG https://www.primefaces.org/primeng/
