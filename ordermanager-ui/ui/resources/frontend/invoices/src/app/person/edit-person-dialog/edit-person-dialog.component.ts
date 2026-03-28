@@ -16,11 +16,12 @@ import { DialogModule } from "primeng/dialog";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { isAuthenticated, personType } from "../../common-services/common-services-util.service";
 import {FloatLabel} from "primeng/floatlabel";
+import {TemplatesComponentComponent} from "../../common-components/templates-component/templates-component.component";
 
 @Component({
   selector: 'app-edit-person-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, DropdownModule, DialogModule, FloatLabel],
+  imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, DropdownModule, DialogModule, FloatLabel, TemplatesComponentComponent],
   templateUrl: './edit-person-dialog.component.html',
   styleUrls: ['./edit-person-dialog.component.css']
 })
@@ -47,29 +48,33 @@ export class EditPersonDialogComponent {
    */
   constructor(public securityService: AppSecurityService, private formBuilder: FormBuilder, private messagePrinter: MessagesPrinter) {
     this.editPersonFG = this.formBuilder.group({
-      personId: this.formBuilder.nonNullable.control(null),
+      personId: this.formBuilder.control<number | null>(null),
       personLastName: this.formBuilder.nonNullable.control(''),
       personFirstName: this.formBuilder.nonNullable.control(''),
       companyName: this.formBuilder.nonNullable.control(''),
-      personType: this.formBuilder.nonNullable.control('', [Validators.required]),
+      personType: this.formBuilder.control<string | null>(null, [Validators.required]),
       taxNumber: this.formBuilder.nonNullable.control(''),
-      email: this.formBuilder.nonNullable.control('', [Validators.required,
+      email: this.formBuilder.nonNullable.control('', [
+        Validators.required,
         Validators.minLength(5),
-        Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}')]),
+        Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}')
+      ]),
       personAddressFormModel: this.formBuilder.group({
         city: this.formBuilder.nonNullable.control('', [Validators.required]),
         street: this.formBuilder.nonNullable.control('', [Validators.required]),
         zipCode: this.formBuilder.nonNullable.control('', [Validators.required]),
-        postBoxCode: this.formBuilder.nonNullable.control(null)
+        postBoxCode: this.formBuilder.control<string | null>(null)
       }),
       bankAccountFormModel: this.formBuilder.group({
-        accountNumber: this.formBuilder.nonNullable.control(null),
-        iban: this.formBuilder.nonNullable.control(null, [Validators.required,
-          ValidatorService.validateIban]),
+        accountNumber: this.formBuilder.control<string | null>(null),
+        iban: this.formBuilder.control<string | null>(null, [
+          Validators.required,
+          ValidatorService.validateIban
+        ]),
         bicSwift: this.formBuilder.nonNullable.control('', [Validators.required]),
         bankName: this.formBuilder.nonNullable.control('', [Validators.required])
       })
-    })
+    });
   }
 
   setVisible(val: boolean) {

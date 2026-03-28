@@ -28,3 +28,12 @@ div.p-grid.p-col-6 > h2 {
 div.p-grid >div.p-col-6 > h2 {
   color: #ffffff !important;
 }
+
+:host ::ng-deep .person-edit-dialog {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.person-edit-panel {
+  border-radius: 5px;
+}

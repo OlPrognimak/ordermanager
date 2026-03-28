@@ -62,24 +62,24 @@
 
   <div class="w-100">
     <div class="field-row">
-      <p-floatlabel class="w-100">
+      <p-floatlabel class="w-100 my-float-wrapper">
         <p-dropdown
           (onChange)="onDropdownValueChanged($event)"
           [formControl]="getControl(controlPath)"
           [options]="optionList"
+          optionLabel="label"
+          optionValue="value"
           [inputId]="idComponent"
           class="p-dropdown-template-cls w-100"
           [ngClass]="{
           'ng-invalid': getControl(controlPath)?.invalid,
           'ng-dirty': getControl(controlPath)?.dirty || getControl(controlPath)?.touched,
-          'p-inputwrapper-filled': !!getControl(controlPath)?.value
-        }"
-          required>
+          'p-inputwrapper-filled': getControl(controlPath)?.value !== null && getControl(controlPath)?.value !== undefined
+        }" required>
         </p-dropdown>
 
         <label [for]="idComponent">{{ labelText }}</label>
       </p-floatlabel>
-
       @if (getControl(controlPath).invalid && (getControl(controlPath).dirty || getControl(controlPath).touched)) {
         <div class="error-icon-box">
           <p-message severity="error" icon="pi pi-times-circle"></p-message>
