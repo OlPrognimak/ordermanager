@@ -49,7 +49,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${basedir}/docker/delete-start.bat</executable>
+                                    <executable>${project.basedir}/delete-start.sh</executable>
                                 </configuration>
                             </execution>
                         </executions>
