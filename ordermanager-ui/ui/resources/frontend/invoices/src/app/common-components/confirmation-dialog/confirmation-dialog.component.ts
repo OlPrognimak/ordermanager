@@ -20,6 +20,11 @@ export class ConfirmationDialogComponent {
   @Output() confirmed = new EventEmitter<void>();
   @Output() canceled = new EventEmitter<boolean>();
   transferObject: any
+  @Input() confirmMessage: string;
+
+  get confirmHeaderText(): string {
+    return this.confirmMessage ? this.confirmMessage : ''
+  }
 
   onConfirm(): void {
     this.confirmed.emit();

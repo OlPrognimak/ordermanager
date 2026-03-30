@@ -7,46 +7,53 @@
 -->
 <div class="calendar-wrapper">
   <div class="calendar-row">
-
     <p-floatlabel class="calendar-field">
-      <p-calendar
-        #modelCalenderRef="ngModel"
+      <p-datepicker
+        #modelCalendarRef="ngModel"
         [(ngModel)]="controlValue"
         (ngModelChange)="onChange($event)"
+        (onBlur)="onTouched()"
         [dateFormat]="calendarDateFormat"
         [inputId]="idComponent"
         [required]="true"
         [ngClass]="{
-          'ng-invalid ng-dirty': modelCalenderRef.invalid && (modelCalenderRef.dirty || modelCalenderRef.touched)
+          'ng-invalid': modelCalendarRef.invalid,
+          'ng-dirty': modelCalendarRef.dirty || modelCalendarRef.touched
         }"
         styleClass="w-100">
-      </p-calendar>
+      </p-datepicker>
 
       <label [for]="idComponent">{{ labelText }}</label>
     </p-floatlabel>
-    @if (modelCalenderRef.invalid && (modelCalenderRef.dirty || modelCalenderRef.touched)) {
+
+    @if (modelCalendarRef.invalid && (modelCalendarRef.dirty || modelCalendarRef.touched)) {
       <div class="error-icon-box">
         <p-message severity="error" icon="pi pi-times-circle"></p-message>
       </div>
     }
-
   </div>
 
-  @if (setHasMinLengthError(modelCalenderRef.errors?.['minlength'] !== null,
-    modelCalenderRef.errors?.['minlength']) && (modelCalenderRef.dirty || modelCalenderRef.touched)) {
+  @if (
+    setHasMinLengthError(
+      !!modelCalendarRef.errors?.['minlength'],
+      modelCalendarRef.errors?.['minlength']
+    ) && (modelCalendarRef.dirty || modelCalendarRef.touched)
+    ) {
     <div class="error-icon">
       <p-message severity="error" icon="pi pi-times-circle"></p-message>
     </div>
   }
 
-  @if (setHasRequiredError(modelCalenderRef.errors?.['required'] !== undefined &&
-    modelCalenderRef.errors?.['required'] !== null,
-    modelCalenderRef.errors?.['required']) && (modelCalenderRef.dirty || modelCalenderRef.touched)) {
+  @if (
+    setHasRequiredError(
+      !!modelCalendarRef.errors?.['required'],
+      modelCalendarRef.errors?.['required']
+    ) && (modelCalendarRef.dirty || modelCalendarRef.touched)
+    ) {
     <small class="validation-text">Date is required</small>
   }
 
-  @if (modelCalenderRef.errors?.['startDateMoreEndDate']) {
+  @if (modelCalendarRef.errors?.['startDateMoreEndDate']) {
     <small class="validation-text">Start date must be before end date</small>
   }
-
 </div>

@@ -98,7 +98,7 @@
     <div style="display: table-row; width: 100%;">
       <div style="display: table-cell; width: 100%;">
                <p-floatlabel class="p-float-label">
-                    <p-calendar (onSelect)="onCalendarChange($event, controlPath)"
+                    <p-date-picker (onSelect)="onCalendarChange($event, controlPath)"
                                 [formControl]="getControl(controlPath)"
                                 [showIcon]="true"
                                 dateFormat="{{calendarDateFormat}}"
@@ -110,7 +110,7 @@
                                   'ng-dirty': getControl(controlPath)?.dirty || getControl(controlPath)?.touched
                                 }"
                                 required>
-                    </p-calendar>
+                    </p-date-picker>
                     <label for="{{idComponent}}">{{labelText}}</label>
                </p-floatlabel>
       </div>
@@ -130,10 +130,12 @@
       <div style="display: table-row; width: 100%;">
         <div style="display: table-cell; width: 100%;">
                  <span class="p-float-label">
-                      <p-calendar  #pCalendarRef="ngModel"
+                      <p-datepicker  #pCalendarRef="ngModel"
                                   (onSelect)="onCalendarChange($event, controlName)"
                                   [(ngModel)]="dateTemplateModel"
                                   [showIcon]="true"
+                                  (ngModelChange)="onChange($event)"
+                                  (onBlur)="onTouched()"
                                   dateFormat="{{calendarDateFormat}}"
                                   id="{{idComponent}}"
                                   minlength="1"
@@ -143,7 +145,7 @@
                                       'ng-invalid': pCalendarRef?.invalid,
                                       'ng-dirty': pCalendarRef?.dirty || pCalendarRef?.touched
                                   }">
-                      </p-calendar>
+                      </p-datepicker>
                       <label for="{{idComponent}}">{{labelText}}</label>
                  </span>
         </div>

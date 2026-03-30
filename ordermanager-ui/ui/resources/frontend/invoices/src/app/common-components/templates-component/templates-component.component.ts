@@ -4,7 +4,7 @@ import { InputTextModule } from "primeng/inputtext";
 import { MessageModule } from "primeng/message";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DropdownChangeEvent, DropdownModule } from "primeng/dropdown";
-import { CalendarModule } from "primeng/calendar";
+import { DatePickerModule } from 'primeng/datepicker';
 import { PaginatorModule } from "primeng/paginator";
 import {FloatLabel} from "primeng/floatlabel";
 import {InputNumber} from "primeng/inputnumber";
@@ -12,7 +12,7 @@ import {InputNumber} from "primeng/inputnumber";
 @Component({
   selector: 'app-templates-component',
   standalone: true,
-  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, CalendarModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
+  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, DatePickerModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
   templateUrl: './templates-component.component.html',
   styleUrls: ['./templates-component.component.css']
 })
@@ -45,7 +45,8 @@ export class TemplatesComponentComponent {
     this.calendarValueChanged.emit({calendarName: name, date: date})
   }
 
-
+  onChange: (val: any) => void = () => {};
+  onTouched: () => void = () => {};
 }
 
 export class InputTextTemplateContext {

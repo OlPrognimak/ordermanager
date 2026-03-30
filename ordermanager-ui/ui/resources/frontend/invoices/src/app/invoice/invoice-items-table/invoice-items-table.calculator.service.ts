@@ -40,17 +40,21 @@ export class InvoiceItemsTableCalculatorService {
    * @param invoiceItems the items of invoice
    * @param modelItem the item from currently selected or added row where was changed the item price, amount of items or vat.
    */
-  calculateAllSum(invoiceItems: InvoiceItemModel[], modelItem: InvoiceItemModel): void {
+  calculateAllSum(invoiceItems: InvoiceItemModel[], modelItem: InvoiceItemModel | undefined): void {
     const recalculatedItems = invoiceItems.map(item => this.calculateItem(item));
-    const recalculatedModelItem = this.calculateItem(modelItem);
+    if(modelItem !== undefined && modelItem !== null) {
+      const recalculatedModelItem = this.calculateItem(modelItem);
 
-    const modelItemExists = recalculatedItems.some(item => item === modelItem);
+      const modelItemExists = recalculatedItems.some(item => item === modelItem);
 
-    const updatedItems = modelItemExists
-      ? recalculatedItems.map(item => item === modelItem ? recalculatedModelItem : item)
-      : [...recalculatedItems, recalculatedModelItem];
+      const updatedItems = modelItemExists
+        ? recalculatedItems.map(item => item === modelItem ? recalculatedModelItem : item)
+        : [...recalculatedItems, recalculatedModelItem];
 
-    this.invoiceItems.set(updatedItems);
+      this.invoiceItems.set(updatedItems);
+    } else {
+      this.invoiceItems.set(recalculatedItems);
+    }
   }
 
   /**

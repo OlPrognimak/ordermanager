@@ -108,6 +108,7 @@
 
     <app-confirmation-dialog #confirmDialog
                              (canceled)="handleCancel($event)"
+                             [confirmMessage]="'Confirm delete person'"
                              (confirmed)="handleConfirmation(confirmDialog.transferObject)"
                              [display]="showConfirmDialog"
                              [message]="confirmDialogMessage"></app-confirmation-dialog>

@@ -122,7 +122,7 @@
     <div class="p-col-3">
       <div style="display: block; padding-left: 10%">
         <label style="max-width: 50%; text-align: right">Total netto (Euro): </label>
-        <input (ngModelChange)="setTotalNettoSum($event)" [ngModel]="getTotalNettoSum()  | standardFloat"
+        <input (ngModelChange)="setTotalNettoSum($event)" [ngModel]="getTotalNettoSum  | standardFloat"
                class="right-aligned-totals input-label-like p-field" id="id-tottalNettoSun"
                name="tottalNettoSum" placeholder="0.00"
                readonly
@@ -135,7 +135,7 @@
     <div class="p-col-3">
       <div style="display: block">
         <label style="max-width: 50%; padding-left: 10%">Total brutto (Euro): </label>
-        <input (ngModelChange)="setTottalBruttoSum($event)" [ngModel]="getToltalBruttoSum() | standardFloat"
+        <input (ngModelChange)="setTottalBruttoSum($event)" [ngModel]="getTotalBruttoSum | standardFloat"
                class="right-aligned-totals input-label-like p-field" id="id-tottalBruttoSun"
                name="tottalBruttoSum" placeholder="0.00"
                readonly
@@ -146,6 +146,7 @@
 </div>
 <app-confirmation-dialog #confirmDeleteItemDialog
                          (canceled)="showDeleteConfirmDialog=false"
+                         [confirmMessage]="'Confirm delete item'"
                          (confirmed)="handleDeleteConfirmation(confirmDeleteItemDialog.transferObject)"
                          [display]="showDeleteConfirmDialog"
                          [message]="saveDeeleteDialogMessage"></app-confirmation-dialog>
