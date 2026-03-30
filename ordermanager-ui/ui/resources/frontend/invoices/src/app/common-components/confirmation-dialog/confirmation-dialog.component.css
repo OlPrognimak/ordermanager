@@ -1,4 +1,43 @@
-.o-confirm-dialog {
-  width: 50vw;
-  height: 30%;
+
+:host ::ng-deep .o-confirm-dialog {
+  overflow: hidden;
+  border-radius: 10px;
 }
+
+.dialog-footer-grid {
+  width: 100%;
+  margin: 0;
+}
+
+.dialog-footer-grid > [class*='p-col-'] {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Make dialog content flex */
+::ng-deep .dialog-content-flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Body should take available space */
+.dialog-body {
+  flex: 1;
+  display: flex;
+  align-items: center;   /* vertical center (optional) */
+}
+
+/* Footer stays at bottom */
+.dialog-footer {
+  margin-top: auto;
+  width: 100%;
+}
+
+.d-header-text {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+  padding-left: 2vw; color: white
+}
+

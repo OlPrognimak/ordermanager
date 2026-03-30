@@ -1,13 +1,33 @@
 <p-dialog (onHide)="setVisible(false)"
           [(visible)]="visible"
-          [style]="{ width: '60vw', height: '70%' }"
+          [style]=  "dialogStyle"
+          [contentStyle]="dialogContentStyle"
+          [modal]="true"
           styleClass="person-edit-dialog">
+
+
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 style="padding-left: 2vw; color: white">Edit person</h2>
+      <h2 class="dialog-title">Edit person</h2>
+
+      <div class="header-actions">
+        <button
+          pButton
+          type="button"
+          class="p-button-text"
+          (click)="toggleFullscreen()"
+          title="Toggle fullscreen">
+          @if (isFullscreen) {
+            <i class="pi pi-window-maximize"></i>
+          } @else {
+            <i class="pi pi-window-minimize"></i>
+          }
+        </button>
+      </div>
     </div>
   </ng-template>
-  <div *ngIf="isAuthenticated();" class="p-fluid">
+
+  <div *ngIf="isAuthenticated();" class="p-flu" style="height: 100%; width: 100%;">
     <form [formGroup]="editPersonFG">
       <div class="shadow-panel-color p-shadow-4 person-edit-panel margin-top-20">
         <div class="p-grid" style="margin-left: 2px;">
@@ -178,8 +198,8 @@
       </div>
       <!-- END BANK FORM -->
     </form>
-
   </div>
+
   <ng-template pTemplate="footer">
     <p-button (click)="sendChanges()" [disabled]="haveErrors()" icon="pi pi-check" label="Save"
               styleClass="p-button-text"></p-button>

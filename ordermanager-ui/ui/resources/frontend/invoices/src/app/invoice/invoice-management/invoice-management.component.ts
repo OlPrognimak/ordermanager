@@ -50,6 +50,8 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
   @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
   /**Reference to child component delete person confirmation dialog. */
   @ViewChild('confirmDeleteInvoiceDialog') confirmDeleteInvoiceDialog: ConfirmationDialogComponent
+  @ViewChild('confirmUpdateInvoiceDialog') confirmUpdateInvoiceDialog: ConfirmationDialogComponent
+
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
   deleteConfirmDialogMessage: any = 'Are you really want to permanently delete invoice?'

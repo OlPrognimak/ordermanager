@@ -47,6 +47,7 @@ import { Subject } from "rxjs";
 import { MessageModule } from "primeng/message";
 import { MessagesModule } from "primeng/messages";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
+import {InvoiceItemsTableCalculatorService} from "../invoice-items-table/invoice-items-table.calculator.service";
 
 export type InvoiceControls = { [key in keyof InvoiceFormModelInterface]: AbstractControl }
 type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: InvoiceControls }
@@ -93,9 +94,9 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
   private isViewInitialized = false;
+  isFullscreen: boolean = false;
 
   constructor(private httpClient: HttpClient,
-              public appSecurityService: AppSecurityService,
               private messageService: MessageService,
               private messagePrinter: MessagesPrinter,
               private utilService: CommonServicesUtilService,
@@ -123,6 +124,23 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     //TODO reserved
   }
 
+  get dialogStyle() {
+    return this.isFullscreen
+      ? { width: '100vw', height: '100vh', top: '0', left: '0'}
+      : {  width: '60vw', height: '75vh' };
+  }
+
+  get dialogContentStyle() {
+    return this.isFullscreen
+      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0', 'overflow': 'auto' }
+      : { width: '60vw', height: '75vh', 'overflow': 'auto'};
+  }
+
+  toggleFullscreen() {
+    this.isFullscreen = !this.isFullscreen;
+  }
+
+
   ngOnInit(): void {
     this.resetModel();
     this.loadFormData()
@@ -148,6 +166,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({}, invoice)
+    this.itemsTableComponent.calculatorService.calculateAllSum(this.originalInvoice.invoiceItems, undefined)
 
     this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)
@@ -156,9 +175,9 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.getControl('personSupplierId').setValue('' + this.invoiceReactiveDlgFormData.personSupplierId)
     this.getControl('creationDate').setValue(new Date(this.invoiceReactiveDlgFormData.creationDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
-    ///end to fix
-    // this.itemsTableComponent.calculatorService.totalNettoSum.set(this.invoiceReactiveDlgFormData.totalSumNetto)
-    //this.itemsTableComponent.calculatorService.totalBruttoSum.set(this.invoiceReactiveDlgFormData.totalSumBrutto)
+    this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
+    this.getControl('totalSumNetto').setValue(this.itemsTableComponent.calculatorService.totalNettoSum())
+    this.getControl('totalSumBrutto').setValue(this.itemsTableComponent.calculatorService.totalBruttoSum())
 
   }
 

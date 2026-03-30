@@ -77,6 +77,24 @@ export class EditPersonDialogComponent {
     });
   }
 
+  isFullscreen: boolean = false;
+
+  get dialogStyle() {
+    return this.isFullscreen
+      ? { width: '100vw', height: '100vh', top: '0', left: '0' }
+      : { width: '60vw', height: '70vh' };
+  }
+
+  get dialogContentStyle() {
+    return this.isFullscreen
+      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0' }
+      : { width: '60vw', height: '70vh'};
+  }
+
+  toggleFullscreen() {
+    this.isFullscreen = !this.isFullscreen;
+  }
+
   setVisible(val: boolean) {
     this.visibilityChanged.emit(val)
   }

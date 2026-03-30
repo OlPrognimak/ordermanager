@@ -130,12 +130,14 @@
 
 <app-confirmation-dialog #confirmUpdateDialog
                          (canceled)="handleCancelUpdate()"
+                         [confirmMessage]="'Confirm update item'"
                          (confirmed)="handleUpdateConfirmation(confirmUpdateDialog.transferObject)"
                          [display]="showConfirmUpdateDialog"
                          [message]="confirmUpdateDialogMessage"></app-confirmation-dialog>
 
 <app-confirmation-dialog #confirmDeleteDialog
                          (canceled)="handleCancelDelete()"
+                         [confirmMessage]="'Confirm delete item'"
                          (confirmed)="handleDeleteConfirmation(confirmDeleteDialog.transferObject)"
                          [display]="showConfirmDeleteDialog"
                          [message]="confirmDeleteDialogMessage"></app-confirmation-dialog>

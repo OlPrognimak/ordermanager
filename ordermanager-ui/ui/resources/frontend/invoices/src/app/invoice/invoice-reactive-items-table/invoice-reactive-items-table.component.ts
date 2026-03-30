@@ -91,20 +91,22 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
     this.idxItem = 0;
   }
 
-  public getTotalNettoSum(): any {
+  get getTotalNettoSum(): any {
     return this.calculatorService.totalNettoSum();
   }
 
   setTotalNettoSum(value: any) {
-    //Currently disabled
+
   }
 
-  public getToltalBruttoSum(): any {
+  get getTotalBruttoSum(): any {
+   // this.calculatorService.setInvoiceItems(this.invoiceReactiveItems)
     return this.calculatorService.totalBruttoSum();
   }
 
   public setTottalBruttoSum(value: any) {
     //Currently disabled
+   //  this.calculatorService.setInvoiceItems(this.invoiceReactiveItems)
   }
 
   ngOnInit(): void {

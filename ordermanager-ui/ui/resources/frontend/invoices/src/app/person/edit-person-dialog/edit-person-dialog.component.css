@@ -7,8 +7,6 @@ input[type="text"] {
   margin-bottom: 15px !important;
 }
 
-
-
 .field-row {
   display: flex;
   align-items: center;
@@ -36,4 +34,24 @@ div.p-grid >div.p-col-6 > h2 {
 
 .person-edit-panel {
   border-radius: 5px;
+}
+
+.header-dialog-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.dialog-title {
+  margin: 0;
+  padding-left: 2vw;
+  color: white;
+}
+
+/* Push buttons to the right */
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

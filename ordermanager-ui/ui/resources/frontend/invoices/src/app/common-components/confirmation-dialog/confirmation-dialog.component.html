@@ -1,26 +1,32 @@
-<p-dialog (onHide)="onCancel()" [(visible)]="display" [modal]="true" [style]="{ width: '50vw', height: '30%' }"
-          header="Confirm">
+<p-dialog
+  (onHide)="onCancel()"
+  [(visible)]="display"
+  [modal]="true"
+  [style]="{ width: '30vw', height: '30vh' }"
+  contentStyleClass="dialog-content-flex"
+  styleClass="o-confirm-dialog">
 
-  <p-header>
-    <h2>Confirm</h2>
-  </p-header>
+  <ng-template pTemplate="header">
+    <h2  class="d-header-text">{{ confirmHeaderText }}</h2>
+  </ng-template>
 
-  <div class="p-grid">
-    <div class="p-col-12">
-      <h2>{{ message }}</h2>
-    </div>
+  <div class="dialog-body">
+    <h2 class="d-header-text">{{ message }}</h2>
   </div>
 
-  <p-footer>
-    <div class="p-grid">
-      <div class="p-col-8"></div>
-      <div class="p-col-2">
-        <button (click)="onConfirm()" class="p-button-danger" label="Yes" pButton type="button"></button>
+  <ng-template pTemplate="footer">
+    <div class="p-grid p-justify-end p-ai-center dialog-footer">
+      <div class="p-col-12 p-md-3">
+        <button (click)="onConfirm()" class="p-button-danger w-100" pButton type="button">
+          <span pButtonLabel>Yes</span>
+        </button>
       </div>
-      <div class="p-col-2">
-        <button (click)="onCancel()" class="p-button-secondary" label="No" pButton type="button"></button>
+      <div class="p-col-12 p-md-3">
+        <button (click)="onCancel()" class="p-button-secondary w-100" pButton type="button">
+          <span pButtonLabel>No</span>
+        </button>
       </div>
     </div>
-  </p-footer>
+  </ng-template>
 
 </p-dialog>

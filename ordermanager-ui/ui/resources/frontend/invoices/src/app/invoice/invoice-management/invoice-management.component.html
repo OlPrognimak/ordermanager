@@ -103,17 +103,19 @@
       </div>
     </div>
   </div>
+</div>
 
   <app-edit-invoice-dialog #invoiceDialog
                            (editObjectChangedChanged)="putEditDialogChanges($event)"></app-edit-invoice-dialog>
 
   <app-confirmation-dialog #confirmDeleteInvoiceDialog
+                           [confirmMessage]="'Confirm delete invoice'"
                            (canceled)="handleCancelDeleteInvoice($event)"
                            (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
                            [display]="showDeleteConfirmDialog"
                            [message]="deleteConfirmDialogMessage"></app-confirmation-dialog>
 
-  <app-confirmation-dialog #confirmDeleteInvoiceDialog
+  <app-confirmation-dialog #confirmUpdateInvoiceDialog
                            (canceled)="handleCancelSaveInvoice($event)"
                            (confirmed)="handleConfirmationSaveInvoice(confirmDeleteInvoiceDialog.transferObject)"
                            [display]="showSaveConfirmDialog"
