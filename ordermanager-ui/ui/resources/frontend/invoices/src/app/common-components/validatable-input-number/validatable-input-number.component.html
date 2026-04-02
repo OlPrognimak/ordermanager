@@ -5,10 +5,9 @@
 *@param idComponent the id of component
 *@param onChange($event) callback method on the parent component which sends changed value in child (this) component
 -->
-<div style="display: table; width: 100%;">
-  <div style="display: table-row; width: 100%;">
-    <div style="display: table-cell; width: 100%;">
-               <span class="p-float-label">
+<div class="w-100">
+  <div class="field-row">
+               <p-floatlabel class="w-100">
                     <p-inputNumber #modelRef="ngModel"
                                    [(ngModel)]="value"
                                    [maxFractionDigits]="2"
@@ -20,29 +19,17 @@
                                    minlength="{{txtMinLength}}"
                                    mode="decimal"
                                    name="{{inputName}}"
-                                   placeholder='0.00'
                                    required/>
                   <label for="{{idComponent}}">{{labelText}}</label>
-               </span>
-    </div>
-    <div *ngIf=
-           "setHasMinLengthError(modelRef.errors?.minlength !== null, modelRef.errors?.minlength)"
-         style="display: table-cell; width: 10%;">
-      <p-message severity="error"></p-message>
-    </div>
-    <div
-      *ngIf="setHasRequiredError(modelRef.errors?.required !== undefined && modelRef.errors?.required !== null, modelRef.errors?.required)"
-      style="display: table-cell; width: 10%;">
-      <p-message severity="error"></p-message>
-    </div>
-    <div *ngIf="setHasPatternError(modelRef.errors?.pattern!=null, modelRef.errors?.pattern)"
-         style="display: table-cell; width: 10%;">
-      <div *ngIf="modelRef.errors?.minlength===undefined">
-        <p-message severity="error"></p-message>
-      </div>
-    </div>
+               </p-floatlabel>
+
+        @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
+          <div class="error-icon-box">
+            <p-message severity="error" icon="pi pi-times-circle"></p-message>
+          </div>
+        }
   </div>
-  <div *ngIf="modelRef.errors?.pattern" class="alert alert-danger">
-    {{patternErrorText}}
-  </div>
+  @if (modelRef.errors?.['pattern'] && (modelRef.dirty || modelRef.touched)) {
+    <small class="validation-text">{{ patternErrorText }}</small>
+  }
 </div>

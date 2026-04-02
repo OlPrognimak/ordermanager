@@ -10,9 +10,10 @@
     <h2 style="margin-left: 10pt">Manage with catalog items</h2>
 
     <div class="p-col-12 shadow-panel-color p-shadow-4">
-      <div class="p-grid" style="margin-right: 0pt">
+
+      <div class="p-grid w-100" style="margin-right: 0pt">
         <div class="p-col-4">
-          <span class="p-float-label">
+          <p-floatlabel class="w-100">
           <input [(ngModel)]="criteria"
                  class="ng-dirty p-mr-2"
                  id="Id_Search_Item"
@@ -20,7 +21,7 @@
                  pInputText
                  type="text"/>
           <label for="Id_Search_Item">Search criteria</label>
-          </span>
+          </p-floatlabel>
         </div>
         <div class="p-col-1">
           <p-button (click)="getDataFromServer(criteria)" label="Find"

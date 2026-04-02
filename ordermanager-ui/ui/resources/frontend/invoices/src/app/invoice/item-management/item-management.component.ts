@@ -18,11 +18,12 @@ import { InputTextModule } from "primeng/inputtext";
 import { PaginatorModule } from "primeng/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {FormsModule} from "@angular/forms";
+import {FloatLabel} from "primeng/floatlabel";
 
 @Component({
   selector: 'app-item-management',
   standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule],
+  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule, FloatLabel],
   providers: [HttpClient, MessagesPrinter, MessageService],
   templateUrl: './item-management.component.html',
   styleUrls: ['./item-management.component.css']

@@ -48,6 +48,7 @@ import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
+import {FloatLabel} from "primeng/floatlabel";
 
 
 @Component({
@@ -171,7 +172,7 @@ export class ValidatableInputNumberComponent implements OnInit, ControlValueAcce
 
 @NgModule(
   {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, InputNumberModule],
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, InputNumberModule, FloatLabel],
     declarations: [ValidatableInputNumberComponent],
     exports: [ValidatableInputNumberComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

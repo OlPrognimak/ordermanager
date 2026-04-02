@@ -1,7 +1,6 @@
 <ng-template #inputTextTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
-  <div style="display: table; width: 100%;">
-    <div style="display: table-row; width: 100%;">
-      <div style="display: table-cell; width: 100%;">
+  <div class="w-100">
+    <div class = "field-row" >
                <p-floatlabel class="w-100">
                     <input [formControl]="getControl(controlPath)" class="ng-dirty p-mr-2"
                            id="{{idComponent}}"
@@ -10,7 +9,6 @@
                            type="text"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </p-floatlabel>
-      </div>
 <!--      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">-->
 <!--        <p-message severity = "error"></p-message>-->
 <!--      </div>-->

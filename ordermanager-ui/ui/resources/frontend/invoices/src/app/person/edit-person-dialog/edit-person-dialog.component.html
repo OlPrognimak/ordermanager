@@ -97,14 +97,13 @@
 
 
       <!--  ADDRESS FORM  -->
-      <div formGroupName="personAddressFormModel">
-        <div class="p-grid p-col-6">
-          <H2>Person address</H2>
-        </div>
+      <div formGroupName="personAddressFormModel" class="margin-top-20">
         <div class=" shadow-panel-color p-shadow-4 person-edit-panel">
-
-          <div class="p-grid margin-top-20">
-            <div class="p-col-2 margin-top-20" style="margin-left: 5pt">
+          <div class="p-grid p-col-6" style="margin-left: 5pt">
+            <H2>Person address</H2>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-2" style="margin-left: 5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.zipCode',
                    idComponent: 'id_zipCode',
@@ -112,7 +111,7 @@
                   }">
               </ng-container>
             </div>
-            <div class="p-col-3 margin-top-20" style="margin-left: 5pt">
+            <div class="p-col-3" style="margin-left: 5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.city',
                    idComponent: 'id_city',
@@ -149,15 +148,15 @@
       <!-- END ADDRESS FORM -->
 
       <!--  BANK FORM  -->
-      <div formGroupName="bankAccountFormModel">
-        <div class="p-grid">
-          <div class="p-col-6">
-            <H2>Person bank account</H2>
-          </div>
-        </div>
+      <div formGroupName="bankAccountFormModel" class="margin-top-20">
         <div class="shadow-panel-color p-shadow-4 person-edit-panel">
           <div class="p-grid">
-            <div class="p-col-4 margin-top-20" style="margin-top: 5pt; margin-left: 5pt">
+            <div class="p-col-6" style="margin-left: 5pt">
+              <H2>Person bank account</H2>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-4" style="margin-top: 5pt; margin-left: 5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'bankAccountFormModel.bankName',
                    idComponent: 'id_BankName',
@@ -166,7 +165,7 @@
               </ng-container>
             </div>
 
-            <div class="p-col-2 margin-top-20" style="margin-top: 5pt;">
+            <div class="p-col-2" style="margin-top: 5pt;">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.accountNumber',
                      idComponent: 'id_AccountNumber',
