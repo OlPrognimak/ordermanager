@@ -23,9 +23,8 @@
 
 
 <ng-template #inputNumberTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
-  <div style="display: table; width: 100%;">
-    <div style="display: table-row; width: 100%;">
-      <div style="display: table-cell; width: 100%;">
+  <div class="w-100">
+    <div class="field-row">
                <p-floatlabel class="w-100">
                     <p-inputNumber [formControl]="getControl(controlPath)" [maxFractionDigits]="2"
                                    [minFractionDigits]="2"
@@ -33,11 +32,9 @@
                                    id="{{idComponent}}"
                                    mode="decimal"
                                    [class.ng-invalid]="getControl(controlPath)?.invalid"
-                                   [class.ng-dirty]="getControl(controlPath)?.dirty || getControl(controlPath)?.touched"
-                                   placeholder='0.00'/>
+                                   [class.ng-dirty]="getControl(controlPath)?.dirty || getControl(controlPath)?.touched"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </p-floatlabel>
-      </div>
       @if (getControl(controlPath)?.invalid && (getControl(controlPath)?.dirty || getControl(controlPath)?.touched)) {
         <div class="error-icon-box">
           <p-message severity="error" icon="pi pi-times-circle"></p-message>
@@ -92,11 +89,10 @@
              let-controlPath="controlPath"
              let-idComponent="idComponent"
              let-labelText="labelText">
-  <div style="display: table; width: 100%;">
-    <div style="display: table-row; width: 100%;">
-      <div style="display: table-cell; width: 100%;">
+  <div class="w-100">
+    <div class="field-row">
                <p-floatlabel class="p-float-label">
-                    <p-date-picker (onSelect)="onCalendarChange($event, controlPath)"
+                    <p-datePicker (onSelect)="onCalendarChange($event, controlPath)"
                                 [formControl]="getControl(controlPath)"
                                 [showIcon]="true"
                                 dateFormat="{{calendarDateFormat}}"
@@ -108,13 +104,14 @@
                                   'ng-dirty': getControl(controlPath)?.dirty || getControl(controlPath)?.touched
                                 }"
                                 required>
-                    </p-date-picker>
+                    </p-datePicker>
                     <label for="{{idComponent}}">{{labelText}}</label>
                </p-floatlabel>
-      </div>
-      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
-        <p-message severity="error" icon="pi pi-times-circle"></p-message>
-      </div>
+      @if (getControl(controlPath)?.invalid && (getControl(controlPath)?.dirty || getControl(controlPath)?.touched)) {
+        <div class="error-icon-box">
+          <p-message severity="error" icon="pi pi-times-circle"></p-message>
+        </div>‚
+      }
     </div>
   </div>
 </ng-template>
@@ -124,17 +121,16 @@
              let-idComponent="idComponent"
              let-labelText="labelText">
   <form>
-    <div style="display: table; width: 100%;">
-      <div style="display: table-row; width: 100%;">
-        <div style="display: table-cell; width: 100%;">
-                 <span class="p-float-label">
-                      <p-datepicker  #pCalendarRef="ngModel"
+    <div class="w-100">
+      <div class="field-row">
+                 <p-floatlabel class="w-100">
+                      <p-datePicker  #pCalendarRef="ngModel"
                                   (onSelect)="onCalendarChange($event, controlName)"
                                   [(ngModel)]="dateTemplateModel"
                                   [showIcon]="true"
                                   (ngModelChange)="onChange($event)"
                                   (onBlur)="onTouched()"
-                                  dateFormat="{{calendarDateFormat}}"
+                                  dateFormat="{{calendarDateFormat}}"‚
                                   id="{{idComponent}}"
                                   minlength="1"
                                   class="p-invalid"
@@ -143,13 +139,14 @@
                                       'ng-invalid': pCalendarRef?.invalid,
                                       'ng-dirty': pCalendarRef?.dirty || pCalendarRef?.touched
                                   }">
-                      </p-datepicker>
+                      </p-datePicker>
                       <label for="{{idComponent}}">{{labelText}}</label>
-                 </span>
-        </div>
-        <div *ngIf="pCalendarRef.control?.invalid" style="display: table-cell; width: 10%;">
-          <p-message severity="error" icon="pi pi-times-circle"></p-message>
-        </div>
+                 </p-floatlabel>
+        @if ( pCalendarRef?.invalid && (pCalendarRef?.dirty || pCalendarRef?.touched)) {
+          <div class="error-icon-box">
+            <p-message severity="error" icon="pi pi-times-circle"></p-message>
+          </div>
+        }
       </div>
     </div>
   </form>
