@@ -16,6 +16,7 @@ import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { FloatLabel } from 'primeng/floatlabel';
 import { DatePickerModule } from 'primeng/datepicker';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-validatable-calendar',
@@ -118,7 +119,8 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
     FormsModule,
     ToastModule,
     DatePickerModule,
-    FloatLabel
+    FloatLabel,
+    TranslocoModule
   ],
   declarations: [ValidatableCalendarComponent],
   exports: [ValidatableCalendarComponent]

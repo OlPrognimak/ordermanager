@@ -6,5 +6,28 @@
     "header": {
       "amount": "Menge"
     }
+  },
+  "management": {
+    "title": "Rechnungsverwaltung",
+    "confirm": {
+      "delete": "Löschen der Rechnung bestätigen",
+      "delete_message": "Möchten Sie die Rechnung wirklich dauerhaft löschen?",
+      "save_message": "Möchten Sie die Änderungen an Rechnungen wirklich dauerhaft speichern?"
+    },
+    "tooltips": {
+      "edit_invoice": "Doppelklick, um Rechnung zu bearbeiten"
+    },
+    "table": {
+      "invoice_number": "Rechnungsnummer",
+      "supplier": "Lieferant",
+      "recipient": "Empfänger",
+      "invoice_date": "Rechnungsdatum",
+      "creation_date": "Rechnungserstellungsdatum",
+      "netto_sum": "Nettosumme",
+      "brutto_sum": "Bruttosumme"
+    }
+  },
+  "table_cell": {
+    "download": "Herunterladen"
   }
 }

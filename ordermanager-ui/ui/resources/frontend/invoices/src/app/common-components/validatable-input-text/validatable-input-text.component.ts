@@ -48,6 +48,7 @@ import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { TranslocoModule } from '@jsverse/transloco';
 
 
 
@@ -63,7 +64,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
       multi: true
     }
   ],
-  imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule],
+  imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule, TranslocoModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })

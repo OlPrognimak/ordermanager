@@ -3,5 +3,23 @@
     "field": {
       "first_name": "Vorname"
     }
+  },
+  "management": {
+    "title": "Personenverwaltung",
+    "tooltips": {
+      "edit_person": "Doppelklick, um Person zu bearbeiten"
+    },
+    "confirm": {
+      "delete": "Löschen der Person bestätigen",
+      "delete_message": "Sind Sie sicher, dass Sie die Person löschen möchten?"
+    },
+    "table": {
+      "last_name": "Nachname",
+      "first_name": "Vorname",
+      "company_name": "Firmenname",
+      "person_type": "Personentyp",
+      "tax_number": "Steuernummer",
+      "email": "E-Mail"
+    }
   }
 }

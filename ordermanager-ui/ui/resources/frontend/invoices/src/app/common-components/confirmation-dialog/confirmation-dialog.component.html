@@ -18,12 +18,12 @@
     <div class="p-grid p-justify-end p-ai-center dialog-footer">
       <div class="p-col-12 p-md-3">
         <button (click)="onConfirm()" class="p-button-danger w-100" pButton type="button">
-          <span pButtonLabel>Yes</span>
+          <span pButtonLabel>{{ 'common.dialog.confirm.yes' | transloco }}</span>
         </button>
       </div>
       <div class="p-col-12 p-md-3">
         <button (click)="onCancel()" class="p-button-secondary w-100" pButton type="button">
-          <span pButtonLabel>No</span>
+          <span pButtonLabel>{{ 'common.dialog.confirm.no' | transloco }}</span>
         </button>
       </div>
     </div>

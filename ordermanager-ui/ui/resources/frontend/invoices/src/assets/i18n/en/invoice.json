@@ -6,5 +6,28 @@
     "header": {
       "amount": "Amount"
     }
+  },
+  "management": {
+    "title": "Invoice management",
+    "confirm": {
+      "delete": "Confirm delete invoice",
+      "delete_message": "Are you really want to permanently delete invoice?",
+      "save_message": "Are you really want to permanently save changes in invoices"
+    },
+    "tooltips": {
+      "edit_invoice": "Double click to edit invoice"
+    },
+    "table": {
+      "invoice_number": "Invoice number",
+      "supplier": "Supplier",
+      "recipient": "Recipient",
+      "invoice_date": "Invoice date",
+      "creation_date": "Invoice creation date",
+      "netto_sum": "Netto sum",
+      "brutto_sum": "Brutto sum"
+    }
+  },
+  "table_cell": {
+    "download": "Download"
   }
 }

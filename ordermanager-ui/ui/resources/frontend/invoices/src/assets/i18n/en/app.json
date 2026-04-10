@@ -2,7 +2,30 @@
   "title": "Order manager",
   "menu": {
     "invoice": {
-      "create": "Create invoice"
-    }
+      "create": "Create invoice",
+      "title": "Invoice",
+      "create_catalog_item": "Create catalog item",
+      "manage_catalog_items": "Manage catalog items",
+      "management": "Invoice management",
+      "print": "Print invoice"
+    },
+    "user_management": "User management",
+    "create_user": "Create user",
+    "person": {
+      "title": "Person",
+      "create": "Create Person",
+      "management": "Person management"
+    },
+    "workflows": {
+      "title": "Workflows",
+      "create_invoice": "Create invoice"
+    },
+    "logout": "Logout"
+  },
+  "tooltips": {
+    "navigate_home": "Navigate to home page"
+  },
+  "homepage": {
+    "heading": "Homepage of Ordermanager Application"
   }
 }

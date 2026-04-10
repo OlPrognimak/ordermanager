@@ -2,7 +2,30 @@
   "title": "Auftragsmanager",
   "menu": {
     "invoice": {
-      "create": "Rechnung erstellen"
-    }
+      "create": "Rechnung erstellen",
+      "title": "Rechnung",
+      "create_catalog_item": "Katalogposition erstellen",
+      "manage_catalog_items": "Katalogpositionen verwalten",
+      "management": "Rechnungsverwaltung",
+      "print": "Rechnung drucken"
+    },
+    "user_management": "Benutzerverwaltung",
+    "create_user": "Benutzer erstellen",
+    "person": {
+      "title": "Person",
+      "create": "Person erstellen",
+      "management": "Personenverwaltung"
+    },
+    "workflows": {
+      "title": "Workflows",
+      "create_invoice": "Rechnung erstellen"
+    },
+    "logout": "Abmelden"
+  },
+  "tooltips": {
+    "navigate_home": "Zur Startseite navigieren"
+  },
+  "homepage": {
+    "heading": "Startseite der Ordermanager-Anwendung"
   }
 }

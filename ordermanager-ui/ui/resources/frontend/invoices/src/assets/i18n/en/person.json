@@ -3,5 +3,23 @@
     "field": {
       "first_name": "First name"
     }
+  },
+  "management": {
+    "title": "Person management",
+    "tooltips": {
+      "edit_person": "Double click to edit person"
+    },
+    "confirm": {
+      "delete": "Confirm delete person",
+      "delete_message": "Are you sure you want to delete the person?"
+    },
+    "table": {
+      "last_name": "Person last name",
+      "first_name": "Person first name",
+      "company_name": "Company name",
+      "person_type": "Person type",
+      "tax_number": "Tax number",
+      "email": "E-mail"
+    }
   }
 }

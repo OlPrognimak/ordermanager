@@ -3,7 +3,7 @@
     <p-toast></p-toast>
     <div class="p-grid base-top-grid-area">
       <div class="p-col-12">
-        <H2 style="margin-left: 10pt;">Person management</H2>
+        <H2 style="margin-left: 10pt;">{{ 'person.management.title' | transloco }}</H2>
       </div>
       <div class="p-col-12" *ngIf="environment.debugMode">
         <p>
@@ -24,25 +24,25 @@
                    paginator="true" selectionMode="multiple" styleClass="p-datatable-gridlines">
             <ng-template pTemplate="header">
               <tr>
-                <th pSortableColumn="personLastName" style="width: 20%">Person last name
+                <th pSortableColumn="personLastName" style="width: 20%">{{ 'person.management.table.last_name' | transloco }}
                   <p-sortIcon field="personLastName"></p-sortIcon>
                 </th>
-                <th pSortableColumn="personFirstName" style="width: 20%">Person first name
+                <th pSortableColumn="personFirstName" style="width: 20%">{{ 'person.management.table.first_name' | transloco }}
                   <p-sortIcon field="personLastName"></p-sortIcon>
                 </th>
-                <th pSortableColumn="companyName" style="width: 25%">Company name
+                <th pSortableColumn="companyName" style="width: 25%">{{ 'person.management.table.company_name' | transloco }}
                   <p-sortIcon field="companyName"></p-sortIcon>
                 </th>
-                <th pSortableColumn="personType" style="width: 10%">Person type
+                <th pSortableColumn="personType" style="width: 10%">{{ 'person.management.table.person_type' | transloco }}
                   <p-sortIcon field="personType"></p-sortIcon>
                 </th>
-                <th pSortableColumn="taxNumber" style="width: 10%">Tax number
+                <th pSortableColumn="taxNumber" style="width: 10%">{{ 'person.management.table.tax_number' | transloco }}
                   <p-sortIcon field="taxNumber"></p-sortIcon>
                 </th>
-                <th pSortableColumn="email" style="width: 15%">E-mail
+                <th pSortableColumn="email" style="width: 15%">{{ 'person.management.table.email' | transloco }}
                   <p-sortIcon field="email"></p-sortIcon>
                 </th>
-                <th style="width: 5%">Manage</th>
+                <th style="width: 5%">{{ 'common.table.manage' | transloco }}</th>
               </tr>
             </ng-template>
 
@@ -50,7 +50,7 @@
               <tr (dblclick)="rowDoubleClick($event, person)" [ngStyle]="{'color':isPersonChanged(person)}"
                   [pSelectableRowIndex]="rowIndex"
                   [pSelectableRow]="person"
-                  title="Double click to edit person">
+                  title="{{ 'person.management.tooltips.edit_person' | transloco }}">
                 <td style="padding: 5pt 2pt 2pt 2pt;">
                   <div>{{person.personLastName}}</div>
                 </td>
@@ -72,18 +72,18 @@
                 <td style="padding: 5pt 2pt 2pt 2pt;">
                   <button (click)="deletePerson(person.id)" class="p-button-rounded p-button-warning"
                           pButton pRipple
-                          title="Delete item">
+                          title="{{ 'common.tooltips.delete_item' | transloco }}">
                     <i class="pi pi-trash"></i>
                   </button>
                   <button (click)="rowDoubleClick($event, person)" class="p-button-rounded p-button-warning undo-button"
                           pButton pRipple
-                          title="Edit item">
+                          title="{{ 'common.tooltips.edit_item' | transloco }}">
                     <i class="pi pi-pencil"></i>
                   </button>
                   <button (click)="rollbackChanges(person.id)" class="p-button-rounded p-button-warning undo-button"
                           pButton
                           pRipple
-                          title="Rollback item">
+                          title="{{ 'common.tooltips.rollback_item' | transloco }}">
                     <i class="pi pi-undo"></i>
                   </button>
                 </td>
@@ -95,7 +95,7 @@
       </div>
       <div class="p-col-12 save-button-col-size">
         <div class="save-button-container-size">
-          <p-button (onClick)="saveChangedPersons($event)" [disabled]="haveNoChanges()" label="Save"/>
+          <p-button (onClick)="saveChangedPersons($event)" [disabled]="haveNoChanges()" [label]="'common.actions.save' | transloco"/>
         </div>
       </div>
     </div>
@@ -108,7 +108,7 @@
 
     <app-confirmation-dialog #confirmDialog
                              (canceled)="handleCancel($event)"
-                             [confirmMessage]="'Confirm delete person'"
+                             [confirmMessage]="'person.management.confirm.delete' | transloco"
                              (confirmed)="handleConfirmation(confirmDialog.transferObject)"
                              [display]="showConfirmDialog"
                              [message]="confirmDialogMessage"></app-confirmation-dialog>

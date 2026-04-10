@@ -24,6 +24,7 @@ import {isAuthenticated, printToJson} from "../../common-services/common-service
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
 import { environment } from "../../../environments/environment";
 import { CommonServiceEventListener } from "../../common-services/common-service.event.bus";
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @NgModule(
   {
@@ -40,7 +41,7 @@ export class InvoiceManagementModule {
   imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
     InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
     ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule, ConfirmationDialogComponent,
-    MessageModule, MessagesModule],
+    MessageModule, MessagesModule, TranslocoModule],
   templateUrl: './invoice-management.component.html',
   styleUrls: ['./invoice-management.component.css'],
   providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
@@ -54,18 +55,19 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
 
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
-  deleteConfirmDialogMessage: any = 'Are you really want to permanently delete invoice?'
+  deleteConfirmDialogMessage: any = ''
   showDeleteConfirmDialog: boolean = false
   showSaveConfirmDialog: boolean = false
 
   //invoiceChangesList: InvoiceFormModel[] = []
-  saveConfirmDialogMessage: string = 'Are you really want to permanently save changes in invoices'
+  saveConfirmDialogMessage: string = ''
   protected readonly Date = Date;
   protected readonly isAuthenticated = isAuthenticated;
   eventBusVal: any
 
   constructor(public securityService: AppSecurityService,
-              private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter, private eventListener: CommonServiceEventListener<any>) {
+              private httpService: CommonServicesAppHttpService<any>, private messagePrinter: MessagesPrinter, private eventListener: CommonServiceEventListener<any>,
+              private translocoService: TranslocoService) {
     super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
     if (environment.debugMode) {
        of(eventListener).subscribe(l =>this.eventBusVal=l.busEvent);
@@ -91,6 +93,8 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
   }
 
   ngOnInit(): void {
+    this.deleteConfirmDialogMessage = this.translocoService.translate('invoice.management.confirm.delete_message')
+    this.saveConfirmDialogMessage = this.translocoService.translate('invoice.management.confirm.save_message')
     setTimeout(() => {
       of(this.dataFinder).subscribe(f => f.loadData())
     })

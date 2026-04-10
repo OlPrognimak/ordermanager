@@ -15,7 +15,7 @@
         <div class="p-grid">
           <div class="p-col-1"></div>
           <div class="p-col-3" style="text-align: center"></div>
-          <H2>Please login to the system</H2>
+          <H2>{{ 'auth.login.heading' | transloco }}</H2>
           <div class="p-col-3"></div>
         </div>
         <div class="p-grid">
@@ -23,7 +23,7 @@
           <div class="p-col-6">
             <app-validatable-input-text [(ngModel)]="appSecurityService.credentials.username"
                                         [idComponent]="'id_UserName'"
-                                        [labelText]="'User name'"
+                                        [labelText]="'auth.login.fields.username' | transloco"
                                         [name]="'user_name'"
                                         [txtMinLength]="2">
             </app-validatable-input-text>
@@ -36,7 +36,7 @@
             <app-validatable-input-text [(ngModel)]="appSecurityService.credentials.password"
                                         [idComponent]="'id_UserPassword'"
                                         [inputType]="'password'"
-                                        [labelText]="'Password'"
+                                        [labelText]="'auth.login.fields.password' | transloco"
                                         [name]="'password'"
                                         [txtMinLength]="5">
             </app-validatable-input-text>
@@ -45,12 +45,12 @@
         </div>
         <div style="text-align: center; margin-bottom: 10pt;">
           <a ariaCurrentWhenActive="page" class="nav-item nav-link" routerLink="/user-registration-page"
-             routerLinkActive="active">Register new user</a>
+             routerLinkActive="active">{{ 'auth.login.actions.register' | transloco }}</a>
         </div>
         <div class="p-grid">
           <div class="p-col-5"></div>
           <div class="p-col-2">
-            <p-button icon="pi pi-check" label="Login" styleClass="p-button-text submit-button"
+            <p-button icon="pi pi-check" [label]="'auth.login.actions.login' | transloco" styleClass="p-button-text submit-button"
                       type="submit"></p-button>
           </div>
           <div class="p-col-4"></div>
