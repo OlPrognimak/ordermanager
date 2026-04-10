@@ -29,40 +29,40 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.menuItems = [
       {
-        label: this.translocoService.translate('app.menu.user_management'),
+        label: this.translocoService.translate('menu.user_management'),
         icon: 'pi pi-fw pi-users',
         items: [
-          {label: this.translocoService.translate('app.menu.create_user'), icon: 'pi pi-fw pi-user-plus', routerLink: '/user-registration-page'}
+          {label: this.translocoService.translate('menu.create_user'), icon: 'pi pi-fw pi-user-plus', routerLink: '/user-registration-page'}
         ]
       },
       {
-        label: this.translocoService.translate('app.menu.invoice.title'),
+        label: this.translocoService.translate('menu.invoice.title'),
         icon: 'pi pi-fw pi-book',
         items: [
-          {label: this.translocoService.translate('app.menu.invoice.create'), icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-page'},
-          {label: this.translocoService.translate('app.menu.invoice.create_catalog_item'), icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-item-page'},
-          {label: this.translocoService.translate('app.menu.invoice.manage_catalog_items'), icon: 'pi pi-fw pi-pencil', routerLink: '/catalog-item-management-page'},
-          {label: this.translocoService.translate('app.menu.invoice.management'), icon: 'pi pi-fw pi-pencil', routerLink: '/invoice-management_page'},
-          {label: this.translocoService.translate('app.menu.invoice.print'), icon: 'pi pi-fw pi-file-pdf', routerLink: '/invoice-list_page'}
+          {label: this.translocoService.translate('menu.invoice.create'), icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-page'},
+          {label: this.translocoService.translate('menu.invoice.create_catalog_item'), icon: 'pi pi-fw pi-plus', routerLink: '/create-invoice-item-page'},
+          {label: this.translocoService.translate('menu.invoice.manage_catalog_items'), icon: 'pi pi-fw pi-pencil', routerLink: '/catalog-item-management-page'},
+          {label: this.translocoService.translate('menu.invoice.management'), icon: 'pi pi-fw pi-pencil', routerLink: '/invoice-management_page'},
+          {label: this.translocoService.translate('menu.invoice.print'), icon: 'pi pi-fw pi-file-pdf', routerLink: '/invoice-list_page'}
         ]
       },
       {
-        label: this.translocoService.translate('app.menu.person.title'),
+        label: this.translocoService.translate('menu.person.title'),
         icon: 'pi pi-fw pi-user',
         items: [
-          {label: this.translocoService.translate('app.menu.person.create'), icon: 'pi pi-fw pi-plus', routerLink: '/create-person_page'},
-          {label: this.translocoService.translate('app.menu.person.management'), icon: 'pi pi-fw pi-pencil', routerLink: '/person-management-page'}
+          {label: this.translocoService.translate('menu.person.create'), icon: 'pi pi-fw pi-plus', routerLink: '/create-person_page'},
+          {label: this.translocoService.translate('menu.person.management'), icon: 'pi pi-fw pi-pencil', routerLink: '/person-management-page'}
         ]
       },
       {
-        label: this.translocoService.translate('app.menu.workflows.title'),
+        label: this.translocoService.translate('menu.workflows.title'),
         icon: 'pi pi-fw pi-book',
         items: [
-          {label: this.translocoService.translate('app.menu.workflows.create_invoice'), icon: 'pi pi-fw pi-plus', routerLink: '/workflow-create-invoice'},
+          {label: this.translocoService.translate('menu.workflows.create_invoice'), icon: 'pi pi-fw pi-plus', routerLink: '/workflow-create-invoice'},
         ]
       },
       {
-        label: this.translocoService.translate('app.menu.logout'),
+        label: this.translocoService.translate('menu.logout'),
         icon: 'pi pi-fw pi-sign-out',
         command: () => this.appSecurityService.logout()
       }
