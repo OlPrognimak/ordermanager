@@ -1,0 +1,10 @@
+{
+  "form": {
+    "title": "Rechnung erstellen"
+  },
+  "itemsTable": {
+    "header": {
+      "amount": "Menge"
+    }
+  }
+}

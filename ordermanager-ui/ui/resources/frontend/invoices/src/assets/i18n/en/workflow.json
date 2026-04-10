@@ -1,0 +1,7 @@
+{
+  "invoice": {
+    "steps": {
+      "set_invoice_date": "Set Invoice date"
+    }
+  }
+}

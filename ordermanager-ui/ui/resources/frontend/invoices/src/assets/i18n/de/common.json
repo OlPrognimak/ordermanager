@@ -1,0 +1,17 @@
+{
+  "actions": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "find": "Suchen"
+  },
+  "dialog": {
+    "confirm": {
+      "yes": "Ja",
+      "no": "Nein"
+    }
+  },
+  "validation": {
+    "required": "Feld ist erforderlich.",
+    "min_length": "Mindestlänge ist {{min}}."
+  }
+}
