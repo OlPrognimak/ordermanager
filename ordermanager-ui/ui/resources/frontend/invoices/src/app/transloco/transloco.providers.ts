@@ -1,23 +1,15 @@
-import { Provider } from '@angular/core';
-import {
-  TRANSLOCO_CONFIG,
-  TRANSLOCO_LOADER,
-  translocoConfig,
-} from '@jsverse/transloco';
+import { provideTransloco, translocoConfig } from '@jsverse/transloco';
 import { MultiJsonTranslocoHttpLoader } from './transloco-loader';
+import { environment } from '../../environments/environment';
 
-export const translocoProviders: Provider[] = [
-  {
-    provide: TRANSLOCO_CONFIG,
-    useValue: translocoConfig({
+export const translocoProviders = [
+  provideTransloco({
+    config: translocoConfig({
       availableLangs: ['en', 'de'],
       defaultLang: 'en',
       reRenderOnLangChange: true,
-      prodMode: false,
+      prodMode: environment.production,
     }),
-  },
-  {
-    provide: TRANSLOCO_LOADER,
-    useClass: MultiJsonTranslocoHttpLoader,
-  },
+    loader: MultiJsonTranslocoHttpLoader,
+  }),
 ];
