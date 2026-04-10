@@ -1,0 +1,8 @@
+{
+  "title": "Auftragsmanager",
+  "menu": {
+    "invoice": {
+      "create": "Rechnung erstellen"
+    }
+  }
+}

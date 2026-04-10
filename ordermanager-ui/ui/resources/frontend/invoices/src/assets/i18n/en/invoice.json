@@ -1,0 +1,10 @@
+{
+  "form": {
+    "title": "Create invoice"
+  },
+  "itemsTable": {
+    "header": {
+      "amount": "Amount"
+    }
+  }
+}
