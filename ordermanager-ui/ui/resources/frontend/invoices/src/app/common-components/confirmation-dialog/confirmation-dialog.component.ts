@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from "primeng/dialog";
 import { ButtonModule } from "primeng/button";
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-confirmation-dialog',
@@ -9,7 +10,8 @@ import { ButtonModule } from "primeng/button";
   imports: [
     CommonModule,
     DialogModule,
-    ButtonModule
+    ButtonModule,
+    TranslocoModule
   ],
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.css']

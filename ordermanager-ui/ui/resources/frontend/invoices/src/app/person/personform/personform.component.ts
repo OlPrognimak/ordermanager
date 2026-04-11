@@ -60,6 +60,7 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import {FloatLabel} from "primeng/floatlabel";
+import {TranslocoPipe} from "@jsverse/transloco";
 
 /**
  * The component which contains form component for creation of person
@@ -317,7 +318,7 @@ export class PersonFormComponent implements OnInit, OnDestroy {
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent, FloatLabel],
+      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
     declarations: [PersonFormComponent],
     exports: [PersonFormComponent],
   }

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import {Observable, of, share} from "rxjs";
+import { TranslocoModule, TranslocoService } from "@jsverse/transloco";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
@@ -30,7 +31,8 @@ export class UserLoginComponent implements OnInit {
 
   constructor(public appSecurityService: AppSecurityService,
               private http: HttpClient, public router: Router,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private translocoService: TranslocoService) {
     //this.backendUrl = environment.baseUrl;
     this.observableMsgService = of(messageService);
   }
@@ -81,8 +83,8 @@ export class UserLoginComponent implements OnInit {
           console.log('Not logged :' + result);
           this.observableMsgService.subscribe(m => {
             m.add({
-              severity: 'error', summary: 'Loging error',
-              detail: 'Please enter correct user name and password.'
+              severity: 'error', summary: this.translocoService.translate('auth.login.error.summary'),
+              detail: this.translocoService.translate('auth.login.error.invalid_credentials')
             });
           })
 
@@ -95,7 +97,7 @@ export class UserLoginComponent implements OnInit {
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, MessagesModule,
-      MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent],
+      MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent, TranslocoModule],
     declarations: [UserLoginComponent],
     exports: [UserLoginComponent]
   }

@@ -50,6 +50,8 @@ import {
 } from "./common-components/validatable-input-text/validatable-input-text.component";
 import Lara from '@primeng/themes/lara';
 import {providePrimeNG} from "primeng/config";
+import { TranslocoModule } from '@jsverse/transloco';
+import { translocoProviders } from './transloco/transloco.providers';
 
 @NgModule({ bootstrap: [AppComponent],
     declarations: [
@@ -92,7 +94,8 @@ import {providePrimeNG} from "primeng/config";
         ReactiveFormsModule,
         TemplatesComponentComponent,
         StoreModule.forRoot({}),
-        ValidatableInputTextComponent],
+        ValidatableInputTextComponent,
+        TranslocoModule],
         providers:
           [
             providePrimeNG({
@@ -104,6 +107,7 @@ import {providePrimeNG} from "primeng/config";
             CommonServicesUtilService,
             MessageService,
             InvoiceItemsTableCalculatorService,
+            ...translocoProviders,
         { provide: HTTP_INTERCEPTORS, useClass: BasicInterceptor, multi: true }, HttpClient, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 }

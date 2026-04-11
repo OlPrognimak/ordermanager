@@ -19,11 +19,12 @@ import { CommonServicesEditService } from "../../common-services/common-services
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { CommonServiceEventBus } from "../../common-services/common-service.event.bus";
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-person-management',
   standalone: true,
-  imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule, ConfirmationDialogComponent],
+  imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule, ConfirmationDialogComponent, TranslocoModule],
   templateUrl: './person-management.component.html',
   styleUrls: ['./person-management.component.css'],
   providers: [AppSecurityService, HttpClient]
@@ -40,17 +41,19 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   selectedPerson!: PersonFormModel
   keySelection: boolean = true;
   showConfirmDialog: boolean;
-  confirmDialogMessage: string = 'Are you sure you want to delete the person?';
+  confirmDialogMessage: string = '';
   protected readonly isAuthenticated = isAuthenticated;
   @Input() eventBusVal: any
 
   constructor(public appSecurityService: AppSecurityService,
-              private httpService: CommonServicesAppHttpService<PersonFormModel[]>, private eventListener: CommonServiceEventBus<any>) {
+              private httpService: CommonServicesAppHttpService<PersonFormModel[]>, private eventListener: CommonServiceEventBus<any>,
+              private translocoService: TranslocoService) {
     super(httpService.httpClient, 'Can not load items catalog by criteria: ', 'invoice/itemsCatalogList')
 
   }
 
   ngOnInit(): void {
+    this.confirmDialogMessage = this.translocoService.translate('person.management.confirm.delete_message')
     if (environment.debugMode) {
       this.eventListener.onEvent().subscribe(val =>{
         this.eventBusVal= JSON.stringify(val)

@@ -27,7 +27,7 @@
   @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null,
     modelRef.errors?.['minlength']) && (modelRef.dirty || modelRef.touched)) {
     <div class="error-icon-box">
-      <small class="validation-text">Field is required.</small>
+      <small class="validation-text">{{ 'common.validation.required' | transloco }}</small>
     </div>
 
   }
@@ -35,7 +35,7 @@
     modelRef.errors?.['required'] !== null,
     modelRef.errors?.['required']) && (modelRef.dirty || modelRef.touched)) {
     <div class="error-icon-box">
-      <small class="validation-text">Field is required.</small>
+      <small class="validation-text">{{ 'common.validation.required' | transloco }}</small>
     </div>
   }
 

@@ -14,13 +14,13 @@
                  sortMode="multiple" styleClass="p-datatable-gridlines">
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 40%">Item description</th>
-              <th style="width: 10%">Amount</th>
-              <th style="width: 10%">Price</th>
-              <th style="width: 10%">Vat%</th>
-              <th style="width: 10%">Sum netto</th>
-              <th style="width: 10%">Sum brutto</th>
-              <th style="width: 10%">Manage</th>
+              <th style="width: 40%">{{'invoice.item.table.short_description' | transloco}}</th>
+              <th style="width: 10%">{{'invoice.item.table.amount' | transloco}}</th>
+              <th style="width: 10%">{{'invoice.item.table.price' | transloco}}</th>
+              <th style="width: 10%">{{'invoice.item.table.vat' | transloco}}</th>
+              <th style="width: 10%">{{'invoice.item.table.sum_netto' | transloco}}</th>
+              <th style="width: 10%">{{'invoice.item.table.sum_brutto' | transloco}}</th>
+              <th style="width: 10%">{{'common.table.manage' | transloco}}</th>
             </tr>
           </ng-template>
           <ng-template let-invoiceitem pTemplate="body">
@@ -141,7 +141,7 @@
       </div>
       <div class="p-col-12" style="background-color: white">
         <div class="add-button-container-size" style="display: block; background-color: white">
-          <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" label="Add item"
+          <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" label="{{'invoice.add_item' | transloco}}"
                     styleClass="p-button-secondary"></p-button>
         </div>
       </div>
@@ -152,7 +152,7 @@
       <div class="p-col-10"></div>
       <div class="p-col-2" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
 
-        <label for="id-tottalNettoSun" style="margin: 5px">Total netto</label>
+        <label for="id-tottalNettoSun" style="margin: 5px">{{'invoice.total_netto' | transloco}}</label>
         <input [ngModel]="calculatorService.totalNettoSum()  | standardFloat"
                class="p-field" id="id-tottalNettoSun" name="totalNettoSum" placeholder="0.00"
                readonly
@@ -164,7 +164,7 @@
     <div class="p-grid">
       <div class="p-col-10" style="padding-top: 0 !important; padding-bottom: 0 !important;"></div>
       <div class="p-col-2" style="padding-top: 0 !important; padding-bottom: 0 !important;">
-        <label for="id-tottalBruttoSun" style="margin: 5px">Total brutto</label>
+        <label for="id-tottalBruttoSun" style="margin: 5px">{{'invoice.total_brutto' | transloco}}</label>
         <input [ngModel]="calculatorService.totalBruttoSum() | standardFloat"
                class="p-cell-editing" id="id-tottalBruttoSun" name="totalBruttoSum"
                placeholder="0.00"

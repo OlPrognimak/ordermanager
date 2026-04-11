@@ -35,13 +35,13 @@
   </div>
   @if (setHasRequiredError(modelRef.errors?.['required'] !== undefined &&
     modelRef.errors?.['required'] !== null, modelRef.errors?.['required']) && (modelRef.dirty || modelRef.touched)) {
-    <small class="validation-text">Field is required.</small>
+    <small class="validation-text">{{ 'common.validation.required' | transloco }}</small>
   }
 
   @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null, modelRef.errors?.['minlength'])) {
     <div class = "error-message-cmp">
           <small class="validation-text">
-            Minimum length is {{ txtMinLength }}.
+            {{ 'validation.min_length' | transloco: { min: txtMinLength } }}
           </small>
     </div>
   }

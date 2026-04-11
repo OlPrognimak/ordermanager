@@ -11,7 +11,7 @@
         <app-validatable-input-text (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
                                     [(ngModel)]="invoiceFormData.invoiceNumber"
                                     [idComponent]="'id_InvoiceNumber'"
-                                    [labelText]="'Invoice Number'"
+                                    [labelText]="'invoice.number' | transloco"
                                     [name]="'invoiceNumber'"
                                     [txtMinLength]="5">
         </app-validatable-input-text>
@@ -21,7 +21,7 @@
          <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
                 pInputText
                 style="width:100%;" type="text"/>
-         <label for="id-invoiceDescription">Invoice description</label>
+         <label for="id-invoiceDescription">{{'invoice.description' | transloco}}</label>
        </p-floatlabel>
       </div>
 
@@ -31,7 +31,7 @@
         <app-validatable-dropdownlist (componentHasError)="setHasInvoiceratesError($event)"
                                       [(ngModel)]="invoiceFormData.rateType"
                                       [idComponent]="'id-rateType'"
-                                      [labelText]="'Rate Type'"
+                                      [labelText]="'invoice.rate_type' | transloco"
                                       [name]="'invoiceRatesList'"
                                       [optionList]="invoiceRate"
                                       [txtMinLength]="1">
@@ -45,7 +45,7 @@
                                   [(ngModel)]="invoiceFormData.creationDate"
                                   [dateFormat]="'dd.mm.yy'"
                                   [idComponent]="'id-creationDate'"
-                                  [labelText]="'Creation Date'"
+                                  [labelText]="'invoice.creation_date' | transloco"
                                   [name]="'creationDate'"
                                   calendarDateFormat="dd.mm.yy"
                                   maxlength="10">
@@ -57,7 +57,7 @@
                                   [(ngModel)]="invoiceFormData.invoiceDate"
                                   [dateFormat]="'dd.mm.yy'"
                                   [idComponent]="'id-InvoiceDate'"
-                                  [labelText]="'Invoice Date'"
+                                  [labelText]="'invoice.invoice_date' | transloco"
                                   [name]="'invoiceDate'"
                                   calendarDateFormat="dd.mm.yy"
                                   maxlength="10">
@@ -70,7 +70,7 @@
         <app-validatable-dropdownlist (componentHasError)="setHasCreatorError($event)"
                                       [(ngModel)]="invoiceFormData.personSupplierId"
                                       [idComponent]="'id-invoiceCreator'"
-                                      [labelText]="'Invoice creator person'"
+                                      [labelText]="'invoice.person_creator' | transloco"
                                       [name]="'creator'"
                                       [optionList]="personInvoiceSupplier"
                                       [placeholder]="'Select person'"
@@ -84,7 +84,7 @@
         <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
                                       [(ngModel)]="invoiceFormData.personRecipientId"
                                       [idComponent]="'id-invoiceRecipient'"
-                                      [labelText]="'Invoice recipient person'"
+                                      [labelText]="'invoice.person_recipient' | transloco"
                                       [name]="'recipient'"
                                       [optionList]="personInvoiceRecipient"
                                       [placeholder]="'Select person'"

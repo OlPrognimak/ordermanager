@@ -1,7 +1,47 @@
 {
-  "form": {
-    "field": {
-      "first_name": "Vorname"
+  "person": {
+    "save_and_return": "Speichern und zurückkehren",
+    "dialog": {
+      "edit_person": "Person bearbeiten"
+    },
+    "form": {
+      "create_person": "Neue Person anlegen",
+      "person_address": "Adresse der Person",
+      "person_bank": "Bankverbindung der Person",
+      "field": {
+        "first_name": "Vorname",
+        "last_name": "Nachname",
+        "email": "E-Mail",
+        "company_name": "Firmenname",
+        "tax_number": "Steuernummer",
+        "zip": "Postleitzahl",
+        "city": "Ort",
+        "postbox": "Postfach",
+        "street": "Strasse",
+        "bank": "Bankname",
+        "account": "Kontonummer",
+        "iban": "IBAN",
+        "bic_swift": "BIC/SWIFT",
+        "wrong_iban_format": "Ungültiges IBAN-Format"
+      }
+    },
+    "management": {
+      "title": "Personenverwaltung",
+      "tooltips": {
+        "edit_person": "Doppelklick, um Person zu bearbeiten"
+      },
+      "confirm": {
+        "delete": "Löschen der Person bestätigen",
+        "delete_message": "Sind Sie sicher, dass Sie die Person löschen möchten?"
+      },
+      "table": {
+        "last_name": "Nachname",
+        "first_name": "Vorname",
+        "company_name": "Firmenname",
+        "person_type": "Personentyp",
+        "tax_number": "Steuernummer",
+        "email": "E-Mail"
+      }
     }
   }
 }

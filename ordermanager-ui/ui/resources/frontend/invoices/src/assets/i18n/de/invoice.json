@@ -6,5 +6,54 @@
     "header": {
       "amount": "Menge"
     }
+  },
+  "table_cell": {
+    "download": "Herunterladen"
+  },
+  "invoice": {
+    "number": "Rechnungsnummer",
+    "description": "Beschreibung",
+    "rate_type": "Rechnungstyp",
+    "total_netto": "Gesamtnetto",
+    "total_brutto": "Gesamtbrutto",
+    "add_item": "Element hinzufügen",
+    "person_creator": "Ersteller der Rechnung",
+    "person_recipient": "Empfänger der Rechnung",
+    "creation_date": "Erstellungsdatum",
+    "invoice_date": "Rechnungsdatum",
+    "management": {
+      "title": "Rechnungsverwaltung",
+      "confirm": {
+        "delete": "Löschen der Rechnung bestätigen",
+        "delete_message": "Möchten Sie die Rechnung wirklich dauerhaft löschen?",
+        "save_message": "Möchten Sie die Änderungen an Rechnungen wirklich dauerhaft speichern?"
+      },
+      "tooltips": {
+        "edit_invoice": "Doppelklick, um Rechnung zu bearbeiten"
+      },
+      "table": {
+        "invoice_number": "Rechnungsnummer",
+        "supplier": "Lieferant",
+        "recipient": "Empfänger",
+        "invoice_date": "Rechnungsdatum",
+        "creation_date": "Rechnungserstellungsdatum",
+        "netto_sum": "Nettosumme",
+        "brutto_sum": "Bruttosumme"
+      }
+    },
+    "item": {
+      "manage": {
+        "catalog_items": "Verwaltung von Katalogelemente"
+      },
+      "table": {
+        "item_name": "Elementname",
+        "short_description": "Kurzbeschreibung",
+        "price": "Elementpreis",
+        "vat": "MwSt%",
+        "amount": "Menge",
+        "sum_netto": "Nettosumme",
+        "sum_brutto": "Bruttosumme"
+      }
+    }
   }
 }

@@ -50,10 +50,10 @@
       modelCalendarRef.errors?.['required']
     ) && (modelCalendarRef.dirty || modelCalendarRef.touched)
     ) {
-    <small class="validation-text">Date is required</small>
+    <small class="validation-text">{{ 'common.validation.date_required' | transloco }}</small>
   }
 
   @if (modelCalendarRef.errors?.['startDateMoreEndDate']) {
-    <small class="validation-text">Start date must be before end date</small>
+    <small class="validation-text">{{ 'common.validation.start_before_end' | transloco }}</small>
   }
 </div>

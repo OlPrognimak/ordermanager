@@ -1,7 +1,47 @@
 {
-  "form": {
-    "field": {
-      "first_name": "First name"
+  "person": {
+    "save_and_return": "Save and return",
+    "dialog": {
+      "edit_person": "Person bearbeiten"
+    },
+    "form": {
+      "create_person": "Create person",
+      "person_address": "Person address",
+      "person_bank": "Bankverbindung der Person",
+      "field": {
+        "first_name": "First name",
+        "last_name": "Las name",
+        "email": "Email",
+        "company_name": "Company name",
+        "tax_number": "Tax number",
+        "zip": "Zip",
+        "city": "City",
+        "postbox": "Post box",
+        "street": "Street",
+        "bank": "Bank name",
+        "account": "Account number",
+        "iban": "IBAN",
+        "bic_swift": "BIC/SWIFT",
+        "wrong_iban_format": "Wrong IBAN format"
+      }
+    },
+    "management": {
+      "title": "Person management",
+      "tooltips": {
+        "edit_person": "Double click to edit person"
+      },
+      "confirm": {
+        "delete": "Confirm delete person",
+        "delete_message": "Are you sure you want to delete the person?"
+      },
+      "table": {
+        "last_name": "Person last name",
+        "first_name": "Person first name",
+        "company_name": "Company name",
+        "person_type": "Person type",
+        "tax_number": "Tax number",
+        "email": "E-mail"
+      }
     }
   }
 }

@@ -34,7 +34,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceNumber',
                    idComponent: 'id_InvoiceNumber',
-                   labelText: 'Invoice Number'
+                   labelText: 'invoice.invoice_number' | transloco
                   }">
             </ng-container>
           </div>
@@ -42,7 +42,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceDescription',
                    idComponent: 'id-invoiceDescription',
-                   labelText: 'Invoice description'
+                   labelText: 'invoice.description' | transloco
                   }">
             </ng-container>
           </div>
@@ -54,7 +54,7 @@
           context:{controlPath: 'rateType',
                    placeholderPar: 'Select rate Type',
                    idComponent: 'id-rateType',
-                   labelText: 'Rate Type',
+                   labelText: 'invoice.rate_type' | transloco,
                    optionList: invoiceRate
                   }">
             </ng-container>
@@ -65,7 +65,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
           context:{controlPath: 'invoiceDate',
                    idComponent: 'id-InvoiceDate',
-                   labelText: 'Invoice Date',
+                   labelText: 'invoice.invoice_date' | transloco,
                    calendarDateFormat: 'dd.mm.yy'
                   }">
             </ng-container>
@@ -76,7 +76,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
           context:{controlPath: 'creationDate',
                    idComponent: 'id-creationDate',
-                   labelText: 'Creation Date',
+                   labelText: 'invoice.creation_date' | transloco,
                    calendarDateFormat: 'dd.mm.yy'
                   }">
             </ng-container>
@@ -89,7 +89,7 @@
           context:{controlPath: 'personSupplierId',
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
-                   labelText: 'Invoice creator person',
+                   labelText: 'invoice.person_creator' | transloco,
                    optionList: personInvoiceSupplier
                   }">
             </ng-container>
@@ -102,7 +102,7 @@
           context:{controlPath: 'personRecipientId',
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
-                   labelText: 'Invoice recipient person',
+                   labelText: 'invoice.person_recipient' | transloco,
                    optionList: personInvoiceRecipient
                   }">
             </ng-container>
@@ -123,9 +123,9 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button (click)="putChangesBack()" [disabled]="haveErrors()" icon="pi pi-check" label="Save"
+    <p-button (click)="putChangesBack()" [disabled]="haveErrors()" icon="pi pi-check" label="{{'common.actions.save' | transloco}}"
               styleClass="p-button-text"></p-button>
-    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="Cancel"
+    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="{{'common.actions.cancel' | transloco}}"
               styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>

@@ -4,14 +4,14 @@
     <div *ngIf="service.processRuns" class="overlayProcess childElementCenter">
       <mat-progress-spinner *ngIf="service.processRuns" mode="indeterminate"></mat-progress-spinner>
     </div>
-    <h3 style="margin-left: 5pt">Select date period</h3>
+    <h3 style="margin-left: 5pt">{{ 'common.datePeriod.title' | transloco }}</h3>
     <div class="p-grid">
 
       <div class="p-col-3 justifyPanel">
         <app-validatable-calendar (controlModel)="startDateControlModel = $event"
                                   [(ngModel)]="requestDatePeriod.startDate"
                                   [idComponent]="'id-StartDate'"
-                                  [labelText]="'Start Date'"
+                                  [labelText]="'common.datePeriod.startDate' | transloco"
                                   [name]="'startDate'"
                                   calendarDateFormat="dd.mm.yy">
         </app-validatable-calendar>
@@ -21,14 +21,14 @@
         <app-validatable-calendar (controlModel)="endDateControlModel = $event"
                                   [(ngModel)]="requestDatePeriod.endDate"
                                   [idComponent]="'id-EndDate'"
-                                  [labelText]="'End Date'"
+                                  [labelText]="'common.datePeriod.endDate' | transloco"
                                   [name]="'endDate'"
                                   calendarDateFormat="dd.mm.yy">
         </app-validatable-calendar>
       </div>
 
       <div class="p-col-1 justifyPanel">
-        <p-button [disabled]="isSubmitButtonDisabled()" icon="pi pi-check" label="Find"
+        <p-button [disabled]="isSubmitButtonDisabled()" icon="pi pi-check" [label]="'common.actions.find' | transloco"
                   styleClass="p-button-text submit-button" type="submit"></p-button>
       </div>
 
