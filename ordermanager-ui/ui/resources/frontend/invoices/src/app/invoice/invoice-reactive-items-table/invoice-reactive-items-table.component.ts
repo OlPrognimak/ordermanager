@@ -44,6 +44,7 @@ import { ConfirmationDialogComponent } from "../../common-components/confirmatio
 import { HttpClient } from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputNumber} from "primeng/inputnumber";
+import {TranslocoPipe} from "@jsverse/transloco";
 
 @Component({
   styles: [],
@@ -62,7 +63,8 @@ import {InputNumber} from "primeng/inputnumber";
     TooltipModule,
     ToastModule,
     ConfirmationDialogComponent,
-    InputNumber
+    InputNumber,
+    TranslocoPipe
   ],
   providers: [HttpClient]
 })

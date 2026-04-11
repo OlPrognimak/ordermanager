@@ -2,31 +2,48 @@
 <div class="p-fluid">
   <p-toast></p-toast>
   <div class="p-grid p-col-6">
-    <H2>Create Person</H2>
+    <H2>{{'person.form.create_person' | transloco}}</H2>
   </div>
   <form #personForm="ngForm">
     <div class=" p-shadow-4">
       <div class="p-grid item-left">
         <div class="p-col-6 ">
-          <app-validatable-dropdownlist (componentHasError)="setHasPersonTypeError($event)"
-                                        (valueChanged)="peronTypeChanged($event)"
-                                        [(ngModel)]="personFormModel.personType"
-                                        [idComponent]="'id-personType'"
-                                        [labelText]="'Person Type'"
-                                        [optionList]="personType"
-                                        [txtMinLength]="1"
-                                        inputName="personType"
-                                        name="personType">
-          </app-validatable-dropdownlist>
+          <!--
+          "field": {
+          "first_name": "First name",
+          "last_name": "Las name",
+          "email": "Email",
+          "company_name": "Company name",
+          "tax_number": "Tax number",
+          "zip": "Zip",
+          "city": "City",
+          "postbox": "Post box",
+          "street": "Street",
+          "bank": "Bank name",
+          "account": "Account number",
+          "iban": "IBAN",
+          "bic_swift": "BIC/SWIFT"
+          -->
+
+            <app-validatable-dropdownlist (componentHasError)="setHasPersonTypeError($event)"
+                                          (valueChanged)="peronTypeChanged($event)"
+                                          [(ngModel)]="personFormModel.personType"
+                                          [idComponent]="'id-personType'"
+                                          [labelText]="'person.management.table.person_type' | transloco"
+                                          [optionList]="personType"
+                                          [txtMinLength]="1"
+                                          inputName="personType"
+                                          name="personType">
+            </app-validatable-dropdownlist>
+          </div>
         </div>
-      </div>
-      @if (personFormModel.personType==='PRIVATE') {
+        @if (personFormModel.personType==='PRIVATE') {
         <div class="p-grid item-left">
         <div class="p-col-3">
           <app-validatable-input-text (componentHasErrorEvent)="setHasFirstNameError($event)"
                                       [(ngModel)]="personFormModel.personFirstName"
                                       [idComponent]="'id_firstName'"
-                                      [labelText]="'First name'"
+                                      [labelText]="'person.form.field.first_name' | transloco"
                                       [txtMinLength]="2"
                                       inputName="personFirstName"
                                       name="personFirstName">
@@ -36,7 +53,7 @@
           <app-validatable-input-text (componentHasErrorEvent)="setHasLastNameError($event)"
                                       [(ngModel)]="personFormModel.personLastName"
                                       [idComponent]="'id_lastName'"
-                                      [labelText]="'Last name'"
+                                      [labelText]="'person.form.field.last_name' | transloco"
                                       [txtMinLength]="2"
                                       inputName="personLastName"
                                       name="personLastName">
@@ -49,7 +66,7 @@
             <app-validatable-input-text (componentHasErrorEvent)="setHasCompanyNameError($event)"
                                         [(ngModel)]="personFormModel.companyName"
                                         [idComponent]="'id_company_Name'"
-                                        [labelText]="'Company name'"
+                                        [labelText]="'person.form.field.company_name' | transloco"
                                         [txtMinLength]="2"
                                         inputName="companyName"
                                         name="companyName">
@@ -64,7 +81,7 @@
                                       [idComponent]="'id_email'"
                                       [inputPattern]="emailPattern"
                                       [inputType]="'text'"
-                                      [labelText]="'E-mail'"
+                                      [labelText]="'person.form.field.email' | transloco"
                                       [txtMinLength]="5"
                                       name="email"
                                       patternErrorText="Wrong email">
@@ -76,7 +93,7 @@
           <app-validatable-input-text (componentHasErrorEvent)="setHasTaxNumberError($event)"
                                       [(ngModel)]="personFormModel.taxNumber"
                                       [idComponent]="'id_tax_Number'"
-                                      [labelText]="'Tax number'"
+                                      [labelText]="'person.form.field.tax_number' | transloco"
                                       [txtMinLength]="5"
                                       inputName="taxNumber"
                                       name="taxNumber">
@@ -85,7 +102,7 @@
 }
     </div>
     <div class="p-grid p-col-6">
-      <H2>Person address</H2>
+      <H2>{{'person.form.person_address' | transloco}}</H2>
     </div>
     <div class=" p-shadow-4">
 
@@ -94,7 +111,7 @@
           <app-validatable-input-text (componentHasErrorEvent)="setHasZipCodeError($event)"
                                       [(ngModel)]="personFormModel.personAddressFormModel.zipCode"
                                       [idComponent]="'id_Zip'"
-                                      [labelText]="'Zip'"
+                                      [labelText]="'person.form.field.zip' | transloco"
                                       [txtMinLength]="4"
                                       inputName="zipCode"
                                       name="zipCode">
@@ -104,7 +121,7 @@
           <app-validatable-input-text (componentHasErrorEvent)="setHasCityError($event)"
                                       [(ngModel)]="personFormModel.personAddressFormModel.city"
                                       [idComponent]="'id_City'"
-                                      [labelText]="'City'"
+                                      [labelText]="'person.form.field.city' | transloco"
                                       [txtMinLength]="2"
                                       inputName="city"
                                       name="city">
@@ -118,7 +135,7 @@
                    name="postBoxCode" pInputText
                    style="margin-left: 0px !Important"
                    type="text"/>
-            <label for="id-add-postBoxCode">Post Box</label>
+            <label for="id-add-postBoxCode">{{'person.form.field.postbox' | transloco}}</label>
           </p-floatlabel>
         </div>
         <div class="p-col-3 street-container">
@@ -126,7 +143,7 @@
             <app-validatable-input-text (componentHasErrorEvent)="setHasStreetError($event)"
                                         [(ngModel)]="personFormModel.personAddressFormModel.street"
                                         [idComponent]="'id_Street'"
-                                        [labelText]="'Street'"
+                                        [labelText]="'person.form.field.street' | transloco"
                                         [txtMinLength]="2"
                                         inputName="street"
                                         name="street">
@@ -146,7 +163,7 @@
           <app-validatable-input-text (componentHasErrorEvent)="setHasBankNameError($event)"
                                       [(ngModel)]="personFormModel.bankAccountFormModel.bankName"
                                       [idComponent]="'id_BankName'"
-                                      [labelText]="'Bank name'"
+                                      [labelText]="'person.form.field.bank' | transloco"
                                       [txtMinLength]="2"
                                       inputName="bankName"
                                       name="bankName">
@@ -159,7 +176,7 @@
                    name="accountNumber"
                    pInputText
                    type="text"/>
-            <label for="id_AccountNumber">Account number</label>
+            <label for="id_AccountNumber">{{'person.form.field.account' | transloco}}</label>
           </p-floatlabel>
         </div>
       </div>
@@ -180,7 +197,7 @@
                            pInputText
                            required
                            type="text"/>
-                  <label for="id_IBAN">IBAN</label>
+                  <label for="id_IBAN">{{'person.form.field.iban' | transloco}}</label>
                </p-floatlabel>
               </div>
               @if (modelRef.errors?.['required']) {
@@ -195,7 +212,7 @@
               }
             </div>
             @if(modelRef.errors?.['iban']) {
-              <p-message severity="error" text="Wrong IBAN"></p-message>
+              <p-message severity="error" text="{{'person.form.field.wrong_iban_format' | transloco}}"></p-message>
             }
           </div>
         </div>
@@ -204,7 +221,7 @@
           <app-validatable-input-text (componentHasErrorEvent)="setHasBicError($event)"
                                       [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"
                                       [idComponent]="'id-acc-bicSwift'"
-                                      [labelText]="'BIC/SWIFT'"
+                                      [labelText]="'person.form.field.bic_swift' | transloco"
                                       [txtMinLength]="5"
                                       inputName="bicSwift"
                                       name="bicSwift">
@@ -217,11 +234,11 @@
         <div *ngIf=" createPersonType === undefined; else elseBlock">
           <p-button (onClick)="savePerson(false)" [disabled]="this.personForm?.invalid"
                     class="save-button-col-size save-button-container-size"
-                    label="Save"></p-button>
+                    label="{{'common.actions.save' | transloco}}"></p-button>
         </div>
         <ng-template #elseBlock>
           <p-button (onClick)="savePerson(true)" [disabled]="this.personForm?.invalid"
-                    class="save-button-col-size save-button-container-size" label="Save and return"></p-button>
+                    class="save-button-col-size save-button-container-size" label="{{'person.save_and_return' | transloco}}Save and return"></p-button>
         </ng-template>
       </div>
     </div>

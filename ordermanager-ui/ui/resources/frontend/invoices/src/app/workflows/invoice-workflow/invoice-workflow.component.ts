@@ -33,6 +33,7 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import {FloatLabel} from "primeng/floatlabel";
+import {TranslocoPipe} from "@jsverse/transloco";
 
 
 const CHECK_CIRCLE:string = "pi pi-check-circle"
@@ -41,7 +42,7 @@ const OFF_CIRCLE:string = "pi pi-circle-off"
 @Component({
   selector: 'app-invoice-workflow',
   standalone: true,
-  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule, ValidatableInputTextComponent, FloatLabel],
+  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
   templateUrl: './invoice-workflow.component.html',
   styleUrls: ['./invoice-workflow.component.css']
 })

@@ -1,10 +1,11 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { AppSecurityService } from './common-auth/app-security.service';
 import { Router } from "@angular/router";
 import { MenuItem } from "primeng/api";
 import { Menu } from "primeng/menu";
-import { isAuthenticated } from "./common-services/common-services-util.service";
-import { TranslocoService } from "@jsverse/transloco";
+import {isAuthenticated, printToJson} from "./common-services/common-services-util.service";
+import {TranslocoService} from "@jsverse/transloco";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -13,20 +14,25 @@ import { TranslocoService } from "@jsverse/transloco";
   providers: [AppSecurityService]
 })
 
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'frontend';
   menuItems: MenuItem[];
   @ViewChild('bigMenu') bigMenu: Menu;
   @ViewChild('smallMenu') smallMenu: Menu;
   protected readonly isAuthenticated = isAuthenticated;
   notLoaded: boolean = true;
+  private readonly destroy$ = new Subject<void>();
 
   constructor(public appSecurityService: AppSecurityService, public router: Router, private translocoService: TranslocoService) {
-
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.translocoService.selectTranslation()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.buildMenuItems());
+  }
 
+  buildMenuItems(): void {
     this.menuItems = [
       {
         label: this.translocoService.translate('menu.user_management'),
@@ -72,5 +78,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

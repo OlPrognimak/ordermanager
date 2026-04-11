@@ -73,6 +73,7 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import {FloatLabel} from "primeng/floatlabel";
+import {TranslocoPipe} from "@jsverse/transloco";
 
 
 registerLocaleData(localede, 'de');
@@ -204,7 +205,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
     exports: [InvoiceFormComponent, InvoiceItemsTableComponent],
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule,
       ValidatableCalendarModule, InputTextModule, MessageModule, ToastModule, MessagesModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent, FloatLabel], providers: [provideHttpClient(withInterceptorsFromDi())] }
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe], providers: [provideHttpClient(withInterceptorsFromDi())] }
 )
 export class InvoiceFormModule {
 }

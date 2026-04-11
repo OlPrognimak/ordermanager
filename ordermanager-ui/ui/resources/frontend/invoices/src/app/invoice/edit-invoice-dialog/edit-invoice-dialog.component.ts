@@ -48,6 +48,7 @@ import { MessageModule } from "primeng/message";
 import { MessagesModule } from "primeng/messages";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {InvoiceItemsTableCalculatorService} from "../invoice-items-table/invoice-items-table.calculator.service";
+import {TranslocoPipe} from "@jsverse/transloco";
 
 export type InvoiceControls = { [key in keyof InvoiceFormModelInterface]: AbstractControl }
 type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: InvoiceControls }
@@ -66,7 +67,7 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
     ValidatableDropdownlistModule,
     TemplatesComponentComponent,
     TooltipModule, MessageModule, MessagesModule,
-    DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, ConfirmationDialogComponent],
+    DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, ConfirmationDialogComponent, TranslocoPipe],
   providers: [
     MessageService, MessagesPrinter, CommonServicesUtilService
   ],

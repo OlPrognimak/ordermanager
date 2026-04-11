@@ -1,32 +1,34 @@
 {
-  "actions": {
-    "save": "Speichern",
-    "cancel": "Abbrechen",
-    "find": "Suchen"
-  },
-  "dialog": {
-    "confirm": {
-      "yes": "Ja",
-      "no": "Nein"
+  "common": {
+    "actions": {
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "find": "Suchen"
+    },
+    "dialog": {
+      "confirm": {
+        "yes": "Ja",
+        "no": "Nein"
+      }
+    },
+    "validation": {
+      "required": "Feld ist erforderlich.",
+      "min_length": "Mindestlänge ist {{min}}.",
+      "date_required": "Datum ist erforderlich",
+      "start_before_end": "Startdatum muss vor Enddatum liegen"
+    },
+    "datePeriod": {
+      "title": "Datumsbereich auswählen",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum"
+    },
+    "table": {
+      "manage": "Verwalten"
+    },
+    "tooltips": {
+      "delete_item": "Eintrag löschen",
+      "edit_item": "Eintrag bearbeiten",
+      "rollback_item": "Änderung zurücksetzen"
     }
-  },
-  "validation": {
-    "required": "Feld ist erforderlich.",
-    "min_length": "Mindestlänge ist {{min}}.",
-    "date_required": "Datum ist erforderlich",
-    "start_before_end": "Startdatum muss vor Enddatum liegen"
-  },
-  "datePeriod": {
-    "title": "Datumsbereich auswählen",
-    "startDate": "Startdatum",
-    "endDate": "Enddatum"
-  },
-  "table": {
-    "manage": "Verwalten"
-  },
-  "tooltips": {
-    "delete_item": "Eintrag löschen",
-    "edit_item": "Eintrag bearbeiten",
-    "rollback_item": "Änderung zurücksetzen"
   }
 }

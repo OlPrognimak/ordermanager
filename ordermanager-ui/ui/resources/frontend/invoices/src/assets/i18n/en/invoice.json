@@ -7,27 +7,53 @@
       "amount": "Amount"
     }
   },
-  "management": {
-    "title": "Invoice management",
-    "confirm": {
-      "delete": "Confirm delete invoice",
-      "delete_message": "Are you really want to permanently delete invoice?",
-      "save_message": "Are you really want to permanently save changes in invoices"
-    },
-    "tooltips": {
-      "edit_invoice": "Double click to edit invoice"
-    },
-    "table": {
-      "invoice_number": "Invoice number",
-      "supplier": "Supplier",
-      "recipient": "Recipient",
-      "invoice_date": "Invoice date",
-      "creation_date": "Invoice creation date",
-      "netto_sum": "Netto sum",
-      "brutto_sum": "Brutto sum"
-    }
-  },
   "table_cell": {
     "download": "Download"
+  },
+  "invoice": {
+    "number": "Invoice number",
+    "description": "Beschreibung",
+    "rate_type": "Invoice type",
+    "total_netto": "Total netto",
+    "total_brutto": "Total brutto",
+    "add_item": "Add Item",
+    "person_creator": "Invoice creator person",
+    "person_recipient": "Invoice recipient person",
+    "creation_date": "Creation date",
+    "invoice_date": "Invoice date",
+    "management": {
+      "title": "Invoice management",
+      "confirm": {
+        "delete": "Confirm delete invoice",
+        "delete_message": "Are you really want to permanently delete invoice?",
+        "save_message": "Are you really want to permanently save changes in invoices"
+      },
+      "tooltips": {
+        "edit_invoice": "Double click to edit invoice"
+      },
+      "table": {
+        "invoice_number": "Invoice number",
+        "supplier": "Supplier",
+        "recipient": "Recipient",
+        "invoice_date": "Invoice date",
+        "creation_date": "Invoice creation date",
+        "netto_sum": "Netto sum",
+        "brutto_sum": "Brutto sum"
+      }
+    },
+    "item": {
+      "manage": {
+        "catalog_items": "Manage with catalog items"
+      },
+      "table": {
+        "item_name": "Item name",
+        "short_description": "Short description",
+        "price": "Item price",
+        "vat": "MwSt%",
+        "amount": "Amount",
+        "sum_netto": "Sum netto",
+        "sum_brutto": "Sum brutto"
+      }
+    }
   }
 }

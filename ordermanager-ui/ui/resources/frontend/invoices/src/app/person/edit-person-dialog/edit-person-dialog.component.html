@@ -8,7 +8,7 @@
 
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 class="dialog-title">Edit person</h2>
+      <h2 class="dialog-title">{{'person.dialog.edit_person' | transloco}}</h2>
 
       <div class="header-actions">
         <button
@@ -37,7 +37,7 @@
           context:{controlPath: 'personType',
                    placeholderPar: 'Select person type',
                    idComponent: 'id-personType',
-                   labelText: 'Person Type',
+                   labelText: 'person.management.table.person_type' | transloco,
                    optionList: personType
                   }">
             </ng-container>
@@ -48,7 +48,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personFirstName',
                    idComponent: 'id_firstName',
-                   labelText: 'First name'
+                   labelText: 'person.form.field.first_name' | transloco
                   }">
             </ng-container>
           </div>
@@ -56,7 +56,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personLastName',
                    idComponent: 'id_lastName',
-                   labelText: 'Last name'
+                   labelText: 'person.form.field.last_name' | transloco
                   }">
             </ng-container>
           </div>
@@ -67,7 +67,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'companyName',
                    idComponent: 'id_companyNme',
-                   labelText: 'Company name'
+                   labelText: 'person.form.field.company_name' | transloco
                   }">
             </ng-container>
           </div>
@@ -77,7 +77,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'email',
                    idComponent: 'id_email',
-                   labelText: 'E-mail'
+                   labelText: 'person.form.field.email' | transloco
                   }">
             </ng-container>
           </div>
@@ -88,7 +88,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'taxNumber',
                    idComponent: 'id_taxNumber',
-                   labelText: 'Tax number'
+                   labelText: 'person.form.field.tax_number' | transloco
                   }">
             </ng-container>
           </div>
@@ -100,14 +100,14 @@
       <div formGroupName="personAddressFormModel" class="margin-top-20">
         <div class=" shadow-panel-color p-shadow-4 person-edit-panel">
           <div class="p-grid p-col-6" style="margin-left: 5pt">
-            <H2>Person address</H2>
+            <H2>{{'person.form.person_address' | transloco}}</H2>
           </div>
           <div class="p-grid">
             <div class="p-col-2" style="margin-left: 5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.zipCode',
                    idComponent: 'id_zipCode',
-                   labelText: 'Zip code'
+                   labelText: 'person.form.field.zip' | transloco
                   }">
               </ng-container>
             </div>
@@ -115,7 +115,7 @@
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.city',
                    idComponent: 'id_city',
-                   labelText: 'City'
+                   labelText: 'person.form.field.city' | transloco
                   }">
               </ng-container>
             </div>
@@ -126,7 +126,7 @@
                 <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.postBoxCode',
                    idComponent: 'id_postBoxCode',
-                   labelText: 'Post Box'
+                   labelText: 'person.form.field.postbox' | transloco
                   }">
                 </ng-container>
               </div>
@@ -136,7 +136,7 @@
                 <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.street',
                    idComponent: 'id_street',
-                   labelText: 'Street'
+                   labelText: 'person.form.field.street' | transloco
                   }">
                 </ng-container>
               </div>
@@ -152,7 +152,7 @@
         <div class="shadow-panel-color p-shadow-4 person-edit-panel">
           <div class="p-grid">
             <div class="p-col-6" style="margin-left: 5pt">
-              <H2>Person bank account</H2>
+              <H2>{{'person.form.person_bank' | transloco}}</H2>
             </div>
           </div>
           <div class="p-grid">
@@ -160,7 +160,7 @@
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'bankAccountFormModel.bankName',
                    idComponent: 'id_BankName',
-                   labelText: 'Bank name'
+                   labelText: 'person.form.field.bank' | transloco
                   }">
               </ng-container>
             </div>
@@ -169,7 +169,7 @@
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.accountNumber',
                      idComponent: 'id_AccountNumber',
-                     labelText: 'Account number'
+                     labelText: 'person.form.field.account' | transloco
                   }">
               </ng-container>
             </div>
@@ -180,7 +180,7 @@
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.iban',
                      idComponent: 'id_iban',
-                     labelText: 'IBAN'
+                     labelText: 'person.form.field.iban' | transloco
                   }">
               </ng-container>
             </div>
@@ -188,7 +188,7 @@
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.bicSwift',
                      idComponent: 'id-acc-bicSwift',
-                     labelText: 'BIC/SWIFT'
+                     labelText: 'person.form.field.bic_swift' | transloco
                   }">
               </ng-container>
             </div>
@@ -200,9 +200,9 @@
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button (click)="sendChanges()" [disabled]="haveErrors()" icon="pi pi-check" label="Save"
+    <p-button (click)="sendChanges()" [disabled]="haveErrors()" icon="pi pi-check" label="{{'common.actions.save' | transloco}}"
               styleClass="p-button-text"></p-button>
-    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="Cancel"
+    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="{{'common.actions.cancel' | transloco}}"
               styleClass="p-button-text p-button-secondary"></p-button>
   </ng-template>
 </p-dialog>

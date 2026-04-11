@@ -6,7 +6,7 @@ export const translocoProviders = [
   provideTransloco({
     config: translocoConfig({
       availableLangs: ['en', 'de'],
-      defaultLang: 'en',
+      defaultLang: 'de',
       reRenderOnLangChange: true,
       prodMode: environment.production,
     }),

@@ -41,7 +41,7 @@
   @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null, modelRef.errors?.['minlength'])) {
     <div class = "error-message-cmp">
           <small class="validation-text">
-            {{ 'common.validation.min_length' | transloco: { min: txtMinLength } }}
+            {{ 'validation.min_length' | transloco: { min: txtMinLength } }}
           </small>
     </div>
   }

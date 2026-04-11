@@ -48,7 +48,7 @@
             <tr (dblclick)="rowDoubleClick($event, invoice)" [ngStyle]="{'color':isEditObjectChanged(invoice)}"
                 [pSelectableRowIndex]="rowIndex"
                 [pSelectableRow]="invoice"
-                title="{{ 'invoice.management.tooltips.edit_invoice' | transloco }}">
+                title="{{ 'management.tooltips.edit_invoice' | transloco }}">
               <td>
                 <div>{{invoice.invoiceNumber}}</div>
               </td>
@@ -99,7 +99,7 @@
     <div class="p-col-12 save-button-col-size">
       <div class="save-button-container-size">
         <p-button (onClick)="showSaveConfirmDialog = true" [disabled]="haveNoChanges()"
-                  [label]="'common.actions.save' | transloco"></p-button>
+                  [label]="'actions.save' | transloco"></p-button>
       </div>
     </div>
   </div>
@@ -109,7 +109,7 @@
                            (editObjectChangedChanged)="putEditDialogChanges($event)"></app-edit-invoice-dialog>
 
   <app-confirmation-dialog #confirmDeleteInvoiceDialog
-                           [confirmMessage]="'invoice.management.confirm.delete' | transloco"
+                           [confirmMessage]="'management.confirm.delete' | transloco"
                            (canceled)="handleCancelDeleteInvoice($event)"
                            (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
                            [display]="showDeleteConfirmDialog"
