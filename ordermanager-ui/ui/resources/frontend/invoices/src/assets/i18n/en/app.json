@@ -1,6 +1,11 @@
 {
   "title": "Order manager",
   "menu": {
+    "language": {
+      "title": "Language",
+      "en": "English",
+      "de": "Germany"
+    },
     "invoice": {
       "create": "Create invoice",
       "title": "Invoice",

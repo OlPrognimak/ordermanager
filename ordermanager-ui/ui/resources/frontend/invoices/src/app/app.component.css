@@ -9,6 +9,35 @@
   height: 40pt;
 }
 
+.app-shell {
+  width: 100%;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 0.75rem;
+}
+
+.app-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.page-content {
+  margin: 1rem;
+}
+
+
+
 
 
 

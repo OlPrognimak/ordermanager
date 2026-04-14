@@ -1,6 +1,11 @@
 {
   "title": "Auftragsmanager",
   "menu": {
+    "language": {
+      "title": "Sprache",
+      "en": "Englisch",
+      "de": "Deutsch"
+    },
     "invoice": {
       "create": "Rechnung erstellen",
       "title": "Rechnung",

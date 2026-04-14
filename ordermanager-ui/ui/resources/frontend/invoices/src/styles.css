@@ -1,79 +1,113 @@
-/* You can add global styles to this file, and also import other style files */
-
+/* =========================================
+   GLOBAL IMPORTS
+   ========================================= */
 @import '../node_modules/ag-grid-community/styles/ag-grid.css';
 @import '../node_modules/ag-grid-community/styles/ag-theme-balham.css';
 @import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
-/* @import "../node_modules/primeng/resources/themes/nova/theme.css"; */
 @import "../node_modules/primeicons/primeicons.css";
 @import "../node_modules/primeflex/primeflex.css";
-@import "../node_modules/primeicons/primeicons.css";
 
-/* Global Styles */
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
+/* =========================================
+   RESET / BASE
+   ========================================= */
+* {
+  box-sizing: border-box;
 }
 
-h2, h3 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: lighter;
-}
-
+html,
 body {
-  margin: 2em;
-  margin-left: 10pt !important;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #f3f4f6;
+  color: #1f2937;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-body, input[text], button {
-  color: #333;
-  font-family: Cambria, Georgia;
+body,
+input,
+button,
+textarea,
+select {
+  color: #1f2937;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 a {
+  color: #2563eb;
   cursor: pointer;
-  cursor: hand;
+  text-decoration: none;
 }
 
+a:hover {
+  color: #1d4ed8;
+}
+
+img {
+  max-width: 100%;
+  display: inline-block;
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+h1 {
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+h2,
+h3 {
+  color: #1f2937;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+}
+
+/* =========================================
+   GENERIC BUTTONS
+   ========================================= */
 button {
-  font-family: Arial;
-  background-color: #eee;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #e5e7eb;
+  color: #1f2937;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
   cursor: pointer;
-  cursor: hand;
 }
 
 button:hover {
-  background-color: #cfd8dc;
+  background-color: #d1d5db;
 }
 
 button:disabled {
-  background-color: #eee;
-  color: #aaa;
-  cursor: auto;
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: default;
 }
 
-/* Navigation link styles */
-nav a {
+/* =========================================
+   GENERIC NAV
+   Keep old nav links from affecting PrimeNG
+   ========================================= */
+nav > a {
   padding: 5px 10px;
-  text-decoration: none;
   margin-right: 10px;
-  margin-top: 0px;
   display: inline-block;
   background-color: #d1cdcd;
   border-radius: 4px;
+  color: #607d8b;
 }
 
-nav a:visited, a:link {
-  color: #607D8B;
-}
-
-nav a:hover {
+nav > a:hover {
   color: #039be5;
-  background-color: #CFD8DC;
+  background-color: #cfd8dc;
+}
+
+nav > a.active {
+  color: #039be5;
 }
 
 nav div div {
@@ -85,33 +119,124 @@ nav div div ul {
   min-width: fit-content;
 }
 
-
-nav a.active {
-  color: #039be5;
+/* =========================================
+   APP HEADER / MENU CONTAINERS
+   ========================================= */
+.top-menu,
+.menu-bar-container,
+.app-menu-container,
+.nav_app_cls,
+.app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* everywhere else */
-* {
-  font-family: Arial, Helvetica, sans-serif;
+.app_title {
+  background: #ffffff;
+  border-bottom: 1px solid #d1d5db;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-html {
-  height: 100%;
+/* =========================================
+   PRIMENG MENUBAR
+   ========================================= */
+.p-menubar {
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 0.35rem 0.75rem !important;
 }
 
-body {
-  height: 100%;
-  margin: 0;
-  font-family: Roboto,
-  "Helvetica Neue", sans-serif;
-  background-color: #f6f9fb;
+.p-menubar-root-list {
+  align-items: center;
+}
+
+.p-menubar .p-menuitem-link {
+  background: transparent !important;
+  border: none !important;
+  color: #1f2937 !important;
+  border-radius: 6px !important;
+  padding: 0.65rem 0.85rem !important;
+}
+
+.p-menubar .p-menuitem-link:hover {
+  background: #eef2f7 !important;
+  color: #111827 !important;
+}
+
+.p-menubar .p-menuitem-active > .p-menuitem-link,
+.p-menubar .p-menuitem.p-highlight > .p-menuitem-link {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+.p-menubar .p-submenu-list {
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 8px !important;
+  padding: 0.35rem !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.p-menubar .p-submenu-list .p-menuitem-link {
+  color: #1f2937 !important;
+}
+
+.p-menubar .p-submenu-list .p-menuitem-link:hover {
+  background: #eef2f7 !important;
+  color: #111827 !important;
+}
+
+.p-menubar .p-menuitem-icon {
+  color: inherit !important;
+  margin-right: 0.5rem;
+}
+
+/* =========================================
+   PRIMENG BUTTONS
+   ========================================= */
+.p-button {
+  border-radius: 6px !important;
+}
+
+.p-button.p-button-text {
+  color: #2563eb !important;
+}
+
+.p-button.p-button-text:hover {
+  background: rgba(37, 99, 235, 0.08) !important;
+}
+
+/* =========================================
+   PANELS / CARDS / PAGE WRAPPERS
+   ========================================= */
+.form-card,
+.login-card,
+.page-card,
+.content-card,
+.shadow-panel-color {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .shadow-panel-color {
-  background-color: #BFE0E6;
   margin-top: 10pt;
 }
 
+.page-content,
+.form-page,
+.login-page {
+  padding: 1rem;
+}
+
+/* =========================================
+   DIALOGS
+   ========================================= */
 div.p-dialog-header {
   background-color: #94b4a7 !important;
   padding: 2pt !important;
@@ -121,22 +246,166 @@ div.p-dialog-header {
   background-color: #94b4a7;
   border-radius: 0 0 20px 20px;
   padding: 2pt !important;
-  width: 100%
+  width: 100%;
 }
 
-#appConfigId > app-root > app-item-management {
-  height: 100%;
+/* =========================================
+   INPUTS / FORMS
+   ========================================= */
+.p-inputtext,
+.p-dropdown,
+.p-datepicker,
+.p-calendar,
+.p-inputnumber,
+.p-inputtextarea,
+textarea {
+  width: 100%;
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 6px !important;
+  box-sizing: border-box;
 }
 
+.p-dropdown .p-inputtext,
+.p-datepicker input,
+.p-calendar input,
+.p-inputnumber input {
+  width: 100% !important;
+  background: transparent !important;
+  color: #111827 !important;
+  box-sizing: border-box;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.p-inputtext:focus,
+.p-dropdown:not(.p-disabled).p-focus,
+.p-datepicker:not(.p-disabled).p-focus,
+.p-calendar:not(.p-disabled).p-focus,
+.p-inputnumber input:focus,
+.p-inputtextarea:focus,
+textarea:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2) !important;
+  outline: none !important;
+}
+
+/* Float label */
+.p-floatlabel {
+  width: 100%;
+  display: block;
+}
+
+div > div > p-floatlabel > label {
+  color: #6b7280 !important;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* =========================================
+   CUSTOM COMPONENT HOSTS
+   ========================================= */
+app-validatable-input-text,
+app-validatable-calendar,
+app-validatable-dropdown,
+app-validatable-input-number,
+app-validatable-textarea {
+  display: block;
+  width: 100%;
+}
+
+app-validatable-input-text .p-inputtext,
+app-validatable-calendar .p-calendar,
+app-validatable-calendar .p-calendar input,
+app-validatable-calendar .p-datepicker,
+app-validatable-calendar .p-datepicker input,
+app-validatable-dropdown .p-dropdown,
+app-validatable-input-number .p-inputnumber,
+app-validatable-input-number .p-inputnumber input,
+app-validatable-textarea textarea {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   VALIDATION / ERRORS
+   ========================================= */
+.ng-invalid.ng-dirty,
+.ng-invalid.ng-touched {
+  border-color: #dc2626 !important;
+}
+
+.validation-text,
+small.validation-text {
+  display: block;
+  margin-top: 0.35rem;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+.error-icon,
+.error-icon-box,
+.calendar-error-icon {
+  min-width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message-cmp {
+  display: table-cell;
+  width: 10%;
+  margin-left: 2px;
+}
+
+.p-message.p-message-error {
+  background: #fef2f2 !important;
+  border: 1px solid #fecaca !important;
+  color: #b91c1c !important;
+}
+
+/* =========================================
+   TABLE / DATATABLE
+   ========================================= */
+.p-datatable {
+  background: #ffffff !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.p-datatable .p-datatable-header {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: #f9fafb !important;
+  color: #374151 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.p-paginator {
+  background: #ffffff !important;
+  border-top: 1px solid #e5e7eb !important;
+}
+
+/* =========================================
+   OVERLAY / LAYOUT HELPERS
+   ========================================= */
 .overlayProcess {
   position: fixed;
   display: none;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0);
   z-index: 2;
   cursor: pointer;
@@ -163,6 +432,7 @@ div.p-dialog-header {
   display: table;
   width: 100%;
 }
+
 .full-width-display-row {
   display: table-row;
   width: 100%;
@@ -173,153 +443,8 @@ div.p-dialog-header {
   width: 100%;
 }
 
-.error-message-cmp {
-  display: table-cell;
-  width: 10%;
-  margin-left: 2px;
-}
-
 .w-100 {
   width: 100%;
-}
-
-/* =========================
-   GLOBAL PAGE BACKGROUND
-   ========================= */
-html,
-body {
-  margin: 0;
-  padding: 0;
-  background: #f3f4f6;
-  color: #1f2937;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* =========================
-   TOP MENU BAR
-   ========================= */
-.top-menu,
-.menu-bar-container,
-.app-menu-container {
-  background: linear-gradient(90deg, #1f2937, #111827);
-  border-bottom: 1px solid #374151;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Menu buttons / menubar items */
-.top-menu .p-button,
-.menu-bar-container .p-button,
-.app-menu-container .p-button,
-.p-menubar .p-menuitem-link {
-  background: transparent !important;
-  border: none !important;
-  color: #e5e7eb !important;
-  border-radius: 6px;
-}
-
-.top-menu .p-button:hover,
-.menu-bar-container .p-button:hover,
-.app-menu-container .p-button:hover,
-.p-menubar .p-menuitem-link:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.top-menu .p-button.p-highlight,
-.menu-bar-container .p-button.p-highlight,
-.app-menu-container .p-button.p-highlight,
-.p-menubar .p-menuitem-active > .p-menuitem-link {
-  background: #2563eb !important;
-  color: #ffffff !important;
-}
-
-/* Menubar root */
-.p-menubar {
-  background: linear-gradient(90deg, #1f2937, #111827) !important;
-  border: 1px solid #374151 !important;
-  border-radius: 8px;
-}
-
-/* =========================
-   FORM / CARD CONTAINER
-   ========================= */
-.form-card,
-.login-card,
-.page-card,
-.content-card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-/* Optional page wrapper */
-.page-content,
-.form-page,
-.login-page {
-  padding: 1rem;
-}
-
-/* Titles */
-h1,
-h2,
-h3 {
-  color: #1f2937;
-  font-weight: 600;
-}
-
-/* =========================
-   INPUTS / DROPDOWNS / DATE PICKERS
-   ========================= */
-.p-inputtext,
-.p-dropdown,
-.p-datepicker,
-.p-calendar,
-.p-inputnumber,
-.p-inputtextarea {
-  width: 100%;
-  background: #ffffff !important;
-  color: #111827 !important;
-  border: 1px solid #d1d5db !important;
-  border-radius: 6px !important;
-  box-sizing: border-box;
-}
-
-/* Inner input elements of PrimeNG wrappers */
-.p-dropdown .p-inputtext,
-.p-datepicker input,
-.p-calendar input,
-.p-inputnumber input {
-  width: 100% !important;
-  background: transparent !important;
-  color: #111827 !important;
-  box-sizing: border-box;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* Focus */
-.p-inputtext:focus,
-.p-dropdown:not(.p-disabled).p-focus,
-.p-datepicker:not(.p-disabled).p-focus,
-.p-calendar:not(.p-disabled).p-focus,
-.p-inputnumber input:focus,
-.p-inputtextarea:focus {
-  border-color: #2563eb !important;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2) !important;
-  outline: none !important;
-}
-
-/* Float label */
-.p-floatlabel {
-  width: 100%;
-  display: block;
-}
-
-div > div > p-floatlabel > label {
-  color: #6b7280 !important;
-  font-weight: 600;
-  font-size: 16px;
 }
 
 .margin-top-20 {
@@ -329,132 +454,10 @@ div > div > p-floatlabel > label {
 .margin-bottom-20 {
   margin-bottom: 20px !important;
 }
-/* =========================
-   CUSTOM COMPONENT HOSTS
-   ========================= */
-app-validatable-input-text,
-app-validatable-calendar,
-app-validatable-dropdown,
-app-validatable-input-number,
-app-validatable-textarea {
-  display: block;
-  width: 100%;
-}
 
-/* Force PrimeNG controls inside custom components */
-app-validatable-input-text .p-inputtext,
-app-validatable-calendar .p-calendar,
-app-validatable-calendar .p-calendar input,
-app-validatable-calendar .p-datepicker,
-app-validatable-calendar .p-datepicker input,
-app-validatable-dropdown .p-dropdown,
-app-validatable-input-number .p-inputnumber,
-app-validatable-input-number .p-inputnumber input,
-app-validatable-textarea textarea {
-  width: 100% !important;
-  box-sizing: border-box;
-}
-
-/* =========================
-   VALIDATION / ERRORS
-   ========================= */
-.ng-invalid.ng-dirty,
-.ng-invalid.ng-touched {
-  border-color: #dc2626 !important;
-}
-
-.validation-text,
-small.validation-text {
-  display: block;
-  margin-top: 0.35rem;
-  color: #dc2626;
-  font-size: 0.875rem;
-}
-
-.error-icon,
-.error-icon-box,
-.calendar-error-icon {
-  min-width: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* PrimeNG message */
-.p-message.p-message-error {
-  background: #fef2f2 !important;
-  border: 1px solid #fecaca !important;
-  color: #b91c1c !important;
-}
-
-/* =========================
-   TABLE / DATATABLE
-   ========================= */
-.p-datatable {
-  background: #ffffff !important;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.p-datatable .p-datatable-header {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  border-bottom: 1px solid #e5e7eb !important;
-}
-
-.p-datatable .p-datatable-thead > tr > th {
-  background: #f9fafb !important;
-  color: #374151 !important;
-  border-bottom: 1px solid #e5e7eb !important;
-}
-
-.p-datatable .p-datatable-tbody > tr > td {
-  background: #ffffff !important;
-  color: #1f2937 !important;
-  border-bottom: 1px solid #f3f4f6 !important;
-}
-
-/* Paginator */
-.p-paginator {
-  background: #ffffff !important;
-  border-top: 1px solid #e5e7eb !important;
-}
-
-/* =========================
-   BUTTONS
-   ========================= */
-.p-button {
-  border-radius: 6px !important;
-}
-
-.p-button.p-button-text {
-  color: #2563eb !important;
-}
-
-.p-button.p-button-text:hover {
-  background: rgba(37, 99, 235, 0.08) !important;
-}
-
-/* =========================
-   LINKS
-   ========================= */
-a {
-  color: #2563eb;
-}
-
-a:hover {
-  color: #1d4ed8;
-}
-
-.p-dropdown span[role="combobox"] {
-  background-color: #b0b0b0;
-}
-
-p-calendar span.p-inputwrapper-filled input[role="combobox"] {
-  background-color: #b0b0b0 !important;
-}
-
-
+/* =========================================
+   FIELD ROW
+   ========================================= */
 .field-row {
   display: flex;
   align-items: center;
@@ -470,4 +473,19 @@ p-calendar span.p-inputwrapper-filled input[role="combobox"] {
 .field-row input[pInputText] {
   width: 100%;
   box-sizing: border-box;
+}
+
+/* =========================================
+   SPECIAL CASES FROM EXISTING APP
+   ========================================= */
+#appConfigId > app-root > app-item-management {
+  height: 100%;
+}
+
+.p-dropdown span[role="combobox"] {
+  background-color: transparent !important;
+}
+
+p-calendar span.p-inputwrapper-filled input[role="combobox"] {
+  background-color: transparent !important;
 }
