@@ -109,7 +109,7 @@
                            (editObjectChangedChanged)="putEditDialogChanges($event)"></app-edit-invoice-dialog>
 
   <app-confirmation-dialog #confirmDeleteInvoiceDialog
-                           [confirmMessage]="'management.confirm.delete' | transloco"
+                           [confirmMessage]="'invoice.management.confirm.delete' | transloco"
                            (canceled)="handleCancelDeleteInvoice($event)"
                            (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
                            [display]="showDeleteConfirmDialog"

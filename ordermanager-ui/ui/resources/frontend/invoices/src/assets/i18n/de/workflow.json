@@ -1,7 +1,14 @@
 {
-  "invoice": {
-    "steps": {
-      "set_invoice_date": "Rechnungsdatum setzen"
+  "workflow": {
+    "invoice": {
+      "steps": {
+        "set_invoice_type_number": "Rechnungstyp/-nummer festlegen",
+        "set_invoice_date": "Rechnungsdatum festlegen",
+        "set_invoice_creator": "Rechnungsersteller festlegen",
+        "set_invoice_recipient": "Rechnungsempfänger festlegen",
+        "set_invoice_items": "Rechnungspositionen festlegen",
+        "save_invoice": "Rechnung speichern"
+      }
     }
   }
 }

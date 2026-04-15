@@ -1,7 +1,14 @@
 {
-  "invoice": {
-    "steps": {
-      "set_invoice_date": "Set Invoice date"
+  "workflow": {
+    "invoice": {
+      "steps": {
+        "set_invoice_type_number": "Set Invoice Type/Number",
+        "set_invoice_date": "Set Invoice date",
+        "set_invoice_creator": "Set invoice creator",
+        "set_invoice_recipient": "Set invoice recipient",
+        "set_invoice_items": "Set invoice items",
+        "save_invoice": "Save invoice"
+      }
     }
   }
 }

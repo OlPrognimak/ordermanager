@@ -1,6 +1,6 @@
 <div *ngIf="isAuthenticated();" class="p-fluid">
   <div class="p-grid" style="text-align: center">
-    <H2 style="text-align: center">Create catalog item</H2>
+    <H2 style="text-align: center">{{'invoice.item.create.title' | transloco}}</H2>
   </div>
   <p-toast></p-toast>
   <form #itemCatalogForm="ngForm" (submit)="saveItem($event)">
@@ -9,7 +9,7 @@
         <app-validatable-input-text (componentHasErrorEvent)="setHasNameError($event)"
                                     [(ngModel)]="model.description"
                                     [idComponent]="'id_ItemDesc'"
-                                    [labelText]="'Item name'"
+                                    [labelText]="'invoice.item.table.item_name' | transloco"
                                     [txtMinLength]="2"
                                     name="description">
         </app-validatable-input-text>
@@ -20,7 +20,7 @@
        <p-floatlabel class="w-100">
        <input [(ngModel)]="model.shortDescription" id="id-shortDescription" name="shortDescription" pInputText
               style="width:100%;" type="text"/>
-       <label for="id-shortDescription">Item short description</label>
+       <label for="id-shortDescription">{{'invoice.item.table.short_description' | transloco}}</label>
        </p-floatlabel>
       </div>
 
@@ -30,7 +30,7 @@
         <app-validatable-input-number (componentHasErrorEvent)="setHasPriceError($event)"
                                       [(ngModel)]="model.itemPrice"
                                       [idComponent]="'id_ItemPrice'"
-                                      [labelText]="'Item  price'"
+                                      [labelText]="'invoice.item.table.price' | transloco"
                                       name="itemPrice">
         </app-validatable-input-number>
       </div>
@@ -40,7 +40,7 @@
         <app-validatable-input-number (componentHasErrorEvent)="setHasVatError($event)"
                                       [(ngModel)]="model.vat"
                                       [idComponent]="'id_ItemVat'"
-                                      [labelText]="'Vat%'"
+                                      [labelText]="'invoice.item.table.vat' | transloco"
                                       name="vat">
         </app-validatable-input-number>
       </div>

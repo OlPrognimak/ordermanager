@@ -15,10 +15,10 @@
         (onBlur)="onTouched()"
         [dateFormat]="calendarDateFormat"
         [inputId]="idComponent"
-        [required]="true"
+        [required]="required"
         [ngClass]="{
-          'ng-invalid': modelCalendarRef.invalid,
-          'ng-dirty': modelCalendarRef.dirty || modelCalendarRef.touched
+          'ng-invalid': modelCalendarRef?.invalid,
+          'ng-dirty': modelCalendarRef?.dirty || modelCalendarRef?.touched
         }"
         styleClass="w-100">
       </p-datepicker>
@@ -26,7 +26,7 @@
       <label [for]="idComponent">{{ labelText }}</label>
     </p-floatlabel>
 
-    @if (modelCalendarRef.invalid && (modelCalendarRef.dirty || modelCalendarRef.touched)) {
+    @if (modelCalendarRef?.invalid && (modelCalendarRef?.dirty || modelCalendarRef?.touched)) {
       <div class="error-icon-box">
         <p-message severity="error" icon="pi pi-times-circle"></p-message>
       </div>

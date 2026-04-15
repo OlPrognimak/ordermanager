@@ -22,7 +22,7 @@ import { ButtonModule } from "primeng/button";
 import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
 import { InvoiceFormModule } from "../../invoice/invoiceform/invoiceform.component";
-import {Observable, of, Subject} from "rxjs";
+import {Observable, of, Subject, takeUntil} from "rxjs";
 import { InvoiceItemsTableComponent } from "../../invoice/invoice-items-table/invoice-items-table.component";
 import { InvoiceFormValidator } from "../../invoice/invoiceform/invoice.form.validator";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -33,7 +33,7 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import {FloatLabel} from "primeng/floatlabel";
-import {TranslocoPipe} from "@jsverse/transloco";
+import {TranslocoPipe, TranslocoService} from "@jsverse/transloco";
 
 
 const CHECK_CIRCLE:string = "pi pi-check-circle"
@@ -61,6 +61,7 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   currentStatus: WorkflowEventsModel
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
+  private readonly destroy$ = new Subject<void>();
 
 
   constructor(private store: Store<any>,
@@ -69,33 +70,18 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
               private router: Router,
               private route: ActivatedRoute,
               private cdr: ChangeDetectorRef,
-              private invoiceItemsTableCalculatorService: InvoiceItemsTableCalculatorService) {
+              private invoiceItemsTableCalculatorService: InvoiceItemsTableCalculatorService,
+              private translocoService: TranslocoService) {
     super()
   }
 
-
   ngOnInit(): void {
     this.loadPersons()
-    this.createInvoiceFlowEvents = [
-      new WorkflowEventsModel({
-        statusDesc: 'Set Invoice Type/Number',
-        status: WorkflowStatuses.SET_INVOICE_TYPE,
-        level: 0
-      }),
-      new WorkflowEventsModel({statusDesc: 'Set Invoice date', status: WorkflowStatuses.SET_INVOICE_DATE, level: 1}),
-      new WorkflowEventsModel({
-        statusDesc: 'Set invoice Creator',
-        status: WorkflowStatuses.SET_INVOICE_CREATOR,
-        level: 2
-      }),
-      new WorkflowEventsModel({
-        statusDesc: 'Set invoice Recipient',
-        status: WorkflowStatuses.SET_INVOICE_RECIPIENT,
-        level: 3
-      }),
-      new WorkflowEventsModel({statusDesc: 'Set invoice Items', status: WorkflowStatuses.SET_INVOICE_ITEMS, level: 4}),
-      new WorkflowEventsModel({statusDesc: 'Save invoice', status: WorkflowStatuses.SAVE_INVOICE, level: 5}),
-    ];
+    this.translocoService.selectTranslation()/*.langChanges$*/
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.prepareInvoiceFlow();
+      });
 
     this.route.queryParams.subscribe(params => {
       const createPersonType = params['createPerson'];
@@ -123,6 +109,46 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
 
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  private prepareInvoiceFlow() {
+    this.createInvoiceFlowEvents = [
+      new WorkflowEventsModel({
+        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_type_number'),
+        status: WorkflowStatuses.SET_INVOICE_TYPE,
+        level: 0
+      }),
+      new WorkflowEventsModel({
+        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_date'),
+        status: WorkflowStatuses.SET_INVOICE_DATE,
+        level: 1
+      }),
+      new WorkflowEventsModel({
+        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_creator'),
+        status: WorkflowStatuses.SET_INVOICE_CREATOR,
+        level: 2
+      }),
+      new WorkflowEventsModel({
+        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_recipient'),
+        status: WorkflowStatuses.SET_INVOICE_RECIPIENT,
+        level: 3
+      }),
+      new WorkflowEventsModel({
+        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_items'),
+        status: WorkflowStatuses.SET_INVOICE_ITEMS,
+        level: 4
+      }),
+      new WorkflowEventsModel({
+        statusDesc: this.translocoService.translate('workflow.invoice.steps.save_invoice'),
+        status: WorkflowStatuses.SAVE_INVOICE,
+        level: 5
+      }),
+    ];
+  }
 
   /**
    * Set current selected workflow step
@@ -369,4 +395,5 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   invoiceItemsChanges($event: InvoiceItemModel[]) {
     this.workflowInvoiceItems = Object.assign([], $event)
   }
+
 }

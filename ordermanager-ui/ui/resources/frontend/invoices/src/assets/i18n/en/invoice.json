@@ -31,6 +31,10 @@
       "tooltips": {
         "edit_invoice": "Double click to edit invoice"
       },
+      "confirm": {
+        "delete": "Delete",
+        "save_message": "Save"
+      },
       "table": {
         "invoice_number": "Invoice number",
         "supplier": "Supplier",
@@ -42,6 +46,9 @@
       }
     },
     "item": {
+      "create": {
+        "title": "Create catalog item"
+      },
       "manage": {
         "catalog_items": "Manage with catalog items"
       },
@@ -54,6 +61,9 @@
         "sum_netto": "Sum netto",
         "sum_brutto": "Sum brutto"
       }
+    },
+    "table_cell": {
+      "download": "Download"
     }
   }
 }

@@ -31,6 +31,10 @@
       "tooltips": {
         "edit_invoice": "Doppelklick, um Rechnung zu bearbeiten"
       },
+      "confirm": {
+        "delete": "Löschen",
+        "save_message": "Spechern"
+      },
       "table": {
         "invoice_number": "Rechnungsnummer",
         "supplier": "Lieferant",
@@ -42,6 +46,9 @@
       }
     },
     "item": {
+      "create": {
+        "title": "Katalogeintrag erstellen"
+      },
       "manage": {
         "catalog_items": "Verwaltung von Katalogelemente"
       },
@@ -54,6 +61,9 @@
         "sum_netto": "Nettosumme",
         "sum_brutto": "Bruttosumme"
       }
+    },
+    "table_cell": {
+      "download": "Hochladen"
     }
   }
 }
