@@ -15,7 +15,7 @@
         (onBlur)="onTouched()"
         [dateFormat]="calendarDateFormat"
         [inputId]="idComponent"
-        [required]="required"
+        required
         [ngClass]="{
           'ng-invalid': modelCalendarRef?.invalid,
           'ng-dirty': modelCalendarRef?.dirty || modelCalendarRef?.touched

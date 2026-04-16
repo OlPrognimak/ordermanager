@@ -51,9 +51,6 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   onChange: (val: any) => void = () => {};
   onTouched: () => void = () => {};
   @Input() protected isRequired: boolean  = true;
-  get required(): boolean {
-    return this.isRequired
-  }
 
   ngOnInit(): void {}
 

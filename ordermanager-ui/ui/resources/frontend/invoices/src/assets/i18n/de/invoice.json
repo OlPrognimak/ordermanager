@@ -21,6 +21,7 @@
     "person_recipient": "Empfänger der Rechnung",
     "creation_date": "Erstellungsdatum",
     "invoice_date": "Rechnungsdatum",
+    "pdf_report": "Pdf hochladen",
     "management": {
       "title": "Rechnungsverwaltung",
       "confirm": {

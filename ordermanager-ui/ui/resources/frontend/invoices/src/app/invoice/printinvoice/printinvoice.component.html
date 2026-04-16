@@ -12,12 +12,14 @@
   <div style="margin-top: 20pt; width: 100%; height: 85%">
     <ag-grid-angular
       #agGrid
+      [columnDefs]="columnDefs"
       (cellValueChanged)="cellChanged($event)"
       (gridReady)="onGridReady($event)"
       (rowValueChanged)="onRowValueChanged($event)"
       [animateRows]="true"
       [gridOptions]="gridOptions"
       [rowData]="invoicesFormModel"
+      [rowHeight]="30"
       class="ag-theme-balham"
       pagination
       rowSelection="multiple"

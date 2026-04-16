@@ -21,6 +21,7 @@
     "person_recipient": "Invoice recipient person",
     "creation_date": "Creation date",
     "invoice_date": "Invoice date",
+    "pdf_report": "Pdf load",
     "management": {
       "title": "Invoice management",
       "confirm": {

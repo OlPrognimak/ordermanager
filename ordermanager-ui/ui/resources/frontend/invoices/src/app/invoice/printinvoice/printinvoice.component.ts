@@ -1,34 +1,4 @@
-/*
- * Copyright (c) 2020, Oleksandr Prognimak. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *
- *   - The name of Oleksandr Prognimak
- *     may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { InvoiceFormModel } from '../../domain/domain.invoiceformmodel';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -40,53 +10,90 @@ import { MessagesPrinter } from "../../common-services/common-services.app.http.
 import { DateperiodFinderComponent } from "../../common-components/dateperiod-finder/dateperiod-finder.component";
 import { isAuthenticated, numberCellRenderer } from "../../common-services/common-services-util.service";
 import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
+import { TranslocoService } from "@jsverse/transloco";
+import { Subject, takeUntil } from "rxjs";
 
-/**
- * The component which contains table with invoices for printing in PDF format
- */
 @Component({
   selector: 'app-printinvoice',
   templateUrl: './printinvoice.component.html',
   styleUrls: ['./printinvoice.component.css'],
   providers: [MessagesPrinter, AppSecurityService, HttpClient, CommonServicesPipesNumber]
 })
-export class PrintinvoiceComponent implements OnInit {
-
-  // nvoicesFormModel: any;
+export class PrintinvoiceComponent implements OnInit, OnDestroy {
   invoicesFormModel: InvoiceFormModel[];
   frameworkComponents;
-  @ViewChild('agGrid', {static: false}) agGrid: AgGridAngular;
-  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+  @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
+  @ViewChild('dataFinder', { static: false }) dataFinder: DateperiodFinderComponent;
+
   basicAuthKey = 'basicAuthKey';
-  gridOptions: any;
+  gridOptions: GridOptions;
   processRuns: boolean;
   protected readonly isAuthenticated = isAuthenticated;
-  //backendUrl: string;
+
   private gridApi;
   private gridColumnApi;
-  private readonly columnDefs: any;
+  columnDefs: any[] = [];
+  private readonly destroy$ = new Subject<void>();
 
-  constructor(public securityService: AppSecurityService) {
-    this.gridOptions = ({
+  constructor(
+    public securityService: AppSecurityService,
+    private translocoService: TranslocoService
+  ) {
+    this.gridOptions = {
       context: {
         componentParent: this
       }
-    } as GridOptions);
+    };
+  }
 
+  ngOnInit(): void {
+    this.frameworkComponents = {
+      tableCellRenderer: TableCellRendererComponent
+    };
+
+    this.buildColumns();
+
+    this.translocoService.langChanges$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.buildColumns();
+
+        if (this.gridApi) {
+          this.gridApi.setColumnDefs(this.columnDefs);
+          this.gridApi.refreshHeader();
+          this.gridApi.refreshCells({ force: true });
+          this.gridApi.sizeColumnsToFit();
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private buildColumns(): void {
     this.columnDefs = [
       {
-        headerName: 'Pdf report',
+        colId: 'pdfReport',
+        headerName:this.translocoService.translate('invoice.pdf_report'),
         flex: 2,
         resizable: true,
         field: 'invoiceNumber',
         cellRenderer: TableCellRendererComponent
       },
       {
-        headerName: 'Invoice Number', resizable: true, field: 'invoiceNumber',
-        sortable: true, filter: true, editable: true
+        colId: 'invoiceNumber',
+        headerName:this.translocoService.translate('invoice.number'),
+        resizable: true,
+        field: 'invoiceNumber',
+        sortable: true,
+        filter: true,
+        editable: true
       },
       {
-        headerName: 'Description',
+        colId: 'invoiceDescription',
+        headerName:this.translocoService.translate('invoice.description'),
         resizable: true,
         field: 'invoiceDescription',
         sortable: true,
@@ -94,7 +101,8 @@ export class PrintinvoiceComponent implements OnInit {
         editable: true
       },
       {
-        headerName: 'Invoice creator',
+        colId: 'supplierFullName',
+        headerName: this.translocoService.translate('invoice.person_creator'),
         resizable: true,
         field: 'supplierFullName',
         sortable: true,
@@ -102,24 +110,45 @@ export class PrintinvoiceComponent implements OnInit {
         editable: true
       },
       {
-        headerName: 'Invoice recipient',
+        colId: 'recipientFullName',
+        headerName: this.translocoService.translate('invoice.person_recipient'),
         resizable: true,
         field: 'recipientFullName',
         sortable: true,
         filter: true,
         editable: true
       },
-      {headerName: 'Rate type', field: 'rateType', sortable: true, filter: true, editable: true},
       {
-        headerName: 'Creation date', resizable: true, field: 'creationDate',
-        cellRenderer: this.creationDateCell, sortable: true, filter: true, editable: true
+        colId: 'rateType',
+        headerName: this.translocoService.translate('invoice.rate_type'),
+        field: 'rateType',
+        sortable: true,
+        filter: true,
+        editable: true
       },
       {
-        headerName: 'Invoice date', resizable: true, field: 'invoiceDate',
-        cellRenderer: this.invoiceDateCell, sortable: true, filter: true, editable: true
+        colId: 'creationDate',
+        headerName: this.translocoService.translate('invoice.creation_date'),
+        resizable: true,
+        field: 'creationDate',
+        cellRenderer: this.creationDateCell,
+        sortable: true,
+        filter: true,
+        editable: true
       },
       {
-        headerName: 'Netto price',
+        colId: 'invoiceDate',
+        headerName: this.translocoService.translate('invoice.invoice_date'),
+        resizable: true,
+        field: 'invoiceDate',
+        cellRenderer: this.invoiceDateCell,
+        sortable: true,
+        filter: true,
+        editable: true
+      },
+      {
+        colId: 'totalSumNetto',
+        headerName: this.translocoService.translate('invoice.total_netto'),
         cellRenderer: numberCellRenderer,
         resizable: true,
         field: 'totalSumNetto',
@@ -128,7 +157,8 @@ export class PrintinvoiceComponent implements OnInit {
         editable: true
       },
       {
-        headerName: 'Brutto price',
+        colId: 'totalSumBrutto',
+        headerName: this.translocoService.translate('invoice.total_brutto'),
         cellRenderer: numberCellRenderer,
         resizable: true,
         field: 'totalSumBrutto',
@@ -137,59 +167,25 @@ export class PrintinvoiceComponent implements OnInit {
         editable: true
       }
     ];
-    this.gridOptions.columnDefs = this.columnDefs;
   }
 
-  /**
-   * the column definition for table
-   */
-  creationDateCell: any = (params) => {
-    return moment(params.data.creationDate).format('MM.DD.yyyy')
+  creationDateCell = (params) => {
+    return moment(params.data.creationDate).format('MM.DD.yyyy');
   };
 
-  invoiceDateCell: any = (params) => {
-    return moment(params.data.invoiceDate).format('MM.yyyy')
+  invoiceDateCell = (params) => {
+    return moment(params.data.invoiceDate).format('MM.yyyy');
   };
 
-  checkType = function getClassName(obj: any): string {
-    if (obj && obj.constructor) {
-      return obj.constructor.name;
-    } else {
-      return "Unknown";
-    }
-  }
-
-  /**
-   *
-   * @param isRun
-   */
-  public isProcessRunned(isRun: boolean): void {
-    this.processRuns = isRun;
-  }
-
-  ngOnInit(): void {
-    //this.backendUrl = environment.baseUrl;
-    this.frameworkComponents = {
-      tableCellRenderer: TableCellRendererComponent
-    };
-  }
-
-  /**
-   * Load Invoice from server and set to table model for printing of invoices
-   */
-  loadInvoices() {
-    this.dataFinder.loadData()
-  }
-
-  /**
-   * sets to components the api objects from
-   * @param params the event from grid
-   */
-  onGridReady(params): any {
+  onGridReady(params): void {
     this.gridApi = params.api;
-    this.gridColumnApi = params.gridColumnApi;
+    this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
     this.loadInvoices();
+  }
+
+  loadInvoices() {
+    this.dataFinder.loadData();
   }
 
   onRowValueChanged(event: any): any {
@@ -200,7 +196,8 @@ export class PrintinvoiceComponent implements OnInit {
     console.log('cellChanged: ' + event);
   }
 
+
   setDataModel(model: InvoiceFormModel[]) {
-    this.invoicesFormModel = model
+    this.invoicesFormModel = model;
   }
 }
