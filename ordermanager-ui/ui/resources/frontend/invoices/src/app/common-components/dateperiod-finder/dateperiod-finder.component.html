@@ -1,10 +1,10 @@
-<div class="p-shadow-4" style="height: 100%">
+<div class="p-shadow-4 u-h-100">
   <p-toast></p-toast>
   <form #finderPeriodForm="ngForm" (submit)="loadData()">
     <div *ngIf="service.processRuns" class="overlayProcess childElementCenter">
       <mat-progress-spinner *ngIf="service.processRuns" mode="indeterminate"></mat-progress-spinner>
     </div>
-    <h3 style="margin-left: 5pt">{{ 'common.datePeriod.title' | transloco }}</h3>
+    <h3 class="dateperiod-title-offset">{{ 'common.datePeriod.title' | transloco }}</h3>
     <div class="p-grid">
 
       <div class="p-col-3 justifyPanel">

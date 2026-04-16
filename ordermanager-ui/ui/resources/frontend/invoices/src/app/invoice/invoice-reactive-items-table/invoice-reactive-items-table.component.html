@@ -5,18 +5,18 @@
              editMode="row" sortMode="multiple" styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 40%">Item description</th>
-          <th style="width: 10%">Amount</th>
-          <th style="width: 10%">Price</th>
-          <th style="width: 10%">Vat%</th>
-          <th style="width: 10%">Sum netto</th>
-          <th style="width: 10%">Sum brutto</th>
-          <th style="width: 10%">Delete</th>
+          <th class="u-w-40">Item description</th>
+          <th class="u-w-10">Amount</th>
+          <th class="u-w-10">Price</th>
+          <th class="u-w-10">Vat%</th>
+          <th class="u-w-10">Sum netto</th>
+          <th class="u-w-10">Sum brutto</th>
+          <th class="u-w-10">Delete</th>
         </tr>
       </ng-template>
       <ng-template let-invoiceitem pTemplate="body">
         <tr>
-          <td pEditableColumn style="width: 40%">
+          <td pEditableColumn class="u-w-40">
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <p-dropdown #itemsRef (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
@@ -30,7 +30,7 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td pEditableColumn style="width: 10%">
+          <td pEditableColumn class="u-w-10">
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.amountItems"
@@ -48,7 +48,7 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td pEditableColumn style="width: 10%">
+          <td pEditableColumn class="u-w-10">
             <!--            <app-editable-input-cell-->
             <!--              [rowModel]="invoiceitem"-->
             <!--              (changeItemEvent)="inputBoxChanged(invoiceitem, $event)"-->
@@ -71,7 +71,7 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td pEditableColumn style="width: 10%">
+          <td pEditableColumn class="u-w-10">
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <!--
@@ -93,13 +93,13 @@
               </ng-template>
             </p-cellEditor>
           </td>
-          <td class="right-aligned-input" style="width: 10%">
+          <td class="right-aligned-input u-w-10">
             {{invoiceitem.sumNetto | standardFloat}}
           </td>
-          <td class="right-aligned-input" style="width: 10%">
+          <td class="right-aligned-input u-w-10">
             {{invoiceitem.sumBrutto | standardFloat}}
           </td>
-          <td style="width: 10%">
+          <td class="u-w-10">
             <button (click)="showDeleteItemDialog(invoiceitem.id, invoiceitem.idxItem)"
                     class="p-button-rounded p-button-warning" icon="pi pi-trash" pButton
                     pRipple></button>
@@ -109,19 +109,19 @@
     </p-table>
   </div>
 
-  <div class="p-col-12" style="display: block">
+  <div class="p-col-12 reactive-block">
     <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" class="p-button-secondary save-button-style"
               label="{{'invoice.add_item' | transloco}}"></p-button>
   </div>
 
 </div>
 
-<div class="p-shadow-4 shadow-panel-color" style="margin-top: 10pt">
+<div class="p-shadow-4 shadow-panel-color u-mt-10pt">
   <div class="p-grid p-col-12">
     <div class="p-col-9"></div>
     <div class="p-col-3">
-      <div style="display: block; padding-left: 10%">
-        <label style="max-width: 50%; text-align: right">Total netto (Euro): </label>
+      <div class="reactive-block-pad-left-10">
+        <label class="reactive-total-label-right">Total netto (Euro): </label>
         <input (ngModelChange)="setTotalNettoSum($event)" [ngModel]="getTotalNettoSum  | standardFloat"
                class="right-aligned-totals input-label-like p-field" id="id-tottalNettoSun"
                name="tottalNettoSum" placeholder="0.00"
@@ -133,8 +133,8 @@
   <div class="p-grid p-col-12">
     <div class="p-col-9"></div>
     <div class="p-col-3">
-      <div style="display: block">
-        <label style="max-width: 50%; padding-left: 10%">Total brutto (Euro): </label>
+      <div class="reactive-block">
+        <label class="reactive-total-label-pad-left">Total brutto (Euro): </label>
         <input (ngModelChange)="setTottalBruttoSum($event)" [ngModel]="getTotalBruttoSum | standardFloat"
                class="right-aligned-totals input-label-like p-field" id="id-tottalBruttoSun"
                name="tottalBruttoSum" placeholder="0.00"

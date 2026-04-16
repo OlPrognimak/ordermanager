@@ -1,5 +1,5 @@
 @if (isAuthenticated()) {
-<div class="p-fluid p-flex-row" style="margin-top: 20pt; width: 100%; height: 100%">
+<div class="p-fluid p-flex-row ag-table-components-wrapper">
   <p-toast></p-toast>
   @if (processRuns) {
   <div class="overlayProcess childElementCenter">
@@ -9,7 +9,7 @@
   <div style="height: 15%">
     <app-dateperiod-finder #dataFinder (responseOutput)="setDataModel($event)" [url]="'invoice/invoicesListPeriod'"/>
   </div>
-  <div style="margin-top: 20pt; width: 100%; height: 85%">
+  <div class="ag-table-wrapper">
     <ag-grid-angular
       #agGrid
       [columnDefs]="columnDefs"
@@ -20,10 +20,10 @@
       [gridOptions]="gridOptions"
       [rowData]="invoicesFormModel"
       [rowHeight]="30"
-      class="ag-theme-balham"
+      class="ag-theme-balham u-h-70"
       pagination
       rowSelection="multiple"
-      style="height: 70%;"></ag-grid-angular>
+     ></ag-grid-angular>
   </div>
 </div>
 }

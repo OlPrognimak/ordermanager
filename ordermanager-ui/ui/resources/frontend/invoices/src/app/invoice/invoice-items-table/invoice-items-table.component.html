@@ -2,7 +2,7 @@
 <form #itemsForm = "ngForm">
 <div class="p-fluid p-grid">
   <div class="p-col-12">
-    <div class="p-grid" style="background-color: white">
+    <div class="p-grid u-bg-white">
       <div class="p-col-12">
         <p-table [autoLayout]="true" [paginator]="true"
                  [resizableColumns]="true"
@@ -14,18 +14,18 @@
                  sortMode="multiple" styleClass="p-datatable-gridlines">
           <ng-template pTemplate="header">
             <tr>
-              <th style="width: 40%">{{'invoice.item.table.short_description' | transloco}}</th>
-              <th style="width: 10%">{{'invoice.item.table.amount' | transloco}}</th>
-              <th style="width: 10%">{{'invoice.item.table.price' | transloco}}</th>
-              <th style="width: 10%">{{'invoice.item.table.vat' | transloco}}</th>
-              <th style="width: 10%">{{'invoice.item.table.sum_netto' | transloco}}</th>
-              <th style="width: 10%">{{'invoice.item.table.sum_brutto' | transloco}}</th>
-              <th style="width: 10%">{{'common.table.manage' | transloco}}</th>
+              <th class="u-w-40">{{'invoice.item.table.short_description' | transloco}}</th>
+              <th class="u-w-10">{{'invoice.item.table.amount' | transloco}}</th>
+              <th class="u-w-10">{{'invoice.item.table.price' | transloco}}</th>
+              <th class="u-w-10">{{'invoice.item.table.vat' | transloco}}</th>
+              <th class="u-w-10">{{'invoice.item.table.sum_netto' | transloco}}</th>
+              <th class="u-w-10">{{'invoice.item.table.sum_brutto' | transloco}}</th>
+              <th class="u-w-10">{{'common.table.manage' | transloco}}</th>
             </tr>
           </ng-template>
           <ng-template let-invoiceitem pTemplate="body">
             <tr>
-              <td pEditableColumn style="width: 40%">
+              <td pEditableColumn class="u-w-40">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <div class = "full-width-display-table">
@@ -48,17 +48,17 @@
                               </p-dropdown>
                            </span>
                         </div>
-                        <div *ngIf="modelRef.value===undefined || modelRef.value=== null" style="display: table-cell; width: 10%;">
-                          <div style="margin-top: 15pt !important;">
+                        <div *ngIf="modelRef.value===undefined || modelRef.value=== null" class="u-table-cell-w-10">
+                          <div class="items-error-icon-offset">
                             <p-message severity="error"></p-message>
                           </div>
                         </div>
-                        <div *ngIf="modelRef?.errors?.['minlength']" style="display: table-cell; width: 10%;">
-                          <div style="margin-top: 15pt !important;">
+                        <div *ngIf="modelRef?.errors?.['minlength']" class="u-table-cell-w-10">
+                          <div class="items-error-icon-offset">
                             <p-message severity="error"></p-message>
                           </div>
                         </div>
-                        <div *ngIf="modelRef?.errors?.['required']" style="display: table-cell; width: 10%;">
+                        <div *ngIf="modelRef?.errors?.['required']" class="u-table-cell-w-10">
                           <p-message severity="error"></p-message>
                         </div>
                       </div>
@@ -69,7 +69,7 @@
                   </ng-template>
                 </p-cellEditor>
               </td>
-              <td pEditableColumn style="width: 10%">
+              <td pEditableColumn class="u-w-10">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)"
@@ -88,7 +88,7 @@
                   </ng-template>
                 </p-cellEditor>
               </td>
-              <td pEditableColumn style="width: 10%">
+              <td pEditableColumn class="u-w-10">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.itemPrice"
@@ -106,7 +106,7 @@
                   </ng-template>
                 </p-cellEditor>
               </td>
-              <td pEditableColumn style="width: 10%">
+              <td pEditableColumn class="u-w-10">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.vat"
@@ -124,13 +124,13 @@
                   </ng-template>
                 </p-cellEditor>
               </td>
-              <td style="width: 10%">
+              <td class="u-w-10">
                 {{invoiceitem.sumNetto | standardFloat}}
               </td>
-              <td style="width: 10%">
+              <td class="u-w-10">
                 {{invoiceitem.sumBrutto | standardFloat}}
               </td>
-              <td style="width: 10%">
+              <td class="u-w-10">
                 <button (click)="deleteItem(invoiceitem.idxItem)" class="p-button-rounded p-button-warning"
                         icon="pi pi-trash" pButton
                         pRipple></button>
@@ -139,20 +139,20 @@
           </ng-template>
         </p-table>
       </div>
-      <div class="p-col-12" style="background-color: white">
-        <div class="add-button-container-size" style="display: block; background-color: white">
+      <div class="p-col-12 u-bg-white">
+        <div class="add-button-container-size items-add-button-wrapper">
           <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" label="{{'invoice.add_item' | transloco}}"
                     styleClass="p-button-secondary"></p-button>
         </div>
       </div>
     </div>
   </div>
-  <div class="p-col-12" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
+  <div class="p-col-12 items-zero-vertical-padding">
     <div class="p-grid">
       <div class="p-col-10"></div>
-      <div class="p-col-2" style="padding-top: 0pt !important; padding-bottom: 0pt !important;">
+      <div class="p-col-2 items-zero-vertical-padding">
 
-        <label for="id-tottalNettoSun" style="margin: 5px">{{'invoice.total_netto' | transloco}}</label>
+        <label for="id-tottalNettoSun" class="items-total-label-margin">{{'invoice.total_netto' | transloco}}</label>
         <input [ngModel]="calculatorService.totalNettoSum()  | standardFloat"
                class="p-field" id="id-tottalNettoSun" name="totalNettoSum" placeholder="0.00"
                readonly
@@ -160,11 +160,11 @@
       </div>
     </div>
   </div>
-  <div class="p-col-12" style="padding-top: 0 !important; padding-bottom: 0 !important;">
+  <div class="p-col-12 items-zero-vertical-padding">
     <div class="p-grid">
-      <div class="p-col-10" style="padding-top: 0 !important; padding-bottom: 0 !important;"></div>
-      <div class="p-col-2" style="padding-top: 0 !important; padding-bottom: 0 !important;">
-        <label for="id-tottalBruttoSun" style="margin: 5px">{{'invoice.total_brutto' | transloco}}</label>
+      <div class="p-col-10 items-zero-vertical-padding"></div>
+      <div class="p-col-2 items-zero-vertical-padding">
+        <label for="id-tottalBruttoSun" class="items-total-label-margin">{{'invoice.total_brutto' | transloco}}</label>
         <input [ngModel]="calculatorService.totalBruttoSum() | standardFloat"
                class="p-cell-editing" id="id-tottalBruttoSun" name="totalBruttoSum"
                placeholder="0.00"
@@ -175,7 +175,6 @@
   </div>
 </div>
 </form>
-
 
 
 

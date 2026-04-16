@@ -1,11 +1,11 @@
-<div *ngIf="isAuthenticated();" class="p-fluid">
-  <div class="p-grid" style="text-align: center">
-    <H2 style="text-align: center">{{'invoice.item.create.title' | transloco}}</H2>
+<div *ngIf="isAuthenticated();" class="p-fluid u-ml-5pt">
+  <div class="p-grid items-form-center-text u-ml-5pt u-mt-10pt">
+    <H2 class="items-form-center-text">{{'invoice.item.create.title' | transloco}}</H2>
   </div>
   <p-toast></p-toast>
   <form #itemCatalogForm="ngForm" (submit)="saveItem($event)">
     <div class="p-grid">
-      <div class="p-col-4" style="margin-top: 10pt">
+      <div class="p-col-4 u-mt-10pt">
         <app-validatable-input-text (componentHasErrorEvent)="setHasNameError($event)"
                                     [(ngModel)]="model.description"
                                     [idComponent]="'id_ItemDesc'"
@@ -16,16 +16,17 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-4" style="margin-top: 10pt">
+      <div class="p-col-4 u-mt-10pt">
        <p-floatlabel class="w-100">
        <input [(ngModel)]="model.shortDescription" id="id-shortDescription" name="shortDescription" pInputText
-              style="width:100%;" type="text"/>
+              class="u-w-100"
+              type="text"/>
        <label for="id-shortDescription">{{'invoice.item.table.short_description' | transloco}}</label>
        </p-floatlabel>
       </div>
 
     </div>
-    <div class="p-grid" style="margin-top: 10pt">
+    <div class="p-grid u-mt-10pt">
       <div class="p-col-2">
         <app-validatable-input-number (componentHasErrorEvent)="setHasPriceError($event)"
                                       [(ngModel)]="model.itemPrice"
@@ -35,7 +36,7 @@
         </app-validatable-input-number>
       </div>
     </div>
-    <div class="p-grid" style="margin-top: 10pt">
+    <div class="p-grid u-mt-10pt">
       <div class="p-col-2">
         <app-validatable-input-number (componentHasErrorEvent)="setHasVatError($event)"
                                       [(ngModel)]="model.vat"
@@ -54,4 +55,3 @@
     </div>
   </form>
 </div>
-

@@ -55,3 +55,33 @@ div.p-grid >div.p-col-6 > h2 {
   align-items: center;
   gap: 0.5rem;
 }
+.edit-person-full-size {
+  height: 100%;
+  width: 100%;
+}
+.edit-person-row-gap { margin-bottom: 10pt; }
+.edit-person-row-gap-left-2 {
+  margin-bottom: 10pt;
+  margin-left: 2px;
+}
+.edit-person-left-6px { margin-left: 6px; }
+.edit-person-padding-left-5px { padding-left: 5px; }
+.edit-person-zero-left-important {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+.edit-person-zero-left { margin-left: 0; }
+.edit-person-padding-left-6px-important { padding-left: 6px !important; }
+.edit-person-mt-5pt { margin-top: 5pt; }
+.edit-person-ml-5pt-mt-5pt {
+  margin-left: 5pt;
+  margin-top: 5pt;
+}
+.edit-person-ml-4pt-mt-12pt {
+  margin-left: 4pt;
+  margin-top: 12pt;
+}
+.edit-person-ml-5pt-mt-12pt {
+  margin-left: 5pt;
+  margin-top: 12pt;
+}

@@ -6,3 +6,7 @@
 :host::ng-deep form > div > div:nth-child(1) > div {
   margin-top: 25pt;
 }
+.edit-item-dialog-title {
+  padding-left: 2vw;
+  color: white;
+}

@@ -6,11 +6,11 @@
   </div>
 
 <div class="p-grid base-top-grid-area">
-<h2 style="margin-left: 10pt">{{'invoice.item.manage.catalog_items' | transloco}}</h2>
+<h2 class="u-ml-10pt">{{'invoice.item.manage.catalog_items' | transloco}}</h2>
 
 <div class="p-col-12 shadow-panel-color p-shadow-4">
 
-<div class="p-grid w-100" style="margin-right: 0pt">
+<div class="p-grid w-100 item-management-zero-right-margin">
 <div class="p-col-4">
 <p-floatlabel class="w-100">
 <input [(ngModel)]="criteria"
@@ -42,30 +42,30 @@
       paginator="true" selectionMode="multiple" sortMode="multiple" styleClass="p-datatable-gridlines">
 <ng-template pTemplate="header">
  <tr>
-   <th style="width: 40%">{{'invoice.item.table.short_description' | transloco}}</th>
-   <th style="width: 10%">Amount</th>
-   <th style="width: 10%">{{'invoice.item.table.price' | transloco}}</th>
-   <th style="width: 10%">{{'invoice.item.table.vat' | transloco}}</th>
-   <th style="width: 10%">Sum netto</th>
-   <th style="width: 10%">Sum brutto</th>
-   <th style="width: 10%">Delete</th>
+   <th class="u-w-40">{{'invoice.item.table.short_description' | transloco}}</th>
+   <th class="u-w-10">Amount</th>
+   <th class="u-w-10">{{'invoice.item.table.price' | transloco}}</th>
+   <th class="u-w-10">{{'invoice.item.table.vat' | transloco}}</th>
+   <th class="u-w-10">Sum netto</th>
+   <th class="u-w-10">Sum brutto</th>
+   <th class="u-w-10">Delete</th>
  </tr>
 </ng-template>
 <ng-template pTemplate="header">
  <tr>
-   <th pSortableColumn="description" style="width: 30%">{{'invoice.item.table.item_name' | transloco}}
+   <th pSortableColumn="description" class="item-management-col-30">{{'invoice.item.table.item_name' | transloco}}
      <p-sortIcon field="invoiceNumber"></p-sortIcon>
    </th>
-   <th pSortableColumn="shortDescription" style="width: 30%">{{'invoice.item.table.short_description' | transloco}}
+   <th pSortableColumn="shortDescription" class="item-management-col-30">{{'invoice.item.table.short_description' | transloco}}
      <p-sortIcon field="supplierFullName"></p-sortIcon>
    </th>
-   <th pSortableColumn="itemPrice" style="width: 25%">{{'invoice.item.table.price' | transloco}}
+   <th pSortableColumn="itemPrice" class="u-w-25">{{'invoice.item.table.price' | transloco}}
      <p-sortIcon field="recipientFullName"></p-sortIcon>
    </th>
-   <th pSortableColumn="vat" style="width: 15%">{{'invoice.item.table.vat' | transloco}}
+   <th pSortableColumn="vat" class="u-w-15">{{'invoice.item.table.vat' | transloco}}
      <p-sortIcon field="invoiceDate"></p-sortIcon>
    </th>
-   <th style="width: 5%">{{'common.table.manage' | transloco}} </th>
+   <th class="u-w-5">{{'common.table.manage' | transloco}} </th>
  </tr>
 </ng-template>
 <ng-template let-catalogitem let-rowIndex="rowIndex" pTemplate="body">
@@ -86,23 +86,23 @@
                 <div class="number-right-align">{{catalogitem.vat | standardFloat}}</div>
               </td>
               <td>
-                <button (click)="rowDoubleClick($event, catalogitem)" class="p-button-rounded p-button-warning"
+                <button (click)="rowDoubleClick($event, catalogitem)" class="p-button-rounded p-button-warning u-ml-2px"
                         pButton
                         pRipple
-                        style="margin-left: 2px;"
+                       
                         title="Edit item">
                   <i class="pi pi-pencil"></i>
                 </button>
                 <button (click)="showDeleteItemDialog(catalogitem.id)"
-                        class="p-button-rounded p-button-warning"
-                        style="margin-left: 2px;"
+                        class="p-button-rounded p-button-warning u-ml-2px"
+                       
                         pButton pRipple
                         title="Delete item">
                           <i class="pi pi-trash"></i>
                 </button>
                 <button (click)="rollbackChanges(catalogitem.id)"
-                        class="p-button-rounded p-button-warning"
-                        style="margin-left: 2px;"
+                        class="p-button-rounded p-button-warning u-ml-2px"
+                       
                         pButton
                         pRipple
                         title="Rollback item">

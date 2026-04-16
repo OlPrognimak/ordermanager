@@ -42,5 +42,13 @@ input[type="text"] {
   justify-content: center;
   min-width: 2.5rem;
 }
-
-
+.items-error-icon-offset { margin-top: 15pt !important; }
+.items-add-button-wrapper {
+  display: block;
+  background-color: white;
+}
+.items-zero-vertical-padding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.items-total-label-margin { margin: 5px; }
