@@ -1,15 +1,15 @@
 @if (isAuthenticated()) {
-<div class="p-fluid p-flex-row printinvoice-root">
+<div class="p-fluid p-flex-row ag-table-components-wrapper">
   <p-toast></p-toast>
   @if (processRuns) {
   <div class="overlayProcess childElementCenter">
     <mat-progress-spinner *ngIf="processRuns" mode="indeterminate"></mat-progress-spinner>
   </div>
   }
-  <div class="u-h-15">
+  <div style="height: 15%">
     <app-dateperiod-finder #dataFinder (responseOutput)="setDataModel($event)" [url]="'invoice/invoicesListPeriod'"/>
   </div>
-  <div class="printinvoice-content">
+  <div class="ag-table-wrapper">
     <ag-grid-angular
       #agGrid
       [columnDefs]="columnDefs"
@@ -20,7 +20,7 @@
       [gridOptions]="gridOptions"
       [rowData]="invoicesFormModel"
       [rowHeight]="30"
-      class="ag-theme-balham printinvoice-grid-height"
+      class="ag-theme-balham u-h-70"
       pagination
       rowSelection="multiple"
      ></ag-grid-angular>
