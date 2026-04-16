@@ -1,5 +1,5 @@
 @if (isAuthenticated()) {
-<div class="p-fluid">
+<div class="p-fluid u-ml-5pt">
   <p-toast></p-toast>
   <div class="p-grid p-col-6">
     <H2>{{'person.form.create_person' | transloco}}</H2>
@@ -133,7 +133,7 @@
           <p-floatlabel class="w-100">
             <input [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode" id="id-add-postBoxCode"
                    name="postBoxCode" pInputText
-                   style="margin-left: 0px !Important"
+                   class="personform-no-left-margin"
                    type="text"/>
             <label for="id-add-postBoxCode">{{'person.form.field.postbox' | transloco}}</label>
           </p-floatlabel>
@@ -245,5 +245,4 @@
   </form>
 </div>
 }
-
 

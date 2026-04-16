@@ -1,15 +1,15 @@
-<div *ngIf="isAuthenticated();" class="p-grid" style="background-color: #f6f9fb;">
-    <div class="p-col-12" style="height: 5%">
+<div *ngIf="isAuthenticated();" class="p-grid workflow-page-bg">
+    <div class="p-col-12 workflow-header-height">
       <h2>Workflow steps</h2>
     </div>
-    <div class="p-col-12" style=" height: 95%">
-      <div class="card flex flex-wrap gap-6" style="height: 100%;">
+    <div class="p-col-12 workflow-content-height">
+      <div class="card flex flex-wrap gap-6 u-h-100">
         <p-timeline [value]="createInvoiceFlowEvents" align="left" class="w-full md:w-20rem">
 
           <ng-template let-flowEvent pTemplate="opposite">
             <p-button (onClick)="setWorkflowStep(flowEvent)" class="p-button-link flow-button-unselected timeline-button-style" >
-              <div [ngStyle]="flowButtonStyle(flowEvent)" class="flow-button-unselected"
-                   style="padding: 8pt 8pt 8pt 8pt;">
+              <div [ngStyle]="flowButtonStyle(flowEvent)" class="flow-button-unselected workflow-panel-padding"
+                  >
                 {{ flowEvent.statusDesc }}
               </div>
             </p-button>
@@ -26,7 +26,7 @@
                   <div class="p-grid">
                     <div class="p-col-12">
                       <div class="p-grid">
-                        <div class="p-col-4" style="margin-top: 10pt">
+                        <div class="p-col-4 u-mt-10pt">
                           <app-validatable-input-text (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
                                                       [(ngModel)]="invoice.invoiceNumber"
                                                       [idComponent]="'id_InvoiceNumber'"
@@ -35,11 +35,12 @@
                                                       [txtMinLength]="5">
                           </app-validatable-input-text>
                         </div>
-                        <div class="p-col-4" style="margin-top: 10pt">
+                        <div class="p-col-4 u-mt-10pt">
              <span class="p-float-label">
                <input [(ngModel)]="invoice.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
                       pInputText
-                      style="width:100%;" type="text"/>
+                      class="u-w-100"
+                      type="text"/>
                <label for="id-invoiceDescription">Invoice description</label>
              </span>
                         </div>
@@ -47,7 +48,7 @@
                     </div>
                     <div class="p-col-12">
                       <div class="p-grid">
-                        <div class="p-col-3" style="margin-top: 15pt">
+                        <div class="p-col-3 u-mt-15pt">
                           <app-validatable-dropdownlist (componentHasError)="setHasInvoiceratesError($event)"
                                                         [(ngModel)]="invoice.rateType"
                                                         [idComponent]="'id-rateType'"
@@ -92,7 +93,7 @@
                 </div>
               }
               @if (flowEvent.level === 2) {
-                <div *ngIf="currentStatus.level > 1" class="p-col-12" style="margin-top: 15pt;">
+                <div *ngIf="currentStatus.level > 1" class="p-col-12 u-mt-15pt">
                   <div [ngStyle]="editStyle(2)" class="p-grid">
                     <div class="p-col-6">
                       <app-validatable-dropdownlist (componentHasError)="setHasCreatorError($event)"
@@ -107,7 +108,7 @@
                                                     [txtMinLength]="-1">
                       </app-validatable-dropdownlist>
                     </div>
-                    <div class="p-col-2" style="max-width: 50%;">
+                    <div class="p-col-2 workflow-max-half">
                       <p-button (onClick)="createInvoiceCreator()" label="{{'person.form.create_person' | transloco}}"></p-button>
                     </div>
                   </div>
@@ -127,7 +128,7 @@
                                                     [txtMinLength]="0">
                       </app-validatable-dropdownlist>
                     </div>
-                    <div class="p-col-2" style="max-width: 50%;">
+                    <div class="p-col-2 workflow-max-half">
                       <p-button (onClick)="createInvoiceRecipient()" label="{{'person.form.create_person' | transloco}}"></p-button>
                     </div>
                   </div>

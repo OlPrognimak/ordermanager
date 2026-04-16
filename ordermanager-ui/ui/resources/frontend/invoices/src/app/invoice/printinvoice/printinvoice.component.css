@@ -44,3 +44,15 @@
   height: 10px;
   width: 11px;
 }
+
+.ag-table-components-wrapper {
+  margin-top: 20pt;
+  width: 100%;
+  height: 100%;
+}
+
+.ag-table-wrapper  {
+  margin-top: 20pt;
+  width: 100%;
+  height: 85%;
+}
