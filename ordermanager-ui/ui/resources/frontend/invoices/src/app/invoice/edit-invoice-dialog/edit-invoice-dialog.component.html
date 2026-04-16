@@ -23,14 +23,14 @@
     </div>
   </ng-template>
 
-  <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG" style="height: 100%;">
+  <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG" class="u-h-100">
     <div>
       <p-toast></p-toast>
     </div>
     <div class="p-fluid">
       <div class="shadow-panel-color p-shadow-4 invoice-edit-panel">
-        <div class="p-grid" style="margin-top: 10pt">
-          <div class="p-col-4" style="margin-top: 25pt">
+        <div class="p-grid u-mt-10pt">
+          <div class="p-col-4 edit-invoice-field-spacer">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceNumber',
                    idComponent: 'id_InvoiceNumber',
@@ -38,7 +38,7 @@
                   }">
             </ng-container>
           </div>
-          <div class="p-col-4" style="margin-top: 25pt">
+          <div class="p-col-4 edit-invoice-field-spacer">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceDescription',
                    idComponent: 'id-invoiceDescription',

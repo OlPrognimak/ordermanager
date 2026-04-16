@@ -27,10 +27,10 @@
     </div>
   </ng-template>
 
-  <div *ngIf="isAuthenticated();" class="p-flu" style="height: 100%; width: 100%;">
+  <div *ngIf="isAuthenticated();" class="p-flu edit-person-full-size">
     <form [formGroup]="editPersonFG">
       <div class="shadow-panel-color p-shadow-4 person-edit-panel margin-top-20">
-        <div class="p-grid" style="margin-left: 2px;">
+        <div class="p-grid u-ml-2px">
           <div class="p-col-6 margin-top-20 margin-bottom-20">
 
             <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
@@ -43,8 +43,8 @@
             </ng-container>
           </div>
         </div>
-        <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid" style="margin-bottom: 10pt;">
-          <div class="p-col-3" style="margin-left: 6px">
+        <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid edit-person-row-gap">
+          <div class="p-col-3 edit-person-left-6px">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personFirstName',
                    idComponent: 'id_firstName',
@@ -62,7 +62,7 @@
           </div>
         </div>
 
-        <div *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid" style="margin-bottom: 10pt;  margin-left: 2px">
+        <div *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid edit-person-row-gap-left-2">
           <div class="p-col-3">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'companyName',
@@ -72,8 +72,8 @@
             </ng-container>
           </div>
         </div>
-        <div class="p-grid" style="margin-bottom: 10pt;  margin-left: 2px">
-          <div class="p-col-3" style="padding-left: 5px">
+        <div class="p-grid edit-person-row-gap-left-2">
+          <div class="p-col-3 edit-person-padding-left-5px">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'email',
                    idComponent: 'id_email',
@@ -83,8 +83,8 @@
           </div>
         </div>
         <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'"
-             class="p-grid" style="margin-left: 0px !important; padding-left: 0px !important;">
-          <div class="p-col-2" style="padding-left: 5px">
+             class="p-grid edit-person-zero-left-important">
+          <div class="p-col-2 edit-person-padding-left-5px">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'taxNumber',
                    idComponent: 'id_taxNumber',
@@ -99,11 +99,11 @@
       <!--  ADDRESS FORM  -->
       <div formGroupName="personAddressFormModel" class="margin-top-20">
         <div class=" shadow-panel-color p-shadow-4 person-edit-panel">
-          <div class="p-grid p-col-6" style="margin-left: 5pt">
+          <div class="p-grid p-col-6 u-ml-5pt">
             <H2>{{'person.form.person_address' | transloco}}</H2>
           </div>
           <div class="p-grid">
-            <div class="p-col-2" style="margin-left: 5pt">
+            <div class="p-col-2 u-ml-5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.zipCode',
                    idComponent: 'id_zipCode',
@@ -111,7 +111,7 @@
                   }">
               </ng-container>
             </div>
-            <div class="p-col-3" style="margin-left: 5pt">
+            <div class="p-col-3 u-ml-5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.city',
                    idComponent: 'id_city',
@@ -120,9 +120,9 @@
               </ng-container>
             </div>
           </div>
-          <div class="p-grid" style="margin-left: 0px">
-            <div class="p-col-2 margin-bottom-20" style="padding-left: 6px !important;">
-              <div style="margin-top: 15pt">
+          <div class="p-grid edit-person-zero-left">
+            <div class="p-col-2 margin-bottom-20 edit-person-padding-left-6px-important">
+              <div class="u-mt-15pt">
                 <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.postBoxCode',
                    idComponent: 'id_postBoxCode',
@@ -131,8 +131,8 @@
                 </ng-container>
               </div>
             </div>
-            <div class="p-col-3 margin-bottom-20" style="margin-left: 5pt">
-              <div style="margin-top: 15pt">
+            <div class="p-col-3 margin-bottom-20 u-ml-5pt">
+              <div class="u-mt-15pt">
                 <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personAddressFormModel.street',
                    idComponent: 'id_street',
@@ -151,12 +151,12 @@
       <div formGroupName="bankAccountFormModel" class="margin-top-20">
         <div class="shadow-panel-color p-shadow-4 person-edit-panel">
           <div class="p-grid">
-            <div class="p-col-6" style="margin-left: 5pt">
+            <div class="p-col-6 u-ml-5pt">
               <H2>{{'person.form.person_bank' | transloco}}</H2>
             </div>
           </div>
           <div class="p-grid">
-            <div class="p-col-4" style="margin-top: 5pt; margin-left: 5pt">
+            <div class="p-col-4 edit-person-ml-5pt-mt-5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'bankAccountFormModel.bankName',
                    idComponent: 'id_BankName',
@@ -165,7 +165,7 @@
               </ng-container>
             </div>
 
-            <div class="p-col-2" style="margin-top: 5pt;">
+            <div class="p-col-2 edit-person-mt-5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.accountNumber',
                      idComponent: 'id_AccountNumber',
@@ -176,7 +176,7 @@
           </div>
 
           <div class="p-grid">
-            <div class="p-col-4 margin-bottom-20" style="margin-left: 4pt; margin-top: 12pt">
+            <div class="p-col-4 margin-bottom-20 edit-person-ml-4pt-mt-12pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.iban',
                      idComponent: 'id_iban',
@@ -184,7 +184,7 @@
                   }">
               </ng-container>
             </div>
-            <div class="p-col-2 margin-bottom-20" style="margin-left: 5pt; margin-top: 12pt">
+            <div class="p-col-2 margin-bottom-20 edit-person-ml-5pt-mt-12pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.bicSwift',
                      idComponent: 'id-acc-bicSwift',

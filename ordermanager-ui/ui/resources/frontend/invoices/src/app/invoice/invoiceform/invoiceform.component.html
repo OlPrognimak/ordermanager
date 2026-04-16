@@ -7,7 +7,7 @@
     </div>
 
     <div class="p-grid">
-      <div class="p-col-4" style="margin-top: 10pt">
+      <div class="p-col-4 u-mt-10pt">
         <app-validatable-input-text (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
                                     [(ngModel)]="invoiceFormData.invoiceNumber"
                                     [idComponent]="'id_InvoiceNumber'"
@@ -16,18 +16,19 @@
                                     [txtMinLength]="5">
         </app-validatable-input-text>
       </div>
-      <div class="p-col-4" style="margin-top: 10pt">
+      <div class="p-col-4 u-mt-10pt">
        <p-floatlabel class="w-100">
          <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
                 pInputText
-                style="width:100%;" type="text"/>
+                class="u-w-100"
+                type="text"/>
          <label for="id-invoiceDescription">{{'invoice.description' | transloco}}</label>
        </p-floatlabel>
       </div>
 
     </div>
     <div class="p-grid">
-      <div class="p-col-3" style="margin-top: 15pt">
+      <div class="p-col-3 u-mt-15pt">
         <app-validatable-dropdownlist (componentHasError)="setHasInvoiceratesError($event)"
                                       [(ngModel)]="invoiceFormData.rateType"
                                       [idComponent]="'id-rateType'"
@@ -39,7 +40,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-3" style="margin-top: 15pt">
+      <div class="p-col-3 u-mt-15pt">
 
         <app-validatable-calendar (componentHasError)="setHasCreationDateError($event)"
                                   [(ngModel)]="invoiceFormData.creationDate"
@@ -52,7 +53,7 @@
         </app-validatable-calendar>
       </div>
 
-      <div class="p-col-3" style="margin-top: 15pt">
+      <div class="p-col-3 u-mt-15pt">
         <app-validatable-calendar (componentHasError)="setHasInvoiceDateError($event)"
                                   [(ngModel)]="invoiceFormData.invoiceDate"
                                   [dateFormat]="'dd.mm.yy'"
@@ -66,7 +67,7 @@
     </div>
 
     <div class="p-grid">
-      <div class="p-col-6" style="margin-top: 15pt;">
+      <div class="p-col-6 u-mt-15pt">
         <app-validatable-dropdownlist (componentHasError)="setHasCreatorError($event)"
                                       [(ngModel)]="invoiceFormData.personSupplierId"
                                       [idComponent]="'id-invoiceCreator'"
@@ -80,7 +81,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="p-col-6" style="margin-top: 15pt;">
+      <div class="p-col-6 u-mt-15pt">
         <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
                                       [(ngModel)]="invoiceFormData.personRecipientId"
                                       [idComponent]="'id-invoiceRecipient'"
@@ -113,7 +114,6 @@
     </div>
   </div>
 </form>
-
 
 
 

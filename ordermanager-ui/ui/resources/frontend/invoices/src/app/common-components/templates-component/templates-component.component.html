@@ -9,7 +9,7 @@
                            type="text"/>
                   <label for="{{idComponent}}">{{labelText}}</label>
                </p-floatlabel>
-<!--      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">-->
+<!--      <div *ngIf="getControl(controlPath)?.invalid" class="u-table-cell-w-10">-->
 <!--        <p-message severity = "error"></p-message>-->
 <!--      </div>-->
       @if (getControl(controlPath)?.invalid && (getControl(controlPath)?.dirty || getControl(controlPath)?.touched)) {
@@ -40,7 +40,7 @@
           <p-message severity="error" icon="pi pi-times-circle"></p-message>
         </div>
       }
-<!--      <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">-->
+<!--      <div *ngIf="getControl(controlPath)?.invalid" class="u-table-cell-w-10">-->
 <!--        <p-message severity="error" icon="pi pi-times-circle"></p-message>-->
 <!--      </div>-->
     </div>

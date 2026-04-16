@@ -489,3 +489,26 @@ small.validation-text {
 p-calendar span.p-inputwrapper-filled input[role="combobox"] {
   background-color: transparent !important;
 }
+
+/* Inline-style refactor utility classes */
+.u-w-5 { width: 5%; }
+.u-w-10 { width: 10%; }
+.u-w-15 { width: 15%; }
+.u-w-25 { width: 25%; }
+.u-w-40 { width: 40%; }
+.u-w-100 { width: 100%; }
+.u-h-15 { height: 15%; }
+.u-h-100 { height: 100%; }
+.u-mt-5pt { margin-top: 5pt; }
+.u-mt-10pt { margin-top: 10pt; }
+.u-mt-15pt { margin-top: 15pt; }
+.u-ml-2px { margin-left: 2px; }
+.u-ml-5pt { margin-left: 5pt; }
+.u-ml-10pt { margin-left: 10pt; }
+.u-mr-20pt { margin-right: 20pt; }
+.u-text-center { text-align: center; }
+.u-bg-white { background-color: white; }
+.u-table-cell-w-10 {
+  display: table-cell;
+  width: 10%;
+}

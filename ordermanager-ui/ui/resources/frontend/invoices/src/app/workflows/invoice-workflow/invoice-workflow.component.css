@@ -129,3 +129,8 @@ form[workflowFrm] {
   box-sizing: border-box;
   color: #6b7280;
 }
+.workflow-page-bg { background-color: #f6f9fb; }
+.workflow-header-height { height: 5%; }
+.workflow-content-height { height: 95%; }
+.workflow-panel-padding { padding: 8pt; }
+.workflow-max-half { max-width: 50%; }
