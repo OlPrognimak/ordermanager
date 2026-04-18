@@ -46,6 +46,10 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
     };
   }
 
+  public isProcessRunned(isRun: boolean): void {
+    this.processRuns = isRun;
+  }
+
   ngOnInit(): void {
     this.frameworkComponents = {
       tableCellRenderer: TableCellRendererComponent
