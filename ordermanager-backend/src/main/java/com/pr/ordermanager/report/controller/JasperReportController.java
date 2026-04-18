@@ -118,7 +118,7 @@ public class JasperReportController {
                                               @RequestBody() PdfRequest pdfRequest, Principal principal) {
         logger.info("Request Body: "+pdfRequest.getInvoiceNumber());
         logger.debug("invoiceNumber: " + pdfRequest.getInvoiceNumber());
-        byte[] report = jasperReportService.createPdfReport(pdfRequest.getInvoiceNumber(), principal.getName());
+        byte[] report = jasperReportService.createPdfReport(pdfRequest.getInvoiceNumber(), principal.getName(), pdfRequest.getLanguage());
         logger.debug("Report size: " + report.length);
        return ResponseEntity.status(OK)
                 .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=invoice_" + pdfRequest.getInvoiceNumber() + ".pdf")

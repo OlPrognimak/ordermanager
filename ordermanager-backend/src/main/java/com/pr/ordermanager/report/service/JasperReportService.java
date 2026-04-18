@@ -92,7 +92,7 @@ public class JasperReportService {
         ClassPathResource classPathSubreportResource = new ClassPathResource("/invoice-data.jrxml") ;
 
         try (InputStream invoiceReportStream = classPathResource.getInputStream();
-             InputStream subreportReportStream = classPathSubreportResource.getInputStream();
+             InputStream subreportReportStream = classPathSubreportResource.getInputStream()
         ){
 
             jasperReport= JasperCompileManager.compileReport(invoiceReportStream);
@@ -110,9 +110,10 @@ public class JasperReportService {
      *
      * @param invoiceNumber tne number of invoice
      * @param userName the name of connected user
+     * @param language of report
      * @return the pdf report as array of bytes
      */
-    public byte[] createPdfReport(String invoiceNumber, String userName)  {
+    public byte[] createPdfReport(String invoiceNumber, String userName, String language)  {
 
         Invoice invoice = invoiceRepository
                 .findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);

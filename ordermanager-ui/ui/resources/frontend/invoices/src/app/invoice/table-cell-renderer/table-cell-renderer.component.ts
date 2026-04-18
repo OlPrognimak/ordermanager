@@ -6,6 +6,7 @@ import { MessagesPrinter } from "../../common-services/common-services.app.http.
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { remoteBackendUrl } from "../../common-auth/app-security.service";
+import {TranslocoService} from "@jsverse/transloco";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -24,7 +25,7 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
   private basicAuthKey = 'basicAuthKey';
   private msgObservable: Observable<MessagesPrinter>;
 
-  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter) {
+  constructor(private httpClient: HttpClient, private messagePrinter: MessagesPrinter, private translocoService: TranslocoService,) {
     this.msgObservable = of(this.messagePrinter);
   }
 
@@ -76,7 +77,11 @@ export class TableCellRendererComponent implements OnInit, ICellRendererAngularC
       responseType: 'blob' as 'json'
     };
 
-    const blobObserver = this.httpClient.post<Blob>(remoteBackendUrl() + 'invoice/printreport', {invoiceNumber: this.cellVale}, options)
+    const requestObject = {invoiceNumber: this.cellVale,
+                    language: this.translocoService.activeLang()
+    }
+
+    const blobObserver = this.httpClient.post<Blob>(remoteBackendUrl() + 'invoice/printreport', requestObject, options)
       .pipe(
         map(
           (response: Blob) => {
