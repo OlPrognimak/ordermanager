@@ -47,7 +47,7 @@
 			<variableExpression><![CDATA[$V{TOTAL_BRUTTO_SUM}-$V{TOTAL_NETTO_SUM}]]></variableExpression>
 		</variable>
 		<variable name="MEASURE_ITEM" class="java.lang.String">
-			<variableExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stunden":(($P{rateType}).equals("DAILY")?"Tages":"Menge")]]></variableExpression>
+			<variableExpression><![CDATA[($P{rateType}).equals("HOURLY")?$R{unit.hours}:(($P{rateType}).equals("DAILY")?$R{unit.days}:$R{unit.quantity})]]></variableExpression>
 		</variable>
 		<group name="Group1">
 			<groupExpression><![CDATA[$F{invoiceId}]]></groupExpression>
@@ -86,7 +86,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Beschreibung]]></text>
+								<text><![CDATA[$R{item.description}]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -110,7 +110,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="10" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stundensatz (Euro)":(($P{rateType}).equals("DAILY")?"Tagessatz (Euro)":"Preis")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?$R{rate.hourly}:(($P{rateType}).equals("DAILY")?$R{rate.daily}:$R{rate.price})]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -133,7 +133,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="10" isBold="true"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?"Stunde":(($P{rateType}).equals("DAILY")?"Tages":"")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($P{rateType}).equals("HOURLY")?$R{unit.hour}:(($P{rateType}).equals("DAILY")?$R{unit.day}:$R{unit.quantity})]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -156,7 +156,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="SansSerif" size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Netto Sum]]></text>
+								<text><![CDATA[$R{sum.net}]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -179,7 +179,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[MvSt.%]]></text>
+								<text><![CDATA[$R{vat.percent}]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -202,7 +202,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="10" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Brutto Sum]]></text>
+								<text><![CDATA[$R{sum.gross}]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
@@ -240,7 +240,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
-				<text><![CDATA[Rechnungsbetrag netto :]]></text>
+				<text><![CDATA[$R{invoice.amount.net}]]></text>
 			</staticText>
 			<textField pattern="#0.00">
 				<reportElement x="505" y="21" width="50" height="18" uuid="98e09660-349e-4a7f-a616-6d9e9e45018a">
@@ -258,7 +258,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
-				<text><![CDATA[Mehrwertsteuer :]]></text>
+				<text><![CDATA[$R{invoice.vat}]]></text>
 			</staticText>
 			<textField pattern="#0.00">
 				<reportElement x="505" y="41" width="50" height="21" uuid="2434919a-0886-44fb-8809-e6243bd1af7f">
@@ -280,7 +280,7 @@
 				<textElement textAlignment="Right">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Rechnungsbetrag :]]></text>
+				<text><![CDATA[$R{invoice.amount.total}]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="5" y="80" width="551" height="20" uuid="b4aa9ff2-d6b6-4f43-be1e-bd93772c3dce">
@@ -289,7 +289,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Bitte den Betrag in Höhe von " + $V{totalBruttoSum} + " Euro auf mein Konto überweisen."]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.text.MessageFormat($R{payment.request}, $P{REPORT_LOCALE}).format(new Object[]{$V{totalBruttoSum}})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="556" y="1" width="15" height="18" uuid="325e8961-d9a5-42c9-85f0-6c5f3f986663">
