@@ -39,13 +39,13 @@
 	</title>
 	<pageHeader>
 		<band height="207" splitType="Stretch">
-			<staticText>
+			<textField>
 				<reportElement x="160" y="-30" width="127" height="26" uuid="637a0830-b516-4bca-8724-05e866208cb1"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[$R{invoice.title}]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{invoice.title}]]></textFieldExpression>
+			</textField>
 			<textField>
 				<reportElement key="" x="51" y="30" width="210" height="25" uuid="1531119b-8e3b-4470-82c4-b28a5c502fbd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -147,12 +147,12 @@
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{recipientCity}]]></textFieldExpression>
 			</textField>
-			<staticText>
+			<textField>
 				<reportElement x="0" y="171" width="40" height="14" uuid="48b1c005-98ed-4b9d-8ad1-b09f85c962da">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{project.label}]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{project.label}]]></textFieldExpression>
+			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="49" y="171" width="334" height="14" uuid="8b84e958-3fc6-4820-b9f0-3252ef723e24">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -162,7 +162,7 @@
 			<line>
 				<reportElement x="1" y="103" width="519" height="1" uuid="8e62d3e5-771e-4ce1-bf3e-816f4a4789f0"/>
 			</line>
-			<staticText>
+			<textField>
 				<reportElement x="0" y="106" width="49" height="20" uuid="9ec480a6-777e-401b-a748-cd9b2829d132">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -173,53 +173,53 @@
 					<font size="12"/>
 					<paragraph rightIndent="2"/>
 				</textElement>
-				<text><![CDATA[$R{name.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{name.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="0" y="130" width="40" height="14" uuid="3948376e-3643-40c1-85d0-19bd14241512">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{street.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{street.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="0" y="150" width="40" height="14" uuid="5c32d00f-85a6-4007-8ffe-4e95c9a24b8d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{zip.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{zip.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="98" y="150" width="20" height="14" uuid="24d09957-be27-4033-8e86-78102f0a8b15">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{city.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{city.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="104" y="80" width="20" height="14" uuid="ae980231-70a8-4cb5-92a7-f4467dd283d9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{city.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{city.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="0" y="80" width="40" height="14" uuid="28f58eec-f1cc-44ab-be3e-05cdc3a332b5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{zip.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{zip.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="0" y="60" width="50" height="14" uuid="6d3d9af1-0683-40ce-9611-124205eb3cd8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<text><![CDATA[$R{street.label}]]></text>
-			</staticText>
-			<staticText>
+				<textFieldExpression><![CDATA[$R{street.label}]]></textFieldExpression>
+			</textField>
+			<textField>
 				<reportElement x="0" y="30" width="51" height="20" uuid="96e641e3-de36-498c-b481-52d147069df2">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -230,8 +230,8 @@
 					<font size="12"/>
 					<paragraph rightIndent="2"/>
 				</textElement>
-				<text><![CDATA[$R{name.label}]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{name.label}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -264,13 +264,13 @@
 	</detail>
 	<summary>
 		<band height="188" splitType="Stretch">
-			<staticText>
+			<textField>
 				<reportElement x="1" y="74" width="139" height="30" uuid="1716e357-e044-4485-bf5b-3efaf7cc6aab"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[$R{bank.details}]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{bank.details}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="0" y="100" width="81" height="21" uuid="a7a5c622-62e8-4d47-8c2b-1558f032a6a6"/>
 				<textElement>
@@ -285,7 +285,7 @@
 				</textElement>
 				<text><![CDATA[BIC/SWIFT:]]></text>
 			</staticText>
-			<staticText>
+			<textField>
 				<reportElement x="350" y="71" width="122" height="30" uuid="41d4f5bd-7868-4753-8011-3404ac8034b1">
 					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
 				</reportElement>
@@ -295,8 +295,8 @@
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[$R{tax.number}]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$R{tax.number}]]></textFieldExpression>
+			</textField>
 			<textField>
 				<reportElement x="0" y="142" width="220" height="21" uuid="36994d9b-ab9a-4232-965c-60d7ad9bc37f"/>
 				<textElement>
