@@ -58,6 +58,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_10001;
 import static com.pr.ordermanager.exception.ErrorCode.CODE_10002;
@@ -76,11 +77,10 @@ public class JasperReportService {
     @Value("${jasper.reports.directory.path:reports}")
     private String jasperRepDirPath;
 
-    @Value("${app.ordermanager.report.counry}")
-    private String reportLanguage;
-
-    @Value("${app.ordermanager.report.language}")
-    private String reportCountry;
+    private static final Locale FALLBACK_LOCALE = Locale.ENGLISH;
+    private static final String INVOICE_BUNDLE_BASE_NAME = "i18n.invoice";
+    private static final Pattern LOCALE_TAG_PATTERN =
+            Pattern.compile("^[a-zA-Z]{2,3}([_-][a-zA-Z]{2})?$");
 
     private JasperReport jasperReport;
 
@@ -92,7 +92,7 @@ public class JasperReportService {
         ClassPathResource classPathSubreportResource = new ClassPathResource("/invoice-data.jrxml") ;
 
         try (InputStream invoiceReportStream = classPathResource.getInputStream();
-             InputStream subreportReportStream = classPathSubreportResource.getInputStream();
+             InputStream subreportReportStream = classPathSubreportResource.getInputStream()
         ){
 
             jasperReport= JasperCompileManager.compileReport(invoiceReportStream);
@@ -110,9 +110,10 @@ public class JasperReportService {
      *
      * @param invoiceNumber tne number of invoice
      * @param userName the name of connected user
+     * @param language of report
      * @return the pdf report as array of bytes
      */
-    public byte[] createPdfReport(String invoiceNumber, String userName)  {
+    public byte[] createPdfReport(String invoiceNumber, String userName, String language)  {
 
         Invoice invoice = invoiceRepository
                 .findInvoiceByInvoiceUserUsernameAndInvoiceNumber(userName, invoiceNumber);
@@ -120,10 +121,14 @@ public class JasperReportService {
         List<InvoiceReportModel> reportModelDataList = Collections.singletonList(reportModel);
         JRBeanCollectionDataSource reportDataSource = new JRBeanCollectionDataSource(reportModelDataList);
 
+        Locale reportLocale = resolveReportLocale(language);
+        ResourceBundle reportBundle = resolveReportBundle(reportLocale);
+
 
         System.out.println("Path to dir:" + jasperRepDirPath);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(JRParameter.REPORT_LOCALE, new Locale(reportLanguage, reportCountry));
+        parameters.put(JRParameter.REPORT_LOCALE, reportLocale);
+        parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, reportBundle);
         parameters.put("invoiceNumber", invoiceNumber);
         parameters.put("reportsDirPath", jasperRepDirPath);
         parameters.put("itemsDs", createSubreportParameter(reportModel.getItems()));
@@ -174,6 +179,29 @@ public class JasperReportService {
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(items);
         params.put("invoiceItemsDataSet", dataSource);
         return params;
+    }
+
+    private Locale resolveReportLocale(String language) {
+        if (language == null || language.isBlank()) {
+            return FALLBACK_LOCALE;
+        }
+
+        String normalizedLanguageTag = language.trim().replace('_', '-');
+        if (!LOCALE_TAG_PATTERN.matcher(normalizedLanguageTag).matches()) {
+            return FALLBACK_LOCALE;
+        }
+
+        Locale locale = Locale.forLanguageTag(normalizedLanguageTag);
+        return locale.getLanguage().isBlank() ? FALLBACK_LOCALE : locale;
+    }
+
+    private ResourceBundle resolveReportBundle(Locale locale) {
+        try {
+            return ResourceBundle.getBundle(INVOICE_BUNDLE_BASE_NAME, locale);
+        } catch (MissingResourceException ex) {
+            logger.warn("Resource bundle for locale {} was not found. Fallback to English.", locale, ex);
+            return ResourceBundle.getBundle(INVOICE_BUNDLE_BASE_NAME, FALLBACK_LOCALE);
+        }
     }
 
     /**
