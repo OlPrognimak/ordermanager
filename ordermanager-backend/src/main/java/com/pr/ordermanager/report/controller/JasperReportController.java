@@ -65,7 +65,7 @@ import static org.springframework.http.HttpStatus.OK;
 @OpenAPIDefinition(
         info = @Info(
                 title = "This controller contains the end points for generation of invoices in PDF format and  using" +
-                        "jasper report for that",
+                        " jasper report for that",
                 contact = @Contact(url = "", name = "Oleksandr Prognimak", email = "ol.prognimak@gmail.com")
         )
 )

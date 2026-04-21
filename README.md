@@ -125,7 +125,6 @@ Maven module ```ordermanager-backend```.
     * JPARepository UserRepository  
     * Rest Controller  InvoiceUserController
 - OpenAPI/Sagger-UI URLs
-  * OpenAPI documentation in JSON format: http://localhost:8083/backend/v3/api-docs/
   * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
   * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
  

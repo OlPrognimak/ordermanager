@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version>
+		<version>3.5.7</version>
 		<relativePath/>
 	</parent>
 
@@ -41,7 +41,8 @@
 		<jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 		<java.jwt.version>4.4.0</java.jwt.version>
 		<cucumber.version>7.14.0</cucumber.version>
-		<spring-cloud.version>2023.0.1</spring-cloud.version>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<openapi.ui>2.8.17</openapi.ui>
 	</properties>
 
 
@@ -54,6 +55,11 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${openapi.ui}</version>
 			</dependency>
 			<!-- Jackson-->
 			<dependency>
@@ -129,12 +135,6 @@
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
-			</dependency>
-			<!-- Swagger -->
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-ui</artifactId>
-				<version>${springdoc.openapi.version}</version>
 			</dependency>
 			<!--	JWT		-->
 			<dependency>
