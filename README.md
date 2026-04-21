@@ -73,7 +73,7 @@ Maven module ```ordermanager-backend```.
  - The database can be different and depend on the configuration. Currently, uses Postges 10.x
 
 ## Backend frameworks
-- SpringBoot-3 
+- SpringBoot-3.5 
 - Lombok https://projectlombok.org/features/all. The useful frameworks which simplifying the development process of pojos like  entity and rest
   service model beans.
 - OpenAPI/Swagger-UI
@@ -132,13 +132,14 @@ Maven module ```ordermanager-backend```.
 The frontend application has implemented with using springboot framework as a runner of web application and
 UI-Framework Angular of version 18.
 ## Frontend frameworks and libraries
-- Angular 16
+- Angular 18
 - PrimeNG https://www.primefaces.org/primeng/
 - Ag-Grid https://www.ag-grid.com/
 - moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
+- transloco i18n localisation https://github.com/jsverse/transloco
 ## Project structure
 - maven module **ordermanager-ui**. Contains springboot microservice for running generated web application. 
-The pom.xml contains an  plugins for compilation and building angular application and packaging produced content to the war/jar file.
+The pom.xml contains an  plugins for compilation and building angular application and‚ packaging produced content to the war/jar file.
 - **ordermanager-ui** contains a folder **ui** with angular project. 
 
 ## Frontend components
@@ -175,7 +176,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
 | 5.9  | ./validatable-input-text       | The component which uses by another components. This input text shows error in case if length less as defined. Also this component user flowing labels.                                                                            |
 | 6    | app/common-services            | Contains common resources like utility classes, pipes, services.                                                                                                                                                                   |
 | 7    | app/workflow                   | Contains workflow components.                                                                                                                                                                                                      | 
-| 7.1  | ./invoice-workflow             | The workflow for creation of invoice.                                                                                                                                                                                              |
+| 7.1  | ./invoice-workflow             | The workflow for creation of invoice step by step.                                                                                                                                                                                 |
 ## Frontend features and useful tips
 - ```Signals```
 Example of usage the signal you can find in the service class ```InvoiceItemsTableCalculatorService```
