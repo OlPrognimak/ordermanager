@@ -27,6 +27,10 @@ docker build -t prognimak.ordermanager/frontend:002 %BASEDIR%/frontend
 REM create eureka image
 docker build -t prognimak.ordermanager/discovery:002  %BASEDIR%/discovery
 
+REM creates frontend image on basis of NodeJs server
+docker build -t prognimak.ordermanager/node-frontend:002 %BASEDIR%/node_frontend
+
+
 REM create postgres image. It is commented first because
 REM docker build -t prognimak.ordermanager/postgres:14  %BASEDIR%/db
 

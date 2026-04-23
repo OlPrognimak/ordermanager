@@ -15,6 +15,8 @@ docker build -t prognimak.ordermanager/backend:001 ./backend
 docker build -t prognimak.ordermanager/frontend:002 ./frontend
 # creates eureke image
 docker build -t prognimak.ordermanager/discovery:002 ./discovery
+# creates frontend image on basis of NodeJs server
+docker build -t prognimak.ordermanager/node-frontend:002 ./node_frontend
 
 # creates postgres image
 #docker build -t prognimak.ordermanager/postgres:14 ./db

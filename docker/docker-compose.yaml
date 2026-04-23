@@ -47,7 +47,7 @@ services:
     - 8083:8083
     volumes:
       - vol-ordermanager:/data/ordermanager-backend
-##### UI
+##### UI with SpringBoot server
   ordermanager-ui:
     depends_on:
     - postgres
@@ -61,9 +61,23 @@ services:
       - 8082:8082
     volumes:
       - vol-ordermanager-ui:/data/ordermanager-ui
-
+##### UI with NodeJS server
+  ordermanager-node_ui:
+    depends_on:
+      - postgres
+      - discovery
+      - ordermanager
+    hostname: ordermanager-node_ui
+    image: prognimak.ordermanager/node-frontend:002
+    networks:
+      nw_prognimak: null
+    ports:
+      - 8085:8085
+    volumes:
+      - vol-ordermanager-node_ui:/data/ordermanager-node_ui
  #### Volumes
 volumes:
   vol-postgres2: {}
   vol-ordermanager: {}
   vol-ordermanager-ui: {}
+  vol-ordermanager-node_ui: {}

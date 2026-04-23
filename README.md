@@ -31,7 +31,9 @@ The user manual for the application is located in the project path ```ordermanag
   - Java: 
       Currently default version of java for compile and target is 21
   - Docker Images:
-     - JDK openjdk:21-jdk
+     - JDK eclipse-temurin:21-jdk
+     - node:20-alpine for node-frontend image
+
 If you want to use another java then you need to change java versions in both pom.xm (backend and frontend modules) and
 in docker files need also change the version of JDK image.
 
@@ -52,11 +54,19 @@ and
 ````/ordermanager/docker/frontend````
 
       
-# Deploy to docker
+# Create images and deploy to docker
  - please go to folder ./docker and follow with description in README_DOCKER.md) file
+## Variant 1: manual
  - 1\. create backend image with correspondent version
  - 2\. create frontend image with correspondent version  
  - 3\. run docker-compose (see ./docker/README_DOCKER.md)
+## Variant 2: with Maven profile
+ - go to the maven module `odermanager-parent` than build the project with profiles
+ - first select profile `build-angular`
+ - select profile `with-docker-linux` or `with-docker-windows`
+The full script: ```mvn clean install -Pbuild-angular -Pwith-docker-linux```
+
+
 # Short description
 The project is primarily created to gather useful features for both the frontend 
 and backend components based on a real application. The user manual for the application is located in the project path ```ordermanager/doc```. 
