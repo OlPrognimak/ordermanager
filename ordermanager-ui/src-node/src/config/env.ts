@@ -25,9 +25,9 @@ export const loadEnv = (): AppEnv => {
   const backendBaseUrl = process.env.APP_BACKEND_URL ?? microserviceUrl ?? DEFAULT_BACKEND_URL;
 
   return {
-    port: Number(process.env.PORT ?? 8082),
+    port: Number(process.env.PORT ?? 8085),
     contextPath: normalizeContextPath(process.env.CONTEXT_PATH),
     backendBaseUrl,
-    staticDir: process.env.STATIC_DIR ?? path.resolve(__dirname, '../../public')
+    staticDir: process.env.STATIC_DIR ?? path.resolve(__dirname, '../../public/static')
   };
 };
