@@ -31,7 +31,9 @@ The user manual for the application is located in the project path ```ordermanag
   - Java: 
       Currently default version of java for compile and target is 21
   - Docker Images:
-     - JDK openjdk:21-jdk
+     - JDK eclipse-temurin:21-jdk
+     - node:20-alpine for node-frontend image
+
 If you want to use another java then you need to change java versions in both pom.xm (backend and frontend modules) and
 in docker files need also change the version of JDK image.
 
@@ -52,11 +54,19 @@ and
 ````/ordermanager/docker/frontend````
 
       
-# Deploy to docker
+# Create images and deploy to docker
  - please go to folder ./docker and follow with description in README_DOCKER.md) file
+## Variant 1: manual
  - 1\. create backend image with correspondent version
  - 2\. create frontend image with correspondent version  
  - 3\. run docker-compose (see ./docker/README_DOCKER.md)
+## Variant 2: with Maven profile
+ - go to the maven module `odermanager-parent` than build the project with profiles
+ - first select profile `build-angular`
+ - select profile `with-docker-linux` or `with-docker-windows`
+The full script: ```mvn clean install -Pbuild-angular -Pwith-docker-linux```
+
+
 # Short description
 The project is primarily created to gather useful features for both the frontend 
 and backend components based on a real application. The user manual for the application is located in the project path ```ordermanager/doc```. 
@@ -73,7 +83,7 @@ Maven module ```ordermanager-backend```.
  - The database can be different and depend on the configuration. Currently, uses Postges 10.x
 
 ## Backend frameworks
-- SpringBoot-3 
+- SpringBoot-3.5 
 - Lombok https://projectlombok.org/features/all. The useful frameworks which simplifying the development process of pojos like  entity and rest
   service model beans.
 - OpenAPI/Swagger-UI
@@ -125,7 +135,6 @@ Maven module ```ordermanager-backend```.
     * JPARepository UserRepository  
     * Rest Controller  InvoiceUserController
 - OpenAPI/Sagger-UI URLs
-  * OpenAPI documentation in JSON format: http://localhost:8083/backend/v3/api-docs/
   * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
   * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
  
@@ -133,13 +142,14 @@ Maven module ```ordermanager-backend```.
 The frontend application has implemented with using springboot framework as a runner of web application and
 UI-Framework Angular of version 18.
 ## Frontend frameworks and libraries
-- Angular 16
+- Angular 18
 - PrimeNG https://www.primefaces.org/primeng/
 - Ag-Grid https://www.ag-grid.com/
 - moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
+- transloco i18n localisation https://github.com/jsverse/transloco
 ## Project structure
 - maven module **ordermanager-ui**. Contains springboot microservice for running generated web application. 
-The pom.xml contains an  plugins for compilation and building angular application and packaging produced content to the war/jar file.
+The pom.xml contains an  plugins for compilation and building angular application and‚ packaging produced content to the war/jar file.
 - **ordermanager-ui** contains a folder **ui** with angular project. 
 
 ## Frontend components
@@ -176,7 +186,7 @@ The pom.xml contains an  plugins for compilation and building angular applicatio
 | 5.9  | ./validatable-input-text       | The component which uses by another components. This input text shows error in case if length less as defined. Also this component user flowing labels.                                                                            |
 | 6    | app/common-services            | Contains common resources like utility classes, pipes, services.                                                                                                                                                                   |
 | 7    | app/workflow                   | Contains workflow components.                                                                                                                                                                                                      | 
-| 7.1  | ./invoice-workflow             | The workflow for creation of invoice.                                                                                                                                                                                              |
+| 7.1  | ./invoice-workflow             | The workflow for creation of invoice step by step.                                                                                                                                                                                 |
 ## Frontend features and useful tips
 - ```Signals```
 Example of usage the signal you can find in the service class ```InvoiceItemsTableCalculatorService```

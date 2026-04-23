@@ -60,6 +60,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -96,6 +101,20 @@
         <configuration>
           <filesets>
             <fileset>
+              <directory>${basedir}/src-node/dist</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+            <fileset>
+              <directory>${basedir}/src-node/public</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+            <fileset>
               <directory>${basedir}/src/main/resources/static</directory>
               <includes>
                 <include>**/*</include>
@@ -131,6 +150,7 @@
             </goals>
             <configuration>
               <target>
+                <delete dir="../docker/node_frontend/src-node" failonerror="false"/>
                 <delete>
                   <fileset dir="../docker/frontend" includes="*.jar"/>
                 </delete>
@@ -194,6 +214,7 @@
             <groupId>org.codehaus.mojo</groupId>
             <version>3.3.0</version>
             <executions>
+
               <execution>
                 <id>angular-cli build</id>
                 <phase>validate</phase>
@@ -211,6 +232,21 @@
                     <argument>--base-href=/${app.baseurl}/</argument>
                   </arguments>
                   <workingDirectory>ui/resources/frontend/invoices</workingDirectory>
+                </configuration>
+              </execution>
+              <execution>
+                <id>npm-build</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>build</argument>
+                  </arguments>
+                  <workingDirectory>src-node</workingDirectory>
                 </configuration>
               </execution>
             </executions>
@@ -232,6 +268,44 @@
                       <directory>${basedir}/ui/resources/frontend/invoices/dist</directory>
                       <excludes>
                         <exclude>/node_modules/**</exclude>
+                      </excludes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-node-dir</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${basedir}/src-node/public</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${basedir}/ui/resources/frontend/invoices/dist</directory>
+                      <excludes>
+                        <exclude>/node_modules/**</exclude>
+                      </excludes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-node-dir-to-docker</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>../docker/node_frontend/src-node</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${basedir}/src-node</directory>
+                      <excludes>
+                        <exclude>/node_modules/**</exclude>
+                        <exclude>/src/**</exclude>
+                        <exclude>/test/**</exclude>
                       </excludes>
                     </resource>
                   </resources>
