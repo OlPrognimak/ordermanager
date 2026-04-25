@@ -25,8 +25,7 @@ export class ReportService {
       'startxref',
       '0',
       '%%EOF',
-    ].join('
-');
+    ].join('');
 
     return Buffer.from(content, 'utf8');
   }

@@ -5,7 +5,7 @@ import { RateType } from './rate-type.enum';
 import { InvoiceItemEntity } from './invoice-item.entity';
 
 @Entity({ name: 'invoice' })
-export class InvoiceEntity {
+export class InvoiceEntity  {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id!: number;
 
