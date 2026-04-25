@@ -8,6 +8,7 @@ import { InvoiceItemEntity } from '../entities/invoice-item.entity';
 import { ItemCatalogEntity } from '../entities/item-catalog.entity';
 import { InvoiceFormModelDto, ItemCatalogModelDto } from '../dto/invoice.dto';
 import { ItemCatalogRepository } from '../repositories/item-catalog.repository';
+import { InvoiceUserEntity } from '../../security/entities/invoice-user.entity';
 
 @Injectable()
 export class InvoiceMappingService {
@@ -16,25 +17,25 @@ export class InvoiceMappingService {
     private readonly itemCatalogRepository: ItemCatalogRepository,
   ) {}
 
-  async mapInvoiceModelToEntity(dto: InvoiceFormModelDto): Promise<InvoiceEntity> {
+  async mapInvoiceModelToEntity(dto: InvoiceFormModelDto, invoiceUser: InvoiceUserEntity): Promise<InvoiceEntity> {
     const supplier = await this.personRepository.findById(dto.personSupplierId);
     const recipient = await this.personRepository.findById(dto.personRecipientId);
     if (!supplier || !recipient) {
       throw new OrderManagerException(ErrorCode.CODE_0003, 'Supplier or recipient person is not found');
     }
 
-    const invoice = {
-      invoiceSupplierPerson: supplier,
-      invoiceRecipientPerson: recipient,
-      invoiceDate: new Date(dto.invoiceDate),
-      invoiceNumber: dto.invoiceNumber,
-      invoiceDescription: dto.invoiceDescription,
-      creationDate: new Date(dto.creationDate),
-      rateType: dto.rateType as RateType,
-      totalSumBrutto: dto.totalSumBrutto,
-      totalSumNetto: dto.totalSumNetto,
-      invoiceItems: [],
-    } as InvoiceEntity;
+    const invoice = new InvoiceEntity();
+    invoice.invoiceSupplierPerson = supplier;
+    invoice.invoiceRecipientPerson = recipient;
+    invoice.invoiceUser = invoiceUser;
+    invoice.invoiceDate = new Date(dto.invoiceDate);
+    invoice.invoiceNumber = dto.invoiceNumber;
+    invoice.invoiceDescription = dto.invoiceDescription;
+    invoice.creationDate = new Date(dto.creationDate);
+    invoice.rateType = dto.rateType as RateType;
+    invoice.totalSumBrutto = dto.totalSumBrutto;
+    invoice.totalSumNetto = dto.totalSumNetto;
+    invoice.invoiceItems = [];
 
     for (const item of dto.invoiceItems) {
       const catalog = await this.itemCatalogRepository.findById(item.catalogItemId!);
@@ -77,14 +78,14 @@ export class InvoiceMappingService {
   }
 
   private mapInvoiceItem(item: any, invoice: InvoiceEntity, itemCatalog: ItemCatalogEntity): InvoiceItemEntity {
-    return {
-      amountItems: item.amountItems,
-      itemCatalog,
-      invoice,
-      itemPrice: itemCatalog.itemPrice,
-      vat: itemCatalog.vat,
-      sumNetto: item.sumNetto,
-      sumBrutto: item.sumBrutto,
-    } as InvoiceItemEntity;
+    const invoiceItem = new InvoiceItemEntity();
+    invoiceItem.amountItems = item.amountItems;
+    invoiceItem.itemCatalog = itemCatalog;
+    invoiceItem.invoice = invoice;
+    invoiceItem.itemPrice = itemCatalog.itemPrice;
+    invoiceItem.vat = itemCatalog.vat;
+    invoiceItem.sumNetto = item.sumNetto;
+    invoiceItem.sumBrutto = item.sumBrutto;
+    return invoiceItem;
   }
 }

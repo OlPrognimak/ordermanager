@@ -37,10 +37,9 @@ export class InvoiceService {
   }
 
   async saveInvoice(dto: InvoiceFormModelDto, userName: string): Promise<number> {
-    const invoice = await this.invoiceMappingService.mapInvoiceModelToEntity(dto);
     const user = await this.userRepository.findByUsername(userName);
     if (!user) throw new OrderManagerException(ErrorCode.CODE_0007, 'Can not find user');
-    invoice.invoiceUser = user;
+    const invoice = await this.invoiceMappingService.mapInvoiceModelToEntity(dto, user);
     const saved = await this.invoiceRepository.save(invoice);
     return saved.id;
   }
