@@ -7,10 +7,12 @@ export class JwtTokenService {
   constructor(private readonly jwtService: JwtService) {}
 
   signToken(user: InvoiceUserEntity): string {
+    const authorities = (user.authorities ?? []).map((authority) => authority.authority);
     return this.jwtService.sign({
       sub: user.id,
-      iss: user.username,
-      role: (user.authorities ?? []).map((r) => r.authority).join(','),
+      userId: user.id,
+      username: user.username,
+      authorities,
     });
   }
 
