@@ -15,6 +15,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: false }));
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.setGlobalPrefix('backend');
   await app.listen(process.env.PORT ?? 8080);
 }
 
