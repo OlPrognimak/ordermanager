@@ -11,10 +11,12 @@ import { InvoiceMapper } from './mappers/invoice.mapper';
 import { InvoiceController } from './controllers/invoice.controller';
 import { PersonModule } from '../person/person.module';
 import { SecurityModule } from '../security/security.module';
+import {InvoiceUserEntity} from "../security/entities/invoice-user.entity";
+import {UserRepository} from "../security/repositories/user.repository";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InvoiceEntity, InvoiceItemEntity, ItemCatalogEntity]), PersonModule, SecurityModule],
-  providers: [InvoiceRepository, ItemCatalogRepository, InvoiceService, InvoiceMappingService, InvoiceMapper],
+  imports: [TypeOrmModule.forFeature([InvoiceEntity, InvoiceUserEntity, InvoiceItemEntity, ItemCatalogEntity, InvoiceEntity]), PersonModule, SecurityModule],
+  providers: [InvoiceRepository, ItemCatalogRepository, UserRepository, InvoiceService, InvoiceMappingService, InvoiceMapper],
   controllers: [InvoiceController],
   exports: [InvoiceService, InvoiceRepository],
 })
