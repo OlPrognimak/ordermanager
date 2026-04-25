@@ -1,6 +1,5 @@
-import { IsEmail, IsString, IsNotEmpty, IsNotNull } from 'class-validator';
+import { IsDefined, IsEmail, IsNotEmptyObject, IsOptional, IsString } from 'class-validator';
 import { PersonType } from '../entities/person-type.enum';
-import { IsNotEmptyObject, IsOptional, IsString } from 'class-validator';
 
 export class PersonAddressFormModelDto {
   id?: number;
@@ -23,7 +22,7 @@ export class PersonFormModelDto {
   personLastName?: string;
   personFirstName?: string;
   companyName?: string;
-  @IsNotNull() personType!: PersonType;
+  @IsDefined() personType!: PersonType;
   taxNumber?: string;
   @IsEmail() email!: string;
   @IsNotEmptyObject() personAddressFormModel!: PersonAddressFormModelDto;

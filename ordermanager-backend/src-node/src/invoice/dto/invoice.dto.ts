@@ -1,7 +1,7 @@
-import { IsArray, IsNotEmpty, IsNotNull, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsDefined, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class InvoiceItemModelDto {
-  @IsNotNull() id!: number;
+  @IsDefined() id!: number;
   catalogItemId?: number;
   description?: string;
   @IsNumber() @IsPositive() amountItems!: number;
@@ -23,14 +23,14 @@ export class InvoiceFormModelDto {
   id?: number;
   @IsString() @IsNotEmpty() invoiceNumber!: string;
   invoiceDescription?: string;
-  @IsNotNull() personSupplierId!: number;
-  @IsNotNull() personRecipientId!: number;
+  @IsDefined() personSupplierId!: number;
+  @IsDefined() personRecipientId!: number;
   supplierFullName?: string;
   recipientFullName?: string;
   totalSumNetto?: number;
   totalSumBrutto?: number;
-  @IsNotNull() creationDate!: string;
-  @IsNotNull() invoiceDate!: string;
+  @IsDefined() creationDate!: string;
+  @IsDefined() invoiceDate!: string;
   @IsString() @IsNotEmpty() rateType!: string;
   @IsArray() invoiceItems!: InvoiceItemModelDto[];
 }
