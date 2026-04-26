@@ -3,9 +3,12 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 type JwtPayload = {
-  sub: number;
-  iss: string;
-  role: string;
+  sub?: number;
+  userId?: number;
+  username?: string;
+  iss?: string;
+  authorities?: string[];
+  role?: string;
 };
 
 @Injectable()
@@ -19,11 +22,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
+    const authorities = payload.authorities ?? (payload.role ? payload.role.split(',') : []);
     return {
-      userId: payload.sub,
-      username: payload.iss,
-      roles: payload.role ? payload.role.split(',') : [],
-      permissions: [],
+      userId: payload.userId ?? payload.sub,
+      username: payload.username ?? payload.iss,
+      authorities,
     };
   }
 }

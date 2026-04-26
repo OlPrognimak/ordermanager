@@ -5,7 +5,14 @@ import { HttpExceptionFilter } from './exception/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: process.env.CORS_ORIGIN ?? '*', credentials: true });
+
+  app.setGlobalPrefix('backend');
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN ?? '*',
+    credentials: true,
+    allowedHeaders: ['Login-Credentials', 'Authorization', 'Content-Type'],
+  });
+
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: false }));
   app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix('backend');
