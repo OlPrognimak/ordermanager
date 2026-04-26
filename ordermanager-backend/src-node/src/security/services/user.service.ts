@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { ErrorCode } from '../../exception/error-code.enum';
 import { OrderManagerException } from '../../exception/order-manager.exception';
@@ -8,6 +8,8 @@ import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
+
   constructor(
     private readonly userRepository: UserRepository,
     private readonly roleRepository: RoleRepository,
@@ -22,8 +24,14 @@ export class UserService {
   }
 
   async validatePassword(username: string, password: string): Promise<InvoiceUserEntity | null> {
-    const user = await this.getUserOrException(username);
+    const user = await this.userRepository.findByUsername(username);
+    this.logger.debug(`Login user found for "${username}": ${Boolean(user)}`);
+    if (!user) {
+      return null;
+    }
+
     const valid = await bcrypt.compare(password, user.password);
+    this.logger.debug(`bcrypt password comparison succeeded for "${username}": ${valid}`);
     return valid ? user : null;
   }
 
