@@ -7,11 +7,11 @@ export class InvoiceItemEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id!: number;
 
-  @Column('double precision') amountItems!: number;
-  @Column('double precision') itemPrice!: number;
+  @Column('double precision', { name: 'amount_items' }) amountItems!: number;
+  @Column('double precision', { name: 'item_price' }) itemPrice!: number;
   @Column('int') vat!: number;
-  @Column('double precision') sumNetto!: number;
-  @Column('double precision') sumBrutto!: number;
+  @Column('double precision', { name: 'sum_netto' }) sumNetto!: number;
+  @Column('double precision', { name: 'sum_brutto' }) sumBrutto!: number;
 
   @ManyToOne(() => ItemCatalogEntity, { eager: true })
   @JoinColumn({ name: 'item_catalog_id' })

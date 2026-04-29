@@ -6,7 +6,7 @@ export class ItemCatalogEntity {
   id!: number;
 
   @Column() description!: string;
-  @Column({ nullable: true }) shortDescription?: string;
-  @Column('double precision') itemPrice!: number;
+  @Column({ name: 'short_description', nullable: true }) shortDescription?: string;
+  @Column('double precision', {name: 'item_price'}) itemPrice!: number;
   @Column('int') vat!: number;
 }

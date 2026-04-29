@@ -10,34 +10,38 @@ const empty = (v?: string | null) => v ?? '';
 @Injectable()
 export class InvoiceMapper {
   mapInvoiceEntityToFormModel(source: InvoiceEntity): InvoiceFormModelDto {
-    return {
-      id: source.id,
-      invoiceNumber: source.invoiceNumber,
-      invoiceDescription: source.invoiceDescription,
-      personRecipientId: source.invoiceRecipientPerson.id,
-      personSupplierId: source.invoiceSupplierPerson.id,
-      recipientFullName: `${empty(source.invoiceRecipientPerson.personFirstName)} ${empty(source.invoiceRecipientPerson.personLastName)} ${empty(source.invoiceRecipientPerson.companyName)}`.trim(),
-      supplierFullName: `${empty(source.invoiceSupplierPerson.personFirstName)} ${empty(source.invoiceSupplierPerson.personLastName)} ${empty(source.invoiceSupplierPerson.companyName)}`.trim(),
-      totalSumNetto: source.totalSumNetto,
-      totalSumBrutto: source.totalSumBrutto,
-      creationDate: source.creationDate.toISOString(),
-      invoiceDate: source.invoiceDate.toISOString(),
-      rateType: source.rateType,
-      invoiceItems: (source.invoiceItems ?? []).map((it) => this.mapEntityToModelInvoiceItem(it)),
-    };
+
+    const dto: InvoiceFormModelDto = new InvoiceFormModelDto();
+    dto.id = source.id;
+    dto.invoiceNumber = source.invoiceNumber;
+    dto.invoiceDescription = source.invoiceDescription;
+    dto.personSupplierId = source.invoiceRecipientPerson?.id??null
+    dto.personSupplierId = source.invoiceRecipientPerson?.id??null
+    dto.recipientFullName = empty(source?.invoiceRecipientPerson?.personFirstName??'').concat(empty(source.invoiceRecipientPerson?.personLastName??'')).concat(empty(source.invoiceRecipientPerson?.companyName??'')).trim()
+    dto.supplierFullName = empty(source?.invoiceSupplierPerson?.personFirstName??'').concat(empty(source?.invoiceSupplierPerson?.personLastName??'')).concat(empty(source.invoiceSupplierPerson?.companyName??'')).trim()
+    dto.totalSumNetto = source.totalSumNetto
+    dto.totalSumNetto = source.totalSumNetto
+    dto.totalSumBrutto = source.totalSumBrutto
+    dto.creationDate = new Date(source.creationDate).toISOString()
+    dto.invoiceDate = new Date(source.invoiceDate).toISOString()
+    dto.rateType = source.rateType
+    dto.invoiceItems = (source.invoiceItems ?? []).map((it) => this.mapEntityToModelInvoiceItem(it))
+
+    return dto;
   }
 
   mapEntityToModelInvoiceItem(source: InvoiceItemEntity): InvoiceItemModelDto {
-    return {
-      id: source.id,
-      catalogItemId: source.itemCatalog?.id,
-      description: source.itemCatalog?.description,
-      amountItems: source.amountItems,
-      itemPrice: source.itemPrice,
-      vat: source.vat,
-      sumNetto: source.sumNetto,
-      sumBrutto: source.sumBrutto,
-    };
+    const dto: InvoiceItemModelDto = new InvoiceItemModelDto()
+    dto.id = source.id
+    dto.catalogItemId = source.itemCatalog?.id
+    dto.description = source.itemCatalog?.description
+    dto.amountItems = source.amountItems
+    dto.itemPrice = source.itemPrice
+    dto.vat = source.vat
+    dto.sumNetto = source.sumNetto
+    dto.sumBrutto = source.sumBrutto
+
+    return dto;
   }
 
   mapEntityToItemCatalogModel(itemCatalog: ItemCatalogEntity): ItemCatalogModelDto {

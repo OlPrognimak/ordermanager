@@ -19,10 +19,10 @@ export class PersonEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id!: number;
 
-  @Column({ nullable: true }) personLastName?: string;
-  @Column({ nullable: true }) personFirstName?: string;
-  @Column({ nullable: true }) companyName?: string;
-  @Column({ nullable: true }) taxNumber?: string;
+  @Column({ name: 'person_Last_Name', nullable: true }) personLastName?: string;
+  @Column({ name: 'person_First_Name', nullable: true }) personFirstName?: string;
+  @Column({ name: 'company_Name', nullable: true }) companyName?: string;
+  @Column({ name: 'tax_Number', nullable: true }) taxNumber?: string;
   @Column({ unique: true }) email!: string;
 
   @Column({ type: 'enum', enum: PersonType })
