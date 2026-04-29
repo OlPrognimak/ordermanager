@@ -21,9 +21,13 @@ export class UserService {
     return user;
   }
 
-  async validatePassword(username: string, password: string): Promise<InvoiceUserEntity | null> {
-    const user = await this.getUserOrException(username);
-    const valid = await bcrypt.compare(password, user.password);
+  async validatePassword(username: string, plainPassword: string): Promise<InvoiceUserEntity | null> {
+    const user = await this.userRepository.findByUsername(username);
+    if (!user) {
+      return null;
+    }
+
+    const valid = await bcrypt.compare(plainPassword, user.password);
     return valid ? user : null;
   }
 

@@ -8,5 +8,5 @@ export class PersonAddressEntity {
   @Column() city!: string;
   @Column() street!: string;
   @Column() zipCode!: string;
-  @Column({ nullable: true }) postBoxCode?: string;
+  @Column({ name: 'post_Box_Code', nullable: true }) postBoxCode?: string;
 }

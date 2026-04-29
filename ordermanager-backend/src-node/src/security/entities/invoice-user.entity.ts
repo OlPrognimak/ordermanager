@@ -15,13 +15,13 @@ export class InvoiceUserEntity {
   @Column({ nullable: true })
   roles?: string;
 
-  @Column({ default: true })
+  @Column({name: 'account_non_expired',  default: true })
   accountNonExpired!: boolean;
 
-  @Column({ default: true })
+  @Column({name: 'account_non_locked', default: true })
   accountNonLocked!: boolean;
 
-  @Column({ default: true })
+  @Column({name: 'credentials_non_expired', default: true })
   credentialsNonExpired!: boolean;
 
   @Column({ default: true })

@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ErrorCode } from '../../exception/error-code.enum';
-import { OrderManagerException } from '../../exception/order-manager.exception';
 import { LoginResultResponseDto } from '../dto/login-result.dto';
 import { JwtTokenService } from './jwt.service';
 import { UserService } from './user.service';
@@ -13,10 +11,20 @@ export class AuthService {
   ) {}
 
   async loginWithHeader(loginCredential: string): Promise<LoginResultResponseDto> {
-    const decoded = Buffer.from(loginCredential, 'base64').toString('utf-8');
-    const [username, password] = decoded.split(':');
-    if (!username || !password) {
-      throw new OrderManagerException(ErrorCode.CODE_20101, 'Wrong password.');
+    if (!loginCredential) {
+      return new LoginResultResponseDto(false, null);
+    }
+
+    const decoded = Buffer.from(loginCredential, 'base64').toString('utf8');
+    const separatorIndex = decoded.indexOf(':');
+    if (separatorIndex < 0) {
+      return new LoginResultResponseDto(false, null);
+    }
+
+    const username = decoded.slice(0, separatorIndex);
+    const password = decoded.slice(separatorIndex + 1);
+    if (!username) {
+      return new LoginResultResponseDto(false, null);
     }
 
     const user = await this.userService.validatePassword(username, password);
