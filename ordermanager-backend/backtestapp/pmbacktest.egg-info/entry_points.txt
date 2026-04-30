@@ -1,0 +1,2 @@
+[console_scripts]
+pmbacktest = pmbacktest.cli:main
