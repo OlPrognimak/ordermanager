@@ -1,0 +1,25 @@
+{
+  "data_path": "data_samples/btc_5m_sample.csv",
+  "strategy": "spread_threshold",
+  "strategy_params": {
+    "entry_spread_cents": 5.0,
+    "qty": 1.0,
+    "entry_mode": "cheap_only"
+  },
+  "initial_cash": 10000,
+  "seed": 123,
+  "execution": {
+    "slippage_fraction": 0.001,
+    "fee_rate": 0.0002,
+    "latency_ms": 0
+  },
+  "risk": {
+    "max_position_shares_per_side": 100.0,
+    "max_gross_notional_usd": 50000.0,
+    "max_concurrent_sides": 2
+  },
+  "strict_monotonic_time": true,
+  "liquidate_at_end": false,
+  "settle_round_boundaries": true
+}
+
