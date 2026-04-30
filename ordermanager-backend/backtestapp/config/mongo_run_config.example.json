@@ -1,0 +1,42 @@
+{
+  "name": "btc_updown_default",
+  "strategy": "momentum",
+  "strategy_params": {
+    "window": 20,
+    "min_move_bps": 2.0,
+    "qty": 1.0
+  },
+  "initial_cash": 10000,
+  "seed": 42,
+  "execution": {
+    "slippage_fraction": 0.001,
+    "fee_rate": 0.0002,
+    "latency_ms": 0
+  },
+  "risk": {
+    "max_position_shares_per_side": 100.0,
+    "max_gross_notional_usd": 50000.0,
+    "max_concurrent_sides": 2,
+    "require_cash_covers_open": true,
+    "open_notional_buffer_rate": 0.02
+  },
+  "strict_monotonic_time": true,
+  "liquidate_at_end": false,
+  "equity_sample_stride": 1,
+  "soft_check_yes_no_sum": true,
+  "data": {
+    "type": "mongo_own",
+    "uri_env": "MONGODB_URI",
+    "own_db": "own",
+    "btc_collection": "poly_btc",
+    "up_down_collection": "up_down",
+    "quote_scale": "dollar_0_1",
+    "yes_price": "mid",
+    "no_price": "mid",
+    "batch_size": 2000,
+    "time_start_ms": null,
+    "time_end_ms": null,
+    "inject_round_bookends": false
+  },
+  "data_source_label": "own.poly_btc+up_down"
+}

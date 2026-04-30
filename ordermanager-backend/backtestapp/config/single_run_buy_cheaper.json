@@ -1,0 +1,33 @@
+{
+  "data_path": "data_samples/btc_5m_sample.csv",
+  "strategy": "buy_cheaper_token_continuously",
+  "strategy_params": {
+    "deep_buy_threshold_cents": 15,
+    "moderate_threshold_cents": 46,
+    "lookback_ms_primary": 1000,
+    "lookback_ms_secondary": 2000,
+    "min_drop_cents": 3,
+    "gap_anchor_cents": 50,
+    "breakout_below_frac": 0.07,
+    "breakout_above_frac": 0.03,
+    "end_round_silent_ms": 20000,
+    "sizing_notional_fraction_of_cash": 0.02,
+    "max_usd_per_order": 100,
+    "debug": false
+  },
+  "initial_cash": 10000,
+  "seed": 123,
+  "execution": {
+    "slippage_fraction": 0.001,
+    "fee_rate": 0.0002,
+    "latency_ms": 0
+  },
+  "risk": {
+    "max_position_shares_per_side": 100.0,
+    "max_gross_notional_usd": 50000.0,
+    "max_concurrent_sides": 2
+  },
+  "strict_monotonic_time": true,
+  "liquidate_at_end": false,
+  "settle_round_boundaries": true
+}
