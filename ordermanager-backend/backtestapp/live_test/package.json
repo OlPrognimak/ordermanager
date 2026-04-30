@@ -1,0 +1,19 @@
+{
+  "name": "live-test",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node index.mjs",
+    "start:with-btc": "node index.mjs --with-btc",
+    "dashboard": "node dashboard.mjs",
+    "find-btc": "node findBtc5mAssets.mjs",
+    "btc-spot": "node btcSpotWs.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
