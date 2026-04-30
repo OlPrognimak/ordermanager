@@ -1,0 +1,63 @@
+{
+  "round_start_ms": 1776419400000,
+  "round_end_ms": 1776419700000,
+  "btc_open_price": 75890.215,
+  "btc_close_price": 75861.42499999999,
+  "market_label": "Bitcoin Up or Down - April 17, 5:50AM-5:55AM ET | slug=btc-updown-5m-1776419400",
+  "market_slug": "btc-updown-5m-1776419400",
+  "yes_asset_id": "81863743788265094178243111322417523953158539014359997797886702551060719733391",
+  "no_asset_id": "31193764491827534384900012250658153175270756721879555989177311690118706036509",
+  "closed_trade_count": 0,
+  "signal_count": 0,
+  "point_count": 4,
+  "realized_pnl": 0,
+  "in_progress": false,
+  "points": [
+    {
+      "ts_ms": 1776419666481,
+      "yes_bid": null,
+      "yes_ask": null,
+      "no_bid": null,
+      "no_ask": 0.01,
+      "yes_bid_g": 0,
+      "yes_ask_g": 0,
+      "no_bid_g": 0,
+      "no_ask_g": 0.01
+    },
+    {
+      "ts_ms": 1776419666529,
+      "yes_bid": 0.99,
+      "yes_ask": 1,
+      "no_bid": null,
+      "no_ask": 0.01,
+      "yes_bid_g": 0.668608352382681,
+      "yes_ask_g": 0.3395804215653341,
+      "no_bid_g": 0,
+      "no_ask_g": 0.01
+    },
+    {
+      "ts_ms": 1776419666817,
+      "yes_bid": 0.99,
+      "yes_ask": null,
+      "no_bid": null,
+      "no_ask": 0.01,
+      "yes_bid_g": 0.9900000000000001,
+      "yes_ask_g": 0.8868523375668158,
+      "no_bid_g": 0,
+      "no_ask_g": 0.010000000000000004
+    },
+    {
+      "ts_ms": 1776419666809,
+      "yes_bid": 0.99,
+      "yes_ask": 1,
+      "no_bid": null,
+      "no_ask": 0.01,
+      "yes_bid_g": 0.9900000000000001,
+      "yes_ask_g": 0.8881181154187993,
+      "no_bid_g": 0,
+      "no_ask_g": 0.010000000000000004
+    }
+  ],
+  "signals": [],
+  "closed_trades": []
+}
