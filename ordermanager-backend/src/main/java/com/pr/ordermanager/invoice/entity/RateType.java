@@ -32,7 +32,9 @@ package com.pr.ordermanager.invoice.entity;
 
 public enum RateType {
     DAILY("Tages", "Tagessatz (Euro)"),
-    HOURLY("Stunden", "Stundensatz (Euro)");
+    HOURLY("Stunden", "Stundensatz (Euro)"),
+    DAILY_REVERSE_CHARGE("Tagessatz reverse charge", "Tagessatz (Euro)"),
+    HOURLY_REVERSE_CHARGE("Stundensatz reverse charge", "Stundensatz (Euro)");
 
     String description;
     String rateName;

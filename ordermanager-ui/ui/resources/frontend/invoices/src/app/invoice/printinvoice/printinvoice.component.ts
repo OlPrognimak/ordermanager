@@ -11,7 +11,8 @@ import { DateperiodFinderComponent } from "../../common-components/dateperiod-fi
 import { isAuthenticated, numberCellRenderer } from "../../common-services/common-services-util.service";
 import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { TranslocoService } from "@jsverse/transloco";
-import { Subject, takeUntil } from "rxjs";
+import {startWith, Subject, switchMap, takeUntil} from "rxjs";
+import {TranslocoLanguageChangedEvent} from "../../transloco/transloco.language.changed.event";
 
 @Component({
   selector: 'app-printinvoice',
@@ -24,6 +25,7 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
   frameworkComponents;
   @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
   @ViewChild('dataFinder', { static: false }) dataFinder: DateperiodFinderComponent;
+
 
   basicAuthKey = 'basicAuthKey';
   gridOptions: GridOptions;
@@ -55,12 +57,15 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
       tableCellRenderer: TableCellRendererComponent
     };
 
-    this.buildColumns();
-
     this.translocoService.langChanges$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        startWith(this.translocoService.getActiveLang()),
+        switchMap(lang => this.translocoService.load(lang)),
+        takeUntil(this.destroy$)
+      )
       .subscribe(() => {
         this.buildColumns();
+        this.gridOptions.columnDefs = this.columnDefs;
 
         if (this.gridApi) {
           this.gridApi.setColumnDefs(this.columnDefs);
@@ -184,8 +189,20 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
   onGridReady(params): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+
+    if (this.columnDefs?.length) {
+      this.gridApi.setColumnDefs(this.columnDefs);
+    }
+
+    this.gridApi.sizeColumnsToFit();
+    this.loadInvoices();
+/*
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
     this.loadInvoices();
+
+ */
   }
 
   loadInvoices() {
