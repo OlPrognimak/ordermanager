@@ -7,7 +7,7 @@ import { TranslocoService } from '@jsverse/transloco';
   templateUrl: './language-switcher.component.html'
 })
 export class LanguageSwitcherComponent {
-  constructor(public translocoService: TranslocoService) {}
+  constructor(private translocoService: TranslocoService) {}
 
   switchLang(lang: 'de' | 'en'): void {
     this.translocoService.setActiveLang(lang);
