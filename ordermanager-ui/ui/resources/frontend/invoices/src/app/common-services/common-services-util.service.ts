@@ -67,7 +67,9 @@ export const isAuthenticated = (): boolean => {
 export const invoiceRate: DropdownDataType[] = [
   //{label: '[Select rate type]', value: null},
   {label: 'Hourly rate', value: 'HOURLY'},
-  {label: 'Daily rate', value: 'DAILY'}
+  {label: 'Daily rate', value: 'DAILY'},
+  {label: 'Hourly rate reverse charge', value: 'HOURLY_REVERSE_CHARGE'},
+  {label: 'Daily rate reverse charge', value: 'DAILY_REVERSE_CHARGE'}
 ];
 
 /**
