@@ -1,0 +1,48 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- PostgreSQL version -->
+    <changeSet id="001-update-invoice-rate-type-check-pg" author="you" dbms="postgresql">
+        <sql>
+ALTER TABLE invoice
+DROP CONSTRAINT IF EXISTS invoice_rate_type_check;
+
+ALTER TABLE invoice
+    ADD CONSTRAINT invoice_rate_type_check
+        CHECK (
+            (rate_type)::text = ANY (
+    ARRAY[
+    'DAILY_REVERSE_CHARGE',
+    'HOURLY_REVERSE_CHARGE',
+    'DAILY',
+    'HOURLY'
+    ]::text[]
+    )
+    );
+</sql>
+    </changeSet>
+
+    <!-- MySQL version -->
+    <changeSet id="001-update-invoice-rate-type-check-mysql" author="you" dbms="mysql">
+        <sql>
+ALTER TABLE invoice
+DROP CHECK invoice_rate_type_check;
+
+ALTER TABLE invoice
+    ADD CONSTRAINT invoice_rate_type_check
+        CHECK (
+            rate_type IN (
+                          'DAILY_REVERSE_CHARGE',
+                          'HOURLY_REVERSE_CHARGE',
+                          'DAILY',
+                          'HOURLY'
+                )
+            );
+</sql>
+    </changeSet>
+
+</databaseChangeLog>

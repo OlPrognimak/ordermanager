@@ -43,6 +43,7 @@
 		<cucumber.version>7.14.0</cucumber.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<openapi.ui>2.8.17</openapi.ui>
+		<liquibase-core.version>5.0.2</liquibase-core.version>
 	</properties>
 
 
@@ -187,6 +188,7 @@
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
+				<version>${liquibase-core.version}</version>
 			</dependency>
 
 		</dependencies>
