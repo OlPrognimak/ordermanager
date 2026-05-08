@@ -39,9 +39,9 @@ import {
   NgModule,
   OnInit,
   Output,
-  Renderer2
+  Renderer2, ViewChild
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
@@ -70,6 +70,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 })
 export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor {
   /** minimal length of text */
+  @ViewChild('modelRef') modelRef?: NgModel
   @Input() public txtMinLength = 30;
   @Input() public idComponent = '';
   @Input() labelText = '';
@@ -79,6 +80,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   @Input() name: any = '';
   @Input() inputName: string;
   @Input() patternErrorText: string
+  @Input() isValidable: boolean = true;
   @Output() componentHasErrorEvent = new EventEmitter<boolean>
 
 
@@ -147,6 +149,9 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   }
 
   // set accessor including call the onchange callback
+  get required(): boolean {
+    return this.isValidable;
+  }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -174,6 +179,14 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
     return emitVal;
   }
 
+  inputClasses(componentName  ): any {
+    // Coerce nullable booleans to false if modelRef is undefined
+    const invalid = this.modelRef?.invalid ?? false;
+    const dirty   = this.modelRef?.dirty ?? false;
+    const touched = this.modelRef?.touched ?? false;
+    return {'ng-invalid ng-dirty': this.isValidable && invalid && (dirty || touched)};
+
+  }
 }
 
 

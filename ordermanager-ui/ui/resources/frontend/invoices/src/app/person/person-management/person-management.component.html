@@ -39,6 +39,9 @@
                 <th pSortableColumn="taxNumber" class="u-w-10">{{ 'person.management.table.tax_number' | transloco }}
                   <p-sortIcon field="taxNumber"></p-sortIcon>
                 </th>
+                <th pSortableColumn="vatIdNumber" class="u-w-10">{{ 'person.management.table.vat_id_number' | transloco }}
+                  <p-sortIcon field="vatIdNumber"></p-sortIcon>
+                </th>
                 <th pSortableColumn="email" class="u-w-15">{{ 'person.management.table.email' | transloco }}
                   <p-sortIcon field="email"></p-sortIcon>
                 </th>
@@ -65,6 +68,9 @@
                 </td>
                 <td class="person-cell-padding">
                   <div>{{person.taxNumber}}</div>
+                </td>
+                <td class="person-cell-padding">
+                  <div>{{person.vatIdNumber}}</div>
                 </td>
                 <td class="person-cell-padding">
                   <div>{{person.email}}</div>

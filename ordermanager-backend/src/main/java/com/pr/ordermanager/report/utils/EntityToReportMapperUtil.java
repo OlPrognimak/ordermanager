@@ -100,6 +100,7 @@ public class EntityToReportMapperUtil {
                 .supplierIban(source.getInvoiceSupplierPerson().getBankAccount().get(0).getIban())
                 .supplierBicSwift(source.getInvoiceSupplierPerson().getBankAccount().get(0).getBicSwift())
                 .supplierAccountNumber(source.getInvoiceSupplierPerson().getBankAccount().get(0).getAccountNumber())
+                .supplierVatIdNumber(source.getInvoiceSupplierPerson().getVatIdNumber())
                 .totalSunBrutto(source.getTotalSumBrutto())
                 .totalSumNetto(source.getTotalSumNetto())
                 .items(

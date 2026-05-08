@@ -55,6 +55,7 @@
 	</subDataset>
 	<parameter name="invoiceItemsDataSet" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="rateType" class="java.lang.String"/>
+	<parameter name="supplierVatIdNumber" class="java.lang.String"/>
 	<variable name="itemMeasure" class="java.lang.String" calculation="System"/>
 	<variable name="tottalNettoSum" class="java.lang.Double" calculation="System"/>
 	<variable name="totalBruttoSum" class="java.lang.Double" calculation="System"/>

@@ -39,26 +39,26 @@
         </div>
         @if (personFormModel.personType==='PRIVATE') {
         <div class="p-grid item-left">
-        <div class="p-col-3">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasFirstNameError($event)"
-                                      [(ngModel)]="personFormModel.personFirstName"
-                                      [idComponent]="'id_firstName'"
-                                      [labelText]="'person.form.field.first_name' | transloco"
-                                      [txtMinLength]="2"
-                                      inputName="personFirstName"
-                                      name="personFirstName">
-          </app-validatable-input-text>
-        </div>
-        <div class="p-col-3">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasLastNameError($event)"
-                                      [(ngModel)]="personFormModel.personLastName"
-                                      [idComponent]="'id_lastName'"
-                                      [labelText]="'person.form.field.last_name' | transloco"
-                                      [txtMinLength]="2"
-                                      inputName="personLastName"
-                                      name="personLastName">
-          </app-validatable-input-text>
-        </div>
+          <div class="p-col-3">
+            <app-validatable-input-text (componentHasErrorEvent)="setHasFirstNameError($event)"
+                                        [(ngModel)]="personFormModel.personFirstName"
+                                        [idComponent]="'id_firstName'"
+                                        [labelText]="'person.form.field.first_name' | transloco"
+                                        [txtMinLength]="2"
+                                        inputName="personFirstName"
+                                        name="personFirstName">
+            </app-validatable-input-text>
+          </div>
+          <div class="p-col-3">
+            <app-validatable-input-text (componentHasErrorEvent)="setHasLastNameError($event)"
+                                        [(ngModel)]="personFormModel.personLastName"
+                                        [idComponent]="'id_lastName'"
+                                        [labelText]="'person.form.field.last_name' | transloco"
+                                        [txtMinLength]="2"
+                                        inputName="personLastName"
+                                        name="personLastName">
+            </app-validatable-input-text>
+          </div>
       </div>
       } @else if (personFormModel.personType==='ORGANISATION') {
         <div class="p-grid item-left">
@@ -88,18 +88,32 @@
           </app-validatable-input-text>
         </div>
       </div>
-@if(personFormModel.personType==='PRIVATE'){
-        <div class = "p-col-2  item-left">
+      <div class="p-grid item-left">
+        <div class = "p-col-3">
           <app-validatable-input-text (componentHasErrorEvent)="setHasTaxNumberError($event)"
-                                      [(ngModel)]="personFormModel.taxNumber"
-                                      [idComponent]="'id_tax_Number'"
-                                      [labelText]="'person.form.field.tax_number' | transloco"
+                                      [(ngModel)]="personFormModel.vatIdNumber"
+                                      [idComponent]="'id_vat_id_Number'"
+                                      [labelText]="'person.form.field.vat_id_number' | transloco"
                                       [txtMinLength]="5"
+                                      [isValidable]="false"
                                       inputName="taxNumber"
                                       name="taxNumber">
           </app-validatable-input-text>
         </div>
-}
+          @if(personFormModel.personType==='PRIVATE'){
+            <div class = "p-col-3">
+              <app-validatable-input-text (componentHasErrorEvent)="setHasTaxNumberError($event)"
+                                          [(ngModel)]="personFormModel.taxNumber"
+                                          [idComponent]="'id_tax_Number'"
+                                          [labelText]="'person.form.field.tax_number' | transloco"
+                                          [txtMinLength]="5"
+                                          inputName="taxNumber"
+                                          name="taxNumber">
+              </app-validatable-input-text>
+            </div>
+          }
+      </div>
+
     </div>
     <div class="p-grid p-col-6">
       <H2>{{'person.form.person_address' | transloco}}</H2>

@@ -18,27 +18,25 @@
         [type]="inputType || 'text'"
         [pattern]="inputPattern"
         [minlength]="txtMinLength"
-        [required]="true"
-        [ngClass]="{
-          'ng-invalid ng-dirty': modelRef.invalid && (modelRef.dirty || modelRef.touched)
-        }"
+        [required]="required"
+        [ngClass]= "inputClasses(inputName)"
         autocomplete="off"
       />
       <label [for]="idComponent">{{ labelText }}</label>
     </p-floatlabel>
 
-    @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
+    @if (isValidable && modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
       <div class="error-icon-box">
         <p-message severity="error" icon="pi pi-times-circle"></p-message>
       </div>
     }
   </div>
-  @if (setHasRequiredError(modelRef.errors?.['required'] !== undefined &&
+  @if (isValidable && setHasRequiredError(modelRef.errors?.['required'] !== undefined &&
     modelRef.errors?.['required'] !== null, modelRef.errors?.['required']) && (modelRef.dirty || modelRef.touched)) {
     <small class="validation-text">{{ 'common.validation.required' | transloco }}</small>
   }
 
-  @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null, modelRef.errors?.['minlength'])) {
+  @if (isValidable && setHasMinLengthError(modelRef.errors?.['minlength'] !== null, modelRef.errors?.['minlength'])) {
     <div class = "error-message-cmp">
           <small class="validation-text">
             {{ 'common.validation.min_length' | transloco: { min: txtMinLength } }}
@@ -46,7 +44,7 @@
     </div>
   }
 
-  @if (modelRef.errors?.['pattern'] && !modelRef.errors?.['minlength'] && (modelRef.dirty || modelRef.touched)) {
+  @if (isValidable && modelRef.errors?.['pattern'] && !modelRef.errors?.['minlength'] && (modelRef?.dirty || modelRef?.touched)) {
     <small class="validation-text">{{ patternErrorText }}</small>
   }
 </div>

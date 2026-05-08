@@ -38,6 +38,7 @@ public class InvoiceReportModel {
 	private String rateType;
 	private Double totalSumNetto;
 	private Double totalSunBrutto;
+	private String supplierVatIdNumber;
 
 	private List<InvoiceReportItem> items;
 }

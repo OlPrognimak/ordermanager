@@ -84,5 +84,8 @@ public class Person  extends AbstractEntity {
     @OrderColumn(name = "id")
     @ToString.Exclude
     private List<BankAccount> bankAccount;
+    /**vat id number*/
+    @Column(name = "vat_id_number",length = 50, unique = false)
+    private String vatIdNumber;
 
 }

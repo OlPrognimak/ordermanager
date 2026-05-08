@@ -14,6 +14,7 @@
         "email": "E-Mail",
         "company_name": "Firmenname",
         "tax_number": "Steuernummer",
+        "vat_id_number": "USt-IdNr",
         "zip": "Postleitzahl",
         "city": "Ort",
         "postbox": "Postfach",
@@ -40,6 +41,7 @@
         "company_name": "Firmenname",
         "person_type": "Personentyp",
         "tax_number": "Steuernummer",
+        "vat_id_number": "USt-IdNr",
         "email": "E-Mail"
       }
     }

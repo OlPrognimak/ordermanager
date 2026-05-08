@@ -55,6 +55,7 @@ export class EditPersonDialogComponent {
       companyName: this.formBuilder.nonNullable.control(''),
       personType: this.formBuilder.control<string | null>(null, [Validators.required]),
       taxNumber: this.formBuilder.nonNullable.control(''),
+      vatIdNumber: this.formBuilder.control(''),
       email: this.formBuilder.nonNullable.control('', [
         Validators.required,
         Validators.minLength(5),
@@ -116,6 +117,14 @@ export class EditPersonDialogComponent {
   }
 
   haveErrors(): boolean {
+    console.log("xxxxxxxxxxxxxxx Hav error: "+ this.editPersonFG.invalid)
+    Object.keys(this.editPersonFG.controls).forEach(key => {
+      const control = this.editPersonFG.get(key);
+      if(control?.invalid) {
+        console.log("---------------Control Key : " + key)
+      }
+
+    });
     return this.editPersonFG.invalid
   }
 
@@ -143,6 +152,7 @@ export class EditPersonDialogComponent {
     this.getControl('companyName').setValue(personFormModel.companyName)
     this.getControl('email').setValue(personFormModel.email)
     this.getControl('taxNumber').setValue(personFormModel.taxNumber)
+    this.getControl('vatIdNumber').setValue(personFormModel.vatIdNumber)
     this.getControl('personAddressFormModel.city').setValue(personFormModel.personAddressFormModel.city)
     this.getControl('personAddressFormModel.postBoxCode').setValue(personFormModel.personAddressFormModel.postBoxCode)
     this.getControl('personAddressFormModel.zipCode').setValue(personFormModel.personAddressFormModel.zipCode)
@@ -169,10 +179,13 @@ export class EditPersonDialogComponent {
       personModel.taxNumber = this.getControl('taxNumber').value?.trim()
       this.validateChanges(this.originalPersonFormModel.taxNumber?.trim() === personModel.taxNumber?.trim())
     }
+    personModel.vatIdNumber = this.getControl('vatIdNumber').value?.trim()
+    this.validateChanges(this.originalPersonFormModel.vatIdNumber?.trim() === personModel.vatIdNumber?.trim())
     personModel.email = this.getControl('email').value?.trim()
     this.validateChanges(this.originalPersonFormModel.email?.trim() === personModel.email?.trim())
     personModel.taxNumber = this.getControl('taxNumber').value?.trim()
     this.validateChanges(this.originalPersonFormModel.taxNumber?.trim() === personModel.taxNumber?.trim())
+    this.validateChanges(this.originalPersonFormModel.vatIdNumber?.trim() === personModel.vatIdNumber?.trim())
     personModel.personAddressFormModel.city = this.getControl('personAddressFormModel.city').value?.trim()
     this.validateChanges(this.originalPersonFormModel.personAddressFormModel.city?.trim() === personModel.personAddressFormModel.city?.trim())
     personModel.personAddressFormModel.postBoxCode = this.getControl('personAddressFormModel.postBoxCode').value?.trim()
