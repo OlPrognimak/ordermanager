@@ -152,6 +152,7 @@ public class RepositoryTestHelper {
                 .personAddressFormModel(personAddressFormModel)
                 .bankAccountFormModel(bankAccountFormModel)
                 .taxNumber(String.valueOf(System.currentTimeMillis()))
+                .vatIdNumber(String.valueOf(System.currentTimeMillis()))
                 .email("test@test.com")
                 .build();
         return personFormModel;

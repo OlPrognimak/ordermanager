@@ -78,6 +78,7 @@ public class PersonModelToEntityMapperHelper {
        person.setCompanyName(source.getCompanyName());
        person.setEmail(source.getEmail());
        person.setTaxNumber (source.getTaxNumber ());
+       person.setVatIdNumber(source.getVatIdNumber());
        if(person.getBankAccount() !=null&& !person.getBankAccount().isEmpty()) {
            mapBankAccountFormModelToAttachedEntity(source.getBankAccountFormModel(), person.getBankAccount().get(0));
        }
@@ -128,6 +129,7 @@ public class PersonModelToEntityMapperHelper {
                 .companyName(source.getCompanyName())
                 .email(source.getEmail())
                 .taxNumber ( source.getTaxNumber () )
+                .vatIdNumber(source.getVatIdNumber())
                 .bankAccount(
                         Collections.singletonList(
                                 mapBankAccountFormModelToEntity(
@@ -160,6 +162,7 @@ public class PersonModelToEntityMapperHelper {
                 .companyName(source.getCompanyName())
                 .email(source.getEmail())
                 .taxNumber ( source.getTaxNumber () )
+                .vatIdNumber( source.getVatIdNumber())
                 .bankAccountFormModel(
                         (source.getBankAccount()==null||source.getBankAccount().isEmpty())? null:
                                 mapBankAccountEntityToModel(source.getBankAccount().get(0))

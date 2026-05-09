@@ -109,19 +109,19 @@
     </p-table>
   </div>
 
-  <div class="p-col-12 reactive-block">
-    <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" class="p-button-secondary save-button-style"
-              label="{{'invoice.add_item' | transloco}}"></p-button>
-  </div>
+    <div class="p-col-12 reactive-block">
+      <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" class="p-button-secondary save-button-style"
+                label="{{'invoice.add_item' | transloco}}"></p-button>
+    </div>
 
 </div>
 
 <div class="p-shadow-4 shadow-panel-color u-mt-10pt">
-  <div class="p-grid p-col-12">
+  <div class="p-grid">
     <div class="p-col-9"></div>
     <div class="p-col-3">
       <div class="reactive-block-pad-left-10">
-        <label class="reactive-total-label-right">Total netto (Euro): </label>
+        <label for="id-tottalNettoSun" class="reactive-total-label-right">Total netto (Euro): </label>
         <input (ngModelChange)="setTotalNettoSum($event)" [ngModel]="getTotalNettoSum  | standardFloat"
                class="right-aligned-totals input-label-like p-field" id="id-tottalNettoSun"
                name="tottalNettoSum" placeholder="0.00"
@@ -130,11 +130,11 @@
       </div>
     </div>
   </div>
-  <div class="p-grid p-col-12">
+  <div class="p-grid">
     <div class="p-col-9"></div>
     <div class="p-col-3">
       <div class="reactive-block">
-        <label class="reactive-total-label-pad-left">Total brutto (Euro): </label>
+        <label for="id-tottalBruttoSun" class="reactive-total-label-pad-left">Total brutto (Euro): </label>
         <input (ngModelChange)="setTottalBruttoSum($event)" [ngModel]="getTotalBruttoSum | standardFloat"
                class="right-aligned-totals input-label-like p-field" id="id-tottalBruttoSun"
                name="tottalBruttoSum" placeholder="0.00"

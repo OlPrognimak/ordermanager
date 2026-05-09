@@ -53,6 +53,7 @@ public class PersonFormModel {
     @NotNull
     private String personType;
     private String taxNumber;
+    private String vatIdNumber;
     @Email @NotBlank
     private String email;
     @NotNull
