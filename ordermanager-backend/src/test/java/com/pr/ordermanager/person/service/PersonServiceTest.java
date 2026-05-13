@@ -3,6 +3,7 @@ package com.pr.ordermanager.person.service;
 import com.pr.ordermanager.RepositoryTestHelper;
 import com.pr.ordermanager.TestServiceHelper;
 import com.pr.ordermanager.TestServicesConfiguration;
+import com.pr.ordermanager.invoice.service.InvoiceService;
 import com.pr.ordermanager.person.entity.BankAccount;
 import com.pr.ordermanager.person.entity.Person;
 import com.pr.ordermanager.person.entity.PersonAddress;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -25,11 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Oleksandr Prognimak
  * @created 21.09.2020 - 15:09
  */
-
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import( {TestServicesConfiguration.class, TestServiceHelper.class} )
+@SpringBootTest
 class PersonServiceTest {
 
     @Autowired

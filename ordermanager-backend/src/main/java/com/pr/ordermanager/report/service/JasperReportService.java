@@ -51,6 +51,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
@@ -68,6 +69,7 @@ import static com.pr.ordermanager.exception.ErrorCode.CODE_10002;
  */
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JasperReportService {
     private static final Logger logger = LogManager.getLogger();
     private final DataSource dataSource;

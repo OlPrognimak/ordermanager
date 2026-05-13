@@ -48,7 +48,7 @@ import { MessageModule } from "primeng/message";
 import { MessagesModule } from "primeng/messages";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {InvoiceItemsTableCalculatorService} from "../invoice-items-table/invoice-items-table.calculator.service";
-import {TranslocoPipe} from "@jsverse/transloco";
+import {TranslocoPipe, TranslocoService} from "@jsverse/transloco";
 
 export type InvoiceControls = { [key in keyof InvoiceFormModelInterface]: AbstractControl }
 type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: InvoiceControls }
@@ -102,7 +102,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
               private messagePrinter: MessagesPrinter,
               private utilService: CommonServicesUtilService,
               private httpService: CommonServicesAppHttpService<InvoiceFormModel>,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private translocoService: TranslocoService) {
 
     this.editInvoiceFG = this.formBuilder.group({
       id: this.formBuilder.nonNullable.control(0),
@@ -120,7 +121,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       totalSumBrutto: this.formBuilder.nonNullable.control(0)
     } as InvoiceControls) as InvoiceFormGroup
   }
-
+  
   ngAfterViewInit(): void {
     //TODO reserved
   }
