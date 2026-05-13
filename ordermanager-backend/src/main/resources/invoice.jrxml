@@ -83,7 +83,7 @@
 				<textFieldExpression><![CDATA[$F{creationDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMM y">
-				<reportElement x="287" y="-30" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
+				<reportElement x="273" y="-30" width="160" height="26" uuid="c465637b-28be-4df4-b8b4-ac0789e59b3c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -109,7 +109,7 @@
 				<textFieldExpression><![CDATA[$F{supplierZipCode}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="127" y="80" width="180" height="14" uuid="9aa3d063-288f-4dd7-9f0b-cbe0373c63ed">
+				<reportElement x="135" y="80" width="180" height="14" uuid="9aa3d063-288f-4dd7-9f0b-cbe0373c63ed">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{supplierCity}]]></textFieldExpression>
@@ -143,7 +143,7 @@
 				<textFieldExpression><![CDATA[$F{recipientZipCode}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="121" y="150" width="180" height="14" uuid="640615b1-1769-49ef-ac3e-461a7a87b673">
+				<reportElement x="125" y="150" width="180" height="14" uuid="640615b1-1769-49ef-ac3e-461a7a87b673">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{recipientCity}]]></textFieldExpression>
@@ -191,7 +191,7 @@
 				<textFieldExpression><![CDATA[$R{zip.label}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="98" y="150" width="20" height="14" uuid="24d09957-be27-4033-8e86-78102f0a8b15">
+				<reportElement x="98" y="150" width="32" height="14" uuid="24d09957-be27-4033-8e86-78102f0a8b15">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -199,7 +199,7 @@
 				<textFieldExpression><![CDATA[$R{city.label}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="80" width="20" height="14" uuid="ae980231-70a8-4cb5-92a7-f4467dd283d9">
+				<reportElement x="104" y="80" width="32" height="14" uuid="ae980231-70a8-4cb5-92a7-f4467dd283d9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -290,7 +290,7 @@
 				<text><![CDATA[BIC/SWIFT:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="350" y="71" width="122" height="29" uuid="41d4f5bd-7868-4753-8011-3404ac8034b1">
+				<reportElement x="280" y="71" width="122" height="29" uuid="41d4f5bd-7868-4753-8011-3404ac8034b1">
 					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -302,7 +302,7 @@
 				<textFieldExpression><![CDATA[$R{tax.number}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="142" width="220" height="21" uuid="36994d9b-ab9a-4232-965c-60d7ad9bc37f"/>
+				<reportElement x="80" y="142" width="220" height="21" uuid="36994d9b-ab9a-4232-965c-60d7ad9bc37f"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
@@ -323,7 +323,7 @@
 				<textFieldExpression><![CDATA[$F{supplierBicSwift}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="350" y="96" width="151" height="21" uuid="edd3d6bd-1f3f-4b38-93fb-5f4273163930">
+				<reportElement x="388" y="75" width="151" height="21" uuid="edd3d6bd-1f3f-4b38-93fb-5f4273163930">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
 				</reportElement>
@@ -333,7 +333,7 @@
 				<textFieldExpression><![CDATA[$F{supplierTaxNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="352" y="121" width="151" height="30" uuid="759cf45f-2473-41fc-b499-6d38428edb06">
+				<reportElement x="280" y="96" width="120" height="30" uuid="759cf45f-2473-41fc-b499-6d38428edb06">
 					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
 				</reportElement>
 				<box>
@@ -345,7 +345,7 @@
 				<textFieldExpression><![CDATA[$R{person.vat.id.number}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="352" y="146" width="178" height="21" uuid="5ed2d8c0-6619-4e41-b60b-2562abf201c3">
+				<reportElement x="388" y="97" width="148" height="21" uuid="5ed2d8c0-6619-4e41-b60b-2562abf201c3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<printWhenExpression><![CDATA[$F{supplierTaxNumber} != null]]></printWhenExpression>
 				</reportElement>
@@ -354,6 +354,13 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{supplierVatIdNumber}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="143" width="81" height="21" uuid="40adf526-7716-4a11-b9c9-c44a2123e7e7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Name:]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>

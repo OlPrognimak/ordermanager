@@ -60,7 +60,7 @@ class EntityToReportMapperUtilTest {
 
 
         Invoice testInvoice = Invoice.builder()
-                .id(10l)
+                .id(10L)
                 .invoiceNumber("555555")
                 .creationDate(OffsetDateTime.now())
                 .invoiceDate(OffsetDateTime.now())
@@ -75,7 +75,7 @@ class EntityToReportMapperUtilTest {
                                 .taxNumber("recipientTaxNumber")
                                 .bankAccount(recipientBankAccounts)
                                 .personAddress(
-                                        Arrays.asList(PersonAddress.builder()
+                                        Collections.singletonList(PersonAddress.builder()
                                                 .city("recipientCity")
                                                 .street("recipientStreet")
                                                 .zipCode("33333")
@@ -92,9 +92,10 @@ class EntityToReportMapperUtilTest {
                                 .personLastName("Supplier Last Name")
                                 .email("supplier@text.de")
                                 .taxNumber("supplierTaxNumber")
+                                .vatIdNumber("DE-123456")
                                 .bankAccount(supplierBankAccounts)
                                 .personAddress(
-                                        Arrays.asList(PersonAddress.builder()
+                                        Collections.singletonList(PersonAddress.builder()
                                                 .city("supplierCity")
                                                 .street("supplierStreet")
                                                 .zipCode("supplierZipCode")
@@ -122,7 +123,7 @@ class EntityToReportMapperUtilTest {
         assertNotNull(invoiceReportModel.getRateType());
         assertNotNull(invoiceReportModel.getTotalSumNetto());
         assertNotNull(invoiceReportModel.getTotalSunBrutto());
-
+        assertNotNull(invoiceReportModel.getSupplierVatIdNumber());
 
         assertNotNull(invoiceReportModel.getRecipientCity());
         assertNotNull(invoiceReportModel.getRecipientCompanyName());

@@ -12,7 +12,7 @@
   },
   "invoice": {
     "number": "Invoice number",
-    "description": "Beschreibung",
+    "description": "Description",
     "rate_type": "Invoice type",
     "total_netto": "Total netto",
     "total_brutto": "Total brutto",
@@ -22,6 +22,10 @@
     "creation_date": "Creation date",
     "invoice_date": "Invoice date",
     "pdf_report": "Pdf load",
+    "create_invoice": "Create invoice",
+    "dialog": {
+      "edit_invoice": "Edit invoice"
+    },
     "management": {
       "title": "Invoice management",
       "confirm": {
@@ -47,6 +51,9 @@
       }
     },
     "item": {
+      "edit": {
+        "title": "Edit catalog item"
+      },
       "create": {
         "title": "Create catalog item"
       },

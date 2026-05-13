@@ -10,6 +10,7 @@ import { ButtonModule } from "primeng/button";
 import { CommonModule } from "@angular/common";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { TooltipModule } from "primeng/tooltip";
+import {TranslocoPipe} from "@jsverse/transloco";
 
 export type ItemCatalogControls = { [key in keyof ItemCatalogModel]: AbstractControl }
 type ItemCatalogFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: ItemCatalogControls }
@@ -19,7 +20,7 @@ type ItemCatalogFormGroup = FormGroup & { value: InvoiceFormModelInterface, cont
   templateUrl: './edit-item-dialog.component.html',
   styleUrls: ['./edit-item-dialog.component.css'],
   standalone: true,
-  imports: [CommonModule, DialogModule, DialogModule, ToastModule, InputTextModule, ReactiveFormsModule, TemplatesComponentComponent, ButtonModule, TooltipModule],
+  imports: [CommonModule, DialogModule, DialogModule, ToastModule, InputTextModule, ReactiveFormsModule, TemplatesComponentComponent, ButtonModule, TooltipModule, TranslocoPipe],
   providers: []
 })
 export class EditItemDialogComponent {

@@ -22,6 +22,10 @@
     "creation_date": "Erstellungsdatum",
     "invoice_date": "Rechnungsdatum",
     "pdf_report": "Pdf hochladen",
+    "create_invoice": "Rechnung ertellen",
+    "dialog": {
+      "edit_invoice": "Rechnung bearbeiten"
+    },
     "management": {
       "title": "Rechnungsverwaltung",
       "confirm": {
@@ -47,6 +51,9 @@
       }
     },
     "item": {
+      "edit": {
+        "title": "Edit catalog item"
+      },
       "create": {
         "title": "Katalogeintrag erstellen"
       },

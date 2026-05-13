@@ -28,7 +28,17 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { AfterViewInit, Component, EventEmitter, Input, NgModule, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  NgModule,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import localede from '@angular/common/locales/de';
 
@@ -73,7 +83,7 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import {FloatLabel} from "primeng/floatlabel";
-import {TranslocoPipe} from "@jsverse/transloco";
+import {translate, TranslocoPipe} from "@jsverse/transloco";
 
 
 registerLocaleData(localede, 'de');
@@ -89,7 +99,7 @@ registerLocaleData(localede, 'de');
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
 export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
-
+  @ViewChild('dialogContent') dialogContent!: ElementRef;
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
   /** The invoice data model */
@@ -198,6 +208,8 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   setInvoiceItems(items: InvoiceItemModel[]) {
     this.itemsTableComponent?.calculatorService.setInvoiceItems(items)
   }
+
+  protected readonly translate = translate;
 }
 
 @NgModule(

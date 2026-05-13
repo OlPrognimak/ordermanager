@@ -1,6 +1,7 @@
 package com.pr.ordermanager.service;
 
 import com.pr.ordermanager.report.service.JasperReportService;
+import liquibase.integration.spring.SpringResourceAccessor;
 import net.sf.jasperreports.engine.util.JRLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,24 +12,31 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Disabled
+//@ExtendWith(SpringExtension.class)
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@Disabled
+@SpringBootTest()
 class JasperReportServiceTest {
     Logger logger = LogManager.getLogger(JasperReportServiceTest.class);
     @Autowired
     JasperReportService jasperReportService;
+    @Autowired
+    ResourceLoader resourceLoader;
 
+
+    @Disabled("Configure output file for pdf output")
     @Test
     void printReport() throws Exception {
-        byte[] report = jasperReportService.createPdfReport("test-1", "test", "EN");
+        byte[] report = jasperReportService.createPdfReport("423423efdfsdfsd", "test", "DE");
         Assertions.assertNotNull(report);
         Assertions.assertTrue(report.length > 0);
         logger.debug("Report Size: "+report.length);
@@ -44,10 +52,11 @@ class JasperReportServiceTest {
     }
 
 
-
+    @Disabled
     @Test
     void testInputStream() throws Exception {
         //ObjectInputStream objectInputStream = new ObjectInputStream(getClass().getResourceAsStream("/invoice-items.jasper"));
+        SpringResourceAccessor accessor = new SpringResourceAccessor(resourceLoader);
         URL resource = JasperReportServiceTest.class.getResource("/invoice-data.jasper");
 
         Assertions.assertNotNull(resource);

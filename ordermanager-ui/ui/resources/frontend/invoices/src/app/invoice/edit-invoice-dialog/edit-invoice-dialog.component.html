@@ -5,7 +5,7 @@
           styleClass="invoice-edit-dialog">
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 class="dialog-title">Edit invoice</h2>
+      <h2 class="dialog-title">{{'invoice.dialog.edit_invoice' | transloco}}</h2>
       <div class="header-actions">
         <button
           pButton
@@ -34,7 +34,7 @@
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'invoiceNumber',
                    idComponent: 'id_InvoiceNumber',
-                   labelText: 'invoice.invoice_number' | transloco
+                   labelText: 'invoice.number' | transloco
                   }">
             </ng-container>
           </div>
