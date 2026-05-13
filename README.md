@@ -64,7 +64,8 @@ and
  - go to the maven module `odermanager-parent` than build the project with profiles
  - first select profile `build-angular`
  - select profile `with-docker-linux` or `with-docker-windows`
-The full script: ```mvn clean install -Pbuild-angular -Pwith-docker-linux```
+ - The full script für Linux: ```mvn clean install -Pbuild-angular -Pwith-docker-linux```
+ - The full script für Windows: ```mvn clean install -Pbuild-angular -Pwith-docker-windows```
 
 
 # Short description
