@@ -106,22 +106,15 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
     })
   }
 
-  isPersonChanged(person: PersonFormModel): string {
-    // console.log('Changes :'+person.id)
-    let obj = this.changesList?.filter(p => person.id === p.id)
-    //console.log('Obj :'+obj.length)
-    if (obj !== undefined && obj.length > 0) {
-      return 'blue'
-    } else {
-      return '#495057'
-    }
+  isPersonChanged(person: PersonFormModel): boolean {
+    return this.changesList.some(change => change.id === person.id);
   }
 
   haveNoChanges() {
     return this.changesList == undefined || this.changesList.length < 1;
   }
 
-  saveChangedPersons($event: MouseEvent) {
+  saveChangedPersons() {
     const changes = this.modelList.filter(p =>
       p.id === this.changesList?.filter(c => c?.id == p?.id)?.at(0)?.id)
 

@@ -2,30 +2,32 @@
   (onHide)="onCancel()"
   [(visible)]="display"
   [modal]="true"
-  [style]="{ width: '30vw', height: '30vh' }"
+  [style]="{ width: 'min(32rem, calc(100vw - 2rem))' }"
   contentStyleClass="dialog-content-flex"
   styleClass="o-confirm-dialog">
 
   <ng-template pTemplate="header">
-    <h2  class="d-header-text">{{ confirmHeaderText }}</h2>
+    <div class="confirm-dialog-header">
+      <span class="confirm-dialog-header-icon"><i class="pi pi-exclamation-triangle"></i></span>
+      <div>
+        <span>{{ 'common.dialog.confirm.eyebrow' | transloco }}</span>
+        <h2>{{ confirmHeaderText }}</h2>
+      </div>
+    </div>
   </ng-template>
 
   <div class="dialog-body">
-    <h2 class="d-header-text">{{ message }}</h2>
+    <p>{{ message }}</p>
   </div>
 
   <ng-template pTemplate="footer">
-    <div class="p-grid p-justify-end p-ai-center dialog-footer">
-      <div class="p-col-12 p-md-3">
-        <button (click)="onConfirm()" class="p-button-danger w-100" pButton type="button">
-          <span pButtonLabel>{{ 'common.dialog.confirm.yes' | transloco }}</span>
-        </button>
-      </div>
-      <div class="p-col-12 p-md-3">
-        <button (click)="onCancel()" class="p-button-secondary w-100" pButton type="button">
-          <span pButtonLabel>{{ 'common.dialog.confirm.no' | transloco }}</span>
-        </button>
-      </div>
+    <div class="dialog-footer">
+      <button (click)="onCancel()" class="p-button-secondary p-button-outlined" pButton type="button">
+        <span pButtonLabel>{{ 'common.dialog.confirm.no' | transloco }}</span>
+      </button>
+      <button (click)="onConfirm()" class="p-button-danger" pButton type="button">
+        <span pButtonLabel>{{ 'common.dialog.confirm.yes' | transloco }}</span>
+      </button>
     </div>
   </ng-template>
 

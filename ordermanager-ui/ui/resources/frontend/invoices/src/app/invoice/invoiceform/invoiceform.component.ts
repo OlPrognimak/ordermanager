@@ -117,6 +117,10 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   protected readonly isAuthenticated = isAuthenticated;
   private isViewInitialized = false;
 
+  get lineItemCount(): number {
+    return this.invoiceFormData.invoiceItems.filter(item => item.catalogItemId !== undefined).length;
+  }
+
   /**
    * Constructor
    *
@@ -171,7 +175,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * Saves invoice to the database on server
    * @param event the item for saving
    */
-  saveInvoice(event: any): void {
+  saveInvoice(): void {
     this.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum();
     this.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum();
     printToJson(this.invoiceFormData);
@@ -181,12 +185,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
           this.resetModel();
         }
       });
-  }
-
-  /** emits events with changed total netto and brutto sums */
-  private emitPersonDataChanged(): void {
-    this.personInvoiceSupplierEvent.emit(this.personInvoiceSupplier);
-    this.personInvoiceRecipientEvent.emit(this.personInvoiceRecipient);
   }
 
   /**
@@ -205,8 +203,9 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
     }
   }
 
-  setInvoiceItems(items: InvoiceItemModel[]) {
-    this.itemsTableComponent?.calculatorService.setInvoiceItems(items)
+  setInvoiceItems(items: InvoiceItemModel[]): void {
+    this.invoiceFormData.invoiceItems = items;
+    this.itemsTableComponent?.calculatorService.setInvoiceItems(items);
   }
 
   protected readonly translate = translate;

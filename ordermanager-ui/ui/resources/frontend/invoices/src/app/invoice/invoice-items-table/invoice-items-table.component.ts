@@ -108,7 +108,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
   catalogItemSelected(invoiceitem: InvoiceItemModel, event: any): void {
     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
       this.changeItemsEvent.emit(this.invoiceItems);
-      this.inputBoxChanged(callback, null)
+      this.inputBoxChanged(callback)
     });
 
   }
@@ -131,14 +131,14 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
   deleteItem(idxItem: any): void {
     this.invoiceItems = this.invoiceItems.filter(val => val.idxItem !== idxItem);
     this.changeItemsEvent.emit(this.invoiceItems);
-    this.inputBoxChanged(new InvoiceItemModel(), 0);
+    this.inputBoxChanged(new InvoiceItemModel());
   }
 
   /**
    * Retrieve the label of item in dropdown to set in editable set component
    * @param idItemCatalog the id of item in catalog of items
    */
-  getCatalogDescription(idItemCatalog?: string): string {
+  getCatalogDescription(idItemCatalog?: string | number): string {
     const FALLBACK = '[Please select item]';
     if (!idItemCatalog) return FALLBACK;
 
@@ -153,7 +153,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    * @param value element refernce
    */
   // @HostListener('change', ['$event.target'])
-  inputBoxChanged(model: InvoiceItemModel, event: any): any {
+  inputBoxChanged(model: InvoiceItemModel): void {
     this.calculatorService.calculateAllSum(this.invoiceItems, model);
     // const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
     // promise.then(() => {
@@ -163,16 +163,6 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
     //   this.printToJson(JSON.stringify(error));
     // });
   }
-
-  /** emits events with changed total netto and brutto sums */
-  private emitTotalChanged(): void {
-    try {
-      //this.calculatorService.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum()
-      //this.calculatorService.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum()
-    }catch (err) {
-      console.log("Error :"+err)
-    }
-   }
 
   ngAfterViewInit(): void {
     this.itemsForm?.valueChanges?.subscribe(value => {

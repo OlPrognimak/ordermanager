@@ -1,29 +1,60 @@
 @if (isAuthenticated()) {
-<div class="p-fluid p-flex-row ag-table-components-wrapper">
-  <p-toast></p-toast>
-  @if (processRuns) {
-  <div class="overlayProcess childElementCenter">
-    <mat-progress-spinner *ngIf="processRuns" mode="indeterminate"></mat-progress-spinner>
-  </div>
-  }
-  <div style="height: 15%">
-    <app-dateperiod-finder #dataFinder (responseOutput)="setDataModel($event)" [url]="'invoice/invoicesListPeriod'"/>
-  </div>
-  <div class="ag-table-wrapper">
-    <ag-grid-angular
-      #agGrid
-      [columnDefs]="columnDefs"
-      (cellValueChanged)="cellChanged($event)"
-      (gridReady)="onGridReady($event)"
-      (rowValueChanged)="onRowValueChanged($event)"
-      [animateRows]="true"
-      [gridOptions]="gridOptions"
-      [rowData]="invoicesFormModel"
-      [rowHeight]="30"
-      class="ag-theme-balham u-h-70"
-      pagination
-      rowSelection="multiple"
-     ></ag-grid-angular>
-  </div>
-</div>
+  <main class="invoice-list-page">
+    <p-toast></p-toast>
+
+    @if (processRuns) {
+      <div class="invoice-list-loading">
+        <mat-progress-spinner diameter="42" mode="indeterminate"></mat-progress-spinner>
+      </div>
+    }
+
+    <header class="invoice-list-header">
+      <div>
+        <span class="invoice-list-eyebrow">{{ 'invoice.list.eyebrow' | transloco }}</span>
+        <h1>{{ 'invoice.list.title' | transloco }}</h1>
+        <p>{{ 'invoice.list.subtitle' | transloco }}</p>
+      </div>
+      <div class="invoice-list-stat">
+        <strong>{{ invoicesFormModel?.length || 0 }}</strong>
+        <span>{{ 'invoice.list.records' | transloco }}</span>
+      </div>
+    </header>
+
+    <app-dateperiod-finder
+      #dataFinder
+      (responseOutput)="setDataModel($event)"
+      [url]="'invoice/invoicesListPeriod'">
+    </app-dateperiod-finder>
+
+    <section class="invoice-list-results">
+      <div class="invoice-list-results-heading">
+        <div>
+          <h2>{{ 'invoice.list.results_title' | transloco }}</h2>
+          <span>{{ 'invoice.list.results_hint' | transloco }}</span>
+        </div>
+        <span class="invoice-list-pdf-badge">
+          <i class="pi pi-file-pdf"></i>
+          {{ 'invoice.list.pdf_ready' | transloco }}
+        </span>
+      </div>
+
+      <div class="invoice-list-grid-scroll">
+        <ag-grid-angular
+          #agGrid
+          (cellValueChanged)="cellChanged($event)"
+          (gridReady)="onGridReady($event)"
+          (gridSizeChanged)="onGridSizeChanged()"
+          (rowValueChanged)="onRowValueChanged($event)"
+          [animateRows]="true"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          [rowData]="invoicesFormModel"
+          [rowHeight]="42"
+          class="ag-theme-balham invoice-list-grid"
+          pagination
+          rowSelection="multiple">
+        </ag-grid-angular>
+      </div>
+    </section>
+  </main>
 }

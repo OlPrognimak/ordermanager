@@ -8,7 +8,11 @@
 
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 class="dialog-title">{{'person.dialog.edit_person' | transloco}}</h2>
+      <span class="dialog-header-icon"><i class="pi pi-user-edit"></i></span>
+      <div>
+        <span class="dialog-eyebrow">{{ 'person.dialog.eyebrow' | transloco }}</span>
+        <h2 class="dialog-title">{{'person.dialog.edit_person' | transloco}}</h2>
+      </div>
 
       <div class="header-actions">
         <button
@@ -28,8 +32,22 @@
   </ng-template>
 
   <div *ngIf="isAuthenticated();" class="p-flu edit-person-full-size">
+    <div class="dialog-intro">
+      <i class="pi pi-info-circle"></i>
+      <div>
+        <strong>{{ 'person.dialog.description_title' | transloco }}</strong>
+        <p>{{ 'person.dialog.description' | transloco }}</p>
+      </div>
+    </div>
     <form [formGroup]="editPersonFG">
-      <div class="shadow-panel-color p-shadow-4 person-edit-panel margin-top-20">
+      <div class="person-edit-panel">
+        <div class="dialog-section-heading">
+          <span class="dialog-section-icon"><i class="pi pi-id-card"></i></span>
+          <div>
+            <h3>{{ 'person.dialog.identity_title' | transloco }}</h3>
+            <p>{{ 'person.dialog.identity_description' | transloco }}</p>
+          </div>
+        </div>
         <div class="p-grid u-ml-2px">
           <div class="p-col-6 margin-top-20 margin-bottom-20">
 
@@ -43,7 +61,7 @@
             </ng-container>
           </div>
         </div>
-        <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid edit-person-row-gap">
+        <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid person-field-row">
           <div class="p-col-3 edit-person-left-6px">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'personFirstName',
@@ -62,7 +80,7 @@
           </div>
         </div>
 
-        <div *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid edit-person-row-gap-left-2">
+        <div *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid person-field-row">
           <div class="p-col-3">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'companyName',
@@ -72,7 +90,7 @@
             </ng-container>
           </div>
         </div>
-        <div class="p-grid edit-person-row-gap-left-2">
+        <div class="p-grid person-field-row person-field-row-following">
           <div class="p-col-3 edit-person-padding-left-5px">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'email',
@@ -83,7 +101,7 @@
           </div>
         </div>
 
-        <div class="p-grid edit-person-row-gap-left-2">
+        <div class="p-grid person-field-row person-field-row-following">
 
           <div class="p-col-3 edit-person-padding-left-5px">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
@@ -110,7 +128,7 @@
 
       <!--  ADDRESS FORM  -->
       <div formGroupName="personAddressFormModel" class="margin-top-20">
-        <div class=" shadow-panel-color p-shadow-4 person-edit-panel">
+        <div class="person-edit-panel">
           <div class="p-grid p-col-6 u-ml-5pt">
             <H2>{{'person.form.person_address' | transloco}}</H2>
           </div>
@@ -161,13 +179,13 @@
 
       <!--  BANK FORM  -->
       <div formGroupName="bankAccountFormModel" class="margin-top-20">
-        <div class="shadow-panel-color p-shadow-4 person-edit-panel">
+        <div class="person-edit-panel">
           <div class="p-grid">
             <div class="p-col-6 u-ml-5pt">
               <H2>{{'person.form.person_bank' | transloco}}</H2>
             </div>
           </div>
-          <div class="p-grid">
+          <div class="p-grid person-field-row">
             <div class="p-col-4 edit-person-ml-5pt-mt-5pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
           context:{controlPath: 'bankAccountFormModel.bankName',
@@ -187,7 +205,7 @@
             </div>
           </div>
 
-          <div class="p-grid">
+          <div class="p-grid person-field-row person-field-row-following">
             <div class="p-col-4 margin-bottom-20 edit-person-ml-4pt-mt-12pt">
               <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
             context:{controlPath: 'bankAccountFormModel.iban',
@@ -212,10 +230,12 @@
   </div>
 
   <ng-template pTemplate="footer">
-    <p-button (click)="sendChanges()" [disabled]="haveErrors()" icon="pi pi-check" label="{{'common.actions.save' | transloco}}"
-              styleClass="p-button-text"></p-button>
-    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="{{'common.actions.cancel' | transloco}}"
-              styleClass="p-button-text p-button-secondary"></p-button>
+    <div class="dialog-footer-actions">
+      <p-button (click)="setVisible(false)" icon="pi pi-times" label="{{'common.actions.cancel' | transloco}}"
+                severity="secondary" [outlined]="true"></p-button>
+      <p-button (click)="sendChanges()" [disabled]="haveErrors()" icon="pi pi-check"
+                label="{{'common.actions.save' | transloco}}"></p-button>
+    </div>
   </ng-template>
 </p-dialog>
 

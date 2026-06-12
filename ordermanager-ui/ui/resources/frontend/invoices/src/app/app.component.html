@@ -14,8 +14,8 @@
   <app-user-login></app-user-login>
 } @else {
   <div class="app-shell">
-    <div class="app-header p-shadow-4">
-      <p-menubar [model]="menuItems">
+    <div class="app-header authenticated-header">
+      <p-menubar [model]="menuItems" styleClass="app-main-menu">
         <ng-template pTemplate="start">
           <a
             (click)="router.navigateByUrl('/')"
@@ -31,12 +31,6 @@
         </ng-template>
       </p-menubar>
     </div>
-
-    @if (router.url === '/') {
-      <div class="page-content">
-        <h2>{{ 'homepage.heading' | transloco }}</h2>
-      </div>
-    }
 
   </div>
 }

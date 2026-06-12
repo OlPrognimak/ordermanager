@@ -1,58 +1,135 @@
-:host ::ng-deep html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  box-sizing: border-box;
-  -webkit-overflow-scrolling: touch;
+.invoice-list-page {
+  position: relative;
+  width: min(1320px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
 }
 
-.transparent .mat-dialog-container {
-  box-shadow: none;
-  background: rgba(0, 0, 0, 0.0);
-}
-
-
-.overlayProcess {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 2;
-  cursor: pointer;
-}
-
-.childElementCenter {
+.invoice-list-header {
   display: flex;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.invoice-list-header h1 {
+  margin: 0.3rem 0 0.4rem;
+}
+
+.invoice-list-header p,
+.invoice-list-results-heading span {
+  margin: 0;
+  color: #64748b;
+}
+
+.invoice-list-eyebrow {
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.invoice-list-stat {
+  display: grid;
+  min-width: 6rem;
+  padding: 0.75rem 1rem;
+  background: #eff6ff;
+  border-radius: 0.75rem;
+  color: #1d4ed8;
+  text-align: center;
+}
+
+.invoice-list-stat strong {
+  font-size: 1.35rem;
+}
+
+.invoice-list-stat span {
+  font-size: 0.75rem;
+}
+
+.invoice-list-results {
+  overflow: hidden;
+  margin-top: 1.25rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.85rem;
+}
+
+.invoice-list-results-heading {
+  display: flex;
   align-items: center;
-  height: calc(100vh - 20px);
-  background-color: rgba(0, 0, 0, 0);
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-:host::ng-deep app-table-cell-renderer > div > p-button > button > span.p-button-label.ng-star-inserted {
-  color: indianred;
-  font-family: Arial, Helvetica, sans-serif !important;
-  font-size: smaller !important;
+.invoice-list-results-heading h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
 }
 
-:host::ng-deep app-table-cell-renderer > div > p-button > button > span.pi.pi-download.p-button-icon.p-button-icon-left.ng-star-inserted {
-  height: 10px;
-  width: 11px;
+.invoice-list-pdf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  background: #fef2f2;
+  border-radius: 999px;
+  color: #b91c1c !important;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
-.ag-table-components-wrapper {
-  margin-top: 20pt;
+.invoice-list-grid-scroll {
   width: 100%;
-  height: 100%;
+  overflow-x: auto;
 }
 
-.ag-table-wrapper  {
-  margin-top: 20pt;
+.invoice-list-grid {
+  display: block;
   width: 100%;
-  height: 85%;
+  min-width: 1050px;
+  height: 34rem;
+}
+
+.invoice-list-loading {
+  position: fixed;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+:host ::ng-deep .ag-theme-balham .ag-header {
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+}
+
+:host ::ng-deep .ag-theme-balham .ag-header-cell-text {
+  color: #475569;
+  font-weight: 700;
+}
+
+:host ::ng-deep .ag-theme-balham .ag-row {
+  border-bottom-color: #eef2f7;
+}
+
+@media (max-width: 640px) {
+  .invoice-list-page {
+    width: 100%;
+    padding: 1rem 0 0;
+  }
+
+  .invoice-list-header {
+    padding: 0 1rem;
+  }
+
+  .invoice-list-results {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
 }

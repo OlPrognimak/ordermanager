@@ -31,6 +31,34 @@
     "navigate_home": "Navigate to home page"
   },
   "homepage": {
-    "heading": "Homepage of Ordermanager Application"
+    "eyebrow": "Business workspace",
+    "heading": "What would you like to manage?",
+    "subtitle": "Choose an area to create business records, maintain existing data or complete a guided process.",
+    "workspace": "Order manager",
+    "users": {
+      "title": "User management",
+      "description": "Create application access for another user.",
+      "create": "Register a new username and password for application access."
+    },
+    "invoices": {
+      "title": "Invoices",
+      "description": "Create invoices, maintain reusable catalog items and manage completed documents.",
+      "create": "Prepare a new invoice with parties, dates and line items.",
+      "manage": "Review and edit saved invoices.",
+      "documents": "Find invoices and download their PDF documents.",
+      "create_item": "Add a reusable product or service to the catalog.",
+      "catalog": "Search, edit and maintain catalog items."
+    },
+    "people": {
+      "title": "People",
+      "description": "Maintain customers, suppliers and organizations used on invoices.",
+      "create": "Add a person or organization with address and payment details.",
+      "manage": "Review and update existing contacts."
+    },
+    "workflows": {
+      "title": "Workflows",
+      "description": "Complete complex business tasks through a guided sequence of steps.",
+      "invoice": "Create an invoice step by step, from basic details through final review."
+    }
   }
 }

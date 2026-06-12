@@ -1,82 +1,76 @@
-<div>
-  <div class="p-fluid">
-    <div class="p-grid">
-      <div class="p-col-3"></div>
-      <div class="p-col-6">
-        <p-toast></p-toast>
-      </div>
-      <div class="p-col-3"></div>
+<p-toast></p-toast>
+
+<main class="registration-page">
+  <section class="registration-panel registration-brand-panel">
+    <div class="registration-brand-mark"><i class="pi pi-users"></i></div>
+    <span class="registration-eyebrow">{{ 'auth.registration.eyebrow' | transloco }}</span>
+    <h1>{{ 'auth.registration.brand_title' | transloco }}</h1>
+    <p>{{ 'auth.registration.brand_subtitle' | transloco }}</p>
+
+    <div class="registration-steps">
+      <div><span>1</span><p>{{ 'auth.registration.steps.credentials' | transloco }}</p></div>
+      <div><span>2</span><p>{{ 'auth.registration.steps.confirm' | transloco }}</p></div>
+      <div><span>3</span><p>{{ 'auth.registration.steps.sign_in' | transloco }}</p></div>
     </div>
-    <form #userRegistrationForm="ngForm" (submit)="registerUser(userRegistrationForm)">
-      <div class="p-grid">
-        <div class="p-col-1">
+  </section>
 
+  <section class="registration-panel registration-form-panel">
+    <form #userRegistrationForm="ngForm" class="registration-form" (ngSubmit)="registerUser(userRegistrationForm)">
+      <header class="registration-form-header">
+        <span class="registration-form-icon"><i class="pi pi-user-plus"></i></span>
+        <div>
+          <h2>{{ 'auth.registration.heading' | transloco }}</h2>
+          <p>{{ 'auth.registration.subtitle' | transloco }}</p>
         </div>
+      </header>
 
-        <div class="p-col-2"></div>
-        <div class="p-col-6 p-shadow-4 u-mr-20pt">
-          <div class="p-grid">
-            <div class="p-col-2">
-              <!--            <p-button label="Home" (click)="router.navigateByUrl('/')"></p-button>-->
-            </div>
-            <div class="p-col-3 u-text-center"></div>
-            <H2>User registration</H2>
-            <div class="p-col-7"></div>
-          </div>
-          <div class="p-grid">
-            <div class="p-col-3"></div>
-            <div class="p-col-6">
-              <app-validatable-input-text (componentHasErrorEvent)="setHasUsernameError($event)"
-                                          [(ngModel)]="newUser.userName"
-                                          [idComponent]="'id_UserName'"
-                                          [labelText]="'User name'"
-                                          [name]="'username'"
-                                          [txtMinLength]="2">
-              </app-validatable-input-text>
-            </div>
-            <div class="p-col-3"></div>
-          </div>
-          <div class="p-grid u-mt-15pt">
-            <div class="p-col-3"></div>
-            <div class="p-col-6">
-              <app-validatable-input-text (componentHasErrorEvent)="setHasPasswordError($event)"
-                                          [(ngModel)]="newUser.userPassword"
-                                          [idComponent]="'id_UserPassword'"
-                                          [inputType]="'password'"
-                                          [labelText]="'Password'"
-                                          [name]="'password'"
-                                          [txtMinLength]="5">
-              </app-validatable-input-text>
-            </div>
-            <div class="p-col-3"></div>
-          </div>
-          <div class="p-grid u-mt-15pt">
-            <div class="p-col-3"></div>
-            <div class="p-col-6">
-              <app-validatable-input-text (componentHasErrorEvent)="setHasRepeatPasswordError($event)"
-                                          [(ngModel)]="newUser.userPasswordRepeat"
-                                          [idComponent]="'id_UserPasswordRepeat'"
-                                          [inputType]="'password'"
-                                          [labelText]="'Repeat password'"
-                                          [name]="'repeatPassword'"
-                                          [txtMinLength]="5">
-              </app-validatable-input-text>
-            </div>
-            <div class="p-col-3"></div>
-          </div>
+      <div class="registration-fields">
+        <app-validatable-input-text
+          (componentHasErrorEvent)="setHasUsernameError($event)"
+          [(ngModel)]="newUser.userName"
+          [idComponent]="'id_UserName'"
+          [labelText]="'auth.registration.fields.username' | transloco"
+          [name]="'username'"
+          [txtMinLength]="2">
+        </app-validatable-input-text>
 
-          <div class="p-grid registration-row-mt-10px">
-            <div class="p-col-4"></div>
-            <div class="p-col-3 registration-left-2vw">
-              <p-button [disabled]="haveErrors()" icon="pi pi-check" label="Register user" styleClass="p-button-text"
-                        type="submit"></p-button>
-            </div>
-            <div class="p-col-4"></div>
-          </div>
-        </div>
+        <app-validatable-input-text
+          (componentHasErrorEvent)="setHasPasswordError($event)"
+          [(ngModel)]="newUser.userPassword"
+          [idComponent]="'id_UserPassword'"
+          [inputType]="'password'"
+          [labelText]="'auth.registration.fields.password' | transloco"
+          [name]="'password'"
+          [txtMinLength]="5">
+        </app-validatable-input-text>
 
+        <app-validatable-input-text
+          (componentHasErrorEvent)="setHasRepeatPasswordError($event)"
+          [(ngModel)]="newUser.userPasswordRepeat"
+          [idComponent]="'id_UserPasswordRepeat'"
+          [inputType]="'password'"
+          [labelText]="'auth.registration.fields.repeat_password' | transloco"
+          [name]="'repeatPassword'"
+          [txtMinLength]="5">
+        </app-validatable-input-text>
+
+        @if (passwordMismatch && newUser.userPasswordRepeat) {
+          <small class="registration-error">{{ 'auth.registration.error.password_mismatch' | transloco }}</small>
+        }
+      </div>
+
+      <p-button
+        [disabled]="haveErrors() || userRegistrationForm.invalid || passwordMismatch || isSubmitting"
+        [label]="'auth.registration.actions.register' | transloco"
+        [loading]="isSubmitting"
+        icon="pi pi-check"
+        type="submit">
+      </p-button>
+
+      <div class="registration-form-footer">
+        <span>{{ 'auth.registration.have_account' | transloco }}</span>
+        <a routerLink="/">{{ 'auth.registration.actions.login' | transloco }}</a>
       </div>
     </form>
-  </div>
-</div>
-
+  </section>
+</main>

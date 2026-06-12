@@ -1,180 +1,155 @@
 <p-toast></p-toast>
-<form #itemsForm = "ngForm">
-<div class="p-fluid p-grid">
-  <div class="p-col-12">
-    <div class="p-grid u-bg-white">
-      <div class="p-col-12">
-        <p-table [autoLayout]="true" [paginator]="true"
-                 [resizableColumns]="true"
+<form #itemsForm="ngForm" class="items-form">
+  <div class="items-table-scroll">
+    <p-table
+      [autoLayout]="true"
+      [resizableColumns]="true"
+      [value]="invoiceItems"
+      class="p-global-table"
+      editMode="row"
+      styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="item-description-column">{{ 'invoice.item.table.short_description' | transloco }}</th>
+          <th>{{ 'invoice.item.table.amount' | transloco }}</th>
+          <th>{{ 'invoice.item.table.price' | transloco }}</th>
+          <th>{{ 'invoice.item.table.vat' | transloco }}</th>
+          <th>{{ 'invoice.item.table.sum_netto' | transloco }}</th>
+          <th>{{ 'invoice.item.table.sum_brutto' | transloco }}</th>
+          <th class="item-manage-column">{{ 'common.table.manage' | transloco }}</th>
+        </tr>
+      </ng-template>
 
-                 [rows]="20"
-                 [value]="invoiceItems"
-                 class="p-global-table"
-                 editMode="row"
-                 sortMode="multiple" styleClass="p-datatable-gridlines">
-          <ng-template pTemplate="header">
-            <tr>
-              <th class="u-w-40">{{'invoice.item.table.short_description' | transloco}}</th>
-              <th class="u-w-10">{{'invoice.item.table.amount' | transloco}}</th>
-              <th class="u-w-10">{{'invoice.item.table.price' | transloco}}</th>
-              <th class="u-w-10">{{'invoice.item.table.vat' | transloco}}</th>
-              <th class="u-w-10">{{'invoice.item.table.sum_netto' | transloco}}</th>
-              <th class="u-w-10">{{'invoice.item.table.sum_brutto' | transloco}}</th>
-              <th class="u-w-10">{{'common.table.manage' | transloco}}</th>
-            </tr>
-          </ng-template>
-          <ng-template let-invoiceitem pTemplate="body">
-            <tr>
-              <td pEditableColumn class="u-w-40">
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <div class = "full-width-display-table">
-                      <div class = "full-width-display-row">
-                        <div class = "full-width-display-cell">
-                           <span class="p-float-label">
-                              <p-dropdown #itemsRef
-                                          #modelRef="ngModel"
-                                          id="{{invoiceitem?.catalogItemId}}"
-                                          (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
-                                          [ngModel]="invoiceitem?.catalogItemId"
-                                          [options]="catalogItems"
-                                          name="catalogItemId"
-                                          [ngClass]="{
-                                            'ng-invalid': modelRef?.invalid,
-                                            'ng-dirty': modelRef?.dirty || modelRef?.touched
-                                           }"
-                                          appendTo="body">
-                                  <label for="{{invoiceitem?.catalogItemId}}">Select Item</label>
-                              </p-dropdown>
-                           </span>
-                        </div>
-                        <div *ngIf="modelRef.value===undefined || modelRef.value=== null" class="u-table-cell-w-10">
-                          <div class="items-error-icon-offset">
-                            <p-message severity="error"></p-message>
-                          </div>
-                        </div>
-                        <div *ngIf="modelRef?.errors?.['minlength']" class="u-table-cell-w-10">
-                          <div class="items-error-icon-offset">
-                            <p-message severity="error"></p-message>
-                          </div>
-                        </div>
-                        <div *ngIf="modelRef?.errors?.['required']" class="u-table-cell-w-10">
-                          <p-message severity="error"></p-message>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{getCatalogDescription(invoiceitem?.catalogItemId) }}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td pEditableColumn class="u-w-10">
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)"
-                                   [(ngModel)]="invoiceitem.amountItems"
-                                   [disabled]="invoiceitem?.catalogItemId===undefined"
-                                   [maxFractionDigits]="2"
-                                   [minFractionDigits]="2"
-                                   class="p-cell-editing ng-dirty"
-                                   mode="decimal"
-                                   name="amountItems"
-                                   placeholder='0.00'
-                                   required/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{invoiceitem.amountItems | standardFloat}}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td pEditableColumn class="u-w-10">
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.itemPrice"
-                                   [disabled]="invoiceitem?.catalogItemId===undefined"
-                                   [maxFractionDigits]="2"
-                                   [minFractionDigits]="2"
-                                   class="p-cell-editing ng-dirty"
-                                   mode="decimal"
-                                   name="price"
-                                   placeholder='0.00'
-                                   required/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{invoiceitem.itemPrice | standardFloat}}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td pEditableColumn class="u-w-10">
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <p-inputNumber (onInput)="inputBoxChanged(invoiceitem, $event)" [(ngModel)]="invoiceitem.vat"
-                                   [disabled]="invoiceitem?.catalogItemId===undefined"
-                                   [maxFractionDigits]="2"
-                                   [minFractionDigits]="2"
-                                   class="p-cell-editing ng-dirty"
-                                   mode="decimal"
-                                   name="vat"
-                                   placeholder='0.00'
-                                   required/>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{invoiceitem.vat | standardFloat}}
-                  </ng-template>
-                </p-cellEditor>
-              </td>
-              <td class="u-w-10">
-                {{invoiceitem.sumNetto | standardFloat}}
-              </td>
-              <td class="u-w-10">
-                {{invoiceitem.sumBrutto | standardFloat}}
-              </td>
-              <td class="u-w-10">
-                <button (click)="deleteItem(invoiceitem.idxItem)" class="p-button-rounded p-button-warning"
-                        icon="pi pi-trash" pButton
-                        pRipple></button>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-      <div class="p-col-12 u-bg-white">
-        <div class="add-button-container-size items-add-button-wrapper">
-          <p-button (onClick)="addNewItem()" [pTooltip]="'Add new empty item'" label="{{'invoice.add_item' | transloco}}"
-                    styleClass="p-button-secondary"></p-button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="p-col-12 items-zero-vertical-padding">
-    <div class="p-grid">
-      <div class="p-col-10"></div>
-      <div class="p-col-2 items-zero-vertical-padding">
+      <ng-template let-invoiceitem pTemplate="body">
+        <tr>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-dropdown
+                  #modelRef="ngModel"
+                  (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
+                  [inputId]="'catalogItem-' + invoiceitem.idxItem"
+                  [ngClass]="{
+                    'ng-invalid': modelRef.invalid,
+                    'ng-dirty': modelRef.dirty || modelRef.touched
+                  }"
+                  [ngModel]="invoiceitem.catalogItemId"
+                  [options]="catalogItems"
+                  [name]="'catalogItemId-' + invoiceitem.idxItem"
+                  appendTo="body">
+                </p-dropdown>
+              </ng-template>
+              <ng-template pTemplate="output">
+                @if (invoiceitem.catalogItemId) {
+                  <span class="item-description">{{ getCatalogDescription(invoiceitem.catalogItemId) }}</span>
+                } @else {
+                  <span class="item-placeholder">{{ 'invoice.create.select_item' | transloco }}</span>
+                }
+              </ng-template>
+            </p-cellEditor>
+          </td>
 
-        <label for="id-tottalNettoSun" class="items-total-label-margin">{{'invoice.total_netto' | transloco}}</label>
-        <input [ngModel]="calculatorService.totalNettoSum()  | standardFloat"
-               class="p-field" id="id-tottalNettoSun" name="totalNettoSum" placeholder="0.00"
-               readonly
-               required type="text"/>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-inputNumber
+                  (onInput)="inputBoxChanged(invoiceitem)"
+                  [(ngModel)]="invoiceitem.amountItems"
+                  [disabled]="invoiceitem.catalogItemId === undefined"
+                  [maxFractionDigits]="2"
+                  [minFractionDigits]="2"
+                  [name]="'amountItems-' + invoiceitem.idxItem"
+                  mode="decimal"
+                  placeholder="0.00"
+                  required>
+                </p-inputNumber>
+              </ng-template>
+              <ng-template pTemplate="output">{{ invoiceitem.amountItems | standardFloat }}</ng-template>
+            </p-cellEditor>
+          </td>
+
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-inputNumber
+                  (onInput)="inputBoxChanged(invoiceitem)"
+                  [(ngModel)]="invoiceitem.itemPrice"
+                  [disabled]="invoiceitem.catalogItemId === undefined"
+                  [maxFractionDigits]="2"
+                  [minFractionDigits]="2"
+                  [name]="'price-' + invoiceitem.idxItem"
+                  mode="decimal"
+                  placeholder="0.00"
+                  required>
+                </p-inputNumber>
+              </ng-template>
+              <ng-template pTemplate="output">{{ invoiceitem.itemPrice | standardFloat }}</ng-template>
+            </p-cellEditor>
+          </td>
+
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-inputNumber
+                  (onInput)="inputBoxChanged(invoiceitem)"
+                  [(ngModel)]="invoiceitem.vat"
+                  [disabled]="invoiceitem.catalogItemId === undefined"
+                  [maxFractionDigits]="2"
+                  [minFractionDigits]="2"
+                  [name]="'vat-' + invoiceitem.idxItem"
+                  mode="decimal"
+                  placeholder="0.00"
+                  required>
+                </p-inputNumber>
+              </ng-template>
+              <ng-template pTemplate="output">{{ invoiceitem.vat | standardFloat }}</ng-template>
+            </p-cellEditor>
+          </td>
+
+          <td class="item-money">{{ invoiceitem.sumNetto | standardFloat }}</td>
+          <td class="item-money">{{ invoiceitem.sumBrutto | standardFloat }}</td>
+          <td>
+            <button
+              type="button"
+              (click)="deleteItem(invoiceitem.idxItem)"
+              class="p-button-rounded p-button-text p-button-danger"
+              [pTooltip]="'common.tooltips.delete_item' | transloco"
+              icon="pi pi-trash"
+              pButton
+              pRipple>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="items-empty">
+            <i class="pi pi-inbox"></i>
+            <span>{{ 'invoice.create.no_items' | transloco }}</span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="items-footer">
+    <p-button
+      (onClick)="addNewItem()"
+      [label]="'invoice.add_item' | transloco"
+      icon="pi pi-plus"
+      severity="secondary">
+    </p-button>
+
+    <div class="items-totals">
+      <div>
+        <span>{{ 'invoice.total_netto' | transloco }}</span>
+        <strong>{{ calculatorService.totalNettoSum() | standardFloat }}</strong>
+      </div>
+      <div class="items-grand-total">
+        <span>{{ 'invoice.total_brutto' | transloco }}</span>
+        <strong>{{ calculatorService.totalBruttoSum() | standardFloat }}</strong>
       </div>
     </div>
   </div>
-  <div class="p-col-12 items-zero-vertical-padding">
-    <div class="p-grid">
-      <div class="p-col-10 items-zero-vertical-padding"></div>
-      <div class="p-col-2 items-zero-vertical-padding">
-        <label for="id-tottalBruttoSun" class="items-total-label-margin">{{'invoice.total_brutto' | transloco}}</label>
-        <input [ngModel]="calculatorService.totalBruttoSum() | standardFloat"
-               class="p-cell-editing" id="id-tottalBruttoSun" name="totalBruttoSum"
-               placeholder="0.00"
-               readonly
-               required type="text"/>
-      </div>
-    </div>
-  </div>
-</div>
 </form>
-
-
-

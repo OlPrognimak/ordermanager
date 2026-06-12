@@ -2,7 +2,7 @@ import { Directive, Input, OnDestroy } from "@angular/core";
 import { MessagesPrinter } from "./common-services.app.http.service";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { remoteBackendUrl } from "../common-auth/app-security.service";
-import { Subject, takeUntil } from "rxjs";
+import { finalize, Subject, takeUntil } from "rxjs";
 
 
 const SELECTION_COLOR = "blue"
@@ -71,7 +71,7 @@ export class CommonServicesEditService<T> implements OnDestroy {
     }
   }
 
-  loadData = (criteria: string, messagePrinterPar: MessagesPrinter, callback) => {
+  loadData = (criteria: string, messagePrinterPar: MessagesPrinter, callback, onComplete: () => void = () => {}) => {
 
     const rsHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -91,18 +91,23 @@ export class CommonServicesEditService<T> implements OnDestroy {
 
     const backendUrl = remoteBackendUrl()
     if (backendUrl !== null) {
-      this.httpClient.get<T[]>(backendUrl + this.endPointUrl, options).pipe(takeUntil(this.notifier),).subscribe(
+      this.httpClient.get<T[]>(backendUrl + this.endPointUrl, options).pipe(
+        takeUntil(this.notifier),
+        finalize(onComplete)
+      ).subscribe(
         {
           next(response) {
             return callback(response)
           },
           error(err) {
+            callback([])
             messagePrinterPar.printUnsuccessefulMessage(
               errorBaseMsg + ': ' + criteria, err)
           }
         }
       )
     } else {
+      onComplete()
       throw new Error('Backend URL can not be null')
     }
   }
@@ -112,4 +117,3 @@ export class CommonServicesEditService<T> implements OnDestroy {
     this.notifier.complete()
   }
 }
-

@@ -2,12 +2,32 @@
   "person": {
     "save_and_return": "Speichern und zurückkehren",
     "dialog": {
-      "edit_person": "Person bearbeiten"
+      "edit_person": "Person bearbeiten",
+      "eyebrow": "Kontaktpflege",
+      "description_title": "Kontaktdaten aktualisieren",
+      "description": "Prüfen Sie Identitäts-, Adress- und Bankdaten. Gespeicherte Änderungen stehen anschließend in der Rechnungsverwaltung zur Verfügung.",
+      "identity_title": "Identität und Steuerdaten",
+      "identity_description": "Pflegen Sie Kontakttyp, Identifikationsdaten und E-Mail-Adresse."
     },
     "form": {
       "create_person": "Neue Person anlegen",
       "person_address": "Adresse der Person",
       "person_bank": "Bankverbindung der Person",
+      "create": {
+        "eyebrow": "Kontaktverzeichnis",
+        "subtitle": "Erstellen Sie eine Person oder Organisation für Rechnungen und Geschäftsdaten.",
+        "new_contact": "Neuer Kontakt",
+        "for_invoice": "Für Rechnungsworkflow",
+        "identity_title": "Identität und Steuerdaten",
+        "identity_subtitle": "Wählen Sie den Kontakttyp und geben Sie Identifikationsdaten an.",
+        "address_subtitle": "Geben Sie die Postanschrift für Geschäftsdokumente ein.",
+        "bank_subtitle": "Fügen Sie das auf Rechnungen verwendete Zahlungskonto hinzu.",
+        "summary": "Kontaktübersicht",
+        "no_email": "Keine E-Mail angegeben.",
+        "summary_hint": "Nach dem Speichern kann diese Person auf Rechnungen ausgewählt werden.",
+        "ready_title": "Bereit, diesen Kontakt zu speichern?",
+        "ready_hint": "Füllen Sie alle erforderlichen Identitäts-, Adress- und Bankfelder aus."
+      },
       "field": {
         "first_name": "Vorname",
         "last_name": "Nachname",
@@ -23,11 +43,22 @@
         "account": "Kontonummer",
         "iban": "IBAN",
         "bic_swift": "BIC/SWIFT",
-        "wrong_iban_format": "Ungültiges IBAN-Format"
+        "wrong_iban_format": "Ungültiges IBAN-Format",
+        "wrong_email_format": "Ungültiges E-Mail-Format"
       }
     },
     "management": {
       "title": "Personenverwaltung",
+      "eyebrow": "Kontakte und Organisationen",
+      "subtitle": "Prüfen, bearbeiten und verwalten Sie Personen, die in Rechnungen verwendet werden.",
+      "records": "Personen",
+      "results_title": "Gespeicherte Personen",
+      "results_hint": "Doppelklicken Sie eine Person oder verwenden Sie die Bearbeiten-Aktion.",
+      "changed": "geändert",
+      "no_results": "Für diesen Zeitraum wurden keine Personen gefunden.",
+      "pending_title": "Ausstehende Personenänderungen",
+      "pending_hint": "Prüfen Sie geänderte Zeilen vor dem Speichern.",
+      "debug_error": "Debug-Servicefehler",
       "tooltips": {
         "edit_person": "Doppelklick, um Person zu bearbeiten"
       },

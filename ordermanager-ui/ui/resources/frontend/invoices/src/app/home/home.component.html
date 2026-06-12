@@ -1,0 +1,77 @@
+@if (isAuthenticated()) {
+  <main class="dashboard-page">
+    <header class="dashboard-header">
+      <div>
+        <span class="dashboard-eyebrow">{{ 'homepage.eyebrow' | transloco }}</span>
+        <h1>{{ 'homepage.heading' | transloco }}</h1>
+        <p>{{ 'homepage.subtitle' | transloco }}</p>
+      </div>
+      <span class="dashboard-badge"><i class="pi pi-th-large"></i>{{ 'homepage.workspace' | transloco }}</span>
+    </header>
+
+    <section class="dashboard-grid" [attr.aria-label]="'homepage.heading' | transloco">
+      <article class="feature-card feature-card-users">
+        <header class="feature-header">
+          <span class="feature-icon"><i class="pi pi-users"></i></span>
+          <div>
+            <h2>{{ 'homepage.users.title' | transloco }}</h2>
+            <p>{{ 'homepage.users.description' | transloco }}</p>
+          </div>
+        </header>
+        <nav class="feature-links">
+          <a routerLink="/user-registration-page">
+            <span><strong>{{ 'menu.create_user' | transloco }}</strong><small>{{ 'homepage.users.create' | transloco }}</small></span>
+            <i class="pi pi-arrow-right"></i>
+          </a>
+        </nav>
+      </article>
+
+      <article class="feature-card feature-card-invoices">
+        <header class="feature-header">
+          <span class="feature-icon"><i class="pi pi-file"></i></span>
+          <div>
+            <h2>{{ 'homepage.invoices.title' | transloco }}</h2>
+            <p>{{ 'homepage.invoices.description' | transloco }}</p>
+          </div>
+        </header>
+        <nav class="feature-links">
+          <a routerLink="/create-invoice-page"><span><strong>{{ 'menu.invoice.create' | transloco }}</strong><small>{{ 'homepage.invoices.create' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+          <a routerLink="/invoice-management-page"><span><strong>{{ 'menu.invoice.management' | transloco }}</strong><small>{{ 'homepage.invoices.manage' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+          <a routerLink="/invoice-list-page"><span><strong>{{ 'menu.invoice.print' | transloco }}</strong><small>{{ 'homepage.invoices.documents' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+          <a routerLink="/create-invoice-item-page"><span><strong>{{ 'menu.invoice.create_catalog_item' | transloco }}</strong><small>{{ 'homepage.invoices.create_item' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+          <a routerLink="/catalog-item-management-page"><span><strong>{{ 'menu.invoice.manage_catalog_items' | transloco }}</strong><small>{{ 'homepage.invoices.catalog' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+        </nav>
+      </article>
+
+      <article class="feature-card feature-card-people">
+        <header class="feature-header">
+          <span class="feature-icon"><i class="pi pi-id-card"></i></span>
+          <div>
+            <h2>{{ 'homepage.people.title' | transloco }}</h2>
+            <p>{{ 'homepage.people.description' | transloco }}</p>
+          </div>
+        </header>
+        <nav class="feature-links">
+          <a routerLink="/create-person-page"><span><strong>{{ 'menu.person.create' | transloco }}</strong><small>{{ 'homepage.people.create' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+          <a routerLink="/person-management-page"><span><strong>{{ 'menu.person.management' | transloco }}</strong><small>{{ 'homepage.people.manage' | transloco }}</small></span><i class="pi pi-arrow-right"></i></a>
+        </nav>
+      </article>
+
+      <article class="feature-card feature-card-workflows">
+        <header class="feature-header">
+          <span class="feature-icon"><i class="pi pi-sitemap"></i></span>
+          <div>
+            <h2>{{ 'homepage.workflows.title' | transloco }}</h2>
+            <p>{{ 'homepage.workflows.description' | transloco }}</p>
+          </div>
+        </header>
+        <nav class="feature-links">
+          <a routerLink="/workflow-create-invoice">
+            <span><strong>{{ 'menu.workflows.create_invoice' | transloco }}</strong><small>{{ 'homepage.workflows.invoice' | transloco }}</small></span>
+            <i class="pi pi-arrow-right"></i>
+          </a>
+        </nav>
+      </article>
+    </section>
+  </main>
+}

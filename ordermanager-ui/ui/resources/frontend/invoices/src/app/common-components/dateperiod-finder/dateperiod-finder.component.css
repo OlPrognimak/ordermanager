@@ -1,28 +1,67 @@
-.overlayProcess {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0);
-  z-index: 2;
-  cursor: pointer;
-}
-
-.childElementCenter {
+.date-filter {
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: calc(100vh - 20px);
-  background-color: rgba(0, 0, 0, 0);
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.8rem;
 }
 
-.justifyPanel {
-  margin-left: 5pt;
-  margin-top: 10pt;
-  margin-bottom: 10pt;
+.date-filter-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: #334155;
 }
-.dateperiod-title-offset { margin-left: 5pt; }
+
+.date-filter-heading i {
+  color: #2563eb;
+  font-size: 1.2rem;
+}
+
+.date-filter-heading div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.date-filter-heading span {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.date-filter-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(10rem, 13rem)) auto;
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.date-filter-loading {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: inherit;
+}
+
+@media (max-width: 800px) {
+  .date-filter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 560px) {
+  .date-filter-fields {
+    grid-template-columns: 1fr;
+  }
+
+  :host ::ng-deep .date-filter-fields .p-button {
+    width: 100%;
+  }
+}

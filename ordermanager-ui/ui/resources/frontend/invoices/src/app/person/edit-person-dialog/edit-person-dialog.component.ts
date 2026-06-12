@@ -84,13 +84,13 @@ export class EditPersonDialogComponent {
   get dialogStyle() {
     return this.isFullscreen
       ? { width: '100vw', height: '100vh', top: '0', left: '0' }
-      : { width: '60vw', height: '70vh' };
+      : { width: 'min(72rem, calc(100vw - 2rem))', maxHeight: 'calc(100vh - 2rem)' };
   }
 
   get dialogContentStyle() {
     return this.isFullscreen
-      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0' }
-      : { width: '60vw', height: '70vh'};
+      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0', overflow: 'auto' }
+      : { width: '100%', maxHeight: 'calc(100vh - 12rem)', overflow: 'auto' };
   }
 
   toggleFullscreen() {

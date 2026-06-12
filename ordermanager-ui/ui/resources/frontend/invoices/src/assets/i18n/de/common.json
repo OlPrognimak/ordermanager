@@ -7,6 +7,7 @@
     },
     "dialog": {
       "confirm": {
+        "eyebrow": "Bestätigung erforderlich",
         "yes": "Ja",
         "no": "Nein"
       }
@@ -19,6 +20,7 @@
     },
     "datePeriod": {
       "title": "Datumsbereich auswählen",
+      "subtitle": "Einträge nach Dokumentdatum filtern",
       "startDate": "Startdatum",
       "endDate": "Enddatum"
     },

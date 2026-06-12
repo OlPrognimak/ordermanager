@@ -31,6 +31,34 @@
     "navigate_home": "Zur Startseite navigieren"
   },
   "homepage": {
-    "heading": "Startseite der Ordermanager-Anwendung"
+    "eyebrow": "Arbeitsbereich",
+    "heading": "Was möchten Sie verwalten?",
+    "subtitle": "Wählen Sie einen Bereich, um Geschäftsdaten zu erstellen, bestehende Daten zu pflegen oder einen geführten Prozess abzuschließen.",
+    "workspace": "Auftragsmanager",
+    "users": {
+      "title": "Benutzerverwaltung",
+      "description": "Erstellen Sie einen Anwendungszugang für einen weiteren Benutzer.",
+      "create": "Registrieren Sie einen neuen Benutzernamen und ein Passwort für den Anwendungszugang."
+    },
+    "invoices": {
+      "title": "Rechnung",
+      "description": "Erstellen Sie Rechnungen, pflegen Sie wiederverwendbare Katalogpositionen und verwalten Sie fertige Dokumente.",
+      "create": "Erstellen Sie eine neue Rechnung mit Parteien, Daten und Positionen.",
+      "manage": "Prüfen und bearbeiten Sie gespeicherte Rechnungen.",
+      "documents": "Suchen Sie Rechnungen und laden Sie deren PDF-Dokumente herunter.",
+      "create_item": "Fügen Sie dem Katalog ein wiederverwendbares Produkt oder eine Dienstleistung hinzu.",
+      "catalog": "Suchen, bearbeiten und verwalten Sie Katalogpositionen."
+    },
+    "people": {
+      "title": "Person",
+      "description": "Verwalten Sie Kunden, Lieferanten und Organisationen, die auf Rechnungen verwendet werden.",
+      "create": "Erstellen Sie eine Person oder Organisation mit Adress- und Zahlungsdaten.",
+      "manage": "Prüfen und aktualisieren Sie bestehende Kontakte."
+    },
+    "workflows": {
+      "title": "Workflows",
+      "description": "Bearbeiten Sie komplexe Geschäftsaufgaben in einer geführten Schrittfolge.",
+      "invoice": "Erstellen Sie eine Rechnung Schritt für Schritt, von den Grunddaten bis zur abschließenden Prüfung."
+    }
   }
 }

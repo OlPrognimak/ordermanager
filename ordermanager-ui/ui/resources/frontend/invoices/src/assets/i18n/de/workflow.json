@@ -1,6 +1,20 @@
 {
   "workflow": {
     "invoice": {
+      "eyebrow": "Geführte Rechnungserstellung",
+      "title": "Rechnung erstellen",
+      "subtitle": "Vervollständigen Sie jeden Schritt. Ihre Eingaben bleiben beim Wechsel zwischen den Schritten erhalten.",
+      "navigation": "Schritte der Rechnungserstellung",
+      "step_count": "Schritt {{current}} von {{total}}",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "save": "Rechnung speichern",
+      "select_person": "Person auswählen",
+      "create_person": "Neue Person erstellen",
+      "review": {
+        "items": "Rechnungspositionen",
+        "not_selected": "Nicht ausgewählt"
+      },
       "steps": {
         "set_invoice_type_number": "Rechnungstyp/-nummer festlegen",
         "set_invoice_date": "Rechnungsdatum festlegen",

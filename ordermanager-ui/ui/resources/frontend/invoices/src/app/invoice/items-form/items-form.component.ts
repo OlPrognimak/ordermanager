@@ -47,23 +47,35 @@ export class ItemsFormComponent implements OnInit {
     this.model = new ItemCatalogModel();
   }
 
+
+  get grossPrice(): number {
+    const price = Number(this.model?.itemPrice ?? 0);
+    const vat = Number(this.model?.vat ?? 0);
+    return Number((price + (price * vat / 100)).toFixed(2));
+  }
   /**
    * Saves item to the database on server
    * @param item the item for saving
    */
-  saveItem(item: any): void {
+  saveItem(): void {
     if (!this.haveErrors()) {
       this.httpService.putObjectToServer('PUT', this.model, 'Invoice Item',
         'invoice/itemcatalog', (callback) => {
           if (callback) {
             this.model = new ItemCatalogModel();
+            this.itemCatalogForm.resetForm(this.model);
           }
         });
     }
   }
 
-  haveErrors() {
-    return this.hasNameError || this.hasPriceError || this.hasVatError
+  haveErrors(): boolean {
+    const nameIsInvalid = !this.model?.description || this.model.description.trim().length < 2;
+    const priceIsInvalid = this.model?.itemPrice === undefined || this.model.itemPrice === null || this.model.itemPrice < 0;
+    const vatIsInvalid = this.model?.vat === undefined || this.model.vat === null || this.model.vat < 0;
+
+    return nameIsInvalid || priceIsInvalid || vatIsInvalid ||
+      this.hasNameError === true || this.hasPriceError === true || this.hasVatError === true;
   }
 
   setHasVatError(isError: boolean) {

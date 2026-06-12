@@ -5,7 +5,11 @@
           styleClass="invoice-edit-dialog">
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 class="dialog-title">{{'invoice.dialog.edit_invoice' | transloco}}</h2>
+      <span class="dialog-header-icon"><i class="pi pi-file-edit"></i></span>
+      <div>
+        <span class="dialog-eyebrow">{{ 'invoice.dialog.eyebrow' | transloco }}</span>
+        <h2 class="dialog-title">{{'invoice.dialog.edit_invoice' | transloco}}</h2>
+      </div>
       <div class="header-actions">
         <button
           pButton
@@ -24,11 +28,23 @@
   </ng-template>
 
   <div *ngIf="isAuthenticated();" [formGroup]="editInvoiceFG" class="u-h-100">
-    <div>
-      <p-toast></p-toast>
+    <p-toast></p-toast>
+    <div class="dialog-intro">
+      <i class="pi pi-info-circle"></i>
+      <div>
+        <strong>{{ 'invoice.dialog.description_title' | transloco }}</strong>
+        <p>{{ 'invoice.dialog.description' | transloco }}</p>
+      </div>
     </div>
     <div class="p-fluid">
-      <div class="shadow-panel-color p-shadow-4 invoice-edit-panel">
+      <div class="invoice-edit-panel">
+        <div class="dialog-section-heading">
+          <span class="dialog-section-icon"><i class="pi pi-file"></i></span>
+          <div>
+            <h3>{{ 'invoice.dialog.details_title' | transloco }}</h3>
+            <p>{{ 'invoice.dialog.details_description' | transloco }}</p>
+          </div>
+        </div>
         <div class="p-grid u-mt-10pt">
           <div class="p-col-4 edit-invoice-field-spacer">
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
@@ -123,14 +139,15 @@
     </div>
   </div>
   <ng-template pTemplate="footer">
-    <p-button (click)="putChangesBack()" [disabled]="haveErrors()" icon="pi pi-check" label="{{'common.actions.save' | transloco}}"
-              styleClass="p-button-text"></p-button>
-    <p-button (click)="setVisible(false)" icon="pi pi-check pink-300" label="{{'common.actions.cancel' | transloco}}"
-              styleClass="p-button-text p-button-secondary"></p-button>
+    <div class="dialog-footer-actions">
+      <p-button (click)="setVisible(false)" icon="pi pi-times" label="{{'common.actions.cancel' | transloco}}"
+                severity="secondary" [outlined]="true"></p-button>
+      <p-button (click)="putChangesBack()" [disabled]="haveErrors()" icon="pi pi-check"
+                label="{{'common.actions.save' | transloco}}"></p-button>
+    </div>
   </ng-template>
 </p-dialog>
 <app-templates-component #templatesComponent
                          (calendarValueChanged)="setCalendarValue($event)"
                          [templatesFormGroup]="editInvoiceFG"></app-templates-component>
-
 

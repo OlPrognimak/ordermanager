@@ -1,36 +1,206 @@
-.align-right-button {
-  margin-left: auto; /* Push the button to the right */
-  padding-right: 5pt;
-  display: block; /* Make the button a block-level element */
+.management-page {
+  position: relative;
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
 }
 
-
-.criteria-search-container {
-  margin-top: 20pt;
-  margin-left: 5pt;
-  margin-right: 45pt;
+.management-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
 }
 
-.management-page-style {
-  height: 100%
+.management-header h1 {
+  margin: 0.3rem 0 0.4rem;
 }
 
-.top-container-table-area {
-  height: 100%;
+.management-header p,
+.management-results-heading span,
+.management-save-bar span {
+  margin: 0;
+  color: #64748b;
 }
 
-.table-area {
-  width: 100%;
-  height: 100%;
-  background-color: aliceblue;
+.management-eyebrow {
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.base-top-grid-area {
-  height: 83%
+.management-stat {
+  display: grid;
+  min-width: 6rem;
+  padding: 0.75rem 1rem;
+  background: #eff6ff;
+  border-radius: 0.75rem;
+  color: #1d4ed8;
+  text-align: center;
 }
 
-.p-button .pi.pi-undo {
-  margin-left: 2px;
+.management-stat strong {
+  font-size: 1.35rem;
 }
-.item-management-zero-right-margin { margin-right: 0pt; }
-.item-management-col-30 { width: 30%; }
+
+.management-stat span {
+  font-size: 0.75rem;
+}
+
+.management-toolbar,
+.management-results,
+.management-save-bar {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.85rem;
+}
+
+.management-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+}
+
+.management-search {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+.management-search i {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0.85rem;
+  color: #64748b;
+  transform: translateY(-50%);
+}
+
+.management-search input {
+  padding-left: 2.4rem;
+}
+
+.management-results {
+  overflow: hidden;
+}
+
+.management-results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.management-results-heading h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
+}
+
+.management-change-badge {
+  padding: 0.35rem 0.65rem;
+  background: #fef3c7;
+  border-radius: 999px;
+  color: #92400e !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.management-table-scroll {
+  overflow-x: auto;
+}
+
+.management-table-scroll p-table {
+  display: block;
+  min-width: 760px;
+}
+
+.management-actions-column {
+  width: 10rem;
+}
+
+.management-money {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.management-row-actions {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.management-row-changed td {
+  background: #eff6ff !important;
+}
+
+.management-empty {
+  padding: 2rem !important;
+  color: #64748b !important;
+  text-align: center;
+}
+
+.management-save-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.2rem;
+}
+
+.management-save-bar div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.management-save-bar span {
+  font-size: 0.82rem;
+}
+
+.management-loading {
+  position: fixed;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+@media (max-width: 640px) {
+  .management-page {
+    width: 100%;
+    padding: 1rem 0 0;
+  }
+
+  .management-header {
+    padding: 0 1rem;
+  }
+
+  .management-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .management-toolbar,
+  .management-results,
+  .management-save-bar {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .management-save-bar div {
+    display: none;
+  }
+
+  :host ::ng-deep .management-toolbar .p-button,
+  :host ::ng-deep .management-save-bar .p-button {
+    width: 100%;
+  }
+}

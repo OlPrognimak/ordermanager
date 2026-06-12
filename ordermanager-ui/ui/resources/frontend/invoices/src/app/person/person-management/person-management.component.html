@@ -1,123 +1,158 @@
 @if (isAuthenticated()) {
-  <div class="p-fluid p-flex-row management-page-style">
+  <main class="person-management-page">
     <p-toast></p-toast>
-    <div class="p-grid base-top-grid-area">
-      <div class="p-col-12">
-        <H2 class="u-ml-10pt">{{ 'person.management.title' | transloco }}</H2>
-      </div>
-      <div class="p-col-12" *ngIf="environment.debugMode">
-        <p>
-           Error Message: {{eventBusVal}}
-        </p>
-      </div>
-      <div class="p-col-12">
-        <app-dateperiod-finder #dataFinder (responseOutput)="modelList = $event" [url]="'person/personsListPeriod'"/>
-      </div>
-      <div class="p-col-12 p-shadow-4 top-container-table-area">
-        <div class="table-area" id="Id_Management_Table">
-          <p-table [(selection)]="selectedPerson" [autoLayout]="true" [metaKeySelection]=keySelection
-                   [resizableColumns]="true"
-                   [rows]="10"
-                   [value]="modelList"
-                   class="person-data-table"
-                   editMode="row"
-                   paginator="true" selectionMode="multiple" styleClass="p-datatable-gridlines">
-            <ng-template pTemplate="header">
-              <tr>
-                <th pSortableColumn="personLastName" class="person-col-20">{{ 'person.management.table.last_name' | transloco }}
-                  <p-sortIcon field="personLastName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="personFirstName" class="person-col-20">{{ 'person.management.table.first_name' | transloco }}
-                  <p-sortIcon field="personLastName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="companyName" class="u-w-25">{{ 'person.management.table.company_name' | transloco }}
-                  <p-sortIcon field="companyName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="personType" class="u-w-10">{{ 'person.management.table.person_type' | transloco }}
-                  <p-sortIcon field="personType"></p-sortIcon>
-                </th>
-                <th pSortableColumn="taxNumber" class="u-w-10">{{ 'person.management.table.tax_number' | transloco }}
-                  <p-sortIcon field="taxNumber"></p-sortIcon>
-                </th>
-                <th pSortableColumn="vatIdNumber" class="u-w-10">{{ 'person.management.table.vat_id_number' | transloco }}
-                  <p-sortIcon field="vatIdNumber"></p-sortIcon>
-                </th>
-                <th pSortableColumn="email" class="u-w-15">{{ 'person.management.table.email' | transloco }}
-                  <p-sortIcon field="email"></p-sortIcon>
-                </th>
-                <th class="u-w-5">{{ 'common.table.manage' | transloco }}</th>
-              </tr>
-            </ng-template>
 
-            <ng-template let-person let-rowIndex="rowIndex" pTemplate="body">
-              <tr (dblclick)="rowDoubleClick($event, person)" [ngStyle]="{'color':isPersonChanged(person)}"
-                  [pSelectableRowIndex]="rowIndex"
-                  [pSelectableRow]="person"
-                  title="{{ 'person.management.tooltips.edit_person' | transloco }}">
-                <td class="person-cell-padding">
-                  <div>{{person.personLastName}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <div>{{person.personFirstName}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <div>{{person.companyName}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <div>{{person.personType}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <div>{{person.taxNumber}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <div>{{person.vatIdNumber}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <div>{{person.email}}</div>
-                </td>
-                <td class="person-cell-padding">
-                  <button (click)="deletePerson(person.id)" class="p-button-rounded p-button-warning"
-                          pButton pRipple
-                          title="{{ 'common.tooltips.delete_item' | transloco }}">
-                    <i class="pi pi-trash"></i>
-                  </button>
-                  <button (click)="rowDoubleClick($event, person)" class="p-button-rounded p-button-warning undo-button"
-                          pButton pRipple
-                          title="{{ 'common.tooltips.edit_item' | transloco }}">
+    <header class="person-management-header">
+      <div>
+        <span class="person-management-eyebrow">{{ 'person.management.eyebrow' | transloco }}</span>
+        <h1>{{ 'person.management.title' | transloco }}</h1>
+        <p>{{ 'person.management.subtitle' | transloco }}</p>
+      </div>
+      <div class="person-management-stat">
+        <strong>{{ modelList.length }}</strong>
+        <span>{{ 'person.management.records' | transloco }}</span>
+      </div>
+    </header>
+
+    @if (environment.debugMode && eventBusVal) {
+      <div class="person-debug-alert">
+        <i class="pi pi-exclamation-triangle"></i>
+        <div>
+          <strong>{{ 'person.management.debug_error' | transloco }}</strong>
+          <span>{{ eventBusVal }}</span>
+        </div>
+      </div>
+    }
+
+    <app-dateperiod-finder
+      #dataFinder
+      (responseOutput)="modelList = $event"
+      [url]="'person/personsListPeriod'">
+    </app-dateperiod-finder>
+
+    <section class="person-management-results">
+      <div class="person-management-results-heading">
+        <div>
+          <h2>{{ 'person.management.results_title' | transloco }}</h2>
+          <span>{{ 'person.management.results_hint' | transloco }}</span>
+        </div>
+        @if (!haveNoChanges()) {
+          <span class="person-management-change-badge">
+            {{ changesList.length }} {{ 'person.management.changed' | transloco }}
+          </span>
+        }
+      </div>
+
+      <div class="person-management-table-scroll" id="Id_Management_Table">
+        <p-table
+          [(selection)]="selectedPerson"
+          [metaKeySelection]="keySelection"
+          [resizableColumns]="true"
+          [rows]="10"
+          [value]="modelList"
+          class="person-data-table"
+          paginator="true"
+          selectionMode="multiple"
+          sortMode="multiple"
+          styleClass="p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="personLastName">{{ 'person.management.table.last_name' | transloco }}
+                <p-sortIcon field="personLastName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="personFirstName">{{ 'person.management.table.first_name' | transloco }}
+                <p-sortIcon field="personFirstName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="companyName">{{ 'person.management.table.company_name' | transloco }}
+                <p-sortIcon field="companyName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="personType">{{ 'person.management.table.person_type' | transloco }}
+                <p-sortIcon field="personType"></p-sortIcon>
+              </th>
+              <th pSortableColumn="taxNumber">{{ 'person.management.table.tax_number' | transloco }}
+                <p-sortIcon field="taxNumber"></p-sortIcon>
+              </th>
+              <th pSortableColumn="vatIdNumber">{{ 'person.management.table.vat_id_number' | transloco }}
+                <p-sortIcon field="vatIdNumber"></p-sortIcon>
+              </th>
+              <th pSortableColumn="email">{{ 'person.management.table.email' | transloco }}
+                <p-sortIcon field="email"></p-sortIcon>
+              </th>
+              <th class="person-management-actions-column">{{ 'common.table.manage' | transloco }}</th>
+            </tr>
+          </ng-template>
+
+          <ng-template let-person let-rowIndex="rowIndex" pTemplate="body">
+            <tr
+              (dblclick)="rowDoubleClick($event, person)"
+              [class.person-management-row-changed]="isPersonChanged(person)"
+              [pSelectableRowIndex]="rowIndex"
+              [pSelectableRow]="person">
+              <td><strong>{{ person.personLastName || '-' }}</strong></td>
+              <td>{{ person.personFirstName || '-' }}</td>
+              <td>{{ person.companyName || '-' }}</td>
+              <td>
+                <span class="person-type-badge">{{ person.personType }}</span>
+              </td>
+              <td>{{ person.taxNumber || '-' }}</td>
+              <td>{{ person.vatIdNumber || '-' }}</td>
+              <td><a [href]="'mailto:' + person.email">{{ person.email }}</a></td>
+              <td>
+                <div class="person-management-row-actions">
+                  <button type="button" (click)="rowDoubleClick($event, person)"
+                          class="p-button-rounded p-button-text" pButton pRipple
+                          [title]="'common.tooltips.edit_item' | transloco">
                     <i class="pi pi-pencil"></i>
                   </button>
-                  <button (click)="rollbackChanges(person.id)" class="p-button-rounded p-button-warning undo-button"
-                          pButton
-                          pRipple
-                          title="{{ 'common.tooltips.rollback_item' | transloco }}">
+                  <button type="button" (click)="rollbackChanges(person.id)"
+                          class="p-button-rounded p-button-text" pButton pRipple
+                          [disabled]="!isPersonChanged(person)"
+                          [title]="'common.tooltips.rollback_item' | transloco">
                     <i class="pi pi-undo"></i>
                   </button>
-                </td>
-              </tr>
+                  <button type="button" (click)="deletePerson(person.id)"
+                          class="p-button-rounded p-button-text p-button-danger" pButton pRipple
+                          [title]="'common.tooltips.delete_item' | transloco">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
 
-            </ng-template>
-          </p-table>
-        </div>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8" class="person-management-empty">{{ 'person.management.no_results' | transloco }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
-      <div class="p-col-12 save-button-col-size">
-        <div class="save-button-container-size">
-          <p-button (onClick)="saveChangedPersons($event)" [disabled]="haveNoChanges()" [label]="'common.actions.save' | transloco"/>
-        </div>
+    </section>
+
+    <footer class="person-management-save-bar">
+      <div>
+        <strong>{{ 'person.management.pending_title' | transloco }}</strong>
+        <span>{{ 'person.management.pending_hint' | transloco }}</span>
       </div>
-    </div>
+      <p-button
+        (onClick)="saveChangedPersons()"
+        [disabled]="haveNoChanges()"
+        [label]="'common.actions.save' | transloco"
+        icon="pi pi-check">
+      </p-button>
+    </footer>
+  </main>
 
-    <app-edit-person-dialog #personDialog
-                            (personModelChanges)="putPersonChanges($event)"
-                            (visibilityChanged)="isPersonEditDialogVisible($event)"
-                            [visible]="showPersonDialog()">
-    </app-edit-person-dialog>
+  <app-edit-person-dialog #personDialog
+                          (personModelChanges)="putPersonChanges($event)"
+                          (visibilityChanged)="isPersonEditDialogVisible($event)"
+                          [visible]="showPersonDialog()">
+  </app-edit-person-dialog>
 
-    <app-confirmation-dialog #confirmDialog
-                             (canceled)="handleCancel($event)"
-                             [confirmMessage]="'person.management.confirm.delete' | transloco"
-                             (confirmed)="handleConfirmation(confirmDialog.transferObject)"
-                             [display]="showConfirmDialog"
-                             [message]="confirmDialogMessage"></app-confirmation-dialog>
-
-  </div>
+  <app-confirmation-dialog #confirmDialog
+                           (canceled)="handleCancel($event)"
+                           [confirmMessage]="'person.management.confirm.delete' | transloco"
+                           (confirmed)="handleConfirmation(confirmDialog.transferObject)"
+                           [display]="showConfirmDialog"
+                           [message]="confirmDialogMessage"></app-confirmation-dialog>
 }

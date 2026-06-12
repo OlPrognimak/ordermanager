@@ -1,9 +1,8 @@
-import { Component, NgModule, OnInit, } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { AppSecurityService } from '../../common-auth/app-security.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import {Observable, of, share} from "rxjs";
 import { TranslocoModule, TranslocoService } from "@jsverse/transloco";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
@@ -22,72 +21,32 @@ import {
   styleUrls: ['./user-login.component.css'],
   providers: [MessageService, AppSecurityService, HttpClient]
 })
-export class UserLoginComponent implements OnInit {
-
-  title = 'frontend';
-
-  //backendUrl: string;
-  observableMsgService: Observable<MessageService>;
+export class UserLoginComponent {
+  isSubmitting = false;
 
   constructor(public appSecurityService: AppSecurityService,
-              private http: HttpClient, public router: Router,
+              public router: Router,
               private messageService: MessageService,
-              private translocoService: TranslocoService) {
-    //this.backendUrl = environment.baseUrl;
-    this.observableMsgService = of(messageService);
-  }
-
-  ngOnInit(): void {
-    // const source$ = new Observable<number>((observer) => {
-    //   console.log('Source Observable created');
-    //   let count = 0;
-    //   setInterval(() => {
-    //     observer.next(count++);
-    //   }, 1000);
-    // }).pipe(share());
-    const source$ = of(1,2,3,4,5)
-
-    source$.subscribe((value) => {
-      console.log(`Subscriber 1: ${value}`);
-    });
-
-    source$.subscribe((value) => {
-      console.log(`Subscriber 2: ${value}`);
-    });
-
-    // setTimeout(() => {
-    //   source$.subscribe((value) => {
-    //     console.log(`Subscriber 2: ${value}`);
-    //   });
-    // }, 3000);
-  }
-
-  public navigateCreateNewUser(): void {
-    this.router.navigateByUrl('/user-registration-page');
-  }
+              private translocoService: TranslocoService) {}
 
   /**
    * Login to the application
    */
   login(loginForm: NgForm): any {
-
+    this.isSubmitting = true;
     this.appSecurityService.authenticate(this.appSecurityService, this.appSecurityService.credentials,
       (result) => {
-
-        console.log('Login Result :' + result);
+        this.isSubmitting = false;
         if (result === true) {
           this.router.navigateByUrl('/');
         } else {
           this.appSecurityService.clearCredentials()
           loginForm.resetForm()
-          console.log('Not logged :' + result);
-          this.observableMsgService.subscribe(m => {
-            m.add({
-              severity: 'error', summary: this.translocoService.translate('auth.login.error.summary'),
-              detail: this.translocoService.translate('auth.login.error.invalid_credentials')
-            });
-          })
-
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translocoService.translate('auth.login.error.summary'),
+            detail: this.translocoService.translate('auth.login.error.invalid_credentials')
+          });
         }
       });
   }

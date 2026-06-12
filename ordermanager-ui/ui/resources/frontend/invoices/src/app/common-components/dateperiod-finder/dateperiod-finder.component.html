@@ -1,37 +1,42 @@
-<div class="p-shadow-4 u-h-100">
-  <p-toast></p-toast>
-  <form #finderPeriodForm="ngForm" (submit)="loadData()">
-    <div *ngIf="service.processRuns" class="overlayProcess childElementCenter">
-      <mat-progress-spinner *ngIf="service.processRuns" mode="indeterminate"></mat-progress-spinner>
+<form #finderPeriodForm="ngForm" class="date-filter" (ngSubmit)="loadData()">
+  @if (service.processRuns) {
+    <div class="date-filter-loading">
+      <mat-progress-spinner diameter="32" mode="indeterminate"></mat-progress-spinner>
     </div>
-    <h3 class="dateperiod-title-offset">{{ 'common.datePeriod.title' | transloco }}</h3>
-    <div class="p-grid">
+  }
 
-      <div class="p-col-3 justifyPanel">
-        <app-validatable-calendar (controlModel)="startDateControlModel = $event"
-                                  [(ngModel)]="requestDatePeriod.startDate"
-                                  [idComponent]="'id-StartDate'"
-                                  [labelText]="'common.datePeriod.startDate' | transloco"
-                                  [name]="'startDate'"
-                                  calendarDateFormat="dd.mm.yy">
-        </app-validatable-calendar>
-      </div>
-
-      <div class="p-col-3 justifyPanel">
-        <app-validatable-calendar (controlModel)="endDateControlModel = $event"
-                                  [(ngModel)]="requestDatePeriod.endDate"
-                                  [idComponent]="'id-EndDate'"
-                                  [labelText]="'common.datePeriod.endDate' | transloco"
-                                  [name]="'endDate'"
-                                  calendarDateFormat="dd.mm.yy">
-        </app-validatable-calendar>
-      </div>
-
-      <div class="p-col-1 justifyPanel">
-        <p-button [disabled]="isSubmitButtonDisabled()" icon="pi pi-check" [label]="'common.actions.find' | transloco"
-                  styleClass="p-button-text submit-button" type="submit"></p-button>
-      </div>
-
+  <div class="date-filter-heading">
+    <i class="pi pi-calendar"></i>
+    <div>
+      <strong>{{ 'common.datePeriod.title' | transloco }}</strong>
+      <span>{{ 'common.datePeriod.subtitle' | transloco }}</span>
     </div>
-  </form>
-</div>
+  </div>
+
+  <div class="date-filter-fields">
+    <app-validatable-calendar
+      (controlModel)="startDateControlModel = $event"
+      [(ngModel)]="requestDatePeriod.startDate"
+      [idComponent]="'id-StartDate'"
+      [labelText]="'common.datePeriod.startDate' | transloco"
+      [name]="'startDate'"
+      calendarDateFormat="dd.mm.yy">
+    </app-validatable-calendar>
+
+    <app-validatable-calendar
+      (controlModel)="endDateControlModel = $event"
+      [(ngModel)]="requestDatePeriod.endDate"
+      [idComponent]="'id-EndDate'"
+      [labelText]="'common.datePeriod.endDate' | transloco"
+      [name]="'endDate'"
+      calendarDateFormat="dd.mm.yy">
+    </app-validatable-calendar>
+
+    <p-button
+      [disabled]="isSubmitButtonDisabled()"
+      [label]="'common.actions.find' | transloco"
+      icon="pi pi-search"
+      type="submit">
+    </p-button>
+  </div>
+</form>

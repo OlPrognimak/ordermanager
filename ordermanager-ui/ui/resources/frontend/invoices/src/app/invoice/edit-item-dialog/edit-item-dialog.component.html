@@ -1,48 +1,62 @@
 <p-dialog (onHide)="setDialogVisible(false)" [(visible)]="visible"
-          [style]="{ width: '60vw', height: '30vw' }">
+          [modal]="true"
+          [style]="{ width: 'min(48rem, calc(100vw - 2rem))', maxHeight: 'calc(100vh - 2rem)' }"
+          [contentStyle]="{ maxHeight: 'calc(100vh - 12rem)', overflow: 'auto' }"
+          styleClass="catalog-edit-dialog">
   <ng-template pTemplate="header">
     <div class="header-dialog-container">
-      <h2 class="edit-item-dialog-title">{{'invoice.management.item.edit.title' | transloco}}</h2>
+      <span class="dialog-header-icon"><i class="pi pi-box"></i></span>
+      <div>
+        <span class="dialog-eyebrow">{{ 'invoice.item.edit.eyebrow' | transloco }}</span>
+        <h2 class="edit-item-dialog-title">{{ 'invoice.item.edit.title' | transloco }}</h2>
+      </div>
     </div>
   </ng-template>
   <div *ngIf="isAuthenticated()" class="p-fluid">
+    <div class="dialog-intro">
+      <i class="pi pi-info-circle"></i>
+      <div>
+        <strong>{{ 'invoice.item.edit.description_title' | transloco }}</strong>
+        <p>{{ 'invoice.item.edit.description' | transloco }}</p>
+      </div>
+    </div>
     <form [formGroup]="editCatalogItemFG">
+      <div class="catalog-edit-panel">
+        <div class="dialog-section-heading">
+          <span class="dialog-section-icon"><i class="pi pi-pencil"></i></span>
+          <div>
+            <h3>{{ 'invoice.item.edit.details_title' | transloco }}</h3>
+            <p>{{ 'invoice.item.edit.details_description' | transloco }}</p>
+          </div>
+        </div>
 
-      <div class="shadow-panel-color p-shadow-4">
-
-        <div class="p-grid">
-          <div class="p-col-4 input-text-align">
+        <div class="catalog-edit-fields">
+          <div>
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
               context:{controlPath: 'description',
                    idComponent: 'id_ItemDesc',
-                   labelText: 'Item  description'}">
+                   labelText: 'invoice.item.table.item_name' | transloco}">
             </ng-container>
           </div>
-        </div>
-        <div class="p-grid">
-          <div class="p-col-4 input-text-align">
+          <div>
             <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
               context:{controlPath: 'shortDescription',
               idComponent: 'id_shortDescription',
-              labelText: 'Item short description'}">
+              labelText: 'invoice.item.table.short_description' | transloco}">
             </ng-container>
           </div>
-        </div>
-        <div class="p-grid input-text-align">
-          <div class="p-col-2">
+          <div>
             <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
                context:{controlPath: 'itemPrice',
                idComponent: 'id_ItemPrice',
-               labelText: 'Item price'}">
+               labelText: 'invoice.item.table.price' | transloco}">
             </ng-container>
           </div>
-        </div>
-        <div class="p-grid input-text-align">
-          <div class="p-col-2">
+          <div>
             <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
                context:{controlPath: 'vat',
                idComponent: 'id_ItemVat',
-               labelText: 'Vat%'}">
+               labelText: 'invoice.item.table.vat' | transloco}">
             </ng-container>
           </div>
         </div>
@@ -50,10 +64,13 @@
     </form>
   </div>
   <ng-template pTemplate="footer">
-    <p-button (click)="putChangesBack()" [disabled]="editCatalogItemFG?.invalid" icon="pi pi-check" label="Save"
-              styleClass="p-button-text"></p-button>
-    <p-button (click)="setDialogVisible(false)" icon="pi pi-check pink-300" label="Cancel"
-              styleClass="p-button-text p-button-secondary"></p-button>
+    <div class="dialog-footer-actions">
+      <p-button (click)="setDialogVisible(false)" icon="pi pi-times"
+                [label]="'common.actions.cancel' | transloco"
+                severity="secondary" [outlined]="true"></p-button>
+      <p-button (click)="putChangesBack()" [disabled]="editCatalogItemFG?.invalid" icon="pi pi-check"
+                [label]="'common.actions.save' | transloco"></p-button>
+    </div>
   </ng-template>
 </p-dialog>
 <app-templates-component #templatesComponent

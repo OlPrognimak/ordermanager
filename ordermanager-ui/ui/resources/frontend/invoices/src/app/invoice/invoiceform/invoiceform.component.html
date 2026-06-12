@@ -1,120 +1,170 @@
-<form #invoiceForm="ngForm" *ngIf="isAuthenticated();">
-  <div class="p-fluid u-ml-5pt">
+@if (isAuthenticated()) {
+  <main class="invoice-create-page">
+    <p-toast></p-toast>
 
-    <H1>{{'invoice.create_invoice' | transloco}}</H1>
-    <div>
-      <p-toast></p-toast>
-    </div>
-
-    <div class="p-grid">
-      <div class="p-col-4 u-mt-10pt">
-
-        <app-validatable-input-text (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
-                                    [(ngModel)]="invoiceFormData.invoiceNumber"
-                                    [idComponent]="'id_InvoiceNumber'"
-                                    [labelText]="'invoice.number' | transloco"
-                                    [name]="'invoiceNumber'"
-                                    [txtMinLength]="5">
-        </app-validatable-input-text>
-      </div>
-      <div class="p-col-4 u-mt-10pt">
-       <p-floatlabel class="w-100">
-         <input [(ngModel)]="invoiceFormData.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
-                pInputText
-                class="u-w-100"
-                type="text"/>
-         <label for="id-invoiceDescription">{{'invoice.description' | transloco}}</label>
-       </p-floatlabel>
-      </div>
-
-    </div>
-    <div class="p-grid">
-      <div class="p-col-3 u-mt-15pt">
-        <app-validatable-dropdownlist (componentHasError)="setHasInvoiceratesError($event)"
-                                      [(ngModel)]="invoiceFormData.rateType"
-                                      [idComponent]="'id-rateType'"
-                                      [labelText]="'invoice.rate_type' | transloco"
-                                      [name]="'invoiceRatesList'"
-                                      [optionList]="invoiceRate"
-                                      [txtMinLength]="1">
-        </app-validatable-dropdownlist>
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-3 u-mt-15pt">
-
-        <app-validatable-calendar (componentHasError)="setHasCreationDateError($event)"
-                                  [(ngModel)]="invoiceFormData.creationDate"
-                                  [dateFormat]="'dd.mm.yy'"
-                                  [idComponent]="'id-creationDate'"
-                                  [labelText]="'invoice.creation_date' | transloco"
-                                  [name]="'creationDate'"
-                                  calendarDateFormat="dd.mm.yy"
-                                  maxlength="10">
-        </app-validatable-calendar>
-      </div>
-
-      <div class="p-col-3 u-mt-15pt">
-        <app-validatable-calendar (componentHasError)="setHasInvoiceDateError($event)"
-                                  [(ngModel)]="invoiceFormData.invoiceDate"
-                                  [dateFormat]="'dd.mm.yy'"
-                                  [idComponent]="'id-InvoiceDate'"
-                                  [labelText]="'invoice.invoice_date' | transloco"
-                                  [name]="'invoiceDate'"
-                                  calendarDateFormat="dd.mm.yy"
-                                  maxlength="10">
-        </app-validatable-calendar>
-      </div>
-    </div>
-
-    <div class="p-grid">
-      <div class="p-col-6 u-mt-15pt">
-        <app-validatable-dropdownlist (componentHasError)="setHasCreatorError($event)"
-                                      [(ngModel)]="invoiceFormData.personSupplierId"
-                                      [idComponent]="'id-invoiceCreator'"
-                                      [labelText]="'invoice.person_creator' | transloco"
-                                      [name]="'creator'"
-                                      [optionList]="personInvoiceSupplier"
-                                      [placeholder]="'Select person'"
-                                      [txtMinLength]="-1">
-        </app-validatable-dropdownlist>
-
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-6 u-mt-15pt">
-        <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
-                                      [(ngModel)]="invoiceFormData.personRecipientId"
-                                      [idComponent]="'id-invoiceRecipient'"
-                                      [labelText]="'invoice.person_recipient' | transloco"
-                                      [name]="'recipient'"
-                                      [optionList]="personInvoiceRecipient"
-                                      [placeholder]="'Select person'"
-                                      [txtMinLength]="0">
-        </app-validatable-dropdownlist>
-      </div>
-    </div>
-
-    <div class="p-grid invoice-item-table-cls">
-      <app-invoice-items-table #itemsTableRef
-                               (changeItemsEvent)="setInvoiceItems($event)"
-                               [invoiceItems]="invoiceFormData.invoiceItems"
-                               class="w-100"
-                               [modelChangedEvent]="eventsModelIsReset.asObservable()">
-
-      </app-invoice-items-table>
-    </div>
-
-    <div class="p-grid p-col-12">
-      <div class="p-col-3 save-button-col-size">
-        <div class="save-button-container-size">
-          <p-button (onClick)="saveInvoice($event)" [disabled]="haveErrors(itemsTableRef.invoiceItems)"
-                    [pTooltip]="'Save invoice to the data base'" label="Save"></p-button>
+    <form #invoiceForm="ngForm" class="invoice-create-form">
+      <header class="invoice-page-header">
+        <div>
+          <span class="invoice-eyebrow">{{ 'invoice.create.eyebrow' | transloco }}</span>
+          <h1>{{ 'invoice.create_invoice' | transloco }}</h1>
+          <p>{{ 'invoice.create.subtitle' | transloco }}</p>
         </div>
+        <span class="invoice-status">
+          <i class="pi pi-pencil"></i>
+          {{ 'invoice.create.draft' | transloco }}
+        </span>
+      </header>
+
+      <div class="invoice-layout">
+        <div class="invoice-main-column">
+          <section class="invoice-card">
+            <header class="invoice-card-header">
+              <div class="invoice-card-icon"><i class="pi pi-file"></i></div>
+              <div>
+                <h2>{{ 'invoice.create.details_title' | transloco }}</h2>
+                <p>{{ 'invoice.create.details_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="invoice-fields invoice-fields-two">
+              <app-validatable-input-text
+                (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
+                [(ngModel)]="invoiceFormData.invoiceNumber"
+                [idComponent]="'id_InvoiceNumber'"
+                [labelText]="'invoice.number' | transloco"
+                [name]="'invoiceNumber'"
+                [txtMinLength]="5">
+              </app-validatable-input-text>
+
+              <app-validatable-dropdownlist
+                (componentHasError)="setHasInvoiceratesError($event)"
+                [(ngModel)]="invoiceFormData.rateType"
+                [idComponent]="'id-rateType'"
+                [labelText]="'invoice.rate_type' | transloco"
+                [name]="'invoiceRatesList'"
+                [optionList]="invoiceRate"
+                [txtMinLength]="1">
+              </app-validatable-dropdownlist>
+
+              <app-validatable-calendar
+                (componentHasError)="setHasInvoiceDateError($event)"
+                [(ngModel)]="invoiceFormData.invoiceDate"
+                [dateFormat]="'dd.mm.yy'"
+                [idComponent]="'id-InvoiceDate'"
+                [labelText]="'invoice.invoice_date' | transloco"
+                [name]="'invoiceDate'"
+                calendarDateFormat="dd.mm.yy">
+              </app-validatable-calendar>
+
+              <app-validatable-calendar
+                (componentHasError)="setHasCreationDateError($event)"
+                [(ngModel)]="invoiceFormData.creationDate"
+                [dateFormat]="'dd.mm.yy'"
+                [idComponent]="'id-creationDate'"
+                [labelText]="'invoice.creation_date' | transloco"
+                [name]="'creationDate'"
+                calendarDateFormat="dd.mm.yy">
+              </app-validatable-calendar>
+
+              <p-floatlabel class="invoice-field-wide">
+                <input [(ngModel)]="invoiceFormData.invoiceDescription"
+                       id="id-invoiceDescription"
+                       name="invoiceDescription"
+                       pInputText
+                       type="text"/>
+                <label for="id-invoiceDescription">{{ 'invoice.description' | transloco }}</label>
+              </p-floatlabel>
+            </div>
+          </section>
+
+          <section class="invoice-card">
+            <header class="invoice-card-header">
+              <div class="invoice-card-icon"><i class="pi pi-users"></i></div>
+              <div>
+                <h2>{{ 'invoice.create.parties_title' | transloco }}</h2>
+                <p>{{ 'invoice.create.parties_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="invoice-fields invoice-fields-two">
+              <div class="invoice-party-field">
+                <span class="invoice-field-label">{{ 'invoice.create.from' | transloco }}</span>
+                <app-validatable-dropdownlist
+                  (componentHasError)="setHasCreatorError($event)"
+                  [(ngModel)]="invoiceFormData.personSupplierId"
+                  [idComponent]="'id-invoiceCreator'"
+                  [labelText]="'invoice.person_creator' | transloco"
+                  [name]="'creator'"
+                  [optionList]="personInvoiceSupplier"
+                  [placeholder]="'invoice.create.select_person' | transloco"
+                  [txtMinLength]="-1">
+                </app-validatable-dropdownlist>
+              </div>
+
+              <div class="invoice-party-field">
+                <span class="invoice-field-label">{{ 'invoice.create.bill_to' | transloco }}</span>
+                <app-validatable-dropdownlist
+                  (componentHasError)="setHasRecipientError($event)"
+                  [(ngModel)]="invoiceFormData.personRecipientId"
+                  [idComponent]="'id-invoiceRecipient'"
+                  [labelText]="'invoice.person_recipient' | transloco"
+                  [name]="'recipient'"
+                  [optionList]="personInvoiceRecipient"
+                  [placeholder]="'invoice.create.select_person' | transloco"
+                  [txtMinLength]="0">
+                </app-validatable-dropdownlist>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="invoice-summary-card">
+          <span class="invoice-summary-label">{{ 'invoice.create.summary' | transloco }}</span>
+          <h2>{{ invoiceFormData.invoiceNumber || ('invoice.create.new_invoice' | transloco) }}</h2>
+          <div class="invoice-summary-row">
+            <span>{{ 'invoice.create.items' | transloco }}</span>
+            <strong>{{ lineItemCount }}</strong>
+          </div>
+          <div class="invoice-summary-row">
+            <span>{{ 'invoice.total_netto' | transloco }}</span>
+            <strong>{{ calculatorService.totalNettoSum() | standardFloat }}</strong>
+          </div>
+          <div class="invoice-summary-row invoice-summary-total">
+            <span>{{ 'invoice.total_brutto' | transloco }}</span>
+            <strong>{{ calculatorService.totalBruttoSum() | standardFloat }}</strong>
+          </div>
+          <p>{{ 'invoice.create.summary_hint' | transloco }}</p>
+        </aside>
       </div>
-    </div>
-  </div>
-</form>
 
+      <section class="invoice-card invoice-items-card">
+        <header class="invoice-card-header invoice-items-header">
+          <div class="invoice-card-icon"><i class="pi pi-list"></i></div>
+          <div>
+            <h2>{{ 'invoice.create.items_title' | transloco }}</h2>
+            <p>{{ 'invoice.create.items_subtitle' | transloco }}</p>
+          </div>
+        </header>
+        <app-invoice-items-table
+          #itemsTableRef
+          (changeItemsEvent)="setInvoiceItems($event)"
+          [invoiceItems]="invoiceFormData.invoiceItems"
+          [modelChangedEvent]="eventsModelIsReset.asObservable()">
+        </app-invoice-items-table>
+      </section>
 
-
+      <footer class="invoice-form-actions">
+        <div>
+          <strong>{{ 'invoice.create.ready_title' | transloco }}</strong>
+          <span>{{ 'invoice.create.ready_hint' | transloco }}</span>
+        </div>
+        <p-button
+          (onClick)="saveInvoice()"
+          [disabled]="haveErrors(itemsTableRef.invoiceItems)"
+          [label]="'common.actions.save' | transloco"
+          icon="pi pi-check">
+        </p-button>
+      </footer>
+    </form>
+  </main>
+}

@@ -59,10 +59,9 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
   getDataFromServer(criteriaPar) {
     this.dataLoading = true
     this.loadData(criteriaPar, this.messagePrinter, callback => {
-      if (callback !== null) {
-        this.modelList = callback
-        this.dataLoading = false
-      }
+      this.modelList = callback ?? []
+    }, () => {
+      this.dataLoading = false
     })
   }
 
@@ -117,7 +116,11 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
     return !(this.changesList?.length > 0)
   }
 
-  saveChangesOnServer($event: MouseEvent) {
+  isItemChanged(item: ItemCatalogModel): boolean {
+    return this.changesList.some(change => change.id === item.id);
+  }
+
+  saveChangesOnServer() {
     const changes = this.modelList.filter(p =>
       p.id === this.changesList?.filter(c => c?.id == p?.id)?.at(0)?.id)
     this.confirmUpdateDialog.transferObject = changes

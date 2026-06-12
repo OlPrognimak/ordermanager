@@ -160,6 +160,10 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
     return this.changesList == undefined || this.changesList.length < 1;
   }
 
+  isInvoiceChanged(invoice: InvoiceFormModel): boolean {
+    return this.changesList.some(change => change.id === invoice.id);
+  }
+
   handleCancelDeleteInvoice($event: boolean) {
     this.showDeleteConfirmDialog = false
   }
