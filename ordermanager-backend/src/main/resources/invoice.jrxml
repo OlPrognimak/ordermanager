@@ -55,14 +55,19 @@
 				<reportElement style="Muted" x="0" y="57" width="285" height="14" uuid="f6b2c00a-495b-4a65-a0aa-3cb1e96b369d"/><textFieldExpression><![CDATA[(($F{supplierZipCode} == null ? "" : $F{supplierZipCode}) + " " + ($F{supplierCity} == null ? "" : $F{supplierCity})).trim()]]></textFieldExpression></textField>
 			<textField>
 				<reportElement style="DocumentTitle" x="315" y="0" width="200" height="32" uuid="c2ce9178-8da5-4801-906e-7c258171b841"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$R{invoice.document.title}]]></textFieldExpression></textField>
-			<textField>
-				<reportElement style="Muted" x="315" y="42" width="92" height="14" uuid="aae454ab-32d8-46f2-991d-c38c46ffea9a"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$R{invoice.number}]]></textFieldExpression></textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="Base" x="415" y="42" width="100" height="14" uuid="e299e29f-af6e-48ce-a7f2-fc74ad897587"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression></textField>
+				<reportElement style="Muted" x="315" y="32" width="200" height="14" uuid="da1727c7-dcc5-4ae9-9ff8-a18c88294b07"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{invoiceDate} == null ? "" : $R{invoice.title} + " " + new java.text.SimpleDateFormat("MMMM yyyy", $P{REPORT_LOCALE}).format($F{invoiceDate})]]></textFieldExpression>
+			</textField>
 			<textField>
-				<reportElement style="Muted" x="315" y="58" width="92" height="14" uuid="78de607c-c0b8-436d-a17f-b342c0d24eef"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$R{invoice.date}]]></textFieldExpression></textField>
+				<reportElement style="Muted" x="315" y="50" width="92" height="14" uuid="aae454ab-32d8-46f2-991d-c38c46ffea9a"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$R{invoice.number}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Base" x="415" y="50" width="100" height="14" uuid="e299e29f-af6e-48ce-a7f2-fc74ad897587"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression></textField>
+			<textField>
+				<reportElement style="Muted" x="315" y="66" width="92" height="14" uuid="78de607c-c0b8-436d-a17f-b342c0d24eef"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$R{invoice.date}]]></textFieldExpression></textField>
 			<textField pattern="dd.MM.yyyy" isBlankWhenNull="true">
-				<reportElement style="Base" x="415" y="58" width="100" height="14" uuid="69c1cbf9-6c3d-4fe1-a3bb-608a9914a955"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{invoiceDate} != null ? $F{invoiceDate} : $F{creationDate}]]></textFieldExpression></textField>
+				<reportElement style="Base" x="415" y="66" width="100" height="14" uuid="69c1cbf9-6c3d-4fe1-a3bb-608a9914a955"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{invoiceDate} != null ? $F{invoiceDate} : $F{creationDate}]]></textFieldExpression></textField>
 			<line><reportElement x="0" y="88" width="515" height="1" forecolor="#2F80ED" uuid="90b7c108-bb4a-41d7-b5da-17ae1a64359f"/><graphicElement><pen lineWidth="1.5"/></graphicElement></line>
 			<rectangle radius="4"><reportElement x="0" y="108" width="250" height="116" mode="Opaque" backcolor="#F4F7FA" forecolor="#F4F7FA" uuid="19436e87-b92a-4e67-99f5-09c51695baa9"/></rectangle>
 			<textField>
