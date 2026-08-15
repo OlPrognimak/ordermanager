@@ -37,7 +37,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import {
   DropdownDataType,
@@ -67,7 +67,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
   catalogItems = input<DropdownDataType[]>([]);
   myInputField = input<any>();
-  @ViewChild("itemsForm") itemsForm: NgForm
+  itemsForm = viewChild.required<NgForm>("itemsForm")
   itemRows: InvoiceItemModel[] = [];
   catalogItemRows: DropdownDataType[] = [];
   idxItem: number;
@@ -176,7 +176,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   ngAfterViewInit(): void {
-    this.itemsForm?.valueChanges?.subscribe(value => {
+    this.itemsForm().valueChanges?.subscribe(value => {
 
       setTimeout( () => {
        //TODO

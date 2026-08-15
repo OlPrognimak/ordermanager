@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { ItemCatalogModel } from '../../domain/domain.invoiceformmodel';
 import { AppSecurityService } from '../../common-auth/app-security.service';
 import { CommonServicesAppHttpService } from '../../common-services/common-services.app.http.service';
@@ -31,7 +31,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
 })
 export class ItemsFormComponent implements OnInit {
 
-  @ViewChild('itemCatalogForm') itemCatalogForm: NgForm
+  itemCatalogForm = viewChild.required<NgForm>('itemCatalogForm')
 
   model: ItemCatalogModel;
   protected readonly isAuthenticated = isAuthenticated;
@@ -63,7 +63,7 @@ export class ItemsFormComponent implements OnInit {
         'invoice/itemcatalog', (callback) => {
           if (callback) {
             this.model = new ItemCatalogModel();
-            this.itemCatalogForm.resetForm(this.model);
+            this.itemCatalogForm().resetForm(this.model);
           }
         });
     }

@@ -7,7 +7,7 @@ import {
   NgModule,
   OnInit,
   Output,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,7 +31,7 @@ import { TranslocoModule } from '@jsverse/transloco';
   ]
 })
 export class ValidatableCalendarComponent implements OnInit, ControlValueAccessor, AfterViewInit {
-  @ViewChild('modelCalendarRef') modelCalendarRef?: NgModel;
+  modelCalendarRef = viewChild.required<NgModel>('modelCalendarRef');
 
   txtMinLength = input(1);
   idComponent = input('');
@@ -105,9 +105,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.modelCalendarRef) {
-        this.controlModel.emit(this.modelCalendarRef);
-      }
+      this.controlModel.emit(this.modelCalendarRef());
     });
   }
 }

@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { Component, effect, EventEmitter, input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, effect, EventEmitter, input, OnDestroy, OnInit, Output, viewChild } from '@angular/core';
 import { DropdownDataType, InvoiceItemModel } from '../../domain/domain.invoiceformmodel';
 import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from '../invoice-items-table/invoice-items-table.calculator.service';
@@ -69,7 +69,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
   providers: [HttpClient]
 })
 export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
-  @ViewChild('confirmDeleteItemDialog') confirmDeleteItemDialog: ConfirmationDialogComponent
+  confirmDeleteItemDialog = viewChild.required<ConfirmationDialogComponent>('confirmDeleteItemDialog')
 
   invoiceReactiveItems = input.required<InvoiceItemModel[]>();
   /** The observer for observation model changing event in parent component */
@@ -226,7 +226,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   }
 
   showDeleteItemDialog(id: number, idxItem: number) {
-    this.confirmDeleteItemDialog.transferObject = {id: id, idxItem: idxItem}
+    this.confirmDeleteItemDialog().transferObject = {id: id, idxItem: idxItem}
     this.showDeleteConfirmDialog = true
   }
 

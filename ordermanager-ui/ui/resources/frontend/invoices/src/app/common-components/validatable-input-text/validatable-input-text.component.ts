@@ -39,7 +39,7 @@ import {
   NgModule,
   OnInit,
   Output,
-  Renderer2, ViewChild
+  Renderer2, viewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -84,7 +84,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 })
 export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor, Validator {
   /** minimal length of text */
-  @ViewChild('modelRef') modelRef?: NgModel
+  modelRef = viewChild.required<NgModel>('modelRef')
   txtMinLength = input(30);
   idComponent = input('');
   labelText = input('');
@@ -229,9 +229,9 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
 
   inputClasses(componentName  ): any {
     // Coerce nullable booleans to false if modelRef is undefined
-    const invalid = this.modelRef?.invalid ?? false;
-    const dirty   = this.modelRef?.dirty ?? false;
-    const touched = this.modelRef?.touched ?? false;
+    const invalid = this.modelRef().invalid ?? false;
+    const dirty   = this.modelRef().dirty ?? false;
+    const touched = this.modelRef().touched ?? false;
     return {'ng-invalid ng-dirty': this.isValidable() && invalid && (dirty || touched)};
 
   }

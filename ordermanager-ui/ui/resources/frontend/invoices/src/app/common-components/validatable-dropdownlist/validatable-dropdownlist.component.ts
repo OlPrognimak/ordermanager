@@ -40,7 +40,7 @@ import {
   OnInit,
   Output,
   Renderer2,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -78,7 +78,7 @@ import { TranslocoModule } from '@jsverse/transloco';
   ]
 })
 export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
-  @ViewChild('modelRef') modelRef: NgModel
+  modelRef = viewChild.required<NgModel>('modelRef')
   optionList = input<any>();
   txtMinLength = input(0);
   idComponent = input('');
@@ -115,7 +115,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   }
 
   ngAfterViewInit(): void {
-    this.controlModelEvent.emit(this.modelRef)
+    this.controlModelEvent.emit(this.modelRef())
   }
 
   setHasRequiredError(val: boolean, origin: any) {

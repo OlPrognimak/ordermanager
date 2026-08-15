@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { InvoiceFormModel } from '../../domain/domain.invoiceformmodel';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -23,8 +23,8 @@ import {TranslocoLanguageChangedEvent} from "../../transloco/transloco.language.
 export class PrintinvoiceComponent implements OnInit, OnDestroy {
   invoicesFormModel: InvoiceFormModel[];
   frameworkComponents;
-  @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
-  @ViewChild('dataFinder', { static: false }) dataFinder: DateperiodFinderComponent;
+  agGrid = viewChild.required<AgGridAngular>('agGrid');
+  dataFinder = viewChild.required<DateperiodFinderComponent>('dataFinder');
 
 
   basicAuthKey = 'basicAuthKey';
@@ -210,7 +210,7 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
   }
 
   loadInvoices() {
-    this.dataFinder.loadData();
+    this.dataFinder().loadData();
   }
 
   onRowValueChanged(event: any): any {

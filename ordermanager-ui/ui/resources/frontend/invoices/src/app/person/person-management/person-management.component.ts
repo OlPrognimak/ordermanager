@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
@@ -31,11 +31,11 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 })
 export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel> implements OnInit {
   /**Reference on dialog component for editing Person*/
-  @ViewChild('personDialog') personDialog: EditPersonDialogComponent
+  personDialog = viewChild.required<EditPersonDialogComponent>('personDialog')
   /**Reference on child component of data finder bei date period.*/
-  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+  dataFinder = viewChild.required<DateperiodFinderComponent>('dataFinder')
   /**Reference to child component delete person confirmation dialog. */
-  @ViewChild('confirmDialog') confirmDialog: ConfirmationDialogComponent
+  confirmDialog = viewChild.required<ConfirmationDialogComponent>('confirmDialog')
 
   isPersonDialogVisible = false;
   selectedPerson!: PersonFormModel
@@ -60,13 +60,13 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       });
     }
     setTimeout(() => {
-      this.dataFinder.loadData()
+      this.dataFinder().loadData()
     })
   }
 
   rowDoubleClick(event: MouseEvent, person: PersonFormModel) {
     setTimeout(() => {
-      this.personDialog.setEditingObject(person)
+      this.personDialog().setEditingObject(person)
       this.isPersonDialogVisible = true
     })
 
@@ -127,7 +127,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   }
 
   deletePerson(id) {
-    this.confirmDialog.transferObject = id
+    this.confirmDialog().transferObject = id
     this.showConfirmDialog = true
   }
 

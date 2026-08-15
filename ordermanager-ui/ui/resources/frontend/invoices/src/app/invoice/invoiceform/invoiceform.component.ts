@@ -31,10 +31,9 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   NgModule,
   OnInit,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import localede from '@angular/common/locales/de';
@@ -95,7 +94,6 @@ registerLocaleData(localede, 'de');
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit {
-  @ViewChild('dialogContent') dialogContent!: ElementRef;
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
   /** The invoice data model */
@@ -104,7 +102,7 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit {
   personInvoiceSupplier: DropdownDataType[] = [];
   /** Model invoice recipient for dropdown component */
   personInvoiceRecipient: DropdownDataType[] = [];
-  @ViewChild("itemsTableRef") itemsTableComponent: InvoiceItemsTableComponent;
+  itemsTableComponent = viewChild.required<InvoiceItemsTableComponent>("itemsTableRef");
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
   private isViewInitialized = false;
@@ -190,13 +188,13 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit {
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {
-      this.itemsTableComponent.resetTotalValues();
+      this.itemsTableComponent().resetTotalValues();
     }
   }
 
   setInvoiceItems(items: InvoiceItemModel[]): void {
     this.invoiceFormData.invoiceItems = items;
-    this.itemsTableComponent?.calculatorService.setInvoiceItems(items);
+    this.itemsTableComponent().calculatorService.setInvoiceItems(items);
   }
 
   haveInvoiceItemsError(items: InvoiceItemModel[]): boolean {

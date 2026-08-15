@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
+import { Component, NgModule, OnInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { SharedModule } from "primeng/api";
@@ -47,11 +47,11 @@ export class InvoiceManagementModule {
   providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
 })
 export class InvoiceManagementComponent extends CommonServicesEditService<InvoiceFormModel> implements OnInit {
-  @ViewChild('invoiceDialog') invoiceDialog: EditInvoiceDialogComponent
-  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+  invoiceDialog = viewChild.required<EditInvoiceDialogComponent>('invoiceDialog')
+  dataFinder = viewChild.required<DateperiodFinderComponent>('dataFinder')
   /**Reference to child component delete person confirmation dialog. */
-  @ViewChild('confirmDeleteInvoiceDialog') confirmDeleteInvoiceDialog: ConfirmationDialogComponent
-  @ViewChild('confirmUpdateInvoiceDialog') confirmUpdateInvoiceDialog: ConfirmationDialogComponent
+  confirmDeleteInvoiceDialog = viewChild.required<ConfirmationDialogComponent>('confirmDeleteInvoiceDialog')
+  confirmUpdateInvoiceDialog = viewChild.required<ConfirmationDialogComponent>('confirmUpdateInvoiceDialog')
 
   keySelection: boolean = true;
   selectedInvoice!: InvoiceFormModel;
@@ -96,7 +96,7 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
     this.deleteConfirmDialogMessage = this.translocoService.translate('invoice.management.confirm.delete_message')
     this.saveConfirmDialogMessage = this.translocoService.translate('invoice.management.confirm.save_message')
     setTimeout(() => {
-      of(this.dataFinder).subscribe(f => f.loadData())
+      of(this.dataFinder()).subscribe(f => f.loadData())
     })
   }
 
@@ -105,14 +105,14 @@ export class InvoiceManagementComponent extends CommonServicesEditService<Invoic
   }
 
   deleteInvoice(id) {
-    this.confirmDeleteInvoiceDialog.transferObject = id
+    this.confirmDeleteInvoiceDialog().transferObject = id
     this.showDeleteConfirmDialog = true
   }
 
   rowDoubleClick($event: MouseEvent, invoice: InvoiceFormModel) {
     setTimeout(() => {
-      this.invoiceDialog.setEditingObject(invoice)
-      this.invoiceDialog.visible = true
+      this.invoiceDialog().setEditingObject(invoice)
+      this.invoiceDialog().visible = true
       this.isInvoiceDialogVisible = true
     })
   }

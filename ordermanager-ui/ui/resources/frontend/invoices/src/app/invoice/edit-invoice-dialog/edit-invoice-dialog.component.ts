@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, EventEmitter, input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, EventEmitter, input, OnInit, Output, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
@@ -76,9 +76,9 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
 })
 export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('templatesComponent') templatesComponentComponent: TemplatesComponentComponent
-  @ViewChild('templatesComponentForInvoiceDate') templatesComponentForInvoiceDate: TemplatesComponentComponent
-  @ViewChild('reactiveItemsTableComponent') itemsTableComponent: InvoiceReactiveItemsTableComponent
+  templatesComponentComponent = viewChild.required<TemplatesComponentComponent>('templatesComponent')
+  templatesComponentForInvoiceDate = viewChild.required<TemplatesComponentComponent>('templatesComponentForInvoiceDate')
+  itemsTableComponent = viewChild.required<InvoiceReactiveItemsTableComponent>('reactiveItemsTableComponent')
 
   editInvoiceFG: InvoiceFormGroup
   visible: boolean;
@@ -174,7 +174,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({}, invoice)
-    this.itemsTableComponent.calculatorService.calculateAllSum(this.originalInvoice.invoiceItems, undefined)
+    this.itemsTableComponent().calculatorService.calculateAllSum(this.originalInvoice.invoiceItems, undefined)
 
     this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)
@@ -184,8 +184,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.getControl('creationDate').setValue(new Date(this.invoiceReactiveDlgFormData.creationDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
-    this.getControl('totalSumNetto').setValue(this.itemsTableComponent.calculatorService.totalNettoSum())
-    this.getControl('totalSumBrutto').setValue(this.itemsTableComponent.calculatorService.totalBruttoSum())
+    this.getControl('totalSumNetto').setValue(this.itemsTableComponent().calculatorService.totalNettoSum())
+    this.getControl('totalSumBrutto').setValue(this.itemsTableComponent().calculatorService.totalBruttoSum())
 
   }
 
@@ -209,8 +209,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       const keepOriginalInvoice = this.originalInvoice
       this.originalInvoice = this.editInvoiceFG.value
 
-      this.originalInvoice.totalSumNetto = this.itemsTableComponent.calculatorService.totalNettoSum()
-      this.originalInvoice.totalSumBrutto =  this.itemsTableComponent.calculatorService.totalBruttoSum()
+      this.originalInvoice.totalSumNetto = this.itemsTableComponent().calculatorService.totalNettoSum()
+      this.originalInvoice.totalSumBrutto =  this.itemsTableComponent().calculatorService.totalBruttoSum()
 
       const supplier =
         this.personInvoiceSupplierRows.filter((p, idx) =>
@@ -284,7 +284,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {
-      this.itemsTableComponent.resetTotalValues();
+      this.itemsTableComponent().resetTotalValues();
     }
   }
 

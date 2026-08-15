@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { Component, NgModule, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, NgModule, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { InvoiceFormModel, InvoiceFormModelInterface } from '../../domain/domain.invoiceformmodel';
 import { BankAccountFormModel, PersonAddressFormModel, PersonFormModel } from '../../domain/domain.personformmodel';
 import { MessageService } from 'primeng/api';
@@ -72,7 +72,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
 })
 export class PersonFormComponent implements OnInit, OnDestroy {
 
-  @ViewChild('personForm') personForm: NgForm
+  personForm = viewChild.required<NgForm>('personForm')
   /** person model */
   personFormModel: PersonFormModel;
   /** bank account model */
@@ -169,7 +169,7 @@ export class PersonFormComponent implements OnInit, OnDestroy {
           this.personFormModel = new PersonFormModel();
           this.personBankAccountModel = this.personFormModel.bankAccountFormModel;
           this.personAddressModel = this.personFormModel.personAddressFormModel;
-          this.personForm.resetForm(this.personFormModel);
+          this.personForm().resetForm(this.personFormModel);
         } else {
           setTimeout(() => {
             this.messagePrinter.printUnsuccessefulMessage('The person can not be saved', null)

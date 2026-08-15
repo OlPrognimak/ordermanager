@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, input, Output, TemplateRef, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from "primeng/inputtext";
 import { MessageModule } from "primeng/message";
@@ -19,11 +19,11 @@ import {InputNumber} from "primeng/inputnumber";
 export class TemplatesComponentComponent {
 
 
-  @ViewChild('inputTextTemplate', {static: true}) inputTextTemplate: TemplateRef<InputTextTemplateContext>;
-  @ViewChild('inputNumberTemplate', {static: true}) inputNumberTemplate: TemplateRef<InputTextTemplateContext>;
-  @ViewChild('comboboxTemplate', {static: true}) comboboxTemplate: TemplateRef<DropDownTemplateContext>;
-  @ViewChild('calendarTemplate', {static: true}) calendarTemplate: TemplateRef<CalendarTemplateContext>;
-  @ViewChild('standaloneFormCalendarTemplate', {static: true}) standaloneFormCalendarTemplate: TemplateRef<StandaloneCalendarTemplateContext>;
+  inputTextTemplate = viewChild.required<TemplateRef<InputTextTemplateContext>>('inputTextTemplate');
+  inputNumberTemplate = viewChild.required<TemplateRef<InputTextTemplateContext>>('inputNumberTemplate');
+  comboboxTemplate = viewChild.required<TemplateRef<DropDownTemplateContext>>('comboboxTemplate');
+  calendarTemplate = viewChild.required<TemplateRef<CalendarTemplateContext>>('calendarTemplate');
+  standaloneFormCalendarTemplate = viewChild.required<TemplateRef<StandaloneCalendarTemplateContext>>('standaloneFormCalendarTemplate');
 
   templatesFormGroup = input.required<FormGroup>();
   @Output() dropdownValueChanged: EventEmitter<DropdownChangeEvent> = new EventEmitter<DropdownChangeEvent>()

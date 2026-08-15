@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, viewChild } from '@angular/core';
 import { compareObjects, isAuthenticated } from "../../common-services/common-services-util.service";
 import { TemplatesComponentComponent } from "../../common-components/templates-component/templates-component.component";
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -25,7 +25,7 @@ type ItemCatalogFormGroup = FormGroup & { value: InvoiceFormModelInterface, cont
 })
 export class EditItemDialogComponent {
 
-  @ViewChild('templatesComponent') templatesComponentComponent: TemplatesComponentComponent
+  templatesComponentComponent = viewChild.required<TemplatesComponentComponent>('templatesComponent')
   originalItem: ItemCatalogModel
   visible: boolean;
   editCatalogItemFG: FormGroup;
