@@ -67,3 +67,22 @@ input[type="text"] {
   max-width: 50%;
   padding-left: 10%;
 }
+
+.item-dropdown-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-error-icon {
+  color: #dc2626;
+  display: flex;
+  font-size: 1rem;
+  justify-content: center;
+}
+
+:host ::ng-deep .item-dropdown-invalid .p-dropdown {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.22);
+}

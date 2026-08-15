@@ -25,25 +25,54 @@
           <td pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown
-                  #modelRef="ngModel"
-                  (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
-                  [inputId]="'catalogItem-' + invoiceitem.idxItem"
-                  [ngClass]="{
-                    'ng-invalid': modelRef.invalid,
-                    'ng-dirty': modelRef.dirty || modelRef.touched
-                  }"
-                  [ngModel]="invoiceitem.catalogItemId"
-                  [options]="catalogItemRows"
-                  [name]="'catalogItemId-' + invoiceitem.idxItem"
-                  appendTo="body">
-                </p-dropdown>
+                <div class="item-dropdown-editor" [class.item-dropdown-invalid]="hasCatalogItemError(invoiceitem)">
+                  <p-dropdown
+                    #modelRef="ngModel"
+                    (onShow)="markCatalogItemActivated(invoiceitem)"
+                    (onBlur)="markCatalogItemActivated(invoiceitem)"
+                    (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
+                    [inputId]="'catalogItem-' + invoiceitem.idxItem"
+                    [ngClass]="{
+                      'ng-invalid': modelRef.invalid,
+                      'ng-dirty': modelRef.dirty || modelRef.touched
+                    }"
+                    [ngModel]="invoiceitem.catalogItemId"
+                    [options]="catalogItemRows"
+                    optionLabel="label"
+                    optionValue="value"
+                    [name]="'catalogItemId-' + invoiceitem.idxItem"
+                    appendTo="body"
+                    required>
+                  </p-dropdown>
+                  @if (hasCatalogItemError(invoiceitem)) {
+                    <span class="item-error-icon">
+                      <i class="pi pi-times-circle"></i>
+                    </span>
+                  }
+                </div>
               </ng-template>
               <ng-template pTemplate="output">
-                @if (invoiceitem.catalogItemId) {
-                  <span class="item-description">{{ getCatalogDescription(invoiceitem.catalogItemId) }}</span>
+                @if (!invoiceitem.catalogItemId) {
+                  <div class="item-dropdown-editor item-dropdown-invalid">
+                    <p-dropdown
+                      (onShow)="markCatalogItemActivated(invoiceitem)"
+                      (onBlur)="markCatalogItemActivated(invoiceitem)"
+                      (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
+                      [inputId]="'catalogItem-output-' + invoiceitem.idxItem"
+                      [ngModel]="invoiceitem.catalogItemId"
+                      [options]="catalogItemRows"
+                      optionLabel="label"
+                      optionValue="value"
+                      [name]="'catalogItemOutput-' + invoiceitem.idxItem"
+                      appendTo="body"
+                      required>
+                    </p-dropdown>
+                    <span class="item-error-icon">
+                      <i class="pi pi-times-circle"></i>
+                    </span>
+                  </div>
                 } @else {
-                  <span class="item-placeholder">{{ 'invoice.create.select_item' | transloco }}</span>
+                  <span class="item-description">{{ getCatalogDescription(invoiceitem.catalogItemId) }}</span>
                 }
               </ng-template>
             </p-cellEditor>

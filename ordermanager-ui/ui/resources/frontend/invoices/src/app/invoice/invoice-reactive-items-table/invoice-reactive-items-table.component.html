@@ -19,14 +19,44 @@
           <td pEditableColumn class="u-w-40">
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <p-dropdown #itemsRef (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
-                            [ngModel]="invoiceitem?.catalogItemId"
-                            [options]="catalogItemRows"
-                            [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
-                            appendTo="body"></p-dropdown>
+                <div class="item-dropdown-editor" [class.item-dropdown-invalid]="hasCatalogItemError(invoiceitem)">
+                  <p-dropdown #itemsRef="ngModel" (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
+                              (onShow)="markCatalogItemActivated(invoiceitem)"
+                              (onBlur)="markCatalogItemActivated(invoiceitem)"
+                              [ngModel]="invoiceitem?.catalogItemId"
+                              [options]="catalogItemRows"
+                              optionLabel="label"
+                              optionValue="value"
+                              [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
+                              appendTo="body"
+                              required></p-dropdown>
+                  @if (hasCatalogItemError(invoiceitem)) {
+                    <span class="item-error-icon">
+                      <i class="pi pi-times-circle"></i>
+                    </span>
+                  }
+                </div>
               </ng-template>
               <ng-template pTemplate="output">
-                {{getCatalogDescription(invoiceitem?.catalogItemId) }}
+                @if (!invoiceitem.catalogItemId) {
+                  <div class="item-dropdown-editor item-dropdown-invalid">
+                    <p-dropdown (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
+                                (onShow)="markCatalogItemActivated(invoiceitem)"
+                                (onBlur)="markCatalogItemActivated(invoiceitem)"
+                                [ngModel]="invoiceitem?.catalogItemId"
+                                [options]="catalogItemRows"
+                                optionLabel="label"
+                                optionValue="value"
+                                [placeholder]="defaultItemMsg"
+                                appendTo="body"
+                                required></p-dropdown>
+                    <span class="item-error-icon">
+                      <i class="pi pi-times-circle"></i>
+                    </span>
+                  </div>
+                } @else {
+                  {{getCatalogDescription(invoiceitem?.catalogItemId) }}
+                }
               </ng-template>
             </p-cellEditor>
           </td>
@@ -150,4 +180,3 @@
                          (confirmed)="handleDeleteConfirmation(confirmDeleteItemDialog.transferObject)"
                          [display]="showDeleteConfirmDialog"
                          [message]="saveDeeleteDialogMessage"></app-confirmation-dialog>
-

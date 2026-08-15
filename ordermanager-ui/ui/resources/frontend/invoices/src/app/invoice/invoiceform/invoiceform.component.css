@@ -108,7 +108,12 @@
 
 .invoice-party-field {
   display: grid;
-  gap: 0.8rem;
+  gap: 1.25rem;
+}
+
+.invoice-party-field .invoice-field-label {
+  display: block;
+  line-height: 1;
 }
 
 .invoice-summary-card {

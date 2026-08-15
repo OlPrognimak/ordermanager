@@ -88,6 +88,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   defaultItemMsg: string = "Click to select item";
   /** The subscription for observer of model changing event in parent component */
   private modelChangedSubscription: Subscription;
+  private activatedCatalogRows = new Set<number>();
 
   constructor(public itemtableService: InvoiceItemsTableService,
               public calculatorService: InvoiceItemsTableCalculatorService) {
@@ -95,6 +96,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
     this.idxItem = 0;
     effect(() => {
       this.itemRows = this.invoiceReactiveItems() ?? [];
+    });
+    effect(() => {
       this.catalogItemRows = this.catalogItems() ?? [];
     });
   }
@@ -146,6 +149,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    * @param event id catalog item
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
+    this.markCatalogItemActivated(invoiceitem);
     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
       this.changeItemEvent.emit(this.itemRows);
       // console.log("###### Item.Amount =:"+callback.amountItems)
@@ -224,6 +228,14 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   showDeleteItemDialog(id: number, idxItem: number) {
     this.confirmDeleteItemDialog.transferObject = {id: id, idxItem: idxItem}
     this.showDeleteConfirmDialog = true
+  }
+
+  markCatalogItemActivated(invoiceitem: InvoiceItemModel): void {
+    this.activatedCatalogRows.add(invoiceitem.idxItem);
+  }
+
+  hasCatalogItemError(invoiceitem: InvoiceItemModel): boolean {
+    return !invoiceitem.catalogItemId;
   }
 
   /** emits events with changed total netto and brutto sums */
