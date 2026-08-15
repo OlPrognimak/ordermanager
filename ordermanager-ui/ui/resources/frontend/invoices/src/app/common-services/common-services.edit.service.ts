@@ -1,4 +1,4 @@
-import { Directive, Input, OnDestroy } from "@angular/core";
+import { Directive, OnDestroy } from "@angular/core";
 import { MessagesPrinter } from "./common-services.app.http.service";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { remoteBackendUrl } from "../common-auth/app-security.service";
@@ -18,7 +18,7 @@ export class CommonServicesEditService<T> implements OnDestroy {
   /**
    * The model of  html template
    */
-  @Input() modelList: T[] = []
+  modelList: T[] = []
 
   loadingDataError: string
 

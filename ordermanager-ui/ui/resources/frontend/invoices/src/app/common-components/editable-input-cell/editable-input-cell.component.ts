@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, Renderer2 } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, input, OnInit, Output, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
 
@@ -22,8 +22,8 @@ import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
 })
 export class EditableInputCellComponent implements OnInit, ControlValueAccessor {
 
-  @Input() rowModel: InvoiceItemModel;
-  @Input() controlValue: number;
+  rowModel = input.required<InvoiceItemModel>();
+  controlValue: number;
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel>();
   /** on value change callback */
   onChange: (val) => void;
@@ -59,7 +59,7 @@ export class EditableInputCellComponent implements OnInit, ControlValueAccessor 
 
   writeValue(val: any): void {
     this.controlValue = val;
-    this.changeItemEvent.emit(this.rowModel);
+    this.changeItemEvent.emit(this.rowModel());
   }
 
 }

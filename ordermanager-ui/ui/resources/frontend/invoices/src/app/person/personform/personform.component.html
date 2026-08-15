@@ -29,7 +29,6 @@
             <div class="person-fields person-fields-two">
               <div class="person-field-wide">
                 <app-validatable-dropdownlist
-                  (componentHasError)="setHasPersonTypeError($event)"
                   [(ngModel)]="personFormModel.personType"
                   [idComponent]="'id-personType'"
                   [labelText]="'person.management.table.person_type' | transloco"
@@ -42,7 +41,6 @@
 
               @if (personFormModel.personType === 'PRIVATE') {
                 <app-validatable-input-text
-                  (componentHasErrorEvent)="setHasFirstNameError($event)"
                   [(ngModel)]="personFormModel.personFirstName"
                   [idComponent]="'id_firstName'"
                   [labelText]="'person.form.field.first_name' | transloco"
@@ -52,7 +50,6 @@
                 </app-validatable-input-text>
 
                 <app-validatable-input-text
-                  (componentHasErrorEvent)="setHasLastNameError($event)"
                   [(ngModel)]="personFormModel.personLastName"
                   [idComponent]="'id_lastName'"
                   [labelText]="'person.form.field.last_name' | transloco"
@@ -63,7 +60,6 @@
               } @else if (personFormModel.personType === 'ORGANISATION') {
                 <div class="person-field-wide">
                   <app-validatable-input-text
-                    (componentHasErrorEvent)="setHasCompanyNameError($event)"
                     [(ngModel)]="personFormModel.companyName"
                     [idComponent]="'id_company_Name'"
                     [labelText]="'person.form.field.company_name' | transloco"
@@ -75,7 +71,6 @@
               }
 
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasEmailError($event)"
                 [(ngModel)]="personFormModel.email"
                 [idComponent]="'id_email'"
                 [inputPattern]="emailPattern"
@@ -99,7 +94,6 @@
 
               @if (personFormModel.personType === 'PRIVATE') {
                 <app-validatable-input-text
-                  (componentHasErrorEvent)="setHasTaxNumberError($event)"
                   [(ngModel)]="personFormModel.taxNumber"
                   [idComponent]="'id_tax_Number'"
                   [labelText]="'person.form.field.tax_number' | transloco"
@@ -122,7 +116,6 @@
 
             <div class="person-fields person-address-grid">
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasZipCodeError($event)"
                 [(ngModel)]="personFormModel.personAddressFormModel.zipCode"
                 [idComponent]="'id_Zip'"
                 [labelText]="'person.form.field.zip' | transloco"
@@ -132,7 +125,6 @@
               </app-validatable-input-text>
 
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasCityError($event)"
                 [(ngModel)]="personFormModel.personAddressFormModel.city"
                 [idComponent]="'id_City'"
                 [labelText]="'person.form.field.city' | transloco"
@@ -142,7 +134,6 @@
               </app-validatable-input-text>
 
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasStreetError($event)"
                 [(ngModel)]="personFormModel.personAddressFormModel.street"
                 [idComponent]="'id_Street'"
                 [labelText]="'person.form.field.street' | transloco"
@@ -174,7 +165,6 @@
 
             <div class="person-fields person-fields-two">
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasBankNameError($event)"
                 [(ngModel)]="personFormModel.bankAccountFormModel.bankName"
                 [idComponent]="'id_BankName'"
                 [labelText]="'person.form.field.bank' | transloco"
@@ -220,7 +210,6 @@
               </div>
 
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasBicError($event)"
                 [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"
                 [idComponent]="'id-acc-bicSwift'"
                 [labelText]="'person.form.field.bic_swift' | transloco"

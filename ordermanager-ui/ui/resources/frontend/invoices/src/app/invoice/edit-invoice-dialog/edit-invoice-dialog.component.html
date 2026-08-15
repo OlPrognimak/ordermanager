@@ -106,7 +106,7 @@
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
                    labelText: 'invoice.person_creator' | transloco,
-                   optionList: personInvoiceSupplier
+                   optionList: personInvoiceSupplierRows
                   }">
             </ng-container>
           </div>
@@ -119,7 +119,7 @@
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
                    labelText: 'invoice.person_recipient' | transloco,
-                   optionList: personInvoiceRecipient
+                   optionList: personInvoiceRecipientRows
                   }">
             </ng-container>
           </div>
@@ -150,4 +150,3 @@
 <app-templates-component #templatesComponent
                          (calendarValueChanged)="setCalendarValue($event)"
                          [templatesFormGroup]="editInvoiceFG"></app-templates-component>
-

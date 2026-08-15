@@ -31,8 +31,9 @@
 import {
   AfterViewInit,
   Component,
+  effect,
   EventEmitter,
-  Input,
+  input,
   OnDestroy,
   OnInit,
   Output,
@@ -57,16 +58,18 @@ import {NgForm} from "@angular/forms";
   providers: [HttpClient],
 })
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() invoiceItems: InvoiceItemModel[];
+  invoiceItems = input.required<InvoiceItemModel[]>();
   /** The observer for observation model changing event in parent component */
-  @Input() modelChangedEvent: Observable<void> = of();
+  modelChangedEvent = input<Observable<void>>(of());
   @Output() changeItemsEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModelInterface>()
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
-  @Input() catalogItems: DropdownDataType[];
-  @Input() myInputField;
+  catalogItems = input<DropdownDataType[]>([]);
+  myInputField = input<any>();
   @ViewChild("itemsForm") itemsForm: NgForm
+  itemRows: InvoiceItemModel[] = [];
+  catalogItemRows: DropdownDataType[] = [];
   idxItem: number;
   defaultItemMsg: string = "Click to select item";
   /** The subscription for observer of model changing event in parent component */
@@ -75,17 +78,21 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
   constructor(public itemtableService: InvoiceItemsTableService,
               public calculatorService: InvoiceItemsTableCalculatorService) {
     this.idxItem = 0;
+    effect(() => {
+      this.itemRows = this.invoiceItems() ?? [];
+      this.catalogItemRows = this.catalogItems() ?? [];
+    });
   }
 
 
   ngOnInit(): void {
-    this.modelChangedSubscription = this.modelChangedEvent.subscribe(() => {
+    this.modelChangedSubscription = this.modelChangedEvent().subscribe(() => {
       this.resetTotalValues();
     });
 
     this.itemtableService.downloadCatalogItemsDropdownList(callback => {
       if (callback) {
-        this.catalogItems = callback;
+        this.catalogItemRows = callback;
       }
     })
 
@@ -107,7 +114,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    */
   catalogItemSelected(invoiceitem: InvoiceItemModel, event: any): void {
     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
-      this.changeItemsEvent.emit(this.invoiceItems);
+      this.changeItemsEvent.emit(this.itemRows);
       this.inputBoxChanged(callback)
     });
 
@@ -120,8 +127,8 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
     const newItem = new InvoiceItemModel();
     this.idxItem = ++this.idxItem;
     newItem.idxItem = this.idxItem;
-    this.invoiceItems.push(newItem);
-    this.changeItemsEvent.emit(this.invoiceItems);
+    this.itemRows.push(newItem);
+    this.changeItemsEvent.emit(this.itemRows);
   }
 
   /**
@@ -129,8 +136,8 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    * @param idxItem index of item in list items
    */
   deleteItem(idxItem: any): void {
-    this.invoiceItems = this.invoiceItems.filter(val => val.idxItem !== idxItem);
-    this.changeItemsEvent.emit(this.invoiceItems);
+    this.itemRows = this.itemRows.filter(val => val.idxItem !== idxItem);
+    this.changeItemsEvent.emit(this.itemRows);
     this.inputBoxChanged(new InvoiceItemModel());
   }
 
@@ -142,7 +149,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
     const FALLBACK = '[Please select item]';
     if (!idItemCatalog) return FALLBACK;
 
-    const found = this.catalogItems?.find(
+    const found = this.catalogItemRows?.find(
       item => Number(item.value) === Number(idItemCatalog)
     );
 
@@ -154,7 +161,7 @@ export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewI
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel): void {
-    this.calculatorService.calculateAllSum(this.invoiceItems, model);
+    this.calculatorService.calculateAllSum(this.itemRows, model);
     // const promise = this.calculatorService.calculateAllSum(this.invoiceItems, model);
     // promise.then(() => {
     //     this.emitTotalChanged();

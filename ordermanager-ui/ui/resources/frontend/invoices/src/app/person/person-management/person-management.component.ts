@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
@@ -43,7 +43,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   showConfirmDialog: boolean;
   confirmDialogMessage: string = '';
   protected readonly isAuthenticated = isAuthenticated;
-  @Input() eventBusVal: any
+  eventBusVal: any
 
   constructor(public appSecurityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel[]>, private eventListener: CommonServiceEventBus<any>,
@@ -136,7 +136,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       null, "person delete", 'person/' + id, callback => {
         if (callback) {
           console.log("DELETED :" + id)
-          this.confirmDialog.display = false
+          this.showConfirmDialog = false
           this.ngOnInit()
         }
       })

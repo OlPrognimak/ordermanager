@@ -47,7 +47,6 @@
           @case (0) {
             <div class="workflow-fields workflow-fields-two">
               <app-validatable-input-text
-                (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
                 [(ngModel)]="invoice.invoiceNumber"
                 [idComponent]="'id_InvoiceNumber'"
                 [labelText]="'invoice.number' | transloco"
@@ -65,7 +64,6 @@
               </p-floatlabel>
 
               <app-validatable-dropdownlist
-                (componentHasError)="setHasInvoiceratesError($event)"
                 [(ngModel)]="invoice.rateType"
                 [idComponent]="'id-rateType'"
                 [labelText]="'invoice.rate_type' | transloco"
@@ -78,7 +76,6 @@
           @case (1) {
             <div class="workflow-fields workflow-fields-two">
               <app-validatable-calendar
-                (componentHasError)="setHasCreationDateError($event)"
                 [(ngModel)]="invoice.creationDate"
                 [dateFormat]="'dd.mm.yy'"
                 [idComponent]="'id-creationDate'"
@@ -88,7 +85,6 @@
               </app-validatable-calendar>
 
               <app-validatable-calendar
-                (componentHasError)="setHasInvoiceDateError($event)"
                 [(ngModel)]="invoice.invoiceDate"
                 [dateFormat]="'dd.mm.yy'"
                 [idComponent]="'id-InvoiceDate'"
@@ -101,7 +97,6 @@
           @case (2) {
             <div class="workflow-person-step">
               <app-validatable-dropdownlist
-                (componentHasError)="setHasCreatorError($event)"
                 [(ngModel)]="invoice.personSupplierId"
                 [idComponent]="'id-invoiceCreator'"
                 [labelText]="'invoice.person_creator' | transloco"
@@ -120,7 +115,6 @@
           @case (3) {
             <div class="workflow-person-step">
               <app-validatable-dropdownlist
-                (componentHasError)="setHasRecipientError($event)"
                 [(ngModel)]="invoice.personRecipientId"
                 [idComponent]="'id-invoiceRecipient'"
                 [labelText]="'invoice.person_recipient' | transloco"

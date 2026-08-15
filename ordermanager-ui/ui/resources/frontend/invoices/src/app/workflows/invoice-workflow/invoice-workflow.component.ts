@@ -21,7 +21,6 @@ import {
   InvoiceFormModelInterface,
   InvoiceItemModel
 } from '../../domain/domain.invoiceformmodel';
-import {InvoiceFormValidator} from '../../invoice/invoiceform/invoice.form.validator';
 import {InvoiceFormModule} from '../../invoice/invoiceform/invoiceform.component';
 import {InvoiceItemsTableCalculatorService} from '../../invoice/invoice-items-table/invoice-items-table.calculator.service';
 import {WorkflowEventsModel} from './model/workflow.events.model';
@@ -47,7 +46,7 @@ import {WorkflowStatuses} from './state/invoice.state';
   templateUrl: './invoice-workflow.component.html',
   styleUrls: ['./invoice-workflow.component.css']
 })
-export class InvoiceWorkflowComponent extends InvoiceFormValidator implements OnInit, OnDestroy {
+export class InvoiceWorkflowComponent implements OnInit, OnDestroy {
   createInvoiceFlowEvents: WorkflowEventsModel[] = [];
   currentStepIndex = 0;
   invoice: InvoiceFormModelInterface = new InvoiceFormModel();
@@ -69,7 +68,6 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     private readonly invoiceItemsTableCalculatorService: InvoiceItemsTableCalculatorService,
     private readonly translocoService: TranslocoService
   ) {
-    super();
   }
 
   get currentStatus(): WorkflowEventsModel {
@@ -143,9 +141,9 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       case 1:
         return !this.hasErrorsDates();
       case 2:
-        return !this.hasCreatorError;
+        return !!this.invoice.personSupplierId;
       case 3:
-        return !this.hasRecipientError;
+        return !!this.invoice.personRecipientId;
       case 4:
         return !this.haveInvoiceItemsError(this.workflowInvoiceItems);
       case 5:
@@ -163,11 +161,11 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
   hasErrorsInvoiceType(): boolean {
-    return this.hasInvoiceNumberError || this.hasInvoiceCreatesError;
+    return !this.invoice.invoiceNumber || this.invoice.invoiceNumber.length < 5 || !this.invoice.rateType;
   }
 
   hasErrorsDates(): boolean {
-    return this.hasInvoiceDateError || this.hasCreationDateError;
+    return !this.invoice.invoiceDate || !this.invoice.creationDate;
   }
 
   loadPersons(): void {
@@ -227,7 +225,6 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
   }
 
   private resetModel(): void {
-    this.resetErrors();
     this.currentStepIndex = 0;
     this.invoice = new InvoiceFormModel();
     this.workflowInvoiceItems = [];
@@ -258,5 +255,17 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
       status: statuses[level],
       level
     }));
+  }
+
+  haveErrors(items: InvoiceItemModel[]): boolean {
+    return this.hasErrorsInvoiceType()
+      || this.hasErrorsDates()
+      || !this.invoice.personSupplierId
+      || !this.invoice.personRecipientId
+      || this.haveInvoiceItemsError(items);
+  }
+
+  haveInvoiceItemsError(items: InvoiceItemModel[]): boolean {
+    return !items?.length || items.some(item => item.amountItems === undefined || item.amountItems <= 0);
   }
 }

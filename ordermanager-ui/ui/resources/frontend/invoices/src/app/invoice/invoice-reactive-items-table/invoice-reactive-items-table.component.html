@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="p-fluid p-grid">
   <div class="p-col-12">
-    <p-table [autoLayout]="true" [resizableColumns]="true" [rows]="40" [value]="invoiceReactiveItems"
+    <p-table [autoLayout]="true" [resizableColumns]="true" [rows]="40" [value]="itemRows"
              editMode="row" sortMode="multiple" styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
@@ -21,7 +21,7 @@
               <ng-template pTemplate="input">
                 <p-dropdown #itemsRef (ngModelChange)="catalogItemSlected(invoiceitem, $event)"
                             [ngModel]="invoiceitem?.catalogItemId"
-                            [options]="catalogItems"
+                            [options]="catalogItemRows"
                             [placeholder]="invoiceitem.catalogItemId===undefined?defaultItemMsg: getCatalogDescription(invoiceitem?.catalogItemId)"
                             appendTo="body"></p-dropdown>
               </ng-template>
@@ -150,5 +150,4 @@
                          (confirmed)="handleDeleteConfirmation(confirmDeleteItemDialog.transferObject)"
                          [display]="showDeleteConfirmDialog"
                          [message]="saveDeeleteDialogMessage"></app-confirmation-dialog>
-
 

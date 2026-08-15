@@ -1,12 +1,11 @@
-import { Directive, ElementRef, Input, NgModule, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, input, NgModule, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[attributes]'
 })
 export class AttributeDirective implements OnChanges {
 
-  @Input()
-  public attributes: { [key: string]: any; };
+  attributes = input.required<{ [key: string]: any; }>();
 
   constructor(
     private renderer: Renderer2,
@@ -16,8 +15,8 @@ export class AttributeDirective implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['attributes']) {
-      for (let attributeName in this.attributes) {
-        const attributeValue = this.attributes[attributeName];
+      for (let attributeName in this.attributes()) {
+        const attributeValue = this.attributes()[attributeName];
         if (attributeValue) {
           this.renderer.setAttribute(this.elementRef.nativeElement, attributeName, attributeValue);
 

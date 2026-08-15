@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PersonFormModel } from "../../domain/domain.personformmodel";
@@ -34,7 +34,8 @@ export class EditPersonDialogComponent {
   isNoChangesInPersonModel: boolean = true
   /**person form group*/
   editPersonFG: FormGroup
-  @Input() visible: boolean = false
+  visible = input(false)
+  isVisible = false
   @Output() visibilityChanged = new EventEmitter<boolean>
   @Output() personModelChanges = new EventEmitter<PersonFormModel>
   protected readonly personType = personType;
@@ -48,6 +49,9 @@ export class EditPersonDialogComponent {
    * @param messagePrinter use for printing messages
    */
   constructor(public securityService: AppSecurityService, private formBuilder: FormBuilder, private messagePrinter: MessagesPrinter) {
+    effect(() => {
+      this.isVisible = this.visible();
+    });
     this.editPersonFG = this.formBuilder.group({
       personId: this.formBuilder.control<number | null>(null),
       personLastName: this.formBuilder.nonNullable.control(''),

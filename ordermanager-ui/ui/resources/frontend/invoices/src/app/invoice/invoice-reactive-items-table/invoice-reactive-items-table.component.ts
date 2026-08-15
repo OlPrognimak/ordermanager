@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, effect, EventEmitter, input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { DropdownDataType, InvoiceItemModel } from '../../domain/domain.invoiceformmodel';
 import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from '../invoice-items-table/invoice-items-table.calculator.service';
@@ -71,14 +71,16 @@ import {TranslocoPipe} from "@jsverse/transloco";
 export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   @ViewChild('confirmDeleteItemDialog') confirmDeleteItemDialog: ConfirmationDialogComponent
 
-  @Input() invoiceReactiveItems: InvoiceItemModel[];
+  invoiceReactiveItems = input.required<InvoiceItemModel[]>();
   /** The observer for observation model changing event in parent component */
-  @Input() modelChangedEvent: Observable<void> = of();
+  modelChangedEvent = input<Observable<void>>(of());
   @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
   @Output() totalNettoSumEvent = new EventEmitter<number>();
   @Output() totalBruttoSumEvent = new EventEmitter<number>();
-  @Input() catalogItems: DropdownDataType[];
-  @Input() myInputField;
+  catalogItems = input<DropdownDataType[]>([]);
+  myInputField = input<any>();
+  itemRows: InvoiceItemModel[] = [];
+  catalogItemRows: DropdownDataType[] = [];
   saveDeeleteDialogMessage: string = 'Are you sure you want to delete invoice item?'
   showDeleteConfirmDialog: boolean = false
   //backendUrl: string;
@@ -91,6 +93,10 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
               public calculatorService: InvoiceItemsTableCalculatorService) {
     //this.backendUrl = environment.baseUrl;
     this.idxItem = 0;
+    effect(() => {
+      this.itemRows = this.invoiceReactiveItems() ?? [];
+      this.catalogItemRows = this.catalogItems() ?? [];
+    });
   }
 
   get getTotalNettoSum(): any {
@@ -102,23 +108,23 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   }
 
   get getTotalBruttoSum(): any {
-   // this.calculatorService.setInvoiceItems(this.invoiceReactiveItems)
+   // this.calculatorService.setInvoiceItems(this.itemRows)
     return this.calculatorService.totalBruttoSum();
   }
 
   public setTottalBruttoSum(value: any) {
     //Currently disabled
-   //  this.calculatorService.setInvoiceItems(this.invoiceReactiveItems)
+   //  this.calculatorService.setInvoiceItems(this.itemRows)
   }
 
   ngOnInit(): void {
-    this.modelChangedSubscription = this.modelChangedEvent.subscribe(() => {
+    this.modelChangedSubscription = this.modelChangedEvent().subscribe(() => {
       this.resetTotalValues();
     });
 
     this.itemtableService.downloadCatalogItemsDropdownList(callback => {
       if (callback) {
-        this.catalogItems = callback;
+        this.catalogItemRows = callback;
       }
     })
 
@@ -141,7 +147,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    */
   catalogItemSlected(invoiceitem: InvoiceItemModel, event: any): void {
     this.itemtableService.loadCatalogItemDetails(invoiceitem, event, callback => {
-      this.changeItemEvent.emit(this.invoiceReactiveItems);
+      this.changeItemEvent.emit(this.itemRows);
       // console.log("###### Item.Amount =:"+callback.amountItems)
       this.inputBoxChanged(callback, null)
     });
@@ -155,8 +161,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
     const newItem = new InvoiceItemModel();
     this.idxItem = ++this.idxItem;
     newItem.idxItem = this.idxItem;
-    this.invoiceReactiveItems.push(newItem);
-    this.changeItemEvent.emit(this.invoiceReactiveItems);
+    this.itemRows.push(newItem);
+    this.changeItemEvent.emit(this.itemRows);
   }
 
   /**
@@ -164,14 +170,14 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    * @param idxItem index of item in list items
    */
   deleteItem(id: number, idxItem: number): void {
-    //console.log(id+": Before Rest Items"+JSON.stringify(this.invoiceReactiveItems))
+    //console.log(id+": Before Rest Items"+JSON.stringify(this.itemRows))
     if (typeof id === 'number') {
-      this.invoiceReactiveItems = this.invoiceReactiveItems.filter(val => val.id !== id)
+      this.itemRows = this.itemRows.filter(val => val.id !== id)
     } else {
-      this.invoiceReactiveItems = this.invoiceReactiveItems.filter(val => val.idxItem !== idxItem)
+      this.itemRows = this.itemRows.filter(val => val.idxItem !== idxItem)
     }
     //console.log("Rest Items"+JSON.stringify(this.invoiceReactiveItems))
-    this.changeItemEvent.emit(this.invoiceReactiveItems);
+    this.changeItemEvent.emit(this.itemRows);
     this.inputBoxChanged(new InvoiceItemModel(), 0)
   }
 
@@ -182,7 +188,7 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   getCatalogDescription(idItemCatalog: string): any {
     if (idItemCatalog !== undefined) {
       // tslint:disable-next-line:triple-equals
-      const rez = this.catalogItems.filter(
+      const rez = this.catalogItemRows.filter(
         val => Number(val.value) === Number(idItemCatalog));
       const labelTxt = rez[0].label
       return labelTxt;
@@ -197,8 +203,8 @@ export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
    */
   // @HostListener('change', ['$event.target'])
   inputBoxChanged(model: InvoiceItemModel, event: any): any {
-    this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
-    // const promise = this.calculatorService.calculateAllSum(this.invoiceReactiveItems, model);
+    this.calculatorService.calculateAllSum(this.itemRows, model);
+    // const promise = this.calculatorService.calculateAllSum(this.itemRows, model);
     // promise.then(() => {
     //     this.emitTotalChanged();
     //   }

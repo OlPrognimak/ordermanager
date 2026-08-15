@@ -12,15 +12,15 @@
                                    [(ngModel)]="value"
                                    [maxFractionDigits]="2"
                                    [minFractionDigits]="2"
-                                   [pattern]="inputPattern"
+                                   [pattern]="inputPattern()"
                                    class="ng-dirty p-mr-2"
                                    class="p-cell-editing ng-dirty"
-                                   id="{{idComponent}}"
-                                   minlength="{{txtMinLength}}"
+                                   id="{{idComponent()}}"
+                                   minlength="{{txtMinLength()}}"
                                    mode="decimal"
-                                   name="{{inputName}}"
+                                   name="{{inputName() || name() || idComponent()}}"
                                    required/>
-                  <label for="{{idComponent}}">{{labelText}}</label>
+                  <label for="{{idComponent()}}">{{labelText()}}</label>
                </p-floatlabel>
 
         @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
@@ -30,6 +30,6 @@
         }
   </div>
   @if (modelRef.errors?.['pattern'] && (modelRef.dirty || modelRef.touched)) {
-    <small class="validation-text">{{ patternErrorText }}</small>
+    <small class="validation-text">{{ patternErrorText() }}</small>
   }
 </div>

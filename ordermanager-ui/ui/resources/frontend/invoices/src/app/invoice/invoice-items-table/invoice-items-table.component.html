@@ -4,7 +4,7 @@
     <p-table
       [autoLayout]="true"
       [resizableColumns]="true"
-      [value]="invoiceItems"
+      [value]="itemRows"
       class="p-global-table"
       editMode="row"
       styleClass="p-datatable-gridlines">
@@ -34,7 +34,7 @@
                     'ng-dirty': modelRef.dirty || modelRef.touched
                   }"
                   [ngModel]="invoiceitem.catalogItemId"
-                  [options]="catalogItems"
+                  [options]="catalogItemRows"
                   [name]="'catalogItemId-' + invoiceitem.idxItem"
                   appendTo="body">
                 </p-dropdown>

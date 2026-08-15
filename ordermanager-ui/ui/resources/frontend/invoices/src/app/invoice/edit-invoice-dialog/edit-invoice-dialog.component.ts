@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, EventEmitter, input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
@@ -83,9 +83,11 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   editInvoiceFG: InvoiceFormGroup
   visible: boolean;
   /** Model invoice supplier for dropdown component */
-  @Input() personInvoiceSupplier: DropdownDataType[]
+  personInvoiceSupplier = input<DropdownDataType[]>([]);
   /** Model invoice recipient for dropdown component */
-  @Input() personInvoiceRecipient: DropdownDataType[]
+  personInvoiceRecipient = input<DropdownDataType[]>([]);
+  personInvoiceSupplierRows: DropdownDataType[] = [];
+  personInvoiceRecipientRows: DropdownDataType[] = [];
   @Output() editObjectChangedChanged: EventEmitter<InvoiceFormModel> = new EventEmitter<InvoiceFormModel>();
 
   invoiceReactiveDlgFormData: InvoiceFormModel;
@@ -104,6 +106,10 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
               private httpService: CommonServicesAppHttpService<InvoiceFormModel>,
               private formBuilder: FormBuilder,
               private translocoService: TranslocoService) {
+    effect(() => {
+      this.personInvoiceSupplierRows = this.personInvoiceSupplier() ?? [];
+      this.personInvoiceRecipientRows = this.personInvoiceRecipient() ?? [];
+    });
 
     this.editInvoiceFG = this.formBuilder.group({
       id: this.formBuilder.nonNullable.control(0),
@@ -154,8 +160,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   loadFormData() {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
       if (callback != null) {
-        this.personInvoiceRecipient = callback;
-        this.personInvoiceSupplier = callback;
+        this.personInvoiceRecipientRows = callback;
+        this.personInvoiceSupplierRows = callback;
       }
     })
   }
@@ -207,10 +213,10 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       this.originalInvoice.totalSumBrutto =  this.itemsTableComponent.calculatorService.totalBruttoSum()
 
       const supplier =
-        this.personInvoiceSupplier.filter((p, idx) =>
+        this.personInvoiceSupplierRows.filter((p, idx) =>
           p.value === this.originalInvoice.personSupplierId)?.at(0)
       const recipient =
-        this.personInvoiceSupplier.filter((p, idx) =>
+        this.personInvoiceSupplierRows.filter((p, idx) =>
           p.value === this.originalInvoice.personRecipientId)?.at(0)
       //
       this.originalInvoice.supplierFullName = supplier?.label!

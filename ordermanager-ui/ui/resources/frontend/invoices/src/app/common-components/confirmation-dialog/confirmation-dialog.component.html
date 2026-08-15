@@ -1,6 +1,6 @@
 <p-dialog
   (onHide)="onCancel()"
-  [(visible)]="display"
+  [(visible)]="visible"
   [modal]="true"
   [style]="{ width: 'min(32rem, calc(100vw - 2rem))' }"
   contentStyleClass="dialog-content-flex"
@@ -17,7 +17,7 @@
   </ng-template>
 
   <div class="dialog-body">
-    <p>{{ message }}</p>
+    <p>{{ message() }}</p>
   </div>
 
   <ng-template pTemplate="footer">

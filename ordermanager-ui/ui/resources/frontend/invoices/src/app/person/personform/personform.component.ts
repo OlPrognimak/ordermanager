@@ -84,17 +84,6 @@ export class PersonFormComponent implements OnInit, OnDestroy {
   flowInvoiceModel: InvoiceFormModelInterface
   protected readonly personType = personType;
   protected readonly isAuthenticated = isAuthenticated;
-  private hasPersonTypeError: boolean = false;
-  private hasFirstNameError: boolean = false;
-  private hasLastNameError: boolean = false;
-  private hasCompanyNameError: boolean = false;
-  private hasEmailError: boolean = false;
-  private hasTaxNumberError: boolean = false;
-  private hasZipCodeError: boolean = false;
-  private hasCityError: boolean = false;
-  private hasStreetError: boolean = false;
-  private hasBankNameError: boolean = false;
-  private hasBicError: boolean = false;
   private readonly destroy$ = new Subject<void>();
 
   get isWorkflowReturn(): boolean {
@@ -189,93 +178,6 @@ export class PersonFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  setHasPersonTypeError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasPersonTypeError !== val) {
-        this.hasPersonTypeError = val
-      }
-    })
-  }
-
-  setHasFirstNameError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasFirstNameError !== val) {
-        this.hasFirstNameError = val
-      }
-    })
-  }
-
-  setHasLastNameError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasLastNameError !== val) {
-        this.hasLastNameError = val
-      }
-    })
-  }
-
-  setHasCompanyNameError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasCompanyNameError !== val) {
-        this.hasCompanyNameError = val
-      }
-    })
-  }
-
-  setHasEmailError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasEmailError !== val) {
-        this.hasEmailError = val
-      }
-    })
-  }
-
-  setHasTaxNumberError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasTaxNumberError !== val) {
-        this.hasTaxNumberError = val
-      }
-    })
-  }
-
-  setHasZipCodeError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasZipCodeError !== val) {
-        this.hasZipCodeError = val
-      }
-    })
-  }
-
-  setHasCityError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasCityError !== val) {
-        this.hasCityError = val
-      }
-    })
-  }
-
-  setHasStreetError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasStreetError !== val) {
-        this.hasStreetError = val
-      }
-    })
-  }
-
-  setHasBankNameError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasBankNameError !== val) {
-        this.hasBankNameError = val
-      }
-    })
-  }
-
-  setHasBicError(val: boolean) {
-    setTimeout(() => {
-      if (this.hasBicError !== val) {
-        this.hasBicError = val
-      }
-    })
-  }
 }
 
 @NgModule(

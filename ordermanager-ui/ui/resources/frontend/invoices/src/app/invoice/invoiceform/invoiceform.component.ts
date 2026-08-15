@@ -32,11 +32,8 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
   NgModule,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
@@ -77,7 +74,6 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { DropdownModule } from "primeng/dropdown";
 import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
-import { InvoiceFormValidator } from "./invoice.form.validator";
 import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoice-items-table.calculator.service";
 import {
   ValidatableInputTextComponent
@@ -98,20 +94,16 @@ registerLocaleData(localede, 'de');
   providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
-export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
+export class InvoiceFormComponent implements OnInit, AfterViewInit {
   @ViewChild('dialogContent') dialogContent!: ElementRef;
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
   /** The invoice data model */
-  @Input() invoiceFormData: InvoiceFormModelInterface = new InvoiceFormModel()
+  invoiceFormData: InvoiceFormModelInterface = new InvoiceFormModel()
   /** Model invoice supplier for dropdown component */
-  @Input() personInvoiceSupplier: DropdownDataType[];
+  personInvoiceSupplier: DropdownDataType[] = [];
   /** Model invoice recipient for dropdown component */
-  @Input() personInvoiceRecipient: DropdownDataType[];
-  /** Event for updating input variable 'personInvoiceSupplier'*/
-  @Output() personInvoiceSupplierEvent = new EventEmitter<DropdownDataType[]>();
-  /** Event for updating input variable 'personInvoiceRecipient'*/
-  @Output() personInvoiceRecipientEvent = new EventEmitter<DropdownDataType[]>();
+  personInvoiceRecipient: DropdownDataType[] = [];
   @ViewChild("itemsTableRef") itemsTableComponent: InvoiceItemsTableComponent;
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
@@ -136,7 +128,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
               public calculatorService: InvoiceItemsTableCalculatorService,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
     //this.backendUrl = environment.baseUrl;
-    super()
   }
 
 
@@ -206,6 +197,10 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
   setInvoiceItems(items: InvoiceItemModel[]): void {
     this.invoiceFormData.invoiceItems = items;
     this.itemsTableComponent?.calculatorService.setInvoiceItems(items);
+  }
+
+  haveInvoiceItemsError(items: InvoiceItemModel[]): boolean {
+    return !items?.length || items.some(item => item.amountItems === undefined || item.amountItems <= 0);
   }
 
   protected readonly translate = translate;

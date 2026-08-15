@@ -5,10 +5,11 @@
                   (ngModelChange)="onChange($event); setValueChanged($event)"
                   [(ngModel)]="controlValue"
                   class="w-100"
-                  [name]="inputName"
-                  [options]="optionList"
-                  [inputId]="idComponent"
-                  minlength="{{txtMinLength}}"
+                  [name]="inputName() || name() || idComponent()"
+                  [options]="optionList()"
+                  [inputId]="idComponent()"
+                  minlength="{{txtMinLength()}}"
+                  (onBlur)="onTouched()"
 
                   [ngClass]="{
                                 'ng-invalid ng-dirty': modelRef.invalid && (modelRef.dirty || modelRef.touched),
@@ -16,7 +17,7 @@
                               }"
                   required>
       </p-dropdown>
-      <label [for]="idComponent">{{ labelText }}</label>
+      <label [for]="idComponent()">{{ labelText() }}</label>
     </p-floatlabel>
     @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
       <div class="error-icon-box">
@@ -24,7 +25,8 @@
       </div>
     }
   </div>
-  @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== null,
+  @if (setHasMinLengthError(modelRef.errors?.['minlength'] !== undefined &&
+    modelRef.errors?.['minlength'] !== null,
     modelRef.errors?.['minlength']) && (modelRef.dirty || modelRef.touched)) {
     <div class="error-icon-box">
       <small class="validation-text">{{ 'common.validation.required' | transloco }}</small>
