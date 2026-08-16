@@ -3,11 +3,11 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Input,
+  input,
   NgModule,
   OnInit,
   Output,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,15 +31,15 @@ import { TranslocoModule } from '@jsverse/transloco';
   ]
 })
 export class ValidatableCalendarComponent implements OnInit, ControlValueAccessor, AfterViewInit {
-  @ViewChild('modelCalendarRef') modelCalendarRef?: NgModel;
+  modelCalendarRef = viewChild.required<NgModel>('modelCalendarRef');
 
-  @Input() public txtMinLength = 1;
-  @Input() public idComponent = '';
-  @Input() public labelText = '';
-  @Input() public dateFormat: string = '';
-  @Input() public name = '';
-  @Input() public controlValue: any = null;
-  @Input() public calendarDateFormat: string = '';
+  txtMinLength = input(1);
+  idComponent = input('');
+  labelText = input('');
+  dateFormat = input('');
+  name = input('');
+  controlValue: any = null;
+  calendarDateFormat = input('');
 
   @Output() controlModel = new EventEmitter<NgModel>();
   @Output() componentHasError = new EventEmitter<boolean>();
@@ -50,7 +50,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
   onChange: (val: any) => void = () => {};
   onTouched: () => void = () => {};
-  @Input() protected isRequired: boolean  = true;
+  protected isRequired = input(true);
 
   ngOnInit(): void {}
 
@@ -105,9 +105,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (this.modelCalendarRef) {
-        this.controlModel.emit(this.modelCalendarRef);
-      }
+      this.controlModel.emit(this.modelCalendarRef());
     });
   }
 }

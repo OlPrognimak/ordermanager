@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from "primeng/dialog";
 import { ButtonModule } from "primeng/button";
@@ -17,20 +17,27 @@ import { TranslocoModule } from '@jsverse/transloco';
   styleUrls: ['./confirmation-dialog.component.css']
 })
 export class ConfirmationDialogComponent {
-  @Input() display: boolean = false;
-  @Input() message: string = '';
+  display = input(false);
+  message = input('');
   @Output() confirmed = new EventEmitter<void>();
   @Output() canceled = new EventEmitter<boolean>();
   transferObject: any
-  @Input() confirmMessage: string;
+  confirmMessage = input('');
+  visible = false;
+
+  constructor() {
+    effect(() => {
+      this.visible = this.display();
+    });
+  }
 
   get confirmHeaderText(): string {
-    return this.confirmMessage ? this.confirmMessage : ''
+    return this.confirmMessage() ? this.confirmMessage() : ''
   }
 
   onConfirm(): void {
     this.confirmed.emit();
-    this.display = false;
+    this.visible = false;
   }
 
   onCancel(): void {

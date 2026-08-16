@@ -13,8 +13,8 @@
         [(ngModel)]="controlValue"
         (ngModelChange)="onChange($event)"
         (onBlur)="onTouched()"
-        [dateFormat]="calendarDateFormat"
-        [inputId]="idComponent"
+        [dateFormat]="calendarDateFormat()"
+        [inputId]="idComponent()"
         required
         [ngClass]="{
           'ng-invalid': modelCalendarRef?.invalid,
@@ -23,7 +23,7 @@
         styleClass="w-100">
       </p-datepicker>
 
-      <label [for]="idComponent">{{ labelText }}</label>
+      <label [for]="idComponent()">{{ labelText() }}</label>
     </p-floatlabel>
 
     @if (modelCalendarRef?.invalid && (modelCalendarRef?.dirty || modelCalendarRef?.touched)) {

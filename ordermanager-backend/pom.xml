@@ -53,10 +53,6 @@
       <artifactId>hibernate-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-    </dependency>
-    <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
     </dependency>
@@ -106,11 +102,6 @@
       <artifactId>mockito-core</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.70</version>
-    </dependency>
     <!--  JWT -->
     <dependency>
       <groupId>com.auth0</groupId>

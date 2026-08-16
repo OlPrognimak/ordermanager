@@ -22,6 +22,9 @@ const setInvoiceItemsAction =
 const saveInvoiceItemAction =
   createAction(WorkflowStatuses.SAVE_INVOICE_ITEM, props<{data: InvoiceItemModel[]}>())
 const saveInvoiceAction = createAction(WorkflowStatuses.SAVE_INVOICE)
+const updateInvoice =
+  createAction('UPDATE_WORKFLOW_INVOICE', props<{ data: InvoiceFormModelInterface }>())
+const resetInvoice = createAction('RESET_WORKFLOW_INVOICE')
 const actionFailure =
   createAction('INVOICE_FAILURE', props<{ error: string }>())
 
@@ -37,7 +40,8 @@ export class InvoiceActions {
   static setInvoiceItemsAction = setInvoiceItemsAction
   static saveInvoiceAction = saveInvoiceAction
   static saveInvoiceItemAction = saveInvoiceItemAction
+  static updateInvoice = updateInvoice
+  static resetInvoice = resetInvoice
 }
-
 
 

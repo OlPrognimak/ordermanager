@@ -31,13 +31,9 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
-  EventEmitter,
-  Input,
   NgModule,
   OnInit,
-  Output,
-  ViewChild
+  viewChild
 } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import localede from '@angular/common/locales/de';
@@ -77,7 +73,6 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { DropdownModule } from "primeng/dropdown";
 import { RippleModule } from "primeng/ripple";
 import { MessagesModule } from "primeng/messages";
-import { InvoiceFormValidator } from "./invoice.form.validator";
 import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoice-items-table.calculator.service";
 import {
   ValidatableInputTextComponent
@@ -98,24 +93,23 @@ registerLocaleData(localede, 'de');
   providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
     CommonServicesAppHttpService<InvoiceFormModelInterface>]
 })
-export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
-  @ViewChild('dialogContent') dialogContent!: ElementRef;
+export class InvoiceFormComponent implements OnInit, AfterViewInit {
   eventsModelIsReset: Subject<void> = new Subject<void>();
   //backendUrl: string;
   /** The invoice data model */
-  @Input() invoiceFormData: InvoiceFormModelInterface = new InvoiceFormModel()
+  invoiceFormData: InvoiceFormModelInterface = new InvoiceFormModel()
   /** Model invoice supplier for dropdown component */
-  @Input() personInvoiceSupplier: DropdownDataType[];
+  personInvoiceSupplier: DropdownDataType[] = [];
   /** Model invoice recipient for dropdown component */
-  @Input() personInvoiceRecipient: DropdownDataType[];
-  /** Event for updating input variable 'personInvoiceSupplier'*/
-  @Output() personInvoiceSupplierEvent = new EventEmitter<DropdownDataType[]>();
-  /** Event for updating input variable 'personInvoiceRecipient'*/
-  @Output() personInvoiceRecipientEvent = new EventEmitter<DropdownDataType[]>();
-  @ViewChild("itemsTableRef") itemsTableComponent: InvoiceItemsTableComponent;
+  personInvoiceRecipient: DropdownDataType[] = [];
+  itemsTableComponent = viewChild.required<InvoiceItemsTableComponent>("itemsTableRef");
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
   private isViewInitialized = false;
+
+  get lineItemCount(): number {
+    return this.invoiceFormData.invoiceItems.filter(item => item.catalogItemId !== undefined).length;
+  }
 
   /**
    * Constructor
@@ -132,7 +126,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
               public calculatorService: InvoiceItemsTableCalculatorService,
               private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>) {
     //this.backendUrl = environment.baseUrl;
-    super()
   }
 
 
@@ -171,7 +164,7 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
    * Saves invoice to the database on server
    * @param event the item for saving
    */
-  saveInvoice(event: any): void {
+  saveInvoice(): void {
     this.invoiceFormData.totalSumNetto = this.calculatorService.totalNettoSum();
     this.invoiceFormData.totalSumBrutto = this.calculatorService.totalBruttoSum();
     printToJson(this.invoiceFormData);
@@ -181,12 +174,6 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
           this.resetModel();
         }
       });
-  }
-
-  /** emits events with changed total netto and brutto sums */
-  private emitPersonDataChanged(): void {
-    this.personInvoiceSupplierEvent.emit(this.personInvoiceSupplier);
-    this.personInvoiceRecipientEvent.emit(this.personInvoiceRecipient);
   }
 
   /**
@@ -201,12 +188,17 @@ export class InvoiceFormComponent extends InvoiceFormValidator implements OnInit
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {
-      this.itemsTableComponent.resetTotalValues();
+      this.itemsTableComponent().resetTotalValues();
     }
   }
 
-  setInvoiceItems(items: InvoiceItemModel[]) {
-    this.itemsTableComponent?.calculatorService.setInvoiceItems(items)
+  setInvoiceItems(items: InvoiceItemModel[]): void {
+    this.invoiceFormData.invoiceItems = items;
+    this.itemsTableComponent().calculatorService.setInvoiceItems(items);
+  }
+
+  haveInvoiceItemsError(items: InvoiceItemModel[]): boolean {
+    return !items?.length || items.some(item => item.amountItems === undefined || item.amountItems <= 0);
   }
 
   protected readonly translate = translate;

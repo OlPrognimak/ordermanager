@@ -15,6 +15,7 @@ import { isAuthenticated } from './common-services/common-services-util.service'
 export class AppComponent implements OnInit, OnDestroy {
   title = 'frontend';
   menuItems: MenuItem[] = [];
+  unauthenticatedMenuItems: MenuItem[] = [];
   protected readonly isAuthenticated = isAuthenticated;
   private readonly destroy$ = new Subject<void>();
 
@@ -29,9 +30,29 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.buildMenuItems();
+        this.buildUnauthenticatedMenuItems();
       });
 
     //this.buildMenuItems();
+  }
+
+  private buildUnauthenticatedMenuItems(): void {
+    this.unauthenticatedMenuItems = [
+      {
+        label: this.getCurrentLanguageLabel(),
+        icon: 'pi pi-globe',
+        items: [
+          {
+            label: '🇬🇧 English',
+            command: () => this.switchLang('en')
+          },
+          {
+            label: '🇩🇪 Deutsch',
+            command: () => this.switchLang('de')
+          }
+        ]
+      }
+    ];
   }
 
   private buildMenuItems(): void {

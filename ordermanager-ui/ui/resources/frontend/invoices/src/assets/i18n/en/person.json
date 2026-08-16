@@ -2,15 +2,35 @@
   "person": {
     "save_and_return": "Save and return",
     "dialog": {
-      "edit_person": "Person bearbeiten"
+      "edit_person": "Edit person",
+      "eyebrow": "Contact maintenance",
+      "description_title": "Update contact information",
+      "description": "Review identity, address and bank information. Saved changes become available throughout invoice management.",
+      "identity_title": "Identity and tax details",
+      "identity_description": "Maintain the contact type, identifying information and email address."
     },
     "form": {
       "create_person": "Create person",
       "person_address": "Person address",
-      "person_bank": "Bankverbindung der Person",
+      "person_bank": "Bank account",
+      "create": {
+        "eyebrow": "Contact directory",
+        "subtitle": "Create a person or organization for invoices and business records.",
+        "new_contact": "New contact",
+        "for_invoice": "For invoice workflow",
+        "identity_title": "Identity and tax details",
+        "identity_subtitle": "Choose the contact type and provide identifying information.",
+        "address_subtitle": "Enter the postal address used for business documents.",
+        "bank_subtitle": "Add the payment account used on invoices.",
+        "summary": "Contact summary",
+        "no_email": "No email provided.",
+        "summary_hint": "This person will be available for selection on invoices after saving.",
+        "ready_title": "Ready to save this contact?",
+        "ready_hint": "Complete all required identity, address and bank fields."
+      },
       "field": {
         "first_name": "First name",
-        "last_name": "Las name",
+        "last_name": "Last name",
         "email": "Email",
         "company_name": "Company name",
         "tax_number": "Tax number",
@@ -23,11 +43,22 @@
         "account": "Account number",
         "iban": "IBAN",
         "bic_swift": "BIC/SWIFT",
-        "wrong_iban_format": "Wrong IBAN format"
+        "wrong_iban_format": "Wrong IBAN format",
+        "wrong_email_format": "Wrong email format"
       }
     },
     "management": {
       "title": "Person management",
+      "eyebrow": "Contacts and organizations",
+      "subtitle": "Review, edit and maintain people used across invoices.",
+      "records": "People",
+      "results_title": "Saved people",
+      "results_hint": "Double-click a person or use the edit action.",
+      "changed": "changed",
+      "no_results": "No people found for this date period.",
+      "pending_title": "Pending person changes",
+      "pending_hint": "Review changed rows before saving them.",
+      "debug_error": "Debug service error",
       "tooltips": {
         "edit_person": "Double click to edit person"
       },

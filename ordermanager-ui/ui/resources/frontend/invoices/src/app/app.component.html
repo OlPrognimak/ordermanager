@@ -1,21 +1,29 @@
-@if (!isAuthenticated()) {
-  <div class="app-header p-shadow-4">
-    <a
-      (click)="router.navigateByUrl('/')"
-      [pTooltip]="'tooltips.navigate_home' | transloco"
-      tooltipPosition="right"
-      class="home-link">
-      <img src="assets/home-small.png" alt="Home">
-    </a>
+<p-toast></p-toast>
 
-    <h3 class="app-title">{{ 'title' | transloco }}</h3>
+@if (!isAuthenticated()) {
+  <div class="app-header authenticated-header">
+    <p-menubar [model]="unauthenticatedMenuItems" styleClass="app-main-menu">
+      <ng-template pTemplate="start">
+        <a
+          (click)="router.navigateByUrl('/')"
+          [pTooltip]="'tooltips.navigate_home' | transloco"
+          tooltipPosition="right"
+          class="home-link">
+          <img src="assets/home-small.png" alt="Home">
+        </a>
+        <span class="app-title">{{ 'title' | transloco }}</span>
+      </ng-template>
+
+      <ng-template pTemplate="end">
+      </ng-template>
+    </p-menubar>
   </div>
 
   <app-user-login></app-user-login>
 } @else {
   <div class="app-shell">
-    <div class="app-header p-shadow-4">
-      <p-menubar [model]="menuItems">
+    <div class="app-header authenticated-header">
+      <p-menubar [model]="menuItems" styleClass="app-main-menu">
         <ng-template pTemplate="start">
           <a
             (click)="router.navigateByUrl('/')"
@@ -31,12 +39,6 @@
         </ng-template>
       </p-menubar>
     </div>
-
-    @if (router.url === '/') {
-      <div class="page-content">
-        <h2>{{ 'homepage.heading' | transloco }}</h2>
-      </div>
-    }
 
   </div>
 }

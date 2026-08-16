@@ -1,57 +1,124 @@
-<div *ngIf="isAuthenticated();" class="p-fluid u-ml-5pt">
-  <div class="p-grid items-form-center-text u-ml-5pt u-mt-10pt">
-    <H2 class="items-form-center-text">{{'invoice.item.create.title' | transloco}}</H2>
-  </div>
-  <p-toast></p-toast>
-  <form #itemCatalogForm="ngForm" (submit)="saveItem($event)">
-    <div class="p-grid">
-      <div class="p-col-4 u-mt-10pt">
-        <app-validatable-input-text (componentHasErrorEvent)="setHasNameError($event)"
-                                    [(ngModel)]="model.description"
-                                    [idComponent]="'id_ItemDesc'"
-                                    [labelText]="'invoice.item.table.item_name' | transloco"
-                                    [txtMinLength]="2"
-                                    name="description">
-        </app-validatable-input-text>
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-4 u-mt-10pt">
-       <p-floatlabel class="w-100">
-       <input [(ngModel)]="model.shortDescription" id="id-shortDescription" name="shortDescription" pInputText
-              class="u-w-100"
-              type="text"/>
-       <label for="id-shortDescription">{{'invoice.item.table.short_description' | transloco}}</label>
-       </p-floatlabel>
+@if (isAuthenticated()) {
+  <main class="catalog-item-page">
+    <p-toast></p-toast>
+
+    <form #itemCatalogForm="ngForm" class="catalog-item-form" (ngSubmit)="saveItem()">
+      <header class="catalog-page-header">
+        <div>
+          <span class="catalog-eyebrow">{{ 'invoice.item.create.eyebrow' | transloco }}</span>
+          <h1>{{ 'invoice.item.create.title' | transloco }}</h1>
+          <p>{{ 'invoice.item.create.subtitle' | transloco }}</p>
+        </div>
+        <span class="catalog-status">
+          <i class="pi pi-box"></i>
+          {{ 'invoice.item.create.new_item' | transloco }}
+        </span>
+      </header>
+
+      <div class="catalog-layout">
+        <div class="catalog-main-column">
+          <section class="catalog-card">
+            <header class="catalog-card-header">
+              <div class="catalog-card-icon"><i class="pi pi-tag"></i></div>
+              <div>
+                <h2>{{ 'invoice.item.create.details_title' | transloco }}</h2>
+                <p>{{ 'invoice.item.create.details_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="catalog-fields">
+              <app-validatable-input-text
+                (componentHasErrorEvent)="setHasNameError($event)"
+                [(ngModel)]="model.description"
+                [idComponent]="'id_ItemDesc'"
+                [labelText]="'invoice.item.table.item_name' | transloco"
+                [txtMinLength]="2"
+                name="description">
+              </app-validatable-input-text>
+
+              <p-floatlabel>
+                <input
+                  [(ngModel)]="model.shortDescription"
+                  id="id-shortDescription"
+                  name="shortDescription"
+                  pInputText
+                  type="text"/>
+                <label for="id-shortDescription">{{ 'invoice.item.table.short_description' | transloco }}</label>
+              </p-floatlabel>
+            </div>
+          </section>
+
+          <section class="catalog-card">
+            <header class="catalog-card-header">
+              <div class="catalog-card-icon"><i class="pi pi-calculator"></i></div>
+              <div>
+                <h2>{{ 'invoice.item.create.pricing_title' | transloco }}</h2>
+                <p>{{ 'invoice.item.create.pricing_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="catalog-fields catalog-pricing-fields">
+              <div class="catalog-field-group">
+                <span class="catalog-field-label">{{ 'invoice.item.create.net_price' | transloco }}</span>
+                <app-validatable-input-number
+                  (componentHasErrorEvent)="setHasPriceError($event)"
+                  [(ngModel)]="model.itemPrice"
+                  [idComponent]="'id_ItemPrice'"
+                  [labelText]="'invoice.item.table.price' | transloco"
+                  name="itemPrice">
+                </app-validatable-input-number>
+              </div>
+
+              <div class="catalog-field-group">
+                <span class="catalog-field-label">{{ 'invoice.item.create.tax_rate' | transloco }}</span>
+                <app-validatable-input-number
+                  (componentHasErrorEvent)="setHasVatError($event)"
+                  [(ngModel)]="model.vat"
+                  [idComponent]="'id_ItemVat'"
+                  [labelText]="'invoice.item.table.vat' | transloco"
+                  name="vat">
+                </app-validatable-input-number>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="catalog-preview-card">
+          <span class="catalog-preview-label">{{ 'invoice.item.create.preview' | transloco }}</span>
+          <div class="catalog-preview-icon"><i class="pi pi-box"></i></div>
+          <h2>{{ model.description || ('invoice.item.create.untitled_item' | transloco) }}</h2>
+          <p>{{ model.shortDescription || ('invoice.item.create.no_description' | transloco) }}</p>
+
+          <div class="catalog-preview-values">
+            <div>
+              <span>{{ 'invoice.item.create.net_price' | transloco }}</span>
+              <strong>{{ (model.itemPrice || 0) | number:'1.2-2' }}</strong>
+            </div>
+            <div>
+              <span>{{ 'invoice.item.create.tax_rate' | transloco }}</span>
+              <strong>{{ (model.vat || 0) | number:'1.2-2' }}%</strong>
+            </div>
+            <div class="catalog-preview-total">
+              <span>{{ 'invoice.item.create.gross_price' | transloco }}</span>
+              <strong>{{ grossPrice | number:'1.2-2' }}</strong>
+            </div>
+          </div>
+          <small>{{ 'invoice.item.create.preview_hint' | transloco }}</small>
+        </aside>
       </div>
 
-    </div>
-    <div class="p-grid u-mt-10pt">
-      <div class="p-col-2">
-        <app-validatable-input-number (componentHasErrorEvent)="setHasPriceError($event)"
-                                      [(ngModel)]="model.itemPrice"
-                                      [idComponent]="'id_ItemPrice'"
-                                      [labelText]="'invoice.item.table.price' | transloco"
-                                      name="itemPrice">
-        </app-validatable-input-number>
-      </div>
-    </div>
-    <div class="p-grid u-mt-10pt">
-      <div class="p-col-2">
-        <app-validatable-input-number (componentHasErrorEvent)="setHasVatError($event)"
-                                      [(ngModel)]="model.vat"
-                                      [idComponent]="'id_ItemVat'"
-                                      [labelText]="'invoice.item.table.vat' | transloco"
-                                      name="vat">
-        </app-validatable-input-number>
-      </div>
-
-    </div>
-    <div class="p-grid">
-      <div class="p-col-1">
-        <p-button [disabled]="haveErrors()" label="Save" styleClass="submit-button" type="submit"></p-button>
-      </div>
-      <div class="p-col-9"></div>
-    </div>
-  </form>
-</div>
+      <footer class="catalog-form-actions">
+        <div>
+          <strong>{{ 'invoice.item.create.ready_title' | transloco }}</strong>
+          <span>{{ 'invoice.item.create.ready_hint' | transloco }}</span>
+        </div>
+        <p-button
+          [disabled]="haveErrors() || itemCatalogForm.invalid"
+          [label]="'common.actions.save' | transloco"
+          icon="pi pi-check"
+          type="submit">
+        </p-button>
+      </footer>
+    </form>
+  </main>
+}

@@ -25,6 +25,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./workflows/invoice-workflow/workflow.module').then(m => m.WorkflowModule)
   },
+  { path: 'workfrow-create-invoice', redirectTo: 'workflow-create-invoice', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

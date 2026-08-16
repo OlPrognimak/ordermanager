@@ -1,172 +1,286 @@
-<div *ngIf="isAuthenticated();" class="p-grid workflow-page-bg">
-    <div class="p-col-12 workflow-header-height">
-      <h2>Workflow steps</h2>
+@if (isAuthenticated()) {
+  <main class="workflow-page">
+    <p-toast></p-toast>
+    <header class="workflow-heading">
+      <div>
+        <span class="workflow-eyebrow">{{ 'workflow.invoice.eyebrow' | transloco }}</span>
+        <h1>{{ 'workflow.invoice.title' | transloco }}</h1>
+        <p>{{ 'workflow.invoice.subtitle' | transloco }}</p>
+      </div>
+      <div class="workflow-progress-label">
+        {{ 'workflow.invoice.step_count' | transloco: {current: currentStepIndex + 1, total: createInvoiceFlowEvents.length} }}
+      </div>
+    </header>
+
+    <div class="workflow-progress" aria-hidden="true">
+      <span [style.width.%]="progressPercent"></span>
     </div>
-    <div class="p-col-12 workflow-content-height">
-      <div class="card flex flex-wrap gap-6 u-h-100">
-        <p-timeline [value]="createInvoiceFlowEvents" align="left" class="w-full md:w-20rem">
 
-          <ng-template let-flowEvent pTemplate="opposite">
-            <p-button (onClick)="setWorkflowStep(flowEvent)" class="p-button-link flow-button-unselected timeline-button-style" >
-              <div [ngStyle]="flowButtonStyle(flowEvent)" class="flow-button-unselected workflow-panel-padding"
-                  >
-                {{ flowEvent.statusDesc }}
+    <nav class="workflow-steps" [attr.aria-label]="'workflow.invoice.navigation' | transloco">
+      @for (step of createInvoiceFlowEvents; track step.status; let index = $index) {
+        <button type="button"
+                class="workflow-step"
+                [class.workflow-step-active]="stepState(index) === 'active'"
+                [class.workflow-step-complete]="stepState(index) === 'complete'"
+                [attr.aria-current]="currentStepIndex === index ? 'step' : null"
+                (click)="setWorkflowStep(index)">
+          <span class="workflow-step-number">
+            @if (stepState(index) === 'complete') {
+              <i class="pi pi-check"></i>
+            } @else {
+              {{ index + 1 }}
+            }
+          </span>
+          <span class="workflow-step-label">{{ step.statusDesc }}</span>
+        </button>
+      }
+    </nav>
+
+    @if (currentStepIndex > 0) {
+      <section class="workflow-review workflow-step-summary" [attr.aria-label]="'workflow.invoice.previous_values' | transloco">
+        @if (currentStepIndex > 0) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.number' | transloco }}</span>
+            <strong>{{ invoice.invoiceNumber || ('workflow.invoice.review.not_selected' | transloco) }}</strong>
+          </div>
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.rate_type' | transloco }}</span>
+            <strong>{{ rateLabel(invoice.rateType) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 1) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.creation_date' | transloco }}</span>
+            <strong>{{ invoice.creationDate ? (invoice.creationDate | date:'mediumDate') : ('workflow.invoice.review.not_selected' | transloco) }}</strong>
+          </div>
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.invoice_date' | transloco }}</span>
+            <strong>{{ invoice.invoiceDate ? (invoice.invoiceDate | date:'mediumDate') : ('workflow.invoice.review.not_selected' | transloco) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 2) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.person_creator' | transloco }}</span>
+            <strong>{{ personLabel(invoice.personSupplierId) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 3) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.person_recipient' | transloco }}</span>
+            <strong>{{ personLabel(invoice.personRecipientId) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 4) {
+          <div class="workflow-review-item workflow-review-wide">
+            <span>{{ 'workflow.invoice.review.items' | transloco }}</span>
+            <p-table
+              [autoLayout]="true"
+              [value]="workflowInvoiceItems"
+              class="p-global-table workflow-summary-table"
+              styleClass="p-datatable-gridlines">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>{{ 'invoice.item.table.short_description' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.amount' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.price' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.vat' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.sum_netto' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.sum_brutto' | transloco }}</th>
+                </tr>
+              </ng-template>
+
+              <ng-template let-invoiceitem pTemplate="body">
+                <tr>
+                  <td>{{ itemLabel(invoiceitem) }}</td>
+                  <td>{{ invoiceitem.amountItems | standardFloat }}</td>
+                  <td>{{ invoiceitem.itemPrice | standardFloat }}</td>
+                  <td>{{ invoiceitem.vat | standardFloat }}</td>
+                  <td>{{ invoiceitem.sumNetto | standardFloat }}</td>
+                  <td>{{ invoiceitem.sumBrutto | standardFloat }}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="4">{{ 'workflow.invoice.review.totals' | transloco }}</td>
+                  <td>{{ totalNettoSum(workflowInvoiceItems) | standardFloat }}</td>
+                  <td>{{ totalBruttoSum(workflowInvoiceItems) | standardFloat }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        }
+      </section>
+    }
+
+    <form #workflowFrm="ngForm" class="workflow-card">
+      <div class="workflow-card-header">
+        <span class="workflow-card-step">{{ 'workflow.invoice.step_count' | transloco: {current: currentStepIndex + 1, total: createInvoiceFlowEvents.length} }}</span>
+        <h2>{{ currentStatus.statusDesc }}</h2>
+      </div>
+
+      <section class="workflow-card-content">
+        @switch (currentStepIndex) {
+          @case (0) {
+            <div class="workflow-fields workflow-fields-two">
+              <app-validatable-input-text
+                [(ngModel)]="invoice.invoiceNumber"
+                [idComponent]="'id_InvoiceNumber'"
+                [labelText]="'invoice.number' | transloco"
+                [name]="'invoiceNumber'"
+                [txtMinLength]="5">
+              </app-validatable-input-text>
+
+              <p-floatlabel>
+                <input [(ngModel)]="invoice.invoiceDescription"
+                       id="id-invoiceDescription"
+                       name="invoiceDescription"
+                       pInputText
+                       type="text"/>
+                <label for="id-invoiceDescription">{{ 'invoice.description' | transloco }}</label>
+              </p-floatlabel>
+
+              <app-validatable-dropdownlist
+                [(ngModel)]="invoice.rateType"
+                [idComponent]="'id-rateType'"
+                [labelText]="'invoice.rate_type' | transloco"
+                [name]="'invoiceRatesList'"
+                [optionList]="invoiceRate"
+                [txtMinLength]="1">
+              </app-validatable-dropdownlist>
+            </div>
+          }
+          @case (1) {
+            <div class="workflow-fields workflow-fields-two">
+              <app-validatable-calendar
+                [(ngModel)]="invoice.creationDate"
+                [dateFormat]="'dd.mm.yy'"
+                [idComponent]="'id-creationDate'"
+                [labelText]="'invoice.creation_date' | transloco"
+                [name]="'creationDate'"
+                calendarDateFormat="dd.mm.yy">
+              </app-validatable-calendar>
+
+              <app-validatable-calendar
+                [(ngModel)]="invoice.invoiceDate"
+                [dateFormat]="'dd.mm.yy'"
+                [idComponent]="'id-InvoiceDate'"
+                [labelText]="'invoice.invoice_date' | transloco"
+                [name]="'invoiceDate'"
+                calendarDateFormat="dd.mm.yy">
+              </app-validatable-calendar>
+            </div>
+          }
+          @case (2) {
+            <div class="workflow-person-step">
+              <app-validatable-dropdownlist
+                [(ngModel)]="invoice.personSupplierId"
+                [idComponent]="'id-invoiceCreator'"
+                [labelText]="'invoice.person_creator' | transloco"
+                [name]="'creator'"
+                [optionList]="personInvoiceSupplier"
+                [placeholder]="'workflow.invoice.select_person' | transloco"
+                [txtMinLength]="-1">
+              </app-validatable-dropdownlist>
+              <p-button (onClick)="createInvoiceCreator()"
+                        [label]="'workflow.invoice.create_person' | transloco"
+                        icon="pi pi-user-plus"
+                        severity="secondary">
+              </p-button>
+            </div>
+          }
+          @case (3) {
+            <div class="workflow-person-step">
+              <app-validatable-dropdownlist
+                [(ngModel)]="invoice.personRecipientId"
+                [idComponent]="'id-invoiceRecipient'"
+                [labelText]="'invoice.person_recipient' | transloco"
+                [name]="'recipient'"
+                [optionList]="personInvoiceRecipient"
+                [placeholder]="'workflow.invoice.select_person' | transloco"
+                [txtMinLength]="0">
+              </app-validatable-dropdownlist>
+              <p-button (onClick)="createInvoiceRecipient()"
+                        [label]="'workflow.invoice.create_person' | transloco"
+                        icon="pi pi-user-plus"
+                        severity="secondary">
+              </p-button>
+            </div>
+          }
+          @case (4) {
+            <div class="workflow-items">
+              <app-invoice-items-table
+                (changeItemsEvent)="invoiceItemsChanges($event)"
+                [invoiceItems]="workflowInvoiceItems">
+              </app-invoice-items-table>
+            </div>
+          }
+          @case (5) {
+            <div class="workflow-review">
+              <div class="workflow-review-item">
+                <span>{{ 'invoice.number' | transloco }}</span>
+                <strong>{{ invoice.invoiceNumber }}</strong>
               </div>
-            </p-button>
-          </ng-template>
-          <ng-template let-flowEvent  pTemplate="marker">
-                       <span *ngIf="getTimelineIcon(flowEvent)" class="custom-marker">
-                          <i [ngClass]="flowEvent.clsName"></i>
-                       </span>
-          </ng-template>
-          <ng-template let-flowEvent pTemplate="content">
-            <div class="timeline-content-cls">
-              @if (flowEvent.level === 0) {
-                <div [ngStyle]="editStyle(0)" class="p-col-12">
-                  <div class="p-grid">
-                    <div class="p-col-12">
-                      <div class="p-grid">
-                        <div class="p-col-4 u-mt-10pt">
-                          <app-validatable-input-text (componentHasErrorEvent)="setHasInvoiceNumberError($event)"
-                                                      [(ngModel)]="invoice.invoiceNumber"
-                                                      [idComponent]="'id_InvoiceNumber'"
-                                                      [labelText]="'invoice.number' | transloco"
-                                                      [name]="'invoiceNumber'"
-                                                      [txtMinLength]="5">
-                          </app-validatable-input-text>
-                        </div>
-                        <div class="p-col-4 u-mt-10pt">
-             <span class="p-float-label">
-               <input [(ngModel)]="invoice.invoiceDescription" id="id-invoiceDescription" name="'invoiceDescription'"
-                      pInputText
-                      class="u-w-100"
-                      type="text"/>
-               <label for="id-invoiceDescription">Invoice description</label>
-             </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="p-col-12">
-                      <div class="p-grid">
-                        <div class="p-col-3 u-mt-15pt">
-                          <app-validatable-dropdownlist (componentHasError)="setHasInvoiceratesError($event)"
-                                                        [(ngModel)]="invoice.rateType"
-                                                        [idComponent]="'id-rateType'"
-                                                        [labelText]="'invoice.rate_type' | transloco"
-                                                        [name]="'invoiceRatesList'"
-                                                        [optionList]="invoiceRate"
-                                                        [txtMinLength]="1">
-                          </app-validatable-dropdownlist>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              }
-              @if (flowEvent.level === 1) {
-                <div *ngIf="currentStatus.level > 0" class="p-col-12">
-                  <div [ngStyle]="editStyle(1)" class="p-grid">
-                    <div class="p-col-3">
-                      <app-validatable-calendar (componentHasError)="setHasCreationDateError($event)"
-                                                [(ngModel)]="invoice.creationDate"
-                                                [dateFormat]="'dd.mm.yy'"
-                                                [idComponent]="'id-creationDate'"
-                                                [labelText]="'invoice.creation_date' | transloco"
-                                                [name]="'creationDate'"
-                                                calendarDateFormat="dd.mm.yy"
-                                                maxlength="10">
-                      </app-validatable-calendar>
-                    </div>
-
-                    <div class="p-col-3">
-                      <app-validatable-calendar (componentHasError)="setHasInvoiceDateError($event)"
-                                                [(ngModel)]="invoice.invoiceDate"
-                                                [dateFormat]="'dd.mm.yy'"
-                                                [idComponent]="'id-InvoiceDate'"
-                                                [labelText]="'invoice.invoice_date' | transloco"
-                                                [name]="'invoiceDate'"
-                                                calendarDateFormat="dd.mm.yy"
-                                                maxlength="10">
-                      </app-validatable-calendar>
-                    </div>
-                  </div>
-                </div>
-              }
-              @if (flowEvent.level === 2) {
-                <div *ngIf="currentStatus.level > 1" class="p-col-12 u-mt-15pt">
-                  <div [ngStyle]="editStyle(2)" class="p-grid">
-                    <div class="p-col-6">
-                      <app-validatable-dropdownlist (componentHasError)="setHasCreatorError($event)"
-                                                    (ngModelChange)="onSupplierChanged($event)"
-
-                                                    [idComponent]="'id-invoiceCreator'"
-                                                    [labelText]="'invoice.person_creator' | transloco"
-                                                    [name]="'creator'"
-                                                    [ngModel]="invoice.personSupplierId"
-                                                    [optionList]="personInvoiceSupplier"
-                                                    [placeholder]="'Select person'"
-                                                    [txtMinLength]="-1">
-                      </app-validatable-dropdownlist>
-                    </div>
-                    <div class="p-col-2 workflow-max-half">
-                      <p-button (onClick)="createInvoiceCreator()" label="{{'person.form.create_person' | transloco}}"></p-button>
-                    </div>
-                  </div>
-                </div>
-              }
-              @if (flowEvent.level === 3) {
-                <div *ngIf="currentStatus.level > 2" class="p-col-12">
-                  <div [ngStyle]="editStyle(3)" class="p-grid">
-                    <div class="p-col-6">
-                      <app-validatable-dropdownlist (componentHasError)="setHasRecipientError($event)"
-                                                    [(ngModel)]="invoice.personRecipientId"
-                                                    [idComponent]="'id-invoiceRecipient'"
-                                                    [labelText]="'invoice.person_recipient' | transloco"
-                                                    [name]="'recipient'"
-                                                    [optionList]="personInvoiceRecipient"
-                                                    [placeholder]="'Select person'"
-                                                    [txtMinLength]="0">
-                      </app-validatable-dropdownlist>
-                    </div>
-                    <div class="p-col-2 workflow-max-half">
-                      <p-button (onClick)="createInvoiceRecipient()" label="{{'person.form.create_person' | transloco}}"></p-button>
-                    </div>
-                  </div>
-                </div>
-              }
-              @if (flowEvent.level === 4) {
-                <div *ngIf="currentStatus.level > 3" [ngStyle]="editStyle(4)" class="p-col-12">
-                  <app-invoice-items-table #itemsTableRef
-                                           (changeItemsEvent)="invoiceItemsChanges($event)"
-                                           (changeItemEvent)="itemValueChanged($event)"
-                                           (totalBruttoSumEvent)="invoice.totalSumBrutto=$event"
-                                           (totalNettoSumEvent)="invoice.totalSumNetto=$event"
-                                           [invoiceItems]="workflowInvoiceItems"
-                                           [modelChangedEvent]="eventsModelIsReset.asObservable()">
-
-                  </app-invoice-items-table>
-                </div>
-              }
-              @if (flowEvent.level === 5) {
-                <div *ngIf="currentStatus.level > 4" [ngStyle]="editStyle(5)" class="p-col-2">
-                  <p-button (onClick)="saveInvoice($event)" [disabled]="haveErrors(workflowInvoiceItems)"
-                            label="{{'common.action.save' | transloco}}"></p-button>
-                </div>
-              }
-              <div class="p-col-3">
-                @if (currentStatus.level === flowEvent.level) {
-                  <p-button (onClick)="movePreviousStep(currentStatus)" [disabled]="currentStatus.level < 1"
-                            icon="pi pi-fw pi-angle-double-left"
-                            title="Previous step"></p-button>
-                  <p-button (onClick)="saveAndNext(currentStatus)" [disabled]="currentStatus.level > 4"
-                            icon="pi pi-fw pi-angle-double-right"
-                            title="Next step"></p-button>
-                }
+              <div class="workflow-review-item">
+                <span>{{ 'invoice.rate_type' | transloco }}</span>
+                <strong>{{ invoice.rateType }}</strong>
+              </div>
+              <div class="workflow-review-item">
+                <span>{{ 'invoice.creation_date' | transloco }}</span>
+                <strong>{{ invoice.creationDate | date:'mediumDate' }}</strong>
+              </div>
+              <div class="workflow-review-item">
+                <span>{{ 'invoice.invoice_date' | transloco }}</span>
+                <strong>{{ invoice.invoiceDate | date:'mediumDate' }}</strong>
+              </div>
+              <div class="workflow-review-item">
+                <span>{{ 'invoice.person_creator' | transloco }}</span>
+                <strong>{{ personLabel(invoice.personSupplierId) }}</strong>
+              </div>
+              <div class="workflow-review-item">
+                <span>{{ 'invoice.person_recipient' | transloco }}</span>
+                <strong>{{ personLabel(invoice.personRecipientId) }}</strong>
+              </div>
+              <div class="workflow-review-item workflow-review-wide">
+                <span>{{ 'workflow.invoice.review.items' | transloco }}</span>
+                <strong>{{ workflowInvoiceItems.length }}</strong>
               </div>
             </div>
-          </ng-template>
+          }
+        }
+      </section>
 
-        </p-timeline>
-      </div>
-    </div>
-  </div>
+      <footer class="workflow-actions">
+        <button type="button"
+                class="workflow-action workflow-action-secondary"
+                [disabled]="currentStepIndex === 0"
+                (click)="movePreviousStep()">
+          <i class="pi pi-arrow-left"></i>
+          {{ 'workflow.invoice.previous' | transloco }}
+        </button>
+
+        @if (currentStepIndex < createInvoiceFlowEvents.length - 1) {
+          <button type="button"
+                  class="workflow-action workflow-action-primary"
+                  [disabled]="!isCurrentStepComplete()"
+                  (click)="saveAndNext()">
+            {{ 'workflow.invoice.next' | transloco }}
+            <i class="pi pi-arrow-right"></i>
+          </button>
+        } @else {
+          <button type="button"
+                  class="workflow-action workflow-action-primary"
+                  [disabled]="haveErrors(workflowInvoiceItems) || isSaving"
+                  (click)="saveInvoice()">
+            <i class="pi pi-check"></i>
+            {{ 'workflow.invoice.save' | transloco }}
+          </button>
+        }
+      </footer>
+    </form>
+  </main>
+}

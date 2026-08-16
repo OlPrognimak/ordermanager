@@ -24,7 +24,13 @@ export const initialInvoiceStale: InvoiceState = {
 
 export const invoiceReducer = createReducer(
   initialInvoiceStale,
-  on(InvoiceActions.loadInvoiceAction || InvoiceActions.saveInvoiceAction, (state) => {
+  on(InvoiceActions.resetInvoice, () => initialInvoiceStale),
+  on(InvoiceActions.updateInvoice, (state, {data}) => ({
+    ...state,
+    data,
+    error: null
+  })),
+  on(InvoiceActions.loadInvoiceAction, InvoiceActions.saveInvoiceAction, (state) => {
     return {
       ...state,
       data: state.data,

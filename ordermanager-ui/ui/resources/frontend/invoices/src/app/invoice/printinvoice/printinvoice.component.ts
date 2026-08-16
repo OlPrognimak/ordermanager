@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { InvoiceFormModel } from '../../domain/domain.invoiceformmodel';
 import { AgGridAngular } from 'ag-grid-angular';
@@ -23,8 +23,8 @@ import {TranslocoLanguageChangedEvent} from "../../transloco/transloco.language.
 export class PrintinvoiceComponent implements OnInit, OnDestroy {
   invoicesFormModel: InvoiceFormModel[];
   frameworkComponents;
-  @ViewChild('agGrid', { static: false }) agGrid: AgGridAngular;
-  @ViewChild('dataFinder', { static: false }) dataFinder: DateperiodFinderComponent;
+  agGrid = viewChild.required<AgGridAngular>('agGrid');
+  dataFinder = viewChild.required<DateperiodFinderComponent>('dataFinder');
 
 
   basicAuthKey = 'basicAuthKey';
@@ -71,7 +71,7 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
           this.gridApi.setColumnDefs(this.columnDefs);
           this.gridApi.refreshHeader();
           this.gridApi.refreshCells({ force: true });
-          this.gridApi.sizeColumnsToFit();
+          this.fitGridColumns();
         }
       });
   }
@@ -179,11 +179,11 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
   }
 
   creationDateCell = (params) => {
-    return moment(params.data.creationDate).format('MM.DD.yyyy');
+    return moment(params.data.creationDate).format('DD.MM.YYYY');
   };
 
   invoiceDateCell = (params) => {
-    return moment(params.data.invoiceDate).format('MM.yyyy');
+    return moment(params.data.invoiceDate).format('DD.MM.YYYY');
   };
 
   onGridReady(params): void {
@@ -194,7 +194,7 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
       this.gridApi.setColumnDefs(this.columnDefs);
     }
 
-    this.gridApi.sizeColumnsToFit();
+    this.fitGridColumns();
     this.loadInvoices();
 /*
     this.gridApi = params.api;
@@ -205,8 +205,12 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
  */
   }
 
+  onGridSizeChanged(): void {
+    this.fitGridColumns();
+  }
+
   loadInvoices() {
-    this.dataFinder.loadData();
+    this.dataFinder().loadData();
   }
 
   onRowValueChanged(event: any): any {
@@ -220,5 +224,11 @@ export class PrintinvoiceComponent implements OnInit, OnDestroy {
 
   setDataModel(model: InvoiceFormModel[]) {
     this.invoicesFormModel = model;
+  }
+
+  private fitGridColumns(): void {
+    if (this.gridApi && window.innerWidth > 1100) {
+      this.gridApi.sizeColumnsToFit();
+    }
   }
 }

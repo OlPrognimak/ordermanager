@@ -1,74 +1,186 @@
+.person-management-page {
+  width: min(1320px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
 
-.align-right {
+.person-management-header {
   display: flex;
-  justify-content: right;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
 }
 
-.saveButton-align {
-  margin: 5px 5px 5px 5px;
+.person-management-header h1 {
+  margin: 0.3rem 0 0.4rem;
 }
 
-align-right-button {
-  margin-left: auto; /* Push the button to the right */
-  padding-right: 5pt;
-  display: block; /* Make the button a block-level element */
+.person-management-header p,
+.person-management-results-heading span,
+.person-management-save-bar span {
+  margin: 0;
+  color: #64748b;
 }
 
-.undo-button {
-  margin-left: 2px;
+.person-management-eyebrow {
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-
-:host::ng-deep div.p-datatable-gridlines.p-datatable.p-component.p-datatable-hoverable-rows {
-  width: 100%;
-  background-color: aliceblue;
-}
-
-/*
-:host::ng-deep p-table > div {
+.person-management-stat {
   display: grid;
-  grid-template-columns: 100%;
-  height: 100%;
-}
-*/
-:host::ng-deep div.p-datatable-wrapper {
-  box-sizing: border-box;
-  height: 100%;
+  min-width: 6rem;
+  padding: 0.75rem 1rem;
+  background: #eff6ff;
+  border-radius: 0.75rem;
+  color: #1d4ed8;
+  text-align: center;
 }
 
-/*
-.root-page-style {
+.person-management-stat strong {
+  font-size: 1.35rem;
+}
+
+.person-management-stat span {
+  font-size: 0.75rem;
+}
+
+.person-debug-alert {
   display: flex;
-  height: 70%;
-}
-*/
-
-
-.management-page-style {
-  height: 100%
-}
-
-.top-container-table-area {
-  height: 100%;
-  overflow: auto;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.75rem;
+  color: #991b1b;
 }
 
-.table-area {
-  width: 100%;
-  height: 100%;
-  background-color: aliceblue;
+.person-debug-alert div {
+  display: grid;
+  gap: 0.2rem;
+  overflow-wrap: anywhere;
 }
 
-.base-top-grid-area {
-  height: 72%
+.person-management-results,
+.person-management-save-bar {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.85rem;
 }
 
-.data-cell-style {
-  padding: 2pt 2pt 2pt 2pt;
+.person-management-results {
+  overflow: hidden;
+  margin-top: 1.25rem;
 }
 
-.undo-button {
-  margin-left: 2px;
+.person-management-results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
+.person-management-results-heading h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
+}
 
+.person-management-change-badge {
+  padding: 0.35rem 0.65rem;
+  background: #fef3c7;
+  border-radius: 999px;
+  color: #92400e !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.person-management-table-scroll {
+  overflow-x: auto;
+}
+
+.person-management-table-scroll p-table {
+  display: block;
+  min-width: 1120px;
+}
+
+.person-management-actions-column {
+  width: 10rem;
+}
+
+.person-management-row-actions {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.person-management-row-changed td {
+  background: #eff6ff !important;
+}
+
+.person-type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: #f1f5f9;
+  border-radius: 999px;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.person-management-empty {
+  padding: 2rem !important;
+  color: #64748b !important;
+  text-align: center;
+}
+
+.person-management-save-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.2rem;
+}
+
+.person-management-save-bar div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.person-management-save-bar span {
+  font-size: 0.82rem;
+}
+
+@media (max-width: 640px) {
+  .person-management-page {
+    width: 100%;
+    padding: 1rem 0 0;
+  }
+
+  .person-management-header {
+    padding: 0 1rem;
+  }
+
+  .person-management-results,
+  .person-management-save-bar {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .person-management-save-bar div {
+    display: none;
+  }
+
+  :host ::ng-deep .person-management-save-bar .p-button {
+    width: 100%;
+  }
+}

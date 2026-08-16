@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, input, Output, TemplateRef, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from "primeng/inputtext";
 import { MessageModule } from "primeng/message";
@@ -19,20 +19,20 @@ import {InputNumber} from "primeng/inputnumber";
 export class TemplatesComponentComponent {
 
 
-  @ViewChild('inputTextTemplate', {static: true}) inputTextTemplate: TemplateRef<InputTextTemplateContext>;
-  @ViewChild('inputNumberTemplate', {static: true}) inputNumberTemplate: TemplateRef<InputTextTemplateContext>;
-  @ViewChild('comboboxTemplate', {static: true}) comboboxTemplate: TemplateRef<DropDownTemplateContext>;
-  @ViewChild('calendarTemplate', {static: true}) calendarTemplate: TemplateRef<CalendarTemplateContext>;
-  @ViewChild('standaloneFormCalendarTemplate', {static: true}) standaloneFormCalendarTemplate: TemplateRef<StandaloneCalendarTemplateContext>;
+  inputTextTemplate = viewChild.required<TemplateRef<InputTextTemplateContext>>('inputTextTemplate');
+  inputNumberTemplate = viewChild.required<TemplateRef<InputTextTemplateContext>>('inputNumberTemplate');
+  comboboxTemplate = viewChild.required<TemplateRef<DropDownTemplateContext>>('comboboxTemplate');
+  calendarTemplate = viewChild.required<TemplateRef<CalendarTemplateContext>>('calendarTemplate');
+  standaloneFormCalendarTemplate = viewChild.required<TemplateRef<StandaloneCalendarTemplateContext>>('standaloneFormCalendarTemplate');
 
-  @Input() templatesFormGroup: FormGroup
+  templatesFormGroup = input.required<FormGroup>();
   @Output() dropdownValueChanged: EventEmitter<DropdownChangeEvent> = new EventEmitter<DropdownChangeEvent>()
   @Output() calendarValueChanged: EventEmitter<CalendarValueWrapper> = new EventEmitter<CalendarValueWrapper>()
 
   dateTemplateModel: Date
 
   getControl(controlPath: string) {
-    const control: FormControl = this.templatesFormGroup.get(controlPath) as FormControl;
+    const control: FormControl = this.templatesFormGroup().get(controlPath) as FormControl;
     //console.log(controlPath+": CONTROL Value =: "+ control.value)
     return control
   }
@@ -81,4 +81,3 @@ export class CalendarValueWrapper {
   calendarName: string
   date: Date
 }
-

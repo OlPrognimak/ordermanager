@@ -1,262 +1,262 @@
 @if (isAuthenticated()) {
-<div class="p-fluid u-ml-5pt">
-  <p-toast></p-toast>
-  <div class="p-grid p-col-6">
-    <H2>{{'person.form.create_person' | transloco}}</H2>
-  </div>
-  <form #personForm="ngForm">
-    <div class=" p-shadow-4">
-      <div class="p-grid item-left">
-        <div class="p-col-6 ">
-          <!--
-          "field": {
-          "first_name": "First name",
-          "last_name": "Las name",
-          "email": "Email",
-          "company_name": "Company name",
-          "tax_number": "Tax number",
-          "zip": "Zip",
-          "city": "City",
-          "postbox": "Post box",
-          "street": "Street",
-          "bank": "Bank name",
-          "account": "Account number",
-          "iban": "IBAN",
-          "bic_swift": "BIC/SWIFT"
-          -->
+  <main class="person-create-page">
+    <p-toast></p-toast>
 
-            <app-validatable-dropdownlist (componentHasError)="setHasPersonTypeError($event)"
-                                          (valueChanged)="peronTypeChanged($event)"
-                                          [(ngModel)]="personFormModel.personType"
-                                          [idComponent]="'id-personType'"
-                                          [labelText]="'person.management.table.person_type' | transloco"
-                                          [optionList]="personType"
-                                          [txtMinLength]="1"
-                                          inputName="personType"
-                                          name="personType">
-            </app-validatable-dropdownlist>
-          </div>
+    <form #personForm="ngForm" class="person-create-form" (ngSubmit)="savePerson(isWorkflowReturn)">
+      <header class="person-page-header">
+        <div>
+          <span class="person-eyebrow">{{ 'person.form.create.eyebrow' | transloco }}</span>
+          <h1>{{ 'person.form.create_person' | transloco }}</h1>
+          <p>{{ 'person.form.create.subtitle' | transloco }}</p>
         </div>
-        @if (personFormModel.personType==='PRIVATE') {
-        <div class="p-grid item-left">
-          <div class="p-col-3">
-            <app-validatable-input-text (componentHasErrorEvent)="setHasFirstNameError($event)"
-                                        [(ngModel)]="personFormModel.personFirstName"
-                                        [idComponent]="'id_firstName'"
-                                        [labelText]="'person.form.field.first_name' | transloco"
-                                        [txtMinLength]="2"
-                                        inputName="personFirstName"
-                                        name="personFirstName">
-            </app-validatable-input-text>
-          </div>
-          <div class="p-col-3">
-            <app-validatable-input-text (componentHasErrorEvent)="setHasLastNameError($event)"
-                                        [(ngModel)]="personFormModel.personLastName"
-                                        [idComponent]="'id_lastName'"
-                                        [labelText]="'person.form.field.last_name' | transloco"
-                                        [txtMinLength]="2"
-                                        inputName="personLastName"
-                                        name="personLastName">
-            </app-validatable-input-text>
-          </div>
-      </div>
-      } @else if (personFormModel.personType==='ORGANISATION') {
-        <div class="p-grid item-left">
-          <div class="p-col-3">
-            <app-validatable-input-text (componentHasErrorEvent)="setHasCompanyNameError($event)"
-                                        [(ngModel)]="personFormModel.companyName"
-                                        [idComponent]="'id_company_Name'"
-                                        [labelText]="'person.form.field.company_name' | transloco"
-                                        [txtMinLength]="2"
-                                        inputName="companyName"
-                                        name="companyName">
-            </app-validatable-input-text>
-          </div>
-        </div>
-      }
-      <div class="p-grid item-left">
-        <div class="p-col-3">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasEmailError($event)"
-                                      [(ngModel)]="personFormModel.email"
-                                      [idComponent]="'id_email'"
-                                      [inputPattern]="emailPattern"
-                                      [inputType]="'text'"
-                                      [labelText]="'person.form.field.email' | transloco"
-                                      [txtMinLength]="5"
-                                      name="email"
-                                      patternErrorText="Wrong email">
-          </app-validatable-input-text>
-        </div>
-      </div>
-      <div class="p-grid item-left">
-        <div class = "p-col-3">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasTaxNumberError($event)"
-                                      [(ngModel)]="personFormModel.vatIdNumber"
-                                      [idComponent]="'id_vat_id_Number'"
-                                      [labelText]="'person.form.field.vat_id_number' | transloco"
-                                      [txtMinLength]="5"
-                                      [isValidable]="false"
-                                      inputName="taxNumber"
-                                      name="taxNumber">
-          </app-validatable-input-text>
-        </div>
-          @if(personFormModel.personType==='PRIVATE'){
-            <div class = "p-col-3">
-              <app-validatable-input-text (componentHasErrorEvent)="setHasTaxNumberError($event)"
-                                          [(ngModel)]="personFormModel.taxNumber"
-                                          [idComponent]="'id_tax_Number'"
-                                          [labelText]="'person.form.field.tax_number' | transloco"
-                                          [txtMinLength]="5"
-                                          inputName="taxNumber"
-                                          name="taxNumber">
+        <span class="person-status">
+          <i class="pi pi-user-plus"></i>
+          {{ isWorkflowReturn ? ('person.form.create.for_invoice' | transloco) : ('person.form.create.new_contact' | transloco) }}
+        </span>
+      </header>
+
+      <div class="person-layout">
+        <div class="person-main-column">
+          <section class="person-card">
+            <header class="person-card-header">
+              <div class="person-card-icon"><i class="pi pi-id-card"></i></div>
+              <div>
+                <h2>{{ 'person.form.create.identity_title' | transloco }}</h2>
+                <p>{{ 'person.form.create.identity_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="person-fields person-fields-two">
+              <div class="person-field-wide">
+                <app-validatable-dropdownlist
+                  [(ngModel)]="personFormModel.personType"
+                  [idComponent]="'id-personType'"
+                  [labelText]="'person.management.table.person_type' | transloco"
+                  [optionList]="personType"
+                  [txtMinLength]="1"
+                  inputName="personType"
+                  name="personType">
+                </app-validatable-dropdownlist>
+              </div>
+
+              @if (personFormModel.personType === 'PRIVATE') {
+                <app-validatable-input-text
+                  [(ngModel)]="personFormModel.personFirstName"
+                  [idComponent]="'id_firstName'"
+                  [labelText]="'person.form.field.first_name' | transloco"
+                  [txtMinLength]="2"
+                  inputName="personFirstName"
+                  name="personFirstName">
+                </app-validatable-input-text>
+
+                <app-validatable-input-text
+                  [(ngModel)]="personFormModel.personLastName"
+                  [idComponent]="'id_lastName'"
+                  [labelText]="'person.form.field.last_name' | transloco"
+                  [txtMinLength]="2"
+                  inputName="personLastName"
+                  name="personLastName">
+                </app-validatable-input-text>
+              } @else if (personFormModel.personType === 'ORGANISATION') {
+                <div class="person-field-wide">
+                  <app-validatable-input-text
+                    [(ngModel)]="personFormModel.companyName"
+                    [idComponent]="'id_company_Name'"
+                    [labelText]="'person.form.field.company_name' | transloco"
+                    [txtMinLength]="2"
+                    inputName="companyName"
+                    name="companyName">
+                  </app-validatable-input-text>
+                </div>
+              }
+
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.email"
+                [idComponent]="'id_email'"
+                [inputPattern]="emailPattern"
+                [inputType]="'email'"
+                [labelText]="'person.form.field.email' | transloco"
+                [txtMinLength]="5"
+                inputName="email"
+                name="email"
+                [patternErrorText]="'person.form.field.wrong_email_format' | transloco">
+              </app-validatable-input-text>
+
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.vatIdNumber"
+                [idComponent]="'id_vat_id_Number'"
+                [isValidable]="false"
+                [labelText]="'person.form.field.vat_id_number' | transloco"
+                [txtMinLength]="0"
+                inputName="vatIdNumber"
+                name="vatIdNumber">
+              </app-validatable-input-text>
+
+              @if (personFormModel.personType === 'PRIVATE') {
+                <app-validatable-input-text
+                  [(ngModel)]="personFormModel.taxNumber"
+                  [idComponent]="'id_tax_Number'"
+                  [labelText]="'person.form.field.tax_number' | transloco"
+                  [txtMinLength]="5"
+                  inputName="taxNumber"
+                  name="taxNumber">
+                </app-validatable-input-text>
+              }
+            </div>
+          </section>
+
+          <section class="person-card">
+            <header class="person-card-header">
+              <div class="person-card-icon"><i class="pi pi-map-marker"></i></div>
+              <div>
+                <h2>{{ 'person.form.person_address' | transloco }}</h2>
+                <p>{{ 'person.form.create.address_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="person-fields person-address-grid">
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.personAddressFormModel.zipCode"
+                [idComponent]="'id_Zip'"
+                [labelText]="'person.form.field.zip' | transloco"
+                [txtMinLength]="4"
+                inputName="zipCode"
+                name="zipCode">
+              </app-validatable-input-text>
+
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.personAddressFormModel.city"
+                [idComponent]="'id_City'"
+                [labelText]="'person.form.field.city' | transloco"
+                [txtMinLength]="2"
+                inputName="city"
+                name="city">
+              </app-validatable-input-text>
+
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.personAddressFormModel.street"
+                [idComponent]="'id_Street'"
+                [labelText]="'person.form.field.street' | transloco"
+                [txtMinLength]="2"
+                inputName="street"
+                name="street">
+              </app-validatable-input-text>
+
+              <p-floatlabel>
+                <input
+                  [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode"
+                  id="id-add-postBoxCode"
+                  name="postBoxCode"
+                  pInputText
+                  type="text"/>
+                <label for="id-add-postBoxCode">{{ 'person.form.field.postbox' | transloco }}</label>
+              </p-floatlabel>
+            </div>
+          </section>
+
+          <section class="person-card">
+            <header class="person-card-header">
+              <div class="person-card-icon"><i class="pi pi-wallet"></i></div>
+              <div>
+                <h2>{{ 'person.form.person_bank' | transloco }}</h2>
+                <p>{{ 'person.form.create.bank_subtitle' | transloco }}</p>
+              </div>
+            </header>
+
+            <div class="person-fields person-fields-two">
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.bankAccountFormModel.bankName"
+                [idComponent]="'id_BankName'"
+                [labelText]="'person.form.field.bank' | transloco"
+                [txtMinLength]="2"
+                inputName="bankName"
+                name="bankName">
+              </app-validatable-input-text>
+
+              <p-floatlabel>
+                <input
+                  [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber"
+                  id="id_AccountNumber"
+                  name="accountNumber"
+                  pInputText
+                  type="text"/>
+                <label for="id_AccountNumber">{{ 'person.form.field.account' | transloco }}</label>
+              </p-floatlabel>
+
+              <div class="person-iban-field">
+                <div class="field-row">
+                  <p-floatlabel class="w-100">
+                    <input
+                      #modelRef="ngModel"
+                      (ngModelChange)="personFormModel.bankAccountFormModel.iban = $event"
+                      [ngModel]="personFormModel.bankAccountFormModel.iban | ibanFormatter"
+                      ibanValidator
+                      id="id_IBAN"
+                      name="iban"
+                      pInputText
+                      required
+                      type="text"/>
+                    <label for="id_IBAN">{{ 'person.form.field.iban' | transloco }}</label>
+                  </p-floatlabel>
+                  @if (modelRef.invalid && (modelRef.dirty || modelRef.touched)) {
+                    <div class="error-icon-box">
+                      <p-message severity="error" icon="pi pi-times-circle"></p-message>
+                    </div>
+                  }
+                </div>
+                @if (modelRef.errors?.['iban'] && (modelRef.dirty || modelRef.touched)) {
+                  <small class="validation-text">{{ 'person.form.field.wrong_iban_format' | transloco }}</small>
+                }
+              </div>
+
+              <app-validatable-input-text
+                [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"
+                [idComponent]="'id-acc-bicSwift'"
+                [labelText]="'person.form.field.bic_swift' | transloco"
+                [txtMinLength]="5"
+                inputName="bicSwift"
+                name="bicSwift">
               </app-validatable-input-text>
             </div>
-          }
-      </div>
-
-    </div>
-    <div class="p-grid p-col-6">
-      <H2>{{'person.form.person_address' | transloco}}</H2>
-    </div>
-    <div class=" p-shadow-4">
-
-      <div class="p-grid item-left">
-        <div class="p-col-2 zip-container">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasZipCodeError($event)"
-                                      [(ngModel)]="personFormModel.personAddressFormModel.zipCode"
-                                      [idComponent]="'id_Zip'"
-                                      [labelText]="'person.form.field.zip' | transloco"
-                                      [txtMinLength]="4"
-                                      inputName="zipCode"
-                                      name="zipCode">
-          </app-validatable-input-text>
-        </div>
-        <div class="p-col-3 city-container">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasCityError($event)"
-                                      [(ngModel)]="personFormModel.personAddressFormModel.city"
-                                      [idComponent]="'id_City'"
-                                      [labelText]="'person.form.field.city' | transloco"
-                                      [txtMinLength]="2"
-                                      inputName="city"
-                                      name="city">
-          </app-validatable-input-text>
-        </div>
-      </div>
-      <div class="p-grid item-left">
-        <div class="p-col-2">
-          <p-floatlabel class="w-100">
-            <input [(ngModel)]="personFormModel.personAddressFormModel.postBoxCode" id="id-add-postBoxCode"
-                   name="postBoxCode" pInputText
-                   class="personform-no-left-margin"
-                   type="text"/>
-            <label for="id-add-postBoxCode">{{'person.form.field.postbox' | transloco}}</label>
-          </p-floatlabel>
-        </div>
-        <div class="p-col-3 street-container">
-
-            <app-validatable-input-text (componentHasErrorEvent)="setHasStreetError($event)"
-                                        [(ngModel)]="personFormModel.personAddressFormModel.street"
-                                        [idComponent]="'id_Street'"
-                                        [labelText]="'person.form.field.street' | transloco"
-                                        [txtMinLength]="2"
-                                        inputName="street"
-                                        name="street">
-            </app-validatable-input-text>
+          </section>
         </div>
 
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-6">
-        <H2>Person bank account</H2>
-      </div>
-    </div>
-    <div class=" p-shadow-4">
-      <div class="p-grid item-left">
-        <div class="p-col-4 bank-name-container">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasBankNameError($event)"
-                                      [(ngModel)]="personFormModel.bankAccountFormModel.bankName"
-                                      [idComponent]="'id_BankName'"
-                                      [labelText]="'person.form.field.bank' | transloco"
-                                      [txtMinLength]="2"
-                                      inputName="bankName"
-                                      name="bankName">
-          </app-validatable-input-text>
-        </div>
+        <aside class="person-summary-card">
+          <span class="person-summary-label">{{ 'person.form.create.summary' | transloco }}</span>
+          <div class="person-avatar"><i class="pi pi-user"></i></div>
+          <h2>{{ personDisplayName }}</h2>
+          <p>{{ personFormModel.email || ('person.form.create.no_email' | transloco) }}</p>
 
-        <div class="p-col-2">
-          <p-floatlabel>
-            <input [(ngModel)]="personFormModel.bankAccountFormModel.accountNumber" id="id_AccountNumber"
-                   name="accountNumber"
-                   pInputText
-                   type="text"/>
-            <label for="id_AccountNumber">{{'person.form.field.account' | transloco}}</label>
-          </p-floatlabel>
-        </div>
-      </div>
-
-      <div class="p-grid item-left">
-        <div class="p-col-4 iban-container">
-          <div class = "full-width-display-table">
-            <div class = "full-width-display-row">
-              <div class = "full-width-display-cell">
-               <p-floatlabel class="w-100">
-                    <input #modelRef="ngModel"
-                           (ngModelChange)="personFormModel.bankAccountFormModel.iban = $event"
-                           [ngModel]="personFormModel.bankAccountFormModel.iban | ibanFormatter"
-                           class="ng-dirty p-mr-2"
-                           ibanValidator
-                           id="id_IBAN"
-                           name="iban"
-                           pInputText
-                           required
-                           type="text"/>
-                  <label for="id_IBAN">{{'person.form.field.iban' | transloco}}</label>
-               </p-floatlabel>
-              </div>
-              @if (modelRef.errors?.['required']) {
-                <div class = "error-message-cmp" id="id_Iban_Required_err">
-                  <p-message severity="error" icon="pi pi-times-circle"></p-message>
-                </div>
-              }
-              @if (checkOrSetIbahNoError(modelRef)) {
-                <div class = "error-message-cmp" id="id_Iban_Iban_err">
-                  <p-message severity="error" icon="pi pi-times-circle"></p-message>
-                </div>
-              }
+          <div class="person-summary-values">
+            <div>
+              <span>{{ 'person.management.table.person_type' | transloco }}</span>
+              <strong>{{ personFormModel.personType || '-' }}</strong>
             </div>
-            @if(modelRef.errors?.['iban']) {
-              <p-message severity="error" text="{{'person.form.field.wrong_iban_format' | transloco}}"></p-message>
-            }
+            <div>
+              <span>{{ 'person.form.field.city' | transloco }}</span>
+              <strong>{{ personFormModel.personAddressFormModel.city || '-' }}</strong>
+            </div>
+            <div>
+              <span>{{ 'person.form.field.bank' | transloco }}</span>
+              <strong>{{ personFormModel.bankAccountFormModel.bankName || '-' }}</strong>
+            </div>
           </div>
-        </div>
+          <small>{{ 'person.form.create.summary_hint' | transloco }}</small>
+        </aside>
+      </div>
 
-        <div class="p-col-2 swift-style">
-          <app-validatable-input-text (componentHasErrorEvent)="setHasBicError($event)"
-                                      [(ngModel)]="personFormModel.bankAccountFormModel.bicSwift"
-                                      [idComponent]="'id-acc-bicSwift'"
-                                      [labelText]="'person.form.field.bic_swift' | transloco"
-                                      [txtMinLength]="5"
-                                      inputName="bicSwift"
-                                      name="bicSwift">
-          </app-validatable-input-text>
+      <footer class="person-form-actions">
+        <div>
+          <strong>{{ 'person.form.create.ready_title' | transloco }}</strong>
+          <span>{{ 'person.form.create.ready_hint' | transloco }}</span>
         </div>
-      </div>
-    </div>
-    <div class="p-grid buttons-container">
-      <div class="p-col-12 save-button-col-size">
-        <div *ngIf=" createPersonType === undefined; else elseBlock">
-          <p-button (onClick)="savePerson(false)" [disabled]="this.personForm?.invalid"
-                    class="save-button-col-size save-button-container-size"
-                    label="{{'common.actions.save' | transloco}}"></p-button>
-        </div>
-        <ng-template #elseBlock>
-          <p-button (onClick)="savePerson(true)" [disabled]="this.personForm?.invalid"
-                    class="save-button-col-size save-button-container-size" label="{{'person.save_and_return' | transloco}}Save and return"></p-button>
-        </ng-template>
-      </div>
-    </div>
-  </form>
-</div>
+        <p-button
+          [disabled]="personForm.invalid"
+          [label]="isWorkflowReturn ? ('person.save_and_return' | transloco) : ('common.actions.save' | transloco)"
+          icon="pi pi-check"
+          type="submit">
+        </p-button>
+      </footer>
+    </form>
+  </main>
 }
-

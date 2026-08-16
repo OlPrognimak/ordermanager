@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageService, SharedModule } from "primeng/api";
 import { TableModule } from "primeng/table";
@@ -31,9 +31,9 @@ import {TranslocoPipe} from "@jsverse/transloco";
 })
 export class ItemManagementComponent extends CommonServicesEditService<ItemCatalogModel> implements OnInit {
 
-  @ViewChild('confirmUpdateDialog') confirmUpdateDialog: ConfirmationDialogComponent
-  @ViewChild('confirmDeleteDialog') confirmDeleteDialog: ConfirmationDialogComponent
-  @ViewChild('itemEditCatalogDialog') itemCatalogDialog: EditItemDialogComponent
+  confirmUpdateDialog = viewChild.required<ConfirmationDialogComponent>('confirmUpdateDialog')
+  confirmDeleteDialog = viewChild.required<ConfirmationDialogComponent>('confirmDeleteDialog')
+  itemCatalogDialog = viewChild.required<EditItemDialogComponent>('itemEditCatalogDialog')
 
   criteria: string = ''
   showConfirmUpdateDialog: boolean;
@@ -59,20 +59,19 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
   getDataFromServer(criteriaPar) {
     this.dataLoading = true
     this.loadData(criteriaPar, this.messagePrinter, callback => {
-      if (callback !== null) {
-        this.modelList = callback
-        this.dataLoading = false
-      }
+      this.modelList = callback ?? []
+    }, () => {
+      this.dataLoading = false
     })
   }
 
   rowDoubleClick($event: MouseEvent, invoiceitem: ItemCatalogModel) {
-    this.itemCatalogDialog.setEditingObject(invoiceitem)
-    this.itemCatalogDialog.setDialogVisible(true)
+    this.itemCatalogDialog().setEditingObject(invoiceitem)
+    this.itemCatalogDialog().setDialogVisible(true)
   }
 
   showDeleteItemDialog(id: number) {
-    this.confirmDeleteDialog.transferObject = id
+    this.confirmDeleteDialog().transferObject = id
     this.showConfirmDeleteDialog = true
   }
 
@@ -117,10 +116,14 @@ export class ItemManagementComponent extends CommonServicesEditService<ItemCatal
     return !(this.changesList?.length > 0)
   }
 
-  saveChangesOnServer($event: MouseEvent) {
+  isItemChanged(item: ItemCatalogModel): boolean {
+    return this.changesList.some(change => change.id === item.id);
+  }
+
+  saveChangesOnServer() {
     const changes = this.modelList.filter(p =>
       p.id === this.changesList?.filter(c => c?.id == p?.id)?.at(0)?.id)
-    this.confirmUpdateDialog.transferObject = changes
+    this.confirmUpdateDialog().transferObject = changes
     this.showConfirmUpdateDialog = true
   }
 

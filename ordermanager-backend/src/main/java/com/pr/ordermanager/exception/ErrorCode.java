@@ -47,6 +47,7 @@ public enum ErrorCode {
     CODE_0007(7, "Can not find user in database"),
     CODE_0008(8, "The user already exists"),
     CODE_0009(9, "Can not find the persons fro the user with name {0}"),
+    CODE_0010(10, "A person with this email already exists."),
     CODE_10001(10001, "Can not create jasper report"),
     CODE_10002(10002, "Database exception"),
     CODE_20001(20001, "Validation error. invoiceFormData.creationDate can not be null."),

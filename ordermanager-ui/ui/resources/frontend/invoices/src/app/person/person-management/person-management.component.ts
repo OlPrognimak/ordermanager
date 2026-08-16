@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
@@ -31,11 +31,11 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 })
 export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel> implements OnInit {
   /**Reference on dialog component for editing Person*/
-  @ViewChild('personDialog') personDialog: EditPersonDialogComponent
+  personDialog = viewChild.required<EditPersonDialogComponent>('personDialog')
   /**Reference on child component of data finder bei date period.*/
-  @ViewChild('dataFinder', {static: false}) dataFinder: DateperiodFinderComponent
+  dataFinder = viewChild.required<DateperiodFinderComponent>('dataFinder')
   /**Reference to child component delete person confirmation dialog. */
-  @ViewChild('confirmDialog') confirmDialog: ConfirmationDialogComponent
+  confirmDialog = viewChild.required<ConfirmationDialogComponent>('confirmDialog')
 
   isPersonDialogVisible = false;
   selectedPerson!: PersonFormModel
@@ -43,7 +43,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   showConfirmDialog: boolean;
   confirmDialogMessage: string = '';
   protected readonly isAuthenticated = isAuthenticated;
-  @Input() eventBusVal: any
+  eventBusVal: any
 
   constructor(public appSecurityService: AppSecurityService,
               private httpService: CommonServicesAppHttpService<PersonFormModel[]>, private eventListener: CommonServiceEventBus<any>,
@@ -60,13 +60,13 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       });
     }
     setTimeout(() => {
-      this.dataFinder.loadData()
+      this.dataFinder().loadData()
     })
   }
 
   rowDoubleClick(event: MouseEvent, person: PersonFormModel) {
     setTimeout(() => {
-      this.personDialog.setEditingObject(person)
+      this.personDialog().setEditingObject(person)
       this.isPersonDialogVisible = true
     })
 
@@ -106,22 +106,15 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
     })
   }
 
-  isPersonChanged(person: PersonFormModel): string {
-    // console.log('Changes :'+person.id)
-    let obj = this.changesList?.filter(p => person.id === p.id)
-    //console.log('Obj :'+obj.length)
-    if (obj !== undefined && obj.length > 0) {
-      return 'blue'
-    } else {
-      return '#495057'
-    }
+  isPersonChanged(person: PersonFormModel): boolean {
+    return this.changesList.some(change => change.id === person.id);
   }
 
   haveNoChanges() {
     return this.changesList == undefined || this.changesList.length < 1;
   }
 
-  saveChangedPersons($event: MouseEvent) {
+  saveChangedPersons() {
     const changes = this.modelList.filter(p =>
       p.id === this.changesList?.filter(c => c?.id == p?.id)?.at(0)?.id)
 
@@ -134,7 +127,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
   }
 
   deletePerson(id) {
-    this.confirmDialog.transferObject = id
+    this.confirmDialog().transferObject = id
     this.showConfirmDialog = true
   }
 
@@ -143,7 +136,7 @@ export class PersonManagementComponent extends CommonServicesEditService<PersonF
       null, "person delete", 'person/' + id, callback => {
         if (callback) {
           console.log("DELETED :" + id)
-          this.confirmDialog.display = false
+          this.showConfirmDialog = false
           this.ngOnInit()
         }
       })

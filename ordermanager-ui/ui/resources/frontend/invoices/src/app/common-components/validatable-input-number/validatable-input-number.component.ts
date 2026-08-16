@@ -35,7 +35,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Input,
+  input,
   NgModule,
   OnInit,
   Output,
@@ -65,14 +65,14 @@ import {FloatLabel} from "primeng/floatlabel";
 })
 export class ValidatableInputNumberComponent implements OnInit, ControlValueAccessor {
   /** minimal length of text */
-  @Input() public txtMinLength = 30;
-  @Input() public idComponent = '';
-  @Input() labelText = '';
-  @Input() inputPattern: any;
-  @Input() controlValue = '';
-  @Input() name: any = '';
-  @Input() inputName: string;
-  @Input() patternErrorText: string
+  txtMinLength = input(30);
+  idComponent = input('');
+  labelText = input('');
+  inputPattern = input<any>();
+  controlValue = '';
+  name = input<any>('');
+  inputName = input('');
+  patternErrorText = input('');
   @Output() componentHasErrorEvent = new EventEmitter<boolean>
 
 

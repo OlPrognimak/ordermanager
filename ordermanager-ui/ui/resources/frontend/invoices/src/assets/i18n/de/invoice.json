@@ -22,23 +22,65 @@
     "creation_date": "Erstellungsdatum",
     "invoice_date": "Rechnungsdatum",
     "pdf_report": "Pdf hochladen",
-    "create_invoice": "Rechnung ertellen",
+    "create_invoice": "Rechnung erstellen",
+    "create": {
+      "eyebrow": "Ausgangsrechnung",
+      "subtitle": "Erfassen Sie Rechnungsdetails, Parteien und abrechenbare Positionen.",
+      "draft": "Entwurf",
+      "details_title": "Rechnungsdetails",
+      "details_subtitle": "Legen Sie Referenz, Typ und relevante Daten fest.",
+      "parties_title": "Parteien",
+      "parties_subtitle": "Wählen Sie Aussteller und Empfänger der Rechnung.",
+      "from": "Von",
+      "bill_to": "Rechnung an",
+      "select_person": "Person auswählen",
+      "summary": "Rechnungsübersicht",
+      "new_invoice": "Neue Rechnung",
+      "items": "Positionen",
+      "summary_hint": "Die Summen werden automatisch aktualisiert, wenn sich Positionen ändern.",
+      "items_title": "Rechnungspositionen",
+      "items_subtitle": "Klicken Sie auf ein Tabellenfeld, um eine Position auszuwählen oder zu bearbeiten.",
+      "select_item": "Klicken, um eine Position auszuwählen",
+      "no_items": "Noch keine Rechnungspositionen.",
+      "ready_title": "Bereit zum Speichern?",
+      "ready_hint": "Füllen Sie alle Pflichtfelder aus und fügen Sie mindestens eine gültige Position hinzu."
+    },
     "dialog": {
-      "edit_invoice": "Rechnung bearbeiten"
+      "edit_invoice": "Rechnung bearbeiten",
+      "eyebrow": "Rechnungspflege",
+      "description_title": "Rechnungsdaten aktualisieren",
+      "description": "Prüfen Sie Rechnungsdetails, Parteien, Daten und Positionen. Beim Speichern werden Änderungen an die Rechnungsverwaltung zurückgegeben.",
+      "details_title": "Rechnungsdetails und Parteien",
+      "details_description": "Pflegen Sie Referenz, Typ, Daten, Aussteller und Empfänger der Rechnung."
+    },
+    "list": {
+      "eyebrow": "Rechnungsdokumente",
+      "title": "Rechnungsliste",
+      "subtitle": "Suchen Sie Rechnungen und laden Sie die erzeugten PDF-Dokumente herunter.",
+      "records": "Rechnungen",
+      "results_title": "Verfügbare Rechnungen",
+      "results_hint": "Verwenden Sie Datumsfilter, Sortierung oder Tabellenfilter, um ein Dokument zu finden.",
+      "pdf_ready": "PDF-Download"
     },
     "management": {
       "title": "Rechnungsverwaltung",
+      "eyebrow": "Forderungen",
+      "subtitle": "Prüfen, bearbeiten und verwalten Sie gespeicherte Rechnungen.",
+      "records": "Rechnungen",
+      "results_title": "Gespeicherte Rechnungen",
+      "results_hint": "Doppelklicken Sie eine Rechnung oder verwenden Sie die Bearbeiten-Aktion.",
+      "changed": "geändert",
+      "no_results": "Für diesen Zeitraum wurden keine Rechnungen gefunden.",
+      "pending_title": "Ausstehende Rechnungsänderungen",
+      "pending_hint": "Prüfen Sie geänderte Zeilen vor dem Speichern.",
       "confirm": {
         "delete": "Löschen der Rechnung bestätigen",
+        "save": "Rechnungsänderungen bestätigen",
         "delete_message": "Möchten Sie die Rechnung wirklich dauerhaft löschen?",
         "save_message": "Möchten Sie die Änderungen an Rechnungen wirklich dauerhaft speichern?"
       },
       "tooltips": {
         "edit_invoice": "Doppelklick, um Rechnung zu bearbeiten"
-      },
-      "confirm": {
-        "delete": "Löschen",
-        "save_message": "Spechern"
       },
       "table": {
         "invoice_number": "Rechnungsnummer",
@@ -52,13 +94,46 @@
     },
     "item": {
       "edit": {
-        "title": "Edit catalog item"
+        "title": "Katalogposition bearbeiten",
+        "eyebrow": "Katalogpflege",
+        "description_title": "Wiederverwendbare Rechnungsposition aktualisieren",
+        "description": "Prüfen Sie Positionsname, Beschreibung, Preis und Steuersatz. Gespeicherte Änderungen stehen für zukünftige Rechnungen zur Verfügung.",
+        "details_title": "Positionsdetails und Preis",
+        "details_description": "Pflegen Sie die Informationen, die bei Auswahl dieser Katalogposition auf einer Rechnung angezeigt werden."
       },
       "create": {
-        "title": "Katalogeintrag erstellen"
+        "title": "Katalogeintrag erstellen",
+        "eyebrow": "Produktkatalog",
+        "subtitle": "Erstellen Sie ein wiederverwendbares Produkt oder eine Dienstleistung für zukünftige Rechnungen.",
+        "new_item": "Neue Position",
+        "details_title": "Positionsdetails",
+        "details_subtitle": "Verwenden Sie einen eindeutigen Namen und eine kurze Rechnungsbeschreibung.",
+        "pricing_title": "Preis und Steuer",
+        "pricing_subtitle": "Legen Sie den Standard-Einzelpreis und den Mehrwertsteuersatz fest.",
+        "net_price": "Netto-Einzelpreis",
+        "tax_rate": "Mehrwertsteuersatz",
+        "gross_price": "Brutto-Einzelpreis",
+        "preview": "Rechnungsvorschau",
+        "untitled_item": "Unbenannter Katalogeintrag",
+        "no_description": "Keine Kurzbeschreibung angegeben.",
+        "preview_hint": "So wird die Preisgestaltung der Position bei der Auswahl auf einer Rechnung dargestellt.",
+        "ready_title": "Bereit, diese Position hinzuzufügen?",
+        "ready_hint": "Füllen Sie Name, Preis und Mehrwertsteuer vollständig aus."
       },
       "manage": {
-        "catalog_items": "Verwaltung von Katalogelemente"
+        "catalog_items": "Katalogverwaltung",
+        "eyebrow": "Produktkatalog",
+        "subtitle": "Suchen, bearbeiten und verwalten Sie wiederverwendbare Rechnungspositionen.",
+        "records": "Positionen",
+        "search_placeholder": "Nach Positionsname oder Beschreibung suchen",
+        "results_title": "Katalogpositionen",
+        "results_hint": "Doppelklicken Sie eine Position oder verwenden Sie die Bearbeiten-Aktion.",
+        "changed": "geändert",
+        "no_results": "Keine Katalogpositionen gefunden.",
+        "pending_title": "Ausstehende Katalogänderungen",
+        "pending_hint": "Prüfen Sie geänderte Zeilen vor dem Speichern.",
+        "confirm_update": "Katalogänderungen bestätigen",
+        "confirm_delete": "Löschen der Position bestätigen"
       },
       "table": {
         "item_name": "Elementname",

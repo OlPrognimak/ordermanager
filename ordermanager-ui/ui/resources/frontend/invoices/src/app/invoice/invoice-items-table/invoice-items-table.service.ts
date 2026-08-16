@@ -30,6 +30,7 @@ export class InvoiceItemsTableService implements OnDestroy {
   /* downloads items from catalog items */
   downloadCatalogItemsDropdownList = (callback) => {
     const headers = new HttpHeaders({
+      Authorization: localStorage.getItem(this.basicAuthKey) as string,
       'Content-Type': 'application/json',
       Accept: '*/*'
     });

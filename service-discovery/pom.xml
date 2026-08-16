@@ -13,7 +13,7 @@
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.targƒet>21</maven.compiler.targƒet>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -71,10 +71,10 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>
+                        <Ïexclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                        </exclude>
+                        </Ïexclude>
                     </excludes>
                 </configuration>
             </plugin>

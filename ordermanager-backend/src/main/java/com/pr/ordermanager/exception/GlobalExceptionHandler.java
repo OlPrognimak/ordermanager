@@ -35,6 +35,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pr.ordermanager.common.model.ResponseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.pr.ordermanager.exception.ErrorCode.CODE_0000;
+import static com.pr.ordermanager.exception.ErrorCode.CODE_0010;
 
 /**
  * The exception handler for capturing application exceptions and mapping to the  response exception
@@ -71,15 +74,15 @@ public class GlobalExceptionHandler {
 
         logger.error(ex.getMessage(), ex);
 
-        if (ex instanceof OrderManagerException) {
-            OrderManagerException ordMngEx = (OrderManagerException) ex;
+        if (ex instanceof OrderManagerException ordMngEx) {
             ResponseException responseException = ResponseException.builder()
                     .errorCode(ordMngEx.getErrorCode())
                     .errorMessage(ordMngEx.getMessage()).build();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
-        }else if (ex instanceof  MethodArgumentNotValidException){
+        }else if (ex instanceof DataIntegrityViolationException dataIntegrityViolationException) {
+            return handleDataIntegrityViolation(dataIntegrityViolationException);
+        }else if (ex instanceof  MethodArgumentNotValidException maex){
             Map<String, String> errors = new HashMap<>();
-            MethodArgumentNotValidException maex = (MethodArgumentNotValidException)ex;
             maex.getBindingResult().getAllErrors().forEach((error) -> {
                 String fieldName = ((FieldError) error).getField();
                 String errorMessage = error.getDefaultMessage();
@@ -105,5 +108,38 @@ public class GlobalExceptionHandler {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseException);
         }
 
+    }
+
+    private ResponseEntity<ResponseException> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        if (hasConstraint(ex, "person_email_key")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ResponseException.builder()
+                            .errorCode(CODE_0010)
+                            .errorMessage(CODE_0010.getMessage())
+                            .build()
+            );
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ResponseException.builder()
+                        .errorCode(CODE_0000)
+                        .errorMessage(CODE_0000.getMessage())
+                        .build()
+        );
+    }
+
+    private boolean hasConstraint(Throwable throwable, String constraintName) {
+        Throwable current = throwable;
+        while (current != null) {
+            if (current instanceof ConstraintViolationException constraintViolationException
+                    && constraintName.equals(constraintViolationException.getConstraintName())) {
+                return true;
+            }
+            if (current.getMessage() != null && current.getMessage().contains(constraintName)) {
+                return true;
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 }

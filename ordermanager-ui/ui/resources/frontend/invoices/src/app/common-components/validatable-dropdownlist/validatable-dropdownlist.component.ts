@@ -35,14 +35,23 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Input,
+  input,
   NgModule,
   OnInit,
   Output,
   Renderer2,
-  ViewChild
+  viewChild
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from "@angular/forms";
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  NgModel,
+  ValidationErrors,
+  Validator
+} from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
@@ -60,27 +69,33 @@ import { TranslocoModule } from '@jsverse/transloco';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ValidatableDropdownlistComponent),
       multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ValidatableDropdownlistComponent),
+      multi: true
     }
   ]
 })
-export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, AfterViewInit {
-  @ViewChild('modelRef') modelRef: NgModel
-  @Input() public optionList: any;
-  @Input() public txtMinLength = 0;
-  @Input() public idComponent = '';
-  @Input() public labelText = '';
-  @Input() public placeholder = 'Select peron type';
-  @Input() public controlValue: any;
-  @Input() public name = ''
-  @Input() inputName: string;
+export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
+  modelRef = viewChild.required<NgModel>('modelRef')
+  optionList = input<any>();
+  txtMinLength = input(0);
+  idComponent = input('');
+  labelText = input('');
+  placeholder = input('Select peron type');
+  controlValue: any;
+  name = input('');
+  inputName = input('');
   @Output() componentHasError = new EventEmitter<boolean>
   @Output() controlModelEvent = new EventEmitter<NgModel>
   @Output() valueChanged = new EventEmitter<any>
   hasRequiredError: boolean = false
   hasMinLengthError: boolean = false
   lastEmitedValue: boolean | undefined = undefined
-  onChange: (val) => void;
-  onTouched: () => void;
+  onChange: (val: any) => void = () => {};
+  onTouched: () => void = () => {};
+  private onValidatorChange: () => void = () => {};
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {
   }
@@ -95,11 +110,12 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
     if (v !== this.controlValue) {
       this.controlValue = v;
       this.onChange(v);
+      this.onValidatorChange();
     }
   }
 
   ngAfterViewInit(): void {
-    this.controlModelEvent.emit(this.modelRef)
+    this.controlModelEvent.emit(this.modelRef())
   }
 
   setHasRequiredError(val: boolean, origin: any) {
@@ -129,6 +145,7 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
 
   setValueChanged(val) {
     this.valueChanged.emit(val)
+    this.onValidatorChange();
   }
 
   ngOnInit(): void {
@@ -150,6 +167,34 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
    */
   writeValue(value: any): void {
     this.controlValue = value;
+    this.onValidatorChange();
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    const normalizedValue = this.normalizeValue(control.value);
+
+    if (normalizedValue.trim().length === 0) {
+      return {required: true};
+    }
+
+    if (this.txtMinLength() > 0 && normalizedValue.length < this.txtMinLength()) {
+      return {
+        minlength: {
+          requiredLength: this.txtMinLength(),
+          actualLength: normalizedValue.length
+        }
+      };
+    }
+
+    return null;
+  }
+
+  registerOnValidatorChange(fn: () => void): void {
+    this.onValidatorChange = fn;
+  }
+
+  private normalizeValue(value: any): string {
+    return value === null || value === undefined ? '' : String(value);
   }
 }
 

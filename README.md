@@ -1,378 +1,391 @@
-##### Table of contents
- - [Overview](#Overview) 
- - [System requirements](#System-requirements)
-   - [OS](#OS)
-   - [Java](#Java)
-   - [Docker Images](#Docker-Images)
- 1. [Build project](#Build-project)
- 2. [Short description](#Short-description)
- 3. [Deploy to docker](#Deploy-to-docker)
- 4. [Backend](#Backend)
-    - [Backend frameworks](#Backend-frameworks)
-    - [Packages structure](#Packages-structure)
-    - [Tests](#Tests)
-    - [Backend configuration features and useful tips](#Backend-configuration-features-and-useful-tips)
- 
- 5. [Frontend](#Frontend)
-    - [Frontend frameworks and libraries](#Frontend-frameworks-and-libraries)
-    - [Frontend components](#Frontend-components)
-    - [Fronend features and useful tips](#Fronend-features-and-useful-tips)
- 
- 4. [PDF Documents](#PDF-Documents)
-    - [Invoice pdf](#Invoice-pdf)
+# Ordermanager
 
-# Overview
-This document mostly describes the code.
-The user manual for the application is located in the project path ```ordermanager/doc```.
+![Java 21](https://img.shields.io/badge/Java-21-blue)
+![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5.7-6DB33F)
+![Angular 18](https://img.shields.io/badge/Angular-18-DD0031)
+![Maven](https://img.shields.io/badge/Build-Maven-C71A36)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791)
 
-# System requirements
-  - OS 
-      Linux, Windows 10 or 11
-  - Java: 
-      Currently default version of java for compile and target is 21
-  - Docker Images:
-     - JDK eclipse-temurin:21-jdk
-     - node:20-alpine for node-frontend image
+Ordermanager is a full-stack sample and working application for managing persons, invoice catalog items, invoices, invoice workflows, and PDF invoice generation. It combines a Spring Boot backend, an Angular frontend, Eureka service discovery, Docker packaging, and a small Node.js frontend-backend prototype.
 
-If you want to use another java then you need to change java versions in both pom.xm (backend and frontend modules) and
-in docker files need also change the version of JDK image.
+> [!NOTE]
+> This README describes the codebase and developer setup. The user manual is stored under `doc/`.
 
-# Build project
-For building project uses ```Maven``` build tool.
-Go to the parent maven project ````/ordermanager```` and run maven command
+## Table Of Contents
 
-```mvn clean install```
+- [System Requirements](#system-requirements)
+- [Project Modules](#project-modules)
+- [Build](#build)
+- [Run Locally](#run-locally)
+- [Docker Deployment](#docker-deployment)
+- [Backend](#backend)
+- [Frontend](#frontend)
+- [PDF Documents](#pdf-documents)
+- [Testing](#testing)
+- [Useful URLs](#useful-urls)
 
-After successful finishing this commands will be crated two executable jars and copied to the docker folder:
+## System Requirements
 
-```[ordermanager-backend.jar]``` to the location
-````/ordermanager/docker/backend````
+| Requirement | Version / value | Notes |
+| --- | --- | --- |
+| Operating system | Linux, macOS, Windows 10/11 | Docker instructions include platform-specific Maven profiles where needed. |
+| Java | 21 | Maven compiler source, target, and release are configured for Java 21. |
+| Maven | 3.9+ recommended | Used as the parent build tool for all Java modules. |
+| Node.js | 20 recommended | Used for the Angular build and the optional Node.js UI backend. |
+| PostgreSQL | 10+ works with current configuration | Local default port is `5455`; Docker may provide this service. |
+| Docker | Current Docker Engine / Docker Desktop | Used for containerized backend, frontend, database, and discovery services. |
 
-and 
+Docker image bases used by the project:
 
-```[ordermanager-ui.jar]``` to the location
-````/ordermanager/docker/frontend````
+| Image | Purpose |
+| --- | --- |
+| `eclipse-temurin:21-jdk` | Java runtime/build base for Spring Boot services. |
+| `node:20-alpine` | Node frontend image base. |
+| PostgreSQL image from Docker resources | Database container for local deployment. |
 
-      
-# Create images and deploy to docker
- - please go to folder ./docker and follow with description in README_DOCKER.md) file
-## Variant 1: manual
- - 1\. create backend image with correspondent version
- - 2\. create frontend image with correspondent version  
- - 3\. run docker-compose (see ./docker/README_DOCKER.md)
-## Variant 2: with Maven profile
- - go to the maven module `odermanager-parent` than build the project with profiles
- - first select profile `build-angular`
- - select profile `with-docker-linux` or `with-docker-windows`
-The full script: ```mvn clean install -Pbuild-angular -Pwith-docker-linux```
+> [!IMPORTANT]
+> If you change the Java version, update the parent `pom.xml`, module `pom.xml` files, and Docker JDK image versions together.
 
+## Project Modules
 
-# Short description
-The project is primarily created to gather useful features for both the frontend 
-and backend components based on a real application. The user manual for the application is located in the project path ```ordermanager/doc```. 
-The next phase of functionality will be planned or already implemented:
- - create and save orders (currently not yet implemented)
- - creation of persons with addresses and bank accounts
- - create invoices with multiple items, goods and services
- - generate and printing out of the invoice in PDF format
- - create invoice by using workflow
- 
-# Backend
-Maven module ```ordermanager-backend```.
- - The backend part is presented by the microcervice which is based on springboot framework verion 2.x.
- - The database can be different and depend on the configuration. Currently, uses Postges 10.x
+| Module / folder | Description |
+| --- | --- |
+| `ordermanager-backend` | Spring Boot REST backend for users, persons, invoice catalog items, invoices, workflows, persistence, and PDF generation. |
+| `ordermanager-ui` | Spring Boot wrapper that serves the generated Angular application and exposes the backend URL to the browser. |
+| `ordermanager-ui/ui/resources/frontend/invoices` | Angular 18 single-page application. This is the main frontend source. |
+| `ordermanager-ui/src-node` | TypeScript/Express backend prototype for frontend configuration and management endpoints. |
+| `service-discovery` | Eureka server for service discovery in local and Docker deployments. |
+| `docker` | Dockerfiles, Compose files, and copied runnable artifacts. |
+| `doc` | User manual and project analysis documents. |
 
-## Backend frameworks
-- SpringBoot-3.5 
-- Lombok https://projectlombok.org/features/all. The useful frameworks which simplifying the development process of pojos like  entity and rest
-  service model beans.
-- OpenAPI/Swagger-UI
-## Packages structure
-```diff
-   com
-    |_pr
-       |_ordermanager
-               |_common
-               |    |_entity
-               |    |_model
-               |_exception
-               |_invoice
-               |    |_controller
-               |    |_entity
-               |    |_model
-               |    |_repository
-               |    |_service
-               |_person
-               |    |_controller
-               |    |_entity
-               |    |_model
-               |    |_repository
-               |    |_service
-               |_report
-               |    |_controller
-               |    |_model 
-               |    |_service
-               |_security
-               |    |_controller
-               |    |_entity
-               |    |_repository
-               |    |_service 
-               |_utils 
+## Build
+
+Run the build from the repository root:
+
+```bash
+mvn clean install
 ```
-## Tests
- * JUnit-5
- * Mockito
- * SpringBoot Test  
- * H2 Data in memory database for testing components which uses database. 
 
-## Backend configuration features and useful tips 
-- Security. 
-   Currently, uses BasicAuth. The security resources located in the package com.pr.ordermanager.security.
-     The implementation of security contains:
-    * security configuration ```java com.pr.ordermanager.security.controller.SecurityConfig```
-    * the database table InvoceUser 
-    * the service UserService 
-    * JPARepository UserRepository  
-    * Rest Controller  InvoiceUserController
-- OpenAPI/Sagger-UI URLs
-  * OpenAPI documentation in YAML format: http://localhost:8083/backend/v3/api-docs.yaml
-  * Swagger-UI: http://localhost:8083/backend/swagger-ui.html
- 
-# Frontend
-The frontend application has implemented with using springboot framework as a runner of web application and
-UI-Framework Angular of version 18.
-## Frontend frameworks and libraries
-- Angular 18
-- PrimeNG https://www.primefaces.org/primeng/
-- Ag-Grid https://www.ag-grid.com/
-- moment java script library: https://momentjs.com/. Here uses for formatting the date fields in domain objects.
-- transloco i18n localisation https://github.com/jsverse/transloco
-## Project structure
-- maven module **ordermanager-ui**. Contains springboot microservice for running generated web application. 
-The pom.xml contains an  plugins for compilation and building angular application and‚ packaging produced content to the war/jar file.
-- **ordermanager-ui** contains a folder **ui** with angular project. 
+After a successful build, Maven creates executable jars and copies them into the Docker folders:
 
-## Frontend components
-| Nr.  | Component name                 | Description                                                                                                                                                                                                                        |
-|------|:-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1    | app                            | That is the root of the application and contains the home page with a navigation bar.                                                                                                                                              |
-| 2    | app/invoice                    | That is the root folder for a invoice resources.                                                                                                                                                                                   |
-| 2.1  | ./edit-invoice-dialog          | The modal dialog which is used for editing of already created invices. The dialog based on ```reactive-driven ``` form.                                                                                                            |
-| 2.2  | ./edit-item-dialog             | This component provides modal dialog which uses for editing ```invoice catalog items```. Here is ```rective-driven ``` form.                                                                                                       |
-| 2.3  | ./invoice-items-table          | This component provides table for incoice items and uses in the ```2.5 invoiceform``` component. The form based on ```templete-driven ``` form.                                                                                    |
-| 2.4  | ./invoice-management           | That componen provides the form with lsit of created invoices which can be editet or deleted. The form based on ```templete-driven ``` form.                                                                                       |
-| 2.5  | ./invoice-reactive-items-table | That component is used by the ```2.1 edit-invoice-dialog```. That component provides the table with invoice items which can be edited or deleted. Here is used  ```rective-driven ``` form.                                        |
-| 2.5  | ./invoiceform                  | This is the component that contains a UI form for inputting data for an invoice. The form based on ```templete-driven ``` form.                                                                                                    |
-| 2.7  | ./item-management              | The component for management with catalog items (That are invoice items or articles). Provides the table with all or filtered invoice items.                                                                                       |
-| 2.8  | ./items-form                   | That component provides input form catalog item for invoice.                                                                                                                                                                       |
-| 2.9  | ./printinvoice                 | This is a component with the table which contains the list of existed invoices in the database.`This table uses component ``ag-Grid`` (angular). Each row in table contains button for download invoice in PDF format from server. |
-| 2.10 | ./table-cell-renderer          | That component renders a button for dowloading invoice in PDF report.                                                                                                                                                              |
-| 3    | app/person                     | Contain components for creation, editins and deleting persons.                                                                                                                                                                     |
-| 3.1  | ./edit-person-dialog           | The modal dialog for editing selected person. That component is used in ```3.2 person-management```.                                                                                                                               |
-| 3.2  | ./person-management            | That component is used for the management with created persons.                                                                                                                                                                    |
-| 3.3  | ./personform                   | This is a component which contains an ui-form with input controls for creating a new person.                                                                                                                                       |
-| 4    | app/user                       | Contains components for creation user and login.                                                                                                                                                                                   |
-| 4.1  | ./user-login                   | User login component to login to the ordermanagement application                                                                                                                                                                   |
-| 4.2  | ./user-registration            | The component with a form for registration of a new user                                                                                                                                                                           |
-| 5    | app/common-components          | Contains components which uses by another components.                                                                                                                                                                              |
-| 5.1  | ./attributes                   | That is directive which add attribues dynamically to html elements.                                                                                                                                                                |
-| 5.2  | ./confirmation-dialog          | The confirmation dialog with Yes and Cancel buttons.                                                                                                                                                                               |
-| 5.3  | ./dateperiod-finder            | This component is used by another components to search and return the objects from server.                                                                                                                                         |
-| 5.4  | ./editable-input-cell          | The editable cell which can be used in table cells.                                                                                                                                                                                |
-| 5.5  | ./templates-component          | Contains set of templates (inputbox, combobox, date picker,...) which can be used in another components by reference like ```  <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate; ...```                     |
-| 5.6  | ./validatable-calendar         | The calendar picker component which shows error in case if date is not selected or incorrect inserted.                                                                                                                             |
-| 5.7  | ./validatable-dropdownlist     | The dropdown list component which shows error in case if item in dropdown list is not selected.                                                                                                                                    |
-| 5.8  | ./validatable-input-number     | The input control which accepts onlny numbers and shows error in case if the value is not entered.                                                                                                                                 |
-| 5.9  | ./validatable-input-text       | The component which uses by another components. This input text shows error in case if length less as defined. Also this component user flowing labels.                                                                            |
-| 6    | app/common-services            | Contains common resources like utility classes, pipes, services.                                                                                                                                                                   |
-| 7    | app/workflow                   | Contains workflow components.                                                                                                                                                                                                      | 
-| 7.1  | ./invoice-workflow             | The workflow for creation of invoice step by step.                                                                                                                                                                                 |
-## Frontend features and useful tips
-- ```Signals```
-Example of usage the signal you can find in the service class ```InvoiceItemsTableCalculatorService```
+| Artifact | Destination |
+| --- | --- |
+| `ordermanager-backend.jar` | `docker/backend/ordermanager-backend.jar` |
+| `ordermanager-ui.jar` | `docker/frontend/ordermanager-ui.jar` |
+| `service-discovery.jar` | `docker/discovery/service-discovery.jar` |
+
+To include the Angular production build during the Maven lifecycle:
+
+```bash
+mvn clean install -Pbuild-angular
+```
+
+## Run Locally
+
+Default local service ports:
+
+| Service | URL |
+| --- | --- |
+| Backend API | `http://localhost:8083/backend` |
+| Frontend wrapper | `http://localhost:8082/frontend` |
+| Eureka | `http://localhost:8761` |
+| Swagger UI | `http://localhost:8083/backend/swagger-ui.html` |
+| OpenAPI YAML | `http://localhost:8083/backend/v3/api-docs.yaml` |
+
+The backend expects PostgreSQL by default:
+
+| Property | Default |
+| --- | --- |
+| Host | `localhost` |
+| Port | `5455` |
+| Database | `test_db` |
+| User | `test` |
+| Password | `test` |
+
+The same values can be overridden through environment variables or Spring properties:
+
+```bash
+START_PORT=8083
+DB_HOST=localhost
+DB_PORT=5455
+DB_NAME=test_db
+```
+
+## Docker Deployment
+
+Docker instructions are stored in `docker/README_DOCKER.md`.
+
+Manual deployment flow:
+
+1. Build the Maven project.
+2. Build the backend image with the corresponding version.
+3. Build the frontend image with the corresponding version.
+4. Start the stack with Docker Compose from the `docker` folder.
+
+Maven-assisted flow:
+
+```bash
+mvn clean install -Pbuild-angular -Pwith-docker-linux
+```
+
+Use the Windows Docker profile instead when building on Windows if the Docker documentation requires it.
+
+## Backend
+
+The backend module is `ordermanager-backend`. It is a Spring Boot REST service running under the `/backend` context path.
+
+### Backend Libraries
+
+| Package / library | Usage |
+| --- | --- |
+| Spring Boot Web | REST controllers and HTTP request handling. |
+| Spring Security | User authentication, filters, login checks, and protected endpoints. |
+| Spring Data JPA / Hibernate | Entity persistence and repository access. |
+| PostgreSQL JDBC | Production/default database driver. |
+| H2 | In-memory database for tests. |
+| Liquibase | Database change-log management. |
+| Lombok | Reduces boilerplate in models, entities, and services. |
+| MapStruct | Type-safe mapping between entities and API models. |
+| JasperReports | PDF invoice generation. |
+| springdoc-openapi | OpenAPI and Swagger UI documentation. |
+| Log4j2 | Application logging. |
+| JUnit 5, Mockito, Cucumber | Unit, service, repository, and behavior-style tests. |
+
+### Backend Package Structure
+
+```text
+com.pr.ordermanager
+|-- common
+|   |-- entity
+|   `-- model
+|-- exception
+|-- invoice
+|   |-- controller
+|   |-- entity
+|   |-- mapper
+|   |-- model
+|   |-- repository
+|   `-- service
+|-- person
+|   |-- controller
+|   |-- entity
+|   |-- model
+|   |-- repository
+|   `-- service
+|-- report
+|   |-- controller
+|   |-- entity
+|   |-- model
+|   |-- service
+|   `-- utils
+|-- security
+|   |-- controller
+|   |-- entity
+|   |-- model
+|   |-- repository
+|   `-- service
+`-- utils
+```
+
+### Backend Components
+
+| Component | Description |
+| --- | --- |
+| `InvoiceController` | REST API for creating, updating, deleting, listing, and filtering invoices and item catalog entries. |
+| `InvoiceService` | Business service for invoice persistence and invoice-related operations. |
+| `InvoiceValidator` | Validates invoice request models before they are persisted. |
+| `InvoiceViewMapper`, `InvoiceItemMapper`, `ItemCatalogMapper` | Map JPA entities to API/view models and back. |
+| `PersonController` | REST API for creating, updating, deleting, listing, and filtering persons. |
+| `PersonService` | Business service for person, address, and bank-account operations. |
+| `PersonValidator` | Validates person request models. |
+| `JasperReportController` | Exposes PDF invoice generation through `/invoice/printreport`. |
+| `JasperReportService` | Loads invoice data and renders JasperReports templates. |
+| `InvoiceUserController` | Handles registration, login, logout, and user-check endpoints. |
+| `SecurityConfig`, filters, and auth provider | Configure request security, authentication flow, and token handling. |
+| `GlobalExceptionHandler` | Converts application exceptions into consistent HTTP responses. |
+
+### Backend Configuration Notes
+
+- Backend configuration is in `ordermanager-backend/src/main/resources/application.properties`.
+- The backend uses PostgreSQL by default and H2 for tests.
+- Liquibase is enabled through `db/changelog/db.changelog-master.xml`.
+- Actuator endpoints are exposed under `/backend/management`.
+
+> [!WARNING]
+> `spring.jpa.hibernate.ddl-auto=update` is enabled together with Liquibase. For production-like environments, prefer explicit Liquibase migrations and review whether automatic schema updates should be disabled.
+
+## Frontend
+
+The frontend consists of two parts:
+
+| Part | Location | Purpose |
+| --- | --- | --- |
+| Angular application | `ordermanager-ui/ui/resources/frontend/invoices` | Main browser application. |
+| Spring Boot wrapper | `ordermanager-ui` | Serves the built Angular files and exposes `/backendUrl`. |
+
+### Frontend Libraries
+
+| Package / library | Description |
+| --- | --- |
+| Angular 18 | Main frontend framework. |
+| Angular Forms | Template-driven and reactive forms. |
+| Angular Router | Page routing. |
+| Angular Material | Additional UI controls. |
+| PrimeNG 18 | Main UI component library. |
+| PrimeFlex | Utility CSS used with PrimeNG layouts. |
+| ag-Grid | Invoice list/table display and PDF download action cells. |
+| Transloco | English/German localization. |
+| RxJS | Observable flows for HTTP, calculations, and component communication. |
+| NgRx | Workflow state management. |
+| moment | Date formatting and date manipulation. |
+| angular-iban / iban | IBAN validation and formatting support. |
+| jwt-decode | Client-side token decoding. |
+
+### Frontend Components
+
+| Area | Component / folder | Usage |
+| --- | --- | --- |
+| Shell | `app` | Root application component with navigation and routed page outlet. |
+| Home | `home` | Start page for the application. |
+| Invoice | `invoiceform` | Main invoice creation form using invoice header data and invoice item tables. |
+| Invoice | `invoice-items-table` | Template-driven item table used while creating invoices; emits changes to the parent invoice form. |
+| Invoice | `invoice-reactive-items-table` | Reactive-form item table used inside the invoice edit dialog. |
+| Invoice | `edit-invoice-dialog` | Modal dialog for editing an existing invoice. |
+| Invoice | `edit-item-dialog` | Modal dialog for editing catalog items. |
+| Invoice | `invoice-management` | Management page for editing or deleting created invoices. |
+| Invoice | `item-management` | Management page for catalog items/articles. |
+| Invoice | `items-form` | Form for creating a reusable invoice catalog item. |
+| Invoice | `printinvoice` | Invoice list used for PDF download. |
+| Invoice | `table-cell-renderer` | ag-Grid cell renderer that triggers invoice PDF download. |
+| Person | `personform` | Form for creating a person with addresses and bank accounts. |
+| Person | `person-management` | Management page for existing persons. |
+| Person | `edit-person-dialog` | Modal dialog for editing a selected person. |
+| User | `user-login` | Login form and authentication entry point. |
+| User | `user-registration` | Form for registering a new user. |
+| Common | `confirmation-dialog` | Reusable yes/cancel confirmation dialog. |
+| Common | `dateperiod-finder` | Shared date-period search component used by management pages. |
+| Common | `editable-input-cell` | Reusable editable table cell. |
+| Common | `templates-component` | Central collection of reusable Angular `TemplateRef` templates. |
+| Common | `validatable-*` controls | Reusable form controls that display validation errors consistently. |
+| Services | `common-services` | Shared HTTP, edit, utility, and event-bus services. |
+| Pipes | `common-pipes` | Shared date and number formatting pipes. |
+| Workflow | `workflows/invoice-workflow` | Step-by-step invoice creation workflow with NgRx state. |
+| I18n | `transloco` and `assets/i18n` | Language loader, switcher, and English/German translation files. |
+
+### Component Usage Patterns
+
+#### Angular Signals
+
+`InvoiceItemsTableCalculatorService` uses signals to keep invoice totals synchronized:
 
 ```typescript
-export class InvoiceItemsTableCalculatorService {
-
-    totalNettoSum: WritableSignal<number> = signal(0);
-    totalBruttoSum: WritableSignal<number> =  signal(0);
-    
+totalNettoSum: WritableSignal<number> = signal(0);
+totalBruttoSum: WritableSignal<number> = signal(0);
 ```
 
-The signals is used here for calculating of totals amount in invoice.
+The service recalculates row net/gross values and invoice totals when invoice items are added, changed, or removed.
 
-- ```Observable with pipe() and map()```
-There is async method:
+#### RxJS Calculation Pipeline
+
+The invoice item calculator uses RxJS `of(...)`, `pipe(...)`, and `map(...)` calls to process calculator parameters step by step:
+
 ```typescript
-public async calculateAllSum(invoiceItems: InvoiceItemModel[], modelItem: InvoiceItemModel): Promise<void> {
-
-    const numberPromise = of(new CalculatorParameters(invoiceItems, modelItem))
-        /* 1 Calculate netto sum for setected item row*/
-        .pipe(map(data =>this.calculateNettoSum(data)))
-        /* 2 Calculate brutto sum for selected item row.*/
-        .pipe(map(data => this.calculateBruttoSum(data)))
-        /* 3 Calculates total netto sum.*/
-        .pipe(map(data => this.calculateTotalNettoSum(data)))
-        /* 4 Calculate total brutto sum.*/
-        .pipe(map(data => this.calculateTotalBruttoSum(data)))
-    numberPromise.subscribe();
-
-    await numberPromise;
-}
+const numberPromise = of(new CalculatorParameters(invoiceItems, modelItem))
+  .pipe(map(data => this.calculateNettoSum(data)))
+  .pipe(map(data => this.calculateBruttoSum(data)))
+  .pipe(map(data => this.calculateTotalNettoSum(data)))
+  .pipe(map(data => this.calculateTotalBruttoSum(data)));
 ```
-This method is called when adding/deleting an item to the invoice. Subsequently, the method calculates the net (netto) and gross (brutto) sums of the newly added item in pipes 1 and 2. 
-It then computes the total net (netto) and gross (brutto) values for the entire invoice in pipes 3 and 4.
-In cass of deleting of item will be recalculate the totals in pipes 3 and 4.
 
-- Example of predefined html templates over ```TemplateRef<>```and usage it in ```<ng-container *ngTemplateOutlet =""/>```
-  The advantage of using predefined templates is the ability to apply these templates within other HTML templates by supplying context-specific parameters as needed.
-In project is the component  ```templates-component``` which collect the several of templates for example the template ```#inputNumberTemplate```
-  - 1)Look at definition of that template in the file *templates-component.component.html*
+This pattern keeps each calculation step small and readable.
+
+#### Reusable Templates
+
+`templates-component` exposes reusable `TemplateRef` templates for common form fields. Other components render them with `ngTemplateOutlet` and pass context-specific values:
+
 ```html
-<ng-template #inputNumberTemplate let-controlPath="controlPath" let-idComponent="idComponent" let-labelText="labelText">
-    <div style="display: table; width: 100%;">
-        <div style="display: table-row; width: 100%;">
-            <div style="display: table-cell; width: 100%;">
-               <span class="p-float-label">
-                    <p-inputNumber [formControl]="getControl(controlPath)" [maxFractionDigits]="2"
-                                   [minFractionDigits]="2"
-                                   class="ng-dirty p-mr-2"
-                                   class="p-cell-editing ng-dirty"
-                                   id="{{idComponent}}"
-                                   mode="decimal"
-                                   placeholder='0.00'/>
-                  <label for="{{idComponent}}">{{labelText}}</label>
-               </span>
-            </div>
-            <div *ngIf="getControl(controlPath)?.invalid" style="display: table-cell; width: 10%;">
-                <p-message severity="danger" icon="pi pi-times-circle"></p-message>
-            </div>
-        </div>
-    </div>
-</ng-template>
-```
-  - 2)Look at definition of that template reference in the file *templates-component.component.ts*
-```typescript
-@ViewChild('inputNumberTemplate', {static: true}) inputNumberTemplate: TemplateRef<InputTextTemplateContext>;
-```
-  - 3)Look at the usage of the defined reference above in another component ```edit-item-dialog``` in the file *edit-item-dialog.component.html*
-
-```html
- <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
-        context:{controlPath: 'itemPrice',
-        idComponent: 'id_ItemPrice',
-        labelText: 'Item price'}">
-        </ng-container>
+<ng-container
+  *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
+  context: {
+    controlPath: 'itemPrice',
+    idComponent: 'id_ItemPrice',
+    labelText: 'Item price'
+  }">
+</ng-container>
 ```
 
- - ``` @Output ```. 
-Example of using ``` @Output ``` for updating the model in a parent component. 
-   Example of using ``` @EventEmitter ``` for output of an object to parent component. See the class ```InvoiceItemsTableComponent``` 
-   file *invoice-items-table.itemstable.ts* .  
-   
- ```javascript
-  @Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
- ```
-  In our case the Emitter emits event when new item is added or removed from table model.
-  See ```addNewItem()``` and ```deleteItem(idxItem: any)``` in the same class.
+Use this pattern when several dialogs or forms need the same validated control layout.
 
-Here's an example of binding an output event emitter to the parent component in the HTML template file *invoiceform.component.html*.
-Here  ``` app-items-table ``` is child component. 
-```html
-      <app-items-table (changeItemEvent)="itemsChanged($event)" ...
-  ```
-  The method *itemsChanged* receives the emitted event with model data from the child component (table of items).
-  This method updates the invoice model with data from the child components.
-  Please refer to the *invoiceform.component.ts* file for more details.
-  ```typescript
-    /** The invoice data model*/
-      invoiceFormData: InvoiceFormModelInterface;
-           
-      /**
-         * In case if items in table was deleted or added to the model
-         * @param invoiceItems the new state of the items
-         */
-        itemsChanged(invoiceItems: InvoiceItemModel[]): any{
-          this.invoiceFormData.invoiceItems = invoiceItems;
-        }
-       
-       
-  ```
- - @Pipe . Example for formatting numbers in a table of items.
-   The definition is located in the file *components.pipes.number.ts*.
- ```typescript
-      @Pipe({
-        name: 'standardFloat'
-      })
-      export class CommonServicesPipesNumberDouble implements PipeTransform {
-          ....
-      }
-  ```
-  the usage of pipe in the html template *components.itemstable.html*
-  
-``` html
- <ng-template pTemplate="output">
-             {{invoiceitem.amountItems | standardFloat}}
- </ng-template>
-   
-```
-- EventBus. Implementation and usage of the event bus like GWT event bus
-The implementation of located in the class ```CommonServiceEventBus<T>``` of the file *common-service.event.bus.ts*
-  - The Usage. Here we consider then case of emitting an error message in one component and than print this message in another component.
-  
-*Step1* place the event bus in place where will emit event and subscribe message emitting. In Our case we consider the case when occurs an error when we try to delete the person which already somewhere already uses.
-   Check the function : ```CommonServiceEventBus<T>.putObjectToServer```
+#### Child-To-Parent Events
 
-  ```typescript
-    let eventBusObservable
-    if(environment.debugMode) {
-      eventBusObservable = of(this.eventBus).pipe(takeUntil(this.notifier))
-    }
-  
-     .......
-  
-      if(environment.debugMode) {
-          eventBusObservable.subscribe(eb => eb.emitEvent(err))
-        }
-  ```
-
-*Step2* subscribe the event listener in a component where will be listened an error. In our case we will listen an error at the ```PersonManagementComponent```
+Item table components emit changes through `@Output` and `EventEmitter`:
 
 ```typescript
- ngOnInit(): void {
-    if (environment.debugMode) {
-      this.eventListener.onEvent().subscribe(val =>{
-        this.eventBusVal= JSON.stringify(val)
-      });
-    }
+@Output() changeItemEvent = new EventEmitter<InvoiceItemModel[]>();
 ```
 
-*Step3* print error message in HTML template in debug mode. In our case we print the error message in template *tsperson-management.component.html*
-````html
-  <div class="p-col-12" *ngIf="environment.debugMode">
-    <p>
-        Error Message: {{eventBusVal}}
-    </p>
-  </div>
-````
+The parent invoice form listens to the event and updates the invoice model:
 
-
-- Download and open PDF  
-Example of usage is located in the class ```TableCellRendererComponent``` which is defined in the ts file 
-``` html
-
+```html
+<app-items-table (changeItemEvent)="itemsChanged($event)"></app-items-table>
 ```
 
-# PDF Documents
-- PDF document for printing of invoices and other documents based on JasperReport. 
-- As a design tool for the layout I can recommend the "TIBCO Jaspersoft" Studio: https://community.jaspersoft.com/project/jaspersoft-studio
+#### Event Bus
 
-## Invoice pdf
-The Invoices in PDF format generates from the data which is saved in the database with using **invoiceform** component and
-printed out bei using **printinvoice** component.
+`CommonServiceEventBus<T>` provides a lightweight event bus. It is used for debug/error flows, for example when a service emits an error and a management component displays it in debug mode.
 
+#### Pipes
 
+Shared pipes such as `standardFloat` format table values consistently:
 
+```html
+{{ invoiceitem.amountItems | standardFloat }}
+```
 
+## PDF Documents
 
- 
+Invoices are generated as PDF files with JasperReports. The report templates are stored in backend resources:
+
+| Template | Purpose |
+| --- | --- |
+| `invoice.jrxml` | Main invoice report layout. |
+| `invoice-data.jrxml` | Invoice data/subreport layout. |
+| `jasperreports.properties` | JasperReports configuration. |
+
+PDF generation flow:
+
+1. The user creates and saves invoice data in the Angular UI.
+2. `PrintinvoiceComponent` displays existing invoices.
+3. The ag-Grid cell renderer sends a print request to the backend.
+4. `JasperReportController` calls `JasperReportService`.
+5. The backend returns `application/pdf` with an `attachment` filename.
+
+Jaspersoft Studio is a practical tool for editing `.jrxml` layouts.
+
+## Testing
+
+| Scope | Command | Notes |
+| --- | --- | --- |
+| Full Maven project | `mvn clean install` | Builds and tests all Maven modules. |
+| Backend only | `mvn test -pl ordermanager-backend` | Runs backend unit, repository, service, controller, and Cucumber tests. |
+| Angular app | `npm test` | Run from `ordermanager-ui/ui/resources/frontend/invoices`. |
+| Angular build | `npm run build` | Run from `ordermanager-ui/ui/resources/frontend/invoices`. |
+| Node UI backend | `npm test` | Run from `ordermanager-ui/src-node`. |
+
+## Useful URLs
+
+| URL | Description |
+| --- | --- |
+| `http://localhost:8083/backend/swagger-ui.html` | Backend Swagger UI. |
+| `http://localhost:8083/backend/v3/api-docs.yaml` | OpenAPI YAML. |
+| `http://localhost:8083/backend/management` | Backend actuator base path. |
+| `http://localhost:8082/frontend/backendUrl` | Frontend wrapper endpoint that returns the backend URL. |
+| `http://localhost:8761` | Eureka service discovery UI. |
+
+## Known Maintenance Notes
+
+> [!TIP]
+> Keep source files and generated files separate during reviews. Angular `dist`, copied frontend files under `src/main/resources/static`, `node_modules`, JVM crash logs, and `.DS_Store` files should not be treated as the canonical source.
+
+> [!CAUTION]
+> Some dependency declarations are older than the main platform version, for example the project includes Hibernate ORM 6 while also declaring `hibernate-entitymanager` 5.4. Review these before larger dependency upgrades.

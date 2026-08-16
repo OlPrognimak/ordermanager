@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, EventEmitter, input, OnInit, Output, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
@@ -76,16 +76,18 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
 })
 export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('templatesComponent') templatesComponentComponent: TemplatesComponentComponent
-  @ViewChild('templatesComponentForInvoiceDate') templatesComponentForInvoiceDate: TemplatesComponentComponent
-  @ViewChild('reactiveItemsTableComponent') itemsTableComponent: InvoiceReactiveItemsTableComponent
+  templatesComponentComponent = viewChild.required<TemplatesComponentComponent>('templatesComponent')
+  templatesComponentForInvoiceDate = viewChild.required<TemplatesComponentComponent>('templatesComponentForInvoiceDate')
+  itemsTableComponent = viewChild.required<InvoiceReactiveItemsTableComponent>('reactiveItemsTableComponent')
 
   editInvoiceFG: InvoiceFormGroup
   visible: boolean;
   /** Model invoice supplier for dropdown component */
-  @Input() personInvoiceSupplier: DropdownDataType[]
+  personInvoiceSupplier = input<DropdownDataType[]>([]);
   /** Model invoice recipient for dropdown component */
-  @Input() personInvoiceRecipient: DropdownDataType[]
+  personInvoiceRecipient = input<DropdownDataType[]>([]);
+  personInvoiceSupplierRows: DropdownDataType[] = [];
+  personInvoiceRecipientRows: DropdownDataType[] = [];
   @Output() editObjectChangedChanged: EventEmitter<InvoiceFormModel> = new EventEmitter<InvoiceFormModel>();
 
   invoiceReactiveDlgFormData: InvoiceFormModel;
@@ -104,6 +106,10 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
               private httpService: CommonServicesAppHttpService<InvoiceFormModel>,
               private formBuilder: FormBuilder,
               private translocoService: TranslocoService) {
+    effect(() => {
+      this.personInvoiceSupplierRows = this.personInvoiceSupplier() ?? [];
+      this.personInvoiceRecipientRows = this.personInvoiceRecipient() ?? [];
+    });
 
     this.editInvoiceFG = this.formBuilder.group({
       id: this.formBuilder.nonNullable.control(0),
@@ -129,13 +135,13 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   get dialogStyle() {
     return this.isFullscreen
       ? { width: '100vw', height: '100vh', top: '0', left: '0'}
-      : {  width: '60vw', height: '75vh' };
+      : { width: 'min(78rem, calc(100vw - 2rem))', maxHeight: 'calc(100vh - 2rem)' };
   }
 
   get dialogContentStyle() {
     return this.isFullscreen
-      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0', 'overflow': 'auto' }
-      : { width: '60vw', height: '75vh', 'overflow': 'auto'};
+      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0', overflow: 'auto' }
+      : { width: '100%', maxHeight: 'calc(100vh - 12rem)', overflow: 'auto' };
   }
 
   toggleFullscreen() {
@@ -154,8 +160,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   loadFormData() {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
       if (callback != null) {
-        this.personInvoiceRecipient = callback;
-        this.personInvoiceSupplier = callback;
+        this.personInvoiceRecipientRows = callback;
+        this.personInvoiceSupplierRows = callback;
       }
     })
   }
@@ -168,7 +174,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
   setEditingObject(invoice: InvoiceFormModel) {
     this.originalInvoice = invoice
     this.invoiceReactiveDlgFormData = Object.assign({}, invoice)
-    this.itemsTableComponent.calculatorService.calculateAllSum(this.originalInvoice.invoiceItems, undefined)
+    this.itemsTableComponent().calculatorService.calculateAllSum(this.originalInvoice.invoiceItems, undefined)
 
     this.invoiceReactiveDlgFormData.invoiceItems = this.cloneInvoiceItems(invoice.invoiceItems)
     this.editInvoiceFG.setValue(this.invoiceReactiveDlgFormData)
@@ -178,8 +184,8 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     this.getControl('creationDate').setValue(new Date(this.invoiceReactiveDlgFormData.creationDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
     this.getControl('invoiceDate').setValue(new Date(this.invoiceReactiveDlgFormData.invoiceDate))
-    this.getControl('totalSumNetto').setValue(this.itemsTableComponent.calculatorService.totalNettoSum())
-    this.getControl('totalSumBrutto').setValue(this.itemsTableComponent.calculatorService.totalBruttoSum())
+    this.getControl('totalSumNetto').setValue(this.itemsTableComponent().calculatorService.totalNettoSum())
+    this.getControl('totalSumBrutto').setValue(this.itemsTableComponent().calculatorService.totalBruttoSum())
 
   }
 
@@ -203,14 +209,14 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
       const keepOriginalInvoice = this.originalInvoice
       this.originalInvoice = this.editInvoiceFG.value
 
-      this.originalInvoice.totalSumNetto = this.itemsTableComponent.calculatorService.totalNettoSum()
-      this.originalInvoice.totalSumBrutto =  this.itemsTableComponent.calculatorService.totalBruttoSum()
+      this.originalInvoice.totalSumNetto = this.itemsTableComponent().calculatorService.totalNettoSum()
+      this.originalInvoice.totalSumBrutto =  this.itemsTableComponent().calculatorService.totalBruttoSum()
 
       const supplier =
-        this.personInvoiceSupplier.filter((p, idx) =>
+        this.personInvoiceSupplierRows.filter((p, idx) =>
           p.value === this.originalInvoice.personSupplierId)?.at(0)
       const recipient =
-        this.personInvoiceSupplier.filter((p, idx) =>
+        this.personInvoiceSupplierRows.filter((p, idx) =>
           p.value === this.originalInvoice.personRecipientId)?.at(0)
       //
       this.originalInvoice.supplierFullName = supplier?.label!
@@ -278,7 +284,7 @@ export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
     // this.eventsModelIsReset.next();
 
     if (this.isViewInitialized) {
-      this.itemsTableComponent.resetTotalValues();
+      this.itemsTableComponent().resetTotalValues();
     }
   }
 

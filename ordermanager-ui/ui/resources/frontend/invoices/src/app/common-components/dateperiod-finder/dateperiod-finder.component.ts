@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ValidatableCalendarModule } from "../validatable-calendar/validatable-calendar.component";
 import { FormsModule, NgModel } from "@angular/forms";
@@ -19,8 +19,8 @@ import { TranslocoModule } from '@jsverse/transloco';
 })
 export class DateperiodFinderComponent implements OnInit, AfterViewInit {
 
-  @Input() requestDatePeriod: RequestDatePriod = new RequestDatePriod()
-  @Input() url: string = ''
+  requestDatePeriod: RequestDatePriod = new RequestDatePriod()
+  url = input('')
   @Output() responseOutput = new EventEmitter<any>()
   @Output() onFinderIsReady = new EventEmitter<boolean>
   startDateControlModel: NgModel | undefined
@@ -30,7 +30,7 @@ export class DateperiodFinderComponent implements OnInit, AfterViewInit {
   }
 
   loadData() {
-    this.service.findData(this.url, this.requestDatePeriod.toJSON(), callback => {
+    this.service.findData(this.url(), this.requestDatePeriod.toJSON(), callback => {
       if (callback) {
         this.responseOutput.emit(callback)
       }

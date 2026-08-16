@@ -1,143 +1,154 @@
 @if (isAuthenticated()) {
- <div class="p-fluid p-flex-row management-page-style">
-  <p-toast></p-toast>
-  <div *ngIf="dataLoading" class="overlayProcess childElementCenter">
-    <mat-progress-spinner *ngIf="dataLoading" mode="indeterminate"></mat-progress-spinner>
-  </div>
+  <main class="management-page">
+    <p-toast></p-toast>
 
-<div class="p-grid base-top-grid-area">
-<h2 class="u-ml-10pt">{{'invoice.item.manage.catalog_items' | transloco}}</h2>
+    @if (dataLoading) {
+      <div class="management-loading">
+        <mat-progress-spinner diameter="42" mode="indeterminate"></mat-progress-spinner>
+      </div>
+    }
 
-<div class="p-col-12 shadow-panel-color p-shadow-4">
+    <header class="management-header">
+      <div>
+        <span class="management-eyebrow">{{ 'invoice.item.manage.eyebrow' | transloco }}</span>
+        <h1>{{ 'invoice.item.manage.catalog_items' | transloco }}</h1>
+        <p>{{ 'invoice.item.manage.subtitle' | transloco }}</p>
+      </div>
+      <div class="management-stat">
+        <strong>{{ modelList.length }}</strong>
+        <span>{{ 'invoice.item.manage.records' | transloco }}</span>
+      </div>
+    </header>
 
-<div class="p-grid w-100 item-management-zero-right-margin">
-<div class="p-col-4">
-<p-floatlabel class="w-100">
-<input [(ngModel)]="criteria"
-      class="ng-dirty p-mr-2"
-      id="Id_Search_Item"
-      minlength="0"
-      pInputText
-      type="text"/>
-<label for="Id_Search_Item">Search criteria</label>
-</p-floatlabel>
-</div>
-<div class="p-col-1">
-<p-button (click)="getDataFromServer(criteria)" label="Find"
-         title="Search items by name and description">
+    <form class="management-toolbar" (ngSubmit)="getDataFromServer(criteria)">
+      <div class="management-search">
+        <i class="pi pi-search"></i>
+        <input
+          [(ngModel)]="criteria"
+          [placeholder]="'invoice.item.manage.search_placeholder' | transloco"
+          id="Id_Search_Item"
+          name="criteria"
+          pInputText
+          type="search"/>
+      </div>
+      <p-button
+        [label]="'common.actions.find' | transloco"
+        icon="pi pi-search"
+        type="submit">
+      </p-button>
+    </form>
 
-</p-button>
-</div>
-</div>
-</div>
-<div class="p-col-12 p-shadow-4 top-container-table-area">
-<div class="table-area">
-<p-table [(selection)]="selectedItem"
-      [autoLayout]="true"
-      [metaKeySelection]=keySelection
-      [resizableColumns]="true"
-      [rows]="15"
-      [value]="modelList"
-      editMode="row"
-      paginator="true" selectionMode="multiple" sortMode="multiple" styleClass="p-datatable-gridlines">
-<ng-template pTemplate="header">
- <tr>
-   <th class="u-w-40">{{'invoice.item.table.short_description' | transloco}}</th>
-   <th class="u-w-10">Amount</th>
-   <th class="u-w-10">{{'invoice.item.table.price' | transloco}}</th>
-   <th class="u-w-10">{{'invoice.item.table.vat' | transloco}}</th>
-   <th class="u-w-10">Sum netto</th>
-   <th class="u-w-10">Sum brutto</th>
-   <th class="u-w-10">Delete</th>
- </tr>
-</ng-template>
-<ng-template pTemplate="header">
- <tr>
-   <th pSortableColumn="description" class="item-management-col-30">{{'invoice.item.table.item_name' | transloco}}
-     <p-sortIcon field="invoiceNumber"></p-sortIcon>
-   </th>
-   <th pSortableColumn="shortDescription" class="item-management-col-30">{{'invoice.item.table.short_description' | transloco}}
-     <p-sortIcon field="supplierFullName"></p-sortIcon>
-   </th>
-   <th pSortableColumn="itemPrice" class="u-w-25">{{'invoice.item.table.price' | transloco}}
-     <p-sortIcon field="recipientFullName"></p-sortIcon>
-   </th>
-   <th pSortableColumn="vat" class="u-w-15">{{'invoice.item.table.vat' | transloco}}
-     <p-sortIcon field="invoiceDate"></p-sortIcon>
-   </th>
-   <th class="u-w-5">{{'common.table.manage' | transloco}} </th>
- </tr>
-</ng-template>
-<ng-template let-catalogitem let-rowIndex="rowIndex" pTemplate="body">
- <tr (dblclick)="rowDoubleClick($event, catalogitem)" [ngStyle]="{'color':isEditObjectChanged(catalogitem)}"
-                [pSelectableRowIndex]="rowIndex"
-                [pSelectableRow]="catalogitem"
-                title="Double click to edit invoice item">
-              <td>
-                <div>{{catalogitem.description}}</div>
-              </td>
-              <td>
-                <div>{{catalogitem.shortDescription}}</div>
-              </td>
-              <td>
-                <div class="number-right-align">{{catalogitem.itemPrice | standardFloat}}</div>
-              </td>
-              <td>
-                <div class="number-right-align">{{catalogitem.vat | standardFloat}}</div>
-              </td>
-              <td>
-                <button (click)="rowDoubleClick($event, catalogitem)" class="p-button-rounded p-button-warning u-ml-2px"
-                        pButton
-                        pRipple
-                       
-                        title="Edit item">
-                  <i class="pi pi-pencil"></i>
-                </button>
-                <button (click)="showDeleteItemDialog(catalogitem.id)"
-                        class="p-button-rounded p-button-warning u-ml-2px"
-                       
-                        pButton pRipple
-                        title="Delete item">
-                          <i class="pi pi-trash"></i>
-                </button>
-                <button (click)="rollbackChanges(catalogitem.id)"
-                        class="p-button-rounded p-button-warning u-ml-2px"
-                       
-                        pButton
-                        pRipple
-                        title="Rollback item">
-                          <i class="pi pi-undo"></i>
-                </button>
+    <section class="management-results">
+      <div class="management-results-heading">
+        <div>
+          <h2>{{ 'invoice.item.manage.results_title' | transloco }}</h2>
+          <span>{{ 'invoice.item.manage.results_hint' | transloco }}</span>
+        </div>
+        @if (!haveNoChanges()) {
+          <span class="management-change-badge">
+            {{ changesList.length }} {{ 'invoice.item.manage.changed' | transloco }}
+          </span>
+        }
+      </div>
 
+      <div class="management-table-scroll">
+        <p-table
+          [(selection)]="selectedItem"
+          [metaKeySelection]="keySelection"
+          [resizableColumns]="true"
+          [rows]="15"
+          [value]="modelList"
+          paginator="true"
+          selectionMode="multiple"
+          sortMode="multiple"
+          styleClass="p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="description">{{ 'invoice.item.table.item_name' | transloco }}
+                <p-sortIcon field="description"></p-sortIcon>
+              </th>
+              <th pSortableColumn="shortDescription">{{ 'invoice.item.table.short_description' | transloco }}
+                <p-sortIcon field="shortDescription"></p-sortIcon>
+              </th>
+              <th pSortableColumn="itemPrice">{{ 'invoice.item.table.price' | transloco }}
+                <p-sortIcon field="itemPrice"></p-sortIcon>
+              </th>
+              <th pSortableColumn="vat">{{ 'invoice.item.table.vat' | transloco }}
+                <p-sortIcon field="vat"></p-sortIcon>
+              </th>
+              <th class="management-actions-column">{{ 'common.table.manage' | transloco }}</th>
+            </tr>
+          </ng-template>
+
+          <ng-template let-catalogitem let-rowIndex="rowIndex" pTemplate="body">
+            <tr
+              (dblclick)="rowDoubleClick($event, catalogitem)"
+              [class.management-row-changed]="isItemChanged(catalogitem)"
+              [pSelectableRowIndex]="rowIndex"
+              [pSelectableRow]="catalogitem">
+              <td><strong>{{ catalogitem.description }}</strong></td>
+              <td>{{ catalogitem.shortDescription || '-' }}</td>
+              <td class="management-money">{{ catalogitem.itemPrice | standardFloat }}</td>
+              <td class="management-money">{{ catalogitem.vat | standardFloat }}%</td>
+              <td>
+                <div class="management-row-actions">
+                  <button type="button" (click)="rowDoubleClick($event, catalogitem)"
+                          class="p-button-rounded p-button-text" pButton pRipple
+                          [title]="'common.tooltips.edit_item' | transloco">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button type="button" (click)="rollbackChanges(catalogitem.id)"
+                          class="p-button-rounded p-button-text" pButton pRipple
+                          [disabled]="!isItemChanged(catalogitem)"
+                          [title]="'common.tooltips.rollback_item' | transloco">
+                    <i class="pi pi-undo"></i>
+                  </button>
+                  <button type="button" (click)="showDeleteItemDialog(catalogitem.id)"
+                          class="p-button-rounded p-button-text p-button-danger" pButton pRipple
+                          [title]="'common.tooltips.delete_item' | transloco">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
               </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="management-empty">{{ 'invoice.item.manage.no_results' | transloco }}</td>
             </tr>
           </ng-template>
         </p-table>
       </div>
-    </div>
-    <div class="p-col-12 save-button-col-size">
-      <div class="save-button-container-size">
-        <p-button (onClick)="saveChangesOnServer($event)" [disabled]="haveNoChanges()" label="Save"></p-button>
-      </div>
-    </div>
-  </div>
-</div>
-}
+    </section>
 
+    <footer class="management-save-bar">
+      <div>
+        <strong>{{ 'invoice.item.manage.pending_title' | transloco }}</strong>
+        <span>{{ 'invoice.item.manage.pending_hint' | transloco }}</span>
+      </div>
+      <p-button
+        (onClick)="saveChangesOnServer()"
+        [disabled]="haveNoChanges()"
+        [label]="'common.actions.save' | transloco"
+        icon="pi pi-check">
+      </p-button>
+    </footer>
+  </main>
+}
 
 <app-edit-item-dialog #itemEditCatalogDialog (editObjectChangedChanged)="putEditDialogChanges($event)"/>
 
-
 <app-confirmation-dialog #confirmUpdateDialog
                          (canceled)="handleCancelUpdate()"
-                         [confirmMessage]="'Confirm update item'"
+                         [confirmMessage]="'invoice.item.manage.confirm_update' | transloco"
                          (confirmed)="handleUpdateConfirmation(confirmUpdateDialog.transferObject)"
                          [display]="showConfirmUpdateDialog"
                          [message]="confirmUpdateDialogMessage"></app-confirmation-dialog>
 
 <app-confirmation-dialog #confirmDeleteDialog
                          (canceled)="handleCancelDelete()"
-                         [confirmMessage]="'Confirm delete item'"
+                         [confirmMessage]="'invoice.item.manage.confirm_delete' | transloco"
                          (confirmed)="handleDeleteConfirmation(confirmDeleteDialog.transferObject)"
                          [display]="showConfirmDeleteDialog"
                          [message]="confirmDeleteDialogMessage"></app-confirmation-dialog>

@@ -35,13 +35,22 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Input,
+  input,
   NgModule,
   OnInit,
   Output,
-  Renderer2, ViewChild
+  Renderer2, viewChild
 } from '@angular/core';
-import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel} from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  NgModel,
+  ValidationErrors,
+  Validator
+} from '@angular/forms';
 import { CommonModule } from "@angular/common";
 import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
@@ -62,30 +71,36 @@ import { TranslocoModule } from '@jsverse/transloco';
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ValidatableInputTextComponent),
       multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ValidatableInputTextComponent),
+      multi: true
     }
   ],
   imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule, TranslocoModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
-export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor {
+export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor, Validator {
   /** minimal length of text */
-  @ViewChild('modelRef') modelRef?: NgModel
-  @Input() public txtMinLength = 30;
-  @Input() public idComponent = '';
-  @Input() labelText = '';
-  @Input() inputType = 'text';
-  @Input() inputPattern: any;
-  @Input() controlValue = '';
-  @Input() name: any = '';
-  @Input() inputName: string;
-  @Input() patternErrorText: string
-  @Input() isValidable: boolean = true;
+  modelRef = viewChild.required<NgModel>('modelRef')
+  txtMinLength = input(30);
+  idComponent = input('');
+  labelText = input('');
+  inputType = input('text');
+  inputPattern = input<any>();
+  controlValue = '';
+  name = input<any>('');
+  inputName = input('');
+  patternErrorText = input('');
+  isValidable = input(true);
   @Output() componentHasErrorEvent = new EventEmitter<boolean>
 
 
-  onChange: (val) => {};
-  onTouched: () => {};
+  onChange: (val: any) => void = () => {};
+  onTouched: () => void = () => {};
+  private onValidatorChange: () => void = () => {};
   hasRequiredError: boolean = false
   hasMinLengthError: boolean = false
   hasPatternError: boolean = false
@@ -104,6 +119,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
   set value(v: any) {
     this.controlValue = v;
     this.onChange(v);
+    this.onValidatorChange();
     this.cdr.detectChanges()
   }
 
@@ -134,7 +150,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
 
   setHasPatternError(val: boolean, origin: any) {
     if (this.hasPatternError === undefined || this.hasPatternError !== val) {
-      this.hasMinLengthError = val
+      this.hasPatternError = val
       const emitVal = this.hasError();
       if (this.lastEmitedValue === undefined || this.lastEmitedValue !== emitVal) {
         this.lastEmitedValue = emitVal
@@ -150,7 +166,7 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
 
   // set accessor including call the onchange callback
   get required(): boolean {
-    return this.isValidable;
+    return this.isValidable();
   }
 
   registerOnChange(fn: any): void {
@@ -170,6 +186,38 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
    */
   writeValue(value: any): void {
     this.controlValue = value;
+    this.onValidatorChange();
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.isValidable()) {
+      return null;
+    }
+
+    const normalizedValue = this.normalizeValue(control.value);
+
+    if (normalizedValue.trim().length === 0) {
+      return {required: true};
+    }
+
+    if (this.txtMinLength() > 0 && normalizedValue.length < this.txtMinLength()) {
+      return {
+        minlength: {
+          requiredLength: this.txtMinLength(),
+          actualLength: normalizedValue.length
+        }
+      };
+    }
+
+    if (this.inputPattern() && !this.matchesPattern(normalizedValue)) {
+      return {pattern: true};
+    }
+
+    return null;
+  }
+
+  registerOnValidatorChange(fn: () => void): void {
+    this.onValidatorChange = fn;
   }
 
   private hasError() {
@@ -181,12 +229,23 @@ export class ValidatableInputTextComponent implements OnInit, ControlValueAccess
 
   inputClasses(componentName  ): any {
     // Coerce nullable booleans to false if modelRef is undefined
-    const invalid = this.modelRef?.invalid ?? false;
-    const dirty   = this.modelRef?.dirty ?? false;
-    const touched = this.modelRef?.touched ?? false;
-    return {'ng-invalid ng-dirty': this.isValidable && invalid && (dirty || touched)};
+    const invalid = this.modelRef().invalid ?? false;
+    const dirty   = this.modelRef().dirty ?? false;
+    const touched = this.modelRef().touched ?? false;
+    return {'ng-invalid ng-dirty': this.isValidable() && invalid && (dirty || touched)};
 
   }
+
+  private normalizeValue(value: any): string {
+    return value === null || value === undefined ? '' : String(value);
+  }
+
+  private matchesPattern(value: string): boolean {
+    const inputPattern = this.inputPattern();
+    const pattern = inputPattern instanceof RegExp
+      ? inputPattern
+      : new RegExp(`^(?:${inputPattern})$`);
+
+    return pattern.test(value);
+  }
 }
-
-

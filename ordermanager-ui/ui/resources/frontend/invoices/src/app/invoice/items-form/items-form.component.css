@@ -1,2 +1,238 @@
+:host {
+  display: block;
+}
 
-.items-form-center-text { text-align: center; }
+.catalog-item-page {
+  width: min(1040px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.catalog-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.catalog-page-header h1 {
+  margin: 0.3rem 0 0.4rem;
+}
+
+.catalog-page-header p,
+.catalog-card-header p,
+.catalog-preview-card p {
+  margin: 0;
+  color: #64748b;
+}
+
+.catalog-eyebrow,
+.catalog-preview-label,
+.catalog-field-label {
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.catalog-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  background: #e0f2fe;
+  border-radius: 999px;
+  color: #075985;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.catalog-main-column {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.catalog-card,
+.catalog-preview-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.9rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+}
+
+.catalog-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 1.35rem;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.catalog-card-header h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
+}
+
+.catalog-card-icon,
+.catalog-preview-icon {
+  display: grid;
+  place-items: center;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.catalog-card-icon {
+  flex: 0 0 2.35rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.65rem;
+}
+
+.catalog-fields {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.75rem 1.35rem;
+}
+
+.catalog-pricing-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.catalog-field-group {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.catalog-preview-card {
+  position: sticky;
+  top: 1rem;
+  padding: 1.35rem;
+}
+
+.catalog-preview-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: 1rem 0;
+  border-radius: 0.8rem;
+  font-size: 1.3rem;
+}
+
+.catalog-preview-card h2 {
+  overflow-wrap: anywhere;
+  margin: 0 0 0.35rem;
+}
+
+.catalog-preview-values {
+  display: grid;
+  margin-top: 1.25rem;
+}
+
+.catalog-preview-values div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.catalog-preview-total {
+  color: #0f172a !important;
+  font-size: 1.05rem;
+}
+
+.catalog-preview-card small {
+  display: block;
+  margin-top: 1rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.catalog-form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #e2e8f0;
+  border-radius: 0.8rem;
+  box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.06);
+}
+
+.catalog-form-actions div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.catalog-form-actions span {
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 800px) {
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-preview-card {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .catalog-item-page {
+    width: 100%;
+    padding: 1rem 0 0;
+  }
+
+  .catalog-page-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem;
+  }
+
+  .catalog-layout {
+    gap: 1rem;
+  }
+
+  .catalog-card,
+  .catalog-preview-card,
+  .catalog-form-actions {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .catalog-pricing-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-card-header,
+  .catalog-fields,
+  .catalog-preview-card {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .catalog-form-actions div {
+    display: none;
+  }
+
+  :host ::ng-deep .catalog-form-actions .p-button {
+    width: 100%;
+  }
+}

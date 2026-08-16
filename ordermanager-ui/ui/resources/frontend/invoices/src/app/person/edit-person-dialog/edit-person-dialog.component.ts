@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { PersonFormModel } from "../../domain/domain.personformmodel";
@@ -34,7 +34,8 @@ export class EditPersonDialogComponent {
   isNoChangesInPersonModel: boolean = true
   /**person form group*/
   editPersonFG: FormGroup
-  @Input() visible: boolean = false
+  visible = input(false)
+  isVisible = false
   @Output() visibilityChanged = new EventEmitter<boolean>
   @Output() personModelChanges = new EventEmitter<PersonFormModel>
   protected readonly personType = personType;
@@ -48,6 +49,9 @@ export class EditPersonDialogComponent {
    * @param messagePrinter use for printing messages
    */
   constructor(public securityService: AppSecurityService, private formBuilder: FormBuilder, private messagePrinter: MessagesPrinter) {
+    effect(() => {
+      this.isVisible = this.visible();
+    });
     this.editPersonFG = this.formBuilder.group({
       personId: this.formBuilder.control<number | null>(null),
       personLastName: this.formBuilder.nonNullable.control(''),
@@ -84,13 +88,13 @@ export class EditPersonDialogComponent {
   get dialogStyle() {
     return this.isFullscreen
       ? { width: '100vw', height: '100vh', top: '0', left: '0' }
-      : { width: '60vw', height: '70vh' };
+      : { width: 'min(72rem, calc(100vw - 2rem))', maxHeight: 'calc(100vh - 2rem)' };
   }
 
   get dialogContentStyle() {
     return this.isFullscreen
-      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0' }
-      : { width: '60vw', height: '70vh'};
+      ? { height: 'calc(100vh - 3rem)', width: '100vw', top: '0', left: '0', overflow: 'auto' }
+      : { width: '100%', maxHeight: 'calc(100vh - 12rem)', overflow: 'auto' };
   }
 
   toggleFullscreen() {

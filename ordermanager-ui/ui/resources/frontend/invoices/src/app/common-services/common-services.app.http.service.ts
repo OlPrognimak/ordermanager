@@ -151,10 +151,7 @@ export class MessagesPrinter {
       handleError(error);
       errorText = 'With processing ' + messagePart + ' happens unexpected error.';
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 400) {
-          errorText = error.error.errorMessage;
-        }
-
+        errorText = this.extractErrorMessage(error, errorText);
       }
     } else {
       errorText = messagePart;
@@ -166,6 +163,26 @@ export class MessagesPrinter {
     };
     this.messageService.add(msg);
     this.utilService.hideMassage(msg, 10000);
+  }
+
+  private extractErrorMessage(error: HttpErrorResponse, fallback: string): string {
+    if (typeof error.error === 'string' && error.error.trim().length > 0) {
+      return error.error;
+    }
+
+    if (error.error?.errorMessage) {
+      return error.error.errorMessage;
+    }
+
+    if (error.error?.message) {
+      return error.error.message;
+    }
+
+    if (error.message) {
+      return error.message;
+    }
+
+    return fallback;
   }
 
 }

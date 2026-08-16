@@ -33,9 +33,8 @@ import { CreatedResponse, NewUser } from '../../domain/domain.invoiceformmodel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { CommonServicesUtilService } from "../../common-services/common-services-util.service";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
-import { AppSecurityService, remoteBackendUrl } from "../../common-auth/app-security.service";
+import { remoteBackendUrl } from "../../common-auth/app-security.service";
 import { NgForm } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 
@@ -43,22 +42,19 @@ import { Subject, takeUntil } from "rxjs";
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
   styleUrls: ['./user-registration.component.css'],
-  providers: [HttpClient, MessageService, CommonServicesUtilService, AppSecurityService, MessagesPrinter],
+  providers: [HttpClient, MessageService, MessagesPrinter],
 })
 export class UserRegistrationComponent implements OnInit, OnDestroy {
 
   public newUser: NewUser = new NewUser();
   //backendUrl: string;
-  basicAuthKey = 'basicAuthKey';
   notifier = new Subject()
+  isSubmitting = false
   private isUserNameError: boolean = false
   private isPasswordError: boolean = false
   private isRepeatPasswordError: boolean = false
 
   constructor(private httpClient: HttpClient,
-              private messageService: MessageService,
-              private utilService: CommonServicesUtilService,
-              private appSecurityService: AppSecurityService,
               public router: Router, private messagePrinter: MessagesPrinter) {
     //this.backendUrl = environment.baseUrl;
 
@@ -77,18 +73,18 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
   }
 
   registerUser(form: NgForm): void {
-    if (this.newUser.userPassword !== this.newUser.userPasswordRepeat) {
-      this.messagePrinter.printUnsuccessefulMessage("The repeated password is not equals to password.", null)
-    } else {
-      this.registerUserInternal(this.newUser, this.router, this.messagePrinter);
+    if (this.passwordMismatch) {
+      this.messagePrinter.printUnsuccessefulMessage("The repeated password does not match the password.", null)
+      return;
     }
+    this.registerUserInternal(form);
   }
 
   /**
    * save new user in the database
    */
-  registerUserInternal(intNewUser: NewUser, intRouter: Router, intMsgPrinter: MessagesPrinter) {
-
+  registerUserInternal(form: NgForm): void {
+    this.isSubmitting = true;
     const headers = new HttpHeaders({
       'User-Name': this.newUser.userName,
       'User-Password': this.newUser.userPassword,
@@ -101,22 +97,28 @@ export class UserRegistrationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.notifier))
       .subscribe(
         {
-          next(response) {
+          next: (response) => {
+            this.isSubmitting = false;
             console.log(JSON.stringify(response))
-            intNewUser.userName = ''
-            intNewUser.userPassword = ''
-            intNewUser.userPasswordRepeat = ''
-            intMsgPrinter.printSuccessMessage('You are successfully registered.')
+            this.newUser = new NewUser();
+            form.resetForm(this.newUser);
+            this.messagePrinter.printSuccessMessage('User')
           },
-          error(err) {
+          error: (err) => {
+            this.isSubmitting = false;
             console.log(JSON.stringify(err));
-            intMsgPrinter.printUnsuccessefulMessage('You are not registered. Some error occurs. Please inform administrator.', err)
+            this.messagePrinter.printUnsuccessefulMessage('You are not registered. Some error occurs. Please inform administrator.', err)
           }
         }
       )
   }
 
-  haveErrors() {
+  get passwordMismatch(): boolean {
+    return Boolean(this.newUser.userPasswordRepeat) &&
+      this.newUser.userPassword !== this.newUser.userPasswordRepeat;
+  }
+
+  haveErrors(): boolean {
     return this.isPasswordError || this.isUserNameError || this.isRepeatPasswordError
   }
 

@@ -230,10 +230,6 @@ public class InvoiceService {
         } else {
             itemCatalogList = itemCatalogRepository
                     .findByDescriptionContainingOrShortDescriptionContaining(criteria, criteria);
-            if (itemCatalogList.isEmpty()) {
-                logger.error("Can not find catalog items by criteria :{0}", criteria);
-                throw new OrderManagerException(CODE_0000, "Can not find catalog items by criteria :" + criteria);
-            }
         }
 
         return itemCatalogList;

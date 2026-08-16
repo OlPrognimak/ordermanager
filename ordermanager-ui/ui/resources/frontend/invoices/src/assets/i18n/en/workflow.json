@@ -1,6 +1,22 @@
 {
   "workflow": {
     "invoice": {
+      "eyebrow": "Guided invoice creation",
+      "title": "Create invoice",
+      "subtitle": "Complete each step. Your entries stay available while you move between steps.",
+      "navigation": "Invoice workflow steps",
+      "step_count": "Step {{current}} of {{total}}",
+      "previous_values": "Previous selections",
+      "previous": "Previous",
+      "next": "Continue",
+      "save": "Save invoice",
+      "select_person": "Select person",
+      "create_person": "Create new person",
+      "review": {
+        "items": "Invoice items",
+        "totals": "Totals",
+        "not_selected": "Not selected"
+      },
       "steps": {
         "set_invoice_type_number": "Set Invoice Type/Number",
         "set_invoice_date": "Set Invoice date",

@@ -1,112 +1,117 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SplitterModule } from "primeng/splitter";
-import { TimelineModule } from "primeng/timeline";
-import { WorkflowEventsModel } from "./model/workflow.events.model";
-import { WorkflowStatuses } from "./state/invoice.state";
-import { Store } from "@ngrx/store";
-import { InvoiceActions } from "./state/invoice.actions";
+import {CommonModule} from '@angular/common';
+import {Component, OnDestroy, OnInit, viewChild} from '@angular/core';
+import {FormsModule, NgForm} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Store} from '@ngrx/store';
+import {TranslocoPipe, TranslocoService} from '@jsverse/transloco';
+import {Subject, takeUntil} from 'rxjs';
+import {ButtonModule} from 'primeng/button';
+import {FloatLabel} from 'primeng/floatlabel';
+import {InputTextModule} from 'primeng/inputtext';
+import {TableModule} from 'primeng/table';
+import {ToastModule} from 'primeng/toast';
+
+import {ValidatableCalendarModule} from '../../common-components/validatable-calendar/validatable-calendar.component';
+import {ValidatableDropdownlistModule} from '../../common-components/validatable-dropdownlist/validatable-dropdownlist.component';
+import {ValidatableInputTextComponent} from '../../common-components/validatable-input-text/validatable-input-text.component';
+import {InvoicePipesModule} from '../../common-pipes/common-services.pipes.number';
+import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
+import {invoiceRate, isAuthenticated} from '../../common-services/common-services-util.service';
 import {
   DropdownDataType,
   InvoiceFormModel,
   InvoiceFormModelInterface,
-  InvoiceItemModel, InvoiceItemModelInterface
-} from "../../domain/domain.invoiceformmodel";
-import {invoiceRate, isAuthenticated, printToJson} from "../../common-services/common-services-util.service";
-import {FormsModule, NgForm} from "@angular/forms";
-import { InputTextModule } from "primeng/inputtext";
-import {
-  ValidatableDropdownlistModule
-} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import { ButtonModule } from "primeng/button";
-import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
-import {CommonServicesAppHttpService, MessagesPrinter} from "../../common-services/common-services.app.http.service";
-import { InvoiceFormModule } from "../../invoice/invoiceform/invoiceform.component";
-import {Observable, of, Subject, takeUntil} from "rxjs";
-import { InvoiceItemsTableComponent } from "../../invoice/invoice-items-table/invoice-items-table.component";
-import { InvoiceFormValidator } from "../../invoice/invoiceform/invoice.form.validator";
-import { ActivatedRoute, Router } from "@angular/router";
-import {
-  InvoiceItemsTableCalculatorService
-} from "../../invoice/invoice-items-table/invoice-items-table.calculator.service";
-import {
-  ValidatableInputTextComponent
-} from "../../common-components/validatable-input-text/validatable-input-text.component";
-import {FloatLabel} from "primeng/floatlabel";
-import {TranslocoPipe, TranslocoService} from "@jsverse/transloco";
-
-
-const CHECK_CIRCLE:string = "pi pi-check-circle"
-const OFF_CIRCLE:string = "pi pi-circle-off"
+  InvoiceItemModel
+} from '../../domain/domain.invoiceformmodel';
+import {InvoiceFormModule} from '../../invoice/invoiceform/invoiceform.component';
+import {InvoiceItemsTableCalculatorService} from '../../invoice/invoice-items-table/invoice-items-table.calculator.service';
+import {InvoiceItemsTableService} from '../../invoice/invoice-items-table/invoice-items-table.service';
+import {WorkflowEventsModel} from './model/workflow.events.model';
+import {InvoiceActions} from './state/invoice.actions';
+import {WorkflowStatuses} from './state/invoice.state';
 
 @Component({
   selector: 'app-invoice-workflow',
   standalone: true,
-  imports: [CommonModule, SplitterModule, TimelineModule, FormsModule, InputTextModule, ValidatableDropdownlistModule, ButtonModule, ValidatableCalendarModule, InvoiceFormModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
+  imports: [
+    ButtonModule,
+    CommonModule,
+    FloatLabel,
+    FormsModule,
+    InputTextModule,
+    InvoiceFormModule,
+    InvoicePipesModule,
+    TableModule,
+    ToastModule,
+    TranslocoPipe,
+    ValidatableCalendarModule,
+    ValidatableDropdownlistModule,
+    ValidatableInputTextComponent
+  ],
   templateUrl: './invoice-workflow.component.html',
   styleUrls: ['./invoice-workflow.component.css']
 })
-export class InvoiceWorkflowComponent extends InvoiceFormValidator implements OnInit, AfterViewInit {
-  createInvoiceFlowEvents: any[]
-  @Input() invoice: InvoiceFormModelInterface
-  //TODO Use as source for items
-  workflowInvoiceItems: InvoiceItemModelInterface[] = []
-  @ViewChild('workflowFrm') workflowFrm: NgForm
-  /** Model invoice supplier for dropdown component */
-  @Input() personInvoiceSupplier: DropdownDataType[];
-  /** Model invoice recipient for dropdown component */
-  @Input() personInvoiceRecipient: DropdownDataType[];
-  eventsModelIsReset: Subject<void> = new Subject<void>();
-  @ViewChild("itemsTableRef") itemsTableComponent: InvoiceItemsTableComponent;
-  currentStatus: WorkflowEventsModel
+export class InvoiceWorkflowComponent implements OnInit, OnDestroy {
+  workflowFrm = viewChild.required<NgForm>('workflowFrm');
+  createInvoiceFlowEvents: WorkflowEventsModel[] = [];
+  currentStepIndex = 0;
+  invoice: InvoiceFormModelInterface = new InvoiceFormModel();
+  workflowInvoiceItems: InvoiceItemModel[] = [];
+  catalogInvoiceItems: DropdownDataType[] = [];
+  personInvoiceSupplier: DropdownDataType[] = [];
+  personInvoiceRecipient: DropdownDataType[] = [];
+  isSaving = false;
+
   protected readonly invoiceRate = invoiceRate;
   protected readonly isAuthenticated = isAuthenticated;
   private readonly destroy$ = new Subject<void>();
 
+  constructor(
+    private readonly store: Store<any>,
+    private readonly httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
+    private readonly messagePrinter: MessagesPrinter,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly invoiceItemsTableCalculatorService: InvoiceItemsTableCalculatorService,
+    private readonly invoiceItemsTableService: InvoiceItemsTableService,
+    private readonly translocoService: TranslocoService
+  ) {
+  }
 
-  constructor(private store: Store<any>,
-              private httpService: CommonServicesAppHttpService<InvoiceFormModelInterface>,
-              private messagePrinter: MessagesPrinter,
-              private router: Router,
-              private route: ActivatedRoute,
-              private cdr: ChangeDetectorRef,
-              private invoiceItemsTableCalculatorService: InvoiceItemsTableCalculatorService,
-              private translocoService: TranslocoService) {
-    super()
+  get currentStatus(): WorkflowEventsModel {
+    return this.createInvoiceFlowEvents[this.currentStepIndex];
+  }
+
+  get progressPercent(): number {
+    return ((this.currentStepIndex + 1) / this.createInvoiceFlowEvents.length) * 100;
   }
 
   ngOnInit(): void {
-    this.loadPersons()
-    this.translocoService.selectTranslation()/*.langChanges$*/
+    this.prepareInvoiceFlow();
+    this.loadPersons();
+    this.loadCatalogItems();
+
+    this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.prepareInvoiceFlow();
+      .subscribe(() => this.prepareInvoiceFlow());
+
+    this.store.select('invoiceWorkflow')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(state => {
+        if (!state?.data) {
+          return;
+        }
+        this.invoice = Object.assign(new InvoiceFormModel(), state.data);
+        this.workflowInvoiceItems = (state.data.invoiceItems ?? []).map(item => ({...item}));
+        this.invoice.invoiceItems = this.workflowInvoiceItems;
       });
 
-    this.route.queryParams.subscribe(params => {
-      const createPersonType = params['createPerson'];
-      if (createPersonType === 'creator') {
-        this.currentStatus = this.createInvoiceFlowEvents[2]
-      } else if (createPersonType === 'recipient') {
-        this.currentStatus = this.createInvoiceFlowEvents[3]
-      } else {
-        this.currentStatus = this.createInvoiceFlowEvents[0]
-      }
-
-    });
-
-    this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
-    this.store.subscribe(state => {
-      this.invoice = Object.assign(new InvoiceFormModel(), state?.invoiceWorkflow.data)
-      this.invoice.invoiceItems = Object.assign([], state.invoiceWorkflow.data.invoiceItems)
-      this.workflowInvoiceItems = []
-      //Fill with data from stage
-      state.invoiceWorkflow.data.invoiceItems.map(item => {
-        this.workflowInvoiceItems.push( {...item})
-      })
-
-    })
-
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const personType = params['createPerson'];
+        this.currentStepIndex = personType === 'creator' ? 2 : personType === 'recipient' ? 3 : 0;
+      });
   }
 
   ngOnDestroy(): void {
@@ -114,286 +119,214 @@ export class InvoiceWorkflowComponent extends InvoiceFormValidator implements On
     this.destroy$.complete();
   }
 
+  setWorkflowStep(stepIndex: number): void {
+    if (stepIndex < 0 || stepIndex >= this.createInvoiceFlowEvents.length) {
+      return;
+    }
+    this.persistInvoice();
+    const firstIncompleteStep = this.firstIncompleteStepBefore(stepIndex);
+    if (firstIncompleteStep !== -1) {
+      this.currentStepIndex = firstIncompleteStep;
+      this.markCurrentStepTouched();
+      return;
+    }
 
-  private prepareInvoiceFlow() {
-    this.createInvoiceFlowEvents = [
-      new WorkflowEventsModel({
-        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_type_number'),
-        status: WorkflowStatuses.SET_INVOICE_TYPE,
-        level: 0
-      }),
-      new WorkflowEventsModel({
-        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_date'),
-        status: WorkflowStatuses.SET_INVOICE_DATE,
-        level: 1
-      }),
-      new WorkflowEventsModel({
-        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_creator'),
-        status: WorkflowStatuses.SET_INVOICE_CREATOR,
-        level: 2
-      }),
-      new WorkflowEventsModel({
-        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_recipient'),
-        status: WorkflowStatuses.SET_INVOICE_RECIPIENT,
-        level: 3
-      }),
-      new WorkflowEventsModel({
-        statusDesc: this.translocoService.translate('workflow.invoice.steps.set_invoice_items'),
-        status: WorkflowStatuses.SET_INVOICE_ITEMS,
-        level: 4
-      }),
-      new WorkflowEventsModel({
-        statusDesc: this.translocoService.translate('workflow.invoice.steps.save_invoice'),
-        status: WorkflowStatuses.SAVE_INVOICE,
-        level: 5
-      }),
-    ];
+    this.currentStepIndex = stepIndex;
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
-  /**
-   * Set current selected workflow step
-   *
-   * @param selectedModel the selected model on workflow step
-   */Action
-  setWorkflowStep(selectedModel: WorkflowEventsModel) {
-
-     const clonedItems = Object.assign([],this.workflowInvoiceItems)
-     this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
-      Object.assign(new InvoiceFormModel(), this.invoice))
-    this.currentStatus = selectedModel
+  saveAndNext(): void {
+    if (!this.isCurrentStepComplete() || this.currentStepIndex >= this.createInvoiceFlowEvents.length - 1) {
+      return;
+    }
+    this.setWorkflowStep(this.currentStepIndex + 1);
   }
 
-  /**
-   * Saves previous status after changing a flow step
-   *
-   * @param prevWorkflowModel previous selected workflow model before changing to a new workflow step
-   * @param invoiceFormModel the current invoice model
-   */
-  savePreviousStatus(prevWorkflowModel: WorkflowEventsModel, invoiceFormModel: InvoiceFormModelInterface) {
-    this.invoice.invoiceItems = []
-    this.workflowInvoiceItems.map( item => {
-      this.invoice.invoiceItems.push({...item})
-    })
-    this.store.dispatch({type: prevWorkflowModel.status, data: this.invoice})
+  movePreviousStep(): void {
+    this.setWorkflowStep(this.currentStepIndex - 1);
   }
 
+  isCurrentStepComplete(): boolean {
+    return this.isStepComplete(this.currentStepIndex);
+  }
 
-  /**
-   * Loads persons from server
-   */
-  loadPersons() {
+  isStepComplete(stepIndex: number): boolean {
+    switch (stepIndex) {
+      case 0:
+        return !this.hasErrorsInvoiceType();
+      case 1:
+        return !this.hasErrorsDates();
+      case 2:
+        return !!this.invoice.personSupplierId;
+      case 3:
+        return !!this.invoice.personRecipientId;
+      case 4:
+        return !this.haveInvoiceItemsError(this.workflowInvoiceItems);
+      case 5:
+        return !this.haveErrors(this.workflowInvoiceItems);
+      default:
+        return false;
+    }
+  }
+
+  stepState(stepIndex: number): 'active' | 'complete' | 'incomplete' {
+    if (stepIndex === this.currentStepIndex) {
+      return 'active';
+    }
+    return this.isStepComplete(stepIndex) ? 'complete' : 'incomplete';
+  }
+
+  hasErrorsInvoiceType(): boolean {
+    return !this.invoice.invoiceNumber || this.invoice.invoiceNumber.length < 5 || !this.invoice.rateType;
+  }
+
+  hasErrorsDates(): boolean {
+    return !this.invoice.invoiceDate || !this.invoice.creationDate;
+  }
+
+  loadPersons(): void {
     this.httpService.loadDropdownData('person/personsdropdown', callback => {
       if (callback !== null) {
         this.personInvoiceRecipient = callback;
         this.personInvoiceSupplier = callback;
       }
-    })
-  }
-
-  /**
-   * Saves person to the database on server
-   * @param event the item for saving
-   */
-  saveInvoice(event: any): void {
-   this.invoice.totalSumNetto = this.invoiceItemsTableCalculatorService.totalNettoSum()
-    this.invoice.totalSumBrutto =  this.invoiceItemsTableCalculatorService.totalBruttoSum()
-    printToJson(this.invoice)
-    this.httpService.putObjectToServer('PUT', this.invoice, 'Invoice',
-      'invoice', (callback) => {
-        if (callback) {
-          setTimeout(() => {
-            this.resetModel();
-          }, 4000);
-
-        }
-      });
-  }
-
-  /**
-   * Make available for editing of components in view for currently selected workflow step and disable the rest of steps.
-   *
-   * @param level the level of selected workflow step
-   */
-  editStyle(level: number): any {
-    if (this.currentStatus.level === level) {
-      return {}
-    } else {
-      return {'pointer-events': 'none', opacity: '65%'}
-    }
-  }
-
-  hasErrorsInvoiceType() {
-    return this.hasInvoiceNumberError || this.hasInvoiceCreatesError
-  }
-
-  hasErrorsDates() {
-    return this.hasInvoiceDateError || this.hasCreationDateError
-  }
-
-  hasErrorsPersons() {
-    return this.hasCreatorError || this.hasRecipientError
-  }
-
-  /**
-   * Define the style of workflow buttons.
-   * - In case if button is selected than the color of this button will be blue
-   *
-   * @param flowEvent the flow event object from currently processed workflow step
-   */
-  flowButtonStyle(flowEvent: WorkflowEventsModel): any {
-    let style = {}
-    const curColor: string = this.getColor(flowEvent);
-    flowEvent.isDataFilled = (curColor !== 'red')
-    if (flowEvent.level === this.currentStatus.level) {
-      style = {'background-color': '#1D537EFF', color: curColor}
-    } else {
-      style = {color: this.getColor(flowEvent)}
-    }
-    return style
-  }
-
-  /**
-   * Provides icon for steps in flow. In case if items of step are filled then will be provided checked circle
-   * in another case will be provided simple circle item.
-   *
-   * @param flowEvent the event of flow
-   */
-  getTimelineIcon(flowEvent: WorkflowEventsModel) : boolean {
-    if((flowEvent.isDataFilled&&flowEvent.clsName !== CHECK_CIRCLE) ||
-      (!flowEvent.isDataFilled && flowEvent.clsName !== OFF_CIRCLE)) {
-      setTimeout(() => {
-        if (flowEvent.isDataFilled) {
-          flowEvent.clsName = CHECK_CIRCLE
-        } else {
-          flowEvent.clsName = OFF_CIRCLE
-        }
-      })
-    }
-    return true;
-  }
-
-  /**
-   * Defines the font color.
-   *
-   *   - in case if the components in step will contain errors than the font color will be red
-   *   - in case if the components in step will not have errors than the font color will be white
-   *
-   * @param flowEvent the flow event object from currently processed workflow step
-   */
-  getColor(flowEvent: WorkflowEventsModel): string {
-    let fontColor: string = 'white'
-    switch (flowEvent.status) {
-      case WorkflowStatuses.SET_INVOICE_TYPE: {
-        if (this.hasErrorsInvoiceType()) {
-          fontColor = 'red'
-        }
-        return fontColor
-      }
-      case WorkflowStatuses.SET_INVOICE_DATE: {
-        if (this.hasErrorsDates() || this.hasErrorsDates() === undefined) {
-          fontColor = 'red'
-        }
-        return fontColor
-      }
-      case WorkflowStatuses.SET_INVOICE_CREATOR: {
-        if (this.hasCreatorError) {
-          fontColor = 'red'
-        }
-        return fontColor
-      }
-      case WorkflowStatuses.SET_INVOICE_RECIPIENT: {
-        if (this.hasRecipientError) {
-          fontColor = 'red'
-        }
-
-        return fontColor
-      }
-      case WorkflowStatuses.SET_INVOICE_ITEMS: {
-        if (this.haveInvoiceItemsError(this.workflowInvoiceItems)) {
-          fontColor = 'red'
-        }
-        return fontColor
-      }
-
-      case WorkflowStatuses.SAVE_INVOICE: {
-        if (this.haveErrors(this.workflowInvoiceItems)) {
-          fontColor = 'red'
-        }
-        return fontColor
-      }
-
-      default: {
-        return fontColor
-      }
-
-    }
-  }
-
-  saveAndNext(currentStatus: WorkflowEventsModel) {
-    this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level + 1])
-  }
-
-  movePreviousStep(currentStatus: WorkflowEventsModel) {
-    this.setWorkflowStep(this.createInvoiceFlowEvents[currentStatus.level - 1])
-  }
-
-  createInvoiceCreator() {
-    this.router.navigate(["/create-person_page"], {queryParams: {createPerson: 'creator'}})
-  }
-
-  createInvoiceRecipient() {
-    this.router.navigate(["/create-person_page"], {queryParams: {createPerson: 'recipient'}})
-  }
-
-  onSupplierChanged(event: any) {
-    if (event !== null) {
-      this.invoice.personSupplierId = event
-    }
-  }
-
-  /**
-   * Resets ngrx store and data model
-   *
-   * @private
-   */
-  protected resetModel() {
-    this.currentStatus = this.createInvoiceFlowEvents[0]
-    this.store.dispatch({type: InvoiceActions.loadInvoiceAction.type})
-    this.store.subscribe(state => {
-      this.invoice = Object.assign(new InvoiceFormModel(), new InvoiceItemModel())
-      this.invoice.invoiceItems = Object.assign([], [])
-      this.workflowInvoiceItems = Object.assign([], [])
-    })
-
-  }
-
-  private formInit() {
-    this.workflowFrm?.valueChanges?.subscribe(value => {
-        this.cdr.detectChanges();
     });
   }
 
-  ngAfterViewInit(): void {
-   this.formInit();
+  createInvoiceCreator(): void {
+    this.openPersonForm('creator');
   }
 
-  /**
-   *
-   * @param $event the model
-   */
-  itemValueChanged($event: any) {
-    //TODO may be need to implement changes in invoice item
-
-    // this.savePreviousStatus(new WorkflowEventsModel(this.currentStatus),
-    //   Object.assign(new InvoiceFormModel(), this.invoice))
-    //
-    // console.log("######  I N V O C E   E V E N T:" + JSON.stringify( $event))
-    //
-    // this.store.dispatch({type: WorkflowStatuses.SAVE_INVOICE_ITEM, data: this.invoice})
+  createInvoiceRecipient(): void {
+    this.openPersonForm('recipient');
   }
 
-  invoiceItemsChanges($event: InvoiceItemModel[]) {
-    this.workflowInvoiceItems = Object.assign([], $event)
+  invoiceItemsChanges(items: InvoiceItemModel[]): void {
+    this.workflowInvoiceItems = items.map(item => ({...item}));
+    this.invoice.invoiceItems = this.workflowInvoiceItems;
   }
 
+  personLabel(personId: string): string {
+    return this.personInvoiceSupplier.find(person => String(person.value) === String(personId))?.label
+      ?? this.translocoService.translate('workflow.invoice.review.not_selected');
+  }
+
+  rateLabel(rateType: string): string {
+    return this.invoiceRate.find(rate => rate.value === rateType)?.label
+      ?? this.translocoService.translate('workflow.invoice.review.not_selected');
+  }
+
+  itemLabel(item: InvoiceItemModel): string {
+    return this.catalogInvoiceItems.find(catalogItem => Number(catalogItem.value) === Number(item.catalogItemId))?.label
+      ?? item.description
+      ?? String(item.catalogItemId ?? this.translocoService.translate('workflow.invoice.review.not_selected'));
+  }
+
+  totalNettoSum(items: InvoiceItemModel[]): number {
+    return Number(items.reduce((sum, item) => sum + Number(item.sumNetto ?? 0), 0).toFixed(2));
+  }
+
+  totalBruttoSum(items: InvoiceItemModel[]): number {
+    return Number(items.reduce((sum, item) => sum + Number(item.sumBrutto ?? 0), 0).toFixed(2));
+  }
+
+  saveInvoice(): void {
+    if (this.haveErrors(this.workflowInvoiceItems) || this.isSaving) {
+      return;
+    }
+
+    this.isSaving = true;
+    this.persistInvoice();
+    this.invoice.totalSumNetto = this.invoiceItemsTableCalculatorService.totalNettoSum();
+    this.invoice.totalSumBrutto = this.invoiceItemsTableCalculatorService.totalBruttoSum();
+
+    this.httpService.putObjectToServer('PUT', this.invoice, 'Invoice', 'invoice', callback => {
+      this.isSaving = false;
+      if (callback) {
+        this.messagePrinter.printSuccessMessage('Invoice');
+        this.resetModel();
+      }
+    });
+  }
+
+  private openPersonForm(personType: 'creator' | 'recipient'): void {
+    this.persistInvoice();
+    this.router.navigate(['/create-person-page'], {queryParams: {createPerson: personType}});
+  }
+
+  private persistInvoice(): void {
+    this.invoice.invoiceItems = this.workflowInvoiceItems.map(item => ({...item}));
+    this.store.dispatch(InvoiceActions.updateInvoice({data: {...this.invoice}}));
+  }
+
+  private loadCatalogItems(): void {
+    this.invoiceItemsTableService.downloadCatalogItemsDropdownList(callback => {
+      if (callback) {
+        this.catalogInvoiceItems = callback;
+      }
+    });
+  }
+
+  private firstIncompleteStepBefore(stepIndex: number): number {
+    if (stepIndex <= this.currentStepIndex) {
+      return -1;
+    }
+
+    for (let index = 0; index < stepIndex; index++) {
+      if (!this.isStepComplete(index)) {
+        return index;
+      }
+    }
+
+    return -1;
+  }
+
+  private markCurrentStepTouched(): void {
+    setTimeout(() => this.workflowFrm().form.markAllAsTouched());
+  }
+
+  private resetModel(): void {
+    this.currentStepIndex = 0;
+    this.invoice = new InvoiceFormModel();
+    this.workflowInvoiceItems = [];
+    this.invoiceItemsTableCalculatorService.invoiceItems.set([]);
+    this.store.dispatch(InvoiceActions.resetInvoice());
+  }
+
+  private prepareInvoiceFlow(): void {
+    const statuses = [
+      WorkflowStatuses.SET_INVOICE_TYPE,
+      WorkflowStatuses.SET_INVOICE_DATE,
+      WorkflowStatuses.SET_INVOICE_CREATOR,
+      WorkflowStatuses.SET_INVOICE_RECIPIENT,
+      WorkflowStatuses.SET_INVOICE_ITEMS,
+      WorkflowStatuses.SAVE_INVOICE
+    ];
+    const keys = [
+      'set_invoice_type_number',
+      'set_invoice_date',
+      'set_invoice_creator',
+      'set_invoice_recipient',
+      'set_invoice_items',
+      'save_invoice'
+    ];
+
+    this.createInvoiceFlowEvents = keys.map((key, level) => new WorkflowEventsModel({
+      statusDesc: this.translocoService.translate(`workflow.invoice.steps.${key}`),
+      status: statuses[level],
+      level
+    }));
+  }
+
+  haveErrors(items: InvoiceItemModel[]): boolean {
+    return this.hasErrorsInvoiceType()
+      || this.hasErrorsDates()
+      || !this.invoice.personSupplierId
+      || !this.invoice.personRecipientId
+      || this.haveInvoiceItemsError(items);
+  }
+
+  haveInvoiceItemsError(items: InvoiceItemModel[]): boolean {
+    return !items?.length || items.some(item => item.amountItems === undefined || item.amountItems <= 0);
+  }
 }

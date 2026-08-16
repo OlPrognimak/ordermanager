@@ -1,122 +1,150 @@
-<div *ngIf="isAuthenticated();" class="p-fluid p-flex-row management-page-style">
-  <p-toast></p-toast>
-  <div class="p-grid base-top-grid-area">
-    <H2 class="u-ml-10pt">{{ 'invoice.management.title' | transloco }}</H2>
-    <div class="p-col-12 invoice-management-table-wrapper-height">
-      <app-dateperiod-finder #dataFinder (onFinderIsReady)="finderIsReady($event)"
-                             (responseOutput)="invoices = $event" [url]="'invoice/invoicesListPeriod'"/>
-    </div>
-    <div class="p-col-12 p-shadow-4 top-container-table-area">
-      <div class="table-area">
-        <p-table [(selection)]="selectedInvoice"
-                 [autoLayout]="true"
-                 [metaKeySelection]=keySelection
-                 [resizableColumns]="true"
-                 [rows]="20"
-                 [value]="invoices"
-                 editMode="row"
-                 paginator="true"
-                 selectionMode="multiple"
-                 sortMode="multiple" styleClass="p-datatable-gridlines">
+@if (isAuthenticated()) {
+  <main class="invoice-management-page">
+    <p-toast></p-toast>
+
+    <header class="invoice-management-header">
+      <div>
+        <span class="invoice-management-eyebrow">{{ 'invoice.management.eyebrow' | transloco }}</span>
+        <h1>{{ 'invoice.management.title' | transloco }}</h1>
+        <p>{{ 'invoice.management.subtitle' | transloco }}</p>
+      </div>
+      <div class="invoice-management-stat">
+        <strong>{{ invoices.length }}</strong>
+        <span>{{ 'invoice.management.records' | transloco }}</span>
+      </div>
+    </header>
+
+    <app-dateperiod-finder
+      #dataFinder
+      (onFinderIsReady)="finderIsReady($event)"
+      (responseOutput)="invoices = $event"
+      [url]="'invoice/invoicesListPeriod'">
+    </app-dateperiod-finder>
+
+    <section class="invoice-management-results">
+      <div class="invoice-management-results-heading">
+        <div>
+          <h2>{{ 'invoice.management.results_title' | transloco }}</h2>
+          <span>{{ 'invoice.management.results_hint' | transloco }}</span>
+        </div>
+        @if (!haveNoChanges()) {
+          <span class="invoice-management-change-badge">
+            {{ changesList.length }} {{ 'invoice.management.changed' | transloco }}
+          </span>
+        }
+      </div>
+
+      <div class="invoice-management-table-scroll">
+        <p-table
+          [(selection)]="selectedInvoice"
+          [metaKeySelection]="keySelection"
+          [resizableColumns]="true"
+          [rows]="20"
+          [value]="invoices"
+          paginator="true"
+          selectionMode="multiple"
+          sortMode="multiple"
+          styleClass="p-datatable-gridlines">
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="invoiceNumber" class="u-w-10">{{ 'invoice.management.table.invoice_number' | transloco }}
+              <th pSortableColumn="invoiceNumber">{{ 'invoice.management.table.invoice_number' | transloco }}
                 <p-sortIcon field="invoiceNumber"></p-sortIcon>
               </th>
-              <th pSortableColumn="supplierFullName" class="u-w-25">{{ 'invoice.management.table.supplier' | transloco }}
+              <th pSortableColumn="supplierFullName">{{ 'invoice.management.table.supplier' | transloco }}
                 <p-sortIcon field="supplierFullName"></p-sortIcon>
               </th>
-              <th pSortableColumn="recipientFullName" class="u-w-25">{{ 'invoice.management.table.recipient' | transloco }}
+              <th pSortableColumn="recipientFullName">{{ 'invoice.management.table.recipient' | transloco }}
                 <p-sortIcon field="recipientFullName"></p-sortIcon>
               </th>
-              <th pSortableColumn="invoiceDate" class="u-w-10">{{ 'invoice.management.table.invoice_date' | transloco }}
+              <th pSortableColumn="invoiceDate">{{ 'invoice.management.table.invoice_date' | transloco }}
                 <p-sortIcon field="invoiceDate"></p-sortIcon>
               </th>
-              <th pSortableColumn="creationDate" class="u-w-10">{{ 'invoice.management.table.creation_date' | transloco }}
+              <th pSortableColumn="creationDate">{{ 'invoice.management.table.creation_date' | transloco }}
                 <p-sortIcon field="creationDate"></p-sortIcon>
               </th>
-              <th pSortableColumn="totalSumNetto" class="u-w-10">{{ 'invoice.management.table.netto_sum' | transloco }}
+              <th pSortableColumn="totalSumNetto">{{ 'invoice.management.table.netto_sum' | transloco }}
                 <p-sortIcon field="totalSumNetto"></p-sortIcon>
               </th>
-              <th pSortableColumn="totalSumBrutto" class="u-w-10">{{ 'invoice.management.table.brutto_sum' | transloco }}
+              <th pSortableColumn="totalSumBrutto">{{ 'invoice.management.table.brutto_sum' | transloco }}
                 <p-sortIcon field="totalSumBrutto"></p-sortIcon>
               </th>
-              <th class="u-w-5">{{ 'common.table.manage' | transloco }}</th>
+              <th class="invoice-management-actions-column">{{ 'common.table.manage' | transloco }}</th>
             </tr>
           </ng-template>
-          <ng-template let-invoice let-rowIndex="rowIndex" pTemplate="body">
-            <tr (dblclick)="rowDoubleClick($event, invoice)" [ngStyle]="{'color':isEditObjectChanged(invoice)}"
-                [pSelectableRowIndex]="rowIndex"
-                [pSelectableRow]="invoice"
-                title="{{ 'management.tooltips.edit_invoice' | transloco }}">
-              <td>
-                <div>{{invoice.invoiceNumber}}</div>
-              </td>
-              <td>
-                <div>{{invoice.supplierFullName}}</div>
-              </td>
-              <td>
-                <div>{{invoice.recipientFullName}}</div>
-              </td>
 
-              <td>
-                <div>{{invoice.invoiceDate | dateType: 'DD.MM.YYYY'}}</div>
-              </td>
-              <td>
-                <div>{{convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY'}}</div>
-              </td>
-              <td>
-                <div class="number-right-align">{{invoice.totalSumNetto|standardFloat}}</div>
-              </td>
-              <td>
-                <div class="number-right-align">{{invoice.totalSumBrutto|standardFloat}}</div>
-              </td>
-              <td>
-                <button (click)="deleteInvoice(invoice.id)" class="p-button-rounded p-button-warning"
-                        pButton pRipple
-                        title="{{ 'common.tooltips.delete_item' | transloco }}">
-                  <i class="pi pi-trash"></i>
-                </button>
-                <button (click)="rowDoubleClick($event, invoice)" class="p-button-rounded p-button-warning undo-button"
-                        pButton pRipple
-                        title="{{ 'common.tooltips.edit_item' | transloco }}">
-                  <i class="pi pi-pencil"></i>
-                </button>
-                <button (click)="rollbackChanges(invoice.id)" class="p-button-rounded p-button-warning undo-button"
-                        pButton
-                        pRipple
-                        title="{{ 'common.tooltips.rollback_item' | transloco }}">
-                           <i class="pi pi-undo"></i>
-                </button>
+          <ng-template let-invoice let-rowIndex="rowIndex" pTemplate="body">
+            <tr
+              (dblclick)="rowDoubleClick($event, invoice)"
+              [class.invoice-management-row-changed]="isInvoiceChanged(invoice)"
+              [pSelectableRowIndex]="rowIndex"
+              [pSelectableRow]="invoice">
+              <td><strong>{{ invoice.invoiceNumber }}</strong></td>
+              <td>{{ invoice.supplierFullName }}</td>
+              <td>{{ invoice.recipientFullName }}</td>
+              <td>{{ invoice.invoiceDate | dateType: 'DD.MM.YYYY' }}</td>
+              <td>{{ convertToDate(invoice.creationDate) | dateType: 'DD.MM.YYYY' }}</td>
+              <td class="invoice-management-money">{{ invoice.totalSumNetto | standardFloat }}</td>
+              <td class="invoice-management-money">{{ invoice.totalSumBrutto | standardFloat }}</td>
+              <td class="invoice-management-actions-column">
+                <div class="invoice-management-row-actions">
+                  <button type="button" (click)="rowDoubleClick($event, invoice)"
+                          class="p-button-rounded p-button-text" pButton pRipple
+                          [title]="'common.tooltips.edit_item' | transloco">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                  <button type="button" (click)="rollbackChanges(invoice.id)"
+                          class="p-button-rounded p-button-text" pButton pRipple
+                          [disabled]="!isInvoiceChanged(invoice)"
+                          [title]="'common.tooltips.rollback_item' | transloco">
+                    <i class="pi pi-undo"></i>
+                  </button>
+                  <button type="button" (click)="deleteInvoice(invoice.id)"
+                          class="p-button-rounded p-button-text p-button-danger" pButton pRipple
+                          [title]="'common.tooltips.delete_item' | transloco">
+                    <i class="pi pi-trash"></i>
+                  </button>
+                </div>
               </td>
             </tr>
+          </ng-template>
 
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8" class="invoice-management-empty">{{ 'invoice.management.no_results' | transloco }}</td>
+            </tr>
           </ng-template>
         </p-table>
       </div>
-    </div>
-    <div class="p-col-12 save-button-col-size">
-      <div class="save-button-container-size">
-        <p-button (onClick)="showSaveConfirmDialog = true" [disabled]="haveNoChanges()"
-                  [label]="'actions.save' | transloco"></p-button>
+    </section>
+
+    <footer class="invoice-management-save-bar">
+      <div>
+        <strong>{{ 'invoice.management.pending_title' | transloco }}</strong>
+        <span>{{ 'invoice.management.pending_hint' | transloco }}</span>
       </div>
-    </div>
-  </div>
-</div>
+      <p-button
+        (onClick)="showSaveConfirmDialog = true"
+        [disabled]="haveNoChanges()"
+        [label]="'common.actions.save' | transloco"
+        icon="pi pi-check">
+      </p-button>
+    </footer>
+  </main>
+}
 
-  <app-edit-invoice-dialog #invoiceDialog
-                           (editObjectChangedChanged)="putEditDialogChanges($event)"></app-edit-invoice-dialog>
+<app-edit-invoice-dialog #invoiceDialog
+                         (editObjectChangedChanged)="putEditDialogChanges($event)"></app-edit-invoice-dialog>
 
-  <app-confirmation-dialog #confirmDeleteInvoiceDialog
-                           [confirmMessage]="'invoice.management.confirm.delete' | transloco"
-                           (canceled)="handleCancelDeleteInvoice($event)"
-                           (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
-                           [display]="showDeleteConfirmDialog"
-                           [message]="deleteConfirmDialogMessage"></app-confirmation-dialog>
+<app-confirmation-dialog #confirmDeleteInvoiceDialog
+                         [confirmMessage]="'invoice.management.confirm.delete' | transloco"
+                         (canceled)="handleCancelDeleteInvoice($event)"
+                         (confirmed)="handleConfirmationDeleteInvoice(confirmDeleteInvoiceDialog.transferObject)"
+                         [display]="showDeleteConfirmDialog"
+                         [message]="deleteConfirmDialogMessage"></app-confirmation-dialog>
 
-  <app-confirmation-dialog #confirmUpdateInvoiceDialog
-                           (canceled)="handleCancelSaveInvoice($event)"
-                           (confirmed)="handleConfirmationSaveInvoice(confirmDeleteInvoiceDialog.transferObject)"
-                           [display]="showSaveConfirmDialog"
-                           [message]="saveConfirmDialogMessage"></app-confirmation-dialog>
-
+<app-confirmation-dialog #confirmUpdateInvoiceDialog
+                         (canceled)="handleCancelSaveInvoice($event)"
+                         (confirmed)="handleConfirmationSaveInvoice(confirmUpdateInvoiceDialog.transferObject)"
+                         [confirmMessage]="'invoice.management.confirm.save' | transloco"
+                         [display]="showSaveConfirmDialog"
+                         [message]="saveConfirmDialogMessage"></app-confirmation-dialog>
