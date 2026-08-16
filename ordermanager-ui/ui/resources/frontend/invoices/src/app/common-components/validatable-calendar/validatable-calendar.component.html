@@ -17,8 +17,8 @@
         [inputId]="idComponent()"
         required
         [ngClass]="{
-          'ng-invalid': modelCalendarRef?.invalid,
-          'ng-dirty': modelCalendarRef?.dirty || modelCalendarRef?.touched
+          'ng-invalid': hasRequiredError || hasMinLengthError,
+          'ng-dirty': hasRequiredError || hasMinLengthError
         }"
         styleClass="w-100">
       </p-datepicker>

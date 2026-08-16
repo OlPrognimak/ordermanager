@@ -15,10 +15,11 @@ import {startWith, Subject, switchMap, takeUntil} from "rxjs";
 import {TranslocoLanguageChangedEvent} from "../../transloco/transloco.language.changed.event";
 
 @Component({
-  selector: 'app-printinvoice',
-  templateUrl: './printinvoice.component.html',
-  styleUrls: ['./printinvoice.component.css'],
-  providers: [MessagesPrinter, AppSecurityService, HttpClient, CommonServicesPipesNumber]
+    selector: 'app-printinvoice',
+    templateUrl: './printinvoice.component.html',
+    styleUrls: ['./printinvoice.component.css'],
+    providers: [MessagesPrinter, AppSecurityService, HttpClient, CommonServicesPipesNumber],
+    standalone: false
 })
 export class PrintinvoiceComponent implements OnInit, OnDestroy {
   invoicesFormModel: InvoiceFormModel[];

@@ -21,8 +21,8 @@ describe('InvoiceFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [ValidatableInputTextComponent, ValidatableDropdownlistComponent],
-    imports: [CommonModule, FormsModule, MessageModule, DropdownModule, InvoicePipesModule],
+    declarations: [ValidatableDropdownlistComponent],
+    imports: [CommonModule, FormsModule, MessageModule, DropdownModule, InvoicePipesModule, ValidatableInputTextComponent],
     providers: [MessageService, AppSecurityService, HttpClient, provideHttpClient(withInterceptorsFromDi())]
 });
     fixture = TestBed.createComponent(InvoiceFormComponent);
@@ -31,7 +31,7 @@ describe('InvoiceFormComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy(false);
+    expect(component).toBeTruthy();
     console.log("COMPONENT:=" + component)
   });
 });

@@ -10,11 +10,10 @@ import {FloatLabel} from "primeng/floatlabel";
 import {InputNumber} from "primeng/inputnumber";
 
 @Component({
-  selector: 'app-templates-component',
-  standalone: true,
-  imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, DatePickerModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
-  templateUrl: './templates-component.component.html',
-  styleUrls: ['./templates-component.component.css']
+    selector: 'app-templates-component',
+    imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, DatePickerModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
+    templateUrl: './templates-component.component.html',
+    styleUrls: ['./templates-component.component.css']
 })
 export class TemplatesComponentComponent {
 

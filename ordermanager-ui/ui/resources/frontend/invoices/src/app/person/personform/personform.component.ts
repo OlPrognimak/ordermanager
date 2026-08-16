@@ -65,10 +65,11 @@ import {TranslocoPipe} from "@jsverse/transloco";
  * The component which contains form component for creation of person
  */
 @Component({
-  styleUrls: ['./personform.component.css'],
-  selector: 'app-person',
-  templateUrl: './personform.component.html',
-  providers: [MessageService, FormGroupDirective, MessagesPrinter]
+    styleUrls: ['./personform.component.css'],
+    selector: 'app-person',
+    templateUrl: './personform.component.html',
+    providers: [MessageService, FormGroupDirective, MessagesPrinter],
+    standalone: false
 })
 export class PersonFormComponent implements OnInit, OnDestroy {
 

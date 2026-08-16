@@ -19,16 +19,17 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
-  selector: 'app-validatable-calendar',
-  templateUrl: './validatable-calendar.component.html',
-  styleUrls: ['./validatable-calendar.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidatableCalendarComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-validatable-calendar',
+    templateUrl: './validatable-calendar.component.html',
+    styleUrls: ['./validatable-calendar.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidatableCalendarComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ValidatableCalendarComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   modelCalendarRef = viewChild.required<NgModel>('modelCalendarRef');
@@ -47,6 +48,7 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   hasRequiredError = false;
   hasMinLengthError = false;
   lastEmitedValue: boolean | undefined = undefined;
+  private pendingErrorUpdate = false;
 
   onChange: (val: any) => void = () => {};
   onTouched: () => void = () => {};
@@ -80,27 +82,35 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
   setDisabledState(isDisabled: boolean): void {}
 
   setHasRequiredError(val: boolean, origin: any) {
-    if (this.hasRequiredError !== val) {
-      this.hasRequiredError = val;
-      const emitVal = this.hasRequiredError || this.hasMinLengthError;
-      if (this.lastEmitedValue !== emitVal) {
-        this.lastEmitedValue = emitVal;
-        this.componentHasError.emit(emitVal);
-      }
-    }
+    this.scheduleErrorStateUpdate(val, this.hasMinLengthError);
     return origin;
   }
 
   setHasMinLengthError(val: boolean, origin: any) {
-    if (this.hasMinLengthError !== val) {
-      this.hasMinLengthError = val;
+    this.scheduleErrorStateUpdate(this.hasRequiredError, val);
+    return origin;
+  }
+
+  private scheduleErrorStateUpdate(hasRequiredError: boolean, hasMinLengthError: boolean): void {
+    if (this.hasRequiredError === hasRequiredError && this.hasMinLengthError === hasMinLengthError) {
+      return;
+    }
+
+    if (this.pendingErrorUpdate) {
+      return;
+    }
+
+    this.pendingErrorUpdate = true;
+    setTimeout(() => {
+      this.pendingErrorUpdate = false;
+      this.hasRequiredError = hasRequiredError;
+      this.hasMinLengthError = hasMinLengthError;
       const emitVal = this.hasRequiredError || this.hasMinLengthError;
       if (this.lastEmitedValue !== emitVal) {
         this.lastEmitedValue = emitVal;
         this.componentHasError.emit(emitVal);
       }
-    }
-    return origin;
+    });
   }
 
   ngAfterViewInit(): void {

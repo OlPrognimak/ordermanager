@@ -2,16 +2,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvoiceItemsTableComponent } from './invoice-items-table.component';
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { Toast, ToastModule } from "primeng/toast";
+import { ToastModule } from "primeng/toast";
 import { MessagesModule } from "primeng/messages";
 import { MessageService } from "primeng/api";
 import { TableModule } from "primeng/table";
 import { ButtonModule } from "primeng/button";
-import { Tooltip, TooltipModule } from "primeng/tooltip";
-import { NgModel } from "@angular/forms";
+import { TooltipModule } from "primeng/tooltip";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
 import { DropdownModule } from "primeng/dropdown";
+import { FormsModule } from "@angular/forms";
+import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
+import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 
 describe('InvoiceItemsTableComponent', () => {
   let component: InvoiceItemsTableComponent;
@@ -19,9 +21,9 @@ describe('InvoiceItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [Toast, Tooltip, NgModel],
+    declarations: [InvoiceItemsTableComponent],
     imports: [ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule,
-        InputTextModule, InputNumberModule, DropdownModule],
+        InputTextModule, InputNumberModule, DropdownModule, FormsModule, InvoicePipesModule],
     providers: [MessageService, provideHttpClient(withInterceptorsFromDi())]
 })
       .compileComponents();
@@ -30,6 +32,7 @@ describe('InvoiceItemsTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InvoiceItemsTableComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('invoiceItems', [new InvoiceItemModel()]);
     fixture.detectChanges();
   });
 

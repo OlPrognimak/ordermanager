@@ -62,25 +62,23 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 
 @Component({
-  selector: 'app-validatable-input-text',
-  standalone: true,
-  templateUrl: './validatable-input-text.component.html',
-  styleUrls: ['./validatable-input-text.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidatableInputTextComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ValidatableInputTextComponent),
-      multi: true
-    }
-  ],
-  imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule, TranslocoModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
+    selector: 'app-validatable-input-text',
+    templateUrl: './validatable-input-text.component.html',
+    styleUrls: ['./validatable-input-text.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidatableInputTextComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ValidatableInputTextComponent),
+            multi: true
+        }
+    ],
+    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule, TranslocoModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor, Validator {
   /** minimal length of text */

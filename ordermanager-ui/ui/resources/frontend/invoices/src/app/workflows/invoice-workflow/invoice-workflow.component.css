@@ -130,8 +130,10 @@
 }
 
 .workflow-card-content {
-  min-height: 18rem;
-  padding: 2rem 1.75rem;
+  max-height: calc(100vh - 18rem);
+  min-height: 28rem;
+  overflow-y: auto;
+  padding: 2rem 1.75rem 7rem;
 }
 
 .workflow-fields {
@@ -277,9 +279,9 @@
   }
 
   .workflow-card-content {
-    min-height: 16rem;
+    min-height: 22rem;
     padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 6rem;
   }
 
   .workflow-fields-two,
@@ -290,10 +292,6 @@
 
   :host ::ng-deep .workflow-person-step .p-button {
     width: 100%;
-  }
-
-  .workflow-review-wide {
-    grid-column: auto;
   }
 
   .workflow-actions {

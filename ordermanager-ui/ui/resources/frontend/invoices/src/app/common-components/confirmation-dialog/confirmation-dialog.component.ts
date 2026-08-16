@@ -5,16 +5,15 @@ import { ButtonModule } from "primeng/button";
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
-  selector: 'app-confirmation-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    DialogModule,
-    ButtonModule,
-    TranslocoModule
-  ],
-  templateUrl: './confirmation-dialog.component.html',
-  styleUrls: ['./confirmation-dialog.component.css']
+    selector: 'app-confirmation-dialog',
+    imports: [
+        CommonModule,
+        DialogModule,
+        ButtonModule,
+        TranslocoModule
+    ],
+    templateUrl: './confirmation-dialog.component.html',
+    styleUrls: ['./confirmation-dialog.component.css']
 })
 export class ConfirmationDialogComponent {
   display = input(false);

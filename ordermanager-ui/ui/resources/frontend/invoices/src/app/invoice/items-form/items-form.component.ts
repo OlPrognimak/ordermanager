@@ -22,12 +22,11 @@ import {FloatLabel} from "primeng/floatlabel";
 import {TranslocoPipe} from "@jsverse/transloco";
 
 @Component({
-  selector: 'app-items-form',
-  templateUrl: './items-form.component.html',
-  styleUrls: ['./items-form.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
-  providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>, HttpClient]
+    selector: 'app-items-form',
+    templateUrl: './items-form.component.html',
+    styleUrls: ['./items-form.component.css'],
+    imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
+    providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>, HttpClient]
 })
 export class ItemsFormComponent implements OnInit {
 

@@ -22,12 +22,11 @@ import { CommonServiceEventBus } from "../../common-services/common-service.even
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @Component({
-  selector: 'app-person-management',
-  standalone: true,
-  imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule, ConfirmationDialogComponent, TranslocoModule],
-  templateUrl: './person-management.component.html',
-  styleUrls: ['./person-management.component.css'],
-  providers: [AppSecurityService, HttpClient]
+    selector: 'app-person-management',
+    imports: [CommonModule, TableModule, ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, EditPersonDialogComponent, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, RippleModule, ConfirmationDialogComponent, TranslocoModule],
+    templateUrl: './person-management.component.html',
+    styleUrls: ['./person-management.component.css'],
+    providers: [AppSecurityService, HttpClient]
 })
 export class PersonManagementComponent extends CommonServicesEditService<PersonFormModel> implements OnInit {
   /**Reference on dialog component for editing Person*/

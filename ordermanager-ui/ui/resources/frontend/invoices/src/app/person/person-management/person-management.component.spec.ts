@@ -11,7 +11,10 @@ describe('PersonManagementComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PersonManagementComponent, MessageModule],
+      imports: [
+        PersonManagementComponent,
+        MessageModule
+      ],
       providers: [MessageService, HttpHandler, HttpClient]
     });
     fixture = TestBed.createComponent(PersonManagementComponent);
@@ -20,7 +23,7 @@ describe('PersonManagementComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy(false);
+    expect(component).toBeTruthy();
     console.log("COMPONENT:=" + component)
   });
 });

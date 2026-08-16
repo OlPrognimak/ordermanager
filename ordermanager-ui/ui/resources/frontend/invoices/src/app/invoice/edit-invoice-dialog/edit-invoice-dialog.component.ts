@@ -46,7 +46,6 @@ import {
 import { Subject } from "rxjs";
 import { MessageModule } from "primeng/message";
 import { MessagesModule } from "primeng/messages";
-import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import {InvoiceItemsTableCalculatorService} from "../invoice-items-table/invoice-items-table.calculator.service";
 import {TranslocoPipe, TranslocoService} from "@jsverse/transloco";
 
@@ -54,25 +53,24 @@ export type InvoiceControls = { [key in keyof InvoiceFormModelInterface]: Abstra
 type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: InvoiceControls }
 
 @Component({
-  selector: 'app-edit-invoice-dialog',
-  standalone: true,
-  imports: [CommonModule,
-    ButtonModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    ToastModule,
-    FormsModule,
-    InvoiceFormModule,
-    ValidatableCalendarModule,
-    ValidatableDropdownlistModule,
-    TemplatesComponentComponent,
-    TooltipModule, MessageModule, MessagesModule,
-    DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, ConfirmationDialogComponent, TranslocoPipe],
-  providers: [
-    MessageService, MessagesPrinter, CommonServicesUtilService
-  ],
-  templateUrl: './edit-invoice-dialog.component.html',
-  styleUrls: ['./edit-invoice-dialog.component.css']
+    selector: 'app-edit-invoice-dialog',
+    imports: [CommonModule,
+        ButtonModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        ToastModule,
+        FormsModule,
+        InvoiceFormModule,
+        ValidatableCalendarModule,
+        ValidatableDropdownlistModule,
+        TemplatesComponentComponent,
+        TooltipModule, MessageModule, MessagesModule,
+        DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, TranslocoPipe],
+    providers: [
+        MessageService, MessagesPrinter, CommonServicesUtilService
+    ],
+    templateUrl: './edit-invoice-dialog.component.html',
+    styleUrls: ['./edit-invoice-dialog.component.css']
 })
 export class EditInvoiceDialogComponent implements OnInit, AfterViewInit {
 

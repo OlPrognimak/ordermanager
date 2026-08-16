@@ -11,11 +11,10 @@ import { MessageModule } from "primeng/message";
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
-  selector: 'app-dateperiod-finder',
-  standalone: true,
-  imports: [CommonModule, ValidatableCalendarModule, FormsModule, ButtonModule, MatProgressSpinnerModule, ToastModule, MessageModule, TranslocoModule],
-  templateUrl: './dateperiod-finder.component.html',
-  styleUrls: ['./dateperiod-finder.component.css']
+    selector: 'app-dateperiod-finder',
+    imports: [CommonModule, ValidatableCalendarModule, FormsModule, ButtonModule, MatProgressSpinnerModule, ToastModule, MessageModule, TranslocoModule],
+    templateUrl: './dateperiod-finder.component.html',
+    styleUrls: ['./dateperiod-finder.component.css']
 })
 export class DateperiodFinderComponent implements OnInit, AfterViewInit {
 

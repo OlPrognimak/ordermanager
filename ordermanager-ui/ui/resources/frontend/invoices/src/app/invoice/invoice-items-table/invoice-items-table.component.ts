@@ -51,11 +51,12 @@ import { HttpClient } from "@angular/common/http";
 import {NgForm} from "@angular/forms";
 
 @Component({
-  styles: [],
-  styleUrls: ['./invoice-items-table.component.css'],
-  selector: 'app-invoice-items-table',
-  templateUrl: './invoice-items-table.component.html',
-  providers: [HttpClient],
+    styles: [],
+    styleUrls: ['./invoice-items-table.component.css'],
+    selector: 'app-invoice-items-table',
+    templateUrl: './invoice-items-table.component.html',
+    providers: [HttpClient],
+    standalone: false
 })
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewInit {
   invoiceItems = input.required<InvoiceItemModel[]>();
