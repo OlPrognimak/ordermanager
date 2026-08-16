@@ -220,36 +220,6 @@
             </div>
           }
           @case (5) {
-            <div class="workflow-review">
-              <div class="workflow-review-item">
-                <span>{{ 'invoice.number' | transloco }}</span>
-                <strong>{{ invoice.invoiceNumber }}</strong>
-              </div>
-              <div class="workflow-review-item">
-                <span>{{ 'invoice.rate_type' | transloco }}</span>
-                <strong>{{ invoice.rateType }}</strong>
-              </div>
-              <div class="workflow-review-item">
-                <span>{{ 'invoice.creation_date' | transloco }}</span>
-                <strong>{{ invoice.creationDate | date:'mediumDate' }}</strong>
-              </div>
-              <div class="workflow-review-item">
-                <span>{{ 'invoice.invoice_date' | transloco }}</span>
-                <strong>{{ invoice.invoiceDate | date:'mediumDate' }}</strong>
-              </div>
-              <div class="workflow-review-item">
-                <span>{{ 'invoice.person_creator' | transloco }}</span>
-                <strong>{{ personLabel(invoice.personSupplierId) }}</strong>
-              </div>
-              <div class="workflow-review-item">
-                <span>{{ 'invoice.person_recipient' | transloco }}</span>
-                <strong>{{ personLabel(invoice.personRecipientId) }}</strong>
-              </div>
-              <div class="workflow-review-item workflow-review-wide">
-                <span>{{ 'workflow.invoice.review.items' | transloco }}</span>
-                <strong>{{ workflowInvoiceItems.length }}</strong>
-              </div>
-            </div>
           }
         }
       </section>

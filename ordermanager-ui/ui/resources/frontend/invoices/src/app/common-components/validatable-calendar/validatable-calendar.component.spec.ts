@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidatableCalendarComponent } from './validatable-calendar.component';
-import { FormsModule } from "@angular/forms";
-import { CalendarModule } from "primeng/calendar";
-import { MessageModule } from "primeng/message";
+import { ValidatableCalendarComponent, ValidatableCalendarModule } from './validatable-calendar.component';
 
 describe('ValidableCalendarComponent', () => {
   let component: ValidatableCalendarComponent;
@@ -11,8 +8,7 @@ describe('ValidableCalendarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidatableCalendarComponent],
-      imports: [FormsModule, CalendarModule, MessageModule]
+      imports: [ValidatableCalendarModule]
     })
       .compileComponents();
   });

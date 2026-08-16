@@ -14,7 +14,7 @@ The project is useful as both an application and a technology playground: it con
 | --- | --- | --- |
 | `ordermanager-backend` | Business REST API and persistence for users, persons, invoices, catalog items, and reports. | Spring Boot, Spring MVC, Spring Security, JPA/Hibernate, PostgreSQL, Liquibase, JasperReports |
 | `ordermanager-ui` | Java service that serves the built Angular application and exposes `/backendUrl`. | Spring Boot Web, Thymeleaf/static resources, Eureka client |
-| `ordermanager-ui/ui/resources/frontend/invoices` | Angular single-page application. | Angular 18, PrimeNG 18, Angular Material, ag-Grid, Transloco, RxJS, NgRx |
+| `ordermanager-ui/ui/resources/frontend/invoices` | Angular single-page application. | Angular 19, PrimeNG 19, Angular Material, ag-Grid, Transloco, RxJS, NgRx, Vitest |
 | `ordermanager-ui/src-node` | Node.js/Express prototype or replacement for the UI wrapper. | Express, TypeScript, Vitest |
 | `service-discovery` | Eureka registry for local/Docker service discovery. | Spring Cloud Netflix Eureka Server |
 | `docker` | Build/deployment resources and copied runnable artifacts. | Docker, Docker Compose, Maven copy steps |
@@ -131,7 +131,7 @@ Default service discovery settings:
 
 Backend tests include unit, repository, controller, service, JasperReports utility, security, and Cucumber integration-style tests. The backend test resources configure an H2 database for tests that need persistence.
 
-Angular tests are configured through Karma/Jasmine. The Node.js UI backend uses Vitest and Supertest.
+Angular unit tests are configured through Vitest using `@analogjs/vitest-angular`, with shared setup in `src/test-setup.ts` and runner options in `vite.config.mts`. Jasmine/Karma are no longer used for Angular unit tests. The Node.js UI backend uses Vitest and Supertest.
 
 Useful commands:
 
@@ -145,8 +145,8 @@ Useful commands:
 
 ## Maintenance Notes
 
-- `README.md` had drifted from the code in several places. The current code uses Spring Boot 3.5.7, Java 21, Angular 18, Spring Cloud 2025.0.0, and OpenAPI UI 2.8.17.
-- `spring.boot.version` in the parent properties is `3.1.3`, but the actual Spring Boot parent is `3.5.7`. Prefer the parent version as the source of truth unless the property is actively used elsewhere.
+- `README.md` had drifted from the code in several places. The current code uses Spring Boot 3.5.14, Java 21, Angular 19, Spring Cloud 2025.0.0, and OpenAPI UI 2.8.17.
+- The Spring Boot parent version is `3.5.14`. Prefer the parent version as the source of truth for documentation and dependency-alignment checks.
 - `hibernate-entitymanager` 5.4.2.Final is still declared next to Hibernate ORM 6.2.3.Final. That is a potential modernization/compatibility cleanup.
 - The backend uses both Liquibase and `ddl-auto=update`; this can hide migration problems. Prefer explicit Liquibase changes for schema evolution in production-like environments.
 - Several generated or local files are checked in or present in the workspace, including `node_modules`, Angular `dist`, `.DS_Store`, and JVM crash logs. Avoid relying on them as source files.

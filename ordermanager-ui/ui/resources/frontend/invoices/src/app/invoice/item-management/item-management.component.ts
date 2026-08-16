@@ -11,23 +11,20 @@ import { HttpClient } from "@angular/common/http";
 import { CommonServicesAppHttpService, MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { isAuthenticated } from "../../common-services/common-services-util.service";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
-import { EditPersonDialogComponent } from "../../person/edit-person-dialog/edit-person-dialog.component";
 import { EditItemDialogComponent } from "../edit-item-dialog/edit-item-dialog.component";
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
 import { InputTextModule } from "primeng/inputtext";
 import { PaginatorModule } from "primeng/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {FormsModule} from "@angular/forms";
-import {FloatLabel} from "primeng/floatlabel";
 import {TranslocoPipe} from "@jsverse/transloco";
 
 @Component({
-  selector: 'app-item-management',
-  standalone: true,
-  imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditPersonDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule, FloatLabel, TranslocoPipe],
-  providers: [HttpClient, MessagesPrinter, MessageService],
-  templateUrl: './item-management.component.html',
-  styleUrls: ['./item-management.component.css']
+    selector: 'app-item-management',
+    imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule, TranslocoPipe],
+    providers: [HttpClient, MessagesPrinter, MessageService],
+    templateUrl: './item-management.component.html',
+    styleUrls: ['./item-management.component.css']
 })
 export class ItemManagementComponent extends CommonServicesEditService<ItemCatalogModel> implements OnInit {
 

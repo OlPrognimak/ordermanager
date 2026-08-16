@@ -36,15 +36,14 @@ export class InvoiceManagementModule {
 }
 
 @Component({
-  selector: 'app-invoice-management',
-  standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
-    InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
-    ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule, ConfirmationDialogComponent,
-    MessageModule, MessagesModule, TranslocoModule],
-  templateUrl: './invoice-management.component.html',
-  styleUrls: ['./invoice-management.component.css'],
-  providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
+    selector: 'app-invoice-management',
+    imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
+        InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
+        ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule, ConfirmationDialogComponent,
+        MessageModule, MessagesModule, TranslocoModule],
+    templateUrl: './invoice-management.component.html',
+    styleUrls: ['./invoice-management.component.css'],
+    providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]
 })
 export class InvoiceManagementComponent extends CommonServicesEditService<InvoiceFormModel> implements OnInit {
   invoiceDialog = viewChild.required<EditInvoiceDialogComponent>('invoiceDialog')

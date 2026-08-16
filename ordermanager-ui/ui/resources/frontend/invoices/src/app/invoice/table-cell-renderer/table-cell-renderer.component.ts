@@ -12,10 +12,11 @@ import {TranslocoService} from "@jsverse/transloco";
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
  */
 @Component({
-  selector: 'app-table-cell-renderer',
-  templateUrl: './table-cell-renderer.component.html',
-  styleUrls: ['./table-cell-renderer.component.css'],
-  providers: [HttpClient, MessagesPrinter]
+    selector: 'app-table-cell-renderer',
+    templateUrl: './table-cell-renderer.component.html',
+    styleUrls: ['./table-cell-renderer.component.css'],
+    providers: [HttpClient, MessagesPrinter],
+    standalone: false
 })
 export class TableCellRendererComponent implements OnInit, ICellRendererAngularComp {
   parentTableComponent: any;

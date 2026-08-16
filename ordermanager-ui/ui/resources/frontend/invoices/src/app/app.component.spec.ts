@@ -10,6 +10,10 @@ import { FormsModule } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { MenubarModule } from "primeng/menubar";
+import {
+  ValidatableInputTextComponent
+} from "./common-components/validatable-input-text/validatable-input-text.component";
 
 describe('AppComponent', () => {
 
@@ -20,7 +24,7 @@ describe('AppComponent', () => {
         AppComponent, UserLoginComponent
     ],
     schemas: [NO_ERRORS_SCHEMA],
-    imports: [RouterTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule],
+    imports: [RouterTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule, MenubarModule, ValidatableInputTextComponent],
     providers: [MessageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
     })
@@ -52,7 +56,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.app_title').textContent).toContain('Order manager');
+    expect(compiled.querySelector('.app-title')?.textContent).toContain('Order manager');
   });
 
 });

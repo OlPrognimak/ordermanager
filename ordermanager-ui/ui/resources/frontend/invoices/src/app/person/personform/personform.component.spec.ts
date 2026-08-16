@@ -13,6 +13,8 @@ import {
   ValidatableDropdownlistComponent
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import { DropdownModule } from "primeng/dropdown";
+import { provideRouter } from "@angular/router";
+import { provideMockStore } from "@ngrx/store/testing";
 
 describe('PersonFormComponent', () => {
   let component: PersonFormComponent;
@@ -20,9 +22,16 @@ describe('PersonFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [ValidatableInputTextComponent, ValidatableDropdownlistComponent],
-    imports: [CommonModule, FormsModule, MessageModule, DropdownModule],
-    providers: [MessageService, AppSecurityService, HttpClient, provideHttpClient(withInterceptorsFromDi())]
+    declarations: [ValidatableDropdownlistComponent],
+    imports: [CommonModule, FormsModule, MessageModule, DropdownModule, ValidatableInputTextComponent],
+    providers: [
+      MessageService,
+      AppSecurityService,
+      HttpClient,
+      provideHttpClient(withInterceptorsFromDi()),
+      provideRouter([]),
+      provideMockStore()
+    ]
 });
     fixture = TestBed.createComponent(PersonFormComponent);
     component = fixture.componentInstance;
@@ -30,7 +39,7 @@ describe('PersonFormComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy(false);
+    expect(component).toBeTruthy();
     console.log("COMPONENT:=" + component)
   });
 });

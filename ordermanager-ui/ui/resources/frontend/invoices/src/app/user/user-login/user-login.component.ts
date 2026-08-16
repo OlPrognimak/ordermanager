@@ -16,10 +16,11 @@ import {
 
 
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.css'],
-  providers: [MessageService, AppSecurityService, HttpClient]
+    selector: 'app-user-login',
+    templateUrl: './user-login.component.html',
+    styleUrls: ['./user-login.component.css'],
+    providers: [MessageService, AppSecurityService, HttpClient],
+    standalone: false
 })
 export class UserLoginComponent {
   isSubmitting = false;

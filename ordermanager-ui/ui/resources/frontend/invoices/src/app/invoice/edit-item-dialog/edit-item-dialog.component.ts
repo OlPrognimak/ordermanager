@@ -16,12 +16,11 @@ export type ItemCatalogControls = { [key in keyof ItemCatalogModel]: AbstractCon
 type ItemCatalogFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls: ItemCatalogControls }
 
 @Component({
-  selector: 'app-edit-item-dialog',
-  templateUrl: './edit-item-dialog.component.html',
-  styleUrls: ['./edit-item-dialog.component.css'],
-  standalone: true,
-  imports: [CommonModule, DialogModule, DialogModule, ToastModule, InputTextModule, ReactiveFormsModule, TemplatesComponentComponent, ButtonModule, TooltipModule, TranslocoPipe],
-  providers: []
+    selector: 'app-edit-item-dialog',
+    templateUrl: './edit-item-dialog.component.html',
+    styleUrls: ['./edit-item-dialog.component.css'],
+    imports: [CommonModule, DialogModule, DialogModule, ToastModule, InputTextModule, ReactiveFormsModule, TemplatesComponentComponent, ButtonModule, TooltipModule, TranslocoPipe],
+    providers: []
 })
 export class EditItemDialogComponent {
 

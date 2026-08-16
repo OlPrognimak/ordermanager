@@ -52,16 +52,17 @@ import {FloatLabel} from "primeng/floatlabel";
 
 
 @Component({
-  selector: 'app-validatable-input-number',
-  templateUrl: './validatable-input-number.component.html',
-  styleUrls: ['./validatable-input-number.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidatableInputNumberComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-validatable-input-number',
+    templateUrl: './validatable-input-number.component.html',
+    styleUrls: ['./validatable-input-number.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidatableInputNumberComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ValidatableInputNumberComponent implements OnInit, ControlValueAccessor {
   /** minimal length of text */

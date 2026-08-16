@@ -4,7 +4,7 @@ This file is the short-term project memory for coding agents. Read it before mak
 
 ## Project Snapshot
 
-- `ordermanager` is a Java 21 / Spring Boot 3.5.7 Maven multi-module application.
+- `ordermanager` is a Java 21 / Spring Boot 3.5.14 Maven multi-module application.
 - Main modules:
   - `ordermanager-backend`: REST API, persistence, authentication, invoice/person/catalog/report logic.
   - `ordermanager-ui`: Spring Boot wrapper for the Angular frontend and backend URL endpoint.

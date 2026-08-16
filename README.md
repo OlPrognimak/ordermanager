@@ -1,8 +1,8 @@
 # Ordermanager
 
 ![Java 21](https://img.shields.io/badge/Java-21-blue)
-![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5.7-6DB33F)
-![Angular 18](https://img.shields.io/badge/Angular-18-DD0031)
+![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5.14-6DB33F)
+![Angular 19](https://img.shields.io/badge/Angular-19-DD0031)
 ![Maven](https://img.shields.io/badge/Build-Maven-C71A36)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791)
 
@@ -52,7 +52,7 @@ Docker image bases used by the project:
 | --- | --- |
 | `ordermanager-backend` | Spring Boot REST backend for users, persons, invoice catalog items, invoices, workflows, persistence, and PDF generation. |
 | `ordermanager-ui` | Spring Boot wrapper that serves the generated Angular application and exposes the backend URL to the browser. |
-| `ordermanager-ui/ui/resources/frontend/invoices` | Angular 18 single-page application. This is the main frontend source. |
+| `ordermanager-ui/ui/resources/frontend/invoices` | Angular 19 single-page application. This is the main frontend source. |
 | `ordermanager-ui/src-node` | TypeScript/Express backend prototype for frontend configuration and management endpoints. |
 | `service-discovery` | Eureka server for service discovery in local and Docker deployments. |
 | `docker` | Dockerfiles, Compose files, and copied runnable artifacts. |
@@ -227,11 +227,12 @@ The frontend consists of two parts:
 
 | Package / library | Description |
 | --- | --- |
-| Angular 18 | Main frontend framework. |
+| Angular 19 | Main frontend framework. |
 | Angular Forms | Template-driven and reactive forms. |
 | Angular Router | Page routing. |
 | Angular Material | Additional UI controls. |
-| PrimeNG 18 | Main UI component library. |
+| PrimeNG 19 | Main UI component library. |
+| Vitest / Vite / AnalogJS Vitest Angular | Angular unit-test runner replacing Jasmine/Karma. |
 | PrimeFlex | Utility CSS used with PrimeNG layouts. |
 | ag-Grid | Invoice list/table display and PDF download action cells. |
 | Transloco | English/German localization. |
@@ -371,6 +372,10 @@ Jaspersoft Studio is a practical tool for editing `.jrxml` layouts.
 | Angular app | `npm test` | Run from `ordermanager-ui/ui/resources/frontend/invoices`. |
 | Angular build | `npm run build` | Run from `ordermanager-ui/ui/resources/frontend/invoices`. |
 | Node UI backend | `npm test` | Run from `ordermanager-ui/src-node`. |
+
+Angular unit tests use Vitest through `@analogjs/vitest-angular`. The test target remains `ng test`, but `angular.json` delegates it to the Analog Vitest builder. Shared test initialization lives in `src/test-setup.ts`, including Angular TestBed setup, Transloco test translations, and small browser API polyfills needed by PrimeNG in jsdom. Vitest options live in `vite.config.mts`.
+
+The Angular production build may warn about CommonJS dependencies such as `moment`, `iban`, or `ngx-auto-unsubscribe-decorator`. These warnings do not stop the build, but they indicate packages that can reduce tree-shaking. Prefer ESM-compatible replacements during dependency cleanup, or add intentional exceptions in `allowedCommonJsDependencies` if the current dependency is accepted.
 
 ## Useful URLs
 

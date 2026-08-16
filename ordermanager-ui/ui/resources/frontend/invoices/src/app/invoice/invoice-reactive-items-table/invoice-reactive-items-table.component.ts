@@ -47,26 +47,25 @@ import {InputNumber} from "primeng/inputnumber";
 import {TranslocoPipe} from "@jsverse/transloco";
 
 @Component({
-  styles: [],
-  standalone: true,
-  styleUrls: ['./invoice-reactive-items-table.component.css'],
-  selector: 'app-reactive-invoice-items-table',
-  templateUrl: './invoice-reactive-items-table.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    TableModule,
-    DropdownModule,
-    PaginatorModule,
-    InvoicePipesModule,
-    ButtonModule,
-    TooltipModule,
-    ToastModule,
-    ConfirmationDialogComponent,
-    InputNumber,
-    TranslocoPipe
-  ],
-  providers: [HttpClient]
+    styles: [],
+    styleUrls: ['./invoice-reactive-items-table.component.css'],
+    selector: 'app-reactive-invoice-items-table',
+    templateUrl: './invoice-reactive-items-table.component.html',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        TableModule,
+        DropdownModule,
+        PaginatorModule,
+        InvoicePipesModule,
+        ButtonModule,
+        TooltipModule,
+        ToastModule,
+        ConfirmationDialogComponent,
+        InputNumber,
+        TranslocoPipe
+    ],
+    providers: [HttpClient]
 })
 export class InvoiceReactiveItemsTableComponent implements OnInit, OnDestroy {
   confirmDeleteItemDialog = viewChild.required<ConfirmationDialogComponent>('confirmDeleteItemDialog')

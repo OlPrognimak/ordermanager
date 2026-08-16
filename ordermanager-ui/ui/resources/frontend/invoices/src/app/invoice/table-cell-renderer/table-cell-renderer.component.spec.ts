@@ -6,8 +6,6 @@ import { MessageModule } from "primeng/message";
 import { MessageService } from "primeng/api";
 import { AgGridModule } from "ag-grid-angular";
 import { ButtonModule } from "primeng/button";
-import {TranslocoModule, TranslocoService, TranslocoTestingModule} from "@jsverse/transloco";
-import {translocoServiceMock} from "../printinvoice/printinvoice.component.spec";
 
 describe('TableCellRendererComponent', () => {
   let component: TableCellRendererComponent;
@@ -16,18 +14,7 @@ describe('TableCellRendererComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
         declarations: [TableCellRendererComponent],
-        imports: [MessageModule, AgGridModule, ButtonModule,
-          TranslocoTestingModule.forRoot({
-            langs: {
-              en: {}
-            },
-            translocoConfig: {
-              availableLangs: ['en'],
-              defaultLang: 'en',
-              reRenderOnLangChange: true
-            }
-          })
-        ],
+        imports: [MessageModule, AgGridModule, ButtonModule],
         providers: [MessageService, provideHttpClient(withInterceptorsFromDi())
       ]
     }).compileComponents();

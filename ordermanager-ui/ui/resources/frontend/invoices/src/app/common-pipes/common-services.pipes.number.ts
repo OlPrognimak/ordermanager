@@ -31,7 +31,8 @@
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'standardFloat',
+    name: 'standardFloat',
+    standalone: false
 })
 export class CommonServicesPipesNumber implements PipeTransform {
 

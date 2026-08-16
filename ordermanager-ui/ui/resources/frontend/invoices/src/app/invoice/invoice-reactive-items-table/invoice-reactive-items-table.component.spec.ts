@@ -2,18 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvoiceReactiveItemsTableComponent } from './invoice-reactive-items-table.component';
 import { HttpClient, HttpHandler, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { Toast, ToastModule } from "primeng/toast";
+import { ToastModule } from "primeng/toast";
 import { MessagesModule } from "primeng/messages";
 import { MessageService } from "primeng/api";
 import { TableModule } from "primeng/table";
 import { ButtonModule } from "primeng/button";
-import { Tooltip, TooltipModule } from "primeng/tooltip";
+import { TooltipModule } from "primeng/tooltip";
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { NgModel } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
 import { DropdownModule } from "primeng/dropdown";
 import { InvoiceItemsTableService } from "../invoice-items-table/invoice-items-table.service";
+import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
 
 describe('InvoiceReactiveItemsTableComponent', () => {
   let component: InvoiceReactiveItemsTableComponent;
@@ -21,10 +22,10 @@ describe('InvoiceReactiveItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [Toast, Tooltip, NgModel],
+    declarations: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     imports: [ToastModule, MessagesModule, TableModule, ButtonModule, TooltipModule,
-        InputTextModule, InputNumberModule, DropdownModule],
+        InputTextModule, InputNumberModule, DropdownModule, FormsModule],
     providers: [MessageService, HttpClient, HttpHandler, InvoiceItemsTableService, provideHttpClient(withInterceptorsFromDi())]
 })
       .compileComponents();
@@ -33,6 +34,7 @@ describe('InvoiceReactiveItemsTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InvoiceReactiveItemsTableComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('invoiceReactiveItems', [new InvoiceItemModel()]);
     fixture.detectChanges();
   });
 

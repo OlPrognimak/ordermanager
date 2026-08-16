@@ -87,11 +87,12 @@ registerLocaleData(localede, 'de');
  * The component class for creation and management with invoice
  */
 @Component({
-  selector: 'app-invoice',
-  styleUrls: ['./invoiceform.component.css'],
-  templateUrl: './invoiceform.component.html',
-  providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
-    CommonServicesAppHttpService<InvoiceFormModelInterface>]
+    selector: 'app-invoice',
+    styleUrls: ['./invoiceform.component.css'],
+    templateUrl: './invoiceform.component.html',
+    providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
+        CommonServicesAppHttpService<InvoiceFormModelInterface>],
+    standalone: false
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit {
   eventsModelIsReset: Subject<void> = new Subject<void>();

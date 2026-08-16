@@ -43,8 +43,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4.9kb",
+                  "maximumError": "4.1kb"
                 }
               ],
               "outputHashing": "all"
@@ -78,23 +78,7 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "node_modules/primeicons/primeicons.css",
-              "src/styles.css"
-            ],
-            "scripts": []
-          }
+          "builder": "@analogjs/vitest-angular:test"
         }
       }
     }

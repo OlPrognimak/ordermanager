@@ -7,6 +7,10 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
 import { FormsModule } from "@angular/forms";
+import { provideRouter } from "@angular/router";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 describe('UserRegistrationComponent', () => {
   let component: UserRegistrationComponent;
@@ -15,8 +19,14 @@ describe('UserRegistrationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     declarations: [UserRegistrationComponent],
-    imports: [FormsModule, MessageModule, ToastModule, ButtonModule],
-    providers: [HttpClient, MessageService, provideHttpClient(withInterceptorsFromDi())]
+    imports: [
+      FormsModule,
+      MessageModule,
+      ToastModule,
+      ButtonModule,
+      ValidatableInputTextComponent
+    ],
+    providers: [HttpClient, MessageService, provideHttpClient(withInterceptorsFromDi()), provideRouter([])]
 })
       .compileComponents();
   });

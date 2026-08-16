@@ -7,10 +7,11 @@ import { AppSecurityService } from './common-auth/app-security.service';
 import { isAuthenticated } from './common-services/common-services-util.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [AppSecurityService]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    providers: [AppSecurityService],
+    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'frontend';

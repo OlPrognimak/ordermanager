@@ -61,21 +61,22 @@ import {FloatLabel} from "primeng/floatlabel";
 import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
-  selector: 'app-validatable-dropdownlist',
-  templateUrl: './validatable-dropdownlist.component.html',
-  styleUrls: ['./validatable-dropdownlist.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidatableDropdownlistComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ValidatableDropdownlistComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-validatable-dropdownlist',
+    templateUrl: './validatable-dropdownlist.component.html',
+    styleUrls: ['./validatable-dropdownlist.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidatableDropdownlistComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ValidatableDropdownlistComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
   modelRef = viewChild.required<NgModel>('modelRef')

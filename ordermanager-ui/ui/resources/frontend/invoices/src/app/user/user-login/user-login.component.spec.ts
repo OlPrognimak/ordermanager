@@ -12,6 +12,7 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { MessageModule } from "primeng/message";
+import { vi } from 'vitest';
 
 
 describe('UserLoginComponent', () => {
@@ -20,8 +21,8 @@ describe('UserLoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserLoginComponent, ValidatableInputTextComponent],
-      imports: [FormsModule, ToastModule, ButtonModule, MessageModule],
+      declarations: [UserLoginComponent],
+      imports: [FormsModule, ToastModule, ButtonModule, MessageModule, ValidatableInputTextComponent],
       providers: [HttpHandler, MessageService, AppSecurityService, HttpClient],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -49,9 +50,9 @@ describe('UserLoginComponent', () => {
     expect(passwordField).toBeTruthy()
     const submitButton: HTMLButtonElement = compiled.querySelector('.submit-button') as HTMLButtonElement
 
-    const loginSpy = spyOn(fixture.componentInstance, 'login').and.callThrough();
+    const loginSpy = vi.spyOn(fixture.componentInstance, 'login');
     expect(submitButton).toBeTruthy()
     submitButton.click()
-    expect(loginSpy).toHaveBeenCalledWith(jasmine.any(NgForm));
+    expect(loginSpy).toHaveBeenCalledWith(expect.any(NgForm));
   }))
 });

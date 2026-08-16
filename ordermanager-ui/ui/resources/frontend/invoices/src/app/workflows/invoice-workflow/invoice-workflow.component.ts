@@ -31,25 +31,24 @@ import {InvoiceActions} from './state/invoice.actions';
 import {WorkflowStatuses} from './state/invoice.state';
 
 @Component({
-  selector: 'app-invoice-workflow',
-  standalone: true,
-  imports: [
-    ButtonModule,
-    CommonModule,
-    FloatLabel,
-    FormsModule,
-    InputTextModule,
-    InvoiceFormModule,
-    InvoicePipesModule,
-    TableModule,
-    ToastModule,
-    TranslocoPipe,
-    ValidatableCalendarModule,
-    ValidatableDropdownlistModule,
-    ValidatableInputTextComponent
-  ],
-  templateUrl: './invoice-workflow.component.html',
-  styleUrls: ['./invoice-workflow.component.css']
+    selector: 'app-invoice-workflow',
+    imports: [
+        ButtonModule,
+        CommonModule,
+        FloatLabel,
+        FormsModule,
+        InputTextModule,
+        InvoiceFormModule,
+        InvoicePipesModule,
+        TableModule,
+        ToastModule,
+        TranslocoPipe,
+        ValidatableCalendarModule,
+        ValidatableDropdownlistModule,
+        ValidatableInputTextComponent
+    ],
+    templateUrl: './invoice-workflow.component.html',
+    styleUrls: ['./invoice-workflow.component.css']
 })
 export class InvoiceWorkflowComponent implements OnInit, OnDestroy {
   workflowFrm = viewChild.required<NgForm>('workflowFrm');

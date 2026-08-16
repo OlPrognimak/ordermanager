@@ -39,10 +39,11 @@ import { NgForm } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 
 @Component({
-  selector: 'app-user-registration',
-  templateUrl: './user-registration.component.html',
-  styleUrls: ['./user-registration.component.css'],
-  providers: [HttpClient, MessageService, MessagesPrinter],
+    selector: 'app-user-registration',
+    templateUrl: './user-registration.component.html',
+    styleUrls: ['./user-registration.component.css'],
+    providers: [HttpClient, MessageService, MessagesPrinter],
+    standalone: false
 })
 export class UserRegistrationComponent implements OnInit, OnDestroy {
 

@@ -3,22 +3,23 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
 
 @Component({
-  selector: 'app-editable-input-cell',
-  templateUrl: './editable-input-cell.component.html',
-  styleUrls: ['./editable-input-cell.component.css'],
-  styles: [
-    ':host ::ng-deep .p-cell-editing {\n' +
-    '          padding-top: 0 !important;\n' +
-    '          padding-bottom: 0 !important;\n' +
-    '      }'
-  ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EditableInputCellComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-editable-input-cell',
+    templateUrl: './editable-input-cell.component.html',
+    styleUrls: ['./editable-input-cell.component.css'],
+    styles: [
+        ':host ::ng-deep .p-cell-editing {\n' +
+            '          padding-top: 0 !important;\n' +
+            '          padding-bottom: 0 !important;\n' +
+            '      }'
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => EditableInputCellComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class EditableInputCellComponent implements OnInit, ControlValueAccessor {
 

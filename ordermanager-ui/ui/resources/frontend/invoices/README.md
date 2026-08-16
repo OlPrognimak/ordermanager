@@ -1,6 +1,10 @@
 # Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+Angular frontend for Ordermanager.
+
+Current frontend version: `0.1.0`.
+
+This application uses Angular 19, PrimeNG 19, Transloco, NgRx, and Vitest. Unit tests were migrated from Jasmine/Karma to Vitest through `@analogjs/vitest-angular`.
 
 ## Development server
 
@@ -12,11 +16,19 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` or `npm run build` to build the project. The build artifacts are written to `dist/static`.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` or `npm test` to execute unit tests via [Vitest](https://vitest.dev).
+
+Important test files:
+
+- `vite.config.mts`: Vitest and Vite configuration.
+- `src/test-setup.ts`: Angular TestBed setup, Transloco test module, and jsdom browser polyfills.
+- `tsconfig.spec.json`: Vitest, Vite, and Node test typings.
+
+The Angular CLI `test` target uses `@analogjs/vitest-angular:test`; Jasmine and Karma are no longer used for unit tests.
 
 ## Running end-to-end tests
 
