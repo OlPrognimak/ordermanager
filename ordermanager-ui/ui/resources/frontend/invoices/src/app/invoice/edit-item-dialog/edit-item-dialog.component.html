@@ -32,28 +32,28 @@
 
         <div class="catalog-edit-fields">
           <div>
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
               context:{controlPath: 'description',
                    idComponent: 'id_ItemDesc',
                    labelText: 'invoice.item.table.item_name' | transloco}">
             </ng-container>
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
               context:{controlPath: 'shortDescription',
               idComponent: 'id_shortDescription',
               labelText: 'invoice.item.table.short_description' | transloco}">
             </ng-container>
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate();
                context:{controlPath: 'itemPrice',
                idComponent: 'id_ItemPrice',
                labelText: 'invoice.item.table.price' | transloco}">
             </ng-container>
           </div>
           <div>
-            <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputNumberTemplate();
                context:{controlPath: 'vat',
                idComponent: 'id_ItemVat',
                labelText: 'invoice.item.table.vat' | transloco}">

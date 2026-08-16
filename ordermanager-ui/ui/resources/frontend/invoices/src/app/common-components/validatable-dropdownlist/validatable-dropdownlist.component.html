@@ -2,18 +2,20 @@
   <div class="field-row">
     <p-floatlabel class="w-100">
       <p-dropdown #modelRef="ngModel"
-                  (ngModelChange)="onChange($event); setValueChanged($event)"
-                  [(ngModel)]="controlValue"
+                  (ngModelChange)="setValueChanged($event)"
+                  [(ngModel)]="value"
                   class="w-100"
                   [name]="inputName() || name() || idComponent()"
                   [options]="optionList()"
+                  optionLabel="label"
+                  optionValue="value"
                   [inputId]="idComponent()"
                   minlength="{{txtMinLength()}}"
                   (onBlur)="onTouched()"
 
                   [ngClass]="{
                                 'ng-invalid ng-dirty': modelRef.invalid && (modelRef.dirty || modelRef.touched),
-                                'p-inputwrapper-filled': controlValue !== null && controlValue !== undefined && controlValue !== ''
+                                'p-inputwrapper-filled': value !== null && value !== undefined && value !== ''
                               }"
                   required>
       </p-dropdown>

@@ -47,7 +47,7 @@
         </div>
         <div class="p-grid u-mt-10pt">
           <div class="p-col-4 edit-invoice-field-spacer">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'invoiceNumber',
                    idComponent: 'id_InvoiceNumber',
                    labelText: 'invoice.number' | transloco
@@ -55,7 +55,7 @@
             </ng-container>
           </div>
           <div class="p-col-4 edit-invoice-field-spacer">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'invoiceDescription',
                    idComponent: 'id-invoiceDescription',
                    labelText: 'invoice.description' | transloco
@@ -66,7 +66,7 @@
         </div>
         <div class="p-grid">
           <div class="p-col-3 margin-top-20">
-            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate();
           context:{controlPath: 'rateType',
                    placeholderPar: 'Select rate Type',
                    idComponent: 'id-rateType',
@@ -78,7 +78,7 @@
         </div>
         <div class="p-grid">
           <div class="p-col-3 margin-top-20">
-            <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate();
           context:{controlPath: 'invoiceDate',
                    idComponent: 'id-InvoiceDate',
                    labelText: 'invoice.invoice_date' | transloco,
@@ -89,7 +89,7 @@
           </div>
           <div class="p-col-3 margin-top-20">
 
-            <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.calendarTemplate();
           context:{controlPath: 'creationDate',
                    idComponent: 'id-creationDate',
                    labelText: 'invoice.creation_date' | transloco,
@@ -101,7 +101,7 @@
 
         <div class="p-grid">
           <div class="p-col-6 margin-top-20">
-            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate();
           context:{controlPath: 'personSupplierId',
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',
@@ -114,7 +114,7 @@
 
         <div class="p-grid">
           <div class="p-col-6 margin-top-20">
-            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate();
           context:{controlPath: 'personRecipientId',
                    placeholderPar: 'Select person',
                    idComponent: 'id-invoiceCreator',

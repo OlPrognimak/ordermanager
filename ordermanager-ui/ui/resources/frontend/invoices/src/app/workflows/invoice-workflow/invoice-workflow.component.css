@@ -107,6 +107,11 @@
   font-weight: 700;
 }
 
+.workflow-step-summary {
+  margin-bottom: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+}
+
 .workflow-card {
   overflow: hidden;
   background: #fff;
@@ -179,6 +184,10 @@
   font-size: 0.78rem;
 }
 
+.workflow-review-item strong {
+  overflow-wrap: anywhere;
+}
+
 .workflow-review-wide {
   grid-column: 1 / -1;
 }
@@ -236,7 +245,8 @@
 
   .workflow-heading,
   .workflow-progress,
-  .workflow-steps {
+  .workflow-steps,
+  .workflow-step-summary {
     margin-left: 1rem;
     margin-right: 1rem;
   }

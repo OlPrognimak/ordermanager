@@ -51,7 +51,7 @@
         <div class="p-grid u-ml-2px">
           <div class="p-col-6 margin-top-20 margin-bottom-20">
 
-            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.comboboxTemplate();
           context:{controlPath: 'personType',
                    placeholderPar: 'Select person type',
                    idComponent: 'id-personType',
@@ -63,7 +63,7 @@
         </div>
         <div *ngIf="editPersonFG.get('personType')?.value==='PRIVATE'" class="p-grid person-field-row">
           <div class="p-col-3 edit-person-left-6px">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'personFirstName',
                    idComponent: 'id_firstName',
                    labelText: 'person.form.field.first_name' | transloco
@@ -71,7 +71,7 @@
             </ng-container>
           </div>
           <div class="p-col-3">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'personLastName',
                    idComponent: 'id_lastName',
                    labelText: 'person.form.field.last_name' | transloco
@@ -82,7 +82,7 @@
 
         <div *ngIf="editPersonFG.get('personType')?.value==='ORGANISATION'" class="p-grid person-field-row">
           <div class="p-col-3">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'companyName',
                    idComponent: 'id_companyNme',
                    labelText: 'person.form.field.company_name' | transloco
@@ -92,7 +92,7 @@
         </div>
         <div class="p-grid person-field-row person-field-row-following">
           <div class="p-col-3 edit-person-padding-left-5px">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'email',
                    idComponent: 'id_email',
                    labelText: 'person.form.field.email' | transloco
@@ -104,7 +104,7 @@
         <div class="p-grid person-field-row person-field-row-following">
 
           <div class="p-col-3 edit-person-padding-left-5px">
-            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+            <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'vatIdNumber',
                    idComponent: 'id_vatNumber',
                    labelText: 'person.form.field.vat_id_number' | transloco
@@ -114,7 +114,7 @@
 
             @if (editPersonFG.get('personType')?.value==='PRIVATE') {
               <div class="p-col-3">
-                <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+                <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
             context:{controlPath: 'taxNumber',
                      idComponent: 'id_taxNumber',
                      labelText: 'person.form.field.tax_number' | transloco
@@ -134,7 +134,7 @@
           </div>
           <div class="p-grid">
             <div class="p-col-2 u-ml-5pt">
-              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'personAddressFormModel.zipCode',
                    idComponent: 'id_zipCode',
                    labelText: 'person.form.field.zip' | transloco
@@ -142,7 +142,7 @@
               </ng-container>
             </div>
             <div class="p-col-3 u-ml-5pt">
-              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'personAddressFormModel.city',
                    idComponent: 'id_city',
                    labelText: 'person.form.field.city' | transloco
@@ -153,7 +153,7 @@
           <div class="p-grid edit-person-zero-left">
             <div class="p-col-2 margin-bottom-20 edit-person-padding-left-6px-important">
               <div class="u-mt-15pt">
-                <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+                <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'personAddressFormModel.postBoxCode',
                    idComponent: 'id_postBoxCode',
                    labelText: 'person.form.field.postbox' | transloco
@@ -163,7 +163,7 @@
             </div>
             <div class="p-col-3 margin-bottom-20 u-ml-5pt">
               <div class="u-mt-15pt">
-                <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+                <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'personAddressFormModel.street',
                    idComponent: 'id_street',
                    labelText: 'person.form.field.street' | transloco
@@ -187,7 +187,7 @@
           </div>
           <div class="p-grid person-field-row">
             <div class="p-col-4 edit-person-ml-5pt-mt-5pt">
-              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
           context:{controlPath: 'bankAccountFormModel.bankName',
                    idComponent: 'id_BankName',
                    labelText: 'person.form.field.bank' | transloco
@@ -196,7 +196,7 @@
             </div>
 
             <div class="p-col-2 edit-person-mt-5pt">
-              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
             context:{controlPath: 'bankAccountFormModel.accountNumber',
                      idComponent: 'id_AccountNumber',
                      labelText: 'person.form.field.account' | transloco
@@ -207,7 +207,7 @@
 
           <div class="p-grid person-field-row person-field-row-following">
             <div class="p-col-4 margin-bottom-20 edit-person-ml-4pt-mt-12pt">
-              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
             context:{controlPath: 'bankAccountFormModel.iban',
                      idComponent: 'id_iban',
                      labelText: 'person.form.field.iban' | transloco
@@ -215,7 +215,7 @@
               </ng-container>
             </div>
             <div class="p-col-2 margin-bottom-20 edit-person-ml-5pt-mt-12pt">
-              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate;
+              <ng-container *ngTemplateOutlet="templatesComponent.inputTextTemplate();
             context:{controlPath: 'bankAccountFormModel.bicSwift',
                      idComponent: 'id-acc-bicSwift',
                      labelText: 'person.form.field.bic_swift' | transloco

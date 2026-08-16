@@ -36,6 +36,87 @@
       }
     </nav>
 
+    @if (currentStepIndex > 0) {
+      <section class="workflow-review workflow-step-summary" [attr.aria-label]="'workflow.invoice.previous_values' | transloco">
+        @if (currentStepIndex > 0) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.number' | transloco }}</span>
+            <strong>{{ invoice.invoiceNumber || ('workflow.invoice.review.not_selected' | transloco) }}</strong>
+          </div>
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.rate_type' | transloco }}</span>
+            <strong>{{ rateLabel(invoice.rateType) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 1) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.creation_date' | transloco }}</span>
+            <strong>{{ invoice.creationDate ? (invoice.creationDate | date:'mediumDate') : ('workflow.invoice.review.not_selected' | transloco) }}</strong>
+          </div>
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.invoice_date' | transloco }}</span>
+            <strong>{{ invoice.invoiceDate ? (invoice.invoiceDate | date:'mediumDate') : ('workflow.invoice.review.not_selected' | transloco) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 2) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.person_creator' | transloco }}</span>
+            <strong>{{ personLabel(invoice.personSupplierId) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 3) {
+          <div class="workflow-review-item">
+            <span>{{ 'invoice.person_recipient' | transloco }}</span>
+            <strong>{{ personLabel(invoice.personRecipientId) }}</strong>
+          </div>
+        }
+
+        @if (currentStepIndex > 4) {
+          <div class="workflow-review-item workflow-review-wide">
+            <span>{{ 'workflow.invoice.review.items' | transloco }}</span>
+            <p-table
+              [autoLayout]="true"
+              [value]="workflowInvoiceItems"
+              class="p-global-table workflow-summary-table"
+              styleClass="p-datatable-gridlines">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>{{ 'invoice.item.table.short_description' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.amount' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.price' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.vat' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.sum_netto' | transloco }}</th>
+                  <th>{{ 'invoice.item.table.sum_brutto' | transloco }}</th>
+                </tr>
+              </ng-template>
+
+              <ng-template let-invoiceitem pTemplate="body">
+                <tr>
+                  <td>{{ itemLabel(invoiceitem) }}</td>
+                  <td>{{ invoiceitem.amountItems | standardFloat }}</td>
+                  <td>{{ invoiceitem.itemPrice | standardFloat }}</td>
+                  <td>{{ invoiceitem.vat | standardFloat }}</td>
+                  <td>{{ invoiceitem.sumNetto | standardFloat }}</td>
+                  <td>{{ invoiceitem.sumBrutto | standardFloat }}</td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="4">{{ 'workflow.invoice.review.totals' | transloco }}</td>
+                  <td>{{ totalNettoSum(workflowInvoiceItems) | standardFloat }}</td>
+                  <td>{{ totalBruttoSum(workflowInvoiceItems) | standardFloat }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        }
+      </section>
+    }
+
     <form #workflowFrm="ngForm" class="workflow-card">
       <div class="workflow-card-header">
         <span class="workflow-card-step">{{ 'workflow.invoice.step_count' | transloco: {current: currentStepIndex + 1, total: createInvoiceFlowEvents.length} }}</span>

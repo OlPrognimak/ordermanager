@@ -1,16 +1,22 @@
 <p-toast></p-toast>
 
 @if (!isAuthenticated()) {
-  <div class="app-header p-shadow-4">
-    <a
-      (click)="router.navigateByUrl('/')"
-      [pTooltip]="'tooltips.navigate_home' | transloco"
-      tooltipPosition="right"
-      class="home-link">
-      <img src="assets/home-small.png" alt="Home">
-    </a>
+  <div class="app-header authenticated-header">
+    <p-menubar [model]="unauthenticatedMenuItems" styleClass="app-main-menu">
+      <ng-template pTemplate="start">
+        <a
+          (click)="router.navigateByUrl('/')"
+          [pTooltip]="'tooltips.navigate_home' | transloco"
+          tooltipPosition="right"
+          class="home-link">
+          <img src="assets/home-small.png" alt="Home">
+        </a>
+        <span class="app-title">{{ 'title' | transloco }}</span>
+      </ng-template>
 
-    <h3 class="app-title">{{ 'title' | transloco }}</h3>
+      <ng-template pTemplate="end">
+      </ng-template>
+    </p-menubar>
   </div>
 
   <app-user-login></app-user-login>

@@ -1,1 +1,18 @@
-‚
+<p-dropdown
+  [(ngModel)]="activeLang"
+  (ngModelChange)="switchLang($event)"
+  [options]="languageOptions"
+  optionLabel="label"
+  optionValue="value"
+  styleClass="language-switcher-dropdown">
+  <ng-template pTemplate="selectedItem" let-language>
+    <span class="language-switcher-value">
+      <i class="pi pi-globe"></i>
+      <span>{{ language?.label }}</span>
+    </span>
+  </ng-template>
+
+  <ng-template pTemplate="item" let-language>
+    <span>{{ language.label }}</span>
+  </ng-template>
+</p-dropdown>

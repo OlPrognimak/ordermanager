@@ -6,6 +6,7 @@
       "subtitle": "Vervollständigen Sie jeden Schritt. Ihre Eingaben bleiben beim Wechsel zwischen den Schritten erhalten.",
       "navigation": "Schritte der Rechnungserstellung",
       "step_count": "Schritt {{current}} von {{total}}",
+      "previous_values": "Bisherige Auswahl",
       "previous": "Zurück",
       "next": "Weiter",
       "save": "Rechnung speichern",
@@ -13,6 +14,7 @@
       "create_person": "Neue Person erstellen",
       "review": {
         "items": "Rechnungspositionen",
+        "totals": "Summen",
         "not_selected": "Nicht ausgewählt"
       },
       "steps": {
