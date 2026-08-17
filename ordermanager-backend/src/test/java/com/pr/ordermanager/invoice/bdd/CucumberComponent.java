@@ -9,10 +9,10 @@ import com.pr.ordermanager.security.service.UserAuthProvider;
 import com.pr.ordermanager.security.service.UserService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class CucumberComponent {
     @Autowired
     UserAuthProvider authProvider;
 
-    private TestRestTemplate restTemplate = new TestRestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
 
     public ItemCatalogRepository getCatalogRepository() {

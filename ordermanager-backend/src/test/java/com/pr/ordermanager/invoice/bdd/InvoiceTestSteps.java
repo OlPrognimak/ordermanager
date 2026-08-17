@@ -18,10 +18,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -64,8 +62,8 @@ public class InvoiceTestSteps {
         return  ItemCatalog.builder()
                 .itemPrice(Double.valueOf(entry.get("itemPrice")))
                 .vat(Integer.valueOf(entry.get("vat")))
-                .description((String) entry.get("description"))
-                .shortDescription((String) entry.get("shortDescription"))
+                .description(entry.get("description"))
+                .shortDescription(entry.get("shortDescription"))
                 .build();
     }
 
@@ -219,11 +217,13 @@ public class InvoiceTestSteps {
     public void user_click_save_button() throws URISyntaxException {
         // Write code here that turns the phrase above into concrete actions
         URI uri = new URI("http://localhost:".concat(String.valueOf(backendPort)).concat("/backend/invoice"));
-        MultiValueMap<String, String> headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer "+token);
 
-        RequestEntity<InvoiceFormModel> entity = new RequestEntity(invoiceModel, headers, HttpMethod.PUT, uri);
+        RequestEntity<InvoiceFormModel> entity = RequestEntity.put(uri)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .body(invoiceModel);
         response = cucumberComponent.getRestTemplate().exchange(entity, CreatedResponse.class);
     }
     @Then("the server should have {int} invoice in the database and return http status {int}")

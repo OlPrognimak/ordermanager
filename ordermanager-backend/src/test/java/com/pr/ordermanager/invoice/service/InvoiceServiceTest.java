@@ -10,8 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import( {TestServicesConfiguration.class, TestServiceHelper.class} )
 @Transactional
@@ -38,6 +38,8 @@ class InvoiceServiceTest {
 
     @BeforeEach
     public void setUp() {
+        invoiceRepository.deleteAll();
+        itemCatalogRepository.deleteAll();
         invoiceService.saveItemCatalog(ItemCatalog.builder().description("Test item1 description 1111.")
                 .shortDescription("Item 1111").itemPrice(100D).vat(19).build());
         invoiceService.saveItemCatalog(ItemCatalog.builder().description("Test item2 shortDescription 2222.")

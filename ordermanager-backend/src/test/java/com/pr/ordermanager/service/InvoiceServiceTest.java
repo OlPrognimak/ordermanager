@@ -6,6 +6,7 @@ import com.pr.ordermanager.TestServicesConfiguration;
 import com.pr.ordermanager.invoice.entity.Invoice;
 import com.pr.ordermanager.invoice.entity.InvoiceItem;
 import com.pr.ordermanager.invoice.entity.ItemCatalog;
+import com.pr.ordermanager.invoice.repository.InvoiceItemRepository;
 import com.pr.ordermanager.invoice.repository.InvoiceRepository;
 import com.pr.ordermanager.invoice.repository.ItemCatalogRepository;
 import com.pr.ordermanager.invoice.service.InvoiceService;
@@ -19,14 +20,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import( {TestServicesConfiguration.class, TestServiceHelper.class})
 public class InvoiceServiceTest {
@@ -38,6 +39,8 @@ public class InvoiceServiceTest {
     @Autowired
     private InvoiceRepository invoiceRepository;
     @Autowired
+    private InvoiceItemRepository invoiceItemRepository;
+    @Autowired
     private ItemCatalogRepository itemCatalogRepository;
     @Autowired
     private TestServiceHelper testServiceHelper;
@@ -46,14 +49,16 @@ public class InvoiceServiceTest {
 
     @BeforeEach
     void setUp() {
-        personRepository.deleteAll();
+        invoiceItemRepository.deleteAll();
         invoiceRepository.deleteAll();
+        personRepository.deleteAll();
 
     }
 
     @AfterEach
     void tearDown() {
-        personRepository.deleteAll();
+        invoiceItemRepository.deleteAll();
+        invoiceRepository.deleteAll();
         personRepository.deleteAll();
         itemCatalogRepository.deleteAll();
     }

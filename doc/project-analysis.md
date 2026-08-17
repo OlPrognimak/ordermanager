@@ -145,9 +145,9 @@ Useful commands:
 
 ## Maintenance Notes
 
-- `README.md` had drifted from the code in several places. The current code uses Spring Boot 3.5.14, Java 21, Angular 19, Spring Cloud 2025.0.0, and OpenAPI UI 2.8.17.
-- The Spring Boot parent version is `3.5.14`. Prefer the parent version as the source of truth for documentation and dependency-alignment checks.
-- `hibernate-entitymanager` 5.4.2.Final is still declared next to Hibernate ORM 6.2.3.Final. That is a potential modernization/compatibility cleanup.
+- `README.md` had drifted from the code in several places. The current code uses Spring Boot 4.1.0, Java 21, Angular 19, Spring Cloud 2025.1.2, and OpenAPI UI 3.1.0.
+- The Spring Boot parent version is `4.1.0`. Prefer the parent version as the source of truth for documentation and dependency-alignment checks.
+- Hibernate is managed by Spring Boot through `spring-boot-starter-data-jpa`; avoid adding direct Hibernate version overrides unless a compatibility test proves they are needed.
 - The backend uses both Liquibase and `ddl-auto=update`; this can hide migration problems. Prefer explicit Liquibase changes for schema evolution in production-like environments.
 - Several generated or local files are checked in or present in the workspace, including `node_modules`, Angular `dist`, `.DS_Store`, and JVM crash logs. Avoid relying on them as source files.
 - The backend security package includes JWT-related classes while some documentation still mentions BasicAuth. Current documentation should describe the implementation as custom Spring Security with login/token support unless a code review confirms BasicAuth is still the active runtime contract.

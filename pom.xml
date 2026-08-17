@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.14</version>
+		<version>4.1.0</version>
 		<relativePath/>
 	</parent>
 
@@ -27,22 +27,15 @@
 		<maven.compiler.release>21</maven.compiler.release>
 		<docker.image.prefix>myproject</docker.image.prefix>
 		<outputFolder>${project.build.directory}/${project.artifactId}</outputFolder>
-		<postgresql.version>42.6.0</postgresql.version>
-		<h2.version>2.1.214</h2.version>
-		<log4j2.version>2.20.0</log4j2.version>
-		<hibernate.version>6.2.3.Final</hibernate.version>
-		<jakarta.validator.api.version>3.1.0</jakarta.validator.api.version>
-		<jakarta.hibernate.validator.version>8.0.1.Final</jakarta.hibernate.validator.version>
 		<jasper.report.version>6.20.5</jasper.report.version>
 		<lombok.version>1.18.32</lombok.version>
-		<springdoc.openapi.version>1.7.0</springdoc.openapi.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<mapstruct.version>1.6.3</mapstruct.version>
 		<mockito.version>5.3.1</mockito.version>
-		<jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 		<java.jwt.version>4.4.0</java.jwt.version>
 		<cucumber.version>7.14.0</cucumber.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<openapi.ui>2.8.17</openapi.ui>
-		<liquibase-core.version>5.0.2</liquibase-core.version>
+		<spring-cloud.version>2025.1.2</spring-cloud.version>
+		<openapi.ui>3.1.0</openapi.ui>
 	</properties>
 
 
@@ -61,61 +54,6 @@
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>${openapi.ui}</version>
 			</dependency>
-			<!-- Jackson-->
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-xml</artifactId>
-				<version>2.15.2</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-yaml</artifactId>
-				<version>2.15.2</version>
-			</dependency>
-
-			<!-- Hibernate -->
-			<dependency>
-				<groupId>org.hibernate.orm</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>6.2.3.Final</version>
-			</dependency>
-			<dependency>
-				<groupId>jakarta.validation</groupId>
-				<artifactId>jakarta.validation-api</artifactId>
-				<version>${jakarta.validator.api.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate.validator</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${jakarta.hibernate.validator.version}</version>
-			</dependency>
-
-			<!-- log4j2 -->
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>${log4j2.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>${log4j2.version}</version>
-			</dependency>
-
-			<!-- H2, Postgres -->
-			<dependency>
-				<groupId>org.postgresql</groupId>
-				<artifactId>postgresql</artifactId>
-				<version>${postgresql.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<version>${h2.version}</version>
-				<scope>test</scope>
-			</dependency>
-           <!-- JUnit-5 -->
-
 			<!-- Jasper report-->
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
@@ -152,13 +90,6 @@
 <!--				<version>${mockito.version}</version>-->
 <!--				<scope>test</scope>-->
 <!--			</dependency>-->
-			<!--       JEE    -->
-			<!-- https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api -->
-			<dependency>
-				<groupId>jakarta.annotation</groupId>
-				<artifactId>jakarta.annotation-api</artifactId>
-				<version>${jakarta.annotation.version}</version>
-			</dependency>
 			<!-- Cucumber -->
 			<dependency>
 				<groupId>io.cucumber</groupId>
@@ -177,13 +108,6 @@
 				<artifactId>cucumber-spring</artifactId>
 				<version>${cucumber.version}</version>
 				<scope>test</scope>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-core</artifactId>
-				<version>${liquibase-core.version}</version>
 			</dependency>
 
 		</dependencies>
@@ -237,7 +161,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>3.5.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -390,33 +313,7 @@
 			</build>
 		</profile>
 	</profiles>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven-central</id>
-			<name>Maven Central</name>
-			<url>https://repo1.maven.org/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
-	<modules>
+		<modules>
 		<module>ordermanager-backend</module>
 		<module>ordermanager-ui</module>
         <module>service-discovery</module>
