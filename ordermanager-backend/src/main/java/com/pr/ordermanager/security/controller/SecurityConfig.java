@@ -34,13 +34,12 @@ import com.pr.ordermanager.security.service.UserAuthProvider;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -51,10 +50,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
@@ -66,7 +63,6 @@ import java.util.Arrays;
 @EnableWebSecurity
 @RequiredArgsConstructor
 //@EnableMethodSecurity
-@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
 public class SecurityConfig {
     private static final Logger logger = LogManager.getLogger(SecurityConfig.class);
 
@@ -75,19 +71,7 @@ public class SecurityConfig {
     private final UserAuthProvider userAuthProvider;
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("*");
-            }
-        };
-    }
-
-
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.addAllowedOriginPattern("*");
@@ -114,18 +98,30 @@ public class SecurityConfig {
                 HttpMethod.DELETE.name()
         ));
         corsConfiguration.setMaxAge(60*60L);
+        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
         corsConfigurationSource.registerCorsConfiguration("/**",corsConfiguration);
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new CorsFilter(corsConfigurationSource));
-        filterRegistrationBean.setOrder(-102);
-        return filterRegistrationBean;
+        return corsConfigurationSource;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 //Set JWT filter before BasicAuth filter
                 .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
                 .sessionManagement( customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.getWriter().write("{\"error\":\"unauthorized\"}");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpStatus.FORBIDDEN.value());
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.getWriter().write("{\"error\":\"forbidden\"}");
+                        })
+                )
                 .authorizeHttpRequests( (authorize) -> authorize
                         .requestMatchers(
                                 "/auth/**",
@@ -135,10 +131,10 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/registration", "/login", "/error", "/user", "/management").anonymous()
+                        .requestMatchers("/registration", "/login", "/error", "/user", "/management", "/invoice/report").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico",
                                 "/polyfills.js")
-                        .anonymous()
+                        .permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/person/**",
                                 "/invoice/**", "/person",
                                 "/invoice", "/logout", "/persons",
@@ -157,17 +153,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.debug(debugSecurity)
-                .ignoring()
-                .requestMatchers("/registration", "/login", "/invoice/report", "/management","/polyfills.js");
-
-                //.requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
-                //.antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return (web) -> web.debug(debugSecurity);
     }
 
     @Bean

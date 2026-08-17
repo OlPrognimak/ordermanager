@@ -1,21 +1,19 @@
 package com.pr.ordermanager.security.repository;
 
 import com.pr.ordermanager.security.entity.InvoiceUser;
-import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Oleksandr Prognimak
@@ -51,8 +49,8 @@ class UserRepositoryTest {
                 .username(null)
                 .password("123").build();
         DataIntegrityViolationException exception =
-                assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(testUser));
-        assertEquals("username", ((PropertyValueException)exception.getCause()).getPropertyName() );
+                assertThrows(DataIntegrityViolationException.class, () -> userRepository.saveAndFlush(testUser));
+        assertTrue(exception.getMessage().contains("USERNAME"));
     }
 
     @Transactional
@@ -64,8 +62,8 @@ class UserRepositoryTest {
                 .username("testuser")
                 .password(null).build();
         DataIntegrityViolationException exception =
-                assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(testUser));
-        assertEquals("password", ((PropertyValueException)exception.getCause()).getPropertyName() );
+                assertThrows(DataIntegrityViolationException.class, () -> userRepository.saveAndFlush(testUser));
+        assertTrue(exception.getMessage().contains("PASSWORD"));
     }
 
     @Transactional
@@ -81,6 +79,6 @@ class UserRepositoryTest {
 
         DataIntegrityViolationException exception =
                 assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(testUser));
-        assertEquals("password", ((PropertyValueException)exception.getCause()).getPropertyName() );
+        assertTrue(exception.getMessage().contains("PASSWORD"));
     }
 }

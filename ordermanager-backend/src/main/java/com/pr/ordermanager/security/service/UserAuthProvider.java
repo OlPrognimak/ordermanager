@@ -72,7 +72,7 @@ public class UserAuthProvider {
                 .roles(decodedJWT.getClaim("role").asString())
                 .build();
 
-        Stream<String> rolesStream = Stream.of(decodedJWT.getClaim("role").asString());
+        Stream<String> rolesStream = Stream.of(decodedJWT.getClaim("role").asString().split(","));
         List<GrantedAuthority> rolesList =rolesStream.collect(Collectors.mapping( a-> new UserGrantedAuthority(a), Collectors.toList()));
         //logger.info("USER ROLE :"+decodedJWT.getClaim("role").asString());
         return new UsernamePasswordAuthenticationToken(invoiceUser, null, rolesList);
@@ -85,13 +85,13 @@ public class UserAuthProvider {
  */
 class UserGrantedAuthority implements GrantedAuthority {
 
-    private String authority;
+    private final String authority;
     UserGrantedAuthority(String authority) {
         this.authority = authority;
     }
 
     @Override
     public String getAuthority() {
-        return null;
+        return authority;
     }
 }

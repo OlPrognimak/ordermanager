@@ -1,7 +1,7 @@
 # Ordermanager
 
 ![Java 21](https://img.shields.io/badge/Java-21-blue)
-![Spring Boot 3.5](https://img.shields.io/badge/Spring%20Boot-3.5.14-6DB33F)
+![Spring Boot 4.1](https://img.shields.io/badge/Spring%20Boot-4.1.0-6DB33F)
 ![Angular 19](https://img.shields.io/badge/Angular-19-DD0031)
 ![Maven](https://img.shields.io/badge/Build-Maven-C71A36)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791)
