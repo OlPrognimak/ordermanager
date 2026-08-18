@@ -12,3 +12,9 @@ release.properties
 .factorypath 
 *.iml
 bin
+
+# Node generated files
+ordermanager-backend/src-node/node_modules/
+ordermanager-backend/src-node/dist/
+ordermanager-ui/src-node/node_modules/
+ordermanager-ui/src-node/dist/
