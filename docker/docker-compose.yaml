@@ -53,6 +53,8 @@ services:
     - postgres
     - discovery
     - ordermanager
+    environment:
+      BACKEND_MICROCERVICE_URL: http://localhost:8083/backend/
     hostname: ordermanager-ui
     image: prognimak.ordermanager/frontend:002
     networks:
@@ -67,6 +69,8 @@ services:
       - postgres
       - discovery
       - ordermanager
+    environment:
+      BACKEND_MICROCERVICE_URL: http://localhost:8083/backend/
     hostname: ordermanager-node_ui
     image: prognimak.ordermanager/node-frontend:002
     networks:
