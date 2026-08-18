@@ -7,6 +7,9 @@
 
     <!-- PostgreSQL version -->
     <changeSet id="001-update-invoice-rate-type-check-pg" author="you" dbms="postgresql">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="invoice"/>
+        </preConditions>
         <sql>
 ALTER TABLE invoice
 DROP CONSTRAINT IF EXISTS invoice_rate_type_check;
@@ -28,6 +31,9 @@ ALTER TABLE invoice
 
     <!-- MySQL version -->
     <changeSet id="001-update-invoice-rate-type-check-mysql" author="you" dbms="mysql">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="invoice"/>
+        </preConditions>
         <sql>
 ALTER TABLE invoice
 DROP CHECK invoice_rate_type_check;

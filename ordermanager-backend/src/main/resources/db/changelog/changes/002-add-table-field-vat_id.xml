@@ -7,6 +7,12 @@
 
     <!-- PostgreSQL version -->
     <changeSet id="002-add_col_vat_field_id_number" author="oleksandr.prognimak">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="person"/>
+            <not>
+                <columnExists tableName="person" columnName="vat_id_number"/>
+            </not>
+        </preConditions>
         <addColumn tableName="person">
             <column name="vat_id_number" type="VARCHAR(50)"/>
         </addColumn>

@@ -1,11 +1,9 @@
 #!/bin/bash
 set -e
 
-POSTGRES="psql --username test"
+POSTGRES="psql --username test --dbname postgres"
 
 echo "Creating database: "
 
-$POSTGRES <<EOSQL
-CREATE DATABASE test_db OWNER test;
-
-EOSQL
+$POSTGRES -tc "SELECT 1 FROM pg_database WHERE datname = 'test_db'" | grep -q 1 \
+  || $POSTGRES -c "CREATE DATABASE test_db OWNER test;"
