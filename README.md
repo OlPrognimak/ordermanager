@@ -2,7 +2,7 @@
 
 ![Java 21](https://img.shields.io/badge/Java-21-blue)
 ![Spring Boot 4.1](https://img.shields.io/badge/Spring%20Boot-4.1.0-6DB33F)
-![Angular 19](https://img.shields.io/badge/Angular-19-DD0031)
+![Angular 20](https://img.shields.io/badge/Angular-20-DD0031)
 ![Maven](https://img.shields.io/badge/Build-Maven-C71A36)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791)
 
@@ -52,7 +52,7 @@ Docker image bases used by the project:
 | --- | --- |
 | `ordermanager-backend` | Spring Boot REST backend for users, persons, invoice catalog items, invoices, workflows, persistence, and PDF generation. |
 | `ordermanager-ui` | Spring Boot wrapper that serves the generated Angular application and exposes the backend URL to the browser. |
-| `ordermanager-ui/ui/resources/frontend/invoices` | Angular 19 single-page application. This is the main frontend source. |
+| `ordermanager-ui/ui/resources/frontend/invoices` | Angular 20 single-page application. This is the main frontend source. |
 | `ordermanager-ui/src-node` | TypeScript/Express backend prototype for frontend configuration and management endpoints. |
 | `service-discovery` | Eureka server for service discovery in local and Docker deployments. |
 | `docker` | Dockerfiles, Compose files, and copied runnable artifacts. |
@@ -227,11 +227,11 @@ The frontend consists of two parts:
 
 | Package / library | Description |
 | --- | --- |
-| Angular 19 | Main frontend framework. |
+| Angular 20 | Main frontend framework. |
 | Angular Forms | Template-driven and reactive forms. |
 | Angular Router | Page routing. |
 | Angular Material | Additional UI controls. |
-| PrimeNG 19 | Main UI component library. |
+| PrimeNG 20 | Main UI component library. |
 | Vitest / Vite / AnalogJS Vitest Angular | Angular unit-test runner replacing Jasmine/Karma. |
 | PrimeFlex | Utility CSS used with PrimeNG layouts. |
 | ag-Grid | Invoice list/table display and PDF download action cells. |
