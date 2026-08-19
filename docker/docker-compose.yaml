@@ -1,3 +1,5 @@
+name: ordermanager
+
 #version: '3.3'
 
 networks:
@@ -9,6 +11,7 @@ services:
     environment:
       PGDATA: /var/lib/postgresql-ftu/data/pgdata
       POSTGRES_INITDB_ARGS: --data-checksums
+      POSTGRES_DB: test_db
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
     hostname: postgres
@@ -17,13 +20,19 @@ services:
       nw_prognimak: null
     ports:
     - 5455:5432
+    healthcheck:
+      test: ["CMD-SHELL", "psql -U test -d postgres -tAc \"SELECT 1 FROM pg_database WHERE datname = 'test_db'\" | grep -q 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     volumes:
     - vol-postgres2:/var/lib/postgresql-ftu/data/pgdata:rw
     - ./backend/opt/sql/create-db:/docker-entrypoint-initdb.d:rw
 ### Discovery
   discovery:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     hostname: discovery
     image: prognimak.ordermanager/discovery:002
     networks:
@@ -33,12 +42,15 @@ services:
 ### Backend
   ordermanager:
     depends_on:
-    - postgres
-    - discovery
+      postgres:
+        condition: service_healthy
+      discovery:
+        condition: service_started
     environment:
       DB_NAME: test_db
       DB_PORT: 5432
       DB_HOST: postgres
+      SPRING_LIQUIBASE_ENABLED: "false"
     hostname: ordermanager
     image: prognimak.ordermanager/backend:001
     networks:
@@ -50,11 +62,17 @@ services:
 ##### UI with SpringBoot server
   ordermanager-ui:
     depends_on:
-    - postgres
-    - discovery
-    - ordermanager
+      postgres:
+        condition: service_healthy
+      discovery:
+        condition: service_started
+      ordermanager:
+        condition: service_started
     environment:
-      BACKEND_MICROCERVICE_URL: http://localhost:8083/backend/
+      # This URL is returned to the browser by /frontend/backendUrl.
+      # Use a browser-reachable host here; Docker service name "ordermanager"
+      # is only resolvable from other containers.
+      BACKEND_MICROCERVICE_URL: ${BACKEND_MICROCERVICE_URL:-http://localhost:8083/backend/}
     hostname: ordermanager-ui
     image: prognimak.ordermanager/frontend:002
     networks:
@@ -66,11 +84,17 @@ services:
 ##### UI with NodeJS server
   ordermanager-node_ui:
     depends_on:
-      - postgres
-      - discovery
-      - ordermanager
+      postgres:
+        condition: service_healthy
+      discovery:
+        condition: service_started
+      ordermanager:
+        condition: service_started
     environment:
-      BACKEND_MICROCERVICE_URL: http://localhost:8083/backend/
+      # This URL is returned to the browser by /frontend/backendUrl.
+      # Use a browser-reachable host here; Docker service name "ordermanager"
+      # is only resolvable from other containers.
+      BACKEND_MICROCERVICE_URL: ${BACKEND_MICROCERVICE_URL:-http://localhost:8083/backend/}
     hostname: ordermanager-node_ui
     image: prognimak.ordermanager/node-frontend:002
     networks:

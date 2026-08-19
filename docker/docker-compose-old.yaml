@@ -1,0 +1,87 @@
+#version: '3.3'
+
+networks:
+  nw_prognimak: {}
+
+services:
+  ### DB Postgres
+  postgres:
+    environment:
+      PGDATA: /var/lib/postgresql-ftu/data/pgdata
+      POSTGRES_INITDB_ARGS: --data-checksums
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+    hostname: postgres
+    image: postgres:14
+    networks:
+      nw_prognimak: null
+    ports:
+      - 5455:5432
+    volumes:
+      - vol-postgres2:/var/lib/postgresql-ftu/data/pgdata:rw
+      - ./backend/opt/sql/create-db:/docker-entrypoint-initdb.d:rw
+  ### Discovery
+  discovery:
+    depends_on:
+      - postgres
+    hostname: discovery
+    image: prognimak.ordermanager/discovery:002
+    networks:
+      nw_prognimak: null
+    ports:
+      - 8761:8761
+  ### Backend
+  ordermanager:
+    depends_on:
+      - postgres
+      - discovery
+    environment:
+      DB_NAME: test_db
+      DB_PORT: 5432
+      DB_HOST: postgres
+    hostname: ordermanager
+    image: prognimak.ordermanager/backend:001
+    networks:
+      nw_prognimak: null
+    ports:
+      - 8083:8083
+    volumes:
+      - vol-ordermanager:/data/ordermanager-backend
+  ##### UI with SpringBoot server
+  ordermanager-ui:
+    depends_on:
+      - postgres
+      - discovery
+      - ordermanager
+    environment:
+      BACKEND_MICROCERVICE_URL: http://localhost:8083/backend/
+    hostname: ordermanager-ui
+    image: prognimak.ordermanager/frontend:002
+    networks:
+      nw_prognimak: null
+    ports:
+      - 8082:8082
+    volumes:
+      - vol-ordermanager-ui:/data/ordermanager-ui
+  ##### UI with NodeJS server
+  ordermanager-node_ui:
+    depends_on:
+      - postgres
+      - discovery
+      - ordermanager
+    environment:
+      BACKEND_MICROCERVICE_URL: http://localhost:8083/backend/
+    hostname: ordermanager-node_ui
+    image: prognimak.ordermanager/node-frontend:002
+    networks:
+      nw_prognimak: null
+    ports:
+      - 8085:8085
+    volumes:
+      - vol-ordermanager-node_ui:/data/ordermanager-node_ui
+  #### Volumes
+volumes:
+  vol-postgres2: {}
+  vol-ordermanager: {}
+  vol-ordermanager-ui: {}
+  vol-ordermanager-node_ui: {}
