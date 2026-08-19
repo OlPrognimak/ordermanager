@@ -2,7 +2,6 @@
 <form #itemsForm="ngForm" class="items-form">
   <div class="items-table-scroll">
     <p-table
-      [autoLayout]="true"
       [resizableColumns]="true"
       [value]="itemRows"
       class="p-global-table"
@@ -26,7 +25,7 @@
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <div class="item-dropdown-editor" [class.item-dropdown-invalid]="hasCatalogItemError(invoiceitem)">
-                  <p-dropdown
+                  <p-select
                     #modelRef="ngModel"
                     (onShow)="markCatalogItemActivated(invoiceitem)"
                     (onBlur)="markCatalogItemActivated(invoiceitem)"
@@ -43,7 +42,7 @@
                     [name]="'catalogItemId-' + invoiceitem.idxItem"
                     appendTo="body"
                     required>
-                  </p-dropdown>
+                  </p-select>
                   @if (hasCatalogItemError(invoiceitem)) {
                     <span class="item-error-icon">
                       <i class="pi pi-times-circle"></i>
@@ -54,7 +53,7 @@
               <ng-template pTemplate="output">
                 @if (!invoiceitem.catalogItemId) {
                   <div class="item-dropdown-editor item-dropdown-invalid">
-                    <p-dropdown
+                    <p-select
                       (onShow)="markCatalogItemActivated(invoiceitem)"
                       (onBlur)="markCatalogItemActivated(invoiceitem)"
                       (ngModelChange)="catalogItemSelected(invoiceitem, $event)"
@@ -66,7 +65,7 @@
                       [name]="'catalogItemOutput-' + invoiceitem.idxItem"
                       appendTo="body"
                       required>
-                    </p-dropdown>
+                    </p-select>
                     <span class="item-error-icon">
                       <i class="pi pi-times-circle"></i>
                     </span>

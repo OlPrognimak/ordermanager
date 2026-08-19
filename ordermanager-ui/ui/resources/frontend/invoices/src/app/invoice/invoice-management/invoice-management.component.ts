@@ -15,11 +15,10 @@ import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.num
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { EditInvoiceDialogComponent } from "../edit-invoice-dialog/edit-invoice-dialog.component";
-import { CalendarModule } from "primeng/calendar";
+import { DatePickerModule } from "primeng/datepicker";
 import { CommonServicesAppHttpService, MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { ConfirmationDialogComponent } from "../../common-components/confirmation-dialog/confirmation-dialog.component";
 import { MessageModule } from "primeng/message";
-import { MessagesModule } from "primeng/messages";
 import {isAuthenticated, printToJson} from "../../common-services/common-services-util.service";
 import { CommonServicesEditService } from "../../common-services/common-services.edit.service";
 import { environment } from "../../../environments/environment";
@@ -39,8 +38,8 @@ export class InvoiceManagementModule {
     selector: 'app-invoice-management',
     imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
         InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
-        ButtonModule, RippleModule, EditInvoiceDialogComponent, CalendarModule, ConfirmationDialogComponent,
-        MessageModule, MessagesModule, TranslocoModule],
+        ButtonModule, RippleModule, EditInvoiceDialogComponent, DatePickerModule, ConfirmationDialogComponent,
+        MessageModule, TranslocoModule],
     templateUrl: './invoice-management.component.html',
     styleUrls: ['./invoice-management.component.css'],
     providers: [CommonServicesPipesDate, AppSecurityService, MessagesPrinter]

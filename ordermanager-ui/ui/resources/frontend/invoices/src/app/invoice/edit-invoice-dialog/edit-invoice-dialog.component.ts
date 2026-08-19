@@ -39,13 +39,12 @@ import {
 } from "../../common-components/templates-component/templates-component.component";
 import { TooltipModule } from "primeng/tooltip";
 import { DialogModule } from "primeng/dialog";
-import { CalendarModule } from "primeng/calendar";
+import { DatePickerModule } from "primeng/datepicker";
 import {
   InvoiceReactiveItemsTableComponent
 } from "../invoice-reactive-items-table/invoice-reactive-items-table.component";
 import { Subject } from "rxjs";
 import { MessageModule } from "primeng/message";
-import { MessagesModule } from "primeng/messages";
 import {InvoiceItemsTableCalculatorService} from "../invoice-items-table/invoice-items-table.calculator.service";
 import {TranslocoPipe, TranslocoService} from "@jsverse/transloco";
 
@@ -64,8 +63,8 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
         ValidatableCalendarModule,
         ValidatableDropdownlistModule,
         TemplatesComponentComponent,
-        TooltipModule, MessageModule, MessagesModule,
-        DialogModule, CalendarModule, InvoiceReactiveItemsTableComponent, TranslocoPipe],
+        TooltipModule, MessageModule,
+        DialogModule, DatePickerModule, InvoiceReactiveItemsTableComponent, TranslocoPipe],
     providers: [
         MessageService, MessagesPrinter, CommonServicesUtilService
     ],

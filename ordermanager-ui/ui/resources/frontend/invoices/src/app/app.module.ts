@@ -11,11 +11,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { TableCellRendererComponent } from './invoice/table-cell-renderer/table-cell-renderer.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from "primeng/select";
 import { TableModule } from 'primeng/table';
-import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from "primeng/message";
 import { InputTextModule } from 'primeng/inputtext';
-import { MessageModule } from 'primeng/message';
 import {
   ValidatableDropdownlistModule
 } from './common-components/validatable-dropdownlist/validatable-dropdownlist.component';
@@ -66,11 +65,10 @@ import { translocoProviders } from './transloco/transloco.providers';
         AppRoutingModule,
         FormsModule,
         ButtonModule,
-        DropdownModule,
+        SelectModule,
         TableModule,
         InputTextModule,
         AgGridModule,
-        MessagesModule,
         MessageModule,
         MatProgressSpinnerModule,
         DialogModule,

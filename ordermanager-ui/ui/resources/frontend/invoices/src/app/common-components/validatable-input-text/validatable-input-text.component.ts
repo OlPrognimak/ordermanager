@@ -52,7 +52,6 @@ import {
   Validator
 } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
@@ -77,7 +76,7 @@ import { TranslocoModule } from '@jsverse/transloco';
             multi: true
         }
     ],
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule, TranslocoModule],
+    imports: [CommonModule, MessageModule, FormsModule, ToastModule, InputTextModule, FloatLabelModule, TranslocoModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ValidatableInputTextComponent implements OnInit, ControlValueAccessor, Validator {

@@ -41,7 +41,6 @@ import { CommonServicesAppHttpService, MessagesPrinter } from '../../common-serv
 import { CommonModule } from "@angular/common";
 import { FormGroupDirective, FormsModule, NgForm } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import {
@@ -184,7 +183,7 @@ export class PersonFormComponent implements OnInit, OnDestroy {
 @NgModule(
   {
     imports: [CommonModule, FormsModule, ButtonModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
+      MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
     declarations: [PersonFormComponent],
     exports: [PersonFormComponent],
   }

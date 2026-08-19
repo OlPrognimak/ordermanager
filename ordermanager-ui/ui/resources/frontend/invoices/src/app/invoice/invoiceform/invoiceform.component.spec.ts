@@ -11,7 +11,7 @@ import {
 import {
   ValidatableDropdownlistComponent
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { InvoiceFormComponent } from "./invoiceform.component";
 import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 
@@ -22,7 +22,7 @@ describe('InvoiceFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
     declarations: [ValidatableDropdownlistComponent],
-    imports: [CommonModule, FormsModule, MessageModule, DropdownModule, InvoicePipesModule, ValidatableInputTextComponent],
+    imports: [CommonModule, FormsModule, MessageModule, SelectModule, InvoicePipesModule, ValidatableInputTextComponent],
     providers: [MessageService, AppSecurityService, HttpClient, provideHttpClient(withInterceptorsFromDi())]
 });
     fixture = TestBed.createComponent(InvoiceFormComponent);

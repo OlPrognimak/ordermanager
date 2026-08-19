@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InputTextModule } from "primeng/inputtext";
 import { MessageModule } from "primeng/message";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { DropdownChangeEvent, DropdownModule } from "primeng/dropdown";
+import { SelectChangeEvent, SelectModule } from "primeng/select";
 import { DatePickerModule } from 'primeng/datepicker';
 import { PaginatorModule } from "primeng/paginator";
 import {FloatLabel} from "primeng/floatlabel";
@@ -11,7 +11,7 @@ import {InputNumber} from "primeng/inputnumber";
 
 @Component({
     selector: 'app-templates-component',
-    imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, DropdownModule, DatePickerModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
+    imports: [CommonModule, InputTextModule, MessageModule, ReactiveFormsModule, SelectModule, DatePickerModule, FormsModule, PaginatorModule, FloatLabel, InputNumber],
     templateUrl: './templates-component.component.html',
     styleUrls: ['./templates-component.component.css']
 })
@@ -25,7 +25,7 @@ export class TemplatesComponentComponent {
   standaloneFormCalendarTemplate = viewChild.required<TemplateRef<StandaloneCalendarTemplateContext>>('standaloneFormCalendarTemplate');
 
   templatesFormGroup = input.required<FormGroup>();
-  @Output() dropdownValueChanged: EventEmitter<DropdownChangeEvent> = new EventEmitter<DropdownChangeEvent>()
+  @Output() dropdownValueChanged: EventEmitter<SelectChangeEvent> = new EventEmitter<SelectChangeEvent>()
   @Output() calendarValueChanged: EventEmitter<CalendarValueWrapper> = new EventEmitter<CalendarValueWrapper>()
 
   dateTemplateModel: Date
@@ -36,7 +36,7 @@ export class TemplatesComponentComponent {
     return control
   }
 
-  onDropdownValueChanged(event: DropdownChangeEvent) {
+  onDropdownValueChanged(event: SelectChangeEvent) {
     this.dropdownValueChanged.emit(event)
   }
 

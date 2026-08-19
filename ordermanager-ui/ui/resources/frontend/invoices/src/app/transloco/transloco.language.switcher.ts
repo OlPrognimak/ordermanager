@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { TranslocoService } from '@jsverse/transloco';
-import {DropdownModule} from 'primeng/dropdown';
+import { SelectModule } from "primeng/select";
 
 @Component({
   selector: 'app-language-switcher',
   standalone: true,
-  imports: [DropdownModule, FormsModule],
+  imports: [SelectModule, FormsModule],
   templateUrl: './language-switcher.component.html'
 })
 export class LanguageSwitcherComponent {

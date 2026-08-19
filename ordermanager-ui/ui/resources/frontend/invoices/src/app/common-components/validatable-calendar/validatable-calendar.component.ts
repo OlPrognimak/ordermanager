@@ -11,8 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MessagesModule } from 'primeng/messages';
-import { MessageModule } from 'primeng/message';
+import { MessageModule } from "primeng/message";
 import { ToastModule } from 'primeng/toast';
 import { FloatLabel } from 'primeng/floatlabel';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -123,7 +122,6 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
 @NgModule({
   imports: [
     CommonModule,
-    MessagesModule,
     MessageModule,
     FormsModule,
     ToastModule,

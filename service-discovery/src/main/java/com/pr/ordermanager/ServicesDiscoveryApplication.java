@@ -6,6 +6,7 @@ import org.springframework.boot.security.autoconfigure.actuate.web.servlet.Manag
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
+import org.springframework.boot.security.autoconfigure.web.servlet.ServletWebSecurityAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @EnableEurekaServer
@@ -13,7 +14,8 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
         DataSourceAutoConfiguration.class,
         SecurityAutoConfiguration.class,
         UserDetailsServiceAutoConfiguration.class,
-        ManagementWebSecurityAutoConfiguration.class
+        ManagementWebSecurityAutoConfiguration.class,
+        ServletWebSecurityAutoConfiguration.class
 })
 public class ServicesDiscoveryApplication {
     public static void main(String[] args) {

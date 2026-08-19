@@ -43,7 +43,6 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
@@ -173,7 +172,7 @@ export class ValidatableInputNumberComponent implements OnInit, ControlValueAcce
 
 @NgModule(
   {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, InputTextModule, InputNumberModule, FloatLabel],
+    imports: [CommonModule, MessageModule, FormsModule, ToastModule, InputTextModule, InputNumberModule, FloatLabel],
     declarations: [ValidatableInputNumberComponent],
     exports: [ValidatableInputNumberComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

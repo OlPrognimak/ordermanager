@@ -11,7 +11,7 @@ import { ToastModule } from "primeng/toast";
 import {
   ValidatableDropdownlistModule
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { DialogModule } from "primeng/dialog";
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { isAuthenticated, personType } from "../../common-services/common-services-util.service";
@@ -20,7 +20,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
 
 @Component({
     selector: 'app-edit-person-dialog',
-    imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, DropdownModule, DialogModule, TemplatesComponentComponent, TranslocoPipe],
+    imports: [CommonModule, ReactiveFormsModule, AngularIbanModule, ButtonModule, InputTextModule, MessageModule, ToastModule, ValidatableDropdownlistModule, SelectModule, DialogModule, TemplatesComponentComponent, TranslocoPipe],
     templateUrl: './edit-person-dialog.component.html',
     styleUrls: ['./edit-person-dialog.component.css']
 })

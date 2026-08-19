@@ -7,7 +7,6 @@ import { TranslocoModule, TranslocoService } from "@jsverse/transloco";
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import {
@@ -56,8 +55,7 @@ export class UserLoginComponent {
 
 @NgModule(
   {
-    imports: [CommonModule, FormsModule, ButtonModule, MessagesModule,
-      MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent, TranslocoModule],
+    imports: [CommonModule, FormsModule, ButtonModule, MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent, TranslocoModule],
     declarations: [UserLoginComponent],
     exports: [UserLoginComponent]
   }

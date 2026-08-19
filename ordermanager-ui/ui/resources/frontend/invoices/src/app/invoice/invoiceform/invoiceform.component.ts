@@ -70,9 +70,8 @@ import { TooltipModule } from "primeng/tooltip";
 import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { RippleModule } from "primeng/ripple";
-import { MessagesModule } from "primeng/messages";
 import { InvoiceItemsTableCalculatorService } from "../invoice-items-table/invoice-items-table.calculator.service";
 import {
   ValidatableInputTextComponent
@@ -209,8 +208,8 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit {
   { declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
     exports: [InvoiceFormComponent, InvoiceItemsTableComponent],
     imports: [CommonModule, FormsModule, ValidatableDropdownlistModule,
-      ValidatableCalendarModule, InputTextModule, MessageModule, ToastModule, MessagesModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, DropdownModule, RippleModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe], providers: [provideHttpClient(withInterceptorsFromDi())] }
+      ValidatableCalendarModule, InputTextModule, MessageModule, ToastModule, MessageModule,
+      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, SelectModule, RippleModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe], providers: [provideHttpClient(withInterceptorsFromDi())] }
 )
 export class InvoiceFormModule {
 }

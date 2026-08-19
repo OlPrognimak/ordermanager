@@ -12,7 +12,7 @@ import {
 import {
   ValidatableDropdownlistComponent
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { provideRouter } from "@angular/router";
 import { provideMockStore } from "@ngrx/store/testing";
 
@@ -23,7 +23,7 @@ describe('PersonFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
     declarations: [ValidatableDropdownlistComponent],
-    imports: [CommonModule, FormsModule, MessageModule, DropdownModule, ValidatableInputTextComponent],
+    imports: [CommonModule, FormsModule, MessageModule, SelectModule, ValidatableInputTextComponent],
     providers: [
       MessageService,
       AppSecurityService,
