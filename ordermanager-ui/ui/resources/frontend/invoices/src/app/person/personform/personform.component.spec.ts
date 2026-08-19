@@ -22,8 +22,7 @@ describe('PersonFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [ValidatableDropdownlistComponent],
-    imports: [CommonModule, FormsModule, MessageModule, SelectModule, ValidatableInputTextComponent],
+    imports: [PersonFormComponent, CommonModule, FormsModule, MessageModule, SelectModule, ValidatableInputTextComponent, ValidatableDropdownlistComponent],
     providers: [
       MessageService,
       AppSecurityService,

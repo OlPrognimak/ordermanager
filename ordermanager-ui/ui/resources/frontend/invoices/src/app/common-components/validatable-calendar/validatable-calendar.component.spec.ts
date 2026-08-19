@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidatableCalendarComponent, ValidatableCalendarModule } from './validatable-calendar.component';
+import { ValidatableCalendarComponent } from './validatable-calendar.component';
 
 describe('ValidableCalendarComponent', () => {
   let component: ValidatableCalendarComponent;
@@ -8,7 +8,7 @@ describe('ValidableCalendarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ValidatableCalendarModule]
+      imports: [ValidatableCalendarComponent]
     })
       .compileComponents();
   });

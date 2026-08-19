@@ -36,7 +36,6 @@ import {
   EventEmitter,
   forwardRef,
   input,
-  NgModule,
   OnInit,
   Output,
   Renderer2,
@@ -75,7 +74,8 @@ import { TranslocoModule } from '@jsverse/transloco';
             multi: true
         }
     ],
-    standalone: false
+    imports: [CommonModule, MessageModule, FormsModule, ToastModule, SelectModule, FloatLabel, TranslocoModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
   modelRef = viewChild.required<NgModel>('modelRef')
@@ -196,15 +196,4 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   private normalizeValue(value: any): string {
     return value === null || value === undefined ? '' : String(value);
   }
-}
-
-@NgModule(
-  {
-    imports: [CommonModule, MessageModule, FormsModule, ToastModule, SelectModule, FloatLabel, TranslocoModule],
-    declarations: [ValidatableDropdownlistComponent],
-    exports: [ValidatableDropdownlistComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  }
-)
-export class ValidatableDropdownlistModule {
 }

@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit, viewChild } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { SharedModule } from "primeng/api";
@@ -6,12 +6,11 @@ import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
 import { CommonServicesPipesDate } from "../../common-pipes/common-services.pipes.date";
 import { AppSecurityService } from "../../common-auth/app-security.service";
-import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import { FormsModule } from "@angular/forms";
 import { DateperiodFinderComponent } from "../../common-components/dateperiod-finder/dateperiod-finder.component";
 import { InvoiceFormModel } from "../../domain/domain.invoiceformmodel";
 import { of } from "rxjs";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { EditInvoiceDialogComponent } from "../edit-invoice-dialog/edit-invoice-dialog.component";
@@ -25,19 +24,10 @@ import { environment } from "../../../environments/environment";
 import { CommonServiceEventListener } from "../../common-services/common-service.event.bus";
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
-@NgModule(
-  {
-    declarations: [CommonServicesPipesDate],
-    exports: [CommonServicesPipesDate]
-  }
-)
-export class InvoiceManagementModule {
-}
-
 @Component({
     selector: 'app-invoice-management',
     imports: [CommonModule, MatProgressSpinnerModule, SharedModule, FormsModule, TableModule, ToastModule,
-        InvoiceManagementModule, ValidatableCalendarModule, DateperiodFinderComponent, InvoicePipesModule,
+        CommonServicesPipesDate, DateperiodFinderComponent, CommonServicesPipesNumber,
         ButtonModule, RippleModule, EditInvoiceDialogComponent, DatePickerModule, ConfirmationDialogComponent,
         MessageModule, TranslocoModule],
     templateUrl: './invoice-management.component.html',

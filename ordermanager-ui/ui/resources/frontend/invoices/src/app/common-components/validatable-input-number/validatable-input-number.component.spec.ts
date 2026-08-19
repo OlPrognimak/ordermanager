@@ -13,8 +13,7 @@ describe('ValidableInputTextComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidatableInputNumberComponent],
-      imports: [FormsModule, ToastModule, MessageModule, InputNumberModule, FloatLabelModule]
+      imports: [ValidatableInputNumberComponent, FormsModule, ToastModule, MessageModule, InputNumberModule, FloatLabelModule]
     })
       .compileComponents();
   });

@@ -4,7 +4,6 @@ import {
   EventEmitter,
   forwardRef,
   input,
-  NgModule,
   OnInit,
   Output,
   viewChild
@@ -28,7 +27,15 @@ import { TranslocoModule } from '@jsverse/transloco';
             multi: true
         }
     ],
-    standalone: false
+    imports: [
+      CommonModule,
+      MessageModule,
+      FormsModule,
+      ToastModule,
+      DatePickerModule,
+      FloatLabel,
+      TranslocoModule
+    ]
 })
 export class ValidatableCalendarComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   modelCalendarRef = viewChild.required<NgModel>('modelCalendarRef');
@@ -118,18 +125,3 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
     });
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    MessageModule,
-    FormsModule,
-    ToastModule,
-    DatePickerModule,
-    FloatLabel,
-    TranslocoModule
-  ],
-  declarations: [ValidatableCalendarComponent],
-  exports: [ValidatableCalendarComponent]
-})
-export class ValidatableCalendarModule {}

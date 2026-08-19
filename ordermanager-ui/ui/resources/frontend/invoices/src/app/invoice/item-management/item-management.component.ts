@@ -4,7 +4,7 @@ import { MessageService, SharedModule } from "primeng/api";
 import { TableModule } from "primeng/table";
 import { ToastModule } from "primeng/toast";
 import { ItemCatalogModel } from "../../domain/domain.invoiceformmodel";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { HttpClient } from "@angular/common/http";
@@ -21,7 +21,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
 
 @Component({
     selector: 'app-item-management',
-    imports: [CommonModule, SharedModule, TableModule, ToastModule, InvoicePipesModule, ButtonModule, RippleModule, ConfirmationDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule, TranslocoPipe],
+    imports: [CommonModule, SharedModule, TableModule, ToastModule, CommonServicesPipesNumber, ButtonModule, RippleModule, ConfirmationDialogComponent, EditItemDialogComponent, InputTextModule, PaginatorModule, MatProgressSpinnerModule, FormsModule, TranslocoPipe],
     providers: [HttpClient, MessagesPrinter, MessageService],
     templateUrl: './item-management.component.html',
     styleUrls: ['./item-management.component.css']

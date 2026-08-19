@@ -1,4 +1,4 @@
-import { Directive, ElementRef, input, NgModule, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[attributes]'
@@ -26,12 +26,4 @@ export class AttributeDirective implements OnChanges {
       }
     }
   }
-}
-
-@NgModule({
-    declarations: [AttributeDirective],
-    exports: [AttributeDirective]
-  }
-)
-export class AttributeDirectiveModule {
 }

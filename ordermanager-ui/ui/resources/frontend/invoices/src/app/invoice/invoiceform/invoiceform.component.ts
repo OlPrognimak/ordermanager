@@ -31,7 +31,6 @@
 import {
   AfterViewInit,
   Component,
-  NgModule,
   OnInit,
   viewChild
 } from '@angular/core';
@@ -59,15 +58,15 @@ import {
 import { CommonServicesAppHttpService, MessagesPrinter } from '../../common-services/common-services.app.http.service';
 import { FormsModule } from "@angular/forms";
 import {
-  ValidatableDropdownlistModule
+  ValidatableDropdownlistComponent
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
-import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
+import { ValidatableCalendarComponent } from "../../common-components/validatable-calendar/validatable-calendar.component";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
 import { TooltipModule } from "primeng/tooltip";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
 import { SelectModule } from "primeng/select";
@@ -91,7 +90,10 @@ registerLocaleData(localede, 'de');
     templateUrl: './invoiceform.component.html',
     providers: [HttpClient, AppSecurityService, MessageService, CommonServicesUtilService, MessagesPrinter,
         CommonServicesAppHttpService<InvoiceFormModelInterface>],
-    standalone: false
+    imports: [CommonModule, FormsModule, ValidatableDropdownlistComponent,
+      ValidatableCalendarComponent, InputTextModule, MessageModule, ToastModule,
+      ButtonModule, TableModule, TooltipModule, CommonServicesPipesNumber, InputNumberModule, SelectModule, RippleModule,
+      ValidatableInputTextComponent, FloatLabel, TranslocoPipe, InvoiceItemsTableComponent]
 })
 export class InvoiceFormComponent implements OnInit, AfterViewInit {
   eventsModelIsReset: Subject<void> = new Subject<void>();
@@ -202,14 +204,4 @@ export class InvoiceFormComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly translate = translate;
-}
-
-@NgModule(
-  { declarations: [InvoiceFormComponent, InvoiceItemsTableComponent],
-    exports: [InvoiceFormComponent, InvoiceItemsTableComponent],
-    imports: [CommonModule, FormsModule, ValidatableDropdownlistModule,
-      ValidatableCalendarModule, InputTextModule, MessageModule, ToastModule, MessageModule,
-      ButtonModule, TableModule, TooltipModule, InvoicePipesModule, InputNumberModule, SelectModule, RippleModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe], providers: [provideHttpClient(withInterceptorsFromDi())] }
-)
-export class InvoiceFormModule {
 }

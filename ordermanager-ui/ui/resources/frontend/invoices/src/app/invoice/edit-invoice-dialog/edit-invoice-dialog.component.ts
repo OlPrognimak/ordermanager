@@ -12,11 +12,6 @@ import {
   Validators
 } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
-import { InvoiceFormModule } from "../invoiceform/invoiceform.component";
-import { ValidatableCalendarModule } from "../../common-components/validatable-calendar/validatable-calendar.component";
-import {
-  ValidatableDropdownlistModule
-} from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import { HttpClient } from "@angular/common/http";
 import { AppSecurityService } from "../../common-auth/app-security.service";
 import { MessageService } from "primeng/api";
@@ -59,9 +54,6 @@ type InvoiceFormGroup = FormGroup & { value: InvoiceFormModelInterface, controls
         ReactiveFormsModule,
         ToastModule,
         FormsModule,
-        InvoiceFormModule,
-        ValidatableCalendarModule,
-        ValidatableDropdownlistModule,
         TemplatesComponentComponent,
         TooltipModule, MessageModule,
         DialogModule, DatePickerModule, InvoiceReactiveItemsTableComponent, TranslocoPipe],

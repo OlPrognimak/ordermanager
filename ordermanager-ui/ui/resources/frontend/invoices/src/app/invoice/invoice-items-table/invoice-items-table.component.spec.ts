@@ -13,7 +13,7 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { SelectModule } from "primeng/select";
 import { FormsModule } from "@angular/forms";
 import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 
 describe('InvoiceItemsTableComponent', () => {
   let component: InvoiceItemsTableComponent;
@@ -21,9 +21,8 @@ describe('InvoiceItemsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [InvoiceItemsTableComponent],
-    imports: [ToastModule, MessageModule, TableModule, ButtonModule, TooltipModule,
-        InputTextModule, InputNumberModule, SelectModule, FormsModule, InvoicePipesModule],
+    imports: [InvoiceItemsTableComponent, ToastModule, MessageModule, TableModule, ButtonModule, TooltipModule,
+        InputTextModule, InputNumberModule, SelectModule, FormsModule, CommonServicesPipesNumber],
     providers: [MessageService, provideHttpClient(withInterceptorsFromDi())]
 })
       .compileComponents();

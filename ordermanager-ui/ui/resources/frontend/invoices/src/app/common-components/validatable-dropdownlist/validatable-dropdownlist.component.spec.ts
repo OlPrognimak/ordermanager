@@ -11,8 +11,7 @@ describe('ValidableDropdownlistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidatableDropdownlistComponent],
-      imports: [FormsModule, SelectModule, MessageModule]
+      imports: [ValidatableDropdownlistComponent, FormsModule, SelectModule, MessageModule]
     })
       .compileComponents();
   });

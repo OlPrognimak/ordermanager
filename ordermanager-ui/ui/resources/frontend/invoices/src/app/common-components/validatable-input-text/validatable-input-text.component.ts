@@ -36,7 +36,6 @@ import {
   EventEmitter,
   forwardRef,
   input,
-  NgModule,
   OnInit,
   Output,
   Renderer2, viewChild

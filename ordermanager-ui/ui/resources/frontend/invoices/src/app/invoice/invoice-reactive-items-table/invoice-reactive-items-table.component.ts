@@ -36,7 +36,7 @@ import { InvoiceItemsTableService } from "../invoice-items-table/invoice-items-t
 import { TableModule } from "primeng/table";
 import { SelectModule } from "primeng/select";
 import { PaginatorModule } from "primeng/paginator";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { ToastModule } from "primeng/toast";
@@ -57,7 +57,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
         TableModule,
         SelectModule,
         PaginatorModule,
-        InvoicePipesModule,
+        CommonServicesPipesNumber,
         ButtonModule,
         TooltipModule,
         ToastModule,

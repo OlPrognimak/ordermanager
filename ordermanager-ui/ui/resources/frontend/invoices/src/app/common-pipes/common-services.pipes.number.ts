@@ -28,11 +28,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'standardFloat',
-    standalone: false
+    name: 'standardFloat'
 })
 export class CommonServicesPipesNumber implements PipeTransform {
 
@@ -49,13 +48,4 @@ export class CommonServicesPipesNumber implements PipeTransform {
 
     return num.toFixed(2);
   }
-}
-
-@NgModule(
-  {
-    declarations: [CommonServicesPipesNumber],
-    exports: [CommonServicesPipesNumber]
-  }
-)
-export class InvoicePipesModule {
 }

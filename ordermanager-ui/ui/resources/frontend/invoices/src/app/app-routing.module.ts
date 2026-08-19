@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { InvoiceFormComponent } from './invoice/invoiceform/invoiceform.component';
 import { PersonFormComponent } from './person/personform/personform.component';
 import { PrintinvoiceComponent } from './invoice/printinvoice/printinvoice.component';
@@ -10,7 +9,7 @@ import { InvoiceManagementComponent } from './invoice/invoice-management/invoice
 import { ItemManagementComponent } from './invoice/item-management/item-management.component';
 import { HomeComponent } from './home/home.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'create-invoice-item-page', component: ItemsFormComponent },
   { path: 'catalog-item-management-page', component: ItemManagementComponent },
@@ -23,14 +22,8 @@ const routes: Routes = [
   {
     path: 'workflow-create-invoice',
     loadChildren: () =>
-      import('./workflows/invoice-workflow/workflow.module').then(m => m.WorkflowModule)
+      import('./workflows/invoice-workflow/workflow.routes').then(m => m.workflowRoutes)
   },
   { path: 'workfrow-create-invoice', redirectTo: 'workflow-create-invoice', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}

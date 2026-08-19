@@ -6,7 +6,8 @@ import { MessagesPrinter } from "../../common-services/common-services.app.http.
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { remoteBackendUrl } from "../../common-auth/app-security.service";
-import {TranslocoService} from "@jsverse/transloco";
+import {TranslocoPipe, TranslocoService} from "@jsverse/transloco";
+import { ButtonModule } from "primeng/button";
 
 /**
  * Cell renderer for ng-Grid. This rendered renders button which call PDF report from server
@@ -16,7 +17,7 @@ import {TranslocoService} from "@jsverse/transloco";
     templateUrl: './table-cell-renderer.component.html',
     styleUrls: ['./table-cell-renderer.component.css'],
     providers: [HttpClient, MessagesPrinter],
-    standalone: false
+    imports: [ButtonModule, TranslocoPipe]
 })
 export class TableCellRendererComponent implements OnInit, ICellRendererAngularComp {
   parentTableComponent: any;

@@ -4,9 +4,9 @@ import { By } from '@angular/platform-browser';
 
 import { EditableInputCellComponent } from './editable-input-cell.component';
 import { TableModule } from "primeng/table";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
 import { FormsModule } from "@angular/forms";
 import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 
 @Component({
   template: `
@@ -20,7 +20,7 @@ import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
       </ng-template>
     </p-table>
   `,
-  standalone: false
+  imports: [EditableInputCellComponent, TableModule]
 })
 class EditableInputCellHostComponent {
   rowModel = new InvoiceItemModel();
@@ -32,8 +32,7 @@ describe('EditableInputCellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EditableInputCellComponent, EditableInputCellHostComponent],
-      imports: [FormsModule, TableModule, InvoicePipesModule]
+      imports: [FormsModule, TableModule, CommonServicesPipesNumber, EditableInputCellHostComponent]
     })
       .compileComponents();
   });

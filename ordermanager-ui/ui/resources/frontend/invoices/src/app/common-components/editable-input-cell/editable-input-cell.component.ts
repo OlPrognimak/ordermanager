@@ -1,6 +1,9 @@
 import { Component, ElementRef, EventEmitter, forwardRef, input, OnInit, Output, Renderer2 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
+import { InputTextModule } from "primeng/inputtext";
+import { TableModule } from "primeng/table";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 
 @Component({
     selector: 'app-editable-input-cell',
@@ -19,7 +22,7 @@ import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
             multi: true
         }
     ],
-    standalone: false
+    imports: [FormsModule, InputTextModule, TableModule, CommonServicesPipesNumber]
 })
 export class EditableInputCellComponent implements OnInit, ControlValueAccessor {
 

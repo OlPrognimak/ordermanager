@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ValidatableCalendarModule } from "../validatable-calendar/validatable-calendar.component";
+import { ValidatableCalendarComponent } from "../validatable-calendar/validatable-calendar.component";
 import { FormsModule, NgModel } from "@angular/forms";
 import { RequestDatePriod } from "../../domain/domain.invoiceformmodel";
 import { RequestPeriodDateService } from "./datenperiod-finder.service";
@@ -12,7 +12,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-dateperiod-finder',
-    imports: [CommonModule, ValidatableCalendarModule, FormsModule, ButtonModule, MatProgressSpinnerModule, ToastModule, MessageModule, TranslocoModule],
+    imports: [CommonModule, ValidatableCalendarComponent, FormsModule, ButtonModule, MatProgressSpinnerModule, ToastModule, MessageModule, TranslocoModule],
     templateUrl: './dateperiod-finder.component.html',
     styleUrls: ['./dateperiod-finder.component.css']
 })

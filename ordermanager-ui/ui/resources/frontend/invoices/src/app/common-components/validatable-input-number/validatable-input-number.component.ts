@@ -36,7 +36,6 @@ import {
   EventEmitter,
   forwardRef,
   input,
-  NgModule,
   OnInit,
   Output,
   Renderer2
@@ -61,7 +60,8 @@ import {FloatLabel} from "primeng/floatlabel";
             multi: true
         }
     ],
-    standalone: false
+    imports: [CommonModule, MessageModule, FormsModule, ToastModule, InputTextModule, InputNumberModule, FloatLabel],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ValidatableInputNumberComponent implements OnInit, ControlValueAccessor {
   /** minimal length of text */
@@ -167,17 +167,5 @@ export class ValidatableInputNumberComponent implements OnInit, ControlValueAcce
       this.hasPatternError === true)
     return emitVal;
   }
-
-}
-
-@NgModule(
-  {
-    imports: [CommonModule, MessageModule, FormsModule, ToastModule, InputTextModule, InputNumberModule, FloatLabel],
-    declarations: [ValidatableInputNumberComponent],
-    exports: [ValidatableInputNumberComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  }
-)
-export class ValidatableInputNumberModule {
 
 }

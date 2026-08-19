@@ -48,7 +48,17 @@ import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from './invoice-items-table.calculator.service';
 import { InvoiceItemsTableService } from './invoice-items-table.service';
 import { HttpClient } from "@angular/common/http";
-import {NgForm} from "@angular/forms";
+import {FormsModule, NgForm} from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ButtonModule } from "primeng/button";
+import { InputNumberModule } from "primeng/inputnumber";
+import { RippleModule } from "primeng/ripple";
+import { SelectModule } from "primeng/select";
+import { TableModule } from "primeng/table";
+import { ToastModule } from "primeng/toast";
+import { TooltipModule } from "primeng/tooltip";
+import { TranslocoPipe } from "@jsverse/transloco";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 
 @Component({
     styles: [],
@@ -56,7 +66,7 @@ import {NgForm} from "@angular/forms";
     selector: 'app-invoice-items-table',
     templateUrl: './invoice-items-table.component.html',
     providers: [HttpClient],
-    standalone: false
+    imports: [CommonModule, FormsModule, TableModule, SelectModule, InputNumberModule, ButtonModule, RippleModule, TooltipModule, ToastModule, TranslocoPipe, CommonServicesPipesNumber]
 })
 export class InvoiceItemsTableComponent implements OnInit, OnDestroy, AfterViewInit {
   invoiceItems = input.required<InvoiceItemModel[]>();

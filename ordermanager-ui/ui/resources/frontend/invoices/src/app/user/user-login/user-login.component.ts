@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppSecurityService } from '../../common-auth/app-security.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
@@ -19,7 +19,7 @@ import {
     templateUrl: './user-login.component.html',
     styleUrls: ['./user-login.component.css'],
     providers: [MessageService, AppSecurityService, HttpClient],
-    standalone: false
+    imports: [CommonModule, FormsModule, ButtonModule, MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent, TranslocoModule]
 })
 export class UserLoginComponent {
   isSubmitting = false;
@@ -50,16 +50,4 @@ export class UserLoginComponent {
         }
       });
   }
-}
-
-
-@NgModule(
-  {
-    imports: [CommonModule, FormsModule, ButtonModule, MessageModule, ToastModule, RouterModule, ValidatableInputTextComponent, TranslocoModule],
-    declarations: [UserLoginComponent],
-    exports: [UserLoginComponent]
-  }
-)
-export class UserLoginModule {
-
 }

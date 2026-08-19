@@ -32,8 +32,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import moment from 'moment';
 
 @Pipe({
-    name: 'dateType',
-    standalone: false
+    name: 'dateType'
 })
 export class CommonServicesPipesDate implements PipeTransform {
   transform(val: Date, format): any {
