@@ -391,6 +391,3 @@ The Angular production build may warn about CommonJS dependencies such as `momen
 
 > [!TIP]
 > Keep source files and generated files separate during reviews. Angular `dist`, copied frontend files under `src/main/resources/static`, `node_modules`, JVM crash logs, and `.DS_Store` files should not be treated as the canonical source.
-
-> [!CAUTION]
-> Some dependency declarations are older than the main platform version, for example the project includes Hibernate ORM 6 while also declaring `hibernate-entitymanager` 5.4. Review these before larger dependency upgrades.

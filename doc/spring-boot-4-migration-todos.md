@@ -177,7 +177,7 @@ Boot 4 is based on Jakarta EE 11 and Servlet 6.1. The source code is already mos
 
 ## Persistence / Hibernate / Liquibase TODOs
 
-- [ ] Remove the direct `hibernate-core` dependency unless the app directly needs Hibernate APIs. `spring-boot-starter-data-jpa` should manage Hibernate.
+- [x] Confirm there is no direct `hibernate-core` or `hibernate-entitymanager` dependency. `spring-boot-starter-data-jpa` manages Hibernate.
 - [ ] Verify entity mappings under the Boot 4 Hibernate version:
   - `invoice` entities,
   - `person` entities,
