@@ -13,8 +13,7 @@ describe('TableCellRendererComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-        declarations: [TableCellRendererComponent],
-        imports: [MessageModule, AgGridModule, ButtonModule],
+        imports: [TableCellRendererComponent, MessageModule, AgGridModule, ButtonModule],
         providers: [MessageService, provideHttpClient(withInterceptorsFromDi())
       ]
     }).compileComponents();

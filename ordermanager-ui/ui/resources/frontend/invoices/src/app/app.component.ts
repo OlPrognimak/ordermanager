@@ -1,17 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { AppSecurityService } from './common-auth/app-security.service';
 import { isAuthenticated } from './common-services/common-services-util.service';
+import { UserLoginComponent } from './user/user-login/user-login.component';
+import { MenubarModule } from 'primeng/menubar';
+import { ToastModule } from 'primeng/toast';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     providers: [AppSecurityService],
-    standalone: false
+    imports: [RouterOutlet, UserLoginComponent, MenubarModule, ToastModule, TooltipModule, TranslocoPipe],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'frontend';

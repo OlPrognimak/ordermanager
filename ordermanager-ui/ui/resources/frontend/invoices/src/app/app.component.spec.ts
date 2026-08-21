@@ -20,11 +20,8 @@ describe('AppComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-    declarations: [
-        AppComponent, UserLoginComponent
-    ],
     schemas: [NO_ERRORS_SCHEMA],
-    imports: [RouterTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule, MenubarModule, ValidatableInputTextComponent],
+    imports: [AppComponent, UserLoginComponent, RouterTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule, MenubarModule, ValidatableInputTextComponent],
     providers: [MessageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
     })

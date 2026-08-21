@@ -6,13 +6,12 @@ import { isAuthenticated } from "../../common-services/common-services-util.serv
 import { FormsModule, NgForm } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { MessageModule } from "primeng/message";
-import { MessagesModule } from "primeng/messages";
 import { ToastModule } from "primeng/toast";
 import { InputTextModule } from "primeng/inputtext";
 import { InputNumberModule } from "primeng/inputnumber";
 import { ButtonModule } from "primeng/button";
 import {
-  ValidatableInputNumberModule
+  ValidatableInputNumberComponent
 } from "../../common-components/validatable-input-number/validatable-input-number.component";
 import { HttpClient } from "@angular/common/http";
 import {
@@ -25,7 +24,7 @@ import {TranslocoPipe} from "@jsverse/transloco";
     selector: 'app-items-form',
     templateUrl: './items-form.component.html',
     styleUrls: ['./items-form.component.css'],
-    imports: [CommonModule, FormsModule, MessageModule, MessagesModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
+    imports: [CommonModule, FormsModule, MessageModule, ToastModule, InputTextModule, InputNumberModule, ButtonModule, ValidatableInputNumberComponent, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
     providers: [AppSecurityService, CommonServicesAppHttpService<ItemCatalogModel>, HttpClient]
 })
 export class ItemsFormComponent implements OnInit {

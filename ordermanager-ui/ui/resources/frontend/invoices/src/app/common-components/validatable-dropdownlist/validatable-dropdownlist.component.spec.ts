@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ValidatableDropdownlistComponent } from './validatable-dropdownlist.component';
 import { FormsModule } from "@angular/forms";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { MessageModule } from "primeng/message";
 
 describe('ValidableDropdownlistComponent', () => {
@@ -11,8 +11,7 @@ describe('ValidableDropdownlistComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidatableDropdownlistComponent],
-      imports: [FormsModule, DropdownModule, MessageModule]
+      imports: [ValidatableDropdownlistComponent, FormsModule, SelectModule, MessageModule]
     })
       .compileComponents();
   });

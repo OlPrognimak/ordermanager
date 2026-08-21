@@ -28,7 +28,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import { Component, NgModule, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { InvoiceFormModel, InvoiceFormModelInterface } from '../../domain/domain.invoiceformmodel';
 import { BankAccountFormModel, PersonAddressFormModel, PersonFormModel } from '../../domain/domain.personformmodel';
 import { MessageService } from 'primeng/api';
@@ -41,16 +41,13 @@ import { CommonServicesAppHttpService, MessagesPrinter } from '../../common-serv
 import { CommonModule } from "@angular/common";
 import { FormGroupDirective, FormsModule, NgForm } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
 import {
-  ValidatableDropdownlistModule
+  ValidatableDropdownlistComponent
 } from "../../common-components/validatable-dropdownlist/validatable-dropdownlist.component";
 import { InputTextModule } from "primeng/inputtext";
 import { AngularIbanModule } from "angular-iban";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
-import { WorkflowModule } from "../../workflows/invoice-workflow/workflow.module";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { Store } from "@ngrx/store";
@@ -69,7 +66,8 @@ import {TranslocoPipe} from "@jsverse/transloco";
     selector: 'app-person',
     templateUrl: './personform.component.html',
     providers: [MessageService, FormGroupDirective, MessagesPrinter],
-    standalone: false
+    imports: [CommonModule, FormsModule, ButtonModule, ValidatableDropdownlistComponent,
+      MessageModule, ToastModule, InputTextModule, AngularIbanModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe]
 })
 export class PersonFormComponent implements OnInit, OnDestroy {
 
@@ -179,15 +177,4 @@ export class PersonFormComponent implements OnInit, OnDestroy {
       });
   }
 
-}
-
-@NgModule(
-  {
-    imports: [CommonModule, FormsModule, ButtonModule, ValidatableDropdownlistModule,
-      MessagesModule, MessageModule, ToastModule, InputTextModule, AngularIbanModule, InvoicePipesModule, WorkflowModule, ValidatableInputTextComponent, FloatLabel, TranslocoPipe],
-    declarations: [PersonFormComponent],
-    exports: [PersonFormComponent],
-  }
-)
-export class PersonFormModule {
 }

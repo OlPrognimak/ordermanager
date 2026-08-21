@@ -4,15 +4,13 @@ import {
   EventEmitter,
   forwardRef,
   input,
-  NgModule,
   OnInit,
   Output,
   viewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MessagesModule } from 'primeng/messages';
-import { MessageModule } from 'primeng/message';
+import { MessageModule } from "primeng/message";
 import { ToastModule } from 'primeng/toast';
 import { FloatLabel } from 'primeng/floatlabel';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -29,7 +27,15 @@ import { TranslocoModule } from '@jsverse/transloco';
             multi: true
         }
     ],
-    standalone: false
+    imports: [
+      CommonModule,
+      MessageModule,
+      FormsModule,
+      ToastModule,
+      DatePickerModule,
+      FloatLabel,
+      TranslocoModule
+    ]
 })
 export class ValidatableCalendarComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   modelCalendarRef = viewChild.required<NgModel>('modelCalendarRef');
@@ -119,19 +125,3 @@ export class ValidatableCalendarComponent implements OnInit, ControlValueAccesso
     });
   }
 }
-
-@NgModule({
-  imports: [
-    CommonModule,
-    MessagesModule,
-    MessageModule,
-    FormsModule,
-    ToastModule,
-    DatePickerModule,
-    FloatLabel,
-    TranslocoModule
-  ],
-  declarations: [ValidatableCalendarComponent],
-  exports: [ValidatableCalendarComponent]
-})
-export class ValidatableCalendarModule {}

@@ -90,9 +90,8 @@ The parent POM currently overrides several versions managed by Spring Boot. Thes
 - [ ] Remove duplicated plugin management between parent and child modules where possible.
 - [ ] Upgrade old Maven plugins:
   - `maven-javadoc-plugin` `2.10.3` is very old.
-  - `maven-install-plugin` `2.5.2` and `maven-deploy-plugin` `2.8.2` are old.
+  - `maven-install-plugin` `2.5.2` is old.
   - `maven-antrun-plugin` `1.8` is old; use a current version or replace copy/delete tasks with Maven resources/assembly/Jib.
-  - `com.spotify:docker-maven-plugin:0.3.7` is obsolete. Prefer Jib, Docker Buildx, or a maintained Maven Docker plugin.
 - [ ] Run `mvn -U clean test` after version changes to expose compiler, surefire, and plugin incompatibilities.
   - Initial validation run completed with `mvn -pl ordermanager-backend test` and `mvn -pl ordermanager-ui,service-discovery compile -DskipTests`.
 
@@ -178,7 +177,7 @@ Boot 4 is based on Jakarta EE 11 and Servlet 6.1. The source code is already mos
 
 ## Persistence / Hibernate / Liquibase TODOs
 
-- [ ] Remove the direct `hibernate-core` dependency unless the app directly needs Hibernate APIs. `spring-boot-starter-data-jpa` should manage Hibernate.
+- [x] Confirm there is no direct `hibernate-core` or `hibernate-entitymanager` dependency. `spring-boot-starter-data-jpa` manages Hibernate.
 - [ ] Verify entity mappings under the Boot 4 Hibernate version:
   - `invoice` entities,
   - `person` entities,

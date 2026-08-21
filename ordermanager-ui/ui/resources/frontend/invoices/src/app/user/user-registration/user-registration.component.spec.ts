@@ -18,8 +18,8 @@ describe('UserRegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [UserRegistrationComponent],
     imports: [
+      UserRegistrationComponent,
       FormsModule,
       MessageModule,
       ToastModule,

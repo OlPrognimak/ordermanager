@@ -3,7 +3,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidatableInputTextComponent } from './validatable-input-text.component';
 import { FormsModule } from "@angular/forms";
 import { ToastModule } from "primeng/toast";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import {FloatLabelModule} from "primeng/floatlabel";
 
@@ -13,7 +12,7 @@ describe('ValidableInputTextComponent', () => {
 
   beforeEach(waitForAsync (() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ToastModule, MessagesModule, MessageModule, FloatLabelModule, ValidatableInputTextComponent]
+      imports: [FormsModule, ToastModule, MessageModule, FloatLabelModule, ValidatableInputTextComponent]
     })
       .compileComponents();
   }));

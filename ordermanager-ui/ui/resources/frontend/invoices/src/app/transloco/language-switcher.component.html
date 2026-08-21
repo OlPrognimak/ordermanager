@@ -1,4 +1,4 @@
-<p-dropdown
+<p-select
   [(ngModel)]="activeLang"
   (ngModelChange)="switchLang($event)"
   [options]="languageOptions"
@@ -15,4 +15,4 @@
   <ng-template pTemplate="item" let-language>
     <span>{{ language.label }}</span>
   </ng-template>
-</p-dropdown>
+</p-select>

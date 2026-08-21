@@ -13,6 +13,7 @@ import {
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { MessageModule } from "primeng/message";
 import { vi } from 'vitest';
+import { provideRouter } from "@angular/router";
 
 
 describe('UserLoginComponent', () => {
@@ -21,9 +22,8 @@ describe('UserLoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserLoginComponent],
-      imports: [FormsModule, ToastModule, ButtonModule, MessageModule, ValidatableInputTextComponent],
-      providers: [HttpHandler, MessageService, AppSecurityService, HttpClient],
+      imports: [UserLoginComponent, FormsModule, ToastModule, ButtonModule, MessageModule, ValidatableInputTextComponent],
+      providers: [HttpHandler, MessageService, AppSecurityService, HttpClient, provideRouter([])],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();

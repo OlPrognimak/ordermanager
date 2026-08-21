@@ -12,14 +12,17 @@ import { isAuthenticated, numberCellRenderer } from "../../common-services/commo
 import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { TranslocoService } from "@jsverse/transloco";
 import {startWith, Subject, switchMap, takeUntil} from "rxjs";
-import {TranslocoLanguageChangedEvent} from "../../transloco/transloco.language.changed.event";
+import { ToastModule } from "primeng/toast";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { AgGridModule } from "ag-grid-angular";
+import { TranslocoPipe } from "@jsverse/transloco";
 
 @Component({
     selector: 'app-printinvoice',
     templateUrl: './printinvoice.component.html',
     styleUrls: ['./printinvoice.component.css'],
     providers: [MessagesPrinter, AppSecurityService, HttpClient, CommonServicesPipesNumber],
-    standalone: false
+    imports: [ToastModule, MatProgressSpinnerModule, DateperiodFinderComponent, AgGridModule, TranslocoPipe]
 })
 export class PrintinvoiceComponent implements OnInit, OnDestroy {
   invoicesFormModel: InvoiceFormModel[];

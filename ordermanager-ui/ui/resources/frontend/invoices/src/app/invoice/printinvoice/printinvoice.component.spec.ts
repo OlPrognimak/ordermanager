@@ -22,8 +22,8 @@ describe('PrintinvoiceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PrintinvoiceComponent],
       imports: [
+        PrintinvoiceComponent,
         MessageModule,
         ToastModule,
         AgGridModule

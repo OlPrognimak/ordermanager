@@ -58,20 +58,20 @@
   <div class="w-100">
     <div class="field-row">
       <p-floatlabel class="w-100 my-float-wrapper">
-        <p-dropdown
+        <p-select
           (onChange)="onDropdownValueChanged($event)"
           [formControl]="getControl(controlPath)"
           [options]="optionList"
           optionLabel="label"
           optionValue="value"
           [inputId]="idComponent"
-          class="p-dropdown-template-cls w-100"
+          class="p-select-template-cls w-100"
           [ngClass]="{
           'ng-invalid': getControl(controlPath)?.invalid,
           'ng-dirty': getControl(controlPath)?.dirty || getControl(controlPath)?.touched,
           'p-inputwrapper-filled': getControl(controlPath)?.value !== null && getControl(controlPath)?.value !== undefined
         }" required>
-        </p-dropdown>
+        </p-select>
 
         <label [for]="idComponent">{{ labelText }}</label>
       </p-floatlabel>

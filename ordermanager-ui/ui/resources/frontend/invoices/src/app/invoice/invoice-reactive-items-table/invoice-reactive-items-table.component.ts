@@ -34,9 +34,9 @@ import { Observable, of, Subscription } from 'rxjs';
 import { InvoiceItemsTableCalculatorService } from '../invoice-items-table/invoice-items-table.calculator.service';
 import { InvoiceItemsTableService } from "../invoice-items-table/invoice-items-table.service";
 import { TableModule } from "primeng/table";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import { PaginatorModule } from "primeng/paginator";
-import { InvoicePipesModule } from "../../common-pipes/common-services.pipes.number";
+import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { ToastModule } from "primeng/toast";
@@ -55,9 +55,9 @@ import {TranslocoPipe} from "@jsverse/transloco";
         FormsModule,
         ReactiveFormsModule,
         TableModule,
-        DropdownModule,
+        SelectModule,
         PaginatorModule,
-        InvoicePipesModule,
+        CommonServicesPipesNumber,
         ButtonModule,
         TooltipModule,
         ToastModule,

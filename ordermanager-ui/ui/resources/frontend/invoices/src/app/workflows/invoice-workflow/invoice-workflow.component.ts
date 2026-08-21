@@ -11,10 +11,10 @@ import {InputTextModule} from 'primeng/inputtext';
 import {TableModule} from 'primeng/table';
 import {ToastModule} from 'primeng/toast';
 
-import {ValidatableCalendarModule} from '../../common-components/validatable-calendar/validatable-calendar.component';
-import {ValidatableDropdownlistModule} from '../../common-components/validatable-dropdownlist/validatable-dropdownlist.component';
+import {ValidatableCalendarComponent} from '../../common-components/validatable-calendar/validatable-calendar.component';
+import {ValidatableDropdownlistComponent} from '../../common-components/validatable-dropdownlist/validatable-dropdownlist.component';
 import {ValidatableInputTextComponent} from '../../common-components/validatable-input-text/validatable-input-text.component';
-import {InvoicePipesModule} from '../../common-pipes/common-services.pipes.number';
+import {CommonServicesPipesNumber} from '../../common-pipes/common-services.pipes.number';
 import {CommonServicesAppHttpService, MessagesPrinter} from '../../common-services/common-services.app.http.service';
 import {invoiceRate, isAuthenticated} from '../../common-services/common-services-util.service';
 import {
@@ -23,7 +23,7 @@ import {
   InvoiceFormModelInterface,
   InvoiceItemModel
 } from '../../domain/domain.invoiceformmodel';
-import {InvoiceFormModule} from '../../invoice/invoiceform/invoiceform.component';
+import {InvoiceItemsTableComponent} from '../../invoice/invoice-items-table/invoice-items-table.component';
 import {InvoiceItemsTableCalculatorService} from '../../invoice/invoice-items-table/invoice-items-table.calculator.service';
 import {InvoiceItemsTableService} from '../../invoice/invoice-items-table/invoice-items-table.service';
 import {WorkflowEventsModel} from './model/workflow.events.model';
@@ -38,13 +38,13 @@ import {WorkflowStatuses} from './state/invoice.state';
         FloatLabel,
         FormsModule,
         InputTextModule,
-        InvoiceFormModule,
-        InvoicePipesModule,
+        InvoiceItemsTableComponent,
+        CommonServicesPipesNumber,
         TableModule,
         ToastModule,
         TranslocoPipe,
-        ValidatableCalendarModule,
-        ValidatableDropdownlistModule,
+        ValidatableCalendarComponent,
+        ValidatableDropdownlistComponent,
         ValidatableInputTextComponent
     ],
     templateUrl: './invoice-workflow.component.html',

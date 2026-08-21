@@ -32,18 +32,24 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreatedResponse, NewUser } from '../../domain/domain.invoiceformmodel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MessagesPrinter } from "../../common-services/common-services.app.http.service";
 import { remoteBackendUrl } from "../../common-auth/app-security.service";
-import { NgForm } from "@angular/forms";
+import { FormsModule, NgForm } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
+import { ButtonModule } from "primeng/button";
+import { ToastModule } from "primeng/toast";
+import { TranslocoPipe } from "@jsverse/transloco";
+import {
+  ValidatableInputTextComponent
+} from "../../common-components/validatable-input-text/validatable-input-text.component";
 
 @Component({
     selector: 'app-user-registration',
     templateUrl: './user-registration.component.html',
     styleUrls: ['./user-registration.component.css'],
     providers: [HttpClient, MessageService, MessagesPrinter],
-    standalone: false
+    imports: [FormsModule, ButtonModule, ToastModule, RouterLink, TranslocoPipe, ValidatableInputTextComponent]
 })
 export class UserRegistrationComponent implements OnInit, OnDestroy {
 

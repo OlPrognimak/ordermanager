@@ -36,7 +36,6 @@ import {
   EventEmitter,
   forwardRef,
   input,
-  NgModule,
   OnInit,
   Output,
   Renderer2,
@@ -53,10 +52,9 @@ import {
   Validator
 } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import { ToastModule } from "primeng/toast";
-import { DropdownModule } from "primeng/dropdown";
+import { SelectModule } from "primeng/select";
 import {FloatLabel} from "primeng/floatlabel";
 import { TranslocoModule } from '@jsverse/transloco';
 
@@ -76,7 +74,8 @@ import { TranslocoModule } from '@jsverse/transloco';
             multi: true
         }
     ],
-    standalone: false
+    imports: [CommonModule, MessageModule, FormsModule, ToastModule, SelectModule, FloatLabel, TranslocoModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ValidatableDropdownlistComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
   modelRef = viewChild.required<NgModel>('modelRef')
@@ -197,15 +196,4 @@ export class ValidatableDropdownlistComponent implements OnInit, ControlValueAcc
   private normalizeValue(value: any): string {
     return value === null || value === undefined ? '' : String(value);
   }
-}
-
-@NgModule(
-  {
-    imports: [CommonModule, MessagesModule, MessageModule, FormsModule, ToastModule, DropdownModule, FloatLabel, TranslocoModule],
-    declarations: [ValidatableDropdownlistComponent],
-    exports: [ValidatableDropdownlistComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  }
-)
-export class ValidatableDropdownlistModule {
 }
