@@ -1,4 +1,5 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, beforeEach, it, expect, vi } from 'vitest';
 
 import { UserLoginComponent } from './user-login.component';
 import { NO_ERRORS_SCHEMA } from "@angular/compiler";
@@ -12,7 +13,6 @@ import {
   ValidatableInputTextComponent
 } from "../../common-components/validatable-input-text/validatable-input-text.component";
 import { MessageModule } from "primeng/message";
-import { vi } from 'vitest';
 import { provideRouter } from "@angular/router";
 
 
@@ -40,7 +40,7 @@ describe('UserLoginComponent', () => {
 
   });
 
-  it('should login', fakeAsync(() => {
+  it('should login', () => {
     const compiled: HTMLElement = fixture.nativeElement as HTMLElement;
     const userNameField: HTMLInputElement = compiled.querySelector('#id_UserName') as HTMLInputElement
     expect(userNameField).toBeTruthy()
@@ -54,5 +54,5 @@ describe('UserLoginComponent', () => {
     expect(submitButton).toBeTruthy()
     submitButton.click()
     expect(loginSpy).toHaveBeenCalledWith(expect.any(NgForm));
-  }))
+  })
 });

@@ -1,4 +1,5 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 import { TableCellRendererComponent } from './table-cell-renderer.component';
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
@@ -11,13 +12,13 @@ describe('TableCellRendererComponent', () => {
   let component: TableCellRendererComponent;
   let fixture: ComponentFixture<TableCellRendererComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
         imports: [TableCellRendererComponent, MessageModule, AgGridModule, ButtonModule],
         providers: [MessageService, provideHttpClient(withInterceptorsFromDi())
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TableCellRendererComponent);

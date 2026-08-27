@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TemplatesComponentComponent } from './templates-component.component';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('TemplatesComponentComponent', () => {
   let component: TemplatesComponentComponent;

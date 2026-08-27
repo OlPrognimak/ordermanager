@@ -6,6 +6,7 @@ import { ToastModule } from "primeng/toast";
 import { MessageModule } from "primeng/message";
 import { InputNumberModule } from "primeng/inputnumber";
 import {FloatLabelModule} from "primeng/floatlabel";
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('ValidableInputTextComponent', () => {
   let component: ValidatableInputNumberComponent;
