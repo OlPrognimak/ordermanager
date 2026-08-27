@@ -1,4 +1,5 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 import { PrintinvoiceComponent } from './printinvoice.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -20,8 +21,8 @@ describe('PrintinvoiceComponent', () => {
   let fixture: ComponentFixture<PrintinvoiceComponent>;
 
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         PrintinvoiceComponent,
         MessageModule,
@@ -37,7 +38,7 @@ describe('PrintinvoiceComponent', () => {
         }
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrintinvoiceComponent);

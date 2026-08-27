@@ -4,6 +4,7 @@ import { ValidatableDropdownlistComponent } from './validatable-dropdownlist.com
 import { FormsModule } from "@angular/forms";
 import { SelectModule } from "primeng/select";
 import { MessageModule } from "primeng/message";
+import { describe, beforeEach, it, expect } from 'vitest';
 
 describe('ValidableDropdownlistComponent', () => {
   let component: ValidatableDropdownlistComponent;

@@ -7,6 +7,7 @@ import { TableModule } from "primeng/table";
 import { FormsModule } from "@angular/forms";
 import { InvoiceItemModel } from "../../domain/domain.invoiceformmodel";
 import { CommonServicesPipesNumber } from "../../common-pipes/common-services.pipes.number";
+import { describe, beforeEach, it, expect } from 'vitest';
 
 @Component({
   template: `
@@ -39,7 +40,6 @@ describe('EditableInputCellComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditableInputCellHostComponent);
-    console.log("Fixture :" + fixture)
     fixture.detectChanges();
     component = fixture.debugElement.query(By.directive(EditableInputCellComponent)).componentInstance;
   });

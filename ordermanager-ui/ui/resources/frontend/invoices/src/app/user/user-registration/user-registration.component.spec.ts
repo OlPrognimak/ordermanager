@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, beforeEach, it, expect } from 'vitest';
 
 import { UserRegistrationComponent } from './user-registration.component';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";

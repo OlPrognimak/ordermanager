@@ -1,4 +1,5 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { describe, beforeEach, it, expect } from 'vitest';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { provideHttpClientTesting } from "@angular/common/http/testing";
@@ -15,17 +16,18 @@ import {
   ValidatableInputTextComponent
 } from "./common-components/validatable-input-text/validatable-input-text.component";
 
+export const TEST_BACKEND_BASE_URL = 'http://backend/'
+export const TEST_ITEM_CATALOG = [{label: 'Item-Catalog-1', value: 10}];
+
 describe('AppComponent', () => {
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
     schemas: [NO_ERRORS_SCHEMA],
     imports: [AppComponent, UserLoginComponent, RouterTestingModule, TooltipModule, FormsModule, ToastModule, ButtonModule, MenubarModule, ValidatableInputTextComponent],
     providers: [MessageService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
-    })
-  );
+  });
 
   // beforeEach(() => {
   // TestBed.configureTestingModule({
